@@ -1,0 +1,5 @@
+com.github.kaktushose.jda.commands.annotations
+com.github.kaktushose.jda.commands.api
+com.github.kaktushose.jda.commands.entities
+com.github.kaktushose.jda.commands.exceptions
+com.github.kaktushose.jda.commands.internal
