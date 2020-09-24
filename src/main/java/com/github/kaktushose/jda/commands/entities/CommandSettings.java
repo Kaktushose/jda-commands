@@ -7,7 +7,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides a very basic level of configuration.
@@ -225,13 +228,15 @@ public class CommandSettings {
      * Set if bots should be ignored by this framework or not. If set false, bot accounts can also trigger commands.
      *
      * @param ignoreBots true if bots should not invoke commands
+     * @return the current instance to use fluent interface
      */
-    public void setIgnoreBots(boolean ignoreBots) {
+    public CommandSettings setIgnoreBots(boolean ignoreBots) {
         this.ignoreBots = ignoreBots;
+        return this;
     }
 
     /**
-     * Whether the case of a label should be ignored or true. For instance, if set true, input <em>FOO</em> will match
+     * Whether the case of a label should be ignored or not. For instance, if set true, input <em>FOO</em> will match
      * the label <em>foo</em>
      *
      * @return {@code true} if the label case is ignored

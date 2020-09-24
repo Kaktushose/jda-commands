@@ -65,7 +65,11 @@ public class EventParser {
         }
         contentRaw = contentRaw.replaceFirst(Pattern.quote(settings.getGuildPrefix(event.getGuild())), "").trim();
         String[] split = contentRaw.split(" ");
-        return eventIsBotMention ? Arrays.copyOfRange(split, 1, split.length) : split;
+        if (eventIsBotMention) {
+            String[] withoutMention = Arrays.copyOfRange(split, 1, split.length);
+            return withoutMention.length == 0 ? new String[]{""} : withoutMention;
+        }
+        return split;
     }
 
     /**

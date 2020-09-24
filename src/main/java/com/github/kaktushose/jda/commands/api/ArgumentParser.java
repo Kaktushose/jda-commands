@@ -53,7 +53,11 @@ public class ArgumentParser {
             // check if argument size is matching
             if (i >= rawArguments.size()) {
                 if (parameter.isOptional()) {
-                    parsedArguments.add(parse(parameter.getDefaultValue(), parameter, event.getGuild()).orElse(null));
+                    if (parameter.getDefaultValue().isEmpty()) {
+                        parsedArguments.add(null);
+                    } else {
+                        parsedArguments.add(parse(parameter.getDefaultValue(), parameter, event.getGuild()).orElse(null));
+                    }
                     continue;
                 } else {
                     return Optional.empty();
