@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -61,7 +62,7 @@ public class EmbedFactory {
      * @return the MessageEmbed to send
      */
     public MessageEmbed getSpecificHelpEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        String prefix = Pattern.quote(settings.getGuildPrefix(event.getGuild()));
+        String prefix = Matcher.quoteReplacement(settings.getGuildPrefix(event.getGuild()));
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         List<String> labels = commandCallable.getLabels();
@@ -155,7 +156,7 @@ public class EmbedFactory {
         return new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
-                .setDescription(String.format("`%s`", commandCallable.getUsage().replaceAll("\\{prefix}", Pattern.quote(settings.getGuildPrefix(event.getGuild())))))
+                .setDescription(String.format("`%s`", commandCallable.getUsage().replaceAll("\\{prefix}", Matcher.quoteReplacement(settings.getGuildPrefix(event.getGuild())))))
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
