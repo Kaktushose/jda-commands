@@ -29,7 +29,7 @@ public class JDACommands {
      */
     public JDACommands(@Nonnull CommandDispatcher commandDispatcher) {
         this.commandDispatcher = commandDispatcher;
-        commandDispatcher.start();
+        commandDispatcher.start(this);
     }
 
     /**

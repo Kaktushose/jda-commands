@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.api.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.entities.JDACommands;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -33,6 +34,7 @@ public final class CommandDispatcher extends ListenerAdapter {
     private final HelpMessageSender helpMessageSender;
     private final Object jda;
     private final boolean isShardManager;
+    private JDACommands jdaCommands;
 
     public CommandDispatcher(Object jda,
                              boolean isShardManager,
@@ -62,12 +64,13 @@ public final class CommandDispatcher extends ListenerAdapter {
         isActive = true;
     }
 
-    public void start() {
+    public void start(JDACommands jdaCommands) {
         if (isShardManager) {
             ((ShardManager) jda).addEventListener(this);
         } else {
             ((JDA) jda).addEventListener(this);
         }
+        this.jdaCommands = jdaCommands;
         commandRegistry.indexCommands();
         commands.addAll(commandRegistry.getCommands());
         dependencyInjector.inject();
@@ -134,7 +137,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         int from = commandCallable.getLabels().get(0).split(" ").length;
         List<String> rawArguments = Arrays.asList(Arrays.copyOfRange(input, from, input.length));
 
-        Optional<List<Object>> parsedArguments = argumentParser.parseArguments(commandCallable, event, rawArguments);
+        Optional<List<Object>> parsedArguments = argumentParser.parseArguments(commandCallable, event, rawArguments, jdaCommands);
         if (!parsedArguments.isPresent()) {
             log.debug("Argument parsing for command {} failed. Expected {} but got {}",
                     commandCallable.getMethod().getName(),

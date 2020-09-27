@@ -22,6 +22,7 @@ import java.util.function.Consumer;
 public class CommandEvent extends GuildMessageReceivedEvent {
 
     private final CommandCallable commandCallable;
+    private final JDACommands jdaCommands;
 
     /**
      * Constructs a CommandEvent.
@@ -30,10 +31,12 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @param responseNumber  the responseNumber, needed for the {@code GuildMessageReceivedEvent}
      * @param message         the {@code Message}, needed for the {@code GuildMessageReceivedEvent}
      * @param commandCallable the underlying {@link CommandCallable} object
+     * @param jdaCommands     the {@link JDACommands} object
      */
-    public CommandEvent(@Nonnull JDA api, long responseNumber, @Nonnull Message message, @Nonnull CommandCallable commandCallable) {
+    public CommandEvent(@Nonnull JDA api, long responseNumber, @Nonnull Message message, @Nonnull CommandCallable commandCallable, JDACommands jdaCommands) {
         super(api, responseNumber, message);
         this.commandCallable = commandCallable;
+        this.jdaCommands = jdaCommands;
     }
 
     /**
@@ -142,5 +145,14 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      */
     public CommandCallable getCommandCallable() {
         return commandCallable;
+    }
+
+    /**
+     * Get the {@link JDACommands} object.
+     *
+     * @return the {@link JDACommands} object
+     */
+    public JDACommands getJdaCommands() {
+        return jdaCommands;
     }
 }
