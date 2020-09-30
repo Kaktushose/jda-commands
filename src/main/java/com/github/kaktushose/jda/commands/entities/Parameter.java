@@ -29,6 +29,7 @@ public class Parameter {
      * @param defaultValue  the default value for the parameter, only used if isOptional is true
      * @param parameterType the {@link ParameterType} of the parameter
      */
+
     public Parameter(boolean isConcat, boolean isOptional, @Nonnull String defaultValue, @Nonnull ParameterType parameterType) {
         this.isConcat = isConcat;
         this.isOptional = isOptional;

@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.internal.JedisInstanceHolder;
+import com.github.kaktushose.jda.commands.internal.JedisReadWrite;
 import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,8 +103,12 @@ public class CommandSettings {
      * @param prefix  the prefix to set
      * @return the current instance to use fluent interface
      */
+
     public CommandSettings addGuildPrefix(long guildId, @Nullable String prefix) {
         guildPrefixes.put(guildId, validatePrefix(prefix));
+        if (JDACommands.getInstance().getRedisSettings().getRedisEnabled()) {
+            JedisReadWrite.insertString(JDACommands.getInstance().getRedisSettings().getRedisDatabase(), String.valueOf(guildId), validatePrefix(prefix));
+        }
         return this;
     }
 
@@ -126,6 +132,9 @@ public class CommandSettings {
      */
     public CommandSettings removeGuildPrefix(long guildId) {
         guildPrefixes.remove(guildId);
+        if (JDACommands.getInstance().getRedisSettings().getRedisEnabled()) {
+            JedisReadWrite.delString(JDACommands.getInstance().getRedisSettings().getRedisDatabase(), String.valueOf(guildId));
+        }
         return this;
     }
 
@@ -147,8 +156,30 @@ public class CommandSettings {
      */
     public String getGuildPrefix(long guildId) {
         String prefix = guildPrefixes.get(guildId);
-        return prefix == null ? this.prefix : prefix;
+        return prefix == null ? fetchGuildPrefixRedis(guildId) : prefix;
     }
+
+
+    /**
+     * Check for the prefix in the database (redis)
+     * if not present, return default prefix
+     * if the prefix is not present in cache, it will be put in there
+     *
+     * @param guildId the id of the guild to get the prefix for
+     * @return if present the custom guild prefix, else the default prefix
+     */
+    public String fetchGuildPrefixRedis(long guildId) {
+        if (JDACommands.getInstance().getRedisSettings().getRedisEnabled()) {
+            String prefix = JedisReadWrite.getString(JDACommands.getInstance().getRedisSettings().getRedisDatabase(), String.valueOf(guildId));
+            if (prefix == null) {
+                return this.prefix;
+            } else {
+                guildPrefixes.put(guildId, prefix);
+                return prefix;
+            }
+        } else {return this.prefix;}
+    }
+
 
     /**
      * Get the prefix for the specified guild.

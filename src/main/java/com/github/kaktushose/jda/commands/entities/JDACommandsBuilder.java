@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.api.*;
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
+import com.github.kaktushose.jda.commands.internal.RedisSettingsHolder;
 import com.github.kaktushose.jda.commands.internal.YamlLoader;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -35,6 +36,10 @@ public class JDACommandsBuilder {
     private ArgumentParser argumentParser;
     private EmbedFactory embedFactory;
     private HelpMessageSender helpMessageSender;
+    private boolean isRedisEnabled;
+    private String redisHost;
+    private Integer redisPort;
+    private Integer redisDatabase;
 
     /**
      * Constructs a new JDACommandsBuilder using default values.
@@ -51,6 +56,10 @@ public class JDACommandsBuilder {
         providers = new ArrayList<>();
         this.jda = jda;
         isShardManager = false;
+        isRedisEnabled = false;
+        redisHost = null;
+        redisPort = null;
+        redisDatabase = 0;
     }
 
     /**
@@ -67,6 +76,10 @@ public class JDACommandsBuilder {
         providers = new ArrayList<>();
         jda = shardManager;
         isShardManager = true;
+        isRedisEnabled = false;
+        redisHost = null;
+        redisPort = null;
+        redisDatabase = 0;
     }
 
     /**
@@ -75,6 +88,7 @@ public class JDACommandsBuilder {
      * @param jda the {@code JDA} needed to start the framework
      * @return a {@link JDACommands} instance that has started the initialization process
      */
+    @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull JDA jda) {
         return new JDACommandsBuilder(jda).build();
     }
@@ -85,6 +99,7 @@ public class JDACommandsBuilder {
      * @param shardManager the {@code ShardManager} needed to start the framework
      * @return a {@link JDACommands} instance that has started the initialization process
      */
+    @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull ShardManager shardManager) {
         return new JDACommandsBuilder(shardManager).build();
     }
@@ -125,9 +140,10 @@ public class JDACommandsBuilder {
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
      * @return a {@link JDACommands} instance that has started the initialization process
      */
-    public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
+    public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean isRedisEnabled, String redisHost, Integer redisPort, Integer redisDatabase) {
         return new JDACommandsBuilder(jda)
                 .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
                 .build();
     }
 
@@ -141,9 +157,10 @@ public class JDACommandsBuilder {
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
      * @return a {@link JDACommands} instance that has started the initialization process
      */
-    public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
+    public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean isRedisEnabled, String redisHost, Integer redisPort, Integer redisDatabase) {
         return new JDACommandsBuilder(shardManager)
                 .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
                 .build();
     }
 
@@ -160,7 +177,25 @@ public class JDACommandsBuilder {
     }
 
     /**
-     * Changes the {@link EventParser} used to parse incoming {@code GuildMessageReceivedEvent}s.
+     * Sets the redis options for setting up the caching
+     *
+     * @param isRedisEnabled set to true, if enabled, <strong>otherwise other options will be ignored</strong>!
+     * @param redisHost the hostname/ipv4 to set
+     * @param redisPort the port to set
+     * @return the current instance to use fluent interface
+     */
+
+    public JDACommandsBuilder setRedisOptions(boolean isRedisEnabled, @Nonnull String redisHost, @Nonnull Integer redisPort, @Nonnull Integer redisDatabase){
+        this.isRedisEnabled = isRedisEnabled;
+        this.redisHost = redisHost;
+        this.redisPort = redisPort;
+        this.redisDatabase = redisDatabase;
+        return this;
+    }
+
+
+    /**
+     * Changes the {@link EventParser} used to parse incoming {@code 1MessageReceivedEvent}s.
      *
      * @param eventParser the new {@link EventParser to use}
      * @return the current instance to use fluent interface
@@ -255,7 +290,7 @@ public class JDACommandsBuilder {
                 argumentParser,
                 embedFactory,
                 helpMessageSender,
-                providers));
+                providers), new RedisSettingsHolder(this.isRedisEnabled, this.redisHost, this.redisPort, this.redisDatabase));
     }
 
 }
