@@ -177,7 +177,9 @@ public class CommandSettings {
                 guildPrefixes.put(guildId, prefix);
                 return prefix;
             }
-        } else {return this.prefix;}
+        }else{
+            return this.prefix;
+        }
     }
 
 

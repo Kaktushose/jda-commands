@@ -90,7 +90,9 @@ public class JDACommandsBuilder {
      */
     @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull JDA jda) {
-        return new JDACommandsBuilder(jda).build();
+        return new JDACommandsBuilder(jda)
+                .setRedisOptions(false, "", 6379, 0)
+                .build();
     }
 
     /**
@@ -101,7 +103,9 @@ public class JDACommandsBuilder {
      */
     @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull ShardManager shardManager) {
-        return new JDACommandsBuilder(shardManager).build();
+        return new JDACommandsBuilder(shardManager)
+                .setRedisOptions(false, "", 6379, 0)
+                .build();
     }
 
     /**
@@ -114,6 +118,7 @@ public class JDACommandsBuilder {
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix) {
         return new JDACommandsBuilder(jda)
                 .setSettings(new CommandSettings(prefix, true, true, true))
+                .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -127,6 +132,7 @@ public class JDACommandsBuilder {
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix) {
         return new JDACommandsBuilder(shardManager)
                 .setSettings(new CommandSettings(prefix, true, true, true))
+                .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -279,7 +285,7 @@ public class JDACommandsBuilder {
         try {
             settings = YamlLoader.load(JDACommands.class.getClassLoader().getResource("settings.yaml"));
             log.debug("Found a settings file. Maybe overriding given runtime values");
-        } catch (IOException | NullPointerException ignore) {
+        } catch (IOException | NullPointerException | ClassNotFoundException ignore) {
             log.debug("No settings file found");
         }
         return new JDACommands(new CommandDispatcher(jda,
@@ -290,7 +296,8 @@ public class JDACommandsBuilder {
                 argumentParser,
                 embedFactory,
                 helpMessageSender,
-                providers), new RedisSettingsHolder(this.isRedisEnabled, this.redisHost, this.redisPort, this.redisDatabase));
+                providers),
+                new RedisSettingsHolder(this.isRedisEnabled, this.redisHost, this.redisPort, this.redisDatabase));
     }
 
 }

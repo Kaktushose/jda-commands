@@ -3,6 +3,9 @@ package com.github.kaktushose.jda.commands.internal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.entities.JDACommands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +25,6 @@ import java.net.URL;
  * @since 1.0.0
  */
 public final class YamlLoader {
-
     /**
      * Loads a yaml file and creates a {@link CommandSettings} object from it.
      *
@@ -30,7 +32,7 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(URL url) throws IOException {
+    public static CommandSettings load(URL url) throws IOException, ClassNotFoundException {
         return load(new File(url.getFile()));
     }
 
@@ -41,7 +43,7 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(String pathName) throws IOException {
+    public static CommandSettings load(String pathName) throws IOException, ClassNotFoundException {
         return load(new File(pathName));
     }
 
@@ -52,12 +54,12 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(File file) throws IOException {
+    public static CommandSettings load(File file) throws IOException, ClassNotFoundException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         return mapper.readValue(file, CommandSettings.class);
     }
 
-    public static CommandSettings loadContent(String content) throws IOException {
+    public static CommandSettings loadContent(String content) throws IOException, ClassNotFoundException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         return mapper.readValue(content, CommandSettings.class);
     }

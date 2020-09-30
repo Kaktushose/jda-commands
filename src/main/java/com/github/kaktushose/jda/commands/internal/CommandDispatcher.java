@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public final class CommandDispatcher extends ListenerAdapter {
@@ -55,7 +56,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         this.eventParser = eventParser;
         this.commandMapper = commandMapper;
         this.argumentParser = argumentParser;
-        this.embedFactory = embedFactory;
+        this.embedFactory = new EmbedFactory();
         this.helpMessageSender = helpMessageSender;
         commands = new CommandList();
         dependencyInjector = new DependencyInjector();
@@ -123,6 +124,10 @@ public final class CommandDispatcher extends ListenerAdapter {
         Optional<CommandCallable> command = commandMapper.findCommand(commands, input, settings.isIgnoreLabelCase());
         if (!command.isPresent()) {
             log.debug("No command for input {} found", Arrays.toString(input));
+
+            Objects.requireNonNull(embedFactory);
+            Objects.requireNonNull(settings);
+            Objects.requireNonNull(event);
             event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
             return;
         }
