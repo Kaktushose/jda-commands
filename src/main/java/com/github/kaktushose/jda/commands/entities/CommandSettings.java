@@ -7,10 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class provides a very basic level of configuration.
@@ -40,16 +39,7 @@ public class CommandSettings {
      * Constructs a new CommandSettings object with default values.
      */
     public CommandSettings() {
-        this.prefix = "!";
-        ignoreBots = true;
-        ignoreLabelCase = true;
-        botMentionPrefix = true;
-        mutedChannels = new HashSet<>();
-        mutedUsers = new HashSet<>();
-        guildPrefixes = new HashMap<>();
-        permissionHolders = new HashMap<>();
-        helpLabels = new HashSet<>();
-        helpLabels.add("help");
+        this("!", true, true, true);
     }
 
     /**
@@ -65,11 +55,11 @@ public class CommandSettings {
         this.ignoreBots = ignoreBots;
         this.ignoreLabelCase = ignoreLabelCase;
         this.botMentionPrefix = botMentionPrefix;
-        mutedChannels = new HashSet<>();
-        mutedUsers = new HashSet<>();
-        guildPrefixes = new HashMap<>();
-        permissionHolders = new HashMap<>();
-        helpLabels = new HashSet<>();
+        mutedChannels = ConcurrentHashMap.newKeySet();
+        mutedUsers = ConcurrentHashMap.newKeySet();
+        guildPrefixes = new ConcurrentHashMap<>();
+        permissionHolders = new ConcurrentHashMap<>();
+        helpLabels = ConcurrentHashMap.newKeySet();
         helpLabels.add("help");
     }
 
@@ -114,7 +104,7 @@ public class CommandSettings {
      * @return the current instance to use fluent interface
      */
     public CommandSettings addGuildPrefixes(@Nonnull Map<Long, String> guildPrefixes) {
-        guildPrefixes.forEach(this::addGuildPrefix);
+        this.guildPrefixes.putAll(guildPrefixes);
         return this;
     }
 
@@ -170,7 +160,7 @@ public class CommandSettings {
      * @see com.github.kaktushose.jda.commands.annotations.Permission
      */
     public Set<Long> getPermissionHolders(@Nonnull String permission) {
-        permissionHolders.putIfAbsent(permission, new HashSet<>());
+        permissionHolders.putIfAbsent(permission, ConcurrentHashMap.newKeySet());
         return permissionHolders.get(permission);
     }
 
