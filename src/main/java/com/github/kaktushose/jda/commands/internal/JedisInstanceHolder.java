@@ -9,7 +9,7 @@ public class JedisInstanceHolder {
     static JedisPool pool;
     public static synchronized JedisPool getInstance() {
         if (pool == null) {
-            pool = new JedisPool(new JedisPoolConfig(), JDACommands.getInstance().getRedisSettings().getRedisHost(), JDACommands.getInstance().getRedisSettings().getRedisPort());
+            pool = new JedisPool(new JedisPoolConfig(), JDACommands.getInstance().getSettings().getRedisHost(), JDACommands.getInstance().getSettings().getRedisPort());
         }
         return pool;
     }

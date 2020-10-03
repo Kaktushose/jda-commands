@@ -93,7 +93,7 @@ public class EmbedFactory {
      * @param event    the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getCommandNotFoundEmbed(CommandSettings settings, GuildMessageReceivedEvent event) {
+    public MessageEmbed getCommandNotFoundEmbed(@Nonnull CommandSettings settings,@Nonnull GuildMessageReceivedEvent event) {
         return new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Command Not Found")

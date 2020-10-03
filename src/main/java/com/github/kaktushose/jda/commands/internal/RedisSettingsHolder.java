@@ -22,7 +22,7 @@ public class RedisSettingsHolder {
      * @return bool if redis should be enabled or shouldn't
      */
 
-    public boolean getRedisEnabled() {
+    public boolean isRedisEnabled() {
         return isRedisEnabled;
     }
 

@@ -4,3 +4,4 @@ target/
 src/main/java/testing/
 src/main/resources
 todo.txt
+/dependency-reduced-pom.xml

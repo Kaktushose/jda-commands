@@ -125,9 +125,6 @@ public final class CommandDispatcher extends ListenerAdapter {
         if (!command.isPresent()) {
             log.debug("No command for input {} found", Arrays.toString(input));
 
-            Objects.requireNonNull(embedFactory);
-            Objects.requireNonNull(settings);
-            Objects.requireNonNull(event);
             event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
             return;
         }

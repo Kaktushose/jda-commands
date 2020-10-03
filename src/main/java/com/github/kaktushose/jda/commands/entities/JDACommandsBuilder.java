@@ -47,7 +47,7 @@ public class JDACommandsBuilder {
      * @param jda the {@code JDA} needed to start the framework
      */
     public JDACommandsBuilder(@Nonnull JDA jda) {
-        this.settings = new CommandSettings("!", true, true, true);
+        this.settings = new CommandSettings("!", true, true, true, false, "127.0.0.1", 6379, 0);
         this.eventParser = new EventParser();
         this.commandMapper = new CommandMapper();
         this.argumentParser = new ArgumentParser();
@@ -68,7 +68,7 @@ public class JDACommandsBuilder {
      * @param shardManager the {@code ShardManager} needed to start the framework
      */
     public JDACommandsBuilder(@Nonnull ShardManager shardManager) {
-        this.settings = new CommandSettings("!", true, true, true);
+        this.settings = new CommandSettings("!", true, true, true, false, "127.0.0.1", 6379, 0);
         this.eventParser = new EventParser();
         this.commandMapper = new CommandMapper();
         this.argumentParser = new ArgumentParser();
@@ -91,7 +91,7 @@ public class JDACommandsBuilder {
     @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull JDA jda) {
         return new JDACommandsBuilder(jda)
-                .setRedisOptions(false, "", 6379, 0)
+               // .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -104,7 +104,7 @@ public class JDACommandsBuilder {
     @SuppressWarnings("unused")
     public static JDACommands startDefault(@Nonnull ShardManager shardManager) {
         return new JDACommandsBuilder(shardManager)
-                .setRedisOptions(false, "", 6379, 0)
+               // .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -117,8 +117,8 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix) {
         return new JDACommandsBuilder(jda)
-                .setSettings(new CommandSettings(prefix, true, true, true))
-                .setRedisOptions(false, "", 6379, 0)
+                .setSettings(new CommandSettings(prefix, true, true, true, false, "127.0.0.1", 6379, 0))
+             //   .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -131,8 +131,8 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix) {
         return new JDACommandsBuilder(shardManager)
-                .setSettings(new CommandSettings(prefix, true, true, true))
-                .setRedisOptions(false, "", 6379, 0)
+                .setSettings(new CommandSettings(prefix, true, true, true, false, "127.0.0.1", 6379, 0))
+           //     .setRedisOptions(false, "", 6379, 0)
                 .build();
     }
 
@@ -144,12 +144,16 @@ public class JDACommandsBuilder {
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
+     * @param isRedisEnabled   whether redis guild prefix saving should be used or not
+     * @param redisHost        the server redis should connect to in case of using it
+     * @param redisPort        the port the redis server is running on
+     * @param redisDatabase    the database redis is saving the prefixes in
      * @return a {@link JDACommands} instance that has started the initialization process
      */
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean isRedisEnabled, String redisHost, Integer redisPort, Integer redisDatabase) {
         return new JDACommandsBuilder(jda)
-                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
-                .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
+                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix, isRedisEnabled, redisHost, redisPort, redisDatabase))
+           //     .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
                 .build();
     }
 
@@ -161,12 +165,16 @@ public class JDACommandsBuilder {
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
+     * @param isRedisEnabled   whether redis guild prefix saving should be used or not
+     * @param redisHost        the server redis should connect to in case of using it
+     * @param redisPort        the port the redis server is running on
+     * @param redisDatabase    the database redis is saving the prefixes in
      * @return a {@link JDACommands} instance that has started the initialization process
      */
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean isRedisEnabled, String redisHost, Integer redisPort, Integer redisDatabase) {
         return new JDACommandsBuilder(shardManager)
-                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
-                .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
+                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix, isRedisEnabled, redisHost, redisPort, redisDatabase))
+             //   .setRedisOptions(isRedisEnabled, redisHost, redisPort, redisDatabase)
                 .build();
     }
 
@@ -201,7 +209,7 @@ public class JDACommandsBuilder {
 
 
     /**
-     * Changes the {@link EventParser} used to parse incoming {@code 1MessageReceivedEvent}s.
+     * Changes the {@link EventParser} used to parse incoming {@code MessageReceivedEvent}s.
      *
      * @param eventParser the new {@link EventParser to use}
      * @return the current instance to use fluent interface
@@ -285,7 +293,7 @@ public class JDACommandsBuilder {
         try {
             settings = YamlLoader.load(JDACommands.class.getClassLoader().getResource("settings.yaml"));
             log.debug("Found a settings file. Maybe overriding given runtime values");
-        } catch (IOException | NullPointerException | ClassNotFoundException ignore) {
+        } catch (IOException | NullPointerException ignore) {
             log.debug("No settings file found");
         }
         return new JDACommands(new CommandDispatcher(jda,

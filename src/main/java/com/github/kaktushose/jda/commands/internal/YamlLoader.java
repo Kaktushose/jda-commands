@@ -3,9 +3,6 @@ package com.github.kaktushose.jda.commands.internal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
-import com.github.kaktushose.jda.commands.entities.JDACommands;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +29,7 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(URL url) throws IOException, ClassNotFoundException {
+    public static CommandSettings load(URL url) throws IOException {
         return load(new File(url.getFile()));
     }
 
@@ -43,7 +40,7 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(String pathName) throws IOException, ClassNotFoundException {
+    public static CommandSettings load(String pathName) throws IOException {
         return load(new File(pathName));
     }
 
@@ -54,14 +51,22 @@ public final class YamlLoader {
      * @return The {@link CommandSettings} object
      * @throws IOException If an I/O error occurs
      */
-    public static CommandSettings load(File file) throws IOException, ClassNotFoundException {
+    public static CommandSettings load(File file) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readValue(file, CommandSettings.class);
+        CommandSettings cmdsettings = mapper.readValue(file, CommandSettings.class);
+        System.out.println("cmdsettings.getRedisHost() = " + cmdsettings.getRedisHost());
+        System.out.println("cmdsettings.getRedisPort() = " + cmdsettings.getRedisPort());
+        System.out.println("cmdsettings.getRedisEnabled() = " + cmdsettings.getRedisEnabled());
+        return cmdsettings;
     }
 
-    public static CommandSettings loadContent(String content) throws IOException, ClassNotFoundException {
+    public static CommandSettings loadContent(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readValue(content, CommandSettings.class);
+        CommandSettings cmdsettings = mapper.readValue(content, CommandSettings.class);
+        System.out.println("cmdsettings.getRedisHost() = " + cmdsettings.getRedisHost());
+        System.out.println("cmdsettings.getRedisPort() = " + cmdsettings.getRedisPort());
+        System.out.println("cmdsettings.getRedisEnabled() = " + cmdsettings.getRedisEnabled());
+        return cmdsettings;
     }
 
 }
