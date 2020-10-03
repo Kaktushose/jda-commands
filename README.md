@@ -49,6 +49,57 @@ If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jd
 
 You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.0.0).
 
+### Repository
+JDA-Commands is hosted by GitHub Packages, because of this you need to declare a new maven repository to search in.
+In this configuration you will have to set `USERNAME` and `TOKEN` as environment variables on the machine you build on.
+
+**Gradle**
+
+Paste this into your `repositories {}`:
+```groovy
+    maven {
+        name = "jda-commands"
+        url = uri("https://maven.pkg.github.com/kaktushose/jda-commands")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
+```
+
+
+**Maven**
+
+Whereas in this example you have to paste `USERNAME` and `TOKEN` directly in the code.
+```xml
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>github</id>
+          <name>GitHub Packages Kaktushose jda-commands</name>
+          <url>https://maven.pkg.github.com/kaktushose/jda-commands</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <servers>
+    <server>
+      <id>github</id>
+      <username>USERNAME</username>
+      <password>TOKEN</password>
+    </server>
+  </servers>
+</settings>
+```
+
+### Use as dependency
 **Maven**
 ```xml
 <dependency>
@@ -57,6 +108,12 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
   <version>1.0.0</version>
 </dependency>
 ```
+
+**Gradle**
+```groovy
+implementation 'com.github.kaktushose:jda-commands:1.0.0'
+```
+
 
 ## Contributing
 
