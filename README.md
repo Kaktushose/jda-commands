@@ -76,7 +76,7 @@ allprojects {
 ```
 ```groovy
 dependencies {
-	        implementation 'com.github.Kaktushose:jda-commands:840bde757e'
+	        implementation 'com.github.Kaktushose:jda-commands:VERSION'
 	}
 ```
 
