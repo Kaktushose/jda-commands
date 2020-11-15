@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.internal;
 
-import com.github.kaktushose.jda.commands.annotations.*;
 import com.github.kaktushose.jda.commands.annotations.Optional;
+import com.github.kaktushose.jda.commands.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;

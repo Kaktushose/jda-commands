@@ -12,7 +12,6 @@ import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The default embed factory of this framework. An embed factory provides a bunch of embeds that are frequently needed.

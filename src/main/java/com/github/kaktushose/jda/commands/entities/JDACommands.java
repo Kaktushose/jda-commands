@@ -53,7 +53,6 @@ public class JDACommands {
     /**
      * Shuts down the current framework instance. This will unregister the message listener and clear the {@link CommandList}.
      * Thus it is possible to build a new JDACommands instance after this method got invoked.
-     *
      */
     public void shutdown() {
         commandDispatcher.shutdown();

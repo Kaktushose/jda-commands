@@ -42,15 +42,7 @@ public class JDACommandsBuilder {
      * @param jda the {@code JDA} needed to start the framework
      */
     public JDACommandsBuilder(@Nonnull JDA jda) {
-        this.settings = new CommandSettings("!", true, true, true);
-        this.eventParser = new EventParser();
-        this.commandMapper = new CommandMapper();
-        this.argumentParser = new ArgumentParser();
-        this.embedFactory = new EmbedFactory();
-        this.helpMessageSender = new HelpMessageSender();
-        providers = new ArrayList<>();
-        this.jda = jda;
-        isShardManager = false;
+        this(jda, false);
     }
 
     /**
@@ -59,14 +51,19 @@ public class JDACommandsBuilder {
      * @param shardManager the {@code ShardManager} needed to start the framework
      */
     public JDACommandsBuilder(@Nonnull ShardManager shardManager) {
+        this(shardManager, true);
+    }
+
+    private JDACommandsBuilder(Object jda, boolean isShardManager) {
         this.settings = new CommandSettings("!", true, true, true);
         this.eventParser = new EventParser();
         this.commandMapper = new CommandMapper();
         this.argumentParser = new ArgumentParser();
+        this.embedFactory = new EmbedFactory();
         this.helpMessageSender = new HelpMessageSender();
+        this.jda = jda;
+        this.isShardManager = isShardManager;
         providers = new ArrayList<>();
-        jda = shardManager;
-        isShardManager = true;
     }
 
     /**
