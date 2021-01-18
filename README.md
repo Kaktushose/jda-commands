@@ -68,16 +68,16 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 ## Gradle
 ```groovy
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 ```groovy
 dependencies {
-	        implementation 'com.github.Kaktushose:jda-commands:VERSION'
-	}
+    implementation 'com.github.Kaktushose:jda-commands:VERSION'
+}
 ```
 
 ## Contributing

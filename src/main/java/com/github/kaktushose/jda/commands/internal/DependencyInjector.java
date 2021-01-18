@@ -29,17 +29,13 @@ final class DependencyInjector {
             if (!method.isAnnotationPresent(Produces.class)) {
                 continue;
             }
-            if (!Modifier.isPublic(method.getModifiers())) {
-                log.error("An error has occurred! Skipping Producer {}", method,
-                        new CommandException("Producer method has invalid access modifiers!"));
-                continue;
-            }
             if (method.getParameterTypes().length != 0) {
                 log.error("An error has occurred! Skipping Producer {}", method,
-                        new CommandException("Producer method may not have parameters!"));
+                        new CommandException("Producer method must not have parameters!"));
                 continue;
             }
             try {
+                method.setAccessible(true);
                 Object object = method.invoke(provider);
                 providedObjects.put(object.getClass(), object);
             } catch (Exception e) {
@@ -56,9 +52,11 @@ final class DependencyInjector {
         dependencies.forEach((instance, fields) -> {
             for (Field field : fields) {
                 try {
+                    field.setAccessible(true);
                     field.set(instance, getDependency(field.getType()));
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    log.error("Unable to inject field {}", field, e);
+
                 }
             }
         });
