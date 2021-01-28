@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
  * The default embed factory of this framework. An embed factory provides a bunch of embeds that are frequently needed.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class EmbedFactory {
@@ -37,13 +37,13 @@ public class EmbedFactory {
      * @return the MessageEmbed to send
      */
     public MessageEmbed getDefaultHelpEmbed(@Nonnull CommandList commands, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        String prefix = settings.getGuildPrefix(event.getGuild());
+        String prefix = settings.getPrefix();
         Map<String, List<CommandCallable>> sortedCommands = commands.getSortedByCategories();
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.GREEN)
                 .setTitle("General Help")
                 .setDescription(String.format("The following commands are available. Type `%shelp <command>` to get specific help",
-                        settings.getGuildPrefix(event.getGuild())));
+                        settings.getPrefix()));
         sortedCommands.forEach((category, commandCallables) -> {
             StringBuilder sb = new StringBuilder();
             commandCallables.forEach(commandCallable -> sb.append(String.format("`%s%s`", prefix, commandCallable.getLabels().get(0))).append(", "));
@@ -61,7 +61,7 @@ public class EmbedFactory {
      * @return the MessageEmbed to send
      */
     public MessageEmbed getSpecificHelpEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        String prefix = Matcher.quoteReplacement(settings.getGuildPrefix(event.getGuild()));
+        String prefix = Matcher.quoteReplacement(settings.getPrefix());
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         List<String> labels = commandCallable.getLabels();
@@ -97,7 +97,7 @@ public class EmbedFactory {
                 .setColor(Color.ORANGE)
                 .setTitle("Command Not Found")
                 .setDescription(String.format("```type %shelp to get a list of all available commands```",
-                        settings.getGuildPrefix(event.getGuild()))
+                        settings.getPrefix())
                 ).build();
     }
 
@@ -118,7 +118,7 @@ public class EmbedFactory {
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s%s` requires specific permissions to be executed",
-                        settings.getGuildPrefix(event.getGuild()),
+                        settings.getPrefix(),
                         commandCallable.getLabels().get(0)))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
@@ -155,7 +155,7 @@ public class EmbedFactory {
         return new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
-                .setDescription(String.format("`%s`", commandCallable.getUsage().replaceAll("\\{prefix}", Matcher.quoteReplacement(settings.getGuildPrefix(event.getGuild())))))
+                .setDescription(String.format("`%s`", commandCallable.getUsage().replaceAll("\\{prefix}", Matcher.quoteReplacement(settings.getPrefix()))))
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
