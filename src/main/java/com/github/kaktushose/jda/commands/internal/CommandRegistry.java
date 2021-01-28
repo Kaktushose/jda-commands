@@ -23,12 +23,10 @@ final class CommandRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
     private final Set<CommandCallable> commands;
-    private final CommandSettings settings;
     private final DependencyInjector dependencyInjector;
 
-    CommandRegistry(CommandSettings settings, DependencyInjector dependencyInjector) {
+    CommandRegistry(DependencyInjector dependencyInjector) {
         this.commands = new HashSet<>();
-        this.settings = settings;
         this.dependencyInjector = dependencyInjector;
     }
 
@@ -60,7 +58,7 @@ final class CommandRegistry {
         try {
             instance = controllerClass.getConstructors()[0].newInstance();
         } catch (Exception e) {
-            //TODO error message
+            log.error("Unable to create controller instance!", e);
             return;
         }
         // index fields for dependency injection
@@ -75,7 +73,6 @@ final class CommandRegistry {
             if (!method.isAnnotationPresent(Command.class)) {
                 continue;
             }
-            //TODO remove this dogshit
             if (!method.getReturnType().equals(Void.TYPE) || !Modifier.isPublic(method.getModifiers())) {
                 logError("Command method has an invalid return type or access modifier!", method);
                 continue;
@@ -127,7 +124,6 @@ final class CommandRegistry {
         // this must change if command overloading is implemented
         if (commands.stream().anyMatch(commandCallable -> commandCallable.getLabels().stream().anyMatch(labels::contains))) {
             logError("The labels for the command are already registered!", method);
-            //TODO overload checking
             return;
         }
         CommandCallable commandCallable = new CommandCallable(labels,
@@ -157,9 +153,6 @@ final class CommandRegistry {
         for (String controllerLabel : commandController.value()) {
             for (String commandLabel : command.value()) {
                 String label = (controllerLabel + " " + commandLabel).trim();
-                if (settings.isIgnoreLabelCase()) {
-                    label = label.toLowerCase();
-                }
                 labels.add(label);
             }
         }
@@ -194,8 +187,11 @@ final class CommandRegistry {
 
             // check if the parameter is an array. If true argument parsing isn't needed, because the raw input will
             // be passed to the method as an String array
-            // TODO maybe conflicts if array isn't the only parameter, must be tested
             if (name.equals(ParameterType.ARRAY.name)) {
+                if (parameterTypes.length > 2) {
+                    logError("Command method has an invalid method signature! Parameters aren't allowed when using arrays!", method);
+                    return Optional.empty();
+                }
                 parameters.add(new Parameter(false, false, "", ParameterType.ARRAY));
                 return Optional.of(parameters);
             }

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * The default event parser of this framework.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class EventParser {
@@ -39,7 +39,7 @@ public class EventParser {
         if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
             return false;
         }
-        if (event.getMessage().getContentDisplay().startsWith(settings.getGuildPrefix(event.getGuild()))) {
+        if (event.getMessage().getContentDisplay().startsWith(settings.getPrefix())) {
             eventIsBotMention = false;
             return true;
         }
@@ -63,7 +63,7 @@ public class EventParser {
         while (contentRaw.contains("  ")) {
             contentRaw = contentRaw.replaceAll(" {2}", " ");
         }
-        contentRaw = contentRaw.replaceFirst(Pattern.quote(settings.getGuildPrefix(event.getGuild())), "").trim();
+        contentRaw = contentRaw.replaceFirst(Pattern.quote(settings.getPrefix()), "").trim();
         String[] split = contentRaw.split(" ");
         if (eventIsBotMention) {
             String[] withoutMention = Arrays.copyOfRange(split, 1, split.length);

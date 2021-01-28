@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.api.*;
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
-import com.github.kaktushose.jda.commands.internal.YamlLoader;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
@@ -10,26 +9,27 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Used to create a {@link JDACommands} instance. Although there may only be one active {@link JDACommands} instance,
  * a JDACommandsBuilder can be reused multiple times.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @see JDACommands
  * @since 1.0.0
  */
 public class JDACommandsBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final Object jda;
     private final boolean isShardManager;
     private final List<Provider> providers;
-    private CommandSettings settings;
+    private CommandSettings defaultSettings;
+    private Map<Long, CommandSettings> guildSettings;
     private EventParser eventParser;
     private CommandMapper commandMapper;
     private ArgumentParser argumentParser;
@@ -55,7 +55,8 @@ public class JDACommandsBuilder {
     }
 
     private JDACommandsBuilder(Object jda, boolean isShardManager) {
-        this.settings = new CommandSettings("!", true, true, true);
+        this.defaultSettings = new CommandSettings("!", true, true, true);
+        this.guildSettings = new HashMap<>();
         this.eventParser = new EventParser();
         this.commandMapper = new CommandMapper();
         this.argumentParser = new ArgumentParser();
@@ -95,7 +96,7 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix) {
         return new JDACommandsBuilder(jda)
-                .setSettings(new CommandSettings(prefix, true, true, true))
+                .setDefaultSettings(new CommandSettings(prefix, true, true, true))
                 .build();
     }
 
@@ -108,7 +109,7 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix) {
         return new JDACommandsBuilder(shardManager)
-                .setSettings(new CommandSettings(prefix, true, true, true))
+                .setDefaultSettings(new CommandSettings(prefix, true, true, true))
                 .build();
     }
 
@@ -124,7 +125,7 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
         return new JDACommandsBuilder(jda)
-                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
                 .build();
     }
 
@@ -140,19 +141,31 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
         return new JDACommandsBuilder(shardManager)
-                .setSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
                 .build();
     }
 
     /**
-     * Sets the {@link CommandSettings} that will be used to construct the {@link JDACommands}
+     * Sets the default {@link CommandSettings} that will be used to construct the {@link JDACommands}
      *
-     * @param settings the {@link CommandSettings} to set
+     * @param defaultSettings the {@link CommandSettings} to set
      * @return the current instance to use fluent interface
      * @see CommandSettings
      */
-    public JDACommandsBuilder setSettings(@Nonnull CommandSettings settings) {
-        this.settings = settings;
+    public JDACommandsBuilder setDefaultSettings(@Nonnull CommandSettings defaultSettings) {
+        this.defaultSettings = defaultSettings;
+        return this;
+    }
+
+    /**
+     * Sets the guild specific {@link CommandSettings} that will be used to construct the {@link JDACommands}
+     *
+     * @param guildSettings a map that contains the {@link CommandSettings} to for each guild. Key: the guild id Value: the prefix
+     * @return the current instance to use fluent interface
+     * @see CommandSettings
+     */
+    public JDACommandsBuilder setGuildCommandSettings(@Nonnull Map<Long, CommandSettings> guildSettings) {
+        this.guildSettings = guildSettings;
         return this;
     }
 
@@ -230,23 +243,14 @@ public class JDACommandsBuilder {
     /**
      * Creates a new {@link JDACommands} using if present the provided values or else default values.
      *
-     * <p>Please note that this method will search for a <em>settings.yaml</em> file. If such a file is found, it
-     * will be loaded and may override previous settings.
-     *
      * @return a {@link JDACommands} instance that has started the initialization process
      * @see CommandSettings
      */
-    @SuppressWarnings("ConstantConditions")
     public JDACommands build() {
-        try {
-            settings = YamlLoader.load(JDACommands.class.getClassLoader().getResource("settings.yaml"));
-            log.debug("Found a settings file. Maybe overriding given runtime values");
-        } catch (IOException | NullPointerException ignore) {
-            log.debug("No settings file found");
-        }
         return new JDACommands(new CommandDispatcher(jda,
                 isShardManager,
-                settings,
+                defaultSettings,
+                guildSettings,
                 eventParser,
                 commandMapper,
                 argumentParser,

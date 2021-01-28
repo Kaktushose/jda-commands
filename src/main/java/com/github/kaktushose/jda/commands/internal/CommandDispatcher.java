@@ -17,13 +17,15 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public final class CommandDispatcher extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
     private static boolean isActive;
-    private final CommandSettings settings;
+    private final CommandSettings defaultSettings;
+    private final Map<Long, CommandSettings> guildSettings;
     private final CommandList commands;
     private final CommandRegistry commandRegistry;
     private final EventParser eventParser;
@@ -38,7 +40,8 @@ public final class CommandDispatcher extends ListenerAdapter {
 
     public CommandDispatcher(Object jda,
                              boolean isShardManager,
-                             CommandSettings settings,
+                             CommandSettings defaultSettings,
+                             Map<Long, CommandSettings> guildSettings,
                              EventParser eventParser,
                              CommandMapper commandMapper,
                              ArgumentParser argumentParser,
@@ -50,7 +53,8 @@ public final class CommandDispatcher extends ListenerAdapter {
             throw new IllegalStateException("An instance of the command framework is already running!");
         }
         this.jda = jda;
-        this.settings = settings;
+        this.defaultSettings = defaultSettings;
+        this.guildSettings = guildSettings;
         this.isShardManager = isShardManager;
         this.eventParser = eventParser;
         this.commandMapper = commandMapper;
@@ -59,7 +63,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         this.helpMessageSender = helpMessageSender;
         commands = new CommandList();
         dependencyInjector = new DependencyInjector();
-        commandRegistry = new CommandRegistry(settings, dependencyInjector);
+        commandRegistry = new CommandRegistry(dependencyInjector);
         providers.forEach(dependencyInjector::addProvider);
         isActive = true;
     }
@@ -87,8 +91,16 @@ public final class CommandDispatcher extends ListenerAdapter {
         isActive = false;
     }
 
-    public CommandSettings getSettings() {
-        return settings;
+    public CommandSettings getDefaultSettings() {
+        return defaultSettings;
+    }
+
+    public Map<Long, CommandSettings> getGuildSettings() {
+        return guildSettings;
+    }
+
+    private CommandSettings getSettings(long guildId) {
+        return guildSettings.getOrDefault(guildId, defaultSettings);
     }
 
     public CommandList getCommands() {
@@ -98,6 +110,7 @@ public final class CommandDispatcher extends ListenerAdapter {
     @Override
     @SubscribeEvent
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
+        CommandSettings settings = getSettings(event.getGuild().getIdLong());
         if (!eventParser.validateEvent(event, settings)) {
             return;
         }
