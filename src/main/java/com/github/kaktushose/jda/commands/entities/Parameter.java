@@ -1,14 +1,12 @@
 package com.github.kaktushose.jda.commands.entities;
 
-import com.github.kaktushose.jda.commands.internal.ParameterType;
-
 import javax.annotation.Nonnull;
 
 /**
  * This class represents a parameter defined in the signature of a command method.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @see com.github.kaktushose.jda.commands.annotations.Command
  * @see com.github.kaktushose.jda.commands.annotations.Optional
  * @see com.github.kaktushose.jda.commands.annotations.Concat
@@ -19,7 +17,7 @@ public class Parameter {
     private final boolean isConcat;
     private final boolean isOptional;
     private final String defaultValue;
-    private final ParameterType parameterType;
+    private final String parameterType;
 
     /**
      * Constructs a new Parameter.
@@ -27,9 +25,9 @@ public class Parameter {
      * @param isConcat      true if the parameter should be concatenated
      * @param isOptional    true if the parameter is optional
      * @param defaultValue  the default value for the parameter, only used if isOptional is true
-     * @param parameterType the {@link ParameterType} of the parameter
+     * @param parameterType the name of the parameter
      */
-    public Parameter(boolean isConcat, boolean isOptional, @Nonnull String defaultValue, @Nonnull ParameterType parameterType) {
+    public Parameter(boolean isConcat, boolean isOptional, @Nonnull String defaultValue, @Nonnull String parameterType) {
         this.isConcat = isConcat;
         this.isOptional = isOptional;
         this.defaultValue = defaultValue;
@@ -67,16 +65,16 @@ public class Parameter {
     }
 
     /**
-     * Get the {@link ParameterType} of the parameter
+     * Get the name of the parameter
      *
-     * @return the {@link ParameterType}
+     * @return the name
      */
-    public ParameterType getParameterType() {
+    public String getParameterType() {
         return parameterType;
     }
 
     @Override
     public String toString() {
-        return parameterType.name;
+        return parameterType;
     }
 }

@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.internal;
 import com.github.kaktushose.jda.commands.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.google.common.collect.Sets;
@@ -16,8 +15,8 @@ import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
 import java.util.Optional;
+import java.util.*;
 
 final class CommandRegistry {
 
@@ -34,7 +33,7 @@ final class CommandRegistry {
         return commands;
     }
 
-    void indexCommands() {
+    void indexCommandController() {
         log.debug("Indexing commands...");
         Reflections reflections = new Reflections("");
 
@@ -179,7 +178,7 @@ final class CommandRegistry {
             }
 
             // check if parameter type is supported
-            if (!ParameterType.validate(name)) {
+            if (!ParameterType.isValid(parameterType)) {
                 logError(String.format("Command method has an invalid method signature! %s is an unsupported method parameter!",
                         name), method);
                 return Optional.empty();
@@ -192,7 +191,7 @@ final class CommandRegistry {
                     logError("Command method has an invalid method signature! Parameters aren't allowed when using arrays!", method);
                     return Optional.empty();
                 }
-                parameters.add(new Parameter(false, false, "", ParameterType.ARRAY));
+                parameters.add(new Parameter(false, false, "", ParameterType.ARRAY.name));
                 return Optional.of(parameters);
             }
 
@@ -236,7 +235,7 @@ final class CommandRegistry {
                 }
             }
 
-            parameters.add(new Parameter(isConcat, isOptional, defaultValue, ParameterType.getByName(name)));
+            parameters.add(new Parameter(isConcat, isOptional, defaultValue, name));
         }
 
         return Optional.of(parameters);

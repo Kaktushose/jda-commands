@@ -75,7 +75,7 @@ public final class CommandDispatcher extends ListenerAdapter {
             ((JDA) jda).addEventListener(this);
         }
         this.jdaCommands = jdaCommands;
-        commandRegistry.indexCommands();
+        commandRegistry.indexCommandController();
         commands.addAll(commandRegistry.getCommands());
         dependencyInjector.inject();
         log.info("Finished loading!");

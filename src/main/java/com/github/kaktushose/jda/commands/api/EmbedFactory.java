@@ -140,7 +140,7 @@ public class EmbedFactory {
                                             @Nonnull GuildMessageReceivedEvent event) {
         StringBuilder sbExpected = new StringBuilder();
         commandCallable.getParameters().forEach(parameter -> {
-            String typeName = parameter.getParameterType().name;
+            String typeName = parameter.getParameterType();
             if (typeName.contains(".")) {
                 typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
             }

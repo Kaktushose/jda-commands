@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.internal;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,25 @@ public enum ParameterType {
         this.name = name;
     }
 
-    public static boolean validate(String typeName) {
+    public static boolean isValid(AnnotatedType annotatedType) {
+        String typeName = annotatedType.getType().getTypeName();
         for (ParameterType type : values()) {
             if (type.name.equals(typeName)) {
                 return true;
             }
         }
-        return false;
+        Class<?> clazz;
+        try {
+            clazz = Class.forName(typeName);
+        } catch (ClassNotFoundException ignored) {
+            return false;
+        }
+        return Arrays.stream(clazz.getDeclaredConstructors()).anyMatch(constructor -> {
+            if (constructor.getParameterCount() == 1) {
+                return constructor.getParameterTypes()[0].getName().equals(String.class.getName());
+            }
+            return false;
+        });
     }
 
     public static String wrap(String typeName) {
