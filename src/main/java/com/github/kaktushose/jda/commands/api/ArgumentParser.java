@@ -16,10 +16,13 @@ import java.util.Optional;
 /**
  * The default argument parser of this framework.
  *
- * <p> This argument parser supports all primitive data types as well as the following JDA entities: Member, User, TextChannel and Role.
+ * <p> This argument parser supports all primitive data types, classes annotated with
+ * {@link com.github.kaktushose.jda.commands.annotations.Entity} as well as the following JDA entities: Member, User,
+ * TextChannel and Role.
  *
  * @author Kaktushose
  * @version 1.0.0
+ * @see com.github.kaktushose.jda.commands.annotations.Entity
  * @since 1.0.0
  */
 public class ArgumentParser {
