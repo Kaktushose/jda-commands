@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.entities;
 
-import com.github.kaktushose.jda.commands.exceptions.EmbedCastException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
+import java.awt.*;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -163,18 +162,10 @@ public class EmbedDTO {
             embedBuilder.setDescription(description);
         }
         if (color != null) {
-            try {
-                embedBuilder.setColor(Integer.parseInt(color));
-            } catch (NumberFormatException e) {
-                throw new EmbedCastException("Invalid color value for embed!", e);
-            }
+            embedBuilder.setColor(Color.decode(color));
         }
         if (timestamp != null) {
-            try {
-                embedBuilder.setTimestamp(ZonedDateTime.parse(timestamp));
-            } catch (DateTimeParseException e) {
-                throw new EmbedCastException("Invalid timestamp for embed!", e);
-            }
+            embedBuilder.setTimestamp(ZonedDateTime.parse(timestamp));
         }
         if (footer != null) {
             embedBuilder.setFooter(footer.getText(), footer.getIconUrl());
@@ -188,8 +179,10 @@ public class EmbedDTO {
         if (author != null) {
             embedBuilder.setAuthor(author.getName(), author.getUrl(), author.getIconUrl());
         }
-        for (Field field : fields) {
-            embedBuilder.addField(field.getName(), field.getValue(), field.isInline());
+        if (fields != null) {
+            for (Field field : fields) {
+                embedBuilder.addField(field.getName(), field.getValue(), field.isInline());
+            }
         }
         return embedBuilder;
     }
@@ -287,12 +280,14 @@ public class EmbedDTO {
                 author.url = author.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
         }
-        for (Field field : fields) {
-            if (field.name != null) {
-                field.name = field.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
-            }
-            if (field.value != null) {
-                field.value = field.value.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+        if (fields != null) {
+            for (Field field : fields) {
+                if (field.name != null) {
+                    field.name = field.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                }
+                if (field.value != null) {
+                    field.value = field.value.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                }
             }
         }
         return this;
