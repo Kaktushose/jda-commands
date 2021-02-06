@@ -62,8 +62,6 @@ final class CommandRegistry {
         }
         // index fields for dependency injection
         indexInjectableFields(controllerClass, instance);
-        //index permissions
-        Set<String> permissions = new HashSet<>(indexControllerPermissions(controllerClass));
 
         // indexing each Command
         for (Method method : controllerClass.getDeclaredMethods()) {
@@ -76,7 +74,8 @@ final class CommandRegistry {
                 logError("Command method has an invalid return type or access modifier!", method);
                 continue;
             }
-            indexCommand(method, commandController, permissions, instance);
+
+            indexCommand(method, commandController, new HashSet<>(indexControllerPermissions(controllerClass)), instance);
         }
     }
 
@@ -109,7 +108,6 @@ final class CommandRegistry {
 
         // index command permissions
         permissions.addAll(indexCommandPermissions(method));
-
         // creating all possible labels for a command
         List<String> labels = generateLabels(command, commandController);
 
