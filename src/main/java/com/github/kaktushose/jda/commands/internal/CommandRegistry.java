@@ -142,7 +142,7 @@ final class CommandRegistry {
     private Set<String> indexCommandPermissions(Method method) {
         if (method.isAnnotationPresent(Permission.class)) {
             Permission permission = method.getAnnotation(Permission.class);
-            Sets.newHashSet(permission.value());
+            return Sets.newHashSet(permission.value());
         }
         return Collections.emptySet();
     }
