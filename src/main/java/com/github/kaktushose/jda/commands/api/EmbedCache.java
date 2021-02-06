@@ -9,11 +9,12 @@ import com.google.gson.stream.JsonReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -59,10 +60,47 @@ public class EmbedCache {
      * Gets an embed from the cache.
      *
      * @param name the name the {@link EmbedDTO} is mapped to
-     * @return the {@link EmbedDTO}
+     * @return the {@link EmbedDTO} or {@code null} if the cache contains no mapping for the key
      */
-    public EmbedDTO getEmbed(String name) {
+    public EmbedDTO getEmbed(@Nonnull String name) {
         return embedMap.get(name);
+    }
+
+    /**
+     * Returns {@code true} if this cache contains no {@link EmbedDTO}s.
+     *
+     * @return {@code true} if this cache contains no {@link EmbedDTO}s.
+     */
+    public boolean isEmpty() {
+        return embedMap.isEmpty();
+    }
+
+    /**
+     * Returns the number of {@link EmbedDTO}s in this cache.
+     *
+     * @return the number of {@link EmbedDTO}s in this cache.
+     */
+    public int size() {
+        return embedMap.size();
+    }
+
+    /**
+     * Returns {@code true} if this cache contains a mapping for the specified name.
+     *
+     * @param name the name the {@link EmbedDTO} is mapped to
+     * @return {@code true} if this cache contains a mapping for the specified name.
+     */
+    public boolean containsEmbed(@Nonnull String name) {
+        return embedMap.containsKey(name);
+    }
+
+    /**
+     * Returns an unmodifiable List containing all {@link EmbedDTO} of this cache.
+     *
+     * @return an unmodifiable List containing all {@link EmbedDTO} of this cache.
+     */
+    public List<EmbedDTO> values() {
+        return Collections.unmodifiableList(new ArrayList<>(embedMap.values()));
     }
 
 }
