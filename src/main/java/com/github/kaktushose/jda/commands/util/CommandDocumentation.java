@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 /**
  * This class automatically generates documentation for commands in markdown format.
  *
+ * @author Kaktushose
+ * @version 1.1.0
+ * @since 1.1.0
  */
 public class CommandDocumentation {
 
