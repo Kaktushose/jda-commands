@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * This class provides a very basic level of configuration.
  *
  * <p>All settings declared through this class can also be declared on a guild specific level. Therefore use the
- * {@link JDACommands#getGuildSettings(long)} method. If no guild settings are present, the default settings will be
+ * {@link JDACommands#getGuildSettings()} method. If no guild settings are present, the default settings will be
  * used instead.
  *
  * @author Kaktushose

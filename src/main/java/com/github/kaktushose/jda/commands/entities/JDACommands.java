@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
-import net.dv8tion.jda.api.entities.Guild;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

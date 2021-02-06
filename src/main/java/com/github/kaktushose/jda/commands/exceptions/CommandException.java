@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.exceptions;
 
 /**
  * Exception that is mainly used to log any errors regarding the configuration or declaration of commands.
- * This exception gets also thrown
  * CommandExceptions are runtime exceptions.
  *
  * @author Kaktushose
