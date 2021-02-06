@@ -1,8 +1,0 @@
-prefix: "?"
-ignoreBots: true
-ignoreLabelCase: true
-botMentionPrefix: false
-mutedChannels:
-  - 0987654321
-mutedUsers:
-  - 1234567890

@@ -16,10 +16,11 @@ import java.util.Optional;
 /**
  * The default argument parser of this framework.
  *
- * <p> This argument parser supports all primitive data types as well as the following JDA entities: Member, User, TextChannel and Role.
+ * <p> This argument parser supports all primitive data types, every class that having a constructor consuming only
+ * a {@code String} as well as the following JDA entities: Member, User, TextChannel and Role.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class ArgumentParser {
@@ -50,7 +51,7 @@ public class ArgumentParser {
             Parameter parameter = parameters.get(i);
 
             // if parameter is array don't parse
-            if (parameter.getParameterType().equals(ParameterType.ARRAY)) {
+            if (parameter.getParameterType().equals(ParameterType.ARRAY.name)) {
                 parsedArguments.add(rawArguments.toArray());
                 return Optional.of(parsedArguments);
             }
@@ -99,7 +100,7 @@ public class ArgumentParser {
      * @return an Optional describing the parsed argument or an empty Optional if the argument parsing failed
      */
     protected Optional<?> parse(@Nonnull String argument, @Nonnull Parameter parameter, @Nonnull Guild guild) {
-        String typeName = parameter.getParameterType().name;
+        String typeName = parameter.getParameterType();
         if (ParameterType.isJDAEntity(typeName)) {
             return parseJDAEntity(argument, typeName, guild);
         }

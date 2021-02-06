@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.entities;
 
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * This class provides a very basic level of configuration.
  *
- * <p>All settings declared through this class can also be declared inside a yaml file. To be loaded properly the yaml file
- * must be located in the resources folder and its name must be <em>settings.yaml</em>. If the yaml file deviates from
- * that you can use the {@link com.github.kaktushose.jda.commands.internal.YamlLoader} to load the file manually.
+ * <p>All settings declared through this class can also be declared on a guild specific level. Therefore use the
+ * {@link JDACommands#getGuildSettings()} method. If no guild settings are present, the default settings will be
+ * used instead.
  *
  * @author Kaktushose
- * @version 1.0.0
- * @see com.github.kaktushose.jda.commands.internal.YamlLoader
+ * @version 1.1.0
+ * @see JDACommands
  * @since 1.0.0
  */
 public class CommandSettings {
@@ -28,7 +27,6 @@ public class CommandSettings {
     private final static Logger log = LoggerFactory.getLogger(CommandSettings.class);
     private final Set<Long> mutedChannels;
     private final Set<Long> mutedUsers;
-    private final Map<Long, String> guildPrefixes;
     private final Set<String> helpLabels;
     private final Map<String, Set<Long>> permissionHolders;
     private boolean botMentionPrefix;
@@ -57,7 +55,6 @@ public class CommandSettings {
         this.botMentionPrefix = botMentionPrefix;
         mutedChannels = ConcurrentHashMap.newKeySet();
         mutedUsers = ConcurrentHashMap.newKeySet();
-        guildPrefixes = new ConcurrentHashMap<>();
         permissionHolders = new ConcurrentHashMap<>();
         helpLabels = ConcurrentHashMap.newKeySet();
         helpLabels.add("help");
@@ -81,73 +78,6 @@ public class CommandSettings {
     public CommandSettings setPrefix(@Nullable String prefix) {
         this.prefix = validatePrefix(prefix);
         return this;
-    }
-
-    /**
-     * Set a custom prefix for a specific guild. This will override the default prefix.
-     * If the prefix is {@code null} the fallback prefix <em>!</em> will be used instead.
-     *
-     * @param guildId the id of the guild to set the prefix for
-     * @param prefix  the prefix to set
-     * @return the current instance to use fluent interface
-     */
-    public CommandSettings addGuildPrefix(long guildId, @Nullable String prefix) {
-        guildPrefixes.put(guildId, validatePrefix(prefix));
-        return this;
-    }
-
-    /**
-     * Set custom prefixes for the given guilds. This will override the default prefix.
-     * If one of the provided prefixes is {@code null} the fallback prefix <em>!</em> will be used instead.
-     *
-     * @param guildPrefixes a map that contains the prefixes to set for each guild. Key: the guild id Value: the prefix
-     * @return the current instance to use fluent interface
-     */
-    public CommandSettings addGuildPrefixes(@Nonnull Map<Long, String> guildPrefixes) {
-        this.guildPrefixes.putAll(guildPrefixes);
-        return this;
-    }
-
-    /**
-     * Removes a custom prefix for the specified guild. This will automatically reactivate the default prefix.
-     *
-     * @param guildId the id of the guild to remove the custom prefix from
-     * @return the current instance to use fluent interface
-     */
-    public CommandSettings removeGuildPrefix(long guildId) {
-        guildPrefixes.remove(guildId);
-        return this;
-    }
-
-    /**
-     * Removes all specified custom prefixes. This will automatically reactivate the default prefix.
-     *
-     * @return the current instance to use fluent interface
-     */
-    public CommandSettings clearGuildPrefixes() {
-        guildPrefixes.clear();
-        return this;
-    }
-
-    /**
-     * Get the prefix for the specified guild.
-     *
-     * @param guildId the id of the guild to get the prefix for
-     * @return if present the custom guild prefix, else the default prefix
-     */
-    public String getGuildPrefix(long guildId) {
-        String prefix = guildPrefixes.get(guildId);
-        return prefix == null ? this.prefix : prefix;
-    }
-
-    /**
-     * Get the prefix for the specified guild.
-     *
-     * @param guild the {@code Guild} to get the prefix for
-     * @return if present the custom guild prefix, else the default prefix
-     */
-    public String getGuildPrefix(@Nonnull Guild guild) {
-        return getGuildPrefix(guild.getIdLong());
     }
 
     /**

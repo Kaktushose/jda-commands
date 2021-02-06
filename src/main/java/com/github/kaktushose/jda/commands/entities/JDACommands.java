@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.entities;
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 /**
  * This class is used to represent an active instance of this framework and provides access to the {@link CommandSettings}
@@ -13,7 +14,7 @@ import javax.annotation.Nonnull;
  * complexity of {@link CommandDispatcher}.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @see JDACommandsBuilder
  * @since 1.0.0
  */
@@ -33,13 +34,24 @@ public class JDACommands {
     }
 
     /**
-     * Get the {@link CommandSettings} of the current framework instance.
+     * Get the default {@link CommandSettings}.
      *
      * @return the {@link CommandSettings} of this instance
      */
-    public CommandSettings getSettings() {
-        return commandDispatcher.getSettings();
+    public CommandSettings getDefaultSettings() {
+        return commandDispatcher.getDefaultSettings();
     }
+
+    /**
+     * Get the {@link CommandSettings}s that are mapped to a guild. This Map is mutable and thus can be modified in
+     * order to add or remove guild settings. Returns an empty Map if no guild settings have been defined yet.
+     *
+     * @return a mutable Map containing all the guild specific {@link CommandSettings}s
+     */
+    public Map<Long, CommandSettings> getGuildSettings() {
+        return commandDispatcher.getGuildSettings();
+    }
+
 
     /**
      * Get the {@link CommandList} of the current framework instance.

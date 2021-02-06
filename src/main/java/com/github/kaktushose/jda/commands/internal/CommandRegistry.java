@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.internal;
 import com.github.kaktushose.jda.commands.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.google.common.collect.Sets;
@@ -16,19 +15,17 @@ import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
 import java.util.Optional;
+import java.util.*;
 
 final class CommandRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
     private final Set<CommandCallable> commands;
-    private final CommandSettings settings;
     private final DependencyInjector dependencyInjector;
 
-    CommandRegistry(CommandSettings settings, DependencyInjector dependencyInjector) {
+    CommandRegistry(DependencyInjector dependencyInjector) {
         this.commands = new HashSet<>();
-        this.settings = settings;
         this.dependencyInjector = dependencyInjector;
     }
 
@@ -36,7 +33,7 @@ final class CommandRegistry {
         return commands;
     }
 
-    void indexCommands() {
+    void indexCommandController() {
         log.debug("Indexing commands...");
         Reflections reflections = new Reflections("");
 
@@ -60,13 +57,11 @@ final class CommandRegistry {
         try {
             instance = controllerClass.getConstructors()[0].newInstance();
         } catch (Exception e) {
-            //TODO error message
+            log.error("Unable to create controller instance!", e);
             return;
         }
         // index fields for dependency injection
         indexInjectableFields(controllerClass, instance);
-        //index permissions
-        Set<String> permissions = new HashSet<>(indexControllerPermissions(controllerClass));
 
         // indexing each Command
         for (Method method : controllerClass.getDeclaredMethods()) {
@@ -75,12 +70,12 @@ final class CommandRegistry {
             if (!method.isAnnotationPresent(Command.class)) {
                 continue;
             }
-            //TODO remove this dogshit
             if (!method.getReturnType().equals(Void.TYPE) || !Modifier.isPublic(method.getModifiers())) {
                 logError("Command method has an invalid return type or access modifier!", method);
                 continue;
             }
-            indexCommand(method, commandController, permissions, instance);
+
+            indexCommand(method, commandController, new HashSet<>(indexControllerPermissions(controllerClass)), instance);
         }
     }
 
@@ -113,7 +108,6 @@ final class CommandRegistry {
 
         // index command permissions
         permissions.addAll(indexCommandPermissions(method));
-
         // creating all possible labels for a command
         List<String> labels = generateLabels(command, commandController);
 
@@ -127,7 +121,6 @@ final class CommandRegistry {
         // this must change if command overloading is implemented
         if (commands.stream().anyMatch(commandCallable -> commandCallable.getLabels().stream().anyMatch(labels::contains))) {
             logError("The labels for the command are already registered!", method);
-            //TODO overload checking
             return;
         }
         CommandCallable commandCallable = new CommandCallable(labels,
@@ -147,7 +140,7 @@ final class CommandRegistry {
     private Set<String> indexCommandPermissions(Method method) {
         if (method.isAnnotationPresent(Permission.class)) {
             Permission permission = method.getAnnotation(Permission.class);
-            Sets.newHashSet(permission.value());
+            return Sets.newHashSet(permission.value());
         }
         return Collections.emptySet();
     }
@@ -157,9 +150,6 @@ final class CommandRegistry {
         for (String controllerLabel : commandController.value()) {
             for (String commandLabel : command.value()) {
                 String label = (controllerLabel + " " + commandLabel).trim();
-                if (settings.isIgnoreLabelCase()) {
-                    label = label.toLowerCase();
-                }
                 labels.add(label);
             }
         }
@@ -186,7 +176,7 @@ final class CommandRegistry {
             }
 
             // check if parameter type is supported
-            if (!ParameterType.validate(name)) {
+            if (!ParameterType.isValid(parameterType)) {
                 logError(String.format("Command method has an invalid method signature! %s is an unsupported method parameter!",
                         name), method);
                 return Optional.empty();
@@ -194,9 +184,12 @@ final class CommandRegistry {
 
             // check if the parameter is an array. If true argument parsing isn't needed, because the raw input will
             // be passed to the method as an String array
-            // TODO maybe conflicts if array isn't the only parameter, must be tested
             if (name.equals(ParameterType.ARRAY.name)) {
-                parameters.add(new Parameter(false, false, "", ParameterType.ARRAY));
+                if (parameterTypes.length > 2) {
+                    logError("Command method has an invalid method signature! Parameters aren't allowed when using arrays!", method);
+                    return Optional.empty();
+                }
+                parameters.add(new Parameter(false, false, "", ParameterType.ARRAY.name));
                 return Optional.of(parameters);
             }
 
@@ -240,7 +233,7 @@ final class CommandRegistry {
                 }
             }
 
-            parameters.add(new Parameter(isConcat, isOptional, defaultValue, ParameterType.getByName(name)));
+            parameters.add(new Parameter(isConcat, isOptional, defaultValue, name));
         }
 
         return Optional.of(parameters);

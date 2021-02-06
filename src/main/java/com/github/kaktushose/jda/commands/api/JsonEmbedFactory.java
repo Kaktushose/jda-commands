@@ -6,26 +6,37 @@ import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import java.awt.*;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
 /**
- * The default embed factory of this framework. An embed factory provides a bunch of embeds that are frequently needed.
+ * This class is similar to {@link EmbedFactory} but it uses a {@link EmbedCache} to first deserialize the embeds from
+ * json and then inject all needed values.
+ *
  *
  * @author Kaktushose
  * @version 1.1.0
- * @since 1.0.0
+ * @see com.github.kaktushose.jda.commands.api.EmbedFactory
+ * @see EmbedCache
+ * @since 1.1.0
  */
-public class EmbedFactory {
+public class JsonEmbedFactory extends EmbedFactory {
+
+    private final EmbedCache embedCache;
 
     /**
-     * The pattern that is used to insert prefixes. The default value is {@code {prefix}}.
+     * Constructs a new JsonEmbedFactory.
+     *
+     * @param file the json to load the embeds from.
      */
-    protected String prefixPattern = "\\{prefix}";
+    public JsonEmbedFactory(File file) {
+        embedCache = new EmbedCache(file);
+        embedCache.loadEmbedsToCache();
+    }
 
     /**
      * Creates an embed that provides general help. The embed will list all commands sorted by categories without giving
@@ -36,15 +47,14 @@ public class EmbedFactory {
      * @param event    the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getDefaultHelpEmbed(@Nonnull CommandList commands, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+    @Override
+    public MessageEmbed getDefaultHelpEmbed(@NotNull CommandList commands, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         String prefix = settings.getPrefix();
+        EmbedBuilder embedBuilder = embedCache.getEmbed("defaultHelp")
+                .injectValue("prefix", prefix)
+                .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
+                .toEmbedBuilder();
         Map<String, List<CommandCallable>> sortedCommands = commands.getSortedByCategories();
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.GREEN)
-                .setTitle("General Help")
-                .setDescription(String.format("The following commands are available. Type `%s%s <command>` to get specific help",
-                        settings.getPrefix(),
-                        settings.getHelpLabels().stream().findFirst().orElse("help")));
         sortedCommands.forEach((category, commandCallables) -> {
             StringBuilder sb = new StringBuilder();
             commandCallables.forEach(commandCallable -> sb.append(String.format("`%s%s`", prefix, commandCallable.getLabels().get(0))).append(", "));
@@ -61,29 +71,29 @@ public class EmbedFactory {
      * @param event           the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getSpecificHelpEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        String prefix = Matcher.quoteReplacement(settings.getPrefix());
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-
+    @Override
+    public MessageEmbed getSpecificHelpEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         List<String> labels = commandCallable.getLabels();
         StringBuilder sbAliases = new StringBuilder();
         labels.subList(1, labels.size()).forEach(label -> sbAliases.append(label).append(", "));
         String aliases = sbAliases.toString().isEmpty() ? "N/A" : sbAliases.substring(0, sbAliases.length() - 2);
 
+        String prefix = settings.getPrefix();
+
         StringBuilder sbPermissions = new StringBuilder();
         commandCallable.getPermissions().forEach(perm -> sbPermissions.append(perm).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        embedBuilder.setColor(Color.GREEN)
-                .setTitle("Specific Help")
-                .setDescription(String.format("Command Details for `%s%s`", prefix, commandCallable.getLabels().get(0)))
-                .addField("Name:", String.format("`%s`", commandCallable.getName().replaceAll(prefixPattern, prefix)), false)
-                .addField("Usage:", String.format("`%s`", commandCallable.getUsage().replaceAll(prefixPattern, prefix)), false)
-                .addField("Aliases", String.format("`%s`", aliases), false)
-                .addField("Description:", String.format("`%s`", commandCallable.getDescription().replaceAll(prefixPattern, prefix)), false)
-                .addField("Permissions:", String.format("`%s`", permissions), false)
-                .addField("Category:", String.format("`%s`", commandCallable.getCategory().replaceAll(prefixPattern, prefix)), false);
-        return embedBuilder.build();
+        return embedCache.getEmbed("specificHelp")
+                .injectValue("prefix", prefix)
+                .injectValue("label", commandCallable.getLabels().get(0))
+                .injectValue("name", commandCallable.getName().replaceAll(prefixPattern, prefix))
+                .injectValue("usage", commandCallable.getUsage().replaceAll(prefixPattern, prefix))
+                .injectValue("aliases", aliases)
+                .injectValue("description", commandCallable.getDescription().replaceAll(prefixPattern, prefix))
+                .injectValue("permissions", permissions)
+                .injectValue("category", commandCallable.getCategory().replaceAll(prefixPattern, prefix))
+                .toMessageEmbed();
     }
 
     /**
@@ -93,14 +103,12 @@ public class EmbedFactory {
      * @param event    the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getCommandNotFoundEmbed(@Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        return new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Command Not Found")
-                .setDescription(String.format("```type %s%s to get a list of all available commands```",
-                        settings.getPrefix(),
-                        settings.getHelpLabels().stream().findFirst().orElse("help"))
-                ).build();
+    @Override
+    public MessageEmbed getCommandNotFoundEmbed(@NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        return embedCache.getEmbed("commandNotFound")
+                .injectValue("prefix", settings.getPrefix())
+                .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
+                .toMessageEmbed();
     }
 
     /**
@@ -111,20 +119,17 @@ public class EmbedFactory {
      * @param event           the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getInsufficientPermissionsEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+    @Override
+    public MessageEmbed getInsufficientPermissionsEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         StringBuilder sbPermissions = new StringBuilder();
         commandCallable.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        return new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription(String.format("`%s%s` requires specific permissions to be executed",
-                        settings.getPrefix(),
-                        commandCallable.getLabels().get(0)))
-                .addField("Permissions:",
-                        String.format("`%s`", permissions), false
-                ).build();
+        return embedCache.getEmbed("insufficientPermissions")
+                .injectValue("prefix", settings.getPrefix())
+                .injectValue("label", commandCallable.getLabels().get(0))
+                .injectValue("permissions", permissions)
+                .toMessageEmbed();
     }
 
     /**
@@ -136,10 +141,8 @@ public class EmbedFactory {
      * @param event           the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getSyntaxErrorEmbed(@Nonnull CommandCallable commandCallable,
-                                            @Nonnull List<String> arguments,
-                                            @Nonnull CommandSettings settings,
-                                            @Nonnull GuildMessageReceivedEvent event) {
+    @Override
+    public MessageEmbed getSyntaxErrorEmbed(@NotNull CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         StringBuilder sbExpected = new StringBuilder();
         commandCallable.getParameters().forEach(parameter -> {
             String typeName = parameter.getParameterType();
@@ -153,13 +156,11 @@ public class EmbedFactory {
         StringBuilder sbActual = new StringBuilder();
         arguments.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
-        return new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Syntax Error")
-                .setDescription(String.format("`%s`", commandCallable.getUsage().replaceAll("\\{prefix}", Matcher.quoteReplacement(settings.getPrefix()))))
-                .addField("Expected", String.format("`%s`", expected), false)
-                .addField("Actual", String.format("`%s`", actual), false)
-                .build();
-    }
 
+        return embedCache.getEmbed("syntaxError")
+                .injectValue("usage", commandCallable.getUsage().replaceAll("\\{prefix}", Matcher.quoteReplacement(settings.getPrefix())))
+                .injectValue("expected", expected)
+                .injectValue("actual", actual)
+                .toMessageEmbed();
+    }
 }

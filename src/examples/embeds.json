@@ -1,0 +1,69 @@
+{
+  "defaultHelp": {
+    "title": "General Help",
+    "description": "The following commands are available. Type `{prefix}{helpLabel} <command>` to get specific help",
+    "color": "#00ff00"
+  },
+  "specificHelp": {
+    "title": "Specific Help",
+    "description": "Command Details for `{prefix}{label}`",
+    "color": "#00ff00",
+    "fields": [
+      {
+        "name": "Name",
+        "value": "`{name}`"
+      },
+      {
+        "name": "Usage",
+        "value": "`{usage}`"
+      },
+      {
+        "name": "Aliases",
+        "value": "`{aliases}`"
+      },
+      {
+        "name": "Description",
+        "value": "`{description}`"
+      },
+      {
+        "name": "Permissions",
+        "value": "`{permissions}`"
+      },
+      {
+        "name": "Category",
+        "value": "`{category}`"
+      }
+    ]
+  },
+  "commandNotFound": {
+    "title": "Command Not Found",
+    "description": "```type {prefix}{helpLabel} to get a list of all available commands```",
+    "color": "#ffc800"
+  },
+  "insufficientPermissions": {
+    "title": "Insufficient Permissions",
+    "description": "`{prefix}{label}` requires specific permissions to be executed",
+    "color": "#ff0000",
+    "fields": [
+      {
+        "name": "Permissions:",
+        "value": "`{permissions}`"
+      }
+    ]
+  },
+  "syntaxError": {
+    "title": "Syntax Error",
+    "description": "`{usage}`",
+    "color": "#ffc800",
+    "fields": [
+      {
+        "name": "Expected",
+        "value": "`{expected}`"
+      },
+      {
+        "name": "Actual",
+        "value": "`{actual}`"
+      }
+    ]
+  }
+}

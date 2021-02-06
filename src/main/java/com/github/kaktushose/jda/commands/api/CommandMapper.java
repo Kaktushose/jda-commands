@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * The default command mapper of this framework.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class CommandMapper {
@@ -35,7 +35,7 @@ public class CommandMapper {
             for (int j = 0; j < i + 1; j++) {
                 sb.append(input[j]).append(" ");
             }
-            String generatedLabel = isLabelIgnoreCase ? sb.toString().toLowerCase().trim() : sb.toString().trim();
+            String generatedLabel = sb.toString().trim();
             List<CommandCallable> possibleCommands = commands.stream().filter(cmd -> cmd.getLabels().stream().anyMatch(label -> {
                         boolean matches = true;
                         String[] expectedLabels = label.split(" ");
@@ -47,7 +47,11 @@ public class CommandMapper {
                             if (!matches) {
                                 return false;
                             }
-                            matches = expectedLabels[k].startsWith(actualLabels[k]);
+                            if (isLabelIgnoreCase) {
+                                matches = expectedLabels[k].toLowerCase().startsWith(actualLabels[k].toLowerCase());
+                            } else {
+                                matches = expectedLabels[k].startsWith(actualLabels[k]);
+                            }
                         }
                         return matches;
                     })
