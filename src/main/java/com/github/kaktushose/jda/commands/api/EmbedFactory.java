@@ -153,7 +153,6 @@ public class EmbedFactory {
         StringBuilder sbActual = new StringBuilder();
         arguments.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
-        System.out.println("actual");
         return new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
