@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/Download-1.0.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.0.1)
+[![Generic badge](https://img.shields.io/badge/Download-1.1.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kaktushose/jda-commands&amp;utm_campaign=Badge_Grade)
 ![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)
 
@@ -6,7 +6,7 @@
 
 A simple yet highly customizable, annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA). 
 
-- Current Version: [1.0.1](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.0.1)
+- Current Version: [1.1.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0)
 - JDA Version: [4.2.0_191](https://bintray.com/dv8fromtheworld/maven/JDA/4.2.0_191)
 - [JavaDoc](https://kaktushose.github.io/jda-commands/index.html)
 - [Wiki](https://github.com/Kaktushose/jda-commands/wiki)
@@ -25,7 +25,9 @@ The core features of this framework are as following:
 - Automatic error resolving  
 - Automatically generated Help Commands & Error Messages
 - Command modification at runtime
-- Many settings such as Guild specific prefixes
+- Guild specific settings
+- Automatic generation of documentation 
+- i18n support 
 
 **Example**
 
@@ -47,7 +49,7 @@ If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jd
 
 ## Download
 
-You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.0.1).
+You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0).
 
 ## Maven
 
@@ -94,11 +96,14 @@ The following dependencies were used to build this framework:
 * Reflections
     * Version: 0.9.10
     * [Github](https://github.com/ronmamo/reflections)
-* Jackson
-    * Version: 2.11.0
-    * [Github](https://github.com/FasterXML/jackson)
+* Gson
+    * Version: 2.8.6
+    * [Github](https://github.com/google/gson)
 * slf4j-api
     * Version: 1.7.30
     * [Website](http://www.slf4j.org/)
+* markdowngenerator
+    * Version: 1.3.2
+    * [Github](https://github.com/Steppschuh/Java-Markdown-Generator)
 
  
