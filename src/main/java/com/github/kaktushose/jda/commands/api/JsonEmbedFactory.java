@@ -49,6 +49,9 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     @Override
     public MessageEmbed getDefaultHelpEmbed(@NotNull CommandList commands, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("defaultHelp")) {
+            return super.getDefaultHelpEmbed(commands, settings, event);
+        }
         String prefix = settings.getPrefix();
         EmbedBuilder embedBuilder = embedCache.getEmbed("defaultHelp")
                 .injectValue("prefix", prefix)
@@ -73,6 +76,9 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     @Override
     public MessageEmbed getSpecificHelpEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("specificHelp")) {
+            return super.getSpecificHelpEmbed(commandCallable, settings, event);
+        }
         List<String> labels = commandCallable.getLabels();
         StringBuilder sbAliases = new StringBuilder();
         labels.subList(1, labels.size()).forEach(label -> sbAliases.append(label).append(", "));
@@ -105,6 +111,9 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     @Override
     public MessageEmbed getCommandNotFoundEmbed(@NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("commandNotFound")) {
+            return super.getCommandNotFoundEmbed(settings, event);
+        }
         return embedCache.getEmbed("commandNotFound")
                 .injectValue("prefix", settings.getPrefix())
                 .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
@@ -121,6 +130,9 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     @Override
     public MessageEmbed getInsufficientPermissionsEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("insufficientPermissions")) {
+            return super.getInsufficientPermissionsEmbed(commandCallable, settings, event);
+        }
         StringBuilder sbPermissions = new StringBuilder();
         commandCallable.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -143,6 +155,9 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     @Override
     public MessageEmbed getSyntaxErrorEmbed(@NotNull CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("syntaxError")) {
+            return super.getSyntaxErrorEmbed(commandCallable, arguments, settings, event);
+        }
         StringBuilder sbExpected = new StringBuilder();
         commandCallable.getParameters().forEach(parameter -> {
             String typeName = parameter.getParameterType();
