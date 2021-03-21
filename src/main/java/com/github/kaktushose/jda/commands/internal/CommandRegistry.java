@@ -33,9 +33,18 @@ final class CommandRegistry {
         return commands;
     }
 
-    void indexCommandController() {
+    void indexCommandController(String packageName) {
         log.debug("Indexing commands...");
-        Reflections reflections = new Reflections("");
+
+        Reflections reflections;
+        if (packageName == null) {
+            log.debug("No package specified. Going to scan whole project...");
+            reflections = new Reflections("");
+        } else {
+            log.debug("Going to scan package '{}'...", packageName);
+            reflections = new Reflections(packageName);
+        }
+
 
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);
         for (Class<?> controllerClass : controllerSet) {

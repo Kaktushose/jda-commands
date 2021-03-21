@@ -68,14 +68,14 @@ public final class CommandDispatcher extends ListenerAdapter {
         isActive = true;
     }
 
-    public void start(JDACommands jdaCommands) {
+    public void start(JDACommands jdaCommands, String packageName) {
         if (isShardManager) {
             ((ShardManager) jda).addEventListener(this);
         } else {
             ((JDA) jda).addEventListener(this);
         }
         this.jdaCommands = jdaCommands;
-        commandRegistry.indexCommandController();
+        commandRegistry.indexCommandController(packageName);
         commands.addAll(commandRegistry.getCommands());
         dependencyInjector.inject();
         log.info("Finished loading!");

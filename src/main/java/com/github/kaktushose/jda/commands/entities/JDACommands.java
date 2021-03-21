@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.entities;
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Map;
  * complexity of {@link CommandDispatcher}.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @see JDACommandsBuilder
  * @since 1.0.0
  */
@@ -30,7 +31,19 @@ public class JDACommands {
      */
     public JDACommands(@Nonnull CommandDispatcher commandDispatcher) {
         this.commandDispatcher = commandDispatcher;
-        commandDispatcher.start(this);
+        commandDispatcher.start(this, null);
+    }
+
+    /**
+     * Constructs a JDACommands. The {@link JDACommandsBuilder} may be used instead of this constructor.
+     *
+     * @param commandDispatcher the {@link CommandDispatcher} instance to start the framework with
+     * @param packageName the name of the package in which to search for command classes
+     * @see JDACommandsBuilder
+     */
+    public JDACommands(@Nonnull CommandDispatcher commandDispatcher, @Nullable String packageName) {
+        this.commandDispatcher = commandDispatcher;
+        commandDispatcher.start(this, packageName);
     }
 
     /**

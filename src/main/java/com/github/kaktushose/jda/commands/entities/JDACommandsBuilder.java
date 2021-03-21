@@ -26,6 +26,7 @@ public class JDACommandsBuilder {
     private final Object jda;
     private final boolean isShardManager;
     private final List<Object> providers;
+    private String packageName;
     private CommandSettings defaultSettings;
     private Map<Long, CommandSettings> guildSettings;
     private EventParser eventParser;
@@ -144,6 +145,17 @@ public class JDACommandsBuilder {
     }
 
     /**
+     * This method can be used to limit the command scanning only to a specific package.
+     *
+     * @param packageName the name of the package in which to search for command classes
+     * @return the current instance to use fluent interface
+     */
+    public JDACommandsBuilder setCommandPackage(@Nullable String packageName) {
+        this.packageName = packageName;
+        return this;
+    }
+
+    /**
      * Sets the default {@link CommandSettings} that will be used to construct the {@link JDACommands}
      *
      * @param defaultSettings the {@link CommandSettings} to set
@@ -255,7 +267,7 @@ public class JDACommandsBuilder {
                 argumentParser,
                 embedFactory,
                 helpMessageSender,
-                providers));
+                providers), packageName);
     }
 
 }
