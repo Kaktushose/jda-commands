@@ -1,14 +1,12 @@
 package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.annotations.Produces;
-import com.github.kaktushose.jda.commands.api.Provider;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,7 @@ final class DependencyInjector {
         dependencies = new HashMap<>();
     }
 
-    void addProvider(Provider provider) {
+    void addProvider(Object provider) {
         for (Method method : provider.getClass().getDeclaredMethods()) {
             if (!method.isAnnotationPresent(Produces.class)) {
                 continue;

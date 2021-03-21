@@ -4,8 +4,6 @@ import com.github.kaktushose.jda.commands.api.*;
 import com.github.kaktushose.jda.commands.internal.CommandDispatcher;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,7 +17,7 @@ import java.util.Map;
  * a JDACommandsBuilder can be reused multiple times.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @see JDACommands
  * @since 1.0.0
  */
@@ -27,7 +25,7 @@ public class JDACommandsBuilder {
 
     private final Object jda;
     private final boolean isShardManager;
-    private final List<Provider> providers;
+    private final List<Object> providers;
     private CommandSettings defaultSettings;
     private Map<Long, CommandSettings> guildSettings;
     private EventParser eventParser;
@@ -229,13 +227,14 @@ public class JDACommandsBuilder {
     }
 
     /**
-     * Adds a {@link Provider} used to get the dependencies that will be injected.
+     * Registers a class containing {@link com.github.kaktushose.jda.commands.annotations.Produces} methods that are
+     * used for dependency injection.
      *
-     * @param provider the {@link Provider to add}
+     * @param provider a class containing
      * @return the current instance to use fluent interface
-     * @see Provider
+     * @see com.github.kaktushose.jda.commands.annotations.Produces
      */
-    public JDACommandsBuilder addProvider(@Nonnull Provider provider) {
+    public JDACommandsBuilder addProvider(@Nonnull Object provider) {
         providers.add(provider);
         return this;
     }

@@ -47,7 +47,7 @@ public final class CommandDispatcher extends ListenerAdapter {
                              ArgumentParser argumentParser,
                              EmbedFactory embedFactory,
                              HelpMessageSender helpMessageSender,
-                             List<Provider> providers) {
+                             List<Object> providers) {
         log.info("Starting JDA-Commands...");
         if (isActive) {
             throw new IllegalStateException("An instance of the command framework is already running!");
