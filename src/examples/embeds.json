@@ -51,6 +51,11 @@
       }
     ]
   },
+  "userMuted": {
+    "title": "Insufficient Permissions",
+    "description": "You are muted",
+    "color": "#ff0000"
+  },
   "syntaxError": {
     "title": "Syntax Error",
     "description": "`{usage}`",

@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,8 @@ import java.util.regex.Matcher;
  * This class is similar to {@link EmbedFactory} but it uses a {@link EmbedCache} to first deserialize the embeds from
  * json and then inject all needed values.
  *
- *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @see com.github.kaktushose.jda.commands.api.EmbedFactory
  * @see EmbedCache
  * @since 1.1.0
@@ -141,6 +141,21 @@ public class JsonEmbedFactory extends EmbedFactory {
                 .injectValue("prefix", settings.getPrefix())
                 .injectValue("label", commandCallable.getLabels().get(0))
                 .injectValue("permissions", permissions)
+                .toMessageEmbed();
+    }
+
+    /**
+     * Creates an embed that provides help if the user executing the command is muted.
+     *
+     * @param settings        the {@link CommandSettings}
+     * @param event           the corresponding {@code GuildMessageReceivedEvent}
+     * @return the MessageEmbed to send
+     */
+    public MessageEmbed getUserMutedEmbed( @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+        if (!embedCache.containsEmbed("userMuted")) {
+            return super.getUserMutedEmbed(settings, event);
+        }
+        return embedCache.getEmbed("userMuted")
                 .toMessageEmbed();
     }
 

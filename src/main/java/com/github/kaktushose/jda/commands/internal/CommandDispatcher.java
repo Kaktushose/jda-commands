@@ -112,6 +112,11 @@ public final class CommandDispatcher extends ListenerAdapter {
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
         CommandSettings settings = getSettings(event.getGuild().getIdLong());
         if (!eventParser.validateEvent(event, settings)) {
+
+            if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
+                event.getChannel().sendMessage(embedFactory.getUserMutedEmbed(settings, event));
+            }
+
             return;
         }
 

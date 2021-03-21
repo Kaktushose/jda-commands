@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
  * The default embed factory of this framework. An embed factory provides a bunch of embeds that are frequently needed.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @since 1.0.0
  */
 public class EmbedFactory {
@@ -125,6 +125,21 @@ public class EmbedFactory {
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
+    }
+
+    /**
+     * Creates an embed that provides help if the user executing the command is muted.
+     *
+     * @param settings        the {@link CommandSettings}
+     * @param event           the corresponding {@code GuildMessageReceivedEvent}
+     * @return the MessageEmbed to send
+     */
+    public MessageEmbed getUserMutedEmbed(@Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+        return new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Insufficient Permissions")
+                .setDescription("You are muted")
+                .build();
     }
 
     /**
