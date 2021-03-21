@@ -164,7 +164,6 @@ final class CommandRegistry {
         for (int i = 0; i < parameterTypes.length; i++) {
             AnnotatedType parameterType = parameterTypes[i];
             String name = ParameterType.wrap(parameterType.getType().getTypeName());
-
             // first method argument is not a CommandEvent
             if (i == 0) {
                 if (!name.equals(CommandEvent.class.getName())) {
@@ -176,7 +175,7 @@ final class CommandRegistry {
             }
 
             // check if parameter type is supported
-            if (!ParameterType.isValid(parameterType)) {
+            if (!ParameterType.isValid(name)) {
                 logError(String.format("Command method has an invalid method signature! %s is an unsupported method parameter!",
                         name), method);
                 return Optional.empty();

@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.internal;
 
-import java.lang.reflect.AnnotatedType;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -28,8 +27,7 @@ public enum ParameterType {
         this.name = name;
     }
 
-    public static boolean isValid(AnnotatedType annotatedType) {
-        String typeName = annotatedType.getType().getTypeName();
+    public static boolean isValid(String typeName) {
         for (ParameterType type : values()) {
             if (type.name.equals(typeName)) {
                 return true;
