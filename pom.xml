@@ -30,7 +30,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_191</version>
+            <version>4.2.0_250</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -48,17 +48,21 @@
             <version>2.8.6</version>
         </dependency>
         <dependency>
-            <groupId>net.steppschuh.markdowngenerator</groupId>
-            <artifactId>markdowngenerator</artifactId>
+            <groupId>com.github.Steppschuh</groupId>
+            <artifactId>Java-Markdown-Generator</artifactId>
             <version>1.3.2</version>
         </dependency>
     </dependencies>
 
     <repositories>
         <repository>
-            <id>jcenter</id>
-            <name>jcenter-bintray</name>
-            <url>https://jcenter.bintray.com</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
         </repository>
     </repositories>
 

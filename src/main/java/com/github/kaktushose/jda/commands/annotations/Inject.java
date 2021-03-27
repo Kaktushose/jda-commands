@@ -6,13 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Fields annotated with Inject will be assigned a value that is provided by a Producer declared within a {@link com.github.kaktushose.jda.commands.api.Provider}.
+ * Fields annotated with Inject will be assigned a value that is provided by a {@link Produces} method.
  * If no Producer for the field type is available then the field will be assigned {@code null}.
  *
  * @author Kaktushose
  * @version 1.0.0
  * @see Produces
- * @see com.github.kaktushose.jda.commands.api.Provider
  * @since 1.0.0
  */
 @Target(ElementType.FIELD)

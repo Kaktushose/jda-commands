@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/Download-1.1.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0)
+[![Generic badge](https://img.shields.io/badge/Download-1.1.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kaktushose/jda-commands&amp;utm_campaign=Badge_Grade)
 ![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)
 
@@ -6,8 +6,8 @@
 
 A simple yet highly customizable, annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA). 
 
-- Current Version: [1.1.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0)
-- JDA Version: [4.2.0_191](https://bintray.com/dv8fromtheworld/maven/JDA/4.2.0_191)
+- Current Version: [1.1.1](https://github.com/Kaktushose/jda-commands/releases/latest)
+- JDA Version: [4.2.0_250](https://github.com/DV8FromTheWorld/JDA#download)
 - [JavaDoc](https://kaktushose.github.io/jda-commands/index.html)
 - [Wiki](https://github.com/Kaktushose/jda-commands/wiki)
 
@@ -49,9 +49,9 @@ If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jd
 
 ## Download
 
-You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/tag/v.1.1.0).
+You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/latest).
 
-## Maven
+### Maven
 
 ```xml
 <repository>
@@ -67,7 +67,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 </dependency>
 ```
 
-## Gradle
+### Gradle
 ```groovy
 allprojects {
     repositories {
@@ -91,7 +91,7 @@ If you think that something is missing and you want to add it yourself, feel fre
 The following dependencies were used to build this framework:
 
 * JDA
-    * Version: 4.2.0_191
+    * Version: 4.2.0_250
     * [Github](https://github.com/DV8FromTheWorld/JDA)
 * Reflections
     * Version: 0.9.10
