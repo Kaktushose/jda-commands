@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * used instead.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @see JDACommands
  * @since 1.0.0
  */
@@ -29,6 +30,7 @@ public class CommandSettings {
     private final Set<Long> mutedUsers;
     private final Set<String> helpLabels;
     private final Map<String, Set<Long>> permissionHolders;
+    private final Set<String> prefixAliases;
     private boolean botMentionPrefix;
     private String prefix;
     private boolean ignoreBots, ignoreLabelCase;
@@ -43,13 +45,14 @@ public class CommandSettings {
     /**
      * Constructs a new CommandSettings object.
      *
-     * @param prefix           the prefix the framework will listen to
+     * @param prefix           the default prefix the framework will listen to
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
      */
     public CommandSettings(@Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
         this.prefix = validatePrefix(prefix);
+        this.prefixAliases = new HashSet<>();
         this.ignoreBots = ignoreBots;
         this.ignoreLabelCase = ignoreLabelCase;
         this.botMentionPrefix = botMentionPrefix;
@@ -78,6 +81,16 @@ public class CommandSettings {
     public CommandSettings setPrefix(@Nullable String prefix) {
         this.prefix = validatePrefix(prefix);
         return this;
+    }
+
+    /**
+     * Get a Set of prefix aliases. This Set is mutable and thus can be modified in
+     * order to add or remove a prefix alias. Returns an empty Set if no prefix aliases have been added yet.
+     *
+     * @return a possibly-empty mutable Set of prefix aliases
+     */
+    public Set<String> getPrefixAliases() {
+        return prefixAliases;
     }
 
     /**

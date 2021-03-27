@@ -2,24 +2,25 @@ package com.github.kaktushose.jda.commands.api;
 
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * The default event parser of this framework.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 1.1.1
  * @since 1.0.0
  */
 public class EventParser {
 
     /**
-     * boolean describing if a bot mention was used as prefix
+     * The prefix used in a command message. Must be stored to sanitize the message later on.
      */
-    private boolean eventIsBotMention;
+    private String usedPrefix;
 
     /**
      * Checks if a {@code GuildMessageReceivedEvent} matches all requirements given by a {@link CommandSettings} object.
@@ -33,20 +34,31 @@ public class EventParser {
         if (settings.isIgnoreBots() && event.getAuthor().isBot()) {
             return false;
         }
+
         if (settings.getMutedChannels().contains(event.getChannel().getIdLong())) {
             return false;
         }
+
         if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
             return false;
         }
-        if (event.getMessage().getContentDisplay().startsWith(settings.getPrefix())) {
-            eventIsBotMention = false;
+
+        String message = event.getMessage().getContentDisplay();
+        String prefix = settings.getPrefix();
+        if (message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith)) {
+            usedPrefix = settings.getPrefixAliases().stream().filter(message::startsWith).findFirst().orElse(prefix);
             return true;
         }
-        if (event.getMessage().getMentionedUsers().size() > 0) {
-            eventIsBotMention = settings.isBotMentionPrefix() && event.getMessage().getMentionedMembers().get(0).getUser().equals(event.getJDA().getSelfUser());
-            return eventIsBotMention;
+
+        User selfUser = event.getJDA().getSelfUser();
+        List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+        if (mentionedUsers.size() > 0) {
+            if (mentionedUsers.get(0).equals(selfUser)) {
+                usedPrefix = String.format("<@!%s>", selfUser.getId());
+                return true;
+            }
         }
+
         return false;
     }
 
@@ -63,13 +75,8 @@ public class EventParser {
         while (contentRaw.contains("  ")) {
             contentRaw = contentRaw.replaceAll(" {2}", " ");
         }
-        contentRaw = contentRaw.replaceFirst(Pattern.quote(settings.getPrefix()), "").trim();
-        String[] split = contentRaw.split(" ");
-        if (eventIsBotMention) {
-            String[] withoutMention = Arrays.copyOfRange(split, 1, split.length);
-            return withoutMention.length == 0 ? new String[]{""} : withoutMention;
-        }
-        return split;
+        contentRaw = contentRaw.replaceFirst(Pattern.quote(usedPrefix), "").trim();
+        return contentRaw.split(" ");
     }
 
     /**
