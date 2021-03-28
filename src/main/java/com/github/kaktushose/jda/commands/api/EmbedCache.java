@@ -63,7 +63,7 @@ public class EmbedCache {
      * @return the {@link EmbedDTO} or {@code null} if the cache contains no mapping for the key
      */
     public EmbedDTO getEmbed(@Nonnull String name) {
-        return embedMap.get(name);
+        return new EmbedDTO(embedMap.get(name));
     }
 
     /**

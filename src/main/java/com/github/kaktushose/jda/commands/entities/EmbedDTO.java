@@ -52,6 +52,19 @@ public class EmbedDTO {
         this.fields = fields;
     }
 
+    public EmbedDTO(EmbedDTO embedDTO) {
+        this.title = embedDTO.title;
+        this.description = embedDTO.description;
+        this.url = embedDTO.url;
+        this.color = embedDTO.color;
+        this.timestamp = embedDTO.timestamp;
+        this.footer = embedDTO.footer;
+        this.thumbnail = embedDTO.thumbnail;
+        this.image = embedDTO.image;
+        this.author = embedDTO.author;
+        this.fields = embedDTO.fields;
+    }
+
     @Override
     public String toString() {
         return "Embed{" +
