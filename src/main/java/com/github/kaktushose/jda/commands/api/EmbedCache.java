@@ -42,6 +42,16 @@ public class EmbedCache {
     }
 
     /**
+     * Constructs a new EmbedCache object.
+     *
+     * @param file the path to the file to load the embeds from
+     */
+    public EmbedCache(String file) {
+        embedMap = new ConcurrentHashMap<>();
+        this.file = new File(file);
+    }
+
+    /**
      * Loads all embeds from a file and caches them.
      */
     @SuppressWarnings("UnstableApiUsage")
