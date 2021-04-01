@@ -114,7 +114,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         if (!eventParser.validateEvent(event, settings)) {
 
             if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
-                event.getChannel().sendMessage(embedFactory.getUserMutedEmbed(settings, event));
+                event.getChannel().sendMessage(embedFactory.getUserMutedEmbed(settings, event)).queue();
             }
 
             return;
