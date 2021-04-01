@@ -71,9 +71,11 @@ public class EmbedDTO {
         this.thumbnail = new Thumbnail(embedDTO.getThumbnail());
         this.image = new Image(embedDTO.getImage());
         this.author = new Author(embedDTO.getAuthor());
-        this.fields = new Field[embedDTO.getFields().length];
-        for (int i = 0; i < fields.length; i++) {
-            fields[i] = new Field(embedDTO.getFields()[i]);
+        if (embedDTO.getFields() != null) {
+            this.fields = new Field[embedDTO.getFields().length];
+            for (int i = 0; i < fields.length; i++) {
+                fields[i] = new Field(embedDTO.getFields()[i]);
+            }
         }
     }
 
