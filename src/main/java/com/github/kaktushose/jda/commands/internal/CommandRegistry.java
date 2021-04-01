@@ -132,11 +132,17 @@ final class CommandRegistry {
             logError("The labels for the command are already registered!", method);
             return;
         }
+
+        String category = commandController.category();
+        if (!command.category().equals("Other")) {
+            category = command.category();
+        }
+
         CommandCallable commandCallable = new CommandCallable(labels,
                 command.name(),
                 command.desc(),
                 command.usage(),
-                command.category(),
+                category,
                 parameters,
                 permissions,
                 method,
