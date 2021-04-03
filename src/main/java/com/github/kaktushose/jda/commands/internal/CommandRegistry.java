@@ -245,7 +245,7 @@ final class CommandRegistry {
                     optionalIndex = i;
                     defaultValue = ((com.github.kaktushose.jda.commands.annotations.Optional) parameterAnnotation).value();
                     if (defaultValue.equals("") && method.getParameterTypes()[i].isPrimitive()) {
-                        log.warn("Command {} has an optional primitive datatype parameter, but no default value is present!" +
+                        log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
                                 "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());
                     }
                 }

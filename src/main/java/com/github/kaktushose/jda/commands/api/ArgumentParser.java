@@ -52,7 +52,7 @@ public class ArgumentParser {
 
             // if parameter is array don't parse
             if (parameter.getParameterType().equals(ParameterType.ARRAY.name)) {
-                parsedArguments.add(rawArguments.toArray());
+                parsedArguments.add(rawArguments.toArray(new String[0]));
                 return Optional.of(parsedArguments);
             }
 
