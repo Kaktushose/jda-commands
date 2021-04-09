@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.internal.ParameterType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -158,10 +159,7 @@ public class EmbedFactory {
         StringBuilder sbExpected = new StringBuilder();
         commandCallable.getParameters().forEach(parameter -> {
             String typeName = parameter.getParameterType();
-            if (typeName.contains(".")) {
-                typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
-            }
-            sbExpected.append(typeName).append(", ");
+            sbExpected.append(getHumanReadableTypeName(typeName)).append(", ");
         });
         String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
 
@@ -175,6 +173,37 @@ public class EmbedFactory {
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
+    }
+
+    public String getHumanReadableTypeName(String typeName) {
+        switch (ParameterType.getByName(typeName)) {
+            case BYTE:
+                return "Byte";
+            case SHORT:
+            case INT:
+            case LONG:
+            case FLOAT:
+            case DOUBLE:
+                return "Number";
+            case CHAR:
+                return "Single Letter";
+            case STRING:
+                return "String";
+            case ARRAY:
+                return "Several Arguments";
+            case BOOLEAN:
+                return "True Or False";
+            case MEMBER:
+            case USER:
+                return "Member Mention";
+            case ROLE:
+                return "Role Mention";
+            case TEXTCHANNEL:
+                return "Textchannel Mention";
+            case UNKNOWN:
+            default:
+                return "Unknown";
+        }
     }
 
 }
