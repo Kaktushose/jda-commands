@@ -54,7 +54,7 @@ public class JDACommandsBuilder {
     }
 
     private JDACommandsBuilder(Object jda, boolean isShardManager) {
-        this.defaultSettings = new CommandSettings("!", true, true, true);
+        this.defaultSettings = new CommandSettings("!", true, true, true, true);
         this.guildSettings = new HashMap<>();
         this.eventParser = new EventParser();
         this.commandMapper = new CommandMapper();
@@ -95,7 +95,7 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix) {
         return new JDACommandsBuilder(jda)
-                .setDefaultSettings(new CommandSettings(prefix, true, true, true))
+                .setDefaultSettings(new CommandSettings(prefix, true, true, true, true))
                 .build();
     }
 
@@ -108,7 +108,7 @@ public class JDACommandsBuilder {
      */
     public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix) {
         return new JDACommandsBuilder(shardManager)
-                .setDefaultSettings(new CommandSettings(prefix, true, true, true))
+                .setDefaultSettings(new CommandSettings(prefix, true, true, true, true))
                 .build();
     }
 
@@ -120,11 +120,12 @@ public class JDACommandsBuilder {
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
+     * @param embedAtNotFound  whether to send an embed at a non-existing command or not
      * @return a {@link JDACommands} instance that has started the initialization process
      */
-    public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
+    public static JDACommands start(@Nonnull JDA jda, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean embedAtNotFound) {
         return new JDACommandsBuilder(jda)
-                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix, embedAtNotFound))
                 .build();
     }
 
@@ -136,11 +137,12 @@ public class JDACommandsBuilder {
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
+     * @param embedAtNotFound  whether to send an embed at a non-existing command or not
      * @return a {@link JDACommands} instance that has started the initialization process
      */
-    public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
+    public static JDACommands start(@Nonnull ShardManager shardManager, @Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean embedAtNotFound) {
         return new JDACommandsBuilder(shardManager)
-                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix))
+                .setDefaultSettings(new CommandSettings(prefix, ignoreBots, ignoreLabelCase, botMentionPrefix, embedAtNotFound))
                 .build();
     }
 
