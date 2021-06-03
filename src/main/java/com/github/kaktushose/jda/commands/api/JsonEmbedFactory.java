@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -35,6 +36,16 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     public JsonEmbedFactory(File file) {
         embedCache = new EmbedCache(file);
+        embedCache.loadEmbedsToCache();
+    }
+
+    /**
+     * Constructs a new JsonEmbedFactory.
+     *
+     * @param stream the json to load the embeds from.
+     */
+    public JsonEmbedFactory(InputStream stream) {
+        embedCache = new EmbedCache(stream);
         embedCache.loadEmbedsToCache();
     }
 
