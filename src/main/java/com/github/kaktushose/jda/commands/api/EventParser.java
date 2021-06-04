@@ -50,12 +50,14 @@ public class EventParser {
             return true;
         }
 
-        User selfUser = event.getJDA().getSelfUser();
-        List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-        if (mentionedUsers.size() > 0) {
-            if (mentionedUsers.get(0).equals(selfUser)) {
-                usedPrefix = String.format("<@!%s>", selfUser.getId());
-                return true;
+        if (settings.isBotMentionPrefix()) {
+            User selfUser = event.getJDA().getSelfUser();
+            List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+            if (mentionedUsers.size() > 0) {
+                if (mentionedUsers.get(0).equals(selfUser)) {
+                    usedPrefix = String.format("<@!%s>", selfUser.getId());
+                    return true;
+                }
             }
         }
 
