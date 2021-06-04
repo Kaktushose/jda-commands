@@ -2,7 +2,7 @@ name: Contributors
 
 on:
   push:
-    branches: [master, dev] ${{SECRETS.GITHUB_TOKEN}}
+    branches: [master, dev]
 
 jobs:
   contributors:
