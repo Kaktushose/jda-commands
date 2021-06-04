@@ -30,16 +30,19 @@ public class CommandSettings {
     private final Set<Long> mutedUsers;
     private final Set<String> helpLabels;
     private final Map<String, Set<Long>> permissionHolders;
+    private final Map<String, Long> permissionRoles;
     private final Set<String> prefixAliases;
     private boolean botMentionPrefix;
     private String prefix;
-    private boolean ignoreBots, ignoreLabelCase;
+    private boolean ignoreBots;
+    private boolean ignoreLabelCase;
+    private boolean embedAtNotFound;
 
     /**
      * Constructs a new CommandSettings object with default values.
      */
     public CommandSettings() {
-        this("!", true, true, true);
+        this("!", true, true, true, true);
     }
 
     /**
@@ -49,16 +52,19 @@ public class CommandSettings {
      * @param ignoreBots       whether the framework should ignore messages from Discord Bots or not
      * @param ignoreLabelCase  whether the command mapper should be case sensitive or not
      * @param botMentionPrefix whether to allow a bot mention to be a valid prefix or not
+     * @param embedAtNotFound  whether to send an embed at a non-existing command or not
      */
-    public CommandSettings(@Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix) {
+    public CommandSettings(@Nullable String prefix, boolean ignoreBots, boolean ignoreLabelCase, boolean botMentionPrefix, boolean embedAtNotFound) {
         this.prefix = validatePrefix(prefix);
         this.prefixAliases = new HashSet<>();
         this.ignoreBots = ignoreBots;
         this.ignoreLabelCase = ignoreLabelCase;
         this.botMentionPrefix = botMentionPrefix;
+        this.embedAtNotFound = embedAtNotFound;
         mutedChannels = ConcurrentHashMap.newKeySet();
         mutedUsers = ConcurrentHashMap.newKeySet();
         permissionHolders = new ConcurrentHashMap<>();
+        permissionRoles = new ConcurrentHashMap<>();
         helpLabels = ConcurrentHashMap.newKeySet();
         helpLabels.add("help");
     }
@@ -108,6 +114,17 @@ public class CommandSettings {
     }
 
     /**
+     * Get the role for the given permission.
+     *
+     * @param permission the permission to get the role for
+     * @return the id of the role
+     * @see com.github.kaktushose.jda.commands.annotations.Permission
+     */
+    public Long getPermissionRole(@Nonnull String permission) {
+        return permissionRoles.get(permission);
+    }
+
+    /**
      * Get a Map of all permissions and their holders. Key: the String representing a permission. Value: a
      * Set of the ids of all users with the permission. This Map is mutable and thus can be modified in
      * order to add or remove permissions and their holders.
@@ -116,6 +133,16 @@ public class CommandSettings {
      */
     public Map<String, Set<Long>> getAllPermissionHolders() {
         return permissionHolders;
+    }
+
+    /**
+     * Get a Map of all permissions and their roles. Key: the String representing a permission. Value: a
+     * The id of the role
+     *
+     * @return a mutable Map containing all permissions and the ids of the roles with the permissions
+     */
+    public Map<String, Long> getAllPermissionRoles() {
+        return permissionRoles;
     }
 
     /**
@@ -218,4 +245,23 @@ public class CommandSettings {
         return prefix;
     }
 
+    /**
+     * Whether to send an embed at a non-existing command or not.
+     *
+     * @return {@code true} if it should send an embed at a non-existing command
+     */
+    public boolean isEmbedAtNotFound() {
+        return embedAtNotFound;
+    }
+
+    /**
+     * Set if it should send an embed at a non-existing command or not.
+     *
+     * @param embedAtNotFound {@code true} if it should send an embed at a non-existing command
+     * @return the current instance to use fluent interface
+     */
+    public CommandSettings setEmbedAtNotFound(boolean embedAtNotFound) {
+        this.embedAtNotFound = embedAtNotFound;
+        return this;
+    }
 }

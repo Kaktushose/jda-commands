@@ -3,9 +3,11 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.internal.Patterns;
 import com.github.kaktushose.jda.commands.internal.ParameterType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nonnull;
@@ -13,6 +15,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * The default embed factory of this framework. An embed factory provides a bunch of embeds that are frequently needed.
@@ -113,9 +116,20 @@ public class EmbedFactory {
      * @return the MessageEmbed to send
      */
     public MessageEmbed getInsufficientPermissionsEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
-        StringBuilder sbPermissions = new StringBuilder();
-        commandCallable.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
-        String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+        String perm = commandCallable.getPermissions().stream()
+                .map(permission -> {
+                    final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
+
+                    if (matcher.matches()) {
+                        return matcher.group(1).toUpperCase();
+                    } else if (settings.getAllPermissionRoles().containsKey(permission)) {
+                        Role role = event.getGuild().getRoleById(settings.getPermissionRole(permission));
+                        if (role == null) return "Unknown role";
+                        return role.getAsMention();
+                    }
+
+                    return permission;
+                }).collect(Collectors.joining(", "));
 
         return new EmbedBuilder()
                 .setColor(Color.RED)
@@ -124,7 +138,7 @@ public class EmbedFactory {
                         settings.getPrefix(),
                         commandCallable.getLabels().get(0)))
                 .addField("Permissions:",
-                        String.format("`%s`", permissions), false
+                        String.format("%s", perm), false
                 ).build();
     }
 

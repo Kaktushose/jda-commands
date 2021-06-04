@@ -120,7 +120,7 @@ public final class CommandDispatcher extends ListenerAdapter {
             return;
         }
 
-        String[] input = eventParser.parseEvent(event, settings);
+        String[] input = eventParser.parseEvent(event);
 
         if (input.length == 1 && input[0].isEmpty()) {
             return;
@@ -141,7 +141,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         Optional<CommandCallable> command = commandMapper.findCommand(commands, input, settings.isIgnoreLabelCase());
         if (!command.isPresent()) {
             log.debug("No command for input {} found", Arrays.toString(input));
-            event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
+            if (settings.isEmbedAtNotFound()) event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
             return;
         }
         CommandCallable commandCallable = command.get();
