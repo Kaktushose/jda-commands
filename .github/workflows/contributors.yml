@@ -13,9 +13,9 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           user: Kaktushose
+          repo: jda-commands
           template: classic
-          base: header, repositories, metadata
-          config_timezone: America/New_York
+          config_timezone: Berlin
           plugin_contributors: yes
           plugin_contributors_base: ""
           plugin_contributors_head: master
