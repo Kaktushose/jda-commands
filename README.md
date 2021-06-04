@@ -88,7 +88,7 @@ dependencies {
 
 If you think that something is missing and you want to add it yourself, feel free to open a pull request. Please try to keep your code quality as good as mine and stick to the core concepts of this framework.
 
-<img src="./github-metrics.svg" alt="Contributors">
+[![Contributors Display](https://badges.pufler.dev/contributors/kaktushose/jda-commands?size=50&padding=5&bots=false)](https://badges.pufler.dev)
 
 ## Dependencies
 
