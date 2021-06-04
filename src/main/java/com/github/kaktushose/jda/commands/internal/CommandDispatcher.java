@@ -120,7 +120,7 @@ public final class CommandDispatcher extends ListenerAdapter {
             return;
         }
 
-        String[] input = eventParser.parseEvent(event, settings);
+        String[] input = eventParser.parseEvent(event);
 
         if (input.length == 1 && input[0].isEmpty()) {
             return;

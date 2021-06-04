@@ -2,10 +2,15 @@ package com.github.kaktushose.jda.commands.api;
 
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.internal.Patterns;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -16,7 +21,6 @@ import java.util.regex.Pattern;
  * @since 1.0.0
  */
 public class EventParser {
-
     /**
      * The prefix used in a command message. Must be stored to sanitize the message later on.
      */
@@ -67,10 +71,9 @@ public class EventParser {
      * splitting it at each blank space. This method gets invoked if an event is valid and thus ready to be processed.
      *
      * @param event    the corresponding {@code GuildMessageReceivedEvent}
-     * @param settings the {@link CommandSettings}
      * @return the split user input
      */
-    public String[] parseEvent(GuildMessageReceivedEvent event, CommandSettings settings) {
+    public String[] parseEvent(GuildMessageReceivedEvent event) {
         String contentRaw = event.getMessage().getContentRaw();
         while (contentRaw.contains("  ")) {
             contentRaw = contentRaw.replaceAll(" {2}", " ");
@@ -89,7 +92,20 @@ public class EventParser {
      * @return {@code true} if the event author has to required permissions
      */
     public boolean hasPermission(CommandCallable commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
-        return commandCallable.getPermissions().stream().allMatch(permission -> settings.getPermissionHolders(permission).contains(event.getAuthor().getIdLong()));
+        return commandCallable.getPermissions().stream().allMatch(permission -> {
+            final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
+            if (matcher.matches()) {
+                return event.getMember() != null && event.getMember().hasPermission(Permission.valueOf(matcher.group(1).toUpperCase()));
+            } else if (settings.getAllPermissionRoles().containsKey(permission)) {
+                Role role = event.getGuild().getRoleById(settings.getPermissionRole(permission));
+                Member member = event.getMember();
+                if (role == null || member == null) return false;
+
+                return member.getRoles().contains(role);
+            } else {
+                return settings.getPermissionHolders(permission).contains(event.getAuthor().getIdLong());
+            }
+        });
     }
 
 }

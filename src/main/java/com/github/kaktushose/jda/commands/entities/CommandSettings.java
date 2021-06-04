@@ -30,6 +30,7 @@ public class CommandSettings {
     private final Set<Long> mutedUsers;
     private final Set<String> helpLabels;
     private final Map<String, Set<Long>> permissionHolders;
+    private final Map<String, Long> permissionRoles;
     private final Set<String> prefixAliases;
     private boolean botMentionPrefix;
     private String prefix;
@@ -61,6 +62,7 @@ public class CommandSettings {
         mutedChannels = ConcurrentHashMap.newKeySet();
         mutedUsers = ConcurrentHashMap.newKeySet();
         permissionHolders = new ConcurrentHashMap<>();
+        permissionRoles = new ConcurrentHashMap<>();
         helpLabels = ConcurrentHashMap.newKeySet();
         helpLabels.add("help");
     }
@@ -110,6 +112,17 @@ public class CommandSettings {
     }
 
     /**
+     * Get the role for the given permission.
+     *
+     * @param permission the permission to get the role for
+     * @return the id of the role
+     * @see com.github.kaktushose.jda.commands.annotations.Permission
+     */
+    public Long getPermissionRole(@Nonnull String permission) {
+        return permissionRoles.get(permission);
+    }
+
+    /**
      * Get a Map of all permissions and their holders. Key: the String representing a permission. Value: a
      * Set of the ids of all users with the permission. This Map is mutable and thus can be modified in
      * order to add or remove permissions and their holders.
@@ -118,6 +131,16 @@ public class CommandSettings {
      */
     public Map<String, Set<Long>> getAllPermissionHolders() {
         return permissionHolders;
+    }
+
+    /**
+     * Get a Map of all permissions and their roles. Key: the String representing a permission. Value: a
+     * The id of the role
+     *
+     * @return a mutable Map containing all permissions and the ids of the roles with the permissions
+     */
+    public Map<String, Long> getAllPermissionRoles() {
+        return permissionRoles;
     }
 
     /**
