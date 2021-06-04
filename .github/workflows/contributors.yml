@@ -1,0 +1,18 @@
+name: Contributors
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  contributors:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          plugin_contributors: yes
+          plugin_contributors_base: ""
+          plugin_contributors_head: master
+          plugin_contributors_ignored: bot
+          plugin_contributors_contributions: yes

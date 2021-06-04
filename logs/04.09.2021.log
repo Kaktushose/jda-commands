@@ -1,0 +1,25 @@
+15:48:49 [main] INFO net.dv8tion.jda.api.JDA - Login Successful!
+15:48:49 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.internal.requests.WebSocketClient - Connected to WebSocket
+15:48:49 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.api.JDA - Finished Loading!
+15:48:49 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Starting JDA-Commands...
+15:48:49 [main] ERROR com.github.kaktushose.jda.commands.internal.CommandDispatcher - No package specified. This can result in no commands being found!
+15:48:49 [main] WARN com.github.kaktushose.jda.commands.internal.CommandDispatcher - Switching to package com.github.kaktushose.jda.commands.internal
+15:48:50 [main] INFO org.reflections.Reflections - Reflections took 41 ms to scan 1 urls, producing 2 keys and 2 values 
+15:48:50 [main] INFO com.github.kaktushose.jda.commands.internal.CommandRegistry - Command indexing done! Indexed a total of 0 commands!
+15:48:50 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Finished loading!
+15:51:51 [main] INFO net.dv8tion.jda.api.JDA - Login Successful!
+15:51:51 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.internal.requests.WebSocketClient - Connected to WebSocket
+15:51:52 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.api.JDA - Finished Loading!
+15:51:52 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Starting JDA-Commands...
+15:51:52 [main] WARN com.github.kaktushose.jda.commands.internal.CommandRegistry - No package specified. This can result in no commands being found!
+15:51:52 [main] INFO org.reflections.Reflections - Reflections took 55 ms to scan 1 urls, producing 11 keys and 30 values 
+15:51:52 [main] INFO com.github.kaktushose.jda.commands.internal.CommandRegistry - Command indexing done! Indexed a total of 3 commands!
+15:51:52 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Finished loading!
+17:53:02 [main] INFO net.dv8tion.jda.api.JDA - Login Successful!
+17:53:02 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.internal.requests.WebSocketClient - Connected to WebSocket
+17:53:03 [JDA MainWS-ReadThread] INFO net.dv8tion.jda.api.JDA - Finished Loading!
+17:53:03 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Starting JDA-Commands...
+17:53:03 [main] WARN com.github.kaktushose.jda.commands.internal.CommandRegistry - No package specified. This can result in no commands being found!
+17:53:03 [main] INFO org.reflections.Reflections - Reflections took 53 ms to scan 1 urls, producing 11 keys and 30 values 
+17:53:03 [main] INFO com.github.kaktushose.jda.commands.internal.CommandRegistry - Command indexing done! Indexed a total of 3 commands!
+17:53:03 [main] INFO com.github.kaktushose.jda.commands.internal.CommandDispatcher - Finished loading!
