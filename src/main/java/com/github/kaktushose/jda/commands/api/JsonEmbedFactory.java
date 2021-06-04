@@ -3,16 +3,20 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
+import com.github.kaktushose.jda.commands.internal.Patterns;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * This class is similar to {@link EmbedFactory} but it uses a {@link EmbedCache} to first deserialize the embeds from
@@ -26,7 +30,7 @@ import java.util.regex.Matcher;
  */
 public class JsonEmbedFactory extends EmbedFactory {
 
-    private final EmbedCache embedCache;
+    protected final EmbedCache embedCache;
 
     /**
      * Constructs a new JsonEmbedFactory.
@@ -35,6 +39,16 @@ public class JsonEmbedFactory extends EmbedFactory {
      */
     public JsonEmbedFactory(File file) {
         embedCache = new EmbedCache(file);
+        embedCache.loadEmbedsToCache();
+    }
+
+    /**
+     * Constructs a new JsonEmbedFactory.
+     *
+     * @param stream the json to load the embeds from.
+     */
+    public JsonEmbedFactory(InputStream stream) {
+        embedCache = new EmbedCache(stream);
         embedCache.loadEmbedsToCache();
     }
 
@@ -133,14 +147,26 @@ public class JsonEmbedFactory extends EmbedFactory {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsEmbed(commandCallable, settings, event);
         }
-        StringBuilder sbPermissions = new StringBuilder();
-        commandCallable.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
-        String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+
+        String perm = commandCallable.getPermissions().stream()
+            .map(permission -> {
+                final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
+
+                if (matcher.matches()) {
+                    return matcher.group(1).toUpperCase();
+                } else if (settings.getAllPermissionRoles().containsKey(permission)) {
+                    Role role = event.getGuild().getRoleById(settings.getPermissionRole(permission));
+                    if (role == null) return "Unknown role";
+                    return role.getAsMention();
+                }
+
+                return permission;
+            }).collect(Collectors.joining(", "));
 
         return embedCache.getEmbed("insufficientPermissions")
                 .injectValue("prefix", settings.getPrefix())
                 .injectValue("label", commandCallable.getLabels().get(0))
-                .injectValue("permissions", permissions)
+                .injectValue("permissions", commandCallable.getPermissions().isEmpty() ? "N/A" : perm)
                 .toMessageEmbed();
     }
 

@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +27,7 @@ public class EmbedCache {
     private static final Logger log = LoggerFactory.getLogger(EmbedCache.class);
     private static final Gson gson = new Gson();
     private final File file;
+    private final InputStream stream;
     private Map<String, EmbedDTO> embedMap;
 
     /**
@@ -39,6 +38,18 @@ public class EmbedCache {
     public EmbedCache(File file) {
         embedMap = new ConcurrentHashMap<>();
         this.file = file;
+        this.stream = null;
+    }
+
+    /**
+     * Constructs a new EmbedCache object.
+     *
+     * @param stream the stream to load the embeds from
+     */
+    public EmbedCache(InputStream stream) {
+        embedMap = new ConcurrentHashMap<>();
+        this.stream = stream;
+        this.file = null;
     }
 
     /**
@@ -57,7 +68,16 @@ public class EmbedCache {
     @SuppressWarnings("UnstableApiUsage")
     public void loadEmbedsToCache() {
         try {
-            JsonReader jsonReader = new JsonReader(new FileReader(file));
+            Reader reader;
+            if (file != null) {
+                reader = new FileReader(file);
+            } else if (stream != null) {
+                reader = new InputStreamReader(stream);
+            } else {
+                throw new IllegalArgumentException("File and stream are null!");
+            }
+
+            JsonReader jsonReader = new JsonReader(reader);
             Type type = new TypeToken<Map<String, EmbedDTO>>() {
             }.getType();
             embedMap = gson.fromJson(jsonReader, type);
