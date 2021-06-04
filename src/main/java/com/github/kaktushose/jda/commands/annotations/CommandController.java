@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * will be skipped.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 1.1.2
  * @see Command
  * @see Inject
  * @since 1.0.0
@@ -24,4 +24,6 @@ public @interface CommandController {
     String[] value() default "";
 
     boolean isActive() default true;
+
+    String category() default "Other";
 }

@@ -139,6 +139,27 @@ public class CommandEvent extends GuildMessageReceivedEvent {
     }
 
     /**
+     * Sends a message to the TextChannel where the command was called.
+     *
+     * @param embedDTO the {@link EmbedDTO} to send
+     */
+    public void reply(@Nonnull EmbedDTO embedDTO) {
+        getChannel().sendMessage(embedDTO.toEmbedBuilder().build()).queue();
+    }
+
+    /**
+     * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
+     * consumer.
+     *
+     * @param embedDTO the {@link EmbedDTO} to send
+     * @param success      the JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@Nonnull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
+        getChannel().sendMessage(embedDTO.toEmbedBuilder().build()).queue(success);
+    }
+
+    /**
      * Get the {@link CommandCallable} object which describes the command that is executed.
      *
      * @return the underlying {@link CommandCallable} object

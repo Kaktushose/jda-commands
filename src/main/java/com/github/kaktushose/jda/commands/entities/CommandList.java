@@ -21,7 +21,7 @@ public class CommandList extends ArrayList<CommandCallable> {
      * Constructs an empty list.
      */
     public CommandList() {
-
+        super();
     }
 
     /**
@@ -30,7 +30,7 @@ public class CommandList extends ArrayList<CommandCallable> {
      * @param collection the collection whose elements are to be placed into this list
      */
     public CommandList(@Nonnull Collection<CommandCallable> collection) {
-        addAll(collection);
+        super(collection);
     }
 
     /**

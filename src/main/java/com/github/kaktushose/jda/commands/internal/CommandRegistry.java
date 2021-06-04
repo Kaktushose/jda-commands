@@ -36,16 +36,13 @@ final class CommandRegistry {
     void indexCommandController(String packageName) {
         log.debug("Indexing commands...");
 
-        Reflections reflections;
-        if (packageName == null) {
-            log.debug("No package specified. Going to scan whole project...");
-            reflections = new Reflections("");
-        } else {
-            log.debug("Going to scan package '{}'...", packageName);
-            reflections = new Reflections(packageName);
+        if (packageName == null || "".equals(packageName)) {
+            log.warn("No package specified. This can result in no commands being found!");
+            packageName = "";
         }
+        log.debug("Going to scan package '{}'...", packageName);
 
-
+        Reflections reflections = new Reflections(packageName);
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);
         for (Class<?> controllerClass : controllerSet) {
             log.debug("Found CommandController {}", controllerClass.getName());
@@ -132,11 +129,17 @@ final class CommandRegistry {
             logError("The labels for the command are already registered!", method);
             return;
         }
+
+        String category = commandController.category();
+        if (!command.category().equals("Other")) {
+            category = command.category();
+        }
+
         CommandCallable commandCallable = new CommandCallable(labels,
                 command.name(),
                 command.desc(),
                 command.usage(),
-                command.category(),
+                category,
                 parameters,
                 permissions,
                 method,
@@ -238,6 +241,10 @@ final class CommandRegistry {
                     hasOptional = true;
                     optionalIndex = i;
                     defaultValue = ((com.github.kaktushose.jda.commands.annotations.Optional) parameterAnnotation).value();
+                    if (defaultValue.equals("") && method.getParameterTypes()[i].isPrimitive()) {
+                        log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
+                                "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());
+                    }
                 }
             }
 

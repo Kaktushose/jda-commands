@@ -39,7 +39,16 @@ public class EmbedDTO {
     public EmbedDTO() {
     }
 
-    public EmbedDTO(String title, String description, String url, String color, String timestamp, Footer footer, Thumbnail thumbnail, Image image, Author author, Field[] fields) {
+    public EmbedDTO(String title,
+                    String description,
+                    String url,
+                    String color,
+                    String timestamp,
+                    Footer footer,
+                    Thumbnail thumbnail,
+                    Image image,
+                    Author author,
+                    Field[] fields) {
         this.title = title;
         this.description = description;
         this.url = url;
@@ -53,16 +62,21 @@ public class EmbedDTO {
     }
 
     public EmbedDTO(EmbedDTO embedDTO) {
-        this.title = embedDTO.title;
-        this.description = embedDTO.description;
-        this.url = embedDTO.url;
-        this.color = embedDTO.color;
-        this.timestamp = embedDTO.timestamp;
-        this.footer = embedDTO.footer;
-        this.thumbnail = embedDTO.thumbnail;
-        this.image = embedDTO.image;
-        this.author = embedDTO.author;
-        this.fields = embedDTO.fields;
+        this.title = embedDTO.getTitle();
+        this.description = embedDTO.getDescription();
+        this.url = embedDTO.getUrl();
+        this.color = embedDTO.getColor();
+        this.timestamp = embedDTO.getTimestamp();
+        this.footer = new Footer(embedDTO.getFooter());
+        this.thumbnail = new Thumbnail(embedDTO.getThumbnail());
+        this.image = new Image(embedDTO.getImage());
+        this.author = new Author(embedDTO.getAuthor());
+        if (embedDTO.getFields() != null) {
+            this.fields = new Field[embedDTO.getFields().length];
+            for (int i = 0; i < fields.length; i++) {
+                fields[i] = new Field(embedDTO.getFields()[i]);
+            }
+        }
     }
 
     @Override
@@ -73,12 +87,16 @@ public class EmbedDTO {
                 ", url='" + url + '\'' +
                 ", color=" + color +
                 ", timestamp='" + timestamp + '\'' +
-                ", footer=" + footer.toString() +
-                ", thumbnail=" + thumbnail.toString() +
-                ", image=" + image.toString() +
-                ", author=" + author.toString() +
+                ", footer=" + toString(footer) +
+                ", thumbnail=" + toString(thumbnail) +
+                ", image=" + toString(image) +
+                ", author=" + toString(author) +
                 ", fields=" + Arrays.toString(fields) +
                 '}';
+    }
+
+    private String toString(Object object) {
+        return object == null ? null : object.toString();
     }
 
     public String getTitle() {
@@ -244,7 +262,7 @@ public class EmbedDTO {
     /**
      * Attempts to inject a {@code {placeholder}} with the given value.
      *
-     * @param name the name of the placeholder
+     * @param name   the name of the placeholder
      * @param object the value to inject
      * @return the current instance to use fluent interface
      */
@@ -315,6 +333,13 @@ public class EmbedDTO {
             this.text = text;
         }
 
+        public Footer(Footer footer) {
+            if (footer != null) {
+                this.iconUrl = footer.getIconUrl();
+                this.text = footer.getText();
+            }
+        }
+
         public String getIconUrl() {
             return iconUrl;
         }
@@ -339,6 +364,12 @@ public class EmbedDTO {
             this.url = url;
         }
 
+        public Thumbnail(Thumbnail thumbnail) {
+            if (thumbnail != null) {
+                this.url = thumbnail.getUrl();
+            }
+        }
+
         public String getUrl() {
             return url;
         }
@@ -356,6 +387,12 @@ public class EmbedDTO {
 
         public Image(String url) {
             this.url = url;
+        }
+
+        public Image(Image image) {
+            if (image != null) {
+                this.url = image.getUrl();
+            }
         }
 
         public String getUrl() {
@@ -379,6 +416,14 @@ public class EmbedDTO {
             this.name = name;
             this.url = url;
             this.iconUrl = iconUrl;
+        }
+
+        public Author(Author author) {
+            if (author != null) {
+                this.name = author.getName();
+                this.url = author.getUrl();
+                this.iconUrl = author.getIconUrl();
+            }
         }
 
         public String getName() {
@@ -414,6 +459,14 @@ public class EmbedDTO {
             this.inline = inline;
         }
 
+        public Field(Field field) {
+            if (field != null) {
+                this.name = field.getName();
+                this.value = field.getValue();
+                this.inline = field.isInline();
+            }
+        }
+
         public String getName() {
             return name;
         }
@@ -435,5 +488,4 @@ public class EmbedDTO {
                     '}';
         }
     }
-
 }

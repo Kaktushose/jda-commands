@@ -202,10 +202,7 @@ public class JsonEmbedFactory extends EmbedFactory {
         StringBuilder sbExpected = new StringBuilder();
         commandCallable.getParameters().forEach(parameter -> {
             String typeName = parameter.getParameterType();
-            if (typeName.contains(".")) {
-                typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
-            }
-            sbExpected.append(typeName).append(", ");
+            sbExpected.append(getHumanReadableTypeName(typeName)).append(", ");
         });
         String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
 
