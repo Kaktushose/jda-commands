@@ -34,7 +34,9 @@ public class CommandSettings {
     private final Set<String> prefixAliases;
     private boolean botMentionPrefix;
     private String prefix;
-    private boolean ignoreBots, ignoreLabelCase, embedAtNotFound;
+    private boolean ignoreBots;
+    private boolean ignoreLabelCase;
+    private boolean embedAtNotFound;
 
     /**
      * Constructs a new CommandSettings object with default values.
