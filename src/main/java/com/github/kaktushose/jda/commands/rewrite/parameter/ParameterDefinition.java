@@ -29,21 +29,27 @@ public class ParameterDefinition {
     private final boolean isConcat;
     private final boolean isOptional;
     private final String defaultValue;
+    private final boolean isPrimitive;
+    private final String name;
     private final List<Validator> validators;
 
     private ParameterDefinition(Class<?> type,
                                 boolean isConcat,
                                 boolean isOptional,
                                 String defaultValue,
+                                boolean isPrimitive,
+                                String name,
                                 List<Validator> validators) {
         this.type = type;
         this.isConcat = isConcat;
         this.isOptional = isOptional;
         this.defaultValue = defaultValue;
+        this.isPrimitive = isPrimitive;
+        this.name = name;
         this.validators = validators;
     }
 
-    public ParameterDefinition build(Parameter parameter) {
+    public static ParameterDefinition build(Parameter parameter) {
         if (parameter.isVarArgs()) {
             throw new IllegalArgumentException("VarArgs is not supported for parameters");
         }
@@ -56,11 +62,16 @@ public class ParameterDefinition {
 
         // TODO validator parsing
 
+        Class<?> type = parameter.getType();
+        boolean usesPrimitives = TYPE_MAPPINGS.containsKey(type);
+
         return new ParameterDefinition(
-                TYPE_MAPPINGS.getOrDefault(parameter.getType(), parameter.getType()),
+                TYPE_MAPPINGS.getOrDefault(type, type),
                 isConcat,
                 isOptional,
                 defaultValue,
+                usesPrimitives,
+                parameter.getName(),
                 Collections.emptyList()
         );
     }
@@ -81,7 +92,15 @@ public class ParameterDefinition {
         return defaultValue;
     }
 
+    public boolean isPrimitive() {
+        return isPrimitive;
+    }
+
     public List<Validator> getValidators() {
         return validators;
+    }
+
+    public String getName() {
+        return name;
     }
 }

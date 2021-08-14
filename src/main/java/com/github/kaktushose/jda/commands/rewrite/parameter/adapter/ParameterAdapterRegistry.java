@@ -48,4 +48,9 @@ public class ParameterAdapterRegistry {
     public Optional<ParameterAdapter<?>> get(Class<?> type) {
         return Optional.ofNullable(parameterAdapters.get(type));
     }
+
+    public boolean exists(Class<?> type) {
+        return parameterAdapters.containsKey(type);
+    }
+
 }
