@@ -2,20 +2,19 @@ package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.middleware.Middleware;
 import com.github.kaktushose.jda.commands.rewrite.parameter.ParameterDefinition;
 import com.github.kaktushose.jda.commands.rewrite.parameter.adapter.ParameterAdapterRegistry;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class CommandDefinition {
 
@@ -25,6 +24,7 @@ public class CommandDefinition {
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
     private final List<Middleware> middlewares;
+    private final boolean isSuper;
     private final Method method;
     private final Object instance;
 
@@ -33,6 +33,7 @@ public class CommandDefinition {
                               List<ParameterDefinition> parameters,
                               Set<String> permissions,
                               List<Middleware> middlewares,
+                              boolean isSuper,
                               Method method,
                               Object instance) {
         this.labels = labels;
@@ -40,6 +41,7 @@ public class CommandDefinition {
         this.parameters = parameters;
         this.permissions = permissions;
         this.middlewares = middlewares;
+        this.isSuper = isSuper;
         this.method = method;
         this.instance = instance;
     }
@@ -53,7 +55,11 @@ public class CommandDefinition {
             return Optional.empty();
         }
 
-        // TODO permissions
+        Set<String> permissions = new HashSet<>();
+        if (method.isAnnotationPresent(Permission.class)) {
+            Permission permission = method.getAnnotation(Permission.class);
+            permissions = Sets.newHashSet(permission.value());
+        }
         // TODO middlewares
 
         // generate possible labels
@@ -132,10 +138,11 @@ public class CommandDefinition {
 
         return Optional.of(new CommandDefinition(
                 labels,
-                CommandMetadata.build(command),
+                CommandMetadata.build(command, commandController),
                 parameters,
+                permissions,
                 null,
-                null,
+                command.isSuper(),
                 method,
                 instance
         ));
@@ -165,6 +172,10 @@ public class CommandDefinition {
 
     public List<Middleware> getMiddlewares() {
         return middlewares;
+    }
+
+    public boolean isSuper() {
+        return isSuper;
     }
 
     public Method getMethod() {

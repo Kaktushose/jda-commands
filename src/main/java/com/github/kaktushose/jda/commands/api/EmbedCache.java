@@ -60,6 +60,7 @@ public class EmbedCache {
     public EmbedCache(String file) {
         embedMap = new ConcurrentHashMap<>();
         this.file = new File(file);
+        this.stream = null;
     }
 
     /**

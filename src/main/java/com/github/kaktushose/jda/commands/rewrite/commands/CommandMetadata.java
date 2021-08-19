@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
+import com.github.kaktushose.jda.commands.annotations.CommandController;
 
 public class CommandMetadata {
 
@@ -16,8 +17,12 @@ public class CommandMetadata {
         this.category = category;
     }
 
-    public static CommandMetadata build(Command command) {
-        return new CommandMetadata(command.name(), command.desc(), command.usage(), command.category());
+    public static CommandMetadata build(Command command, CommandController commandController) {
+        String category = commandController.category();
+        if (!command.category().equals("Other")) {
+            category = command.category();
+        }
+        return new CommandMetadata(command.name(), command.desc(), command.usage(), category);
     }
 
     public String getName() {

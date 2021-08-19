@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Methods annotated with Command will be registered as a command at startup.
  *
  * <p>Therefore the method must be declared inside a class that is annotated with {@link CommandController}.
- * Furthermore the method signature has to meet the following conditions:
+ * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>public access modifier and no return type</li>
  * <li>First parameter must be of type {@link com.github.kaktushose.jda.commands.entities.CommandEvent}</li>
@@ -31,6 +31,8 @@ import java.lang.annotation.Target;
 public @interface Command {
 
     String[] value() default "";
+
+    boolean isSuper() default false;
 
     String name() default "N/A";
 
