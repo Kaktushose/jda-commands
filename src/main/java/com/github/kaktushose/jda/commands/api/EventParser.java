@@ -72,7 +72,7 @@ public class EventParser {
      * Parses an {@code GuildMessageReceivedEvent} by removing whitespaces and the prefix from the message and then
      * splitting it at each blank space. This method gets invoked if an event is valid and thus ready to be processed.
      *
-     * @param event    the corresponding {@code GuildMessageReceivedEvent}
+     * @param event the corresponding {@code GuildMessageReceivedEvent}
      * @return the split user input
      */
     public String[] parseEvent(GuildMessageReceivedEvent event) {

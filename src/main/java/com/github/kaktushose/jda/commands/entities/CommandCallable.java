@@ -144,7 +144,7 @@ public class CommandCallable {
     public String toString() {
         return method.getName() + "{" +
                 "labels=" + labels +
-                ", parameters=" + parameters.toString() +
+                ", parameters=" + parameters +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", usage='" + usage + '\'' +

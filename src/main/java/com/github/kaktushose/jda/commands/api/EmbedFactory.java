@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
-import com.github.kaktushose.jda.commands.internal.Patterns;
 import com.github.kaktushose.jda.commands.internal.ParameterType;
+import com.github.kaktushose.jda.commands.internal.Patterns;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -145,8 +145,8 @@ public class EmbedFactory {
     /**
      * Creates an embed that provides help if the user executing the command is muted.
      *
-     * @param settings        the {@link CommandSettings}
-     * @param event           the corresponding {@code GuildMessageReceivedEvent}
+     * @param settings the {@link CommandSettings}
+     * @param event    the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
     public MessageEmbed getUserMutedEmbed(@Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {

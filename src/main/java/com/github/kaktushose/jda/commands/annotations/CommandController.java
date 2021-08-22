@@ -21,9 +21,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandController {
+
     String[] value() default "";
+
+    String category() default "Other";
 
     boolean isActive() default true;
 
-    String category() default "Other";
 }

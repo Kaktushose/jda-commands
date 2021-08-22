@@ -141,7 +141,8 @@ public final class CommandDispatcher extends ListenerAdapter {
         Optional<CommandCallable> command = commandMapper.findCommand(commands, input, settings.isIgnoreLabelCase());
         if (!command.isPresent()) {
             log.debug("No command for input {} found", Arrays.toString(input));
-            if (settings.isEmbedAtNotFound()) event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
+            if (settings.isEmbedAtNotFound())
+                event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
             return;
         }
         CommandCallable commandCallable = command.get();

@@ -34,6 +34,8 @@ public @interface Command {
 
     boolean isSuper() default false;
 
+    boolean isDM() default true;
+
     String name() default "N/A";
 
     String desc() default "N/A";

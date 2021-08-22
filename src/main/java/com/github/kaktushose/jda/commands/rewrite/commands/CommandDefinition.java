@@ -2,10 +2,10 @@ package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import com.github.kaktushose.jda.commands.rewrite.middleware.Middleware;
 import com.github.kaktushose.jda.commands.rewrite.parameter.ParameterDefinition;
 import com.github.kaktushose.jda.commands.rewrite.parameter.adapter.ParameterAdapterRegistry;
 import com.google.common.collect.Sets;
@@ -23,8 +23,9 @@ public class CommandDefinition {
     private final CommandMetadata metadata;
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
-    private final List<Middleware> middlewares;
+    private final CooldownDefinition cooldown;
     private final boolean isSuper;
+    private final boolean isDM;
     private final Method method;
     private final Object instance;
 
@@ -32,16 +33,18 @@ public class CommandDefinition {
                               CommandMetadata metadata,
                               List<ParameterDefinition> parameters,
                               Set<String> permissions,
-                              List<Middleware> middlewares,
+                              CooldownDefinition cooldown,
                               boolean isSuper,
+                              boolean isDM,
                               Method method,
                               Object instance) {
         this.labels = labels;
         this.metadata = metadata;
         this.parameters = parameters;
         this.permissions = permissions;
-        this.middlewares = middlewares;
+        this.cooldown = cooldown;
         this.isSuper = isSuper;
+        this.isDM = isDM;
         this.method = method;
         this.instance = instance;
     }
@@ -60,7 +63,6 @@ public class CommandDefinition {
             Permission permission = method.getAnnotation(Permission.class);
             permissions = Sets.newHashSet(permission.value());
         }
-        // TODO middlewares
 
         // generate possible labels
         List<String> labels = new ArrayList<>();
@@ -141,8 +143,9 @@ public class CommandDefinition {
                 CommandMetadata.build(command, commandController),
                 parameters,
                 permissions,
-                null,
+                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isSuper(),
+                command.isDM(),
                 method,
                 instance
         ));
@@ -170,12 +173,16 @@ public class CommandDefinition {
         return permissions;
     }
 
-    public List<Middleware> getMiddlewares() {
-        return middlewares;
+    public CooldownDefinition getCooldown() {
+        return cooldown;
     }
 
     public boolean isSuper() {
         return isSuper;
+    }
+
+    public boolean isDM() {
+        return isDM;
     }
 
     public Method getMethod() {

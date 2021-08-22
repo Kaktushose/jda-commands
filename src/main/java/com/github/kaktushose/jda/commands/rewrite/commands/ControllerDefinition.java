@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import com.github.kaktushose.jda.commands.rewrite.middleware.Middleware;
 import com.github.kaktushose.jda.commands.rewrite.parameter.adapter.ParameterAdapterRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -17,14 +17,11 @@ public class ControllerDefinition {
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
     private final CommandDefinition superCommand;
     private final List<CommandDefinition> commands;
-    private final List<Middleware> middlewares;
 
     private ControllerDefinition(CommandDefinition superCommand,
-                                 List<CommandDefinition> commands,
-                                 List<Middleware> middlewares) {
+                                 List<CommandDefinition> commands) {
         this.superCommand = superCommand;
         this.commands = commands;
-        this.middlewares = middlewares;
     }
 
     public static Optional<ControllerDefinition> build(Class<?> controllerClass, ParameterAdapterRegistry registry) {
@@ -51,6 +48,12 @@ public class ControllerDefinition {
         if (controllerClass.isAnnotationPresent(Permission.class)) {
             Permission permission = controllerClass.getAnnotation(Permission.class);
             permissions = Sets.newHashSet(permission.value());
+        }
+
+        // get controller level cooldown and use it if no command level cooldown is present
+        CooldownDefinition cooldown = null;
+        if (controllerClass.isAnnotationPresent(Cooldown.class)) {
+            cooldown = CooldownDefinition.build(controllerClass.getAnnotation(Cooldown.class));
         }
 
         // index commands
@@ -81,15 +84,16 @@ public class ControllerDefinition {
                 );
                 return Optional.empty();
             }
+
+            if (commandDefinition.getCooldown().getDelay() == 0) {
+                commandDefinition.getCooldown().set(cooldown);
+            }
+
             commands.add(commandDefinition);
 
         }
 
-        return Optional.of(new ControllerDefinition(
-                superCommand,
-                commands,
-                Collections.emptyList()
-        ));
+        return Optional.of(new ControllerDefinition(superCommand, commands));
     }
 
     public boolean hasSuperCommand() {
@@ -104,7 +108,4 @@ public class ControllerDefinition {
         return commands;
     }
 
-    public List<Middleware> getMiddlewares() {
-        return middlewares;
-    }
 }

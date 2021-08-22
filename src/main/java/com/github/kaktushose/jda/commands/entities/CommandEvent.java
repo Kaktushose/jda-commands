@@ -152,7 +152,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * consumer.
      *
      * @param embedDTO the {@link EmbedDTO} to send
-     * @param success      the JDA RestAction success consumer
+     * @param success  the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     public void reply(@Nonnull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
