@@ -2,10 +2,16 @@ package com.github.kaktushose.jda.commands.rewrite.parameter;
 
 import com.github.kaktushose.jda.commands.annotations.Concat;
 import com.github.kaktushose.jda.commands.annotations.Optional;
+import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.rewrite.validation.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
+import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +37,7 @@ public class ParameterDefinition {
     private final String defaultValue;
     private final boolean isPrimitive;
     private final String name;
-    private final List<Validator> validators;
+    private final List<ConstraintDefinition> constraints;
 
     private ParameterDefinition(Class<?> type,
                                 boolean isConcat,
@@ -39,17 +45,17 @@ public class ParameterDefinition {
                                 String defaultValue,
                                 boolean isPrimitive,
                                 String name,
-                                List<Validator> validators) {
+                                List<ConstraintDefinition> constraints) {
         this.type = type;
         this.isConcat = isConcat;
         this.isOptional = isOptional;
         this.defaultValue = defaultValue;
         this.isPrimitive = isPrimitive;
         this.name = name;
-        this.validators = validators;
+        this.constraints = constraints;
     }
 
-    public static ParameterDefinition build(Parameter parameter) {
+    public static ParameterDefinition build(Parameter parameter, ValidatorRegistry registry) {
         if (parameter.isVarArgs()) {
             throw new IllegalArgumentException("VarArgs is not supported for parameters");
         }
@@ -58,21 +64,47 @@ public class ParameterDefinition {
 
         final boolean isOptional = parameter.isAnnotationPresent(Optional.class);
 
-        final String defaultValue = parameter.getAnnotation(Optional.class).value();
+        String defaultValue = "";
+        if (isOptional) {
+            defaultValue = parameter.getAnnotation(Optional.class).value();
+        }
 
-        // TODO validator parsing
+        Class<?> parameterType = parameter.getType();
+        parameterType = TYPE_MAPPINGS.getOrDefault(parameterType, parameterType);
 
-        Class<?> type = parameter.getType();
-        boolean usesPrimitives = TYPE_MAPPINGS.containsKey(type);
+        // index constraints
+        List<ConstraintDefinition> constraints = new ArrayList<>();
+        for (Annotation annotation : parameter.getAnnotations()) {
+            Class<?> annotationType = annotation.annotationType();
+            if (!annotationType.isAnnotationPresent(Constraint.class)) {
+                continue;
+            }
+
+            // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
+            String message = "Parameter validation failed";
+            try {
+                Method method = annotationType.getDeclaredMethod("message");
+                message = (String) method.invoke(annotation);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+            }
+
+            java.util.Optional<Validator> optional = registry.get(annotationType, parameterType);
+            if (optional.isPresent()) {
+                constraints.add(new ConstraintDefinition(optional.get(), message));
+            }
+        }
+
+        // this value is only used to determine if a default value must be present (primitives cannot be null)
+        boolean usesPrimitives = TYPE_MAPPINGS.containsKey(parameter.getType());
 
         return new ParameterDefinition(
-                TYPE_MAPPINGS.getOrDefault(type, type),
+                parameterType,
                 isConcat,
                 isOptional,
                 defaultValue,
                 usesPrimitives,
                 parameter.getName(),
-                Collections.emptyList()
+                constraints
         );
     }
 
@@ -96,8 +128,8 @@ public class ParameterDefinition {
         return isPrimitive;
     }
 
-    public List<Validator> getValidators() {
-        return validators;
+    public List<ConstraintDefinition> getConstraints() {
+        return constraints;
     }
 
     public String getName() {

@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
-import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.parameter.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,9 @@ public class ControllerDefinition {
         this.commands = commands;
     }
 
-    public static Optional<ControllerDefinition> build(Class<?> controllerClass, ParameterAdapterRegistry registry) {
+    public static Optional<ControllerDefinition> build(Class<?> controllerClass,
+                                                       ParameterAdapterRegistry adapterRegistry,
+                                                       ValidatorRegistry validatorRegistry) {
         CommandController commandController = controllerClass.getAnnotation(CommandController.class);
 
         if (!commandController.isActive()) {
@@ -52,15 +54,15 @@ public class ControllerDefinition {
 
         // get controller level cooldown and use it if no command level cooldown is present
         CooldownDefinition cooldown = null;
-        if (controllerClass.isAnnotationPresent(Cooldown.class)) {
-            cooldown = CooldownDefinition.build(controllerClass.getAnnotation(Cooldown.class));
+        if (controllerClass.isAnnotationPresent(com.github.kaktushose.jda.commands.annotations.Cooldown.class)) {
+            cooldown = CooldownDefinition.build(controllerClass.getAnnotation(com.github.kaktushose.jda.commands.annotations.Cooldown.class));
         }
 
         // index commands
         CommandDefinition superCommand = null;
         List<CommandDefinition> commands = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
-            Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, registry);
+            Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, adapterRegistry, validatorRegistry);
 
             if (!optional.isPresent()) {
                 continue;

@@ -2,12 +2,12 @@ package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
-import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.parameter.ParameterDefinition;
 import com.github.kaktushose.jda.commands.rewrite.parameter.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,10 @@ public class CommandDefinition {
         this.instance = instance;
     }
 
-    public static Optional<CommandDefinition> build(Method method, Object instance, ParameterAdapterRegistry registry) {
+    public static Optional<CommandDefinition> build(Method method,
+                                                    Object instance,
+                                                    ParameterAdapterRegistry adapterRegistry,
+                                                    ValidatorRegistry validatorRegistry) {
         Command command = method.getAnnotation(Command.class);
         CommandController commandController = method.getDeclaringClass().getAnnotation(CommandController.class);
 
@@ -76,7 +79,7 @@ public class CommandDefinition {
         // build parameter definitions
         List<ParameterDefinition> parameters = new ArrayList<>();
         for (Parameter parameter : method.getParameters()) {
-            parameters.add(ParameterDefinition.build(parameter));
+            parameters.add(ParameterDefinition.build(parameter, validatorRegistry));
         }
 
         // validate parameter definitions
@@ -86,27 +89,22 @@ public class CommandDefinition {
             Class<?> type = parameter.getType();
 
             // first argument must be a CommandEvent
-            if (i == 0) {
-                if (!type.isAssignableFrom(CommandEvent.class)) {
-                    logError(String.format("First parameter must be of type %s!", CommandEvent.class.getName()), method);
-                    return Optional.empty();
-                }
-                continue;
+            if (i == 0 && !type.isAssignableFrom(CommandEvent.class)) {
+                logError(String.format("First parameter must be of type %s!", CommandEvent.class.getName()), method);
+                return Optional.empty();
             }
 
             // check if parameter adapter exists
-            if (!registry.exists(type)) {
+            if (!adapterRegistry.exists(type)) {
                 logError(String.format("No parameter adapter for %s found!", type.getName()), method);
                 return Optional.empty();
             }
 
             // argument parsing can be skipped by using just a String array (the traditional way of command frameworks)
             // this means that no other parameters are allowed in this case
-            if (type.isAssignableFrom(String[].class)) {
-                if (parameters.size() > 2) {
-                    logError("Additional parameters aren't allowed when using arrays!", method);
-                    return Optional.empty();
-                }
+            if (type.isAssignableFrom(String[].class) && parameters.size() > 2) {
+                logError("Additional parameters aren't allowed when using arrays!", method);
+                return Optional.empty();
             }
 
             // String concatenation is enabled
@@ -143,7 +141,7 @@ public class CommandDefinition {
                 CommandMetadata.build(command, commandController),
                 parameters,
                 permissions,
-                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
+                CooldownDefinition.build(method.getAnnotation(com.github.kaktushose.jda.commands.annotations.Cooldown.class)),
                 command.isSuper(),
                 command.isDM(),
                 method,
