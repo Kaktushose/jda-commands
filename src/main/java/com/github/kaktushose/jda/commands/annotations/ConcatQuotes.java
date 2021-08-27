@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * @see Command
  * @since 1.1.3
  */
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConcatQuotes {
 }
