@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public final class CommandDispatcher extends ListenerAdapter {
 
@@ -158,7 +157,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         int from = commandCallable.getLabels().get(0).split(" ").length;
         List<String> rawArguments = Arrays.asList(input).subList(from, input.length);
         if (commandCallable.getMethod().isAnnotationPresent(ConcatQuotes.class)) {
-            rawArguments = QuotedArgsParser.parseArguments(String.join(" ", input));
+            rawArguments = QuotedArgsParser.parseArguments(String.join(" ", rawArguments));
         }
 
         Optional<List<Object>> parsedArguments = argumentParser.parseArguments(commandCallable, event, rawArguments, jdaCommands);
