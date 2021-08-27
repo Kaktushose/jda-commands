@@ -49,7 +49,7 @@ public class EventParser {
 
         String message = event.getMessage().getContentDisplay();
         String prefix = settings.getPrefix();
-        if (message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith)) {
+        if (startsWithPrefix(message, settings)) {
             usedPrefix = settings.getPrefixAliases().stream().filter(message::startsWith).findFirst().orElse(prefix);
             return true;
         }
@@ -108,6 +108,17 @@ public class EventParser {
                 return settings.getPermissionHolders(permission).contains(event.getAuthor().getIdLong());
             }
         });
+    }
+
+    /**
+     * Checks if the {@code Message} starts with the prefix, or it's alternatives in {@link CommandSettings}
+     * @param message the {@link String} to check on
+     * @param settings the {@link CommandSettings} to use the prefixes from
+     * @return {@code true} if the Message starts with a prefix
+     */
+    public boolean startsWithPrefix(String message, CommandSettings settings) {
+        String prefix = settings.getPrefix();
+        return message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith);
     }
 
 }
