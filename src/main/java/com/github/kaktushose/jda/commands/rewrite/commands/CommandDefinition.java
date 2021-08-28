@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.rewrite.commands;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
@@ -141,7 +142,7 @@ public class CommandDefinition {
                 CommandMetadata.build(command, commandController),
                 parameters,
                 permissions,
-                CooldownDefinition.build(method.getAnnotation(com.github.kaktushose.jda.commands.annotations.Cooldown.class)),
+                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isSuper(),
                 command.isDM(),
                 method,
