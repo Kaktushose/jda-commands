@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.internal;
 
-import com.github.kaktushose.jda.commands.annotations.Produces;
+import com.github.kaktushose.jda.commands.rewrite.annotations.Produces;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

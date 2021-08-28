@@ -241,12 +241,12 @@ public class JDACommandsBuilder {
     }
 
     /**
-     * Registers a class containing {@link com.github.kaktushose.jda.commands.annotations.Produces} methods that are
+     * Registers a class containing {@link com.github.kaktushose.jda.commands.rewrite.annotations.Produces} methods that are
      * used for dependency injection.
      *
      * @param provider a class containing
      * @return the current instance to use fluent interface
-     * @see com.github.kaktushose.jda.commands.annotations.Produces
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Produces
      */
     public JDACommandsBuilder addProvider(@Nonnull Object provider) {
         providers.add(provider);

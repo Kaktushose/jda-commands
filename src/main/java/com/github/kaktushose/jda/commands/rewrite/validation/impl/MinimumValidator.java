@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.rewrite.validation.impl;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
 import net.dv8tion.jda.api.entities.Guild;
 

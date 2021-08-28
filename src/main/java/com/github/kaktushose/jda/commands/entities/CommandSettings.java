@@ -106,7 +106,7 @@ public class CommandSettings {
      *
      * @param permission the permission to get the users for
      * @return a mutable Set containing the ids of all users with the given permission
-     * @see com.github.kaktushose.jda.commands.annotations.Permission
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Permission
      */
     public Set<Long> getPermissionHolders(@Nonnull String permission) {
         permissionHolders.putIfAbsent(permission, ConcurrentHashMap.newKeySet());
@@ -118,7 +118,7 @@ public class CommandSettings {
      *
      * @param permission the permission to get the role for
      * @return the id of the role
-     * @see com.github.kaktushose.jda.commands.annotations.Permission
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Permission
      */
     public Long getPermissionRole(@Nonnull String permission) {
         return permissionRoles.get(permission);

@@ -7,9 +7,9 @@ import javax.annotation.Nonnull;
  *
  * @author Kaktushose
  * @version 1.1.0
- * @see com.github.kaktushose.jda.commands.annotations.Command
- * @see com.github.kaktushose.jda.commands.annotations.Optional
- * @see com.github.kaktushose.jda.commands.annotations.Concat
+ * @see com.github.kaktushose.jda.commands.rewrite.annotations.Command
+ * @see com.github.kaktushose.jda.commands.rewrite.annotations.Optional
+ * @see com.github.kaktushose.jda.commands.rewrite.annotations.Concat
  * @since 1.0.0
  */
 public class Parameter {
@@ -38,7 +38,7 @@ public class Parameter {
      * Whether the parameter should be concatenated or not.
      *
      * @return {@code true} if the parameter should be concatenated
-     * @see com.github.kaktushose.jda.commands.annotations.Concat
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Concat
      */
     public boolean isConcat() {
         return isConcat;
@@ -48,7 +48,7 @@ public class Parameter {
      * Whether the parameter is optional or not.
      *
      * @return {@code true} if the parameter is optional
-     * @see com.github.kaktushose.jda.commands.annotations.Optional
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Optional
      */
     public boolean isOptional() {
         return isOptional;
@@ -58,7 +58,7 @@ public class Parameter {
      * Get the default value of the parameter
      *
      * @return default value
-     * @see com.github.kaktushose.jda.commands.annotations.Optional
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Optional
      */
     public String getDefaultValue() {
         return defaultValue;

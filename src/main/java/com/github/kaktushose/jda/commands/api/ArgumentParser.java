@@ -37,7 +37,7 @@ public class ArgumentParser {
      * @param rawArguments    the List of Strings to be parsed
      * @param jdaCommands     the {@link JDACommands} object
      * @return an optional containing a list of all casted objects or an empty optional if the argument parsing failed
-     * @see com.github.kaktushose.jda.commands.annotations.Optional
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Optional
      */
     public Optional<List<Object>> parseArguments(@Nonnull CommandCallable commandCallable,
                                                  @Nonnull GuildMessageReceivedEvent event,
