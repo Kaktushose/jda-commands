@@ -1,13 +1,14 @@
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-4.3.0__310-important)](https://github.com/DV8FromTheWorld/JDA#download)
 [![Generic badge](https://img.shields.io/badge/Download-1.1.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Grade)
-![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)
+[![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
 
 # JDA-Commands
 
-A simple yet highly customizable, annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA).
+An extendable, declarative and annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA).
 
-- Current Version: [1.1.1](https://github.com/Kaktushose/jda-commands/releases/latest)
-- JDA Version: [4.2.0_250](https://github.com/DV8FromTheWorld/JDA#download)
 - [JavaDoc](https://kaktushose.github.io/jda-commands/index.html)
 - [Wiki](https://github.com/Kaktushose/jda-commands/wiki)
 

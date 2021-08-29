@@ -90,7 +90,6 @@ public class ParameterDefinition {
                 Method method = annotationType.getDeclaredMethod("message");
                 message = (String) method.invoke(annotation);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
-                ignored.printStackTrace();
             }
             if (message.isEmpty()) {
                 message = "Parameter validation failed";
