@@ -6,10 +6,12 @@ public class ConstraintDefinition {
 
     private final Validator validator;
     private final String message;
+    private final Object annotation;
 
-    public ConstraintDefinition(Validator validator, String message) {
+    public ConstraintDefinition(Validator validator, String message, Object annotation) {
         this.validator = validator;
         this.message = message;
+        this.annotation = annotation;
     }
 
     public Validator getValidator() {
@@ -18,5 +20,9 @@ public class ConstraintDefinition {
 
     public String getMessage() {
         return message;
+    }
+
+    public Object getAnnotation() {
+        return annotation;
     }
 }

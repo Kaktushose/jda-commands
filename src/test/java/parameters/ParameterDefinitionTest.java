@@ -1,5 +1,6 @@
 package parameters;
 
+import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.rewrite.validation.impl.MinimumValidator;
@@ -38,7 +39,7 @@ public class ParameterDefinitionTest {
     }
 
     @Test
-    public void optional_withoutDefault_ShouldWork() throws NoSuchMethodException {
+    public void optional_withoutDefault_ShouldBeNull() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optional", Object.class);
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
@@ -76,7 +77,7 @@ public class ParameterDefinitionTest {
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
         assertEquals(1, parameter.getConstraints().size());
-        assertEquals(10, 0);
+        assertEquals(10, ((Min) parameter.getConstraints().get(0).getAnnotation()).value());
         assertEquals(MinimumValidator.class, parameter.getConstraints().get(0).getValidator().getClass());
         assertEquals("Parameter validation failed", parameter.getConstraints().get(0).getMessage());
     }

@@ -56,20 +56,25 @@ public class ParameterDefinition {
 
     public static ParameterDefinition build(Parameter parameter, ValidatorRegistry registry) {
         if (parameter.isVarArgs()) {
-            throw new IllegalArgumentException("VarArgs is not supported for parameters");
-        }
-
-        final boolean isConcat = parameter.isAnnotationPresent(Concat.class);
-
-        final boolean isOptional = parameter.isAnnotationPresent(Optional.class);
-
-        String defaultValue = "";
-        if (isOptional) {
-            defaultValue = parameter.getAnnotation(Optional.class).value();
+            throw new IllegalArgumentException("VarArgs is not supported for parameters!");
         }
 
         Class<?> parameterType = parameter.getType();
         parameterType = TYPE_MAPPINGS.getOrDefault(parameterType, parameterType);
+
+        final boolean isConcat = parameter.isAnnotationPresent(Concat.class);
+        if (isConcat && !String.class.isAssignableFrom(parameterType)) {
+            throw new IllegalArgumentException("Concat can only be applied to Strings!");
+        }
+
+        final boolean isOptional = parameter.isAnnotationPresent(Optional.class);
+        String defaultValue = "";
+        if (isOptional) {
+            defaultValue = parameter.getAnnotation(Optional.class).value();
+        }
+        if (defaultValue.isEmpty()) {
+            defaultValue = null;
+        }
 
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
@@ -80,16 +85,20 @@ public class ParameterDefinition {
             }
 
             // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
-            String message = "Parameter validation failed";
+            String message = "";
             try {
                 Method method = annotationType.getDeclaredMethod("message");
                 message = (String) method.invoke(annotation);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+                ignored.printStackTrace();
+            }
+            if (message.isEmpty()) {
+                message = "Parameter validation failed";
             }
 
             java.util.Optional<Validator> optional = registry.get(annotationType, parameterType);
             if (optional.isPresent()) {
-                constraints.add(new ConstraintDefinition(optional.get(), message));
+                constraints.add(new ConstraintDefinition(optional.get(), message, annotation));
             }
         }
 
