@@ -15,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public final class CommandDispatcher extends ListenerAdapter {
 
@@ -126,7 +123,7 @@ public final class CommandDispatcher extends ListenerAdapter {
             return;
         }
 
-        if (settings.getHelpLabels().stream().anyMatch(s -> s.startsWith(input[0]))) {
+        if (settings.getHelpLabels().stream().anyMatch(s -> settings.isIgnoreLabelCase() ? s.startsWith(input[0].toLowerCase(Locale.ROOT)) : s.startsWith(input[0]))) {
             Optional<CommandCallable> command = commandMapper.findCommand(commands, Arrays.copyOfRange(input, 1, input.length), settings.isIgnoreLabelCase());
             if (command.isPresent()) {
                 log.info("Executing specific help command for {}", event.getAuthor());
