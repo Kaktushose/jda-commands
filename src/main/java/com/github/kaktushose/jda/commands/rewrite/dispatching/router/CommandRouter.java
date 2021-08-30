@@ -6,7 +6,6 @@ public class CommandRouter implements Router {
 
     @Override
     public void apply(CommandContext context) {
-        return;
     }
 
 }
