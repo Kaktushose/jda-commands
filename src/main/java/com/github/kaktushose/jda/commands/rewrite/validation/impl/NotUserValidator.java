@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.rewrite.validation.impl;
 
-import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.User;
 import com.github.kaktushose.jda.commands.rewrite.adapters.impl.MemberAdapter;
+import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.User;
 import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
