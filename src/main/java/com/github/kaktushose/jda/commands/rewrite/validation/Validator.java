@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.rewrite.validation;
 
-import net.dv8tion.jda.api.entities.Guild;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 
 public interface Validator {
 
-    boolean validate(Object argument, Object annotation, Guild guild);
+    boolean validate(Object argument, Object annotation, CommandContext context);
 
 }

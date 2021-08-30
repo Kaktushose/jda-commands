@@ -1,16 +1,16 @@
 package com.github.kaktushose.jda.commands.rewrite.validation.impl;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Perm;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 //TODO support own permission system
 public class PermissionValidator implements Validator {
 
     @Override
-    public boolean validate(Object argument, Object annotation, Guild guild) {
+    public boolean validate(Object argument, Object annotation, CommandContext context) {
         Permission permission;
         try {
             Perm perm = (Perm) annotation;

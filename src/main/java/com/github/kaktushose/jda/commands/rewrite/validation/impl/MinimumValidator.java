@@ -1,13 +1,13 @@
 package com.github.kaktushose.jda.commands.rewrite.validation.impl;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
-import net.dv8tion.jda.api.entities.Guild;
 
 public class MinimumValidator implements Validator {
 
     @Override
-    public boolean validate(Object argument, Object annotation, Guild guild) {
+    public boolean validate(Object argument, Object annotation, CommandContext context) {
         Min min = (Min) annotation;
         return ((Number) argument).longValue() >= min.value();
     }
