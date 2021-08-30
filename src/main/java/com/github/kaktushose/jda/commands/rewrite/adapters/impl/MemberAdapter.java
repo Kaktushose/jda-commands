@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.rewrite.adapters.impl;
 
 import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapter;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
@@ -9,10 +10,11 @@ import java.util.Optional;
 public class MemberAdapter implements ParameterAdapter<Member> {
 
     @Override
-    public Optional<Member> parse(String raw, Guild guild) {
+    public Optional<Member> parse(String raw, CommandContext context) {
         Member member;
+        Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
-            member = guild.getMemberById(raw);
+            member = guild.retrieveMemberById(raw).complete();
         } else {
             member = guild.getMembersByName(raw, true).stream().findFirst().orElse(null);
         }

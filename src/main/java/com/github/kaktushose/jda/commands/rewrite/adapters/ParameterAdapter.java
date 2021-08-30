@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.rewrite.adapters;
 
-import net.dv8tion.jda.api.entities.Guild;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 
 import java.util.Optional;
 
 public interface ParameterAdapter<T> {
 
-    Optional<T> parse(String raw, Guild guild);
+    Optional<T> parse(String raw, CommandContext context);
 
 }
