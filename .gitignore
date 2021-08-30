@@ -3,4 +3,4 @@
 target/
 src/main/java/test
 src/main/resources
-todo.txt
+/logs

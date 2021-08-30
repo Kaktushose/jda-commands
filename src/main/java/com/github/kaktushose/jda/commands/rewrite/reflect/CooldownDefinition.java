@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.Cooldown;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.TimeUnit;
 
 public class CooldownDefinition {
@@ -17,7 +17,10 @@ public class CooldownDefinition {
         this.perUser = perUser;
     }
 
-    public static CooldownDefinition build(Cooldown cooldown) {
+    public static CooldownDefinition build(@Nullable Cooldown cooldown) {
+        if (cooldown == null) {
+            return new CooldownDefinition(0, TimeUnit.MILLISECONDS, true);
+        }
         return new CooldownDefinition(cooldown.value(), cooldown.timeUnit(), cooldown.perUser());
     }
 

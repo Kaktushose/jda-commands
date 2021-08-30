@@ -1,41 +1,91 @@
 package commands;
 
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import com.github.kaktushose.jda.commands.rewrite.annotations.*;
 
+import java.util.concurrent.TimeUnit;
+
+@CommandController
 public class CommandDefinitionTestController {
 
+    public void noAnnotation() {
+    }
+
+    @Command
     public void noArgs() {
     }
 
-    public void noCommandEvent(Object argument) {
+    @Command
+    public void noCommandEvent(int i) {
     }
 
+    @Command
+    public void wrongCommandEvent(int i, CommandEvent event) {
+    }
+
+    @Command
+    public void commandEvent(CommandEvent event) {
+    }
+
+    @Command
+    public void unsupported(CommandEvent event, UnsupportedType type) {
+    }
+
+    @Command
     public void arrayArgument(CommandEvent event, String[] args) {
 
     }
 
-    public void argsAfterArray(CommandEvent event, String[] args, Object argument) {
+    @Command
+    public void argsAfterArray(CommandEvent event, String[] args, int i) {
 
     }
 
-    public void supportedPrimitiveTypes(CommandEvent event, boolean bool, byte b, char c, double d, float f, int i, long l, short s) {
+    @Command
+    public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
 
     }
 
-    public void supportedWrapperTypes(CommandEvent event, Boolean bool, Byte b, Character c, Double d, Float f, Integer i, Long l, Short s, String string) {
+    @Command
+    public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
 
     }
 
-    public void supportedJDATypes(CommandEvent event, Member member, User user, Role role, TextChannel textChannel) {
+    @Command
+    public void argsAfterConcat(CommandEvent event, @Concat String s, int i) {
 
     }
 
-    public void unsupportedType(CommandEvent event, UnsupportedType argument) {
+    @Command(isActive = false)
+    public void inactive() {
 
     }
 
+    @Command(isSuper = true, isDM = false)
+    public void superAndDM(CommandEvent event) {
+
+    }
+
+    @Command(value = {"sub", "subAlias"})
+    public void label(CommandEvent event) {
+
+    }
+
+    @Command
+    @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
+    public void zeroCooldown(CommandEvent event) {
+
+    }
+
+    @Command
+    @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
+    public void cooldown(CommandEvent event) {
+
+    }
+
+    @Command
+    @Permission("permission")
+    public void permission(CommandEvent event) {
+
+    }
 }

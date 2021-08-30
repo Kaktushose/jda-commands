@@ -1,12 +1,11 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
+import com.github.kaktushose.jda.commands.entities.CommandEvent;
+import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Command;
 import com.github.kaktushose.jda.commands.rewrite.annotations.CommandController;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Permission;
-import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -53,6 +52,11 @@ public class CommandDefinition {
                                                     Object instance,
                                                     ParameterAdapterRegistry adapterRegistry,
                                                     ValidatorRegistry validatorRegistry) {
+
+        if (!method.isAnnotationPresent(Command.class) || !method.getDeclaringClass().isAnnotationPresent(CommandController.class)) {
+            return Optional.empty();
+        }
+
         Command command = method.getAnnotation(Command.class);
         CommandController commandController = method.getDeclaringClass().getAnnotation(CommandController.class);
 
@@ -82,6 +86,11 @@ public class CommandDefinition {
             parameters.add(ParameterDefinition.build(parameter, validatorRegistry));
         }
 
+        if (parameters.size() < 1) {
+            logError(String.format("First parameter must be of type %s!", CommandEvent.class.getSimpleName()), method);
+            return Optional.empty();
+        }
+
         // validate parameter definitions
         boolean hasOptional = false;
         for (int i = 0; i < parameters.size(); i++) {
@@ -89,9 +98,12 @@ public class CommandDefinition {
             Class<?> type = parameter.getType();
 
             // first argument must be a CommandEvent
-            if (i == 0 && !type.isAssignableFrom(CommandEvent.class)) {
-                logError(String.format("First parameter must be of type %s!", CommandEvent.class.getName()), method);
-                return Optional.empty();
+            if (i == 0) {
+                if (!CommandEvent.class.isAssignableFrom(type)) {
+                    logError(String.format("First parameter must be of type %s!", CommandEvent.class.getSimpleName()), method);
+                    return Optional.empty();
+                }
+                continue;
             }
 
             // check if parameter adapter exists
@@ -114,11 +126,6 @@ public class CommandDefinition {
                     logError("Concatenation may be only enabled for the last parameter", method);
                     return Optional.empty();
                 }
-                // must be a String
-                if (!type.isAssignableFrom(String.class)) {
-                    logError("Concatenation is enabled but last parameter is not a String!", method);
-                    return Optional.empty();
-                }
             }
 
             // if method already had an optional parameter (hasOptional == true) this one has to be optional as well
@@ -128,7 +135,7 @@ public class CommandDefinition {
             }
             if (parameter.isOptional()) {
                 // using primitives with default values results in NPEs. Warn the user about it
-                if (parameter.getDefaultValue().equals("") && parameter.isPrimitive()) {
+                if (parameter.getDefaultValue() == null && parameter.isPrimitive()) {
                     log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
                             "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());
                 }
@@ -150,9 +157,10 @@ public class CommandDefinition {
     }
 
     private static void logError(String message, Method commandMethod) {
-        log.error("An error has occurred! Skipping Command {}!",
+        log.error("An error has occurred! Skipping Command \"{}.{}\"\nCommand method has an invalid method signature! {}",
+                commandMethod.getDeclaringClass().getSimpleName(),
                 commandMethod.getName(),
-                new CommandException("Command method has an invalid method signature! " + message));
+                message);
     }
 
     public List<String> getLabels() {
@@ -173,6 +181,10 @@ public class CommandDefinition {
 
     public CooldownDefinition getCooldown() {
         return cooldown;
+    }
+
+    public boolean hasCooldown() {
+        return getCooldown().getDelay() > 0;
     }
 
     public boolean isSuper() {

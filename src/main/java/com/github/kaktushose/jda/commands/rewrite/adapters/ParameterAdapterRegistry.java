@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.rewrite.adapters;
 
+import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.rewrite.adapters.impl.*;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -28,6 +29,7 @@ public class ParameterAdapterRegistry {
         register(Character.class, new CharacterAdapter());
         register(Boolean.class, new BooleanAdapter());
         register(String.class, (ParameterAdapter<String>) (raw, guild) -> Optional.of(raw));
+        register(String[].class, (ParameterAdapter<String>) (raw, guild) -> Optional.of(raw));
 
         // jda specific
         register(Member.class, new MemberAdapter());
