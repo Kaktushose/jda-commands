@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.rewrite.adapters;
 
-import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.rewrite.adapters.impl.*;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;

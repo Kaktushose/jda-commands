@@ -119,13 +119,10 @@ public class CommandDefinition {
                 return Optional.empty();
             }
 
-            // String concatenation is enabled
-            if (parameter.isConcat()) {
-                // must be last parameter
-                if (i != parameters.size() - 1) {
-                    logError("Concatenation may be only enabled for the last parameter", method);
-                    return Optional.empty();
-                }
+            // String concatenation is enabled => must be last parameter
+            if (parameter.isConcat() && i != parameters.size() - 1) {
+                logError("Concatenation may be only enabled for the last parameter", method);
+                return Optional.empty();
             }
 
             // if method already had an optional parameter (hasOptional == true) this one has to be optional as well

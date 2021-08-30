@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
-import com.github.kaktushose.jda.commands.rewrite.annotations.CommandController;
-import com.github.kaktushose.jda.commands.rewrite.annotations.Permission;
 import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.rewrite.annotations.CommandController;
+import com.github.kaktushose.jda.commands.rewrite.annotations.Permission;
 import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -84,7 +84,7 @@ public class ControllerDefinition {
                         commandDefinition.getMethod().getName(),
                         new CommandException("The labels for the command are already registered!")
                 );
-                return Optional.empty();
+                continue;
             }
 
             if (commandDefinition.getCooldown().getDelay() == 0) {
