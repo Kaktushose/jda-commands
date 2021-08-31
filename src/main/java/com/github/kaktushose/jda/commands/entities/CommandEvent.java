@@ -1,10 +1,11 @@
 package com.github.kaktushose.jda.commands.entities;
 
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,9 +20,9 @@ import java.util.function.Consumer;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class CommandEvent extends GuildMessageReceivedEvent {
+public class CommandEvent extends MessageReceivedEvent {
 
-    private final CommandCallable commandCallable;
+    private final CommandDefinition commandDefinition;
     private final JDACommands jdaCommands;
 
     /**
@@ -33,9 +34,9 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @param commandCallable the underlying {@link CommandCallable} object
      * @param jdaCommands     the {@link JDACommands} object
      */
-    public CommandEvent(@Nonnull JDA api, long responseNumber, @Nonnull Message message, @Nonnull CommandCallable commandCallable, JDACommands jdaCommands) {
+    public CommandEvent(@Nonnull JDA api, long responseNumber, @Nonnull Message message, @Nonnull CommandDefinition commandCallable, JDACommands jdaCommands) {
         super(api, responseNumber, message);
-        this.commandCallable = commandCallable;
+        this.commandDefinition = commandCallable;
         this.jdaCommands = jdaCommands;
     }
 
@@ -123,7 +124,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @param embedBuilder the {@code EmbedBuilder} to send
      */
     public void reply(@Nonnull EmbedBuilder embedBuilder) {
-        getChannel().sendMessage(embedBuilder.build()).queue();
+        getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
     }
 
     /**
@@ -135,7 +136,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     public void reply(@Nonnull EmbedBuilder embedBuilder, @Nullable Consumer<Message> success) {
-        getChannel().sendMessage(embedBuilder.build()).queue(success);
+        getChannel().sendMessageEmbeds(embedBuilder.build()).queue(success);
     }
 
     /**
@@ -144,7 +145,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @param embedDTO the {@link EmbedDTO} to send
      */
     public void reply(@Nonnull EmbedDTO embedDTO) {
-        getChannel().sendMessage(embedDTO.toEmbedBuilder().build()).queue();
+        getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue();
     }
 
     /**
@@ -156,7 +157,7 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     public void reply(@Nonnull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
-        getChannel().sendMessage(embedDTO.toEmbedBuilder().build()).queue(success);
+        getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue(success);
     }
 
     /**
@@ -164,8 +165,8 @@ public class CommandEvent extends GuildMessageReceivedEvent {
      *
      * @return the underlying {@link CommandCallable} object
      */
-    public CommandCallable getCommandCallable() {
-        return commandCallable;
+    public CommandDefinition getCommandDefinition() {
+        return commandDefinition;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.internal.Patterns;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -143,7 +144,7 @@ public class JsonEmbedFactory extends EmbedFactory {
      * @return the MessageEmbed to send
      */
     @Override
-    public MessageEmbed getInsufficientPermissionsEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+    public MessageEmbed getInsufficientPermissionsEmbed(CommandDefinition commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsEmbed(commandCallable, settings, event);
         }
@@ -195,7 +196,7 @@ public class JsonEmbedFactory extends EmbedFactory {
      * @return the MessageEmbed to send
      */
     @Override
-    public MessageEmbed getSyntaxErrorEmbed(@NotNull CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+    public MessageEmbed getSyntaxErrorEmbed(CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         if (!embedCache.containsEmbed("syntaxError")) {
             return super.getSyntaxErrorEmbed(commandCallable, arguments, settings, event);
         }

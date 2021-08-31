@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
 import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -144,9 +145,9 @@ public final class CommandDispatcher extends ListenerAdapter {
         }
         CommandCallable commandCallable = command.get();
 
-        if (!eventParser.hasPermission(commandCallable, event, settings)) {
+        if (!eventParser.hasPermission(null, event, settings)) {
             log.debug("{} has insufficient permissions for executing command {}", event.getAuthor(), commandCallable.getMethod().getName());
-            event.getChannel().sendMessage(embedFactory.getInsufficientPermissionsEmbed(commandCallable, settings, event)).queue();
+            event.getChannel().sendMessage(embedFactory.getInsufficientPermissionsEmbed(null, settings, event)).queue();
             return;
         }
 
@@ -159,7 +160,7 @@ public final class CommandDispatcher extends ListenerAdapter {
                     commandCallable.getMethod().getName(),
                     commandCallable.getParameters(),
                     rawArguments);
-            event.getChannel().sendMessage(embedFactory.getSyntaxErrorEmbed(commandCallable, rawArguments, settings, event)).queue();
+            event.getChannel().sendMessage(embedFactory.getSyntaxErrorEmbed(null, rawArguments, settings, event)).queue();
             return;
         }
         log.info("Executing command {} for {}", commandCallable.getMethod().getName(), event.getAuthor());

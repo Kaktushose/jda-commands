@@ -12,6 +12,7 @@ public class UserAdapter implements ParameterAdapter<User> {
     @Override
     public Optional<User> parse(String raw, CommandContext context) {
         User user;
+        raw = formatMention(raw);
         JDA jda = context.getEvent().getJDA();
         if (raw.matches("\\d+")) {
             user = jda.retrieveUserById(raw).complete();

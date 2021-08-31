@@ -12,6 +12,7 @@ public class RoleAdapter implements ParameterAdapter<Role> {
     @Override
     public Optional<Role> parse(String raw, CommandContext context) {
         Role role;
+        raw = formatMention(raw);
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
             role = guild.getRoleById(raw);

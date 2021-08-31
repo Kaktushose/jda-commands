@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.internal.ParameterType;
 import com.github.kaktushose.jda.commands.internal.Patterns;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -115,7 +116,7 @@ public class EmbedFactory {
      * @param event           the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getInsufficientPermissionsEmbed(@Nonnull CommandCallable commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+    public MessageEmbed getInsufficientPermissionsEmbed(@Nonnull CommandDefinition commandCallable, @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
         String perm = commandCallable.getPermissions().stream()
                 .map(permission -> {
                     final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);

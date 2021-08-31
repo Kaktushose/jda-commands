@@ -12,6 +12,7 @@ public class TextChannelAdapter implements ParameterAdapter<TextChannel> {
     @Override
     public Optional<TextChannel> parse(String raw, CommandContext context) {
         TextChannel textChannel;
+        raw = formatMention(raw);
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
             textChannel = guild.getTextChannelById(raw);

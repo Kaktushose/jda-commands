@@ -12,6 +12,7 @@ public class MemberAdapter implements ParameterAdapter<Member> {
     @Override
     public Optional<Member> parse(String raw, CommandContext context) {
         Member member;
+        raw = formatMention(raw);
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
             member = guild.retrieveMemberById(raw).complete();

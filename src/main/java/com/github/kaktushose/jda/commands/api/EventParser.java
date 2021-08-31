@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.internal.Patterns;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -93,7 +94,7 @@ public class EventParser {
      * @param settings        the {@link CommandSettings}
      * @return {@code true} if the event author has to required permissions
      */
-    public boolean hasPermission(CommandCallable commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
+    public boolean hasPermission(CommandDefinition commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
         return commandCallable.getPermissions().stream().allMatch(permission -> {
             final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
             if (matcher.matches()) {

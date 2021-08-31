@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
 import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.internal.ParameterType;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -45,7 +46,7 @@ public class ArgumentParser {
                                                  @Nonnull JDACommands jdaCommands) {
         List<Parameter> parameters = commandCallable.getParameters();
         List<Object> parsedArguments = new ArrayList<>();
-        parsedArguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), commandCallable, jdaCommands));
+        parsedArguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), null, jdaCommands));
 
         for (int i = 0; i < parameters.size(); i++) {
             Parameter parameter = parameters.get(i);

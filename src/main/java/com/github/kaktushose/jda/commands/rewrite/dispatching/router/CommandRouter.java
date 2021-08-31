@@ -3,8 +3,10 @@ package com.github.kaktushose.jda.commands.rewrite.dispatching.router;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CommandRouter implements Router {
@@ -14,6 +16,7 @@ public class CommandRouter implements Router {
         CommandDefinition command = null;
         String[] input = context.getInput();
 
+        AtomicInteger matchingLength = new AtomicInteger(0);
         for (int i = input.length - 1; i > -1; i--) {
 
             StringBuilder sb = new StringBuilder();
@@ -21,7 +24,6 @@ public class CommandRouter implements Router {
                 sb.append(input[j]).append(" ");
             }
             String generatedLabel = sb.toString().trim();
-
             List<CommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabels().stream().anyMatch(label -> {
                         String[] expectedLabels = label.split(" ");
                         String[] actualLabels = generatedLabel.split(" ");
@@ -41,6 +43,10 @@ public class CommandRouter implements Router {
                             } else {
                                 matches = expectedLabels[k].startsWith(actualLabels[k]);
                             }
+
+                            if (matches) {
+                                matchingLength.set(actualLabels.length);
+                            }
                         }
                         return matches;
                     })
@@ -48,12 +54,15 @@ public class CommandRouter implements Router {
 
             if (possibleCommands.size() == 1) {
                 command = possibleCommands.get(0);
+                break;
             }
 
             if (possibleCommands.size() > 1) {
                 context.setCancelled(true);
+                return;
             }
         }
+        context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
         context.setCommand(command);
     }
 }
