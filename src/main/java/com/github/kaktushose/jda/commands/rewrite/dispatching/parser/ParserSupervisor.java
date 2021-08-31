@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventListener extends ListenerAdapter {
+public class ParserSupervisor extends ListenerAdapter {
 
     private final CommandDispatcher dispatcher;
     private final Map<Class<? extends GenericEvent>, Parser<? extends GenericEvent>> listeners;
 
-    public EventListener(CommandDispatcher dispatcher) {
+    public ParserSupervisor(CommandDispatcher dispatcher) {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
     }

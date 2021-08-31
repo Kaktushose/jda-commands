@@ -14,6 +14,4 @@ public @interface Cooldown {
 
     TimeUnit timeUnit();
 
-    boolean perUser() default true;
-
 }

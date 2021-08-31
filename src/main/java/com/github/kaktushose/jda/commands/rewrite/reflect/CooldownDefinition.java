@@ -9,19 +9,17 @@ public class CooldownDefinition {
 
     private long delay;
     private TimeUnit timeUnit;
-    private boolean perUser;
 
-    private CooldownDefinition(long delay, TimeUnit timeUnit, boolean perUser) {
+    private CooldownDefinition(long delay, TimeUnit timeUnit) {
         this.delay = delay;
         this.timeUnit = timeUnit;
-        this.perUser = perUser;
     }
 
     public static CooldownDefinition build(@Nullable Cooldown cooldown) {
         if (cooldown == null) {
-            return new CooldownDefinition(0, TimeUnit.MILLISECONDS, true);
+            return new CooldownDefinition(0, TimeUnit.MILLISECONDS);
         }
-        return new CooldownDefinition(cooldown.value(), cooldown.timeUnit(), cooldown.perUser());
+        return new CooldownDefinition(cooldown.value(), cooldown.timeUnit());
     }
 
     public void set(@Nullable CooldownDefinition cooldown) {
@@ -31,7 +29,6 @@ public class CooldownDefinition {
         }
         delay = cooldown.delay;
         timeUnit = cooldown.timeUnit;
-        perUser = cooldown.perUser;
     }
 
     public long getDelay() {
@@ -48,13 +45,5 @@ public class CooldownDefinition {
 
     public void setTimeUnit(TimeUnit timeUnit) {
         this.timeUnit = timeUnit;
-    }
-
-    public boolean isPerUser() {
-        return perUser;
-    }
-
-    public void setPerUser(boolean perUser) {
-        this.perUser = perUser;
     }
 }

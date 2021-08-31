@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.rewrite.dispatching;
 
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.FilterRegistry;
-import com.github.kaktushose.jda.commands.rewrite.dispatching.parser.EventListener;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.parser.impl.MessageParser;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.router.Router;
@@ -14,7 +14,7 @@ public class CommandDispatcher {
 
     private final Object jda;
     private final boolean isShardManager;
-    private final EventListener eventListener;
+    private final ParserSupervisor parserSupervisor;
     private final Router router;
     private final FilterRegistry filterRegistry;
 
@@ -22,13 +22,13 @@ public class CommandDispatcher {
         this.jda = jda;
         this.isShardManager = isShardManager;
 
-        eventListener = new EventListener(this);
+        parserSupervisor = new ParserSupervisor(this);
         if (isShardManager) {
-            ((ShardManager) jda).addEventListener(eventListener);
+            ((ShardManager) jda).addEventListener(parserSupervisor);
         } else {
-            ((JDA) jda).addEventListener(eventListener);
+            ((JDA) jda).addEventListener(parserSupervisor);
         }
-        eventListener.addBinding(MessageReceivedEvent.class, new MessageParser());
+        parserSupervisor.addBinding(MessageReceivedEvent.class, new MessageParser());
 
         router = new CommandRouter();
         filterRegistry = new FilterRegistry();
@@ -61,7 +61,7 @@ public class CommandDispatcher {
         return isShardManager;
     }
 
-    public EventListener getEventListener() {
-        return eventListener;
+    public ParserSupervisor getEventListener() {
+        return parserSupervisor;
     }
 }
