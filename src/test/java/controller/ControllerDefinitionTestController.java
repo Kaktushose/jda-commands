@@ -20,7 +20,7 @@ public class ControllerDefinitionTestController {
 
     @Command(value = {"sub", "subAlias"})
     @Permission("subPermission")
-    @Cooldown(value = 5, timeUnit = TimeUnit.DAYS, perUser = false)
+    @Cooldown(value = 5, timeUnit = TimeUnit.DAYS)
     public void combine(CommandEvent event) {
 
     }

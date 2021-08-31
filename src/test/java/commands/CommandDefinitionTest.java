@@ -183,7 +183,6 @@ public class CommandDefinitionTest {
         assertTrue(definition.hasCooldown());
         assertEquals(10, definition.getCooldown().getDelay());
         assertEquals(TimeUnit.MILLISECONDS, definition.getCooldown().getTimeUnit());
-        assertTrue(definition.getCooldown().isPerUser());
     }
 
     @Test

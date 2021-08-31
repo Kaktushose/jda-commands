@@ -40,7 +40,7 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
 
@@ -51,7 +51,6 @@ public class ControllerDefinitionTest {
         assertTrue(definition.hasCooldown());
         assertEquals(10, definition.getCooldown().getDelay());
         assertEquals(TimeUnit.MILLISECONDS, definition.getCooldown().getTimeUnit());
-        assertTrue(definition.getCooldown().isPerUser());
 
         assertEquals(1, definition.getPermissions().size());
         assertTrue(definition.getPermissions().contains("superPermission"));
@@ -63,7 +62,7 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
         assertEquals(4, definition.getLabels().size());
@@ -75,7 +74,6 @@ public class ControllerDefinitionTest {
         assertTrue(definition.hasCooldown());
         assertEquals(5, definition.getCooldown().getDelay());
         assertEquals(TimeUnit.DAYS, definition.getCooldown().getTimeUnit());
-        assertFalse(definition.getCooldown().isPerUser());
 
         assertEquals(2, definition.getPermissions().size());
         assertTrue(definition.getPermissions().contains("superPermission"));
@@ -90,8 +88,8 @@ public class ControllerDefinitionTest {
         Method overloading = controller.getDeclaredMethod("overloading", CommandEvent.class);
 
         assertNotNull(controllerDefinition);
-        assertTrue(controllerDefinition.getCommands().stream().anyMatch(c -> c.getMethod().equals(adopt)));
-        assertFalse(controllerDefinition.getCommands().stream().anyMatch(c -> c.getMethod().equals(overloading)));
+        assertTrue(controllerDefinition.getSubCommands().stream().anyMatch(c -> c.getMethod().equals(adopt)));
+        assertFalse(controllerDefinition.getSubCommands().stream().anyMatch(c -> c.getMethod().equals(overloading)));
     }
 
     @Test
@@ -101,7 +99,7 @@ public class ControllerDefinitionTest {
 
         assertNotNull(controllerDefinition);
         assertTrue(controllerDefinition.hasSuperCommand());
-        assertEquals(2, controllerDefinition.getCommands().size());
+        assertEquals(2, controllerDefinition.getSubCommands().size());
         assertEquals(method, controllerDefinition.getSuperCommand().getMethod());
     }
 }

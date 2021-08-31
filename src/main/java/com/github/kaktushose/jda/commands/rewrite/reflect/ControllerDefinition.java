@@ -106,7 +106,7 @@ public class ControllerDefinition {
         return superCommand;
     }
 
-    public List<CommandDefinition> getCommands() {
+    public List<CommandDefinition> getSubCommands() {
         return commands;
     }
 
