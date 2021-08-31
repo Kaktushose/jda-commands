@@ -1,9 +1,8 @@
-package com.github.kaktushose.jda.commands.rewrite.adapters.impl;
+package com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapter;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.Optional;

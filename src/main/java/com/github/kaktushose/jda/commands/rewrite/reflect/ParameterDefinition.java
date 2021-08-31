@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.rewrite.reflect;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Concat;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Optional;
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Constraint;
-import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
-import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

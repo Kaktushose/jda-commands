@@ -1,6 +1,6 @@
-package com.github.kaktushose.jda.commands.rewrite.adapters;
+package com.github.kaktushose.jda.commands.rewrite.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.rewrite.adapters.impl.*;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.impl.*;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;

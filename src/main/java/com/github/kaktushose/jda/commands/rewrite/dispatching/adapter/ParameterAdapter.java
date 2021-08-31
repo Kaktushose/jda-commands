@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.rewrite.adapters;
+package com.github.kaktushose.jda.commands.rewrite.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 

@@ -1,10 +1,10 @@
 package controller;
 
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ControllerDefinition;
-import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
 import commands.UnsupportedType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

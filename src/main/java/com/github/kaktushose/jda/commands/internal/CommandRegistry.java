@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.rewrite.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.entities.Parameter;
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import com.google.common.collect.Sets;
 import org.reflections.Reflections;
 import org.slf4j.Logger;

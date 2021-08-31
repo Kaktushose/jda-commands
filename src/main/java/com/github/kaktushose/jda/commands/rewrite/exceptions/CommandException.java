@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.exceptions;
+package com.github.kaktushose.jda.commands.rewrite.exceptions;
 
 /**
  * Exception that is mainly used to log any errors regarding the configuration or declaration of commands.

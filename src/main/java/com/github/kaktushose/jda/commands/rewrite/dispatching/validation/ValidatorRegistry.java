@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.rewrite.validation;
+package com.github.kaktushose.jda.commands.rewrite.dispatching.validation;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.*;
-import com.github.kaktushose.jda.commands.rewrite.validation.impl.*;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl.*;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;

@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

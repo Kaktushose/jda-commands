@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
-import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.Validator;
 
 public class ConstraintDefinition {
 

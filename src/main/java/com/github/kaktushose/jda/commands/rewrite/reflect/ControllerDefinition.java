@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
-import com.github.kaktushose.jda.commands.rewrite.adapters.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.annotations.CommandController;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Permission;
-import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

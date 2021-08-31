@@ -2,8 +2,8 @@ package parameters;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
-import com.github.kaktushose.jda.commands.rewrite.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.rewrite.validation.impl.MinimumValidator;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl.MinimumValidator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

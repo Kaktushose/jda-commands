@@ -1,8 +1,8 @@
-package com.github.kaktushose.jda.commands.rewrite.validation.impl;
+package com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.rewrite.validation.Validator;
+import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.Validator;
 
 public class MinimumValidator implements Validator {
 
