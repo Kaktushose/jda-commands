@@ -100,6 +100,7 @@ public class ControllerDefinitionTest {
         assertNotNull(controllerDefinition);
         assertTrue(controllerDefinition.hasSuperCommand());
         assertEquals(2, controllerDefinition.getSubCommands().size());
-        assertEquals(method, controllerDefinition.getSuperCommand().getMethod());
+        assertEquals(1, controllerDefinition.getSuperCommands().size());
+        assertEquals(method, controllerDefinition.getSuperCommands().get(0).getMethod());
     }
 }

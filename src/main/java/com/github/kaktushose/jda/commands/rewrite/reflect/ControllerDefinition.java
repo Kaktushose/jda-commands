@@ -11,17 +11,18 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControllerDefinition {
 
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
-    private final CommandDefinition superCommand;
-    private final List<CommandDefinition> commands;
+    private final List<CommandDefinition> superCommands;
+    private final List<CommandDefinition> subCommands;
 
-    private ControllerDefinition(CommandDefinition superCommand,
-                                 List<CommandDefinition> commands) {
-        this.superCommand = superCommand;
-        this.commands = commands;
+    private ControllerDefinition(List<CommandDefinition> superCommands,
+                                 List<CommandDefinition> subCommands) {
+        this.superCommands = superCommands;
+        this.subCommands = subCommands;
     }
 
     public static Optional<ControllerDefinition> build(Class<?> controllerClass,
@@ -59,7 +60,7 @@ public class ControllerDefinition {
         }
 
         // index commands
-        CommandDefinition superCommand = null;
+        List<CommandDefinition> superCommands = new ArrayList<>();
         List<CommandDefinition> commands = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
             Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, adapterRegistry, validatorRegistry);
@@ -67,16 +68,10 @@ public class ControllerDefinition {
             if (!optional.isPresent()) {
                 continue;
             }
-
             CommandDefinition commandDefinition = optional.get();
 
             // add controller level permissions
             commandDefinition.getPermissions().addAll(permissions);
-
-            if (commandDefinition.isSuper()) {
-                superCommand = commandDefinition;
-                continue;
-            }
 
             // TODO remove once command overloading is working
             if (commands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
@@ -91,23 +86,25 @@ public class ControllerDefinition {
                 commandDefinition.getCooldown().set(cooldown);
             }
 
+            if (commandDefinition.isSuper()) {
+                superCommands.add(commandDefinition);
+                continue;
+            }
             commands.add(commandDefinition);
-
         }
 
-        return Optional.of(new ControllerDefinition(superCommand, commands));
+        return Optional.of(new ControllerDefinition(superCommands, commands));
     }
 
     public boolean hasSuperCommand() {
-        return superCommand != null;
+        return superCommands != null;
     }
 
-    public CommandDefinition getSuperCommand() {
-        return superCommand;
+    public List<CommandDefinition> getSuperCommands() {
+        return superCommands;
     }
 
     public List<CommandDefinition> getSubCommands() {
-        return commands;
+        return subCommands;
     }
-
 }

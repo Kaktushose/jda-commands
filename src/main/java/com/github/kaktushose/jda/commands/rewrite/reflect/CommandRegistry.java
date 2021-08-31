@@ -46,6 +46,8 @@ public class CommandRegistry {
 
             ControllerDefinition controller = optional.get();
             controllers.add(controller);
+            commands.addAll(controller.getSuperCommands());
+            commands.addAll(controller.getSubCommands());
         }
     }
 
@@ -53,4 +55,7 @@ public class CommandRegistry {
         return controllers;
     }
 
+    public Set<CommandDefinition> getCommands() {
+        return commands;
+    }
 }
