@@ -61,7 +61,7 @@ public class CommandDefinition {
         CommandController commandController = method.getDeclaringClass().getAnnotation(CommandController.class);
 
         if (!command.isActive()) {
-            log.debug("Command {} is set inactive. Skipping this command", method.getName());
+            log.debug("Command {} is set inactive. Skipping this command!", method.getName());
             return Optional.empty();
         }
 

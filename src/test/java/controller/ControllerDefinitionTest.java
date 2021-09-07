@@ -81,15 +81,13 @@ public class ControllerDefinitionTest {
     }
 
     @Test
-    public void commands_Overloading_ShouldOnlyRegisterFirst() throws NoSuchMethodException {
+    public void commands_Overloading_ShouldOnlyRegisterOne() {
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
 
-        Method adopt = controller.getDeclaredMethod("adopt", CommandEvent.class);
-        Method overloading = controller.getDeclaredMethod("overloading", CommandEvent.class);
-
         assertNotNull(controllerDefinition);
-        assertTrue(controllerDefinition.getSubCommands().stream().anyMatch(c -> c.getMethod().equals(adopt)));
-        assertFalse(controllerDefinition.getSubCommands().stream().anyMatch(c -> c.getMethod().equals(overloading)));
+        assertEquals(3, controllerDefinition.getSubCommands().size());
+        assertEquals(1, controllerDefinition.getSuperCommands().size());
+
     }
 
     @Test
@@ -99,7 +97,6 @@ public class ControllerDefinitionTest {
 
         assertNotNull(controllerDefinition);
         assertTrue(controllerDefinition.hasSuperCommand());
-        assertEquals(2, controllerDefinition.getSubCommands().size());
         assertEquals(1, controllerDefinition.getSuperCommands().size());
         assertEquals(method, controllerDefinition.getSuperCommands().get(0).getMethod());
     }

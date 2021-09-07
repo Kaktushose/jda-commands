@@ -25,9 +25,13 @@ public class ControllerDefinitionTestController {
 
     }
 
-    // this overloads with adopt
-    @Command
+    @Command("overload")
     public void overloading(CommandEvent event) {
+
+    }
+
+    @Command("overload")
+    public void overloadingTwo(CommandEvent event) {
 
     }
 

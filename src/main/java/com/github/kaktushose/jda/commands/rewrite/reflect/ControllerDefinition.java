@@ -75,7 +75,8 @@ public class ControllerDefinition {
 
             // TODO remove once command overloading is working
             if (commands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
-                log.error("An error has occurred! Skipping Command {}!",
+                log.error("An error has occurred! Skipping Command {}.{}!",
+                        commandController.getClass().getName(),
                         commandDefinition.getMethod().getName(),
                         new CommandException("The labels for the command are already registered!")
                 );
