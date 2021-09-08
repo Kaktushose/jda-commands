@@ -9,6 +9,9 @@ public class QuotedArgsParser {
     private static final Collection<Character> QUOTATION_MARKS = Arrays.asList('\'', '\"');
     private static final Character SPACE = ' ';
 
+    /**
+     * @author stijnb1234
+     */
     public static List<String> parseArguments(String raw) {
         char[] chars = raw.toCharArray();
 
