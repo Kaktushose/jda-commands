@@ -142,4 +142,17 @@ public class ParameterDefinition {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                type.getName() +
+                ", isConcat=" + isConcat +
+                ", isOptional=" + isOptional +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", isPrimitive=" + isPrimitive +
+                ", name='" + name + '\'' +
+                ", constraints=" + constraints +
+                '}';
+    }
 }

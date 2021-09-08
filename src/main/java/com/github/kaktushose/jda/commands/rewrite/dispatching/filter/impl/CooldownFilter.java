@@ -4,11 +4,14 @@ import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CooldownDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class CooldownFilter implements Filter {
 
+    private static final Logger log = LoggerFactory.getLogger(CooldownFilter.class);
     private final Map<Long, Set<CooldownEntry>> activeCooldowns;
 
     public CooldownFilter() {
@@ -31,10 +34,12 @@ public class CooldownFilter implements Filter {
 
         if (optional.isPresent()) {
             CooldownEntry entry = optional.get();
-            if (System.currentTimeMillis() - entry.startTime >= entry.duration) {
+            long remaining = System.currentTimeMillis() - entry.startTime;
+            if (remaining >= entry.duration) {
                 activeCooldowns.get(id).remove(entry);
             } else {
                 context.setCancelled(true);
+                log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }
         }
@@ -43,6 +48,7 @@ public class CooldownFilter implements Filter {
         long startTime = System.currentTimeMillis();
         long duration = cooldown.getTimeUnit().toMillis(cooldown.getDelay());
         activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
+        log.debug("Added new cooldown entry for this user");
     }
 
     private static class CooldownEntry {

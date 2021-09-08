@@ -199,4 +199,17 @@ public class CommandDefinition {
     public Object getInstance() {
         return instance;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "labels=" + labels +
+                ", metadata=" + metadata +
+                ", parameters=" + parameters +
+                ", permissions=" + permissions +
+                ", cooldown=" + cooldown +
+                ", isSuper=" + isSuper +
+                ", isDM=" + isDM +
+                '}';
+    }
 }

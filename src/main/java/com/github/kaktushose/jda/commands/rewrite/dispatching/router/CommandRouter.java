@@ -63,6 +63,7 @@ public class CommandRouter implements Router {
             }
         }
         context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
+        context.setCancelled(command == null);
         context.setCommand(command);
     }
 }

@@ -25,4 +25,13 @@ public class ConstraintDefinition {
     public Object getAnnotation() {
         return annotation;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "validator=" + validator.getClass().getName() +
+                ", message='" + message + '\'' +
+                ", annotation=" + annotation +
+                '}';
+    }
 }

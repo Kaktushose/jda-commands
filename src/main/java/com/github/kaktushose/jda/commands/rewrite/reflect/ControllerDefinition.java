@@ -78,7 +78,7 @@ public class ControllerDefinition {
                 log.error("An error has occurred! Skipping Command {}.{}!",
                         commandController.getClass().getName(),
                         commandDefinition.getMethod().getName(),
-                        new CommandException("The labels for the command are already registered!")
+                        new IllegalArgumentException("The labels for the command are already registered!")
                 );
                 continue;
             }
@@ -107,5 +107,13 @@ public class ControllerDefinition {
 
     public List<CommandDefinition> getSubCommands() {
         return subCommands;
+    }
+
+    @Override
+    public String toString() {
+        return "ControllerDefinition{" +
+                "superCommands=" + superCommands +
+                ", subCommands=" + subCommands +
+                '}';
     }
 }

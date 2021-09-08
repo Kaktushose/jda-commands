@@ -56,4 +56,14 @@ public class CommandMetadata {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", usage='" + usage + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

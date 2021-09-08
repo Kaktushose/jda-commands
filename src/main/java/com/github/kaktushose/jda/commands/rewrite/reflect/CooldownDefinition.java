@@ -46,4 +46,12 @@ public class CooldownDefinition {
     public void setTimeUnit(TimeUnit timeUnit) {
         this.timeUnit = timeUnit;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "delay=" + delay +
+                ", timeUnit=" + timeUnit +
+                '}';
+    }
 }

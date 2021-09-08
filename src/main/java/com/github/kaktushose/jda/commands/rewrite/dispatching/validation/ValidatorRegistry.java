@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.rewrite.dispatching.validation;
 
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.*;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 public class ValidatorRegistry {
 
+    private final Logger log = LoggerFactory.getLogger(ValidatorRegistry.class);
     private final Map<Class<? extends Annotation>, Validator> validators;
 
     public ValidatorRegistry() {
@@ -31,10 +34,12 @@ public class ValidatorRegistry {
             throw new IllegalArgumentException(Constraint.class.getCanonicalName() + " annotation must be present!");
         }
         validators.put(annotation, validator);
+        log.debug("Registered validator {} for annotation {}", validator.getClass().getName(), annotation.getName());
     }
 
     public void unregister(Class<?> annotation) {
         validators.remove(annotation);
+        log.debug("Unregistered validator for annotation {}", annotation.getName());
     }
 
     public Optional<Validator> get(Class<?> annotation, Class<?> type) {

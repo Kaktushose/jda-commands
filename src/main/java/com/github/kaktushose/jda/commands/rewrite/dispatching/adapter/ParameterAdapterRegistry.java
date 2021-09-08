@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +14,8 @@ import java.util.Optional;
 
 public class ParameterAdapterRegistry {
 
+    private static final Logger log = LoggerFactory.getLogger(ParameterAdapterRegistry.class);
     private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters;
-
 
     public ParameterAdapterRegistry() {
         parameterAdapters = new HashMap<>();
@@ -40,10 +42,12 @@ public class ParameterAdapterRegistry {
 
     public void register(Class<?> type, ParameterAdapter<?> adapter) {
         parameterAdapters.put(type, adapter);
+        log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
     }
 
     public void unregister(Class<?> type) {
         parameterAdapters.remove(type);
+        log.debug("Unregistered adapter for type {}", type.getName());
     }
 
     public Optional<ParameterAdapter<?>> get(Class<?> type) {
