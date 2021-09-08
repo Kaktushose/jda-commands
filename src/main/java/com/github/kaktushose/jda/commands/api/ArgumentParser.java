@@ -10,9 +10,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * The default argument parser of this framework.
@@ -25,7 +23,6 @@ import java.util.Optional;
  * @since 1.0.0
  */
 public class ArgumentParser {
-
     /**
      * Attempts to parse a List of Strings or respectively the user input in a way to match the parameters of a command.
      *

@@ -1,10 +1,12 @@
 package com.github.kaktushose.jda.commands.internal;
 
+import com.github.kaktushose.jda.commands.annotations.ConcatQuotes;
 import com.github.kaktushose.jda.commands.api.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
+import com.github.kaktushose.jda.commands.util.QuotedArgsParser;
 import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.JDA;
@@ -152,7 +154,10 @@ public final class CommandDispatcher extends ListenerAdapter {
         }
 
         int from = commandCallable.getLabels().get(0).split(" ").length;
-        List<String> rawArguments = Arrays.asList(Arrays.copyOfRange(input, from, input.length));
+        List<String> rawArguments = Arrays.asList(input).subList(from, input.length);
+        if (commandCallable.getMethod().isAnnotationPresent(ConcatQuotes.class)) {
+            rawArguments = QuotedArgsParser.parseArguments(String.join(" ", rawArguments));
+        }
 
         Optional<List<Object>> parsedArguments = argumentParser.parseArguments(commandCallable, event, rawArguments, jdaCommands);
         if (!parsedArguments.isPresent()) {
