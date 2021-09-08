@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.internal;
 
-import com.github.kaktushose.jda.commands.annotations.*;
+import com.github.kaktushose.jda.commands.rewrite.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.entities.Parameter;
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import com.google.common.collect.Sets;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -230,17 +230,17 @@ final class CommandRegistry {
                 }
 
                 // if method already had an optional parameter (hasOptional == true) this one has to be optional as well
-                if (hasOptional && optionalIndex != i && !annotationClass.equals(com.github.kaktushose.jda.commands.annotations.Optional.class)) {
+                if (hasOptional && optionalIndex != i && !annotationClass.equals(com.github.kaktushose.jda.commands.rewrite.annotations.Optional.class)) {
                     logError("Command method has an invalid method signature! " +
                             "An optional parameter must not be followed by a non-optional parameter!", method);
                     return Optional.empty();
                 }
                 // check if it's an optional parameter and get the default value
-                if (annotationClass.equals(com.github.kaktushose.jda.commands.annotations.Optional.class)) {
+                if (annotationClass.equals(com.github.kaktushose.jda.commands.rewrite.annotations.Optional.class)) {
                     isOptional = true;
                     hasOptional = true;
                     optionalIndex = i;
-                    defaultValue = ((com.github.kaktushose.jda.commands.annotations.Optional) parameterAnnotation).value();
+                    defaultValue = ((com.github.kaktushose.jda.commands.rewrite.annotations.Optional) parameterAnnotation).value();
                     if (defaultValue.equals("") && method.getParameterTypes()[i].isPrimitive()) {
                         log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
                                 "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());

@@ -6,8 +6,9 @@ import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
-import com.github.kaktushose.jda.commands.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.util.QuotedArgsParser;
+import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,10 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public final class CommandDispatcher extends ListenerAdapter {
 
@@ -115,7 +113,7 @@ public final class CommandDispatcher extends ListenerAdapter {
         CommandSettings settings = getSettings(event.getGuild().getIdLong());
         if (!eventParser.validateEvent(event, settings)) {
 
-            if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
+            if (eventParser.startsWithPrefix(event.getMessage().getContentDisplay(), settings) && settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
                 event.getChannel().sendMessage(embedFactory.getUserMutedEmbed(settings, event)).queue();
             }
 
@@ -128,7 +126,7 @@ public final class CommandDispatcher extends ListenerAdapter {
             return;
         }
 
-        if (settings.getHelpLabels().stream().anyMatch(s -> s.startsWith(input[0]))) {
+        if (settings.getHelpLabels().stream().anyMatch(s -> settings.isIgnoreLabelCase() ? s.startsWith(input[0].toLowerCase(Locale.ROOT)) : s.startsWith(input[0]))) {
             Optional<CommandCallable> command = commandMapper.findCommand(commands, Arrays.copyOfRange(input, 1, input.length), settings.isIgnoreLabelCase());
             if (command.isPresent()) {
                 log.info("Executing specific help command for {}", event.getAuthor());
@@ -143,14 +141,15 @@ public final class CommandDispatcher extends ListenerAdapter {
         Optional<CommandCallable> command = commandMapper.findCommand(commands, input, settings.isIgnoreLabelCase());
         if (!command.isPresent()) {
             log.debug("No command for input {} found", Arrays.toString(input));
-            if (settings.isEmbedAtNotFound()) event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
+            if (settings.isEmbedAtNotFound())
+                event.getChannel().sendMessage(embedFactory.getCommandNotFoundEmbed(settings, event)).queue();
             return;
         }
         CommandCallable commandCallable = command.get();
 
-        if (!eventParser.hasPermission(commandCallable, event, settings)) {
+        if (!eventParser.hasPermission(null, event, settings)) {
             log.debug("{} has insufficient permissions for executing command {}", event.getAuthor(), commandCallable.getMethod().getName());
-            event.getChannel().sendMessage(embedFactory.getInsufficientPermissionsEmbed(commandCallable, settings, event)).queue();
+            event.getChannel().sendMessage(embedFactory.getInsufficientPermissionsEmbed(null, settings, event)).queue();
             return;
         }
 
@@ -166,7 +165,7 @@ public final class CommandDispatcher extends ListenerAdapter {
                     commandCallable.getMethod().getName(),
                     commandCallable.getParameters(),
                     rawArguments);
-            event.getChannel().sendMessage(embedFactory.getSyntaxErrorEmbed(commandCallable, rawArguments, settings, event)).queue();
+            event.getChannel().sendMessage(embedFactory.getSyntaxErrorEmbed(null, rawArguments, settings, event)).queue();
             return;
         }
         log.info("Executing command {} for {}", commandCallable.getMethod().getName(), event.getAuthor());

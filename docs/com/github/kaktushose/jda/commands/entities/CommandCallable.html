@@ -119,7 +119,7 @@ extends java.lang.Object</pre>
 <dt><span class="simpleTagLabel">Author:</span></dt>
 <dd>Kaktushose</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Command.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>Command</code></a></dd>
+<dd><a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Command.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>Command</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -144,7 +144,7 @@ extends java.lang.Object</pre>
                java.lang.String&nbsp;description,
                java.lang.String&nbsp;usage,
                java.lang.String&nbsp;category,
-               java.util.List&lt;<a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities">Parameter</a>&gt;&nbsp;parameters,
+               java.util.List&lt;<a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities">Parameter</a>&gt;&nbsp;commands,
                java.util.Set&lt;java.lang.String&gt;&nbsp;permissions,
                java.lang.reflect.Method&nbsp;method,
                java.lang.Object&nbsp;instance)</code>
@@ -263,7 +263,7 @@ extends java.lang.Object</pre>
                        @Nonnull
                        java.lang.String&nbsp;category,
                        @Nonnull
-                       java.util.List&lt;<a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities">Parameter</a>&gt;&nbsp;parameters,
+                       java.util.List&lt;<a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities">Parameter</a>&gt;&nbsp;commands,
                        @Nonnull
                        java.util.Set&lt;java.lang.String&gt;&nbsp;permissions,
                        @Nonnull
@@ -278,7 +278,7 @@ extends java.lang.Object</pre>
 <dd><code>description</code> - the description of the command</dd>
 <dd><code>usage</code> - a short example on how to use the command</dd>
 <dd><code>category</code> - the category of the command</dd>
-<dd><code>parameters</code> - a list of <a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities"><code>Parameter</code></a>s the command needs</dd>
+<dd><code>commands</code> - a list of <a href="../../../../../../com/github/kaktushose/jda/commands/entities/Parameter.html" title="class in com.github.kaktushose.jda.commands.entities"><code>Parameter</code></a>s the command needs</dd>
 <dd><code>permissions</code> - a set of all permissions the command requires</dd>
 <dd><code>method</code> - the command method</dd>
 <dd><code>instance</code> - an instance of the class where the command method is declared</dd>

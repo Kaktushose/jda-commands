@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.entities;
 
-import com.github.kaktushose.jda.commands.annotations.Command;
+import com.github.kaktushose.jda.commands.rewrite.annotations.Command;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

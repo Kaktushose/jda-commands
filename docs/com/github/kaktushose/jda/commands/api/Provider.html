@@ -100,10 +100,10 @@
  <p>In order to use the dependency injection feature of this framework at least one Provider class is needed.
  An instance of all Provider classes must be passed to <a href="../../../../../../com/github/kaktushose/jda/commands/entities/JDACommandsBuilder.html#addProvider-com.github.kaktushose.jda.commands.api.Provider-"><code>JDACommandsBuilder.addProvider(Provider)</code></a>.
 
- <p>A Provider class is a class that contains methods that are annotated with <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Produces.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>Produces</code></a>
+ <p>A Provider class is a class that contains methods that are annotated with <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Produces.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>Produces</code></a>
  and thus making objects available for dependency injection. All provided dependencies will be injected into fields annotated with
- <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Inject.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>Inject</code></a>. This does only work for classes annotated with
- <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/CommandController.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>CommandController</code></a>.
+ <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Inject.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>Inject</code></a>. This does only work for classes annotated with
+ <a href="../../../../../../com/github/kaktushose/jda/commands/annotations/CommandController.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>CommandController</code></a>.
 
  <p>Please note that this is only a very basic implementation of dependency injection and should only be used inside command classes.</div>
 <dl>
@@ -114,9 +114,9 @@
 <dt><span class="simpleTagLabel">Author:</span></dt>
 <dd>Kaktushose</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Inject.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>Inject</code></a>, 
-<a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Produces.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>Produces</code></a>, 
-<a href="../../../../../../com/github/kaktushose/jda/commands/annotations/CommandController.html" title="annotation in com.github.kaktushose.jda.commands.annotations"><code>CommandController</code></a>, 
+<dd><a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Inject.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>Inject</code></a>,
+<a href="../../../../../../com/github/kaktushose/jda/commands/annotations/Produces.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>Produces</code></a>,
+<a href="../../../../../../com/github/kaktushose/jda/commands/annotations/CommandController.html" title="annotation in com.github.kaktushose.jda.commands.rewrite.annotations"><code>CommandController</code></a>,
 <a href="../../../../../../com/github/kaktushose/jda/commands/entities/JDACommandsBuilder.html" title="class in com.github.kaktushose.jda.commands.entities"><code>JDACommandsBuilder</code></a></dd>
 </dl>
 </li>

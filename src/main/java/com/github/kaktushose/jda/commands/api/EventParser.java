@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.api;
 import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.internal.Patterns;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -49,17 +50,19 @@ public class EventParser {
 
         String message = event.getMessage().getContentDisplay();
         String prefix = settings.getPrefix();
-        if (message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith)) {
+        if (startsWithPrefix(message, settings)) {
             usedPrefix = settings.getPrefixAliases().stream().filter(message::startsWith).findFirst().orElse(prefix);
             return true;
         }
 
-        User selfUser = event.getJDA().getSelfUser();
-        List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-        if (mentionedUsers.size() > 0) {
-            if (mentionedUsers.get(0).equals(selfUser)) {
-                usedPrefix = String.format("<@!%s>", selfUser.getId());
-                return true;
+        if (settings.isBotMentionPrefix()) {
+            User selfUser = event.getJDA().getSelfUser();
+            List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+            if (mentionedUsers.size() > 0) {
+                if (mentionedUsers.get(0).equals(selfUser)) {
+                    usedPrefix = String.format("<@!%s>", selfUser.getId());
+                    return true;
+                }
             }
         }
 
@@ -70,7 +73,7 @@ public class EventParser {
      * Parses an {@code GuildMessageReceivedEvent} by removing whitespaces and the prefix from the message and then
      * splitting it at each blank space. This method gets invoked if an event is valid and thus ready to be processed.
      *
-     * @param event    the corresponding {@code GuildMessageReceivedEvent}
+     * @param event the corresponding {@code GuildMessageReceivedEvent}
      * @return the split user input
      */
     public String[] parseEvent(GuildMessageReceivedEvent event) {
@@ -91,7 +94,7 @@ public class EventParser {
      * @param settings        the {@link CommandSettings}
      * @return {@code true} if the event author has to required permissions
      */
-    public boolean hasPermission(CommandCallable commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
+    public boolean hasPermission(CommandDefinition commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
         return commandCallable.getPermissions().stream().allMatch(permission -> {
             final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
             if (matcher.matches()) {
@@ -106,6 +109,17 @@ public class EventParser {
                 return settings.getPermissionHolders(permission).contains(event.getAuthor().getIdLong());
             }
         });
+    }
+
+    /**
+     * Checks if the {@code Message} starts with the prefix, or it's alternatives in {@link CommandSettings}
+     * @param message the {@link String} to check on
+     * @param settings the {@link CommandSettings} to use the prefixes from
+     * @return {@code true} if the Message starts with a prefix
+     */
+    public boolean startsWithPrefix(String message, CommandSettings settings) {
+        String prefix = settings.getPrefix();
+        return message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith);
     }
 
 }

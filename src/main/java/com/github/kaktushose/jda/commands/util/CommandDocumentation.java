@@ -36,10 +36,10 @@ public class CommandDocumentation {
     /**
      * Creates a new CommandDocumentation.
      *
-     * @param commandList the {@link CommandList} to create the documenation for
+     * @param commandList   the {@link CommandList} to create the documenation for
      * @param prefixPattern the prefix placeholder that is used in
-     * {@link com.github.kaktushose.jda.commands.annotations.Command} annotations. The default value is {@code {prefix}}
-     * @param prefix the prefix to replace the pattern with
+     *                      {@link com.github.kaktushose.jda.commands.rewrite.annotations.Command} annotations. The default value is {@code {prefix}}
+     * @param prefix        the prefix to replace the pattern with
      */
     public CommandDocumentation(@Nonnull CommandList commandList, @Nonnull String prefixPattern, @Nonnull String prefix) {
         this.commandList = commandList;

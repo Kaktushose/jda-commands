@@ -1,33 +1,33 @@
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-4.3.0__310-important)](https://github.com/DV8FromTheWorld/JDA#download)
 [![Generic badge](https://img.shields.io/badge/Download-1.1.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kaktushose/jda-commands&amp;utm_campaign=Badge_Grade)
-![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)
+[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Grade)
+[![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
 
 # JDA-Commands
 
-A simple yet highly customizable, annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA). 
+An extendable, declarative and annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA).
 
-- Current Version: [1.1.1](https://github.com/Kaktushose/jda-commands/releases/latest)
-- JDA Version: [4.2.0_250](https://github.com/DV8FromTheWorld/JDA#download)
 - [JavaDoc](https://kaktushose.github.io/jda-commands/index.html)
 - [Wiki](https://github.com/Kaktushose/jda-commands/wiki)
 
-
 ## Features
 
-The focus of this framework is strongly oriented towards the reduction of boilerplate code. This goes along with the aim to reduce configuration steps that are needed before startup. Therefore IoC, Dependency Injection and Declarative Programming are the key concepts of this framework. Nevertheless, there is a high level of customization, if wanted, every part of this framework can be replaced by an own implementation.  
+The focus of this framework is strongly oriented towards the reduction of boilerplate code. This goes along with the aim to reduce configuration steps that are needed before startup. Therefore IoC, Dependency Injection and Declarative Programming are the key concepts of this framework. Nevertheless, there is a high level of customization, if wanted, every part of this framework can be replaced by an own implementation.
 
 The core features of this framework are as following:
 
-- Fully annotation driven command declaration 
+- Fully annotation driven command declaration
 - Argument Parsing based on method signature
 - Label shortening (comparable to auto complete)
 - Basic implementation of Dependency Injection
-- Automatic error resolving  
+- Automatic error resolving
 - Automatically generated Help Commands & Error Messages
 - Command modification at runtime
 - Guild specific settings
-- Automatic generation of documentation 
-- i18n support 
+- Automatic generation of documentation
+- i18n support
 
 **Example**
 
@@ -59,6 +59,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
     <url>https://jitpack.io</url>
 </repository>
 ```
+
 ```xml
 <dependency>
     <groupId>com.github.Kaktushose</groupId>
@@ -68,6 +69,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 ```
 
 ### Gradle
+
 ```groovy
 allprojects {
     repositories {
@@ -76,6 +78,7 @@ allprojects {
     }
 }
 ```
+
 ```groovy
 dependencies {
     implementation 'com.github.Kaktushose:jda-commands:VERSION'
@@ -86,24 +89,26 @@ dependencies {
 
 If you think that something is missing and you want to add it yourself, feel free to open a pull request. Please try to keep your code quality as good as mine and stick to the core concepts of this framework.
 
+Special thanks to all contributors:
+
+[![Contributors Display](https://badges.pufler.dev/contributors/kaktushose/jda-commands?size=50&padding=5&bots=false)](https://badges.pufler.dev)
+
 ## Dependencies
 
 The following dependencies were used to build this framework:
 
-* JDA
-    * Version: 4.2.0_250
-    * [Github](https://github.com/DV8FromTheWorld/JDA)
-* Reflections
-    * Version: 0.9.10
-    * [Github](https://github.com/ronmamo/reflections)
-* Gson
-    * Version: 2.8.6
-    * [Github](https://github.com/google/gson)
-* slf4j-api
-    * Version: 1.7.30
-    * [Website](http://www.slf4j.org/)
-* markdowngenerator
-    * Version: 1.3.2
-    * [Github](https://github.com/Steppschuh/Java-Markdown-Generator)
-
- 
+- JDA
+  - Version: 4.2.0_250
+  - [Github](https://github.com/DV8FromTheWorld/JDA)
+- Reflections
+  - Version: 0.9.10
+  - [Github](https://github.com/ronmamo/reflections)
+- Gson
+  - Version: 2.8.6
+  - [Github](https://github.com/google/gson)
+- slf4j-api
+  - Version: 1.7.30
+  - [Website](http://www.slf4j.org/)
+- markdowngenerator
+  - Version: 1.3.2
+  - [Github](https://github.com/Steppschuh/Java-Markdown-Generator)

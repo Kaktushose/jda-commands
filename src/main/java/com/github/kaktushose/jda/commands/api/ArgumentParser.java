@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import com.github.kaktushose.jda.commands.entities.JDACommands;
 import com.github.kaktushose.jda.commands.entities.Parameter;
 import com.github.kaktushose.jda.commands.internal.ParameterType;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -34,7 +35,7 @@ public class ArgumentParser {
      * @param rawArguments    the List of Strings to be parsed
      * @param jdaCommands     the {@link JDACommands} object
      * @return an optional containing a list of all casted objects or an empty optional if the argument parsing failed
-     * @see com.github.kaktushose.jda.commands.annotations.Optional
+     * @see com.github.kaktushose.jda.commands.rewrite.annotations.Optional
      */
     public Optional<List<Object>> parseArguments(@Nonnull CommandCallable commandCallable,
                                                  @Nonnull GuildMessageReceivedEvent event,
@@ -42,7 +43,7 @@ public class ArgumentParser {
                                                  @Nonnull JDACommands jdaCommands) {
         List<Parameter> parameters = commandCallable.getParameters();
         List<Object> parsedArguments = new ArrayList<>();
-        parsedArguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), commandCallable, jdaCommands));
+        parsedArguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), null, jdaCommands));
 
         for (int i = 0; i < parameters.size(); i++) {
             Parameter parameter = parameters.get(i);

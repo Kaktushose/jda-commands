@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author Kaktushose
  * @version 1.0.0
- * @see com.github.kaktushose.jda.commands.annotations.Command
+ * @see com.github.kaktushose.jda.commands.rewrite.annotations.Command
  * @since 1.0.0
  */
 public class CommandCallable {
@@ -144,7 +144,7 @@ public class CommandCallable {
     public String toString() {
         return method.getName() + "{" +
                 "labels=" + labels +
-                ", parameters=" + parameters.toString() +
+                ", parameters=" + parameters +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", usage='" + usage + '\'' +

@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.entities.CommandCallable;
 import com.github.kaktushose.jda.commands.entities.CommandList;
 import com.github.kaktushose.jda.commands.entities.CommandSettings;
 import com.github.kaktushose.jda.commands.internal.Patterns;
+import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -143,25 +144,25 @@ public class JsonEmbedFactory extends EmbedFactory {
      * @return the MessageEmbed to send
      */
     @Override
-    public MessageEmbed getInsufficientPermissionsEmbed(@NotNull CommandCallable commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+    public MessageEmbed getInsufficientPermissionsEmbed(CommandDefinition commandCallable, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsEmbed(commandCallable, settings, event);
         }
 
         String perm = commandCallable.getPermissions().stream()
-            .map(permission -> {
-                final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
+                .map(permission -> {
+                    final Matcher matcher = Patterns.getJDAPermissionPattern().matcher(permission);
 
-                if (matcher.matches()) {
-                    return matcher.group(1).toUpperCase();
-                } else if (settings.getAllPermissionRoles().containsKey(permission)) {
-                    Role role = event.getGuild().getRoleById(settings.getPermissionRole(permission));
-                    if (role == null) return "Unknown role";
-                    return role.getAsMention();
-                }
+                    if (matcher.matches()) {
+                        return matcher.group(1).toUpperCase();
+                    } else if (settings.getAllPermissionRoles().containsKey(permission)) {
+                        Role role = event.getGuild().getRoleById(settings.getPermissionRole(permission));
+                        if (role == null) return "Unknown role";
+                        return role.getAsMention();
+                    }
 
-                return permission;
-            }).collect(Collectors.joining(", "));
+                    return permission;
+                }).collect(Collectors.joining(", "));
 
         return embedCache.getEmbed("insufficientPermissions")
                 .injectValue("prefix", settings.getPrefix())
@@ -173,11 +174,11 @@ public class JsonEmbedFactory extends EmbedFactory {
     /**
      * Creates an embed that provides help if the user executing the command is muted.
      *
-     * @param settings        the {@link CommandSettings}
-     * @param event           the corresponding {@code GuildMessageReceivedEvent}
+     * @param settings the {@link CommandSettings}
+     * @param event    the corresponding {@code GuildMessageReceivedEvent}
      * @return the MessageEmbed to send
      */
-    public MessageEmbed getUserMutedEmbed( @Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
+    public MessageEmbed getUserMutedEmbed(@Nonnull CommandSettings settings, @Nonnull GuildMessageReceivedEvent event) {
         if (!embedCache.containsEmbed("userMuted")) {
             return super.getUserMutedEmbed(settings, event);
         }
@@ -195,7 +196,7 @@ public class JsonEmbedFactory extends EmbedFactory {
      * @return the MessageEmbed to send
      */
     @Override
-    public MessageEmbed getSyntaxErrorEmbed(@NotNull CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
+    public MessageEmbed getSyntaxErrorEmbed(CommandCallable commandCallable, @NotNull List<String> arguments, @NotNull CommandSettings settings, @NotNull GuildMessageReceivedEvent event) {
         if (!embedCache.containsEmbed("syntaxError")) {
             return super.getSyntaxErrorEmbed(commandCallable, arguments, settings, event);
         }

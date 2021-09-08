@@ -38,7 +38,7 @@ public class JDACommands {
      * Constructs a JDACommands. The {@link JDACommandsBuilder} may be used instead of this constructor.
      *
      * @param commandDispatcher the {@link CommandDispatcher} instance to start the framework with
-     * @param packageName the name of the package in which to search for command classes
+     * @param packageName       the name of the package in which to search for command classes
      * @see JDACommandsBuilder
      */
     public JDACommands(@Nonnull CommandDispatcher commandDispatcher, @Nullable String packageName) {

@@ -1,6 +1,6 @@
 package testing;
 
-import com.github.kaktushose.jda.commands.annotations.*;
+import com.github.kaktushose.jda.commands.rewrite.annotations.*;
 import com.github.kaktushose.jda.commands.entities.CommandEvent;
 import net.dv8tion.jda.api.entities.Member;
 
