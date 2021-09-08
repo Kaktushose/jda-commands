@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
@@ -59,17 +60,24 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
+        // workaround for the moment
+        if (context.getEvent().getAuthor().isBot()) {
+            return;
+        }
+
         router.findCommands(context, commandRegistry.getCommands());
-        if (context.isCancelled()) {
+        if (checkCancelled(context)) {
             log.debug("No matching command found!");
             return;
         }
 
         CommandDefinition command = context.getCommand();
-        log.debug("Input matching command: {}", command);
+        log.debug("Input matches command: {}", command);
+
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
 
+        // TODO check if argument size is matching
         log.debug("Type adapting arguments...");
         MessageReceivedEvent event = context.getEvent();
         arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, null));
@@ -82,25 +90,31 @@ public class CommandDispatcher {
 
             Optional<ParameterAdapter<?>> adapter = adapterRegistry.get(parameter.getType());
             if (!adapter.isPresent()) {
-                log.debug("No type adapter found!");
-                return;
+                throw new IllegalArgumentException("No type adapter found!");
             }
 
             Optional<?> parsed = adapter.get().parse(raw, context);
             if (!parsed.isPresent()) {
                 log.debug("Type adapting failed!");
-                return;
+                context.setCancelled(true);
+                context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
+                break;
             }
 
             arguments.add(parsed.get());
             log.debug("Added {} to the argument list", parsed.get());
         }
+
+        if (checkCancelled(context)) {
+            return;
+        }
+
         context.setArguments(arguments);
 
         log.debug("Applying filters...");
         for (Filter filter : filterRegistry.getAll()) {
             filter.apply(context);
-            if (context.isCancelled()) {
+            if (checkCancelled(context)) {
                 return;
             }
         }
@@ -112,6 +126,14 @@ public class CommandDispatcher {
         } catch (Exception e) {
             log.error("Command execution failed!", new InvocationTargetException(e));
         }
+    }
+
+    private boolean checkCancelled(CommandContext context) {
+        if (context.isCancelled()) {
+            context.getEvent().getChannel().sendMessage(context.getErrorMessage()).queue();
+            return true;
+        }
+        return false;
     }
 
     public ParserSupervisor getParserSupervisor() {

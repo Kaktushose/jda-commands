@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CooldownDefinition;
+import net.dv8tion.jda.api.MessageBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,7 @@ public class CooldownFilter implements Filter {
                 activeCooldowns.get(id).remove(entry);
             } else {
                 context.setCancelled(true);
+                context.setErrorMessage(new MessageBuilder().append(String.format("cooldown for %s ms", remaining)).build());
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

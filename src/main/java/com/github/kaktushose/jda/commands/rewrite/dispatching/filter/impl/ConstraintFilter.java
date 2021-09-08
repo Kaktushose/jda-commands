@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
+import net.dv8tion.jda.api.MessageBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class ConstraintFilter implements Filter {
 
                 if (!validated) {
                     context.setCancelled(true);
+                    context.setErrorMessage(new MessageBuilder().append(constraint.getMessage()).build());
                     log.debug("Constraint failed!");
                     return;
                 }

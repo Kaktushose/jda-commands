@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.rewrite.dispatching.router;
 
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
+import net.dv8tion.jda.api.MessageBuilder;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,11 +60,16 @@ public class CommandRouter implements Router {
 
             if (possibleCommands.size() > 1) {
                 context.setCancelled(true);
-                return;
+                break;
             }
         }
+
+        if (command == null || context.isCancelled()) {
+            context.setErrorMessage(new MessageBuilder().append("no command found").build());
+            context.setCancelled(true);
+        }
+
         context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
-        context.setCancelled(command == null);
         context.setCommand(command);
     }
 }
