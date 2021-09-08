@@ -27,6 +27,8 @@ public class ValidatorRegistry {
         register(NotRole.class, new NotRoleValidator());
         register(Perm.class, new PermissionValidator());
         register(NotPerm.class, new NotPermissionValidator());
+        register(User.class, new UserValidator());
+        register(NotUser.class, new NotUserValidator());
     }
 
     public void register(Class<? extends Annotation> annotation, Validator validator) {

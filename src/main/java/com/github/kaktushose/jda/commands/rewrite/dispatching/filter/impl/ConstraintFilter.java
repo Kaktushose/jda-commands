@@ -23,13 +23,10 @@ public class ConstraintFilter implements Filter {
             if (i == 0) {
                 continue;
             }
-            System.out.println(i);
             Object argument = arguments.get(i);
             ParameterDefinition parameter = parameters.get(i);
-            System.out.println(argument);
-            System.out.println(parameter);
             for (ConstraintDefinition constraint : parameter.getConstraints()) {
-                log.debug("Found constraint {} for parameter {}", constraint, parameter);
+                log.debug("Found constraint {} for parameter {}", constraint, parameter.getType().getName());
 
                 boolean validated = constraint.getValidator().validate(argument, constraint.getAnnotation(), context);
 

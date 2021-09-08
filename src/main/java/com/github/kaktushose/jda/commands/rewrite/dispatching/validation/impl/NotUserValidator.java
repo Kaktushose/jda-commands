@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl;
 
+import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.NotUser;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.impl.MemberAdapter;
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.User;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
@@ -13,7 +14,7 @@ public class NotUserValidator implements Validator {
     @Override
     public boolean validate(Object argument, Object annotation, CommandContext context) {
         Member member = (Member) argument;
-        User user = (User) annotation;
+        NotUser user = (NotUser) annotation;
         Optional<Member> optional = new MemberAdapter().parse(user.value(), context);
         return !optional.filter(member::equals).isPresent();
     }

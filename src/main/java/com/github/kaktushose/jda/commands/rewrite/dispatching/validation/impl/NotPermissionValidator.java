@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.rewrite.dispatching.validation.impl;
 
+import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.NotPerm;
 import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.Validator;
@@ -13,7 +14,7 @@ public class NotPermissionValidator implements Validator {
     public boolean validate(Object argument, Object annotation, CommandContext context) {
         Permission permission;
         try {
-            Perm perm = (Perm) annotation;
+            NotPerm perm = (NotPerm) annotation;
             permission = Permission.valueOf(perm.value());
         } catch (IllegalArgumentException ignored) {
             return true;

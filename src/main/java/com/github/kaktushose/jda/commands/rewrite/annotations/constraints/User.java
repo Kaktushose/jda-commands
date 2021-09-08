@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint({Member.class})
+@Constraint({Member.class, net.dv8tion.jda.api.entities.User.class})
 public @interface User {
     String value();
 

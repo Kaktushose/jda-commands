@@ -30,8 +30,6 @@ public class ConstraintDefinition {
     public String toString() {
         return "{" +
                 "validator=" + validator.getClass().getName() +
-                ", message='" + message + '\'' +
-                ", annotation=" + annotation +
-                '}';
+                ", message='" + message + "'}";
     }
 }
