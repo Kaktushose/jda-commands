@@ -20,10 +20,7 @@ public class ConstraintFilter implements Filter {
         List<ParameterDefinition> parameters = context.getCommand().getParameters();
 
         log.debug("Applying parameter constraints...");
-        for (int i = 0; i < parameters.size(); i++) {
-            if (i == 0) {
-                continue;
-            }
+        for (int i = 1; i < arguments.size(); i++) {
             Object argument = arguments.get(i);
             ParameterDefinition parameter = parameters.get(i);
             for (ConstraintDefinition constraint : parameter.getConstraints()) {

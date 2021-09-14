@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.rewrite.dispatching.parser.impl.Messag
 import com.github.kaktushose.jda.commands.rewrite.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
@@ -77,14 +76,34 @@ public class CommandDispatcher {
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
 
-        // TODO check if argument size is matching
         log.debug("Type adapting arguments...");
         MessageReceivedEvent event = context.getEvent();
         arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, null));
-        for (int i = 0; i < input.length; i++) {
-            // + 1 so we skip the CommandEvent
-            ParameterDefinition parameter = command.getParameters().get(i + 1);
-            String raw = input[i];
+        // start with index 1 so we skip the CommandEvent
+        for (int i = 1; i < command.getParameters().size(); i++) {
+            ParameterDefinition parameter = command.getParameters().get(i);
+
+            String raw;
+            // current parameter index > total amount of input, check if it's optional else cancel context
+            if (i > input.length) {
+                if (!parameter.isOptional()) {
+                    context.setCancelled(true);
+                    context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
+                    break;
+                }
+
+                // if the default value is an empty String (thus not present) add a null value to the argument list
+                // else try to type adapt the default value
+                if (parameter.getDefaultValue() == null) {
+                    arguments.add(null);
+                    continue;
+                } else {
+                    raw = parameter.getDefaultValue();
+                }
+            } else {
+                // - 1 because we start with index 1
+                raw = input[i - 1];
+            }
 
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
 
