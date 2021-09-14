@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.rewrite.reflect;
 
-import com.github.kaktushose.jda.commands.rewrite.exceptions.CommandException;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.annotations.CommandController;
 import com.github.kaktushose.jda.commands.rewrite.annotations.Permission;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ControllerDefinition {
 

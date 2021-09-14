@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.rewrite.dispatching;
 
-import com.github.kaktushose.jda.commands.entities.CommandEvent;
-import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.adapter.ParameterAdapterRegistry;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.filter.FilterRegistry;
@@ -12,18 +10,13 @@ import com.github.kaktushose.jda.commands.rewrite.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.rewrite.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.rewrite.reflect.CommandRegistry;
-import com.github.kaktushose.jda.commands.rewrite.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class CommandDispatcher {
 
@@ -69,66 +62,13 @@ public class CommandDispatcher {
             log.debug("No matching command found!");
             return;
         }
-
         CommandDefinition command = context.getCommand();
         log.debug("Input matches command: {}", command);
 
-        List<Object> arguments = new ArrayList<>();
-        String[] input = context.getInput();
-
-        log.debug("Type adapting arguments...");
-        MessageReceivedEvent event = context.getEvent();
-        arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, null));
-        // start with index 1 so we skip the CommandEvent
-        for (int i = 1; i < command.getParameters().size(); i++) {
-            ParameterDefinition parameter = command.getParameters().get(i);
-
-            String raw;
-            // current parameter index > total amount of input, check if it's optional else cancel context
-            if (i > input.length) {
-                if (!parameter.isOptional()) {
-                    context.setCancelled(true);
-                    context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
-                    break;
-                }
-
-                // if the default value is an empty String (thus not present) add a null value to the argument list
-                // else try to type adapt the default value
-                if (parameter.getDefaultValue() == null) {
-                    arguments.add(null);
-                    continue;
-                } else {
-                    raw = parameter.getDefaultValue();
-                }
-            } else {
-                // - 1 because we start with index 1
-                raw = input[i - 1];
-            }
-
-            log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
-
-            Optional<ParameterAdapter<?>> adapter = adapterRegistry.get(parameter.getType());
-            if (!adapter.isPresent()) {
-                throw new IllegalArgumentException("No type adapter found!");
-            }
-
-            Optional<?> parsed = adapter.get().parse(raw, context);
-            if (!parsed.isPresent()) {
-                log.debug("Type adapting failed!");
-                context.setCancelled(true);
-                context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
-                break;
-            }
-
-            arguments.add(parsed.get());
-            log.debug("Added {} to the argument list", parsed.get());
-        }
-
+        adapterRegistry.adapt(context);
         if (checkCancelled(context)) {
             return;
         }
-
-        context.setArguments(arguments);
 
         log.debug("Applying filters...");
         for (Filter filter : filterRegistry.getAll()) {
@@ -138,10 +78,10 @@ public class CommandDispatcher {
             }
         }
 
-        log.info("Executing command {} for user {}", command.getMethod().getName(), event.getAuthor());
+        log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getAuthor());
         try {
-            log.debug("Invoking method with following arguments: {}", arguments);
-            command.getMethod().invoke(command.getInstance(), arguments.toArray());
+            log.debug("Invoking method with following arguments: {}", context.getArguments());
+            command.getMethod().invoke(command.getInstance(), context.getArguments().toArray());
         } catch (Exception e) {
             log.error("Command execution failed!", new InvocationTargetException(e));
         }

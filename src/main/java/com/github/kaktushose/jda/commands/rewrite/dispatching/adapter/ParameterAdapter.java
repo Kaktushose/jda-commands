@@ -8,7 +8,7 @@ public interface ParameterAdapter<T> {
 
     Optional<T> parse(String raw, CommandContext context);
 
-    default String formatMention(String mention) {
+    default String sanitizeMention(String mention) {
         if (mention.matches("<[@#][&!]?([0-9]{4,})>")) {
             return mention.replaceAll("<[@#][&!]?", "").replace(">", "");
         }
