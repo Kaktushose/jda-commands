@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 /**
  * This class is a subclass of the {@code GuildMessageReceivedEvent} from JDA.
  * It provides some additional features for sending messages and also grants
- * access to the {@link CommandCallable} object which describes the command that is executed.
+ * access to the {@link CommandDefinition} object which describes the command that is executed.
  *
  * @author Kaktushose
  * @version 2.0.0

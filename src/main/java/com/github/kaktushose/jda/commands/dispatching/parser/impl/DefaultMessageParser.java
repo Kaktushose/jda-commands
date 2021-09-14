@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class MessageParser extends Parser<MessageReceivedEvent> {
+public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
 
     private static final Collection<Character> QUOTATION_MARKS = Arrays.asList('\'', '\"');
     private static final Character SPACE = ' ';

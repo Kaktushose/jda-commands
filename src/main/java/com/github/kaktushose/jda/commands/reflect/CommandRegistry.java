@@ -12,6 +12,7 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -60,14 +61,14 @@ public class CommandRegistry {
             log.debug("Registered controller {}", controller);
         }
 
-        log.info("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
+        log.debug("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
     }
 
     public Set<ControllerDefinition> getControllers() {
-        return controllers;
+        return Collections.unmodifiableSet(controllers);
     }
 
     public Set<CommandDefinition> getCommands() {
-        return commands;
+        return Collections.unmodifiableSet(commands);
     }
 }

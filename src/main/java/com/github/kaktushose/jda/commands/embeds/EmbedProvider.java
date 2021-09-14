@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.embeds;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-public interface EmbedFactory {
+public interface EmbedProvider {
 
     MessageEmbed getDefaultHelpEmbed();
 

@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRe
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.parser.impl.MessageParser;
+import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
 import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -20,7 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public class CommandDispatcher {
 
-    private final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
+    private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
+    private static boolean isActive;
     private final Object jda;
     private final boolean isShardManager;
     private final ParserSupervisor parserSupervisor;
@@ -30,9 +31,13 @@ public class CommandDispatcher {
     private final CommandRegistry commandRegistry;
     private Router router;
 
-    public CommandDispatcher(Object jda, boolean isShardManager) {
+    public CommandDispatcher(Object jda, boolean isShardManager, String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
+
+        if (isActive) {
+            throw new IllegalStateException("An instance of the command framework is already running!");
+        }
 
         parserSupervisor = new ParserSupervisor(this);
         if (isShardManager) {
@@ -40,7 +45,7 @@ public class CommandDispatcher {
         } else {
             ((JDA) jda).addEventListener(parserSupervisor);
         }
-        parserSupervisor.register(MessageReceivedEvent.class, new MessageParser());
+        parserSupervisor.register(MessageReceivedEvent.class, new DefaultMessageParser());
 
         router = new CommandRouter();
         filterRegistry = new FilterRegistry();
@@ -48,7 +53,18 @@ public class CommandDispatcher {
         adapterRegistry = new ParameterAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry);
-        commandRegistry.index();
+        commandRegistry.index(packages);
+
+        isActive = true;
+    }
+
+    public void shutdown() {
+        if (isShardManager) {
+            ((ShardManager) jda).removeEventListener(this);
+        } else {
+            ((JDA) jda).removeEventListener(this);
+        }
+        isActive = false;
     }
 
     public void onEvent(CommandContext context) {
@@ -117,10 +133,6 @@ public class CommandDispatcher {
 
     public boolean isShardManager() {
         return isShardManager;
-    }
-
-    public ParserSupervisor getEventListener() {
-        return parserSupervisor;
     }
 
     public FilterRegistry getFilterRegistry() {
