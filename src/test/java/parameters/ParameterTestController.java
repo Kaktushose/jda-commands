@@ -1,8 +1,8 @@
 package parameters;
 
-import com.github.kaktushose.jda.commands.rewrite.annotations.Concat;
-import com.github.kaktushose.jda.commands.rewrite.annotations.Optional;
-import com.github.kaktushose.jda.commands.rewrite.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.annotations.Concat;
+import com.github.kaktushose.jda.commands.annotations.Optional;
+import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 
 public class ParameterTestController {
 
