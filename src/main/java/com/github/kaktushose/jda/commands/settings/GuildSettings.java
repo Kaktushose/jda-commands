@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class GuildSettings {
 
+    private long guildId;
     private String prefix;
     private boolean ignoreCase;
     private boolean ignoreBots;
@@ -14,7 +15,8 @@ public class GuildSettings {
     private boolean isMutedGuild;
 
     public GuildSettings() {
-        this("!",
+        this(0,
+                "!",
                 true,
                 true,
                 true,
@@ -26,13 +28,15 @@ public class GuildSettings {
         );
     }
 
-    public GuildSettings(String prefix,
+    public GuildSettings(long guildId,
+                         String prefix,
                          boolean ignoreCase,
                          boolean ignoreBots,
                          boolean parseQuotes,
                          Set<String> helpLabels,
                          Set<Long> mutedChannels,
                          boolean isMutedGuild) {
+        this.guildId = guildId;
         this.prefix = prefix;
         this.ignoreCase = ignoreCase;
         this.ignoreBots = ignoreBots;
@@ -40,6 +44,15 @@ public class GuildSettings {
         this.helpLabels = helpLabels;
         this.mutedChannels = mutedChannels;
         this.isMutedGuild = isMutedGuild;
+    }
+
+    public long getGuildId() {
+        return guildId;
+    }
+
+    public GuildSettings setGuildId(long guildId) {
+        this.guildId = guildId;
+        return this;
     }
 
     public String getPrefix() {
@@ -105,7 +118,8 @@ public class GuildSettings {
     @Override
     public String toString() {
         return "GuildSettings{" +
-                "prefix='" + prefix + '\'' +
+                "id=" + guildId +
+                ", prefix='" + prefix + '\'' +
                 ", ignoreCase=" + ignoreCase +
                 ", ignoreBots=" + ignoreBots +
                 ", parseQuotes=" + parseQuotes +
