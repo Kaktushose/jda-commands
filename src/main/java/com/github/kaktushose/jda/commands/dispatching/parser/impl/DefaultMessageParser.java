@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.parser.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
+import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -16,14 +17,24 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
     private static final Character SPACE = ' ';
 
     @Override
-    public CommandContext parse(MessageReceivedEvent event) {
+    public CommandContext parse(MessageReceivedEvent event, GuildSettings settings) {
+        CommandContext context = new CommandContext();
+
+        if (event.getAuthor().isBot() && settings.isIgnoreBots()) {
+            return context.setCancelled(true);
+        }
+
         String contentRaw = event.getMessage().getContentRaw();
 
         while (contentRaw.contains("  ")) {
             contentRaw = contentRaw.replaceAll(" {2}", " ");
         }
 
-        contentRaw = contentRaw.replaceFirst(Pattern.quote("!"), "").trim();
+        if (!contentRaw.startsWith(Pattern.quote(settings.getPrefix()))) {
+            return context.setCancelled(true);
+        }
+
+        contentRaw = contentRaw.replaceFirst(Pattern.quote(settings.getPrefix()), "").trim();
         String[] input = contentRaw.split(" ");
 
         /*
@@ -32,8 +43,7 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
          *
          * @author stijnb1234
          */
-        // TODO make this optional, for the moment it will be default
-        if (true) {
+        if (settings.isParseQuotes()) {
             StringBuilder builder = new StringBuilder();
             boolean quote = false;
             int i = 0;
@@ -66,6 +76,6 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
             input = arguments.toArray(new String[0]);
         }
 
-        return new CommandContext().setInput(input).setEvent(event);
+        return context.setInput(input).setEvent(event).setSettings(settings);
     }
 }

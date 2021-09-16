@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -13,6 +14,7 @@ public class CommandContext {
     private CommandDefinition command;
     private List<Object> arguments;
     private Message errorMessage;
+    private GuildSettings settings;
     private boolean cancelled;
 
     public String[] getInput() {
@@ -56,6 +58,15 @@ public class CommandContext {
 
     public void setErrorMessage(Message message) {
         this.errorMessage = message;
+    }
+
+    public GuildSettings getSettings() {
+        return settings;
+    }
+
+    public CommandContext setSettings(GuildSettings settings) {
+        this.settings = settings;
+        return this;
     }
 
     public boolean isCancelled() {

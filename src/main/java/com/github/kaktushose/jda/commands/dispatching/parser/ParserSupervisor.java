@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
+import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +41,14 @@ public class ParserSupervisor extends ListenerAdapter {
         log.debug("Received {}", event.getClass().getSimpleName());
         Parser<?> parser = listeners.get(event.getClass());
         log.debug("Calling {}", parser.getClass().getName());
-        CommandContext context = parser.parseInternal(event);
+        CommandContext context = parser.parseInternal(event, new GuildSettings());
+
+        if (context.isCancelled()) {
+            log.debug("Event didn't meet requirements!");
+            return;
+        }
+
+        log.debug("Calling the CommandDispatcher");
         dispatcher.onEvent(context);
     }
 }

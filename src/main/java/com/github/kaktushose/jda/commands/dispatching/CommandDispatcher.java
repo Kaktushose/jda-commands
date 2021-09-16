@@ -68,11 +68,6 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
-        // workaround for the moment
-        if (context.getEvent().getAuthor().isBot()) {
-            return;
-        }
-
         router.findCommands(context, commandRegistry.getCommands());
         if (checkCancelled(context)) {
             log.debug("No matching command found!");

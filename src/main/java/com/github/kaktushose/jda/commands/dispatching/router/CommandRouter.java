@@ -38,8 +38,7 @@ public class CommandRouter implements Router {
                                 return false;
                             }
 
-                            // TODO if we have labelIgnoreCase option
-                            if (true) {
+                            if (context.getSettings().isIgnoreCase()) {
                                 matches = expectedLabels[k].toLowerCase().startsWith(actualLabels[k].toLowerCase());
                             } else {
                                 matches = expectedLabels[k].startsWith(actualLabels[k]);
