@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
@@ -23,17 +24,21 @@ public class JDACommands {
         log.info("Finished loading!");
     }
 
-    public static JDACommands start(JDA jda, String prefix, String... packages) {
+    public static JDACommands start(JDA jda, String... packages) {
         return new JDACommands(jda, false, packages);
     }
 
-    public static JDACommands start(ShardManager shardManager, String prefix, String... packages) {
+    public static JDACommands start(ShardManager shardManager, String... packages) {
         return new JDACommands(shardManager, true, packages);
     }
 
     public void shutdown() {
         commandDispatcher.shutdown();
         log.info("Finished shutdown!");
+    }
+
+    public ImplementationRegistry getImplementationRegistry() {
+        return commandDispatcher.getImplementationRegistry();
     }
 
     public ParserSupervisor getParserSupervisor() {

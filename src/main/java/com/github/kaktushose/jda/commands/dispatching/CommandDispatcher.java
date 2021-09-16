@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -24,6 +25,7 @@ public class CommandDispatcher {
     private static boolean isActive;
     private final Object jda;
     private final boolean isShardManager;
+    private final ImplementationRegistry implementationRegistry;
     private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
     private final ParameterAdapterRegistry adapterRegistry;
@@ -39,19 +41,21 @@ public class CommandDispatcher {
             throw new IllegalStateException("An instance of the command framework is already running!");
         }
 
-        parserSupervisor = new ParserSupervisor(this);
+        implementationRegistry = new ImplementationRegistry();
+        implementationRegistry.index(packages);
+
+        parserSupervisor = new ParserSupervisor(this, implementationRegistry.getSettingsProvider());
         if (isShardManager) {
             ((ShardManager) jda).addEventListener(parserSupervisor);
         } else {
             ((JDA) jda).addEventListener(parserSupervisor);
         }
-        parserSupervisor.register(MessageReceivedEvent.class, new DefaultMessageParser());
 
         router = new CommandRouter();
         filterRegistry = new FilterRegistry();
-
         adapterRegistry = new ParameterAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
+
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry);
         commandRegistry.index(packages);
 
@@ -104,6 +108,10 @@ public class CommandDispatcher {
             return true;
         }
         return false;
+    }
+
+    public ImplementationRegistry getImplementationRegistry() {
+        return implementationRegistry;
     }
 
     public ParserSupervisor getParserSupervisor() {

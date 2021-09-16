@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.settings.impl;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.entities.Guild;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class DefaultSettingsProvider implements SettingsProvider {
     }
 
     @Override
-    public GuildSettings getSettings(Guild guild) {
+    public GuildSettings getSettings(@Nullable Guild guild) {
         return settings;
     }
 }
