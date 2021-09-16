@@ -26,6 +26,14 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
             return context.setCancelled(true);
         }
 
+        if (settings.isMutedGuild()) {
+            return context.setCancelled(true);
+        }
+
+        if (settings.getMutedChannels().contains(event.getChannel().getIdLong())) {
+            return context.setCancelled(true);
+        }
+
         String contentRaw = event.getMessage().getContentRaw();
 
         while (contentRaw.contains("  ")) {

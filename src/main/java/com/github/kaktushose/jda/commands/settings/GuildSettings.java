@@ -10,19 +10,36 @@ public class GuildSettings {
     private boolean ignoreBots;
     private boolean parseQuotes;
     private Set<String> helpLabels;
+    private Set<Long> mutedChannels;
+    private boolean isMutedGuild;
 
     public GuildSettings() {
-        this("!", true, true, true, new HashSet<String>() {{
-            add("help");
-        }});
+        this("!",
+                true,
+                true,
+                true,
+                new HashSet<String>() {{
+                    add("help");
+                }},
+                new HashSet<>(),
+                false
+        );
     }
 
-    public GuildSettings(String prefix, boolean ignoreCase, boolean ignoreBots, boolean parseQuotes, Set<String> helpLabels) {
+    public GuildSettings(String prefix,
+                         boolean ignoreCase,
+                         boolean ignoreBots,
+                         boolean parseQuotes,
+                         Set<String> helpLabels,
+                         Set<Long> mutedChannels,
+                         boolean isMutedGuild) {
         this.prefix = prefix;
         this.ignoreCase = ignoreCase;
         this.ignoreBots = ignoreBots;
         this.parseQuotes = parseQuotes;
         this.helpLabels = helpLabels;
+        this.mutedChannels = mutedChannels;
+        this.isMutedGuild = isMutedGuild;
     }
 
     public String getPrefix() {
@@ -69,6 +86,22 @@ public class GuildSettings {
         return this;
     }
 
+    public Set<Long> getMutedChannels() {
+        return mutedChannels;
+    }
+
+    public void setMutedChannels(Set<Long> mutedChannels) {
+        this.mutedChannels = mutedChannels;
+    }
+
+    public boolean isMutedGuild() {
+        return isMutedGuild;
+    }
+
+    public void setMutedGuild(boolean mutedGuild) {
+        isMutedGuild = mutedGuild;
+    }
+
     @Override
     public String toString() {
         return "GuildSettings{" +
@@ -77,6 +110,8 @@ public class GuildSettings {
                 ", ignoreBots=" + ignoreBots +
                 ", parseQuotes=" + parseQuotes +
                 ", helpLabels=" + helpLabels +
+                ", mutedChannels=" + mutedChannels +
+                ", isMuted=" + isMutedGuild +
                 '}';
     }
 }

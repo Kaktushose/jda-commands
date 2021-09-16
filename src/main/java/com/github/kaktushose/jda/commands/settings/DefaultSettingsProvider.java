@@ -1,7 +1,5 @@
-package com.github.kaktushose.jda.commands.settings.impl;
+package com.github.kaktushose.jda.commands.settings;
 
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -31,6 +29,17 @@ public class DefaultSettingsProvider implements SettingsProvider {
             settings.getHelpLabels().clear();
             for (String label : labels) {
                 settings.getHelpLabels().add(label.trim());
+            }
+
+            String mutedChannels = properties.getProperty("mutedChannels", "");
+            String[] channels = mutedChannels.split(" ,");
+            settings.getMutedChannels().clear();
+            for (String channel : channels) {
+                try {
+                    settings.getMutedChannels().add(Long.parseLong(channel.trim()));
+                } catch (NumberFormatException e) {
+                    log.error(String.format("Cannot parse %s to long", channel), e);
+                }
             }
 
             log.debug("Loaded settings from jdac.properties file");

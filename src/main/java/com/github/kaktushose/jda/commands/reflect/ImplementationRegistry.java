@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
-import com.github.kaktushose.jda.commands.settings.impl.DefaultSettingsProvider;
+import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
