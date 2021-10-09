@@ -4,6 +4,8 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
     @Override
     public CommandContext parse(MessageReceivedEvent event, SettingsProvider settingsProvider) {
         CommandContext context = new CommandContext();
-        GuildSettings settings = settingsProvider.getSettings(event.getGuild());
+        GuildSettings settings = settingsProvider.getSettings(event.isFromType(ChannelType.TEXT) ? null : event.getGuild());
 
         if (event.getAuthor().isBot() && settings.isIgnoreBots()) {
             return context.setCancelled(true);

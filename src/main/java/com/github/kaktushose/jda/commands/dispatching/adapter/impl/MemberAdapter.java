@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
@@ -11,8 +12,13 @@ public class MemberAdapter implements TypeAdapter<Member> {
 
     @Override
     public Optional<Member> parse(String raw, CommandContext context) {
+        if (!context.getEvent().isFromType(ChannelType.TEXT)) {
+            return Optional.empty();
+        }
+
         Member member;
         raw = sanitizeMention(raw);
+
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
             member = guild.retrieveMemberById(raw).complete();
