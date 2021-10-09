@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class CommandDefinition {
 
     public static Optional<CommandDefinition> build(Method method,
                                                     Object instance,
-                                                    ParameterAdapterRegistry adapterRegistry,
+                                                    TypeAdapterRegistry adapterRegistry,
                                                     ValidatorRegistry validatorRegistry) {
 
         if (!method.isAnnotationPresent(Command.class) || !method.getDeclaringClass().isAnnotationPresent(CommandController.class)) {

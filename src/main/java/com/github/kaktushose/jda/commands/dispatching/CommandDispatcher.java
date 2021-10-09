@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
@@ -26,7 +26,7 @@ public class CommandDispatcher {
     private final ImplementationRegistry implementationRegistry;
     private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
-    private final ParameterAdapterRegistry adapterRegistry;
+    private final TypeAdapterRegistry adapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final CommandRegistry commandRegistry;
     private Router router;
@@ -51,7 +51,7 @@ public class CommandDispatcher {
 
         router = new CommandRouter();
         filterRegistry = new FilterRegistry();
-        adapterRegistry = new ParameterAdapterRegistry();
+        adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry);
@@ -122,7 +122,7 @@ public class CommandDispatcher {
         return parserSupervisor;
     }
 
-    public ParameterAdapterRegistry getAdapterRegistry() {
+    public TypeAdapterRegistry getAdapterRegistry() {
         return adapterRegistry;
     }
 

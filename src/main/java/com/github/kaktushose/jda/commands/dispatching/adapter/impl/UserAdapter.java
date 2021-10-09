@@ -1,13 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.Optional;
 
-public class UserAdapter implements ParameterAdapter<User> {
+public class UserAdapter implements TypeAdapter<User> {
 
     @Override
     public Optional<User> parse(String raw, CommandContext context) {

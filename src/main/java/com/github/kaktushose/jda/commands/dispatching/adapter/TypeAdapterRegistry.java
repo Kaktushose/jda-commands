@@ -16,12 +16,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class ParameterAdapterRegistry {
+public class TypeAdapterRegistry {
 
-    private static final Logger log = LoggerFactory.getLogger(ParameterAdapterRegistry.class);
-    private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters;
+    private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
+    private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
-    public ParameterAdapterRegistry() {
+    public TypeAdapterRegistry() {
         parameterAdapters = new HashMap<>();
 
         // default types
@@ -33,8 +33,8 @@ public class ParameterAdapterRegistry {
         register(Double.class, new DoubleAdapter());
         register(Character.class, new CharacterAdapter());
         register(Boolean.class, new BooleanAdapter());
-        register(String.class, (ParameterAdapter<String>) (raw, guild) -> Optional.of(raw));
-        register(String[].class, (ParameterAdapter<String>) (raw, guild) -> Optional.of(raw));
+        register(String.class, (TypeAdapter<String>) (raw, guild) -> Optional.of(raw));
+        register(String[].class, (TypeAdapter<String>) (raw, guild) -> Optional.of(raw));
 
         // jda specific
         register(Member.class, new MemberAdapter());
@@ -43,7 +43,7 @@ public class ParameterAdapterRegistry {
         register(Role.class, new RoleAdapter());
     }
 
-    public void register(Class<?> type, ParameterAdapter<?> adapter) {
+    public void register(Class<?> type, TypeAdapter<?> adapter) {
         parameterAdapters.put(type, adapter);
         log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
     }
@@ -57,7 +57,7 @@ public class ParameterAdapterRegistry {
         return parameterAdapters.containsKey(type);
     }
 
-    public Optional<ParameterAdapter<?>> get(Class<?> type) {
+    public Optional<TypeAdapter<?>> get(Class<?> type) {
         return Optional.ofNullable(parameterAdapters.get(type));
     }
 
@@ -104,7 +104,7 @@ public class ParameterAdapterRegistry {
 
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
 
-            Optional<ParameterAdapter<?>> adapter = get(parameter.getType());
+            Optional<TypeAdapter<?>> adapter = get(parameter.getType());
             if (!adapter.isPresent()) {
                 throw new IllegalArgumentException("No type adapter found!");
             }

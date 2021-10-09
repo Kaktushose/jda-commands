@@ -1,13 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.Optional;
 
-public class TextChannelAdapter implements ParameterAdapter<TextChannel> {
+public class TextChannelAdapter implements TypeAdapter<TextChannel> {
 
     @Override
     public Optional<TextChannel> parse(String raw, CommandContext context) {

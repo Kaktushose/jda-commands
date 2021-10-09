@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
@@ -45,7 +45,7 @@ public class JDACommands {
         return commandDispatcher.getParserSupervisor();
     }
 
-    public ParameterAdapterRegistry getAdapterRegistry() {
+    public TypeAdapterRegistry getAdapterRegistry() {
         return commandDispatcher.getAdapterRegistry();
     }
 

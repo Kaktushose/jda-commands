@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -20,12 +20,12 @@ import java.util.Set;
 public class CommandRegistry {
 
     private final static Logger log = LoggerFactory.getLogger(CommandRegistry.class);
-    private final ParameterAdapterRegistry parameterRegistry;
+    private final TypeAdapterRegistry parameterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
 
-    public CommandRegistry(ParameterAdapterRegistry parameterRegistry, ValidatorRegistry validatorRegistry) {
+    public CommandRegistry(TypeAdapterRegistry parameterRegistry, ValidatorRegistry validatorRegistry) {
         this.parameterRegistry = parameterRegistry;
         this.validatorRegistry = validatorRegistry;
         controllers = new HashSet<>();

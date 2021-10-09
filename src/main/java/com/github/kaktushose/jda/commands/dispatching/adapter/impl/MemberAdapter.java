@@ -1,13 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.util.Optional;
 
-public class MemberAdapter implements ParameterAdapter<Member> {
+public class MemberAdapter implements TypeAdapter<Member> {
 
     @Override
     public Optional<Member> parse(String raw, CommandContext context) {

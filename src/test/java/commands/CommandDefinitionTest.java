@@ -1,7 +1,7 @@
 package commands;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,7 +18,7 @@ public class CommandDefinitionTest {
     private static Class<?> controller;
     private static CommandDefinitionTestController instance;
     private static ValidatorRegistry validators;
-    private static ParameterAdapterRegistry adapters;
+    private static TypeAdapterRegistry adapters;
 
     @BeforeAll
     public static void setup() {
@@ -28,7 +28,7 @@ public class CommandDefinitionTest {
         validators = new ValidatorRegistry();
 
         // make sure that this type is not registered before testing
-        adapters = new ParameterAdapterRegistry();
+        adapters = new TypeAdapterRegistry();
         adapters.unregister(UnsupportedType.class);
     }
 

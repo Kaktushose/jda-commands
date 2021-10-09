@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 
 import java.util.Optional;
 
-public interface ParameterAdapter<T> {
+public interface TypeAdapter<T> {
 
     Optional<T> parse(String raw, CommandContext context);
 

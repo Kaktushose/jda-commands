@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 
 import java.util.Optional;
 
-public class BooleanAdapter implements ParameterAdapter<Boolean> {
+public class BooleanAdapter implements TypeAdapter<Boolean> {
 
     @Override
     public Optional<Boolean> parse(String raw, CommandContext context) {

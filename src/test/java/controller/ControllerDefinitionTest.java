@@ -1,7 +1,7 @@
 package controller;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -20,7 +20,7 @@ public class ControllerDefinitionTest {
     private static Class<?> controller;
     private static ControllerDefinitionTestController instance;
     private static ValidatorRegistry validators;
-    private static ParameterAdapterRegistry adapters;
+    private static TypeAdapterRegistry adapters;
 
     @BeforeAll
     public static void setup() {
@@ -30,7 +30,7 @@ public class ControllerDefinitionTest {
         validators = new ValidatorRegistry();
 
         // make sure that this type is not registered before testing
-        adapters = new ParameterAdapterRegistry();
+        adapters = new TypeAdapterRegistry();
         adapters.unregister(UnsupportedType.class);
     }
 

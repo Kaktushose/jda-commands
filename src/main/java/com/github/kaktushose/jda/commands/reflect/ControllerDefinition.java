@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.Permission;
-import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class ControllerDefinition {
     }
 
     public static Optional<ControllerDefinition> build(Class<?> controllerClass,
-                                                       ParameterAdapterRegistry adapterRegistry,
+                                                       TypeAdapterRegistry adapterRegistry,
                                                        ValidatorRegistry validatorRegistry) {
         CommandController commandController = controllerClass.getAnnotation(CommandController.class);
 
