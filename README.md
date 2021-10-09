@@ -17,8 +17,8 @@ The following example will demonstrate how easy it is to write a command:
 public class BanCommand {
 
   @Command("ban")
-  public void ban(CommandEvent event, Member member, @Max(30) int deleteDays, @Optional @Concat String reason) {
-      event.getGuild().ban(member, deleteDays); 
+  public void ban(CommandEvent event, Member member, @Max(30) int delDays, @Optional @Concat String reason) {
+      event.getGuild().ban(member, delDays); 
       event.reply("%s got banned for reason %s", member.getAsMention(), reason);
   }
 
@@ -27,9 +27,6 @@ public class BanCommand {
 Then, just start the framework by calling:
 
 `JDACommands.start();`
-
---- 
-That's it. Your command is now working. If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or the [Javadoc](https://kaktushose.github.io/jda-commands/).
 
 ## Features
 
@@ -131,6 +128,8 @@ This framework has builtin classes to store settings and user permissions in dif
 
 Just like Javas Reflect API this framework also supports accessing and modifying command definitions at runtime.  
 </details>
+
+If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or the [Javadoc](https://kaktushose.github.io/jda-commands/).
 
 ## Download
 

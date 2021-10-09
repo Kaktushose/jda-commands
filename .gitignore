@@ -1,5 +1,6 @@
 .idea/
 *.iml
+guilds.json
 target/
 src/main/java/testing
 src/main/resources

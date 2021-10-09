@@ -2,36 +2,26 @@ package com.github.kaktushose.jda.commands.data.impl;
 
 import com.github.kaktushose.jda.commands.data.JsonRepository;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import com.google.common.reflect.TypeToken;
 
+import java.io.File;
+import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
 
+    @SuppressWarnings("UnstableApiUsage")
+    private static final Type mapType = new TypeToken<Map<Long, GuildSettings>>() {
+    }.getType();
+
     public GuildSettingsJsonRepository(String path) {
-        super(path);
-        load();
+        super(path, mapType);
     }
 
-    @Override
-    public long count() {
-        return map.size();
-    }
-
-    @Override
-    public void delete(GuildSettings entity) {
-        map.remove(entity.getGuildId());
-        save();
-    }
-
-    @Override
-    public void deleteAll(Collection<GuildSettings> entities) {
-        entities.forEach(this::delete);
-    }
-
-    @Override
-    public boolean existsById(long id) {
-        return map.containsKey(id);
+    public GuildSettingsJsonRepository(File file) {
+        super(file, mapType);
     }
 
     @Override
@@ -42,16 +32,5 @@ public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
     @Override
     public Optional<GuildSettings> findById(long id) {
         return Optional.ofNullable(map.get(id));
-    }
-
-    @Override
-    public void save(GuildSettings entity) {
-        map.put(entity.getGuildId(), entity);
-        save();
-    }
-
-    @Override
-    public void saveAll(Collection<GuildSettings> entities) {
-        entities.forEach(this::save);
     }
 }
