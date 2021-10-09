@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
+import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
+import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
 import org.reflections.Reflections;
@@ -18,9 +20,11 @@ public class ImplementationRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);
     private SettingsProvider settingsProvider;
+    private PermissionsProvider permissionsProvider;
 
     public ImplementationRegistry() {
         settingsProvider = new DefaultSettingsProvider();
+        permissionsProvider = new DefaultPermissionsProvider();
     }
 
     public void index(String... packages) {
@@ -44,6 +48,21 @@ public class ImplementationRegistry {
                 log.error("Unable to create an instance of the custom implementation!", e);
             }
         }
+
+        Set<Class<? extends PermissionsProvider>> permissionsProviders = reflections.getSubTypesOf(PermissionsProvider.class);
+        for (Class<?> clazz : permissionsProviders) {
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                continue;
+            }
+            log.debug("Found {}", clazz.getName());
+            try {
+                permissionsProvider = (PermissionsProvider) clazz.getConstructor().newInstance();
+                break;
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Unable to create an instance of the custom implementation!", e);
+            }
+        }
+
     }
 
     public void setSettingsProvider(SettingsProvider settingsProvider) {
@@ -52,5 +71,13 @@ public class ImplementationRegistry {
 
     public SettingsProvider getSettingsProvider() {
         return settingsProvider;
+    }
+
+    public PermissionsProvider getPermissionsProvider() {
+        return permissionsProvider;
+    }
+
+    public void setPermissionsProvider(PermissionsProvider permissionsProvider) {
+        this.permissionsProvider = permissionsProvider;
     }
 }

@@ -35,6 +35,9 @@ public class DefaultSettingsProvider implements SettingsProvider {
             String[] channels = mutedChannels.split(" ,");
             settings.getMutedChannels().clear();
             for (String channel : channels) {
+                if (channel.isEmpty()) {
+                    continue;
+                }
                 try {
                     settings.getMutedChannels().add(Long.parseLong(channel.trim()));
                 } catch (NumberFormatException e) {

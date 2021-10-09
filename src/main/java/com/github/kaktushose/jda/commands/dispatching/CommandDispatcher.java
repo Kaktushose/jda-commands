@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.ParameterAdapterRe
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
 import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -12,7 +11,6 @@ import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +70,8 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
+        context.setImplementationRegistry(implementationRegistry);
+
         router.findCommands(context, commandRegistry.getCommands());
         if (checkCancelled(context)) {
             log.debug("No matching command found!");
@@ -88,9 +88,13 @@ public class CommandDispatcher {
         log.debug("Applying filters...");
         for (Filter filter : filterRegistry.getAll()) {
             filter.apply(context);
-            if (checkCancelled(context)) {
-                return;
+            if (context.isCancelled()) {
+                break;
             }
+        }
+
+        if (checkCancelled(context)) {
+            return;
         }
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getAuthor());

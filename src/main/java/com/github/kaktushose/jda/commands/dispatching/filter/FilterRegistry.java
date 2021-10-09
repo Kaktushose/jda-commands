@@ -19,13 +19,12 @@ public class FilterRegistry {
     public FilterRegistry() {
         this.filters = new ArrayList<>();
 
-        register(new DirectMessageFilter());
         register(new PermissionsFilter());
+        register(new DirectMessageFilter());
         register(new CooldownFilter());
         register(new ConstraintFilter());
     }
 
-    // TODO this is the place to add positioning
     public void register(Filter filter) {
         filters.add(filter);
         log.debug("Registered filter {}", filter.getClass().getName());
@@ -39,5 +38,4 @@ public class FilterRegistry {
     public List<Filter> getAll() {
         return Collections.unmodifiableList(filters);
     }
-
 }
