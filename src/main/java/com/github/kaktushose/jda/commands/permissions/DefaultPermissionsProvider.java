@@ -22,7 +22,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     public boolean hasPermission(Member member, CommandContext context) {
         for (String s : context.getCommand().getPermissions()) {
             // not a discord perm, continue
-            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equals(s.toUpperCase()))) {
+            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;
             }
             if (member.hasPermission(Permission.valueOf(s.toUpperCase()))) {

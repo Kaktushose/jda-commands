@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.parser;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.events.GenericEvent;
 

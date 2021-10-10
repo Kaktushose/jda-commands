@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;

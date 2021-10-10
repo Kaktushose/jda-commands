@@ -25,14 +25,14 @@ public class DefaultSettingsProvider implements SettingsProvider {
             settings.setParseQuotes(Boolean.parseBoolean(properties.getProperty("parseQuotes", "true")));
 
             String helpLabels = properties.getProperty("helpLabels", "help");
-            String[] labels = helpLabels.split(" ,");
+            String[] labels = helpLabels.split(", ");
             settings.getHelpLabels().clear();
             for (String label : labels) {
                 settings.getHelpLabels().add(label.trim());
             }
 
             String mutedChannels = properties.getProperty("mutedChannels", "");
-            String[] channels = mutedChannels.split(" ,");
+            String[] channels = mutedChannels.split(", ");
             settings.getMutedChannels().clear();
             for (String channel : channels) {
                 if (channel.isEmpty()) {

@@ -1,10 +1,12 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
+import com.github.kaktushose.jda.commands.embeds.DefaultHelpMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
+import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -14,17 +16,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 import java.util.Set;
 
 public class ImplementationRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);
+    private static Reflections reflections;
     private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
+    private HelpMessageFactory helpMessageFactory;
 
     public ImplementationRegistry() {
         settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
+        helpMessageFactory = new DefaultHelpMessageFactory();
     }
 
     public void index(String... packages) {
@@ -33,44 +39,21 @@ public class ImplementationRegistry {
                 .setScanners(new SubTypesScanner())
                 .setUrls(ClasspathHelper.forClass(getClass()))
                 .filterInputsBy(new FilterBuilder().includePackage(packages));
-        Reflections reflections = new Reflections(config);
+        reflections = new Reflections(config);
 
-        Set<Class<? extends SettingsProvider>> settingsProviders = reflections.getSubTypesOf(SettingsProvider.class);
-        for (Class<?> clazz : settingsProviders) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
-                continue;
-            }
-            log.debug("Found {}", clazz.getName());
-            try {
-                settingsProvider = (SettingsProvider) clazz.getConstructor().newInstance();
-                break;
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                log.error("Unable to create an instance of the custom implementation!", e);
-            }
-        }
+        findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);
 
-        Set<Class<? extends PermissionsProvider>> permissionsProviders = reflections.getSubTypesOf(PermissionsProvider.class);
-        for (Class<?> clazz : permissionsProviders) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
-                continue;
-            }
-            log.debug("Found {}", clazz.getName());
-            try {
-                permissionsProvider = (PermissionsProvider) clazz.getConstructor().newInstance();
-                break;
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                log.error("Unable to create an instance of the custom implementation!", e);
-            }
-        }
+        findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
 
-    }
-
-    public void setSettingsProvider(SettingsProvider settingsProvider) {
-        this.settingsProvider = settingsProvider;
+        findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
     }
 
     public SettingsProvider getSettingsProvider() {
         return settingsProvider;
+    }
+
+    public void setSettingsProvider(SettingsProvider settingsProvider) {
+        this.settingsProvider = settingsProvider;
     }
 
     public PermissionsProvider getPermissionsProvider() {
@@ -79,5 +62,31 @@ public class ImplementationRegistry {
 
     public void setPermissionsProvider(PermissionsProvider permissionsProvider) {
         this.permissionsProvider = permissionsProvider;
+    }
+
+    public HelpMessageFactory getHelpMessageFactory() {
+        return helpMessageFactory;
+    }
+
+    public void setHelpMessageFactory(HelpMessageFactory helpMessageFactory) {
+        this.helpMessageFactory = helpMessageFactory;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Optional<T> findImplementation(Class<T> type) {
+        Set<Class<? extends T>> implementations = reflections.getSubTypesOf(type);
+        for (Class<?> clazz : implementations) {
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                continue;
+            }
+            log.debug("Found {}", clazz.getName());
+            try {
+                return Optional.of((T) clazz.getConstructor().newInstance());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Unable to create an instance of the custom implementation!", e);
+
+            }
+        }
+        return Optional.empty();
     }
 }

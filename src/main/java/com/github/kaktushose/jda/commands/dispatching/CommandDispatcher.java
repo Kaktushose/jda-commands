@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
+import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
@@ -24,6 +25,7 @@ public class CommandDispatcher {
     private final Object jda;
     private final boolean isShardManager;
     private final ImplementationRegistry implementationRegistry;
+    private final HelpMessageFactory helpMessageFactory;
     private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
     private final TypeAdapterRegistry adapterRegistry;
@@ -41,6 +43,8 @@ public class CommandDispatcher {
 
         implementationRegistry = new ImplementationRegistry();
         implementationRegistry.index(packages);
+
+        helpMessageFactory = implementationRegistry.getHelpMessageFactory();
 
         parserSupervisor = new ParserSupervisor(this, implementationRegistry.getSettingsProvider());
         if (isShardManager) {
@@ -72,13 +76,26 @@ public class CommandDispatcher {
     public void onEvent(CommandContext context) {
         context.setImplementationRegistry(implementationRegistry);
 
+        boolean isHelpMessage = router.parseHelpMessage(context);
+
         router.findCommands(context, commandRegistry.getCommands());
+
+        if (context.isCancelled() && isHelpMessage) {
+            log.debug("Sending generic help");
+            context.getEvent().getChannel().sendMessage(helpMessageFactory.getGenericHelp(commandRegistry.getControllers())).queue();
+            return;
+        }
         if (checkCancelled(context)) {
             log.debug("No matching command found!");
             return;
         }
         CommandDefinition command = context.getCommand();
         log.debug("Input matches command: {}", command);
+
+        if (isHelpMessage) {
+            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(command)).queue();
+            return;
+        }
 
         adapterRegistry.adapt(context);
         if (checkCancelled(context)) {

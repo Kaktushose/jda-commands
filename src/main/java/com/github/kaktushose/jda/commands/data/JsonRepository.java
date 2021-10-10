@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.data;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ public abstract class JsonRepository<T> implements Repository<T> {
     private static final Logger log = LoggerFactory.getLogger(JsonRepository.class);
     private final Gson gson;
     private final File file;
-    private Type mapType;
+    private final Type mapType;
     protected Map<Long, T> map;
 
     public JsonRepository(String path, Type mapType) {
