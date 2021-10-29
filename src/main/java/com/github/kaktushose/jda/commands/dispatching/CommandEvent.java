@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
+import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -25,7 +26,7 @@ import java.util.function.Consumer;
 public class CommandEvent extends MessageReceivedEvent {
 
     private final CommandDefinition commandDefinition;
-    private final JDACommands jdaCommands;
+    private final CommandContext context;
 
     /**
      * Constructs a CommandEvent.
@@ -34,12 +35,17 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param responseNumber the responseNumber, needed for the {@code GuildMessageReceivedEvent}
      * @param message        the {@code Message}, needed for the {@code GuildMessageReceivedEvent}
      * @param command        the underlying {@link CommandDefinition} object
-     * @param jdaCommands    the {@link JDACommands} object
+     * @param context        the {@link CommandContext}
      */
-    public CommandEvent(@Nonnull JDA api, long responseNumber, @Nonnull Message message, @Nonnull CommandDefinition command, JDACommands jdaCommands) {
+    public CommandEvent(@Nonnull JDA api,
+                        long responseNumber,
+                        @Nonnull Message message,
+                        @Nonnull CommandDefinition command,
+                        @Nonnull CommandContext context
+    ) {
         super(api, responseNumber, message);
         this.commandDefinition = command;
-        this.jdaCommands = jdaCommands;
+        this.context = context;
     }
 
     /**
@@ -162,6 +168,14 @@ public class CommandEvent extends MessageReceivedEvent {
         getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue(success);
     }
 
+    public void sendGenericHelpMessage() {
+        channel.sendMessage(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)).queue();
+    }
+
+    public void sendSpecificHelpMessage() {
+        channel.sendMessage(getHelpMessageFactory().getSpecificHelp(getCommandDefinition(), context)).queue();
+    }
+
     /**
      * Get the {@link CommandDefinition} object which describes the command that is executed.
      *
@@ -177,6 +191,25 @@ public class CommandEvent extends MessageReceivedEvent {
      * @return the {@link JDACommands} object
      */
     public JDACommands getJdaCommands() {
-        return jdaCommands;
+        return context.getJdaCommands();
     }
+
+    /**
+     * Get the registered {@link HelpMessageFactory} object.
+     *
+     * @return the registered {@link HelpMessageFactory} object
+     */
+    public HelpMessageFactory getHelpMessageFactory() {
+        return getJdaCommands().getImplementationRegistry().getHelpMessageFactory();
+    }
+
+    /**
+     * Get the {@link CommandContext} object.
+     *
+     * @return the registered {@link CommandContext} object
+     */
+    public CommandContext getCommandContext() {
+        return context;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
@@ -31,11 +32,13 @@ public class CommandDispatcher {
     private final TypeAdapterRegistry adapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final CommandRegistry commandRegistry;
+    private final JDACommands jdaCommands;
     private Router router;
 
-    public CommandDispatcher(Object jda, boolean isShardManager, String... packages) {
+    public CommandDispatcher(Object jda, boolean isShardManager, JDACommands jdaCommands, String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
+        this.jdaCommands = jdaCommands;
 
         if (isActive) {
             throw new IllegalStateException("An instance of the command framework is already running!");
@@ -75,6 +78,7 @@ public class CommandDispatcher {
 
     public void onEvent(CommandContext context) {
         context.setImplementationRegistry(implementationRegistry);
+        context.setJdaCommands(jdaCommands);
 
         boolean isHelpMessage = router.parseHelpMessage(context);
 

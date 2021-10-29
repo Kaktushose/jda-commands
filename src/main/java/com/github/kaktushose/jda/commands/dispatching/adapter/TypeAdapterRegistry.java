@@ -68,7 +68,7 @@ public class TypeAdapterRegistry {
 
         log.debug("Type adapting arguments...");
         MessageReceivedEvent event = context.getEvent();
-        arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, null));
+        arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, context));
         // start with index 1 so we skip the CommandEvent
         for (int i = 1; i < command.getParameters().size(); i++) {
             ParameterDefinition parameter = command.getParameters().get(i);

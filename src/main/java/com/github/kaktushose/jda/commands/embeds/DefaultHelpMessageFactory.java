@@ -14,6 +14,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
@@ -48,10 +49,12 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
         String name;
         if (command.isSuper()) {
             name = "Sub Commands:";
-            command.getController().getSubCommands().forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
+            List<CommandDefinition> commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
+            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
         } else {
             name = "Super Command:";
-            command.getController().getSuperCommands().forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
+            List<CommandDefinition> commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
+            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
         }
         String commands = sbCommands.toString().isEmpty() ? "N/A" : sbCommands.substring(0, sbCommands.length() - 2);
         builder.addField(name, commands, false);

@@ -20,7 +20,7 @@ public class PermissionsFilter implements Filter {
 
         MessageReceivedEvent event = context.getEvent();
 
-        boolean isCancelled = provider.hasPermission(event.getAuthor(), context);
+        boolean isCancelled = !provider.hasPermission(event.getAuthor(), context);
 
         // we only have member information in a guild channel
         if (!isCancelled && event.isFromType(ChannelType.TEXT)) {

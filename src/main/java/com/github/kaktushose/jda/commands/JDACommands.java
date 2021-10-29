@@ -20,7 +20,7 @@ public class JDACommands {
 
     private JDACommands(Object jda, boolean isShardManager, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, packages);
+        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, packages);
         log.info("Finished loading!");
     }
 

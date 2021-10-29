@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
@@ -17,6 +18,7 @@ public class CommandContext {
     private Message errorMessage;
     private GuildSettings settings;
     private ImplementationRegistry registry;
+    private JDACommands jdaCommands;
     private boolean cancelled;
 
     public String[] getInput() {
@@ -77,6 +79,22 @@ public class CommandContext {
 
     public void setImplementationRegistry(ImplementationRegistry registry) {
         this.registry = registry;
+    }
+
+    public ImplementationRegistry getRegistry() {
+        return registry;
+    }
+
+    public void setRegistry(ImplementationRegistry registry) {
+        this.registry = registry;
+    }
+
+    public JDACommands getJdaCommands() {
+        return jdaCommands;
+    }
+
+    public void setJdaCommands(JDACommands jdaCommands) {
+        this.jdaCommands = jdaCommands;
     }
 
     public boolean isCancelled() {
