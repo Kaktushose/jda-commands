@@ -91,8 +91,10 @@ public class ControllerDefinition {
             }
             commands.add(commandDefinition);
         }
-
-        return Optional.of(new ControllerDefinition(superCommands, commands));
+        ControllerDefinition controller = new ControllerDefinition(superCommands, commands);
+        controller.getSuperCommands().forEach(definition -> definition.setController(controller));
+        controller.getSubCommands().forEach(definition -> definition.setController(controller));
+        return Optional.of(controller);
     }
 
     public boolean hasSuperCommand() {

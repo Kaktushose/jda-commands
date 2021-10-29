@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
-public class CommandDefinition {
+public class CommandDefinition implements Comparable<CommandDefinition> {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDefinition.class);
     private final List<String> labels;
@@ -27,12 +28,14 @@ public class CommandDefinition {
     private final boolean isDM;
     private final Method method;
     private final Object instance;
+    private ControllerDefinition controller;
 
     private CommandDefinition(List<String> labels,
                               CommandMetadata metadata,
                               List<ParameterDefinition> parameters,
                               Set<String> permissions,
                               CooldownDefinition cooldown,
+                              ControllerDefinition controller,
                               boolean isSuper,
                               boolean isDM,
                               Method method,
@@ -42,6 +45,7 @@ public class CommandDefinition {
         this.parameters = parameters;
         this.permissions = permissions;
         this.cooldown = cooldown;
+        this.controller = controller;
         this.isSuper = isSuper;
         this.isDM = isDM;
         this.method = method;
@@ -146,6 +150,7 @@ public class CommandDefinition {
                 parameters,
                 permissions,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
+                null,
                 command.isSuper(),
                 command.isDM(),
                 method,
@@ -180,6 +185,14 @@ public class CommandDefinition {
         return cooldown;
     }
 
+    public ControllerDefinition getController() {
+        return controller;
+    }
+
+    public void setController(ControllerDefinition controller) {
+        this.controller = controller;
+    }
+
     public boolean hasCooldown() {
         return getCooldown().getDelay() > 0;
     }
@@ -211,5 +224,10 @@ public class CommandDefinition {
                 ", isSuper=" + isSuper +
                 ", isDM=" + isDM +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull CommandDefinition command) {
+        return labels.get(0).compareTo(command.getLabels().get(0));
     }
 }

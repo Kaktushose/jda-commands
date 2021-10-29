@@ -5,9 +5,9 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
-import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -82,7 +82,7 @@ public class CommandDispatcher {
 
         if (context.isCancelled() && isHelpMessage) {
             log.debug("Sending generic help");
-            context.getEvent().getChannel().sendMessage(helpMessageFactory.getGenericHelp(commandRegistry.getControllers())).queue();
+            context.getEvent().getChannel().sendMessage(helpMessageFactory.getGenericHelp(commandRegistry.getControllers(), context)).queue();
             return;
         }
         if (checkCancelled(context)) {
@@ -93,7 +93,7 @@ public class CommandDispatcher {
         log.debug("Input matches command: {}", command);
 
         if (isHelpMessage) {
-            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(command)).queue();
+            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(command, context)).queue();
             return;
         }
 
