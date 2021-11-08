@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.embeds;
+package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;

@@ -1,9 +1,4 @@
 {
-  "defaultHelp": {
-    "title": "General Help",
-    "description": "The following commands are available. Type `{prefix}{helpLabel} <command>` to get specific help",
-    "color": "#00ff00"
-  },
   "specificHelp": {
     "title": "Specific Help",
     "description": "Command Details for `{prefix}{label}`",
@@ -35,6 +30,11 @@
       }
     ]
   },
+  "genericHelp": {
+    "title": "General Help",
+    "description": "The following commands are available. Type `{prefix}{helpLabel} <command>` to get specific help",
+    "color": "#00ff00"
+  },
   "commandNotFound": {
     "title": "Command Not Found",
     "description": "```type {prefix}{helpLabel} to get a list of all available commands```",
@@ -51,9 +51,14 @@
       }
     ]
   },
-  "userMuted": {
+  "guildMuted": {
     "title": "Insufficient Permissions",
-    "description": "You are muted",
+    "description": "This guild is muted!",
+    "color": "#ff0000"
+  },
+  "channelMuted": {
+    "title": "Insufficient Permissions",
+    "description": "This channel is muted!",
     "color": "#ff0000"
   },
   "syntaxError": {
@@ -70,5 +75,15 @@
         "value": "`{actual}`"
       }
     ]
+  },
+  "cooldown": {
+    "title": "Cooldown",
+    "description": "You cannot use this command for {cooldown}!",
+    "color": "#ff0000"
+  },
+  "wrongChannel": {
+    "title": "Wrong Channel Type",
+    "description": "This command cannot be executed in this type of channel!",
+    "color": "#ff0000"
   }
 }

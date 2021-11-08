@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
-import com.github.kaktushose.jda.commands.embeds.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.DefaultHelpMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;

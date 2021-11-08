@@ -1,6 +1,7 @@
 .idea/
 *.iml
 guilds.json
+migration.md
 target/
 src/main/java/testing
 src/main/resources
