@@ -19,6 +19,7 @@ public class CommandContext {
     private GuildSettings settings;
     private ImplementationRegistry registry;
     private JDACommands jdaCommands;
+    private boolean isHelpEvent;
     private boolean cancelled;
 
     public String[] getInput() {
@@ -89,6 +90,14 @@ public class CommandContext {
     public CommandContext setJdaCommands(JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         return this;
+    }
+
+    public boolean isHelpEvent() {
+        return isHelpEvent;
+    }
+
+    public void setHelpEvent(boolean helpEvent) {
+        isHelpEvent = helpEvent;
     }
 
     public boolean isCancelled() {

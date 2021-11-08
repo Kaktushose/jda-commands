@@ -77,25 +77,24 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
-        // TODO the event parser should tell us if its a help event
-        boolean isHelpMessage = router.parseHelpMessage(context);
-
         router.findCommands(context, commandRegistry.getCommands());
 
-        if (context.isCancelled() && isHelpMessage) {
+        if (context.isCancelled() && context.isHelpEvent()) {
             log.debug("Sending generic help");
             context.getEvent().getChannel().sendMessage(helpMessageFactory.getGenericHelp(commandRegistry.getControllers(), context)).queue();
             return;
         }
+
         if (checkCancelled(context)) {
             log.debug("No matching command found!");
             return;
         }
+
         CommandDefinition command = context.getCommand();
         log.debug("Input matches command: {}", command);
 
-        if (isHelpMessage) {
-            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(command, context)).queue();
+        if (context.isHelpEvent()) {
+            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(context)).queue();
             return;
         }
 

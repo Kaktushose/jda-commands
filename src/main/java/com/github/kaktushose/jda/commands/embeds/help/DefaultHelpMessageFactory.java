@@ -21,9 +21,10 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
     protected String prefixPattern = "\\{prefix}";
 
     @Override
-    public Message getSpecificHelp(CommandDefinition command, CommandContext context) {
+    public Message getSpecificHelp(CommandContext context) {
         String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
         EmbedBuilder builder = new EmbedBuilder();
+        CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
         List<String> labels = command.getLabels();

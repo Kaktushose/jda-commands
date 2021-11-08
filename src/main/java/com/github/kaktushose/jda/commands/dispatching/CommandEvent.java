@@ -173,7 +173,7 @@ public class CommandEvent extends MessageReceivedEvent {
     }
 
     public void sendSpecificHelpMessage() {
-        channel.sendMessage(getHelpMessageFactory().getSpecificHelp(getCommandDefinition(), context)).queue();
+        channel.sendMessage(getHelpMessageFactory().getSpecificHelp(context)).queue();
     }
 
     /**

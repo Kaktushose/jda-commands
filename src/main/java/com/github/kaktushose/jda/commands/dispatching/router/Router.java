@@ -9,6 +9,4 @@ public interface Router {
 
     void findCommands(CommandContext context, Collection<CommandDefinition> commands);
 
-    boolean parseHelpMessage(CommandContext context);
-
 }

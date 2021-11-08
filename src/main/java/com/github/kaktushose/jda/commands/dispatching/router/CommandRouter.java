@@ -15,7 +15,6 @@ public class CommandRouter implements Router {
     public void findCommands(CommandContext context, Collection<CommandDefinition> commands) {
         CommandDefinition command = null;
         String[] input = context.getInput();
-
         AtomicInteger matchingLength = new AtomicInteger(0);
         for (int i = input.length - 1; i > -1; i--) {
 
@@ -72,24 +71,5 @@ public class CommandRouter implements Router {
 
         context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
         context.setCommand(command);
-    }
-
-    @Override
-    public boolean parseHelpMessage(CommandContext context) {
-        String[] input = context.getInput();
-
-        // too short for a help event
-        if (input.length < 1) {
-            return false;
-        }
-
-        // doesn't start with help label
-        if (context.getSettings().getHelpLabels().stream().noneMatch(label -> label.startsWith(input[0]))) {
-            return false;
-        }
-
-        // remove help label
-        context.setInput(Arrays.copyOfRange(input, 1, input.length));
-        return true;
     }
 }

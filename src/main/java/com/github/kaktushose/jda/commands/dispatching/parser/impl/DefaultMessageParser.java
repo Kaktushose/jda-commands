@@ -94,6 +94,12 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
             input = arguments.toArray(new String[0]);
         }
 
-        return context.setInput(input);
+        String firstInput = input[0];
+        if (context.getSettings().getHelpLabels().stream().anyMatch(label -> label.startsWith(firstInput))) {
+            context.setInput(Arrays.copyOfRange(input, 1, input.length));
+            context.setHelpEvent(true);
+        }
+
+        return context;
     }
 }

@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 
-//TODO support own permission system
 public class NotPermissionValidator implements Validator {
 
     @Override

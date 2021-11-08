@@ -25,12 +25,13 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getSpecificHelp(CommandDefinition command, CommandContext context) {
+    public Message getSpecificHelp(CommandContext context) {
         if (!embedCache.containsEmbed("specificHelp")) {
-            return super.getSpecificHelp(command, context);
+            return super.getSpecificHelp(context);
         }
 
         String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
+        CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
         List<String> labels = command.getLabels();
