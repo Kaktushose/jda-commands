@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
@@ -32,6 +33,7 @@ public class CommandDispatcher {
     private final TypeAdapterRegistry adapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final CommandRegistry commandRegistry;
+    private final DependencyInjector dependencyInjector;
     private final JDACommands jdaCommands;
     private Router router;
 
@@ -44,7 +46,10 @@ public class CommandDispatcher {
             throw new IllegalStateException("An instance of the command framework is already running!");
         }
 
-        implementationRegistry = new ImplementationRegistry();
+        dependencyInjector = new DependencyInjector();
+        dependencyInjector.index(packages);
+
+        implementationRegistry = new ImplementationRegistry(dependencyInjector);
         implementationRegistry.index(packages);
 
         helpMessageFactory = implementationRegistry.getHelpMessageFactory();
@@ -61,9 +66,10 @@ public class CommandDispatcher {
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
 
-        commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry);
+        commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
         commandRegistry.index(packages);
 
+        dependencyInjector.inject();
         isActive = true;
     }
 
@@ -182,5 +188,9 @@ public class CommandDispatcher {
 
     public JDACommands getJdaCommands() {
         return jdaCommands;
+    }
+
+    public DependencyInjector getDependencyInjector() {
+        return dependencyInjector;
     }
 }

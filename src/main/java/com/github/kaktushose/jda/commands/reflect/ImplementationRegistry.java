@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
+import com.github.kaktushose.jda.commands.annotations.Inject;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
@@ -17,7 +19,11 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,12 +35,15 @@ public class ImplementationRegistry {
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
+    private DependencyInjector dependencyInjector;
 
-    public ImplementationRegistry() {
+
+    public ImplementationRegistry(DependencyInjector dependencyInjector) {
         settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
         helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
+        this.dependencyInjector = dependencyInjector;
     }
 
     public void index(String... packages) {
@@ -91,13 +100,26 @@ public class ImplementationRegistry {
             if (!clazz.isAnnotationPresent(Component.class)) {
                 continue;
             }
+
             log.debug("Found {}", clazz.getName());
+            T instance;
             try {
-                return Optional.of((T) clazz.getConstructor().newInstance());
+                instance = (T) clazz.getConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
-
+                continue;
             }
+
+            List<Field> fields = new ArrayList<>();
+            for (Field field : clazz.getDeclaredFields()) {
+                if (!field.isAnnotationPresent(Inject.class)) {
+                    continue;
+                }
+                fields.add(field);
+            }
+            dependencyInjector.registerDependencies(instance, fields);
+
+            return Optional.of(instance);
         }
         return Optional.empty();
     }

@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.reflections.Reflections;
@@ -22,12 +23,16 @@ public class CommandRegistry {
     private final static Logger log = LoggerFactory.getLogger(CommandRegistry.class);
     private final TypeAdapterRegistry parameterRegistry;
     private final ValidatorRegistry validatorRegistry;
+    private final DependencyInjector dependencyInjector;
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
 
-    public CommandRegistry(TypeAdapterRegistry parameterRegistry, ValidatorRegistry validatorRegistry) {
+    public CommandRegistry(TypeAdapterRegistry parameterRegistry,
+                           ValidatorRegistry validatorRegistry,
+                           DependencyInjector dependencyInjector) {
         this.parameterRegistry = parameterRegistry;
         this.validatorRegistry = validatorRegistry;
+        this.dependencyInjector = dependencyInjector;
         controllers = new HashSet<>();
         commands = new HashSet<>();
     }
@@ -46,7 +51,11 @@ public class CommandRegistry {
         for (Class<?> clazz : controllerSet) {
             log.debug("Found controller {}", clazz.getName());
 
-            Optional<ControllerDefinition> optional = ControllerDefinition.build(clazz, parameterRegistry, validatorRegistry);
+            Optional<ControllerDefinition> optional = ControllerDefinition.build(clazz,
+                    parameterRegistry,
+                    validatorRegistry,
+                    dependencyInjector
+            );
 
             if (!optional.isPresent()) {
                 log.warn("Unable to index the controller!");

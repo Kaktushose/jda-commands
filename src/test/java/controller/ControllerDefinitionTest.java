@@ -1,5 +1,6 @@
 package controller;
 
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
@@ -21,6 +22,7 @@ public class ControllerDefinitionTest {
     private static ControllerDefinitionTestController instance;
     private static ValidatorRegistry validators;
     private static TypeAdapterRegistry adapters;
+    private static DependencyInjector dependencyInjector;
 
     @BeforeAll
     public static void setup() {
@@ -32,13 +34,15 @@ public class ControllerDefinitionTest {
         // make sure that this type is not registered before testing
         adapters = new TypeAdapterRegistry();
         adapters.unregister(UnsupportedType.class);
+
+        dependencyInjector = new DependencyInjector();
     }
 
     @Test
     public void command_NoValues_ShouldAdoptControllerValues() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("adopt", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
         CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
@@ -60,7 +64,7 @@ public class ControllerDefinitionTest {
     public void command_OwnValues_ShouldCombineOrOverride() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("combine", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
         CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
@@ -82,7 +86,7 @@ public class ControllerDefinitionTest {
 
     @Test
     public void commands_Overloading_ShouldOnlyRegisterOne() {
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
 
         assertNotNull(controllerDefinition);
         assertEquals(3, controllerDefinition.getSubCommands().size());
@@ -93,7 +97,7 @@ public class ControllerDefinitionTest {
     @Test
     public void command_isSuper_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("superCommand", CommandEvent.class);
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
 
         assertNotNull(controllerDefinition);
         assertTrue(controllerDefinition.hasSuperCommand());

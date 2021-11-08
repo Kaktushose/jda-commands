@@ -1,13 +1,16 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.Permission;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -25,7 +28,8 @@ public class ControllerDefinition {
 
     public static Optional<ControllerDefinition> build(Class<?> controllerClass,
                                                        TypeAdapterRegistry adapterRegistry,
-                                                       ValidatorRegistry validatorRegistry) {
+                                                       ValidatorRegistry validatorRegistry,
+                                                       DependencyInjector dependencyInjector) {
         CommandController commandController = controllerClass.getAnnotation(CommandController.class);
 
         if (!commandController.isActive()) {
@@ -42,7 +46,14 @@ public class ControllerDefinition {
             return Optional.empty();
         }
 
-        // TODO Dependency Injection
+        List<Field> fields = new ArrayList<>();
+        for (Field field : controllerClass.getDeclaredFields()) {
+            if (!field.isAnnotationPresent(Inject.class)) {
+                continue;
+            }
+            fields.add(field);
+        }
+        dependencyInjector.registerDependencies(instance, fields);
 
         // index controller level permissions
         Set<String> permissions = new HashSet<>();

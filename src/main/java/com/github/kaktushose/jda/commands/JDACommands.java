@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
@@ -59,6 +60,10 @@ public class JDACommands {
 
     public CommandRegistry getCommandRegistry() {
         return commandDispatcher.getCommandRegistry();
+    }
+
+    public DependencyInjector getDependencyInjector() {
+        return commandDispatcher.getDependencyInjector();
     }
 
     public Router getRouter() {
