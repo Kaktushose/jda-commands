@@ -77,24 +77,18 @@ public class CommandContext {
         return registry;
     }
 
-    public void setImplementationRegistry(ImplementationRegistry registry) {
+    public CommandContext setImplementationRegistry(ImplementationRegistry registry) {
         this.registry = registry;
-    }
-
-    public ImplementationRegistry getRegistry() {
-        return registry;
-    }
-
-    public void setRegistry(ImplementationRegistry registry) {
-        this.registry = registry;
+        return this;
     }
 
     public JDACommands getJdaCommands() {
         return jdaCommands;
     }
 
-    public void setJdaCommands(JDACommands jdaCommands) {
+    public CommandContext setJdaCommands(JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
+        return this;
     }
 
     public boolean isCancelled() {

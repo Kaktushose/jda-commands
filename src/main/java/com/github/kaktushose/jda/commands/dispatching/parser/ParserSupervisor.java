@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,13 +17,11 @@ public class ParserSupervisor extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(ParserSupervisor.class);
     private final CommandDispatcher dispatcher;
-    private final SettingsProvider settingsProvider;
     private final Map<Class<? extends GenericEvent>, Parser<? extends GenericEvent>> listeners;
 
-    public ParserSupervisor(CommandDispatcher dispatcher, SettingsProvider settingsProvider) {
+    public ParserSupervisor(CommandDispatcher dispatcher) {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
-        this.settingsProvider = settingsProvider;
         register(MessageReceivedEvent.class, new DefaultMessageParser());
     }
 
@@ -46,9 +43,12 @@ public class ParserSupervisor extends ListenerAdapter {
         log.debug("Received {}", event.getClass().getSimpleName());
         Parser<?> parser = listeners.get(event.getClass());
         log.debug("Calling {}", parser.getClass().getName());
-        CommandContext context = parser.parseInternal(event, settingsProvider);
+        CommandContext context = parser.parseInternal(event, dispatcher);
 
         if (context.isCancelled()) {
+            if (context.getErrorMessage() != null) {
+                context.getEvent().getChannel().sendMessage(context.getErrorMessage()).queue();
+            }
             return;
         }
 

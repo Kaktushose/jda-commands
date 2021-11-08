@@ -3,9 +3,9 @@ package com.github.kaktushose.jda.commands.dispatching.adapter;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -65,6 +65,7 @@ public class TypeAdapterRegistry {
         CommandDefinition command = context.getCommand();
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
+        ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
         MessageReceivedEvent event = context.getEvent();
@@ -85,7 +86,7 @@ public class TypeAdapterRegistry {
             if (i > input.length) {
                 if (!parameter.isOptional()) {
                     context.setCancelled(true);
-                    context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
+                    context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
                     break;
                 }
 
@@ -113,7 +114,7 @@ public class TypeAdapterRegistry {
             if (!parsed.isPresent()) {
                 log.debug("Type adapting failed!");
                 context.setCancelled(true);
-                context.setErrorMessage(new MessageBuilder().append("argument mismatch").build());
+                context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
                 break;
             }
 

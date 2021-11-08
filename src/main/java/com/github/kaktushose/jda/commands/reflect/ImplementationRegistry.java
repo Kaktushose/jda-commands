@@ -1,7 +1,9 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
+import com.github.kaktushose.jda.commands.embeds.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.DefaultHelpMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -26,11 +28,13 @@ public class ImplementationRegistry {
     private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
+    private ErrorMessageFactory errorMessageFactory;
 
     public ImplementationRegistry() {
         settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
         helpMessageFactory = new DefaultHelpMessageFactory();
+        errorMessageFactory = new DefaultErrorMessageFactory();
     }
 
     public void index(String... packages) {
@@ -42,10 +46,10 @@ public class ImplementationRegistry {
         reflections = new Reflections(config);
 
         findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);
-
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
-
         findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
+        findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
+
     }
 
     public SettingsProvider getSettingsProvider() {
@@ -70,6 +74,14 @@ public class ImplementationRegistry {
 
     public void setHelpMessageFactory(HelpMessageFactory helpMessageFactory) {
         this.helpMessageFactory = helpMessageFactory;
+    }
+
+    public ErrorMessageFactory getErrorMessageFactory() {
+        return errorMessageFactory;
+    }
+
+    public void setErrorMessageFactory(ErrorMessageFactory errorMessageFactory) {
+        this.errorMessageFactory = errorMessageFactory;
     }
 
     @SuppressWarnings("unchecked")

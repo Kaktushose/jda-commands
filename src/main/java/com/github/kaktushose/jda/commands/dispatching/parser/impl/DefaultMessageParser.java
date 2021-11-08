@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.parser.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -19,19 +21,28 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
     private static final Character SPACE = ' ';
 
     @Override
-    public CommandContext parse(MessageReceivedEvent event, SettingsProvider settingsProvider) {
+    public CommandContext parse(MessageReceivedEvent event, CommandDispatcher dispatcher) {
         CommandContext context = new CommandContext();
-        GuildSettings settings = settingsProvider.getSettings(event.isFromType(ChannelType.TEXT) ? null : event.getGuild());
+        ImplementationRegistry registry = dispatcher.getImplementationRegistry();
+        GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromType(ChannelType.TEXT) ? event.getGuild() : null);
+        ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
+
+        context.setEvent(event)
+                .setSettings(settings)
+                .setJdaCommands(dispatcher.getJdaCommands())
+                .setImplementationRegistry(registry);
 
         if (event.getAuthor().isBot() && settings.isIgnoreBots()) {
             return context.setCancelled(true);
         }
 
         if (settings.isMutedGuild()) {
+            context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
             return context.setCancelled(true);
         }
 
         if (settings.getMutedChannels().contains(event.getChannel().getIdLong())) {
+            context.setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
             return context.setCancelled(true);
         }
 
@@ -56,37 +67,33 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
          */
         if (settings.isParseQuotes()) {
             StringBuilder builder = new StringBuilder();
-            boolean quote = false;
-            int i = 0;
+            boolean isQuote = false;
             char[] chars = contentRaw.toCharArray();
             List<String> arguments = new ArrayList<>();
-            for (char c : chars) {
-                i++;
 
-                // If we're not in quotes and there's a space, a word is finished
-                if (!quote && c == SPACE) {
-                    arguments.add(builder.toString().trim());
-                    builder.setLength(0);
+            for (int i = 0; i < chars.length; i++) {
+                if (QUOTATION_MARKS.contains(chars[i])) {
+                    isQuote = !isQuote;
                     continue;
                 }
 
-                // If char is a quotation mark, then reverse booleans
-                if (QUOTATION_MARKS.contains(c)) {
-                    quote = !quote;
-                    continue;
-                }
+                builder.append(chars[i]);
 
-                builder.append(c);
-
-                // If at last word, there's not expected to be a final space
-                if (i >= chars.length) {
-                    arguments.add(builder.toString().trim());
-                    builder.setLength(0);
+                if (isQuote) {
+                    if (i == chars.length - 1) {
+                        arguments.add(builder.toString().trim());
+                        builder.setLength(0);
+                    }
+                } else {
+                    if (SPACE.equals(chars[i]) || i == chars.length - 1) {
+                        arguments.add(builder.toString().trim());
+                        builder.setLength(0);
+                    }
                 }
             }
             input = arguments.toArray(new String[0]);
         }
 
-        return context.setInput(input).setEvent(event).setSettings(settings);
+        return context.setInput(input);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 
 public interface HelpMessageFactory {
 
+    //TODO do we really need the command separate? Since its also in the context
     Message getSpecificHelp(CommandDefinition command, CommandContext context);
 
     Message getGenericHelp(Set<ControllerDefinition> controllers, CommandContext context);

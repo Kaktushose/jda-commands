@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
@@ -29,7 +28,11 @@ public class PermissionsFilter implements Filter {
 
         if (isCancelled) {
             context.setCancelled(true);
-            context.setErrorMessage(new MessageBuilder().append("no perms").build());
+            context.setErrorMessage(context
+                    .getImplementationRegistry()
+                    .getErrorMessageFactory()
+                    .getInsufficientPermissionsMessage(context)
+            );
             log.debug("Insufficient permissions!");
             return;
         }

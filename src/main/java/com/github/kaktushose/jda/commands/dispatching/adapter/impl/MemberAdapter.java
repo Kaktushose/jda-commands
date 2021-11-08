@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.util.Optional;
 
@@ -21,7 +22,11 @@ public class MemberAdapter implements TypeAdapter<Member> {
 
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {
-            member = guild.retrieveMemberById(raw).complete();
+            try {
+                member = guild.retrieveMemberById(raw).complete();
+            } catch (ErrorResponseException ignored) {
+                member = null;
+            }
         } else {
             member = guild.getMembersByName(raw, true).stream().findFirst().orElse(null);
         }

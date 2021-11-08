@@ -49,7 +49,7 @@ public class CommandDispatcher {
 
         helpMessageFactory = implementationRegistry.getHelpMessageFactory();
 
-        parserSupervisor = new ParserSupervisor(this, implementationRegistry.getSettingsProvider());
+        parserSupervisor = new ParserSupervisor(this);
         if (isShardManager) {
             ((ShardManager) jda).addEventListener(parserSupervisor);
         } else {
@@ -77,9 +77,7 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
-        context.setImplementationRegistry(implementationRegistry);
-        context.setJdaCommands(jdaCommands);
-
+        // TODO the event parser should tell us if its a help event
         boolean isHelpMessage = router.parseHelpMessage(context);
 
         router.findCommands(context, commandRegistry.getCommands());
@@ -173,5 +171,17 @@ public class CommandDispatcher {
 
     public void setRouter(Router router) {
         this.router = router;
+    }
+
+    public static boolean isIsActive() {
+        return isActive;
+    }
+
+    public HelpMessageFactory getHelpMessageFactory() {
+        return helpMessageFactory;
+    }
+
+    public JDACommands getJdaCommands() {
+        return jdaCommands;
     }
 }

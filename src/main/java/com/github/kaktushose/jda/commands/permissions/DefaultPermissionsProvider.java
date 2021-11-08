@@ -25,7 +25,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;
             }
-            if (member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
+            if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
                 log.debug("{} permission is missing!", s.toUpperCase());
                 return false;
             }
