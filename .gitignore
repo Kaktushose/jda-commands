@@ -1,6 +1,8 @@
 .idea/
 *.iml
+guilds.json
+migration.md
 target/
-src/main/java/com/github/kaktushose/jda/commands/testing/
+src/main/java/testing
 src/main/resources
-todo.txt
+/logs
