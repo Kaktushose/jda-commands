@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.User;
 
 public interface PermissionsProvider {
 
+    boolean isMuted(User user, CommandContext context);
+
     boolean hasPermission(User user, CommandContext context);
 
     boolean hasPermission(Member member, CommandContext context);

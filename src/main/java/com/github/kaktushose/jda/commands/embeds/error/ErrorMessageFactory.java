@@ -13,6 +13,8 @@ public interface ErrorMessageFactory {
 
     Message getChannelMutedMessage(CommandContext context);
 
+    Message getUserMutedMessage(CommandContext context);
+
     Message getSyntaxErrorMessage(CommandContext context);
 
     Message getCooldownMessage(CommandContext context, long ms);

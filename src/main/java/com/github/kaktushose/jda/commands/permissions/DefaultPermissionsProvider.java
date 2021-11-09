@@ -14,6 +14,11 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
 
     @Override
+    public boolean isMuted(User user, CommandContext context) {
+        return false;
+    }
+
+    @Override
     public boolean hasPermission(User user, CommandContext context) {
         return true;
     }

@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,11 +30,11 @@ public class ImplementationRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);
     private static Reflections reflections;
+    private final DependencyInjector dependencyInjector;
     private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
-    private DependencyInjector dependencyInjector;
 
 
     public ImplementationRegistry(DependencyInjector dependencyInjector) {
@@ -96,13 +95,13 @@ public class ImplementationRegistry {
     @SuppressWarnings("unchecked")
     private <T> Optional<T> findImplementation(Class<T> type) {
         Set<Class<? extends T>> implementations = reflections.getSubTypesOf(type);
+        T instance = null;
         for (Class<?> clazz : implementations) {
             if (!clazz.isAnnotationPresent(Component.class)) {
                 continue;
             }
 
             log.debug("Found {}", clazz.getName());
-            T instance;
             try {
                 instance = (T) clazz.getConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -118,9 +117,7 @@ public class ImplementationRegistry {
                 fields.add(field);
             }
             dependencyInjector.registerDependencies(instance, fields);
-
-            return Optional.of(instance);
         }
-        return Optional.empty();
+        return Optional.ofNullable(instance);
     }
 }

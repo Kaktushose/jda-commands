@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
@@ -73,6 +74,10 @@ public class CommandDispatcher {
         isActive = true;
     }
 
+    public static boolean isIsActive() {
+        return isActive;
+    }
+
     public void shutdown() {
         if (isShardManager) {
             ((ShardManager) jda).removeEventListener(this);
@@ -83,6 +88,14 @@ public class CommandDispatcher {
     }
 
     public void onEvent(CommandContext context) {
+        log.debug("Applying filters in phase BEFORE_ROUTING...");
+        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
+            filter.apply(context);
+            if (checkCancelled(context)) {
+                return;
+            }
+        }
+
         router.findCommands(context, commandRegistry.getCommands());
 
         if (context.isCancelled() && context.isHelpEvent()) {
@@ -104,16 +117,24 @@ public class CommandDispatcher {
             return;
         }
 
+        log.debug("Applying filters in phase BEFORE_ADAPTING...");
+        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ADAPTING)) {
+            filter.apply(context);
+            if (checkCancelled(context)) {
+                return;
+            }
+        }
+
         adapterRegistry.adapt(context);
         if (checkCancelled(context)) {
             return;
         }
 
-        log.debug("Applying filters...");
-        for (Filter filter : filterRegistry.getAll()) {
+        log.debug("Applying filters in phase BEFORE_EXECUTION...");
+        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_EXECUTION)) {
             filter.apply(context);
-            if (context.isCancelled()) {
-                break;
+            if (checkCancelled(context)) {
+                return;
             }
         }
 
@@ -176,10 +197,6 @@ public class CommandDispatcher {
 
     public void setRouter(Router router) {
         this.router = router;
-    }
-
-    public static boolean isIsActive() {
-        return isActive;
     }
 
     public HelpMessageFactory getHelpMessageFactory() {

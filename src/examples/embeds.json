@@ -61,6 +61,11 @@
     "description": "This channel is muted!",
     "color": "#ff0000"
   },
+  "userMuted": {
+    "title": "Insufficient Permissions",
+    "description": "This channel is muted!",
+    "color": "#ff0000"
+  },
   "syntaxError": {
     "title": "Syntax Error",
     "description": "`{usage}`",

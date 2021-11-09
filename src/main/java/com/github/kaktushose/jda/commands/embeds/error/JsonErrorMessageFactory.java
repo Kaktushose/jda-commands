@@ -55,7 +55,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     @Override
     public Message getGuildMutedMessage(CommandContext context) {
         if (!embedCache.containsEmbed("guildMuted")) {
-            return super.getInsufficientPermissionsMessage(context);
+            return super.getGuildMutedMessage(context);
         }
         return embedCache.getEmbed("guildMuted").toMessage();
     }
@@ -63,15 +63,24 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     @Override
     public Message getChannelMutedMessage(CommandContext context) {
         if (!embedCache.containsEmbed("channelMuted")) {
-            return super.getInsufficientPermissionsMessage(context);
+            return super.getChannelMutedMessage(context);
         }
         return embedCache.getEmbed("channelMuted").toMessage();
     }
 
     @Override
+    public Message getUserMutedMessage(CommandContext context) {
+        if (!embedCache.containsEmbed("userMuted")) {
+            return super.getUserMutedMessage(context);
+        }
+        return embedCache.getEmbed("userMuted").toMessage();
+    }
+
+
+    @Override
     public Message getSyntaxErrorMessage(CommandContext context) {
         if (!embedCache.containsEmbed("syntaxError")) {
-            return super.getInsufficientPermissionsMessage(context);
+            return super.getSyntaxErrorMessage(context);
         }
         StringBuilder sbExpected = new StringBuilder();
         CommandDefinition command = context.getCommand();
@@ -105,7 +114,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     @Override
     public Message getCooldownMessage(CommandContext context, long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
-            return super.getInsufficientPermissionsMessage(context);
+            return super.getCooldownMessage(context, ms);
         }
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;

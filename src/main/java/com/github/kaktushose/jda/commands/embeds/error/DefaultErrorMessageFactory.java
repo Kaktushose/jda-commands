@@ -72,6 +72,16 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
+    public Message getUserMutedMessage(CommandContext context) {
+        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Insufficient Permissions")
+                .setDescription("You are muted!")
+                .build()
+        ).build();
+    }
+
+    @Override
     public Message getSyntaxErrorMessage(CommandContext context) {
         StringBuilder sbExpected = new StringBuilder();
         CommandDefinition command = context.getCommand();
