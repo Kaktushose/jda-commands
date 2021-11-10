@@ -7,6 +7,13 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * An {@link ArrayList} implementation to sort and structure a collection of {@link CommandDefinition}s.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 1.0.0
+ */
 public class CommandList extends ArrayList<CommandDefinition> {
 
     /**

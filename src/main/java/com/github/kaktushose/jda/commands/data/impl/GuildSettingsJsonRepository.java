@@ -10,16 +10,33 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * An implementation of the {@link JsonRepository} interface to store {@link GuildSettings} in json format.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
 
     @SuppressWarnings("UnstableApiUsage")
     private static final Type mapType = new TypeToken<Map<Long, GuildSettings>>() {
     }.getType();
 
+    /**
+     * Constructs a new GuildJsonRepository.
+     *
+     * @param path the path of the file to save the json in
+     */
     public GuildSettingsJsonRepository(String path) {
         super(path, mapType);
     }
 
+    /**
+     * Constructs a new GuildJsonRepository.
+     *
+     * @param file the file to save the json in
+     */
     public GuildSettingsJsonRepository(File file) {
         super(file, mapType);
     }

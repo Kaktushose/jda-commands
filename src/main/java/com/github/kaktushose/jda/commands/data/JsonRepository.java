@@ -14,6 +14,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An implementation of the {@link Repository} interface that stores data as json.
+ *
+ * @param <T> the type the repository manages
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public abstract class JsonRepository<T> implements Repository<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JsonRepository.class);
@@ -22,10 +30,22 @@ public abstract class JsonRepository<T> implements Repository<T> {
     private final Type mapType;
     protected Map<Long, T> map;
 
+    /**
+     * Constructs a new JsonRepository.
+     *
+     * @param path    the path of the file to save the json in
+     * @param mapType the {@link Type} of a {@link Map} containing the key (Long) and the Type the repository manages
+     */
     public JsonRepository(String path, Type mapType) {
         this(new File(path), mapType);
     }
 
+    /**
+     * Constructs a new JsonRepository.
+     *
+     * @param file    the file to save the json in
+     * @param mapType the {@link Type} of a {@link Map} containing the key (Long) and the Type the repository manages
+     */
     public JsonRepository(File file, Type mapType) {
         this.file = file;
         this.mapType = mapType;
