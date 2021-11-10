@@ -47,7 +47,6 @@ public abstract class JsonRepository<T> implements Repository<T> {
     protected void load() {
         try (JsonReader reader = new JsonReader(new FileReader(file))) {
             map = gson.fromJson(reader, mapType);
-            System.out.println(mapType);
             log.debug("Loaded values from file");
         } catch (IOException e) {
             e.printStackTrace();

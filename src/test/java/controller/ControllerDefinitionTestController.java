@@ -1,10 +1,10 @@
 package controller;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
+import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 

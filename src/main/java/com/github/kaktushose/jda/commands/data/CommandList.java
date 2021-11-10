@@ -33,7 +33,7 @@ public class CommandList extends ArrayList<CommandDefinition> {
      * @return a possibly-empty mutable list of all commands with the same name as provided
      */
     public List<CommandDefinition> getByName(@Nullable String name) {
-        return stream().filter(command -> command.getMetadata().getName().equals(name)).collect(Collectors.toList());
+        return stream().filter(command -> command.getMetadata().getName().equalsIgnoreCase(name)).collect(Collectors.toList());
     }
 
     /**
@@ -44,7 +44,7 @@ public class CommandList extends ArrayList<CommandDefinition> {
      * @return a possibly-empty mutable list of all commands with the same category as provided
      */
     public List<CommandDefinition> getByCategory(@Nullable String category) {
-        return stream().filter(command -> command.getMetadata().getCategory().equals(category)).collect(Collectors.toList());
+        return stream().filter(command -> command.getMetadata().getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
     }
 
     /**
@@ -55,13 +55,13 @@ public class CommandList extends ArrayList<CommandDefinition> {
      * @return the command having the given label or {@code null} if no command was found
      */
     @Nullable
-    public CommandDefinition getByLabel(@Nonnull String label) {
+    public CommandDefinition getByLabel(@Nullable String label) {
         return stream().filter(command -> command.getLabels().contains(label)).findFirst().orElse(null);
     }
 
     /**
      * Sorts all {@link CommandDefinition}s of this list using their category. All commands with the same category are
-     * stored in the same list. Every list gets stored inside a {@code Map}. The name of the category
+     * stored in the same list. All lists gets stored inside a {@code Map}. The name of the category
      * is thereby the key.
      *
      * @return a {@code Map} containing all commands sorted by their category
