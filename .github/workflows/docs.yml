@@ -1,0 +1,30 @@
+name: Documenation
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Generate Documentation
+        run: |
+        mkdir ../docs
+        mvn javadoc:aggregate
+      - name: Checkout Docs Branch
+        run: git checkout docs
+      - name: Move Files
+        run: |
+          move ./target/site/apidocs ../docs
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          git add .
+          git commit -m "update documentation"
+          git push
