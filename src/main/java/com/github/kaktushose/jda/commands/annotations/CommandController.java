@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * will be skipped.
  *
  * @author Kaktushose
- * @version 1.1.2
+ * @version 2.0.0
  * @see Command
  * @see Inject
  * @since 1.0.0
