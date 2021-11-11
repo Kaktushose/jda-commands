@@ -17,17 +17,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Central registry for dependencies and producing methods. Registered dependencies will be injected with the
+ * corresponding values if present, else null.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 1.0.0
+ * @see Produces
+ * @see com.github.kaktushose.jda.commands.annotations.Inject
+ */
 public class DependencyInjector {
 
     private final Map<Class<?>, Object> providedObjects;
     private final Map<Object, List<Field>> dependencies;
     private final Logger log = LoggerFactory.getLogger(DependencyInjector.class);
 
+    /**
+     * Create a new DependencyInjector.
+     */
     public DependencyInjector() {
         providedObjects = new HashMap<>();
         dependencies = new HashMap<>();
     }
 
+    /**
+     * Scans the whole classpath for methods annotated with {@link Produces}. If found, creates a new instance of
+     * the declaring class and will call the method to retrieve the object and register it as a dependency.
+     *
+     * @param packages package(s) to exclusively scan
+     */
     public void index(String... packages) {
         log.debug("Indexing dependency providers...");
         ConfigurationBuilder config = new ConfigurationBuilder()
@@ -60,6 +79,12 @@ public class DependencyInjector {
         }
     }
 
+    /**
+     * Takes an instance of a class and scans it for methods annotated with {@link Produces}. If found, will call
+     * the method to retrieve the object and register it as a dependency.
+     *
+     * @param provider instance of the class to scan
+     */
     public void registerProvider(Object provider) {
         for (Method method : provider.getClass().getDeclaredMethods()) {
             if (!method.isAnnotationPresent(Produces.class)) {
@@ -80,10 +105,20 @@ public class DependencyInjector {
         }
     }
 
+    /**
+     * Registers fields inside a class as dependencies.
+     *
+     * @param instance instance of the declaring class
+     * @param fields the dependencies to register
+     */
     public void registerDependencies(Object instance, List<Field> fields) {
         dependencies.put(instance, fields);
     }
 
+    /**
+     * Injects all registered dependencies with the corresponding value. If no value is present {@code null} gets injected.
+     *
+     */
     public void inject() {
         dependencies.forEach((instance, fields) -> {
             for (Field field : fields) {
@@ -101,5 +136,4 @@ public class DependencyInjector {
     private Object getDependency(Class<?> clazz) {
         return providedObjects.get(clazz);
     }
-
 }
