@@ -20,8 +20,9 @@ public class GuildSettingsJsonRepositoryTest {
 
     @BeforeAll
     public static void setup() {
-        repository = new GuildSettingsJsonRepository("src/test/resources/data/guilds.json");
-        tempFile = new File("src/test/resources/data/temp.json");
+        String path = GuildSettingsJsonRepositoryTest.class.getResource("guilds.json").getFile();
+        repository = new GuildSettingsJsonRepository(path);
+        tempFile = new File(path.replace("guilds", "temp"));
     }
 
     @AfterAll
