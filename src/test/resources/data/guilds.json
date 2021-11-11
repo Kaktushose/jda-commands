@@ -1,0 +1,16 @@
+{
+  "0": {
+    "guildId": 0,
+    "prefix": "?",
+    "ignoreCase": false,
+    "ignoreBots": false,
+    "parseQuotes": false,
+    "helpLabels": [
+      "foo"
+    ],
+    "mutedChannels": [
+      1
+    ],
+    "isMutedGuild": true
+  }
+}
