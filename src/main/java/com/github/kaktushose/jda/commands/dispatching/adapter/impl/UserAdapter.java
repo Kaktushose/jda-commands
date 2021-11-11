@@ -8,8 +8,22 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.util.Optional;
 
+/**
+ * Type adapter for JDAs {@link User}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class UserAdapter implements TypeAdapter<User> {
 
+    /**
+     * Attempts to parse a String to a {@link User}. Accepts both the user id and name.
+     *
+     * @param raw     the String to parse
+     * @param context the {@link CommandContext}
+     * @return the parsed {@link User} or an empty Optional if the parsing fails
+     */
     @Override
     public Optional<User> parse(String raw, CommandContext context) {
         User user;

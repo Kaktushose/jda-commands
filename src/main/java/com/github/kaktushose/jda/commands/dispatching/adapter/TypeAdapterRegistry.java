@@ -16,11 +16,31 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+/**
+ * Central registry for all type adapters.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see TypeAdapter
+ * @since 2.0.0
+ */
 public class TypeAdapterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
+    /**
+     * Constructs a new TypeAdapterRegistry. This will register default type adapters for:
+     * <ul>
+     *     <li>all primitive data types</li>
+     *     <li>String</li>
+     *     <li>String Array</li>
+     *     <li>{@link Member}</li>
+     *     <li>{@link User}</li>
+     *     <li>{@link TextChannel}</li>
+     *     <li>{@link Role}</li>
+     * </ul>
+     */
     public TypeAdapterRegistry() {
         parameterAdapters = new HashMap<>();
 
@@ -43,24 +63,53 @@ public class TypeAdapterRegistry {
         register(Role.class, new RoleAdapter());
     }
 
+    /**
+     * Registers a new type adapter.
+     *
+     * @param type the type the adapter is for
+     * @param adapter the {@link TypeAdapter}
+     */
     public void register(Class<?> type, TypeAdapter<?> adapter) {
         parameterAdapters.put(type, adapter);
         log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
     }
 
+    /**
+     * Unregisters a new type adapter.
+     *
+     * @param type the type the adapter is for
+     */
     public void unregister(Class<?> type) {
         parameterAdapters.remove(type);
         log.debug("Unregistered adapter for type {}", type.getName());
     }
 
+    /**
+     * Checks if a type adapter for the given type exists.
+     *
+     * @param type the type to check
+     * @return {@code true} if a type adapter exists
+     */
     public boolean exists(Class<?> type) {
         return parameterAdapters.containsKey(type);
     }
 
+    /**
+     * Retrieves a type adapter.
+     *
+     * @param type the type to get the adapter for
+     * @return the type adapter or an empty Optional if none found
+     */
     public Optional<TypeAdapter<?>> get(Class<?> type) {
         return Optional.ofNullable(parameterAdapters.get(type));
     }
 
+    /**
+     * Takes a {@link CommandContext} and attempts to type adapt the command input to the type specified by the
+     * {@link CommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
+     *
+     * @param context the {@link CommandContext} to type adapt
+     */
     public void adapt(CommandContext context) {
         CommandDefinition command = context.getCommand();
         List<Object> arguments = new ArrayList<>();

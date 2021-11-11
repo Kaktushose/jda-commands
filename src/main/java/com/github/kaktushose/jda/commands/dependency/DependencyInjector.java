@@ -23,9 +23,9 @@ import java.util.Set;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @since 1.0.0
  * @see Produces
  * @see com.github.kaktushose.jda.commands.annotations.Inject
+ * @since 1.0.0
  */
 public class DependencyInjector {
 
@@ -109,7 +109,7 @@ public class DependencyInjector {
      * Registers fields inside a class as dependencies.
      *
      * @param instance instance of the declaring class
-     * @param fields the dependencies to register
+     * @param fields   the dependencies to register
      */
     public void registerDependencies(Object instance, List<Field> fields) {
         dependencies.put(instance, fields);
@@ -117,7 +117,6 @@ public class DependencyInjector {
 
     /**
      * Injects all registered dependencies with the corresponding value. If no value is present {@code null} gets injected.
-     *
      */
     public void inject() {
         dependencies.forEach((instance, fields) -> {

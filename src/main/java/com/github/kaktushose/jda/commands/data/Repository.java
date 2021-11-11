@@ -56,7 +56,7 @@ public interface Repository<T> {
      * Retrieves an entity by id.
      *
      * @param id the id of the entity
-     * @return the entity with the given id or an empty Optional if none found.
+     * @return the entity with the given id or an empty Optional if none found
      */
     Optional<T> findById(long id);
 

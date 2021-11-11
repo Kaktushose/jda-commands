@@ -5,8 +5,22 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 
 import java.util.Optional;
 
+/**
+ * Type adapter for byte values.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class ByteAdapter implements TypeAdapter<Byte> {
 
+    /**
+     * Attempts to parse a String to a Byte.
+     *
+     * @param raw     the String to parse
+     * @param context the {@link CommandContext}
+     * @return the parsed Byte or an empty Optional if the parsing fails
+     */
     @Override
     public Optional<Byte> parse(String raw, CommandContext context) {
         try {

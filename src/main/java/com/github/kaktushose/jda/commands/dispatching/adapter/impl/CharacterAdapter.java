@@ -5,8 +5,22 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 
 import java.util.Optional;
 
+/**
+ * Type adapter for character values.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class CharacterAdapter implements TypeAdapter<Character> {
 
+    /**
+     * Casts a String to a Char if and only if {@code raw.length == 1}. Else, returns an empty Optional.
+     *
+     * @param raw     the String to parse
+     * @param context the {@link CommandContext}
+     * @return the parsed Char or an empty Optional if the parsing fails
+     */
     @Override
     public Optional<Character> parse(String raw, CommandContext context) {
         if (raw.length() == 1) {

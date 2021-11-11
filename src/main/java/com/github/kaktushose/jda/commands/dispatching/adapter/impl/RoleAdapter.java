@@ -8,8 +8,22 @@ import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Optional;
 
+/**
+ * Type adapter for JDAs {@link Role}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class RoleAdapter implements TypeAdapter<Role> {
 
+    /**
+     * Attempts to parse a String to a {@link Role}. Accepts both the role id and name.
+     *
+     * @param raw     the String to parse
+     * @param context the {@link CommandContext}
+     * @return the parsed {@link Role} or an empty Optional if the parsing fails
+     */
     @Override
     public Optional<Role> parse(String raw, CommandContext context) {
         if (!context.getEvent().isFromType(ChannelType.TEXT)) {

@@ -8,8 +8,22 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.Optional;
 
+/**
+ * Type adapter for JDAs {@link TextChannel}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class TextChannelAdapter implements TypeAdapter<TextChannel> {
 
+    /**
+     * Attempts to parse a String to a {@link TextChannel}. Accepts both the channel id and name.
+     *
+     * @param raw     the String to parse
+     * @param context the {@link CommandContext}
+     * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
+     */
     @Override
     public Optional<TextChannel> parse(String raw, CommandContext context) {
         if (!context.getEvent().isFromType(ChannelType.TEXT)) {
