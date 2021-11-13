@@ -42,7 +42,7 @@ public class MemberAdapter implements TypeAdapter<Member> {
                 member = null;
             }
         } else {
-            member = guild.getMembersByName(raw, true).stream().findFirst().orElse(null);
+            member = guild.getMembersByEffectiveName(raw, true).stream().findFirst().orElse(null);
         }
         if (member == null) {
             return Optional.empty();
