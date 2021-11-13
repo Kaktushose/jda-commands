@@ -66,7 +66,7 @@ public class TypeAdapterRegistry {
     /**
      * Registers a new type adapter.
      *
-     * @param type the type the adapter is for
+     * @param type    the type the adapter is for
      * @param adapter the {@link TypeAdapter}
      */
     public void register(Class<?> type, TypeAdapter<?> adapter) {
@@ -124,8 +124,8 @@ public class TypeAdapterRegistry {
             ParameterDefinition parameter = command.getParameters().get(i);
 
             // if parameter is array don't parse
-            log.debug("First parameter is String array. Not adapting arguments");
             if (String[].class.isAssignableFrom(parameter.getType())) {
+                log.debug("First parameter is String array. Not adapting arguments");
                 arguments.add(input);
                 break;
             }
@@ -134,6 +134,7 @@ public class TypeAdapterRegistry {
             // current parameter index > total amount of input, check if it's optional else cancel context
             if (i > input.length) {
                 if (!parameter.isOptional()) {
+                    log.debug("Syntax error! Cancelled event.");
                     context.setCancelled(true);
                     context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
                     break;

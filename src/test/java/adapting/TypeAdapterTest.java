@@ -1,5 +1,8 @@
 package adapting;
 
+import adapting.mock.GuildMock;
+import adapting.mock.JDAMock;
+import adapting.mock.MessageReceivedEventMock;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import org.junit.jupiter.api.BeforeAll;
@@ -315,4 +318,27 @@ public class TypeAdapterTest {
         assertFalse(userAdapter.parse("name", context).isPresent());
     }
 
+    @Test
+    public void sanitizeMention__() {
+        MemberAdapter memberAdapter = new MemberAdapter();
+
+        assertEquals("1234", memberAdapter.sanitizeMention("<@1234>"));
+        assertEquals("1234", memberAdapter.sanitizeMention("<@!1234>"));
+        assertEquals("1234", memberAdapter.sanitizeMention("<#1234>"));
+        assertEquals("1234", memberAdapter.sanitizeMention("<@&1234>"));
+
+        assertEquals("<@1234", memberAdapter.sanitizeMention("<@1234"));
+        assertEquals("<@!1234", memberAdapter.sanitizeMention("<@!1234"));
+        assertEquals("<#1234", memberAdapter.sanitizeMention("<#1234"));
+        assertEquals("<@&1234", memberAdapter.sanitizeMention("<@&1234"));
+
+        assertEquals("<@text>", memberAdapter.sanitizeMention("<@text>"));
+        assertEquals("<@!text>", memberAdapter.sanitizeMention("<@!text>"));
+        assertEquals("<#text>", memberAdapter.sanitizeMention("<#text>"));
+        assertEquals("<@&text>", memberAdapter.sanitizeMention("<@&text>"));
+
+        assertEquals("<1234>", memberAdapter.sanitizeMention("<1234>"));
+        assertEquals("<1234", memberAdapter.sanitizeMention("<1234"));
+        assertEquals("1234>", memberAdapter.sanitizeMention("1234>"));
+    }
 }

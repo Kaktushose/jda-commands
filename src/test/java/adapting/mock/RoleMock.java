@@ -1,4 +1,4 @@
-package adapting;
+package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;

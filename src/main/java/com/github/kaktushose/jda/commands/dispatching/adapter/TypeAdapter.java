@@ -17,7 +17,7 @@ public interface TypeAdapter<T> {
     /**
      * Attempts to parse a String to the given type.
      *
-     * @param raw the String to parse
+     * @param raw     the String to parse
      * @param context the {@link CommandContext}
      * @return the parsed type or an empty Optional if the parsing fails
      */

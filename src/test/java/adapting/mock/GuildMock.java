@@ -1,4 +1,4 @@
-package adapting;
+package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Region;
@@ -42,7 +42,7 @@ public class GuildMock implements Guild {
         if (id.equals(MEMBER.getId())) {
             return new RestActionMock<>(MEMBER);
         }
-        throw ErrorResponseException.create(ErrorResponse.UNKNOWN_USER, new Response(new Exception(), new HashSet<>()));
+        throw ErrorResponseException.create(ErrorResponse.UNKNOWN_USER, new Response(new IllegalArgumentException(), new HashSet<>()));
     }
 
     @NotNull

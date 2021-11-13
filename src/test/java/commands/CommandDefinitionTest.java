@@ -17,53 +17,53 @@ public class CommandDefinitionTest {
 
     private static Class<?> controller;
     private static CommandDefinitionTestController instance;
-    private static ValidatorRegistry validators;
-    private static TypeAdapterRegistry adapters;
+    private static ValidatorRegistry validator;
+    private static TypeAdapterRegistry adapter;
 
     @BeforeAll
     public static void setup() {
         instance = new CommandDefinitionTestController();
         controller = instance.getClass();
 
-        validators = new ValidatorRegistry();
+        validator = new ValidatorRegistry();
 
         // make sure that this type is not registered before testing
-        adapters = new TypeAdapterRegistry();
-        adapters.unregister(UnsupportedType.class);
+        adapter = new TypeAdapterRegistry();
+        adapter.unregister(UnsupportedType.class);
     }
 
     @Test
     public void method_withoutAnnotation_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noAnnotation");
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withoutArgs_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noArgs");
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withoutCommandEvent_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noCommandEvent", int.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withWrongCommandEvent_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("wrongCommandEvent", int.class, CommandEvent.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withCommandEvent_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("commandEvent", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -78,13 +78,13 @@ public class CommandDefinitionTest {
     public void method_withUnsupportedType_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("unsupported", CommandEvent.class, UnsupportedType.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withStringArray_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("arrayArgument", CommandEvent.class, String[].class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -100,20 +100,20 @@ public class CommandDefinitionTest {
     public void method_withArgumentsAfterArray_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("argsAfterArray", CommandEvent.class, String[].class, int.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withArgumentsAfterOptional_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("argsAfterOptional", CommandEvent.class, String.class, int.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void method_withOptionalAfterOptional_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optionalAfterOptional", CommandEvent.class, String.class, int.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -130,20 +130,20 @@ public class CommandDefinitionTest {
     public void method_withArgumentsAfterConcat_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("argsAfterConcat", CommandEvent.class, String.class, int.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void command_isInactive_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("inactive");
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapters, validators));
+        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
     }
 
     @Test
     public void command_isSuperAndNotDM_ShouldBeSuperAndNotDM() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("superAndDM", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -154,7 +154,7 @@ public class CommandDefinitionTest {
     @Test
     public void labels_superSubAndAlias_ShouldGenerateAll() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("label", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -166,7 +166,7 @@ public class CommandDefinitionTest {
     @Test
     public void cooldown_zeroTimeUnits_ShouldNotBeSet() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("zeroCooldown", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -176,7 +176,7 @@ public class CommandDefinitionTest {
     @Test
     public void cooldown_tenMilliseconds_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("cooldown", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
@@ -188,7 +188,7 @@ public class CommandDefinitionTest {
     @Test
     public void permission_oneString_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("permission", CommandEvent.class);
-        CommandDefinition definition = CommandDefinition.build(method, instance, adapters, validators).orElse(null);
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
 
         assertNotNull(definition);
 
