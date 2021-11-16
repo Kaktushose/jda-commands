@@ -9,6 +9,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
  * Abstract toplevel class for defining event parsers.
  *
  * @param <T> a subtype of {@link GenericEvent} the parser can parse
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
  */
 public abstract class Parser<T extends GenericEvent> {
 

@@ -9,6 +9,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * An implementation of {@link Router} that works for message based input.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see com.github.kaktushose.jda.commands.dispatching.router.Router
+ * @since 2.0.0
+ */
 public class CommandRouter implements Router {
 
     @Override

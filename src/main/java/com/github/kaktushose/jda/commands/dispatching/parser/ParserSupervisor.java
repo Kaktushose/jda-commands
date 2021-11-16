@@ -16,6 +16,10 @@ import java.util.Map;
 /**
  * Registry for {@link Parser Parsers}. This is also the event listener that will call the corresponding parser.
  *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see Parser
+ * @since 2.0.0
  */
 public class ParserSupervisor extends ListenerAdapter {
 
