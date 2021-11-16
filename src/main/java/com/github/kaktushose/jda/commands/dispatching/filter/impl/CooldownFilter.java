@@ -9,6 +9,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+/**
+ *  A {@link Filter} implementation that contains the business logic behind command cooldowns.
+ *  If the command isn't annotated with {@link com.github.kaktushose.jda.commands.annotations.Cooldown Cooldown} or more
+ *  formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
+ *  {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see com.github.kaktushose.jda.commands.annotations.Cooldown
+ * @since 2.0.0
+ */
 public class CooldownFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownFilter.class);
@@ -18,6 +29,12 @@ public class CooldownFilter implements Filter {
         activeCooldowns = new HashMap<>();
     }
 
+    /**
+     * Checks if an active cooldown for the given {@link CommandDefinition} exists and will eventually cancel the
+     * context.
+     *
+     * @param context the {@link CommandContext} to filter
+     */
     @Override
     public void apply(CommandContext context) {
         CommandDefinition command = context.getCommand();

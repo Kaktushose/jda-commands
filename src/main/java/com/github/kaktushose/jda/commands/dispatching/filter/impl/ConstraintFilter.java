@@ -10,10 +10,25 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * A {@link Filter} implementation that will check the parameter constraints a
+ * {@link com.github.kaktushose.jda.commands.reflect.CommandDefinition} might have.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry
+ * @since 2.0.0
+ */
 public class ConstraintFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(ConstraintFilter.class);
 
+    /**
+     * Checks if all parameters fulfill their constraints. Will cancel the {@link CommandContext} if a parameter
+     * constraint fails.
+     *
+     * @param context the {@link CommandContext} to filter
+     */
     @Override
     public void apply(CommandContext context) {
         List<Object> arguments = context.getArguments();

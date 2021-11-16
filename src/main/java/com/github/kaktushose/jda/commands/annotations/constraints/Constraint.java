@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that an annotation type can be used for validation. When implementing custom validators, the annotation
- * type must be annotated with this annotation.
+ * Indicates that an annotation type can be used for parameter validation. When implementing custom validators, the
+ * annotation type must be annotated with this annotation.
  *
  * @author Kaktushose
  * @version 2.0.0
