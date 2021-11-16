@@ -28,19 +28,59 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Command {
 
+    /**
+     * Returns a String array of all labels.
+     *
+     * @return a String array of all labels
+     */
     String[] value() default "";
 
+    /**
+     * Returns whether this command is a super command or not
+     *
+     * @return {@code true} if this is a super command
+     */
     boolean isSuper() default false;
 
+    /**
+     * Returns whether this command can be executed in direct messages or not
+     *
+     * @return {@code true} if this command can be executed in direct messages
+     */
     boolean isDM() default true;
 
+    /**
+     * Returns the name of the command. This is <em>not</em> the command label.
+     *
+     * @return the name of the command
+     */
     String name() default "N/A";
 
+    /**
+     * Returns the description of the command.
+     *
+     * @return the description of the command
+     */
     String desc() default "N/A";
 
+    /**
+     * Returns the usage of the command.
+     *
+     * @return the usage of the command
+     */
     String usage() default "N/A";
 
+    /**
+     * Returns the category of the command.
+     *
+     * @return the category of the command
+     */
     String category() default "Other";
 
+    /**
+     * Returns whether this command is active and thus can be executed or not
+     *
+     * @return {@code true} if this command is active
+     */
     boolean isActive() default true;
 }

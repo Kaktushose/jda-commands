@@ -15,11 +15,26 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * An implementation of {@link Parser} that can parse {@link MessageReceivedEvent MessageReceivedEvents}.
+ * This parser will work within the limitations given by the {@link GuildSettings}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
 
     private static final Collection<Character> QUOTATION_MARKS = Arrays.asList('\'', '\"');
     private static final Character SPACE = ' ';
 
+    /**
+     * Takes a {@link MessageReceivedEvent}, parses and transpiles it into a {@link CommandContext}.
+     *
+     * @param event the {@link MessageReceivedEvent} to parse
+     * @param dispatcher the calling {@link CommandDispatcher}
+     * @return a new {@link CommandContext}
+     */
     @Override
     public CommandContext parse(MessageReceivedEvent event, CommandDispatcher dispatcher) {
         CommandContext context = new CommandContext();
