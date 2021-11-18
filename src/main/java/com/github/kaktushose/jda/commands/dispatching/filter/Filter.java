@@ -14,7 +14,7 @@ public interface Filter {
 
     /**
      * Performs the filtering on a {@link CommandContext} object. Use {@link CommandContext#setCancelled(boolean)} to
-     * indicate that the a {@link CommandContext} didn't pass the filter.
+     * indicate that the {@link CommandContext} didn't pass the filter.
      *
      * @param context the {@link CommandContext} to filter
      */

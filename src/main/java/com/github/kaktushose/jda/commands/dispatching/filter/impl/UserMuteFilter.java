@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A {@link Filter} implementation that will check permissions similar to the {@link PermissionsFilter}. that gets executed at
+ * A {@link Filter} implementation that will check permissions similar to the {@link PermissionsFilter}.
  * The difference is that this filter gets executed at
  * {@link com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition#BEFORE_ROUTING FilterPosition.BEFORE_ROUTING}.
  * This is necessary to achieve a clean implementation of ban lists. If a user is banned, he must not be able to
