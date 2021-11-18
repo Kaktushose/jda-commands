@@ -104,7 +104,7 @@ public class FilterRegistry {
         BEFORE_ROUTING,
 
         /**
-         * Filter will be executed before type adapting. The command will present in the
+         * Filter will be executed before type adapting. The command will be present in the
          * {@link com.github.kaktushose.jda.commands.dispatching.CommandContext} but not the type adapted input.
          */
         BEFORE_ADAPTING,
