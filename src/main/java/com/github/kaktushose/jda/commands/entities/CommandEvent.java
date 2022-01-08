@@ -142,6 +142,10 @@ public class CommandEvent extends GuildMessageReceivedEvent {
         getChannel().sendMessage(embedDTO.toMessageEmbed()).queue();
     }
 
+    public void reply(@Nonnull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
+        getChannel().sendMessage(embedDTO.toMessageEmbed()).queue(success);
+    }
+
     /**
      * Get the {@link CommandCallable} object which describes the command that is executed.
      *
