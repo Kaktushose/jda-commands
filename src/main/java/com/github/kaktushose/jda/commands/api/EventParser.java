@@ -55,7 +55,7 @@ public class EventParser {
         if (mentionedUsers.size() > 0) {
             if (mentionedUsers.get(0).equals(selfUser)) {
                 usedPrefix = String.format("<@!%s>", selfUser.getId());
-                return true;
+                return message.startsWith(usedPrefix);
             }
         }
 
@@ -90,6 +90,17 @@ public class EventParser {
      */
     public boolean hasPermission(CommandCallable commandCallable, GuildMessageReceivedEvent event, CommandSettings settings) {
         return commandCallable.getPermissions().stream().allMatch(permission -> settings.getPermissionHolders(permission).contains(event.getAuthor().getIdLong()));
+    }
+
+    /**
+     * Checks if the {@code Message} starts with the prefix, or it's alternatives in {@link CommandSettings}
+     * @param message the {@link String} to check on
+     * @param settings the {@link CommandSettings} to use the prefixes from
+     * @return {@code true} if the Message starts with a prefix
+     */
+    public boolean startsWithPrefix(String message, CommandSettings settings) {
+        String prefix = settings.getPrefix();
+        return message.startsWith(prefix) || settings.getPrefixAliases().stream().anyMatch(message::startsWith);
     }
 
 }
