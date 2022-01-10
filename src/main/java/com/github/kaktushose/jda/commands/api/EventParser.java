@@ -49,6 +49,16 @@ public class EventParser {
             usedPrefix = settings.getPrefixAliases().stream().filter(message::startsWith).findFirst().orElse(prefix);
             return true;
         }
+
+        User selfUser = event.getJDA().getSelfUser();
+        List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+        if (mentionedUsers.size() > 0) {
+            if (mentionedUsers.get(0).equals(selfUser)) {
+                usedPrefix = String.format("<@!%s>", selfUser.getId());
+                return message.startsWith(usedPrefix);
+            }
+        }
+
         return false;
     }
 
