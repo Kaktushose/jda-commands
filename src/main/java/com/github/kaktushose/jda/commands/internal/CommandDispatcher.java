@@ -113,10 +113,11 @@ public final class CommandDispatcher extends ListenerAdapter {
         CommandSettings settings = getSettings(event.getGuild().getIdLong());
         if (!eventParser.validateEvent(event, settings)) {
 
-            if (eventParser.startsWithPrefix(event.getMessage().getContentDisplay(), settings) && settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
+            if (settings.getMutedUsers().contains(event.getAuthor().getIdLong())) {
                 event.getChannel().sendMessage(embedFactory.getUserMutedEmbed(settings, event));
-                return;
             }
+
+            return;
         }
 
         String[] input = eventParser.parseEvent(event, settings);
