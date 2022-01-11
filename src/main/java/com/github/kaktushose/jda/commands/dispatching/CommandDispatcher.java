@@ -21,6 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class CommandDispatcher {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
@@ -38,6 +45,15 @@ public class CommandDispatcher {
     private final JDACommands jdaCommands;
     private Router router;
 
+    /**
+     * Constructs a new CommandDispatcher.
+     *
+     * @param jda the corresponding {@link JDA} instance
+     * @param isShardManager whether the jda instance is a shard manager
+     * @param jdaCommands the corresponding {@link JDACommands} instance
+     * @param packages optional packages to exclusively scan
+     * @throws IllegalStateException if an instance of this class is already active.
+     */
     public CommandDispatcher(Object jda, boolean isShardManager, JDACommands jdaCommands, String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
@@ -74,10 +90,19 @@ public class CommandDispatcher {
         isActive = true;
     }
 
-    public static boolean isIsActive() {
+    /**
+     * Whether this CommandDispatcher is active.
+     *
+     * @return {@code true} if the CommandDispatcher is active
+     */
+    public static boolean isActive() {
         return isActive;
     }
 
+    /**
+     * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord.
+     *
+     */
     public void shutdown() {
         if (isShardManager) {
             ((ShardManager) jda).removeEventListener(this);
@@ -87,6 +112,12 @@ public class CommandDispatcher {
         isActive = false;
     }
 
+    /**
+     * Dispatches a {@link CommandContext}. This will route the command, apply all filters and parse the arguments.
+     * Finally, the command will be executed.
+     *
+     * @param context the {@link CommandContext} to dispatch.
+     */
     public void onEvent(CommandContext context) {
         log.debug("Applying filters in phase BEFORE_ROUTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
@@ -159,54 +190,120 @@ public class CommandDispatcher {
         return false;
     }
 
+    /**
+     * Gets the {@link ImplementationRegistry}.
+     *
+     * @return the {@link ImplementationRegistry}
+     */
     public ImplementationRegistry getImplementationRegistry() {
         return implementationRegistry;
     }
 
+    /**
+     * Gets the {@link ParserSupervisor}.
+     *
+     * @return the {@link ParserSupervisor}
+     */
     public ParserSupervisor getParserSupervisor() {
         return parserSupervisor;
     }
 
+    /**
+     * Gets the {@link TypeAdapterRegistry}.
+     *
+     * @return the {@link TypeAdapterRegistry}
+     */
     public TypeAdapterRegistry getAdapterRegistry() {
         return adapterRegistry;
     }
 
+    /**
+     * Gets the {@link ValidatorRegistry}.
+     *
+     * @return the {@link ValidatorRegistry}
+     */
     public ValidatorRegistry getValidatorRegistry() {
         return validatorRegistry;
     }
 
+    /**
+     * Gets the {@link CommandRegistry}.
+     *
+     * @return the {@link CommandRegistry}
+     */
     public CommandRegistry getCommandRegistry() {
         return commandRegistry;
     }
 
+    /**
+     * Gets the JDA instance. This can either be {@link JDA} or a {@link ShardManager}. Use {@link #isShardManager()}
+     * to distinguish.
+     *
+     * @return the JDA instance.
+     */
     public Object getJda() {
         return jda;
     }
 
+    /**
+     * Whether the JDA instance is a {@link ShardManager}.
+     *
+     * @return {@code true} if the JDA instance is a {@link ShardManager}
+     */
     public boolean isShardManager() {
         return isShardManager;
     }
 
+    /**
+     * Gets the {@link FilterRegistry}.
+     *
+     * @return the {@link FilterRegistry}
+     */
     public FilterRegistry getFilterRegistry() {
         return filterRegistry;
     }
 
+    /**
+     * Gets the {@link Router}.
+     *
+     * @return the {@link Router}
+     */
     public Router getRouter() {
         return router;
     }
 
+    /**
+     * Sets the {@link Router}.
+     *
+     * @param router the {@link Router} to use
+     */
     public void setRouter(Router router) {
         this.router = router;
     }
 
+    /**
+     * Gets the {@link HelpMessageFactory}.
+     *
+     * @return the {@link HelpMessageFactory}
+     */
     public HelpMessageFactory getHelpMessageFactory() {
         return helpMessageFactory;
     }
 
+    /**
+     * Gets the {@link JDACommands} instance.
+     *
+     * @return the {@link JDACommands} instance
+     */
     public JDACommands getJdaCommands() {
         return jdaCommands;
     }
 
+    /**
+     * Gets the {@link DependencyInjector}.
+     *
+     * @return the {@link DependencyInjector}
+     */
     public DependencyInjector getDependencyInjector() {
         return dependencyInjector;
     }
