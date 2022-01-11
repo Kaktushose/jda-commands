@@ -12,6 +12,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
+/**
+ * Subtype of {@link DefaultErrorMessageFactory} that can load the embeds from an {@link EmbedCache}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see DefaultErrorMessageFactory
+ * @see EmbedCache
+ * @since 2.0.0
+ */
 public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     private final EmbedCache embedCache;

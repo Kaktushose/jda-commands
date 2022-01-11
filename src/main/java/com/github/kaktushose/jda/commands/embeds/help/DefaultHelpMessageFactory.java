@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.JsonErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
@@ -16,8 +18,19 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link HelpMessageFactory} with default embeds.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see JsonHelpMessageFactory
+ * @since 2.0.0
+ */
 public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
+    /**
+     * The pattern that is used to insert prefixes. The default value is {@code {prefix}}.
+     */
     protected String prefixPattern = "\\{prefix}";
 
     @Override

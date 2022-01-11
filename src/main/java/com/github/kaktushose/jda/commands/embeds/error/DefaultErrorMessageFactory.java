@@ -15,7 +15,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
-
+/**
+ * Implementation of {@link ErrorMessageFactory} with default embeds.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see JsonErrorMessageFactory
+ * @since 2.0.0
+ */
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
