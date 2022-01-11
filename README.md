@@ -13,128 +13,149 @@ The following example will demonstrate how easy it is to write a command:
 
 ```java
 
+import com.github.kaktushose.jda.commands.annotations.constraints.NotRole;
+
 @CommandController
 @Permission("BAN_MEMBERS")
 public class BanCommand {
 
-    @Command("ban")
-    public void ban(CommandEvent event, Member member, @Max(30) int delDays, @Optional @Concat String reason) {
-        event.getGuild().ban(member, delDays);
-        event.reply("%s got banned for reason %s", member.getAsMention(), reason);
-    }
-
+  @Command("ban")
+  public void ban(CommandEvent event, 
+                  @NotRole("admin") Member member, 
+                  @Max(7) int delDays, 
+                  @Optional @Concat String reason) {
+    event.getGuild().ban(member, delDays);
+    event.reply("%s got banned for reason %s", member.getAsMention(), reason);
+  }
 }
 ```
 
-Then, just start the framework by calling:
-
-`JDACommands.start();`
+Finally, start the framework by calling:
+```java
+JDACommands.start();
+```
 
 ## Features
 
+As shown in the example, JDA-Commands makes it possible to focus only on the business logic inside your command classes.
+All other chores like permission checks, argument parsing and validation, cooldowns, etc. are dealt with on the site of 
+the framework.
+
+Utility classes and methods for help and error messages, documentation, internationalization, embed generation, etc. 
+further improve the workflow when writing bots.
+
+You can find a detailed list of all features down below:
+
+### Parameters
+
 <details>
 <summary>Type Adapting</summary>
-
 As seen in the example, the method signature will be translated into a command syntax. When a command gets called, this
 framework will adapt the raw String input to the types specified in the method signature. As a result all the
 boilerplate code for parsing parameters becomes obsolete.
 </details>
+
 <details>
 <summary>Parameter Validation</summary>
-
 Parameters can have additional constraints, such as min or max value, etc. When a constraint fails, an error message
 will be sent automatically. You can also define your own constraints.
 </details>
-<details>
-<summary>Permissions System</summary>
 
-The permission system supports both using discord permissions and custom permissions. By default, you can use all
-permissions defined inside
-JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
-permission validator, you can use custom permission strings and bind permissions to certain roles or members.
-</details>
-<details>
-<summary>Filter Chain</summary>
+### Routing
 
-You can define filters that will run before each command execution. This can be useful to perform additional checks,
-which aren't supported by this framework.
-</details>
-<details>
-<summary>Cooldown System</summary>
-
-Commands can have a per-user cooldown to rate limit the execution of commands.
-</details>
 <details>
 <summary>Levenshtein Distance</summary>
-
 The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or
 substitutions) required to change one word into the other. For instance, the input `tpyo` will match the command
 label `typo`.
 </details>
+
 <details>
 <summary>Label Shortening</summary>
-
 Label shortening can be compared to the auto complete feature of a terminal. For instance, the command label `foo` will
 also match the input
 `f` or `fo` as long as only one command that starts with `f` (or respectively `fo`) exists. This also works for sub
 command labels.
 </details>
+
 <details>
 <summary>Quote Parsing</summary>
-
 Normally arguments are split at every empty space. This makes it impossible to pass one argument that contains several
 words. In order to fix this issue, the default event parser can parse quotes. In other words: The
 input `label "arg0 arg1" arg2` will be parsed to `[label, arg0 arg1, arg2]` instead of `[label, "arg0, arg1", arg2]`.
 </details>
+
+<details>
+<summary>Private Channel Support</summary>
+If enabled, commands can also be called by sending a private message to the Bot.
+</details>
+
+### Constraints
+
+<details>
+<summary>Permissions System</summary>
+The permission system supports both using discord permissions and custom permissions. By default, you can use all
+permissions defined inside
+JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
+permission validator, you can use custom permission strings and bind permissions to certain roles or members.
+</details>
+
+<details>
+<summary>Filter Chain</summary>
+You can define filters that will run before each command execution. This can be useful to perform additional checks,
+which aren't supported by this framework.
+</details>
+
+<details>
+<summary>Cooldown System</summary>
+Commands can have a per-user cooldown to rate limit the execution of commands.
+</details>
+
+### Misc
+
+<details>
+<summary>Guild Settings</summary>
+Settings, such as the prefix or muted channels, are available on a per-guild level. By default, all settings apply
+globally.
+</details>
+
 <details>
 <summary>Help & Error Messages</summary>
-
 The `@Command` annotation has additional attributes to document commands. These attributes are used to automatically
 create Help Embeds. Furthermore, there are default Error Embeds for all validation systems of this framework. (Parameter
 Constraints, Permissions, etc.)
 </details>
+
+<details>
+<summary>Documentation</summary>
+It's possible to generate command documentation in markdown and html format. A GitHub Action for this is also planned.
+</details>
+
 <details>
 <summary>Internationalization</summary>
-
 This framework and all the output it generates are in English. However, you can easily change the language. All embeds
 sent can also be loaded from a json file, which uses placeholders.
 </details>
-<details>
-<summary>Guild Settings</summary>
 
-Settings, such as the prefix or muted channels, are available on a per-guild level. By default, all settings apply
-globally.
-</details>
-<details>
-<summary>Documentation</summary>
-
-It's possible to generate command documentation in markdown and html format. A GitHub Action for this is also planned.
-</details>
-<details>
-<summary>Private Channel Support</summary>
-
-If enabled, commands can also be called by sending a private message to the Bot.
-</details>
-<details>
-<summary>Dependency Injection</summary>
-
-This framework has a basic implementation of dependency injection, since you don't construct your command classes on
-your own.
-</details>
 <details>
 <summary>Embed Deserialization</summary>
-
 You can serialize and deserialize JDAs EmbedBuilder object to json. This comes in pretty handy, because for example you
 don't have to recompile the whole project if you find one typo inside your embed.
 </details>
+
+<details>
+<summary>Dependency Injection</summary>
+This framework has a basic implementation of dependency injection, since you don't construct your command classes on
+your own.
+</details>
+
 <details>
 <summary>Persistence</summary>
-
 This framework has builtin classes to store settings and user permissions in different formats, such as json or mysql.
 </details>
+
 <details>
 <summary>Reflect API</summary>
-
 Just like Javas Reflect API this framework also supports accessing and modifying command definitions at runtime.
 </details>
 
