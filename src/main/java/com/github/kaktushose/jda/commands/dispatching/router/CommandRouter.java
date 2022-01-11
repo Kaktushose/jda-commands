@@ -21,7 +21,23 @@ public class CommandRouter implements Router {
 
     @Override
     public void findCommands(CommandContext context, Collection<CommandDefinition> commands) {
+        for (int i = 0; i < context.getSettings().getMaxDistance(); i++) {
+            if (findCommand(context, commands, i)) {
+                return;
+            }
+        }
+        if (context.getCommand() == null || context.isCancelled()) {
+            context.setErrorMessage(context.getImplementationRegistry()
+                    .getErrorMessageFactory()
+                    .getCommandNotFoundMessage(context)
+            );
+            context.setCancelled(true);
+        }
+    }
+
+    private boolean findCommand(CommandContext context, Collection<CommandDefinition> commands, int maxDistance) {
         CommandDefinition command = null;
+        boolean success = false;
         String[] input = context.getInput();
         AtomicInteger matchingLength = new AtomicInteger(0);
         for (int i = input.length - 1; i > -1; i--) {
@@ -34,6 +50,7 @@ public class CommandRouter implements Router {
             List<CommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabels().stream().anyMatch(label -> {
                         String[] expectedLabels = label.split(" ");
                         String[] actualLabels = generatedLabel.split(" ");
+
                         if (expectedLabels.length != actualLabels.length) {
                             return false;
                         }
@@ -44,10 +61,13 @@ public class CommandRouter implements Router {
                                 return false;
                             }
 
-                            if (context.getSettings().isIgnoreCase()) {
-                                matches = expectedLabels[k].toLowerCase().startsWith(actualLabels[k].toLowerCase());
+                            boolean ignoreCase = context.getSettings().isIgnoreCase();
+                            String expected = ignoreCase ? expectedLabels[k].toUpperCase() : expectedLabels[k];
+                            String actual = ignoreCase ? actualLabels[k].toUpperCase() : actualLabels[k];
+                            if (maxDistance == 0) {
+                                matches = expected.startsWith(actual);
                             } else {
-                                matches = expectedLabels[k].startsWith(actualLabels[k]);
+                                matches = calculateLevenshteinDistance(expectedLabels[k], actualLabels[k]) <= maxDistance;
                             }
 
                             if (matches) {
@@ -60,24 +80,44 @@ public class CommandRouter implements Router {
 
             if (possibleCommands.size() == 1) {
                 command = possibleCommands.get(0);
+                success = true;
                 break;
             }
-
             if (possibleCommands.size() > 1) {
                 context.setCancelled(true);
                 break;
             }
         }
-
-        if (command == null || context.isCancelled()) {
-            context.setErrorMessage(context.getImplementationRegistry()
-                    .getErrorMessageFactory()
-                    .getCommandNotFoundMessage(context)
-            );
-            context.setCancelled(true);
-        }
-
         context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
         context.setCommand(command);
+        return success;
+    }
+
+    private int calculateLevenshteinDistance(String first, String second) {
+        int[][] dp = new int[first.length() + 1][second.length() + 1];
+        for (int i = 0; i <= first.length(); i++) {
+            for (int j = 0; j <= second.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = min(
+                            dp[i - 1][j - 1] + costOfSubstitution(first.charAt(i - 1), second.charAt(j - 1)),
+                            dp[i - 1][j] + 1,
+                            dp[i][j - 1] + 1
+                    );
+                }
+            }
+        }
+        return dp[first.length()][second.length()];
+    }
+
+    private int costOfSubstitution(char a, char b) {
+        return a == b ? 0 : 1;
+    }
+
+    private int min(int... numbers) {
+        return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
     }
 }

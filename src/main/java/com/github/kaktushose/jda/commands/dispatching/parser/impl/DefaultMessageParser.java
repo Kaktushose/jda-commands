@@ -31,7 +31,7 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
     /**
      * Takes a {@link MessageReceivedEvent}, parses and transpiles it into a {@link CommandContext}.
      *
-     * @param event the {@link MessageReceivedEvent} to parse
+     * @param event      the {@link MessageReceivedEvent} to parse
      * @param dispatcher the calling {@link CommandDispatcher}
      * @return a new {@link CommandContext}
      */
@@ -109,8 +109,7 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
             input = arguments.toArray(new String[0]);
         }
 
-        String firstInput = input[0];
-        if (context.getSettings().getHelpLabels().stream().anyMatch(label -> label.startsWith(firstInput))) {
+        if (isHelpLabel(context, input[0])) {
             context.setInput(Arrays.copyOfRange(input, 1, input.length));
             context.setHelpEvent(true);
         } else {
@@ -119,4 +118,51 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
 
         return context;
     }
+
+    private boolean isHelpLabel(CommandContext context, String input) {
+        for (int i = 0; i < context.getSettings().getMaxDistance(); i++) {
+            if (findHelpLabel(context, input, i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean findHelpLabel(CommandContext context, String input, int maxDistance) {
+        if (maxDistance == 0) {
+            return context.getSettings().getHelpLabels().stream().anyMatch(label -> label.startsWith(input));
+        }
+        return context.getSettings().getHelpLabels().stream().anyMatch(
+                label -> calculateLevenshteinDistance(label, input) <= maxDistance
+        );
+    }
+
+    private int calculateLevenshteinDistance(String first, String second) {
+        int[][] dp = new int[first.length() + 1][second.length() + 1];
+        for (int i = 0; i <= first.length(); i++) {
+            for (int j = 0; j <= second.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = min(
+                            dp[i - 1][j - 1] + costOfSubstitution(first.charAt(i - 1), second.charAt(j - 1)),
+                            dp[i - 1][j] + 1,
+                            dp[i][j - 1] + 1
+                    );
+                }
+            }
+        }
+        return dp[first.length()][second.length()];
+    }
+
+    private int costOfSubstitution(char a, char b) {
+        return a == b ? 0 : 1;
+    }
+
+    private int min(int... numbers) {
+        return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+    }
+
 }

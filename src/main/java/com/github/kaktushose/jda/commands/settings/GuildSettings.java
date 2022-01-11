@@ -13,6 +13,7 @@ public class GuildSettings {
     private Set<String> helpLabels;
     private Set<Long> mutedChannels;
     private boolean isMutedGuild;
+    private int maxDistance;
 
     public GuildSettings() {
         this(0,
@@ -24,7 +25,8 @@ public class GuildSettings {
                     add("help");
                 }},
                 new HashSet<>(),
-                false
+                false,
+                3
         );
     }
 
@@ -35,7 +37,8 @@ public class GuildSettings {
                          boolean parseQuotes,
                          Set<String> helpLabels,
                          Set<Long> mutedChannels,
-                         boolean isMutedGuild) {
+                         boolean isMutedGuild,
+                         int maxDistance) {
         this.guildId = guildId;
         this.prefix = prefix;
         this.ignoreCase = ignoreCase;
@@ -44,6 +47,7 @@ public class GuildSettings {
         this.helpLabels = helpLabels;
         this.mutedChannels = mutedChannels;
         this.isMutedGuild = isMutedGuild;
+        this.maxDistance = maxDistance;
     }
 
     public long getGuildId() {
@@ -115,6 +119,14 @@ public class GuildSettings {
         isMutedGuild = mutedGuild;
     }
 
+    public int getMaxDistance() {
+        return maxDistance;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
     @Override
     public String toString() {
         return "GuildSettings{" +
@@ -126,6 +138,7 @@ public class GuildSettings {
                 ", helpLabels=" + helpLabels +
                 ", mutedChannels=" + mutedChannels +
                 ", isMuted=" + isMutedGuild +
+                ", maxDistance=" + maxDistance +
                 '}';
     }
 }
