@@ -24,7 +24,7 @@ public class BanCommand {
                   @NotRole("admin") Member member, 
                   @Max(7) int delDays, 
                   @Optional @Concat String reason) {
-    event.getGuild().ban(member, delDays);
+    event.getGuild().ban(member, delDays).queue();
     event.reply("%s got banned for reason %s", member.getAsMention(), reason);
   }
 }
