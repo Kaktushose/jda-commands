@@ -1,4 +1,4 @@
-name: Documenation
+name: Documentation
 
 on:
   push:
@@ -14,13 +14,13 @@ jobs:
           fetch-depth: 0
       - name: Generate Documentation
         run: |
-        mkdir ../docs
-        mvn javadoc:aggregate
+          mvn javadoc:aggregate
       - name: Checkout Docs Branch
         run: git checkout docs
       - name: Move Files
         run: |
-          move ./target/site/apidocs ../docs
+          mv ./target/site/apidocs/ ./docs
+          rm -rf ./target
       - name: Commit & Push Changes
         run: |
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
