@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 
 /**
  * The annotated element must be the specified user or member. This constraint will use the
- * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry} to determine the user or member.
+ * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry TypeAdapterRegistry} to determine
+ * the user or member.
  *
  * @author Kaktushose
  * @version 2.0.0

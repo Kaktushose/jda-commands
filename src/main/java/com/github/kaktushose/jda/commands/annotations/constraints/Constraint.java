@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry
+ * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
  * @since 2.0.0
  */
 @Target(ElementType.ANNOTATION_TYPE)

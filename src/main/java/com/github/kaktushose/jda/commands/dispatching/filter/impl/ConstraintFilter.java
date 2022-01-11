@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry
+ * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
  * @since 2.0.0
  */
 public class ConstraintFilter implements Filter {

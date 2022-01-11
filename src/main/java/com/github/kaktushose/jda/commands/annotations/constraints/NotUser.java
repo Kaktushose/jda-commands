@@ -10,12 +10,13 @@ import java.lang.annotation.Target;
 
 /**
  * The annotated element must <b>not</b> be the specified user or member. This constraint will use the
- * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry} to determine the user or member.
+ * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry TypeAdapterRegistry} to
+ * determine the user or member.
  *
  * @author Kaktushose
  * @version 2.0.0
  * @see Constraint
- * @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter
+ * @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter RoleAdapter
  * @since 2.0.0
  */
 @Target(ElementType.PARAMETER)

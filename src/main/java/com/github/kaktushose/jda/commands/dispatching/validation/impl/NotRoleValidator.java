@@ -9,7 +9,24 @@ import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Optional;
 
+/**
+ * A {@link Validator} implementation that checks the {@link NotRole} constraint.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see NotRole
+ * @since 2.0.0
+ */
 public class NotRoleValidator implements Validator {
+
+    /**
+     * Validates an argument. The argument must be a user or member that <b>doesn't</b>have the specified guild role.
+     *
+     * @param argument   the argument to validate
+     * @param annotation the corresponding annotation
+     * @param context    the corresponding {@link CommandContext}
+     * @return {@code true} if the argument is a user or member that <b>doesn't</b> have the specified guild role
+     */
     @Override
     public boolean validate(Object argument, Object annotation, CommandContext context) {
         NotRole roleAnnotation = (NotRole) annotation;
