@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
 import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +50,7 @@ public class FilterRegistry {
      * @param filter   the {@link Filter} to register
      * @param position the {@link FilterPosition FilterPosition} at which the {@link Filter} gets registered
      */
-    public void register(Filter filter, FilterPosition position) {
+    public void register(@NotNull Filter filter, @NotNull FilterPosition position) {
         filters.add(new FilterEntry(filter, position));
         log.debug("Registered filter {}", filter.getClass().getName());
     }
@@ -59,7 +60,7 @@ public class FilterRegistry {
      *
      * @param filter the {@link Filter} to unregister
      */
-    public void unregister(Class<? extends Filter> filter) {
+    public void unregister(@NotNull Class<? extends Filter> filter) {
         filters.removeIf(entry -> filter.isAssignableFrom(filter));
         log.debug("Unregistered filter(s) {}", filter.getName());
     }
@@ -80,7 +81,7 @@ public class FilterRegistry {
      * @param position the {@link FilterPosition} to retrieve the {@link Filter Filters} for
      * @return all registered {@link Filter Filters}
      */
-    public List<Filter> getAll(FilterPosition position) {
+    public List<Filter> getAll(@NotNull FilterPosition position) {
         return Collections.unmodifiableList(filters.stream()
                 .filter(entry -> entry.position.equals(position))
                 .map(entry -> entry.filter)

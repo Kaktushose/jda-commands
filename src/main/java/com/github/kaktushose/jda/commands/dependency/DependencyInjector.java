@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.dependency;
 
 import com.github.kaktushose.jda.commands.annotations.Produces;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -47,7 +49,7 @@ public class DependencyInjector {
      *
      * @param packages package(s) to exclusively scan
      */
-    public void index(String... packages) {
+    public void index(@NotNull String... packages) {
         log.debug("Indexing dependency providers...");
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(), new MethodAnnotationsScanner())
@@ -85,7 +87,7 @@ public class DependencyInjector {
      *
      * @param provider instance of the class to scan
      */
-    public void registerProvider(Object provider) {
+    public void registerProvider(@NotNull Object provider) {
         for (Method method : provider.getClass().getDeclaredMethods()) {
             if (!method.isAnnotationPresent(Produces.class)) {
                 continue;
@@ -111,7 +113,7 @@ public class DependencyInjector {
      * @param instance instance of the declaring class
      * @param fields   the dependencies to register
      */
-    public void registerDependencies(Object instance, List<Field> fields) {
+    public void registerDependencies(@NotNull Object instance, @NotNull List<Field> fields) {
         dependencies.put(instance, fields);
     }
 
@@ -132,7 +134,7 @@ public class DependencyInjector {
         });
     }
 
-    private Object getDependency(Class<?> clazz) {
+    private Object getDependency(@Nullable Class<?> clazz) {
         return providedObjects.get(clazz);
     }
 }

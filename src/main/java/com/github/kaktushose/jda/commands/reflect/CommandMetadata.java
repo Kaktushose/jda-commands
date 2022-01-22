@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Command;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class holding information about the command metadata. Mainly used for help embeds and doc generation.
@@ -33,7 +34,7 @@ public class CommandMetadata {
      * @param commandController instance of the corresponding {@link CommandController} annotation
      * @return CommandMetadata
      */
-    public static CommandMetadata build(Command command, CommandController commandController) {
+    public static CommandMetadata build(@NotNull Command command, @NotNull CommandController commandController) {
         String category = commandController.category();
         if (!command.category().equals("Other")) {
             category = command.category();

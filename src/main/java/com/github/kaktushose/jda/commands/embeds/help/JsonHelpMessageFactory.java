@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getSpecificHelp(CommandContext context) {
+    public Message getSpecificHelp(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("specificHelp")) {
             return super.getSpecificHelp(context);
         }
@@ -81,7 +82,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getGenericHelp(Set<ControllerDefinition> controllers, CommandContext context) {
+    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
         if (!embedCache.containsEmbed("genericHelp")) {
             return super.getGenericHelp(controllers, context);
         }

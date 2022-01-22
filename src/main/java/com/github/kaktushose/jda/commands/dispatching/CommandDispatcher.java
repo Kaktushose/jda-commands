@@ -16,6 +16,7 @@ import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public class CommandDispatcher {
      * @param packages       optional packages to exclusively scan
      * @throws IllegalStateException if an instance of this class is already active.
      */
-    public CommandDispatcher(Object jda, boolean isShardManager, JDACommands jdaCommands, String... packages) {
+    public CommandDispatcher(@NotNull Object jda, boolean isShardManager, @NotNull JDACommands jdaCommands, @NotNull String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
         this.jdaCommands = jdaCommands;
@@ -117,7 +118,7 @@ public class CommandDispatcher {
      *
      * @param context the {@link CommandContext} to dispatch.
      */
-    public void onEvent(CommandContext context) {
+    public void onEvent(@NotNull CommandContext context) {
         log.debug("Applying filters in phase BEFORE_ROUTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
             filter.apply(context);
@@ -276,7 +277,7 @@ public class CommandDispatcher {
      *
      * @param router the {@link Router} to use
      */
-    public void setRouter(Router router) {
+    public void setRouter(@NotNull Router router) {
         this.router = router;
     }
 

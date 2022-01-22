@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Generic top level interface for validators. A validator checks if a command argument fulfills the given constraint.
@@ -20,6 +21,6 @@ public interface Validator {
      * @param context    the corresponding {@link CommandContext}
      * @return {@code true} if the argument passes the constraints
      */
-    boolean validate(Object argument, Object annotation, CommandContext context);
+    boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context);
 
 }

@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Generic interface for factory classes that generate error messages.
@@ -19,7 +20,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when no command was found
      */
-    Message getCommandNotFoundMessage(CommandContext context);
+    Message getCommandNotFoundMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when a user is missing permissions.
@@ -27,7 +28,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a user is missing permissions
      */
-    Message getInsufficientPermissionsMessage(CommandContext context);
+    Message getInsufficientPermissionsMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted.
@@ -35,7 +36,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted
      */
-    Message getGuildMutedMessage(CommandContext context);
+    Message getGuildMutedMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} is muted.
@@ -43,7 +44,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} is muted
      */
-    Message getChannelMutedMessage(CommandContext context);
+    Message getChannelMutedMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted.
@@ -51,7 +52,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted
      */
-    Message getUserMutedMessage(CommandContext context);
+    Message getUserMutedMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when the user input has a syntax error.
@@ -59,7 +60,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when the user input has a syntax error
      */
-    Message getSyntaxErrorMessage(CommandContext context);
+    Message getSyntaxErrorMessage(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send when a command still has a cooldown.
@@ -67,7 +68,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a command still has a cooldown
      */
-    Message getCooldownMessage(CommandContext context, long ms);
+    Message getCooldownMessage(@NotNull CommandContext context, long ms);
 
     /**
      * Gets a {@link Message} to send when the channel type isn't suitable for the command.
@@ -75,5 +76,5 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when the channel type isn't suitable for the command
      */
-    Message getWrongChannelTypeMessage(CommandContext context);
+    Message getWrongChannelTypeMessage(@NotNull CommandContext context);
 }

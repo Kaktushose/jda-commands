@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class MemberAdapter implements TypeAdapter<Member> {
      * @return the parsed {@link Member} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Member> parse(String raw, CommandContext context) {
+    public Optional<Member> parse(@NotNull String raw, @NotNull CommandContext context) {
         if (!context.getEvent().isFromType(ChannelType.TEXT)) {
             return Optional.empty();
         }

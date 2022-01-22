@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class RoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that has the specified guild role
      */
     @Override
-    public boolean validate(Object argument, Object annotation, CommandContext context) {
+    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
         com.github.kaktushose.jda.commands.annotations.constraints.Role roleAnnotation =
                 (com.github.kaktushose.jda.commands.annotations.constraints.Role) annotation;
 

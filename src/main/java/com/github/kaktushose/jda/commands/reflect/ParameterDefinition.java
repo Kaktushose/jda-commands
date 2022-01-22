@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -49,13 +50,13 @@ public class ParameterDefinition {
     private final String name;
     private final List<ConstraintDefinition> constraints;
 
-    private ParameterDefinition(Class<?> type,
+    private ParameterDefinition(@NotNull Class<?> type,
                                 boolean isConcat,
                                 boolean isOptional,
-                                String defaultValue,
+                                @Nullable String defaultValue,
                                 boolean isPrimitive,
-                                String name,
-                                List<ConstraintDefinition> constraints) {
+                                @NotNull String name,
+                                @NotNull List<ConstraintDefinition> constraints) {
         this.type = type;
         this.isConcat = isConcat;
         this.isOptional = isOptional;
@@ -72,7 +73,7 @@ public class ParameterDefinition {
      * @param registry  an instance of the corresponding {@link ValidatorRegistry}
      * @return a new ParameterDefinition
      */
-    public static ParameterDefinition build(Parameter parameter, ValidatorRegistry registry) {
+    public static ParameterDefinition build(@NotNull Parameter parameter, @NotNull ValidatorRegistry registry) {
         if (parameter.isVarArgs()) {
             throw new IllegalArgumentException("VarArgs is not supported for parameters!");
         }

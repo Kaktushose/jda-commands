@@ -32,7 +32,7 @@ public class ParserSupervisor extends ListenerAdapter {
      *
      * @param dispatcher the calling {@link CommandDispatcher}
      */
-    public ParserSupervisor(CommandDispatcher dispatcher) {
+    public ParserSupervisor(@NotNull CommandDispatcher dispatcher) {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
         register(MessageReceivedEvent.class, new DefaultMessageParser());
@@ -44,7 +44,7 @@ public class ParserSupervisor extends ListenerAdapter {
      * @param listener the subtype of {@link GenericEvent}
      * @param parser   the {@link Parser} to register
      */
-    public void register(Class<? extends GenericEvent> listener, Parser<? extends GenericEvent> parser) {
+    public void register(@NotNull Class<? extends GenericEvent> listener, @NotNull Parser<? extends GenericEvent> parser) {
         listeners.put(listener, parser);
         log.debug("Registered parser {} for event {}", parser.getClass().getName(), listener.getSimpleName());
     }
@@ -54,7 +54,7 @@ public class ParserSupervisor extends ListenerAdapter {
      *
      * @param listener the subtype of {@link GenericEvent}
      */
-    public void unregister(Class<? extends GenericEvent> listener) {
+    public void unregister(@NotNull Class<? extends GenericEvent> listener) {
         listeners.remove(listener);
         log.debug("Unregistered parser binding for event {}", listener.getSimpleName());
     }

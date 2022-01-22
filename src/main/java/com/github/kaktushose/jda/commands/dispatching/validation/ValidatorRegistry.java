@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.validation;
 import com.github.kaktushose.jda.commands.annotations.constraints.*;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.*;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class ValidatorRegistry {
      * @param validator  the {@link Validator} to map
      * @throws IllegalArgumentException if the annotation class isn't annotated with {@link Constraint}
      */
-    public void register(Class<? extends Annotation> annotation, Validator validator) {
+    public void register(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) {
         if (!annotation.isAnnotationPresent(Constraint.class)) {
             throw new IllegalArgumentException(Constraint.class.getCanonicalName() + " annotation must be present!");
         }
@@ -71,7 +72,7 @@ public class ValidatorRegistry {
     /**
      * Unregisters the {@link Validator} mapped to the given annotation.
      *
-     * @param annotation the class of the annotation to unregesiter
+     * @param annotation the class of the annotation to unregister
      */
     public void unregister(Class<?> annotation) {
         validators.remove(annotation);
@@ -86,7 +87,7 @@ public class ValidatorRegistry {
      * @param type       the type to validate
      * @return an {@link Optional} holding the {@link Validator}
      */
-    public Optional<Validator> get(Class<?> annotation, Class<?> type) {
+    public Optional<Validator> get(@NotNull Class<?> annotation, @NotNull Class<?> type) {
         Validator validator = validators.get(annotation);
 
         if (validator == null || !annotation.isAnnotationPresent(Constraint.class)) {

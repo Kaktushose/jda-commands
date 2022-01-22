@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class CommandContext {
      * @param input the user input
      * @return the current CommandContext instance
      */
-    public CommandContext setInput(String[] input) {
+    public CommandContext setInput(@NotNull String[] input) {
         this.input = input;
         return this;
     }
@@ -67,7 +68,7 @@ public class CommandContext {
      * @param event the {@link MessageReceivedEvent}
      * @return the current CommandContext instance
      */
-    public CommandContext setEvent(MessageReceivedEvent event) {
+    public CommandContext setEvent(@NotNull MessageReceivedEvent event) {
         this.event = event;
         return this;
     }
@@ -87,7 +88,7 @@ public class CommandContext {
      * @param command the {@link CommandDefinition}
      * @return the current CommandContext instance
      */
-    public CommandContext setCommand(CommandDefinition command) {
+    public CommandContext setCommand(@NotNull CommandDefinition command) {
         this.command = command;
         return this;
     }
@@ -107,7 +108,7 @@ public class CommandContext {
      * @param arguments the parsed arguments
      * @return the current CommandContext instance
      */
-    public CommandContext setArguments(List<Object> arguments) {
+    public CommandContext setArguments(@NotNull List<Object> arguments) {
         this.arguments = arguments;
         return this;
     }
@@ -127,7 +128,7 @@ public class CommandContext {
      * @param message the {@link Message} to send
      * @return the current CommandContext instance
      */
-    public CommandContext setErrorMessage(Message message) {
+    public CommandContext setErrorMessage(@NotNull Message message) {
         this.errorMessage = message;
         return this;
     }
@@ -147,7 +148,7 @@ public class CommandContext {
      * @param settings the {@link GuildSettings}
      * @return the current CommandContext instance
      */
-    public CommandContext setSettings(GuildSettings settings) {
+    public CommandContext setSettings(@NotNull GuildSettings settings) {
         this.settings = settings;
         return this;
     }
@@ -167,7 +168,7 @@ public class CommandContext {
      * @param registry the {@link ImplementationRegistry} instance
      * @return the current CommandContext instance
      */
-    public CommandContext setImplementationRegistry(ImplementationRegistry registry) {
+    public CommandContext setImplementationRegistry(@NotNull ImplementationRegistry registry) {
         this.registry = registry;
         return this;
     }
@@ -187,7 +188,7 @@ public class CommandContext {
      * @param jdaCommands the {@link JDACommands} instance
      * @return the current CommandContext instance
      */
-    public CommandContext setJdaCommands(JDACommands jdaCommands) {
+    public CommandContext setJdaCommands(@NotNull JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         return this;
     }

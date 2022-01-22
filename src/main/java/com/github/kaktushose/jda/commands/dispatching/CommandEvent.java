@@ -9,9 +9,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 /**
@@ -37,11 +37,11 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param command        the underlying {@link CommandDefinition} object
      * @param context        the {@link CommandContext}
      */
-    public CommandEvent(@Nonnull JDA api,
+    public CommandEvent(@NotNull JDA api,
                         long responseNumber,
-                        @Nonnull Message message,
-                        @Nonnull CommandDefinition command,
-                        @Nonnull CommandContext context
+                        @NotNull Message message,
+                        @NotNull CommandDefinition command,
+                        @NotNull CommandContext context
     ) {
         super(api, responseNumber, message);
         this.commandDefinition = command;
@@ -53,7 +53,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param message the message to send
      */
-    public void reply(@Nonnull String message) {
+    public void reply(@NotNull String message) {
         getChannel().sendMessage(message).queue();
     }
 
@@ -68,7 +68,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *                                          is incompatible with the given arguments, insufficient arguments given
      *                                          the format string, or other illegal conditions.
      */
-    public void reply(@Nonnull String format, @Nullable Object... args) {
+    public void reply(@NotNull String format, @NotNull Object... args) {
         reply(String.format(format, args));
     }
 
@@ -80,7 +80,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@Nonnull String message, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull String message, @Nullable Consumer<Message> success) {
         getChannel().sendMessage(message).queue(success);
     }
 
@@ -89,7 +89,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param message the {@code Message} to send
      */
-    public void reply(@Nonnull Message message) {
+    public void reply(@NotNull Message message) {
         getChannel().sendMessage(message).queue();
     }
 
@@ -101,7 +101,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@Nonnull Message message, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull Message message, @Nullable Consumer<Message> success) {
         getChannel().sendMessage(message).queue(success);
     }
 
@@ -110,7 +110,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param messageBuilder the {@code MessageBuilder} to send
      */
-    public void reply(@Nonnull MessageBuilder messageBuilder) {
+    public void reply(@NotNull MessageBuilder messageBuilder) {
         getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
@@ -122,7 +122,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success        the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@Nonnull MessageBuilder messageBuilder, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull MessageBuilder messageBuilder, @Nullable Consumer<Message> success) {
         getChannel().sendMessage(messageBuilder.build()).queue(success);
     }
 
@@ -131,7 +131,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param embedBuilder the {@code EmbedBuilder} to send
      */
-    public void reply(@Nonnull EmbedBuilder embedBuilder) {
+    public void reply(@NotNull EmbedBuilder embedBuilder) {
         getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
     }
 
@@ -143,7 +143,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success      the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@Nonnull EmbedBuilder embedBuilder, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull EmbedBuilder embedBuilder, @Nullable Consumer<Message> success) {
         getChannel().sendMessageEmbeds(embedBuilder.build()).queue(success);
     }
 
@@ -152,7 +152,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param embedDTO the {@link EmbedDTO} to send
      */
-    public void reply(@Nonnull EmbedDTO embedDTO) {
+    public void reply(@NotNull EmbedDTO embedDTO) {
         getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue();
     }
 
@@ -164,7 +164,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success  the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@Nonnull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue(success);
     }
 

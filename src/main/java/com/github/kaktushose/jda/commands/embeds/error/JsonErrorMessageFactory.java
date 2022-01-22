@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getCommandNotFoundMessage(CommandContext context) {
+    public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("commandNotFound")) {
             return super.getCommandNotFoundMessage(context);
         }
@@ -43,7 +44,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getInsufficientPermissionsMessage(CommandContext context) {
+    public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
@@ -62,7 +63,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getGuildMutedMessage(CommandContext context) {
+    public Message getGuildMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("guildMuted")) {
             return super.getGuildMutedMessage(context);
         }
@@ -70,7 +71,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getChannelMutedMessage(CommandContext context) {
+    public Message getChannelMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("channelMuted")) {
             return super.getChannelMutedMessage(context);
         }
@@ -78,7 +79,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getUserMutedMessage(CommandContext context) {
+    public Message getUserMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("userMuted")) {
             return super.getUserMutedMessage(context);
         }
@@ -87,7 +88,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
 
     @Override
-    public Message getSyntaxErrorMessage(CommandContext context) {
+    public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("syntaxError")) {
             return super.getSyntaxErrorMessage(context);
         }
@@ -121,7 +122,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getCooldownMessage(CommandContext context, long ms) {
+    public Message getCooldownMessage(@NotNull CommandContext context, long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
             return super.getCooldownMessage(context, ms);
         }
@@ -137,7 +138,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getWrongChannelTypeMessage(CommandContext context) {
+    public Message getWrongChannelTypeMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("wrongChannel")) {
             return super.getInsufficientPermissionsMessage(context);
         }

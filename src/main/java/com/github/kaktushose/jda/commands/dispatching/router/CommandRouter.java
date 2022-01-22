@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.router;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class CommandRouter implements Router {
 
     @Override
-    public void findCommands(CommandContext context, Collection<CommandDefinition> commands) {
+    public void findCommands(@NotNull CommandContext context, @NotNull Collection<CommandDefinition> commands) {
         for (int i = 0; i < context.getSettings().getMaxDistance(); i++) {
             if (findCommand(context, commands, i)) {
                 return;

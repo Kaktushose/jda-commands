@@ -241,7 +241,7 @@ public class EmbedDTO implements Serializable {
     }
 
     /**
-     * Attempts to inject {@code {placeholders}} with the values of the given object fields. Therefore the name of the
+     * Attempts to inject {@code {placeholders}} with the values of the given object fields. Therefore, the name of the
      * field must match the name of the {@code {placeholder}}.
      *
      * @param objects the objects to get the fields from

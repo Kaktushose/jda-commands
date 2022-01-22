@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.List;
@@ -32,7 +33,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
     protected String prefixPattern = "\\{prefix}";
 
     @Override
-    public Message getSpecificHelp(CommandContext context) {
+    public Message getSpecificHelp(@NotNull CommandContext context) {
         String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
         EmbedBuilder builder = new EmbedBuilder();
         CommandDefinition command = context.getCommand();
@@ -75,7 +76,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
     }
 
     @Override
-    public Message getGenericHelp(Set<ControllerDefinition> controllers, CommandContext context) {
+    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         EmbedBuilder builder = new EmbedBuilder();
         CommandList superCommands = new CommandList();

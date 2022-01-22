@@ -70,10 +70,10 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      * @param validatorRegistry the corresponding {@link ValidatorRegistry}
      * @return an {@link Optional} holding the CommandDefinition
      */
-    public static Optional<CommandDefinition> build(Method method,
-                                                    Object instance,
-                                                    TypeAdapterRegistry adapterRegistry,
-                                                    ValidatorRegistry validatorRegistry) {
+    public static Optional<CommandDefinition> build(@NotNull Method method,
+                                                    @NotNull Object instance,
+                                                    @NotNull TypeAdapterRegistry adapterRegistry,
+                                                    @NotNull ValidatorRegistry validatorRegistry) {
 
         if (!method.isAnnotationPresent(Command.class) || !method.getDeclaringClass().isAnnotationPresent(CommandController.class)) {
             return Optional.empty();

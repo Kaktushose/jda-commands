@@ -1,6 +1,9 @@
 package com.github.kaktushose.jda.commands.data;
 
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -66,12 +69,12 @@ public interface Repository<T> {
      * @param id     the id of the entity to save
      * @param entity the entity to save
      */
-    void save(long id, T entity);
+    void save(long id, @Nullable T entity);
 
     /**
      * Saves all given entities.
      *
      * @param entities a Map containing all entities to save
      */
-    void saveAll(Map<Long, T> entities);
+    void saveAll(@NotNull Map<@Nullable Long, @Nullable T> entities);
 }

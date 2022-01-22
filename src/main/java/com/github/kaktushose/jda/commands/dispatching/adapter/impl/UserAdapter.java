@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class UserAdapter implements TypeAdapter<User> {
      * @return the parsed {@link User} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<User> parse(String raw, CommandContext context) {
+    public Optional<User> parse(@NotNull String raw, @NotNull CommandContext context) {
         User user;
         raw = sanitizeMention(raw);
         JDA jda = context.getEvent().getJDA();

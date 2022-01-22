@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.settings;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,12 +69,12 @@ public class GuildSettings {
      * @param maxDistance   the maximal Levenshtein distance to use when routing commands
      */
     public GuildSettings(long guildId,
-                         String prefix,
+                         @NotNull String prefix,
                          boolean ignoreCase,
                          boolean ignoreBots,
                          boolean parseQuotes,
-                         Set<String> helpLabels,
-                         Set<Long> mutedChannels,
+                         @NotNull Set<String> helpLabels,
+                         @NotNull Set<Long> mutedChannels,
                          boolean isMutedGuild,
                          int maxDistance) {
         this.guildId = guildId;
@@ -115,7 +117,7 @@ public class GuildSettings {
      * @param prefix the new prefix
      * @return this instance
      */
-    public GuildSettings setPrefix(String prefix) {
+    public GuildSettings setPrefix(@NotNull String prefix) {
         this.prefix = prefix;
         return this;
     }
@@ -195,7 +197,7 @@ public class GuildSettings {
      * @param helpLabels a set of help labels
      * @return this instance
      */
-    public GuildSettings setHelpLabels(Collection<String> helpLabels) {
+    public GuildSettings setHelpLabels(@NotNull Collection<String> helpLabels) {
         this.helpLabels = new HashSet<>(helpLabels);
         return this;
     }
@@ -215,7 +217,7 @@ public class GuildSettings {
      * @param mutedChannels a set of muted channel ids
      * @return this instance
      */
-    public GuildSettings setMutedChannels(Collection<Long> mutedChannels) {
+    public GuildSettings setMutedChannels(@NotNull Collection<Long> mutedChannels) {
         this.mutedChannels = new HashSet<>(mutedChannels);
         return this;
     }

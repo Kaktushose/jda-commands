@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Representation of parameter constraint.
@@ -24,7 +25,7 @@ public class ConstraintDefinition {
      * @param message    the message to display if the constraint fails
      * @param annotation an instance of the annotation declaring the constraint
      */
-    public ConstraintDefinition(Validator validator, String message, Object annotation) {
+    public ConstraintDefinition(@NotNull Validator validator, @NotNull String message, @NotNull Object annotation) {
         this.validator = validator;
         this.message = message;
         this.annotation = annotation;

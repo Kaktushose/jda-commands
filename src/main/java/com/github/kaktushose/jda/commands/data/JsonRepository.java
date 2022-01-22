@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.data;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +38,7 @@ public abstract class JsonRepository<T> implements Repository<T> {
      * @param path    the path of the file to save the json in
      * @param mapType the {@link Type} of a {@link Map} containing the key (Long) and the Type the repository manages
      */
-    public JsonRepository(String path, Type mapType) {
+    public JsonRepository(@NotNull String path, @NotNull Type mapType) {
         this(new File(path), mapType);
     }
 
@@ -46,7 +48,7 @@ public abstract class JsonRepository<T> implements Repository<T> {
      * @param file    the file to save the json in
      * @param mapType the {@link Type} of a {@link Map} containing the key (Long) and the Type the repository manages
      */
-    public JsonRepository(File file, Type mapType) {
+    public JsonRepository(@NotNull File file, @NotNull Type mapType) {
         this.file = file;
         this.mapType = mapType;
         gson = new Gson();
@@ -96,7 +98,7 @@ public abstract class JsonRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void deleteAll(Collection<Long> ids) {
+    public void deleteAll(@NotNull Collection<Long> ids) {
         ids.forEach(this::delete);
     }
 
@@ -106,13 +108,13 @@ public abstract class JsonRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void save(long id, T entity) {
+    public void save(long id, @Nullable T entity) {
         map.put(id, entity);
         save();
     }
 
     @Override
-    public void saveAll(Map<Long, T> entities) {
+    public void saveAll(@NotNull Map<@Nullable Long, @Nullable T> entities) {
         entities.forEach(this::save);
     }
 }

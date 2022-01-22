@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.router;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -20,6 +21,6 @@ public interface Router {
      * @param context  the {@link CommandContext} to find the {@link CommandDefinition} for
      * @param commands the list of {@link CommandDefinition CommandDefinitions} to query
      */
-    void findCommands(CommandContext context, Collection<CommandDefinition> commands);
+    void findCommands(@NotNull CommandContext context, @NotNull Collection<CommandDefinition> commands);
 
 }

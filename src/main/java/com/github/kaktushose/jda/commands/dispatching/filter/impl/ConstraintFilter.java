@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.MessageBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class ConstraintFilter implements Filter {
      * @param context the {@link CommandContext} to filter
      */
     @Override
-    public void apply(CommandContext context) {
+    public void apply(@NotNull CommandContext context) {
         List<Object> arguments = context.getArguments();
         List<ParameterDefinition> parameters = context.getCommand().getParameters();
 

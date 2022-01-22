@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link Validator} implementation that checks the {@link NotPerm} constraint.
@@ -27,7 +28,7 @@ public class NotPermissionValidator implements Validator {
      * permission
      */
     @Override
-    public boolean validate(Object argument, Object annotation, CommandContext context) {
+    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
         Permission permission;
         try {
             NotPerm perm = (NotPerm) annotation;

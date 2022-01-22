@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ import java.util.regex.Matcher;
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
-    public Message getCommandNotFoundMessage(CommandContext context) {
+    public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -39,7 +40,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getInsufficientPermissionsMessage(CommandContext context) {
+    public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         CommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
@@ -59,7 +60,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getGuildMutedMessage(CommandContext context) {
+    public Message getGuildMutedMessage(@NotNull CommandContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -69,7 +70,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getChannelMutedMessage(CommandContext context) {
+    public Message getChannelMutedMessage(@NotNull CommandContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -79,7 +80,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getUserMutedMessage(CommandContext context) {
+    public Message getUserMutedMessage(@NotNull CommandContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -89,7 +90,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getSyntaxErrorMessage(CommandContext context) {
+    public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
         StringBuilder sbExpected = new StringBuilder();
         CommandDefinition command = context.getCommand();
         List<String> arguments = Arrays.asList(context.getInput());
@@ -124,7 +125,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getCooldownMessage(CommandContext context, long ms) {
+    public Message getCooldownMessage(@NotNull CommandContext context, long ms) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;
         long m = (seconds / 60) % 60;
@@ -139,7 +140,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getWrongChannelTypeMessage(CommandContext context) {
+    public Message getWrongChannelTypeMessage(@NotNull CommandContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")

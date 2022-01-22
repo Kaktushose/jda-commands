@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -41,9 +42,9 @@ public class CommandRegistry {
      * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
      * @param dependencyInjector the corresponding {@link DependencyInjector}
      */
-    public CommandRegistry(TypeAdapterRegistry adapterRegistry,
-                           ValidatorRegistry validatorRegistry,
-                           DependencyInjector dependencyInjector) {
+    public CommandRegistry(@NotNull TypeAdapterRegistry adapterRegistry,
+                           @NotNull ValidatorRegistry validatorRegistry,
+                           @NotNull DependencyInjector dependencyInjector) {
         this.parameterRegistry = adapterRegistry;
         this.validatorRegistry = validatorRegistry;
         this.dependencyInjector = dependencyInjector;
@@ -56,7 +57,7 @@ public class CommandRegistry {
      *
      * @param packages package(s) to exclusively scan
      */
-    public void index(String... packages) {
+    public void index(@NotNull String... packages) {
         log.debug("Indexing controllers...");
 
         ConfigurationBuilder config = new ConfigurationBuilder()

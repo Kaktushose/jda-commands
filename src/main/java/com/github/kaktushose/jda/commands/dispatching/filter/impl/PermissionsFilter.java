@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class PermissionsFilter implements Filter {
      * @param context the {@link CommandContext} to filter
      */
     @Override
-    public void apply(CommandContext context) {
+    public void apply(@NotNull CommandContext context) {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 

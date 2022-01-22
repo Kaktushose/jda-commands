@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +71,7 @@ public class TypeAdapterRegistry {
      * @param type    the type the adapter is for
      * @param adapter the {@link TypeAdapter}
      */
-    public void register(Class<?> type, TypeAdapter<?> adapter) {
+    public void register(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
         parameterAdapters.put(type, adapter);
         log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
     }
@@ -79,7 +81,7 @@ public class TypeAdapterRegistry {
      *
      * @param type the type the adapter is for
      */
-    public void unregister(Class<?> type) {
+    public void unregister(@NotNull Class<?> type) {
         parameterAdapters.remove(type);
         log.debug("Unregistered adapter for type {}", type.getName());
     }
@@ -90,7 +92,7 @@ public class TypeAdapterRegistry {
      * @param type the type to check
      * @return {@code true} if a type adapter exists
      */
-    public boolean exists(Class<?> type) {
+    public boolean exists(@Nullable Class<?> type) {
         return parameterAdapters.containsKey(type);
     }
 
@@ -100,7 +102,7 @@ public class TypeAdapterRegistry {
      * @param type the type to get the adapter for
      * @return the type adapter or an empty Optional if none found
      */
-    public Optional<TypeAdapter<?>> get(Class<?> type) {
+    public Optional<TypeAdapter<?>> get(@Nullable Class<?> type) {
         return Optional.ofNullable(parameterAdapters.get(type));
     }
 
@@ -110,7 +112,7 @@ public class TypeAdapterRegistry {
      *
      * @param context the {@link CommandContext} to type adapt
      */
-    public void adapt(CommandContext context) {
+    public void adapt(@NotNull CommandContext context) {
         CommandDefinition command = context.getCommand();
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();

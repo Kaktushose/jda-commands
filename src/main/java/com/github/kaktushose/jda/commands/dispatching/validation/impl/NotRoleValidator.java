@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class NotRoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that <b>doesn't</b> have the specified guild role
      */
     @Override
-    public boolean validate(Object argument, Object annotation, CommandContext context) {
+    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
         NotRole roleAnnotation = (NotRole) annotation;
 
         Optional<Role> optional = new RoleAdapter().parse(roleAnnotation.value(), context);

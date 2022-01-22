@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class CooldownFilter implements Filter {
      * @param context the {@link CommandContext} to filter
      */
     @Override
-    public void apply(CommandContext context) {
+    public void apply(@NotNull CommandContext context) {
         CommandDefinition command = context.getCommand();
 
         if (!command.hasCooldown()) {

@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class BooleanAdapter implements TypeAdapter<Boolean> {
      * @return the parsed boolean or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Boolean> parse(String raw, CommandContext context) {
+    public Optional<Boolean> parse(@NotNull String raw, @NotNull CommandContext context) {
         if ("true".equalsIgnoreCase(raw) || "1".equals(raw)) {
             return Optional.of(true);
         }

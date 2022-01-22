@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.permissions;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Interface for performing permission checks.
@@ -24,7 +25,7 @@ public interface PermissionsProvider {
      * @return {@code true} if the user is muted
      * @see com.github.kaktushose.jda.commands.dispatching.filter.impl.UserMuteFilter UserMuteFilter
      */
-    boolean isMuted(User user, CommandContext context);
+    boolean isMuted(@NotNull User user, @NotNull CommandContext context);
 
     /**
      * Checks if a {@link User} has permissions. Compared to {@link #hasPermission(Member, CommandContext)} this method will be
@@ -35,7 +36,7 @@ public interface PermissionsProvider {
      * @return {@code true} if the user has the permission to execute the command
      * @see #hasPermission(Member, CommandContext)
      */
-    boolean hasPermission(User user, CommandContext context);
+    boolean hasPermission(@NotNull User user, @NotNull CommandContext context);
 
     /**
      * Checks if a {@link Member} has permissions.
@@ -44,6 +45,6 @@ public interface PermissionsProvider {
      * @param context the corresponding {@link CommandContext}
      * @return {@code true} if the user has the permission to execute the command
      */
-    boolean hasPermission(Member member, CommandContext context);
+    boolean hasPermission(@NotNull Member member, @NotNull CommandContext context);
 
 }

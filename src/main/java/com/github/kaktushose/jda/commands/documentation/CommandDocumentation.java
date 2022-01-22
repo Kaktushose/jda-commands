@@ -4,10 +4,10 @@ import com.github.kaktushose.jda.commands.data.CommandList;
 import net.steppschuh.markdowngenerator.list.UnorderedList;
 import net.steppschuh.markdowngenerator.text.emphasis.BoldText;
 import net.steppschuh.markdowngenerator.text.heading.Heading;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -42,7 +42,7 @@ public class CommandDocumentation {
      *                      The default value is {@code {prefix}}
      * @param prefix        the prefix to replace the pattern with
      */
-    public CommandDocumentation(@Nonnull CommandList commandList, @Nonnull String prefixPattern, @Nonnull String prefix) {
+    public CommandDocumentation(@NotNull CommandList commandList, @NotNull String prefixPattern, @NotNull String prefix) {
         this.commandList = commandList;
         this.prefixPattern = prefixPattern;
         this.prefix = prefix;
@@ -81,7 +81,7 @@ public class CommandDocumentation {
      *
      * @param file the file to save the markdown in
      */
-    public void saveToFile(File file) {
+    public void saveToFile(@NotNull File file) {
         try (PrintWriter printWriter = new PrintWriter(file)) {
             printWriter.write(docs.toString());
         } catch (FileNotFoundException e) {

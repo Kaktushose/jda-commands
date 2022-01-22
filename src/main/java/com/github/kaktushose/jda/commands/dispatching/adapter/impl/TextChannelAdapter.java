@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
      * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<TextChannel> parse(String raw, CommandContext context) {
+    public Optional<TextChannel> parse(@NotNull String raw, @NotNull CommandContext context) {
         if (!context.getEvent().isFromType(ChannelType.TEXT)) {
             return Optional.empty();
         }

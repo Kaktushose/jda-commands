@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,10 +43,10 @@ public class ControllerDefinition {
      * @param dependencyInjector the corresponding {@link DependencyInjector}
      * @return an {@link Optional} holding the ControllerDefinition
      */
-    public static Optional<ControllerDefinition> build(Class<?> controllerClass,
-                                                       TypeAdapterRegistry adapterRegistry,
-                                                       ValidatorRegistry validatorRegistry,
-                                                       DependencyInjector dependencyInjector) {
+    public static Optional<ControllerDefinition> build(@NotNull Class<?> controllerClass,
+                                                       @NotNull TypeAdapterRegistry adapterRegistry,
+                                                       @NotNull ValidatorRegistry validatorRegistry,
+                                                       @NotNull DependencyInjector dependencyInjector) {
         CommandController commandController = controllerClass.getAnnotation(CommandController.class);
 
         if (!commandController.isActive()) {

@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
      * @return a new {@link CommandContext}
      */
     @Override
-    public CommandContext parse(MessageReceivedEvent event, CommandDispatcher dispatcher) {
+    public CommandContext parse(@NotNull MessageReceivedEvent event, @NotNull CommandDispatcher dispatcher) {
         CommandContext context = new CommandContext();
         ImplementationRegistry registry = dispatcher.getImplementationRegistry();
         GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromType(ChannelType.TEXT) ? event.getGuild() : null);

@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class CharacterAdapter implements TypeAdapter<Character> {
      * @return the parsed Char or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Character> parse(String raw, CommandContext context) {
+    public Optional<Character> parse(@NotNull String raw, @NotNull CommandContext context) {
         if (raw.length() == 1) {
             return Optional.of(raw.charAt(0));
         }

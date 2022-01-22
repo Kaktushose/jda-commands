@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import net.dv8tion.jda.api.events.GenericEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Abstract toplevel class for defining event parsers.
@@ -25,6 +26,6 @@ public abstract class Parser<T extends GenericEvent> {
      * @param dispatcher the calling {@link CommandDispatcher}
      * @return a new {@link CommandContext}
      */
-    public abstract CommandContext parse(T event, CommandDispatcher dispatcher);
+    public abstract CommandContext parse(@NotNull T event, @NotNull CommandDispatcher dispatcher);
 
 }

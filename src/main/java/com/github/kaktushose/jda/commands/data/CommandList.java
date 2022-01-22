@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ public class CommandList extends ArrayList<CommandDefinition> {
      *
      * @param collection the collection whose elements are to be placed into this list
      */
-    public CommandList(@Nonnull Collection<CommandDefinition> collection) {
+    public CommandList(@NotNull Collection<CommandDefinition> collection) {
         addAll(collection);
     }
 

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.data.impl;
 import com.github.kaktushose.jda.commands.data.JsonRepository;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import com.google.common.reflect.TypeToken;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -28,7 +29,7 @@ public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
      *
      * @param path the path of the file to save the json in
      */
-    public GuildSettingsJsonRepository(String path) {
+    public GuildSettingsJsonRepository(@NotNull String path) {
         super(path, mapType);
     }
 
@@ -37,7 +38,7 @@ public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
      *
      * @param file the file to save the json in
      */
-    public GuildSettingsJsonRepository(File file) {
+    public GuildSettingsJsonRepository(@NotNull File file) {
         super(file, mapType);
     }
 

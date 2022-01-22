@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public interface TypeAdapter<T> {
      * @param context the {@link CommandContext}
      * @return the parsed type or an empty Optional if the parsing fails
      */
-    Optional<T> parse(String raw, CommandContext context);
+    Optional<T> parse(@NotNull String raw, @NotNull CommandContext context);
 
     /**
      * Sanitizes a String containing a raw mention. This will remove all markdown characters namely <em>< @ # & ! ></em>
@@ -30,7 +31,7 @@ public interface TypeAdapter<T> {
      * @param mention the raw String to sanitize
      * @return the sanitized String
      */
-    default String sanitizeMention(String mention) {
+    default String sanitizeMention(@NotNull String mention) {
         if (mention.matches("<[@#][&!]?([0-9]{4,})>")) {
             return mention.replaceAll("<[@#][&!]?", "").replace(">", "");
         }

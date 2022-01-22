@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Generic top level interface for the filter chain. A filter performs filtering tasks on a {@link CommandContext}
@@ -18,6 +19,6 @@ public interface Filter {
      *
      * @param context the {@link CommandContext} to filter
      */
-    void apply(CommandContext context);
+    void apply(@NotNull CommandContext context);
 
 }

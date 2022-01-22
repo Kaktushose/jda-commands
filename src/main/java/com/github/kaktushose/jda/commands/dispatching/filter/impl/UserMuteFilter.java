@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ public class UserMuteFilter implements Filter {
      * @param context the {@link CommandContext} to filter
      */
     @Override
-    public void apply(CommandContext context) {
+    public void apply(@NotNull CommandContext context) {
         log.debug("Checking mutes...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 

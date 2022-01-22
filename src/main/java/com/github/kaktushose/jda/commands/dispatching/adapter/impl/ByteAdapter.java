@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class ByteAdapter implements TypeAdapter<Byte> {
      * @return the parsed Byte or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Byte> parse(String raw, CommandContext context) {
+    public Optional<Byte> parse(@NotNull String raw, @NotNull CommandContext context) {
         try {
             return Optional.of(Byte.valueOf(raw));
         } catch (NumberFormatException ignored) {

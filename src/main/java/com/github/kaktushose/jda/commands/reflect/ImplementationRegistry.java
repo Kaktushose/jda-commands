@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -69,7 +70,7 @@ public class ImplementationRegistry {
      *
      * @param packages package(s) to exclusively scan
      */
-    public void index(String... packages) {
+    public void index(@NotNull String... packages) {
         log.debug("Indexing custom implementations...");
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner())
