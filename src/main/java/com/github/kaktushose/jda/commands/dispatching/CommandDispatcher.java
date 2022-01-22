@@ -48,10 +48,10 @@ public class CommandDispatcher {
     /**
      * Constructs a new CommandDispatcher.
      *
-     * @param jda the corresponding {@link JDA} instance
+     * @param jda            the corresponding {@link JDA} instance
      * @param isShardManager whether the jda instance is a shard manager
-     * @param jdaCommands the corresponding {@link JDACommands} instance
-     * @param packages optional packages to exclusively scan
+     * @param jdaCommands    the corresponding {@link JDACommands} instance
+     * @param packages       optional packages to exclusively scan
      * @throws IllegalStateException if an instance of this class is already active.
      */
     public CommandDispatcher(Object jda, boolean isShardManager, JDACommands jdaCommands, String... packages) {
@@ -101,7 +101,6 @@ public class CommandDispatcher {
 
     /**
      * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord.
-     *
      */
     public void shutdown() {
         if (isShardManager) {

@@ -18,6 +18,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Central registry for all {@link CommandDefinition CommandDefinitions}.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class CommandRegistry {
 
     private final static Logger log = LoggerFactory.getLogger(CommandRegistry.class);
@@ -27,16 +34,28 @@ public class CommandRegistry {
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
 
-    public CommandRegistry(TypeAdapterRegistry parameterRegistry,
+    /**
+     * Constructs a new CommandRegistry.
+     *
+     * @param adapterRegistry    the corresponding {@link TypeAdapterRegistry}
+     * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
+     * @param dependencyInjector the corresponding {@link DependencyInjector}
+     */
+    public CommandRegistry(TypeAdapterRegistry adapterRegistry,
                            ValidatorRegistry validatorRegistry,
                            DependencyInjector dependencyInjector) {
-        this.parameterRegistry = parameterRegistry;
+        this.parameterRegistry = adapterRegistry;
         this.validatorRegistry = validatorRegistry;
         this.dependencyInjector = dependencyInjector;
         controllers = new HashSet<>();
         commands = new HashSet<>();
     }
 
+    /**
+     * Scans the whole classpath for commands.
+     *
+     * @param packages package(s) to exclusively scan
+     */
     public void index(String... packages) {
         log.debug("Indexing controllers...");
 
@@ -73,10 +92,20 @@ public class CommandRegistry {
         log.debug("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
     }
 
+    /**
+     * Gets a list of all {@link ControllerDefinition ControllerDefinitions}.
+     *
+     * @return a list of all {@link ControllerDefinition ControllerDefinitions}
+     */
     public Set<ControllerDefinition> getControllers() {
         return Collections.unmodifiableSet(controllers);
     }
 
+    /**
+     * Gets a list of all {@link CommandDefinition CommandDefinitions}.
+     *
+     * @return a list of all {@link CommandDefinition CommandDefinitions}
+     */
     public Set<CommandDefinition> getCommands() {
         return Collections.unmodifiableSet(commands);
     }

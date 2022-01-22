@@ -83,7 +83,7 @@ public class ValidatorRegistry {
      * the {@link Validator} cannot validate the given type.
      *
      * @param annotation the class of the annotation
-     * @param type the type to validate
+     * @param type       the type to validate
      * @return an {@link Optional} holding the {@link Validator}
      */
     public Optional<Validator> get(Class<?> annotation, Class<?> type) {

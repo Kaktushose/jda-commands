@@ -3,8 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;

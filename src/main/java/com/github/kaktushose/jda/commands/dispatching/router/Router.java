@@ -17,7 +17,7 @@ public interface Router {
     /**
      * Attempts to find a matching {@link CommandDefinition} for the given {@link CommandContext}.
      *
-     * @param context the {@link CommandContext} to find the {@link CommandDefinition} for
+     * @param context  the {@link CommandContext} to find the {@link CommandDefinition} for
      * @param commands the list of {@link CommandDefinition CommandDefinitions} to query
      */
     void findCommands(CommandContext context, Collection<CommandDefinition> commands);

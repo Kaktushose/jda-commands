@@ -100,7 +100,7 @@ public class ControllerDefinitionTest {
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
 
         assertNotNull(controllerDefinition);
-        assertTrue(controllerDefinition.hasSuperCommand());
+        assertTrue(controllerDefinition.hasSuperCommands());
         assertEquals(1, controllerDefinition.getSuperCommands().size());
         assertEquals(method, controllerDefinition.getSuperCommands().get(0).getMethod());
     }

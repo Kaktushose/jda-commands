@@ -14,14 +14,16 @@ import java.lang.annotation.Target;
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type {@link CommandEvent}</li>
- * <li>Remaining parameter types must be registered at the {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry} or be a String array</li>
+ * <li>Remaining parameter types must be registered at the
+ * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry TypeAdapterRegistry} or be a
+ * String array</li>
  * <li>Parameter constraints must be valid</li>
  * </ul>
  *
  * @author Kaktushose
  * @version 2.0.0
  * @see CommandController
- * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint
+ * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @since 1.0.0
  */
 @Target(ElementType.METHOD)
@@ -36,14 +38,15 @@ public @interface Command {
     String[] value() default "";
 
     /**
-     * Returns whether this command is a super command or not
+     * Returns whether this command is a super command. A super command will be listed separately in the default help
+     * embed and will have all non-super commands inside the same controller as a sub command.
      *
      * @return {@code true} if this is a super command
      */
     boolean isSuper() default false;
 
     /**
-     * Returns whether this command can be executed in direct messages or not
+     * Returns whether this command can be executed in direct messages.
      *
      * @return {@code true} if this command can be executed in direct messages
      */

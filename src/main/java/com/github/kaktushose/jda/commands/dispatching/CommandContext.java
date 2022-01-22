@@ -15,7 +15,6 @@ import java.util.List;
  * valid event received. The CommandContext is then passed through the execution chain until it is then transformed into
  * a {@link CommandEvent}.
  *
- *
  * @author Kaktushose
  * @version 2.0.0
  * @since 2.0.0

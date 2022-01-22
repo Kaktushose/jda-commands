@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.google.common.collect.Sets;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,14 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
+/**
+ * Representation of a single command.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see Command
+ * @since 2.0.0
+ */
 public class CommandDefinition implements Comparable<CommandDefinition> {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDefinition.class);
@@ -52,6 +61,15 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         this.instance = instance;
     }
 
+    /**
+     * Builds a new CommandDefinition.
+     *
+     * @param method            the {@link Method} of the command
+     * @param instance          an instance of the method defining class
+     * @param adapterRegistry   the corresponding {@link TypeAdapterRegistry}
+     * @param validatorRegistry the corresponding {@link ValidatorRegistry}
+     * @return an {@link Optional} holding the CommandDefinition
+     */
     public static Optional<CommandDefinition> build(Method method,
                                                     Object instance,
                                                     TypeAdapterRegistry adapterRegistry,
@@ -165,50 +183,111 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 message);
     }
 
+    /**
+     * Gets a list of all command labels.
+     *
+     * @return a list of all command labels
+     */
     public List<String> getLabels() {
         return labels;
     }
 
+    /**
+     * Gets the {@link CommandMetadata}.
+     *
+     * @return the {@link CommandMetadata}
+     */
     public CommandMetadata getMetadata() {
         return metadata;
     }
 
+    /**
+     * Gets a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}
+     */
     public List<ParameterDefinition> getParameters() {
         return parameters;
     }
 
+    /**
+     * Gets a set of permission Strings.
+     *
+     * @return set of permission Strings
+     */
     public Set<String> getPermissions() {
         return permissions;
     }
 
+    /**
+     * Gets the {@link CooldownDefinition}. This is never null, even if the command has no cooldown.
+     *
+     * @return the {@link CooldownDefinition}
+     */
     public CooldownDefinition getCooldown() {
         return cooldown;
     }
 
+    /**
+     * Gets the {@link ControllerDefinition} this command is defined inside.
+     *
+     * @return the {@link ControllerDefinition}
+     */
+    @Nullable
     public ControllerDefinition getController() {
         return controller;
     }
 
+    /**
+     * Sets the {@link ControllerDefinition}.
+     *
+     * @param controller the {@link ControllerDefinition} to use
+     */
     public void setController(ControllerDefinition controller) {
         this.controller = controller;
     }
 
+    /**
+     * Whether this command has a cooldown. More formally, checks if {@link CooldownDefinition#getDelay()} > 0.
+     *
+     * @return {@code true} if this command has a cooldown.
+     */
     public boolean hasCooldown() {
         return getCooldown().getDelay() > 0;
     }
 
+    /**
+     * Whether this command is a super command.
+     *
+     * @return {@code true} if this command is a super command
+     */
     public boolean isSuper() {
         return isSuper;
     }
 
+    /**
+     * Whether this command can be executed inside direct messages.
+     *
+     * @return {@code true} if this command can be executed inside direct messages
+     */
     public boolean isDM() {
         return isDM;
     }
 
+    /**
+     * Gets the {@link Method} of the command.
+     *
+     * @return the {@link Method} of the command
+     */
     public Method getMethod() {
         return method;
     }
 
+    /**
+     * Gets an instance of the method defining class
+     *
+     * @return an instance of the method defining class
+     */
     public Object getInstance() {
         return instance;
     }

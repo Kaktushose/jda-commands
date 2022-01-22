@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.reflect.ImplementationRegistry
+ * @see com.github.kaktushose.jda.commands.reflect.ImplementationRegistry ImplementationRegistry
  * @since 2.0.0
  */
 @Target(ElementType.TYPE)

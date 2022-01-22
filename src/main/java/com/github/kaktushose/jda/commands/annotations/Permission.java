@@ -10,13 +10,15 @@ import java.lang.annotation.Target;
  * require the user to have the given permissions in order to execute the command.
  *
  * <p>The default implementation of this framework can only handle discord permissions.
- * However, the {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider} allows custom implementations.
+ * However, the {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider} interface
+ * allows custom implementations.
  *
- * <p>If a class is annotated with Permission all methods or respectively all commands will require the given permission level.
+ * <p>If a class is annotated with Permission all methods or respectively all commands will require the given
+ * permission level.
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.permissions.PermissionsProvider
+ * @see com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider
  * @since 1.0.0
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

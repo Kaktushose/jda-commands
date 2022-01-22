@@ -14,6 +14,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Representation of a command controller.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class ControllerDefinition {
 
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
@@ -26,6 +33,15 @@ public class ControllerDefinition {
         this.subCommands = subCommands;
     }
 
+    /**
+     * Builds a new ControllerDefinition.
+     *
+     * @param controllerClass    the {@link Class} of the controller
+     * @param adapterRegistry    the corresponding {@link TypeAdapterRegistry}
+     * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
+     * @param dependencyInjector the corresponding {@link DependencyInjector}
+     * @return an {@link Optional} holding the ControllerDefinition
+     */
     public static Optional<ControllerDefinition> build(Class<?> controllerClass,
                                                        TypeAdapterRegistry adapterRegistry,
                                                        ValidatorRegistry validatorRegistry,
@@ -108,14 +124,29 @@ public class ControllerDefinition {
         return Optional.of(controller);
     }
 
-    public boolean hasSuperCommand() {
+    /**
+     * Whether this controller has super commands.
+     *
+     * @return {@code true} if this controller has super commands
+     */
+    public boolean hasSuperCommands() {
         return superCommands != null;
     }
 
+    /**
+     * Gets a possibly-empty list of all super commands.
+     *
+     * @return a possibly-empty list of all super commands
+     */
     public List<CommandDefinition> getSuperCommands() {
         return superCommands;
     }
 
+    /**
+     * Gets a possibly-empty list of all sub commands.
+     *
+     * @return a possibly-empty list of all sub commands
+     */
     public List<CommandDefinition> getSubCommands() {
         return subCommands;
     }

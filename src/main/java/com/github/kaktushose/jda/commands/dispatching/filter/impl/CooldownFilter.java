@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- *  A {@link Filter} implementation that contains the business logic behind command cooldowns.
- *  If the command isn't annotated with {@link com.github.kaktushose.jda.commands.annotations.Cooldown Cooldown} or more
- *  formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
- *  {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
+ * A {@link Filter} implementation that contains the business logic behind command cooldowns.
+ * If the command isn't annotated with {@link com.github.kaktushose.jda.commands.annotations.Cooldown Cooldown} or more
+ * formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
+ * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
  *
  * @author Kaktushose
  * @version 2.0.0

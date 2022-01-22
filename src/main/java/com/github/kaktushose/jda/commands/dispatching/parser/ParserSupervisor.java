@@ -42,7 +42,7 @@ public class ParserSupervisor extends ListenerAdapter {
      * Registers a new {@link Parser} for the given subtype of {@link GenericEvent}.
      *
      * @param listener the subtype of {@link GenericEvent}
-     * @param parser the {@link Parser} to register
+     * @param parser   the {@link Parser} to register
      */
     public void register(Class<? extends GenericEvent> listener, Parser<? extends GenericEvent> parser) {
         listeners.put(listener, parser);

@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -29,7 +28,7 @@ public interface HelpMessageFactory {
      * Gets a {@link Message} to send to get an overview over all available commands.
      *
      * @param controllers a {@link Set} of all available {@link ControllerDefinition ControllerDefinitions}
-     * @param context context the corresponding {@link CommandContext}
+     * @param context     context the corresponding {@link CommandContext}
      * @return a {@link Message} to send to get an overview over all available commands
      */
     Message getGenericHelp(Set<ControllerDefinition> controllers, CommandContext context);

@@ -9,6 +9,23 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
+/**
+ * Default implementation of {@link PermissionsProvider} with the following behaviour:
+ * <ul>
+ *     <li>{@link #isMuted(User, CommandContext)} will always return {@code false}</li>
+ *     <li>{@link #hasPermission(User, CommandContext)} will always return {@code true}</li>
+ *     <li>
+ *         {@link #hasPermission(Member, CommandContext)} will check against the default Discord permissions. More
+ *         formally, this method will work with any permission provided by {@link Permission#values()}, ignoring the
+ *         case. Any other permission String will be ignored.
+ *     </li>
+ * </ul>
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see PermissionsProvider
+ * @since 2.0.0
+ */
 public class DefaultPermissionsProvider implements PermissionsProvider {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);

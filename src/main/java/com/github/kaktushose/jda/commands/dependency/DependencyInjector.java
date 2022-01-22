@@ -24,7 +24,7 @@ import java.util.Set;
  * @author Kaktushose
  * @version 2.0.0
  * @see Produces
- * @see com.github.kaktushose.jda.commands.annotations.Inject
+ * @see com.github.kaktushose.jda.commands.annotations.Inject Inject
  * @since 1.0.0
  */
 public class DependencyInjector {

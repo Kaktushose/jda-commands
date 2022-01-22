@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +16,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Representation of a command parameter.
+ *
+ * @author Kaktushose
+ * @version 2.0.0
+ * @see Concat
+ * @see Optional
+ * @see Constraint
+ * @since 2.0.0
+ */
 public class ParameterDefinition {
 
     private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = new HashMap<Class<?>, Class<?>>() {
@@ -54,6 +65,13 @@ public class ParameterDefinition {
         this.constraints = constraints;
     }
 
+    /**
+     * Builds a new ParameterDefinition.
+     *
+     * @param parameter the {@link Parameter} of the command method
+     * @param registry  an instance of the corresponding {@link ValidatorRegistry}
+     * @return a new ParameterDefinition
+     */
     public static ParameterDefinition build(Parameter parameter, ValidatorRegistry registry) {
         if (parameter.isVarArgs()) {
             throw new IllegalArgumentException("VarArgs is not supported for parameters!");
@@ -115,30 +133,66 @@ public class ParameterDefinition {
         );
     }
 
+    /**
+     * Gets the type of the parameter.
+     *
+     * @return the type of the parameter
+     */
     public Class<?> getType() {
         return type;
     }
 
+    /**
+     * Whether the parameter should be concatenated.
+     *
+     * @return {@code true} if the parameter should be concatenated
+     */
     public boolean isConcat() {
         return isConcat;
     }
 
+    /**
+     * Whether the parameter is optional.
+     *
+     * @return {@code true} if the parameter is optional
+     */
     public boolean isOptional() {
         return isOptional;
     }
 
+    /**
+     * Gets a possibly-null default value to use if the parameter is optional.
+     *
+     * @return a possibly-null default value
+     */
+    @Nullable
     public String getDefaultValue() {
         return defaultValue;
     }
 
+    /**
+     * Whether the type of the parameter is a primitive.
+     *
+     * @return {@code true} if the type of the parameter is a primitive
+     */
     public boolean isPrimitive() {
         return isPrimitive;
     }
 
+    /**
+     * Gets a possibly-empty list of {@link ConstraintDefinition ConstraintDefinitions}.
+     *
+     * @return a possibly-empty list of {@link ConstraintDefinition ConstraintDefinitions}
+     */
     public List<ConstraintDefinition> getConstraints() {
         return constraints;
     }
 
+    /**
+     * Gets the parameter name.
+     *
+     * @return the parameter name
+     */
     public String getName() {
         return name;
     }

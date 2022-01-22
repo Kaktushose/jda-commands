@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 /**
  * Abstract toplevel class for defining event parsers.
@@ -22,7 +21,7 @@ public abstract class Parser<T extends GenericEvent> {
     /**
      * Takes a subtype of {@link GenericEvent}, parses and transpiles it into a {@link CommandContext}.
      *
-     * @param event the subtype of {@link GenericEvent}
+     * @param event      the subtype of {@link GenericEvent}
      * @param dispatcher the calling {@link CommandDispatcher}
      * @return a new {@link CommandContext}
      */
