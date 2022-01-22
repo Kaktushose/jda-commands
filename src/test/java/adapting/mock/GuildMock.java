@@ -534,6 +534,12 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @NotNull
+    @Override
+    public NSFWLevel getNSFWLevel() {
+        return null;
+    }
+
     @Nullable
     @Override
     public Member getMember(@NotNull User user) {

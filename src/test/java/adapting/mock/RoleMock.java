@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.RoleIcon;
 import net.dv8tion.jda.api.managers.RoleManager;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
@@ -170,6 +171,12 @@ public class RoleMock implements Role {
     @NotNull
     @Override
     public RoleTags getTags() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public RoleIcon getIcon() {
         return null;
     }
 

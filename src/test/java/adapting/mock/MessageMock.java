@@ -448,9 +448,25 @@ public class MessageMock implements Message {
         return null;
     }
 
+    @Override
+    public long getFlagsRaw() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEphemeral() {
+        return false;
+    }
+
     @NotNull
     @Override
     public MessageType getType() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Interaction getInteraction() {
         return null;
     }
 

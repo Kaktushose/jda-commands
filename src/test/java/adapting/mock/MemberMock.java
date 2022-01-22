@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Formatter;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
@@ -78,6 +80,11 @@ public class MemberMock implements Member {
     @Override
     public boolean hasPermission(@NotNull GuildChannel guildChannel, @NotNull Collection<Permission> collection) {
         return false;
+    }
+
+    @Override
+    public boolean hasAccess(@NotNull GuildChannel channel) {
+        return Member.super.hasAccess(channel);
     }
 
     @Override
@@ -155,6 +162,24 @@ public class MemberMock implements Member {
         return name;
     }
 
+    @Nullable
+    @Override
+    public String getAvatarId() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getAvatarUrl() {
+        return Member.super.getAvatarUrl();
+    }
+
+    @NotNull
+    @Override
+    public String getEffectiveAvatarUrl() {
+        return Member.super.getEffectiveAvatarUrl();
+    }
+
     @NotNull
     @Override
     public List<Role> getRoles() {
@@ -205,12 +230,71 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
+    public AuditableRestAction<Void> ban(int delDays) {
+        return Member.super.ban(delDays);
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> ban(int delDays, @Nullable String reason) {
+        return Member.super.ban(delDays, reason);
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> kick() {
+        return Member.super.kick();
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> kick(@Nullable String reason) {
+        return Member.super.kick(reason);
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> mute(boolean mute) {
+        return Member.super.mute(mute);
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> deafen(boolean deafen) {
+        return Member.super.deafen(deafen);
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> modifyNickname(@Nullable String nickname) {
+        return Member.super.modifyNickname(nickname);
+    }
+
+    @NotNull
+    @Override
     public String getAsMention() {
         return null;
     }
 
     @Override
+    public void formatTo(Formatter formatter, int flags, int width, int precision) {
+        Member.super.formatTo(formatter, flags, width, precision);
+    }
+
+    @NotNull
+    @Override
+    public String getId() {
+        return Member.super.getId();
+    }
+
+    @Override
     public long getIdLong() {
         return id;
+    }
+
+    @NotNull
+    @Override
+    public OffsetDateTime getTimeCreated() {
+        return Member.super.getTimeCreated();
     }
 }

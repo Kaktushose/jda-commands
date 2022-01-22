@@ -48,6 +48,12 @@ public class UserMock implements User {
 
     @NotNull
     @Override
+    public RestAction<Profile> retrieveProfile() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public String getAsTag() {
         return null;
     }
