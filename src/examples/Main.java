@@ -8,8 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         JDA jda = yourJDABuilding();
-        JDACommands jdaCommands = JDACommandsBuilder.startDefault(jda);
-
+        JDACommands jdaCommands = JDACommands.start(jda);
     }
 
 }

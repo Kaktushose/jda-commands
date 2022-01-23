@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
@@ -7,12 +8,15 @@ import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 
 /**
  * Represents an active instance of this framework and provides access to all underlying classes. This is basically
@@ -144,5 +148,14 @@ public class JDACommands {
     public JDACommands setRouter(Router router) {
         commandDispatcher.setRouter(router);
         return this;
+    }
+
+    /**
+     * Gets all active commands.
+     *
+     * @return a set of all active commands
+     */
+    public Set<CommandDefinition> getCommands() {
+        return commandDispatcher.getCommandRegistry().getCommands();
     }
 }
