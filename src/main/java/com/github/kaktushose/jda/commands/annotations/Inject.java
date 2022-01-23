@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * If no Producer for the field type is available then the field will be assigned {@code null}.
  *
  * @author Kaktushose
- * @version 1.0.0
+ * @version 2.0.0
  * @see Produces
  * @since 1.0.0
  */
