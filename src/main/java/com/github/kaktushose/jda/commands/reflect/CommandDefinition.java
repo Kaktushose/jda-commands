@@ -33,7 +33,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
     private final CooldownDefinition cooldown;
-    private final boolean isSuper;
+    private boolean isSuper;
     private final boolean isDM;
     private final Method method;
     private final Object instance;
@@ -263,6 +263,15 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      */
     public boolean isSuper() {
         return isSuper;
+    }
+
+    /**
+     * Set whether this command is a super command.
+     *
+     * @param isSuper {@code true} if this command is a super command
+     */
+    public void setSuper(boolean isSuper) {
+        this.isSuper = isSuper;
     }
 
     /**

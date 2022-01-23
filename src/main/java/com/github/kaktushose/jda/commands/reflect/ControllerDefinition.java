@@ -87,7 +87,7 @@ public class ControllerDefinition {
 
         // index commands
         List<CommandDefinition> superCommands = new ArrayList<>();
-        List<CommandDefinition> commands = new ArrayList<>();
+        List<CommandDefinition> subCommands = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
             Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, adapterRegistry, validatorRegistry);
 
@@ -100,7 +100,7 @@ public class ControllerDefinition {
             commandDefinition.getPermissions().addAll(permissions);
 
             // TODO remove once command overloading is working
-            if (commands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
+            if (subCommands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
                 log.error("An error has occurred! Skipping Command {}.{}!",
                         commandController.getClass().getName(),
                         commandDefinition.getMethod().getName(),
@@ -117,9 +117,18 @@ public class ControllerDefinition {
                 superCommands.add(commandDefinition);
                 continue;
             }
-            commands.add(commandDefinition);
+            subCommands.add(commandDefinition);
         }
-        ControllerDefinition controller = new ControllerDefinition(superCommands, commands);
+
+        // if we only have one sub command and no super commands make it implicit a super command
+        if (subCommands.size() == 1 && superCommands.size() == 0) {
+            CommandDefinition command = subCommands.get(0);
+            command.setSuper(true);
+            superCommands.add(command);
+            subCommands.clear();
+        }
+
+        ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands);
         controller.getSuperCommands().forEach(definition -> definition.setController(controller));
         controller.getSubCommands().forEach(definition -> definition.setController(controller));
         return Optional.of(controller);
