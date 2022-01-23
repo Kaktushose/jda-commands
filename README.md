@@ -12,9 +12,6 @@ An extendable, declarative and annotation driven command framework for [JDA](htt
 The following example will demonstrate how easy it is to write a command:
 
 ```java
-
-import com.github.kaktushose.jda.commands.annotations.constraints.NotRole;
-
 @CommandController
 @Permission("BAN_MEMBERS")
 public class BanCommand {

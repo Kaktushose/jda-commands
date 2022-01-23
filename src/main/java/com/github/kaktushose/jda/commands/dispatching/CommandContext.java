@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class CommandContext {
      * @param command the {@link CommandDefinition}
      * @return the current CommandContext instance
      */
-    public CommandContext setCommand(@NotNull CommandDefinition command) {
+    public CommandContext setCommand(@Nullable CommandDefinition command) {
         this.command = command;
         return this;
     }
