@@ -36,7 +36,6 @@ public class CommandDispatcher {
     private final Object jda;
     private final boolean isShardManager;
     private final ImplementationRegistry implementationRegistry;
-    private final HelpMessageFactory helpMessageFactory;
     private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
     private final TypeAdapterRegistry adapterRegistry;
@@ -74,8 +73,6 @@ public class CommandDispatcher {
 
         implementationRegistry = new ImplementationRegistry(dependencyInjector);
         implementationRegistry.index(clazz, packages);
-
-        helpMessageFactory = implementationRegistry.getHelpMessageFactory();
 
         parserSupervisor = new ParserSupervisor(this);
         if (isShardManager) {
@@ -131,6 +128,8 @@ public class CommandDispatcher {
                 return;
             }
         }
+
+        HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
 
         router.findCommands(context, commandRegistry.getCommands());
 
@@ -292,7 +291,7 @@ public class CommandDispatcher {
      * @return the {@link HelpMessageFactory}
      */
     public HelpMessageFactory getHelpMessageFactory() {
-        return helpMessageFactory;
+        return implementationRegistry.getHelpMessageFactory();
     }
 
     /**
