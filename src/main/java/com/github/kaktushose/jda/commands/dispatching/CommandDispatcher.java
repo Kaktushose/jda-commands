@@ -53,9 +53,14 @@ public class CommandDispatcher {
      * @param isShardManager whether the jda instance is a shard manager
      * @param jdaCommands    the corresponding {@link JDACommands} instance
      * @param packages       optional packages to exclusively scan
+     * @param clazz          a class of the classpath to scan
      * @throws IllegalStateException if an instance of this class is already active.
      */
-    public CommandDispatcher(@NotNull Object jda, boolean isShardManager, @NotNull JDACommands jdaCommands, @NotNull String... packages) {
+    public CommandDispatcher(@NotNull Object jda,
+                             boolean isShardManager,
+                             @NotNull JDACommands jdaCommands,
+                             @NotNull Class<?> clazz,
+                             @NotNull String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
         this.jdaCommands = jdaCommands;
@@ -65,10 +70,10 @@ public class CommandDispatcher {
         }
 
         dependencyInjector = new DependencyInjector();
-        dependencyInjector.index(packages);
+        dependencyInjector.index(clazz, packages);
 
         implementationRegistry = new ImplementationRegistry(dependencyInjector);
-        implementationRegistry.index(packages);
+        implementationRegistry.index(clazz, packages);
 
         helpMessageFactory = implementationRegistry.getHelpMessageFactory();
 
@@ -85,7 +90,7 @@ public class CommandDispatcher {
         validatorRegistry = new ValidatorRegistry();
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
-        commandRegistry.index(packages);
+        commandRegistry.index(clazz, packages);
 
         dependencyInjector.inject();
         isActive = true;

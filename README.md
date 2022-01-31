@@ -31,7 +31,7 @@ public class BanCommand {
 
 Finally, start the framework by calling:
 ```java
-JDACommands.start(jda);
+JDACommands.start(jda, Main.class);
 ```
 
 ## Features

@@ -48,12 +48,13 @@ public class DependencyInjector {
      * the declaring class and will call the method to retrieve the object and register it as a dependency.
      *
      * @param packages package(s) to exclusively scan
+     * @param clazz    a class of the classpath to scan
      */
-    public void index(@NotNull String... packages) {
+    public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing dependency providers...");
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(), new MethodAnnotationsScanner())
-                .setUrls(ClasspathHelper.forClass(getClass()))
+                .setUrls(ClasspathHelper.forClass(clazz))
                 .filterInputsBy(new FilterBuilder().includePackage(packages));
         Reflections reflections = new Reflections(config);
 

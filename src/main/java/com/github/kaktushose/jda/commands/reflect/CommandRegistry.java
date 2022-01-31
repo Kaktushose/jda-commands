@@ -56,22 +56,23 @@ public class CommandRegistry {
      * Scans the whole classpath for commands.
      *
      * @param packages package(s) to exclusively scan
+     * @param clazz          a class of the classpath to scan
      */
-    public void index(@NotNull String... packages) {
+    public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing controllers...");
 
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
-                .setUrls(ClasspathHelper.forClass(getClass()))
+                .setUrls(ClasspathHelper.forClass(clazz))
                 .filterInputsBy(new FilterBuilder().includePackage(packages));
         Reflections reflections = new Reflections(config);
 
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);
 
-        for (Class<?> clazz : controllerSet) {
-            log.debug("Found controller {}", clazz.getName());
+        for (Class<?> aClass : controllerSet) {
+            log.debug("Found controller {}", aClass.getName());
 
-            Optional<ControllerDefinition> optional = ControllerDefinition.build(clazz,
+            Optional<ControllerDefinition> optional = ControllerDefinition.build(aClass,
                     parameterRegistry,
                     validatorRegistry,
                     dependencyInjector

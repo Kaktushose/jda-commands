@@ -12,6 +12,7 @@ import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +31,9 @@ public class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final CommandDispatcher commandDispatcher;
 
-    private JDACommands(Object jda, boolean isShardManager, String... packages) {
+    private JDACommands(Object jda, boolean isShardManager, Class<?> clazz, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, packages);
+        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, packages);
         log.info("Finished loading!");
     }
 
@@ -40,22 +41,24 @@ public class JDACommands {
      * Creates a new JDACommands instance and starts the frameworks.
      *
      * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
      * @param packages package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(JDA jda, String... packages) {
-        return new JDACommands(jda, false, packages);
+    public static JDACommands start(@NotNull JDA jda,@NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACommands(jda, false, clazz, packages);
     }
 
     /**
      * Creates a new JDACommands instance and starts the frameworks.
      *
      * @param shardManager the corresponding {@link ShardManager} instance
+     * @param clazz        a class of the classpath to scan
      * @param packages     package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(ShardManager shardManager, String... packages) {
-        return new JDACommands(shardManager, true, packages);
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACommands(shardManager, true, clazz, packages);
     }
 
     /**
@@ -144,7 +147,7 @@ public class JDACommands {
      * @param router the new {@link Router} to use
      * @return this JDACommands instance
      */
-    public JDACommands setRouter(Router router) {
+    public JDACommands setRouter(@NotNull Router router) {
         commandDispatcher.setRouter(router);
         return this;
     }

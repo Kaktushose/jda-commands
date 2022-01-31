@@ -69,12 +69,13 @@ public class ImplementationRegistry {
      * Scans the whole classpath for custom implementations.
      *
      * @param packages package(s) to exclusively scan
+     * @param clazz    a class of the classpath to scan
      */
-    public void index(@NotNull String... packages) {
+    public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing custom implementations...");
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner())
-                .setUrls(ClasspathHelper.forClass(getClass()))
+                .setUrls(ClasspathHelper.forClass(clazz))
                 .filterInputsBy(new FilterBuilder().includePackage(packages));
         reflections = new Reflections(config);
 
