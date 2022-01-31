@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -85,8 +86,17 @@ public class CommandRouter implements Router {
                 break;
             }
             if (possibleCommands.size() > 1) {
-                context.setCancelled(true);
-                break;
+                for (CommandDefinition possible : possibleCommands) {
+                    if (possible.getLabels().contains(generatedLabel)) {
+                        command = possible;
+                        success = true;
+                        break;
+                    }
+                }
+                if (!success) {
+                    context.setCancelled(true);
+                    break;
+                }
             }
         }
         context.setInput(Arrays.copyOfRange(input, matchingLength.get(), input.length));
