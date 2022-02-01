@@ -37,6 +37,7 @@ public class DefaultSettingsProvider implements SettingsProvider {
             settings.setIgnoreCase(Boolean.parseBoolean(properties.getProperty("ignoreCase", "true")));
             settings.setIgnoreBots(Boolean.parseBoolean(properties.getProperty("ignoreBots", "true")));
             settings.setParseQuotes(Boolean.parseBoolean(properties.getProperty("parseQuotes", "true")));
+            settings.setMaxDistance(Integer.parseInt(properties.getProperty("maxDistance", "3")));
 
             String helpLabels = properties.getProperty("helpLabels", "help");
             String[] labels = helpLabels.split(", ");
