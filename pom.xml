@@ -35,6 +35,10 @@
                 <configuration>
                     <source>8</source>
                     <doclint>none</doclint>
+                    <bottom>
+                    <![CDATA[<script>if (typeof useModuleDirectories !== 'undefined') {useModuleDirectories = false;}</script>]]>
+                    </bottom>
+                    <additionalJOption>--allow-script-in-comments</additionalJOption>
                 </configuration>
             </plugin>
             <plugin>
