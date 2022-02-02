@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,12 +31,17 @@ public class PermissionValidator implements Validator {
     @Override
     public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
         Permission permission;
+        Perm perm = (Perm) annotation;
         try {
-            Perm perm = (Perm) annotation;
             permission = Permission.valueOf(perm.value());
         } catch (IllegalArgumentException ignored) {
             return false;
         }
+
+        if (!Member.class.isAssignableFrom(argument.getClass())) {
+            throw new IllegalArgumentException("The default PermissionValidator does only support parameters of type Member!");
+        }
+
         Member member = (Member) argument;
         return member.hasPermission(permission);
     }

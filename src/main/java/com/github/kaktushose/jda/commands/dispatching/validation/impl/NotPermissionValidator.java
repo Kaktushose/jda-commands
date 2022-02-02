@@ -30,12 +30,18 @@ public class NotPermissionValidator implements Validator {
     @Override
     public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
         Permission permission;
+        NotPerm perm = (NotPerm) annotation;
+
         try {
-            NotPerm perm = (NotPerm) annotation;
             permission = Permission.valueOf(perm.value());
         } catch (IllegalArgumentException ignored) {
             return true;
         }
+
+        if (!Member.class.isAssignableFrom(argument.getClass())) {
+            throw new IllegalArgumentException("The default NotPermissionValidator does only support parameters of type Member!");
+        }
+
         Member member = (Member) argument;
         return !member.hasPermission(permission);
     }
