@@ -56,7 +56,7 @@ public class CommandRegistry {
      * Scans the whole classpath for commands.
      *
      * @param packages package(s) to exclusively scan
-     * @param clazz          a class of the classpath to scan
+     * @param clazz    a class of the classpath to scan
      */
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing controllers...");

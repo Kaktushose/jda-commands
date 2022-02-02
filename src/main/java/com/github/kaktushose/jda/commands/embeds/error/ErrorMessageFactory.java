@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,6 +62,15 @@ public interface ErrorMessageFactory {
      * @return a {@link Message} to send when the user input has a syntax error
      */
     Message getSyntaxErrorMessage(@NotNull CommandContext context);
+
+    /**
+     * Gets a {@link Message} to send when a parameter constraint fails.
+     *
+     * @param context    the corresponding {@link CommandContext}
+     * @param constraint the corresponding {@link ConstraintDefinition} that failed
+     * @return a {@link Message} to send when a parameter constraint fails
+     */
+    Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint);
 
     /**
      * Gets a {@link Message} to send when a command still has a cooldown.

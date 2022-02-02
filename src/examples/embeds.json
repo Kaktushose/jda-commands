@@ -81,6 +81,11 @@
       }
     ]
   },
+  "constraintFailed": {
+    "title": "Parameter Error",
+    "description": "```{message}```",
+    "color": "#ffc800"
+  },
   "cooldown": {
     "title": "Cooldown",
     "description": "You cannot use this command for {cooldown}!",

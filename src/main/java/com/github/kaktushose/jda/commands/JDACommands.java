@@ -45,7 +45,7 @@ public class JDACommands {
      * @param packages package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(@NotNull JDA jda,@NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACommands(jda, false, clazz, packages);
     }
 

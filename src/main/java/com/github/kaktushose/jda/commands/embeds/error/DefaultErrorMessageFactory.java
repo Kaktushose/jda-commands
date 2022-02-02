@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -122,6 +123,16 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .build();
 
         return new MessageBuilder().setEmbeds(embed).build();
+    }
+
+    @Override
+    public Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
+        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.ORANGE)
+                .setTitle("Parameter Error")
+                .setDescription(String.format("```%s```", constraint.getMessage()))
+                .build()
+        ).build();
     }
 
     @Override

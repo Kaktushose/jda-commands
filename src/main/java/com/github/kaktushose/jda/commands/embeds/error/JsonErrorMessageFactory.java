@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
@@ -118,6 +119,16 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 )
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
+                .toMessage();
+    }
+
+    @Override
+    public Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
+        if (!embedCache.containsEmbed("constraintFailed")) {
+            return super.getConstraintFailedMessage(context, constraint);
+        }
+        return embedCache.getEmbed("constraintFailed")
+                .injectValue("message", constraint.getMessage())
                 .toMessage();
     }
 

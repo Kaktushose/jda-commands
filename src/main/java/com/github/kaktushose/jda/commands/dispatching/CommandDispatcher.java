@@ -148,6 +148,7 @@ public class CommandDispatcher {
         log.debug("Input matches command: {}", command);
 
         if (context.isHelpEvent()) {
+            log.debug("Sending specific help");
             context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(context)).queue();
             return;
         }
