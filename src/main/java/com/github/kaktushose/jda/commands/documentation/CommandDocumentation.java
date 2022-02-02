@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.documentation;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
+import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.steppschuh.markdowngenerator.list.UnorderedList;
 import net.steppschuh.markdowngenerator.text.emphasis.BoldText;
 import net.steppschuh.markdowngenerator.text.heading.Heading;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * This class automatically generates documentation for commands in Markdown format.
  *
  * @author Kaktushose
- * @version 1.1.0
+ * @version 2.1.0
  * @since 1.1.0
  */
 public class CommandDocumentation {
@@ -59,18 +60,39 @@ public class CommandDocumentation {
 
         commandList.getSortedByCategories().forEach(((category, commandCallables) -> {
             docs.append(new Heading(replace(category), 1)).append("\n");
+
             commandCallables.forEach(command -> {
-                docs.append(new Heading(replace(command.getMetadata().getName()), 3)).append("\n\n");
+                docs.append(new Heading(replace(command.getMetadata().getName()), 2)).append("\n\n");
+
                 docs.append(new BoldText("Description:")).append("\n\n");
                 docs.append(replace(command.getMetadata().getDescription())).append("\n\n");
+
                 docs.append(new BoldText("Usage:")).append("\n\n");
-                docs.append(String.format("`%s`", replace(command.getMetadata().getUsage()))).append("\n\n");
+                docs.append(replace(command.getMetadata().getUsage())).append("\n\n");
+
                 List<String> labels = command.getLabels().stream().skip(1).collect(Collectors.toList());
                 if (labels.size() > 0) {
                     docs.append(new BoldText(("Aliases:"))).append("\n\n");
                     docs.append(new UnorderedList<>(labels)).append("\n\n");
                 }
+
                 docs.append(new BoldText("Permissions:")).append("\n\n");
+                docs.append(new UnorderedList<>(new ArrayList<>(command.getPermissions()))).append("\n\n");
+
+                StringBuilder sbCommands = new StringBuilder();
+                List<CommandDefinition> commands;
+                boolean isSuper = command.isSuper();
+                if (isSuper) {
+                    commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
+                } else {
+                    commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
+                }
+                if (commands.size() > 0) {
+                    docs.append(new BoldText(isSuper ? "Sub Commands:" : "Super Commands:")).append("\n\n");
+                    commands.forEach(definition -> sbCommands.append(definition.getLabels().get(0)).append(", "));
+                    docs.append(sbCommands.substring(0, sbCommands.length() - 2)).append("\n\n");
+                }
+
                 docs.append(new UnorderedList<>(new ArrayList<>(command.getPermissions()))).append("\n\n");
             });
         }));
