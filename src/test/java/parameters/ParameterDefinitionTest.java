@@ -79,7 +79,7 @@ public class ParameterDefinitionTest {
         assertEquals(1, parameter.getConstraints().size());
         assertEquals(10, ((Min) parameter.getConstraints().get(0).getAnnotation()).value());
         assertEquals(MinimumValidator.class, parameter.getConstraints().get(0).getValidator().getClass());
-        assertEquals("Parameter validation failed", parameter.getConstraints().get(0).getMessage());
+        assertFalse(parameter.getConstraints().get(0).getMessage().isEmpty());
     }
 
     @Test
