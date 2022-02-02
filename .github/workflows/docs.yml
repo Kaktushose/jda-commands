@@ -16,12 +16,16 @@ jobs:
         run: |
           mvn javadoc:aggregate
       - name: Checkout Docs Branch
-        run: git checkout docs
+        run: |
+          git checkout docs
+          git pull
       - name: Move Files
         run: |
           rm -rf ./docs
           mv ./target/site/apidocs/ ./docs
           rm -rf ./target
+      - name: Modify search.js
+        run: echo 'getURLPrefix = function(ui) {return "";};' >> file.js
       - name: Commit & Push Changes
         run: |
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
