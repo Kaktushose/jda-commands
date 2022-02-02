@@ -69,7 +69,7 @@ public class CommandRouter implements Router {
                             if (maxDistance == 0) {
                                 matches = expected.startsWith(actual);
                             } else {
-                                matches = calculateLevenshteinDistance(expectedLabels[k], actualLabels[k]) <= maxDistance;
+                                matches = calculateLevenshteinDistance(expected, actual) <= maxDistance;
                             }
 
                             if (matches) {
