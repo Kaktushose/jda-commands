@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A {@link Validator} implementation that checks the {@link Perm} constraint.
  *
@@ -30,10 +33,12 @@ public class PermissionValidator implements Validator {
      */
     @Override
     public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
-        Permission permission;
+        Set<Permission> permissions = new HashSet<>();
         Perm perm = (Perm) annotation;
         try {
-            permission = Permission.valueOf(perm.value());
+            for (String permission : perm.value()) {
+                permissions.add(Permission.valueOf(permission));
+            }
         } catch (IllegalArgumentException ignored) {
             return false;
         }
@@ -43,6 +48,6 @@ public class PermissionValidator implements Validator {
         }
 
         Member member = (Member) argument;
-        return member.hasPermission(permission);
+        return member.hasPermission(permissions);
     }
 }

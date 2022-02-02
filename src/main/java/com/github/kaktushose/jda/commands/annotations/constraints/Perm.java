@@ -22,11 +22,11 @@ import java.lang.annotation.Target;
 public @interface Perm {
 
     /**
-     * Returns the discord permission the element must have.
+     * Returns the discord permission(s) the element must have.
      *
-     * @return the discord permission the element must have.
+     * @return the discord permission(s) the element must have.
      */
-    String value();
+    String[] value();
 
     /**
      * Returns the error message that will be displayed if the constraint fails.

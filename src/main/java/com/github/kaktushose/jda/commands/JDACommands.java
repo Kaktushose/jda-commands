@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
