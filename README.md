@@ -1,5 +1,5 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-4.4.0__352-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-2.0.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![Generic badge](https://img.shields.io/badge/Download-2.1.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Grade)
@@ -230,7 +230,7 @@ Special thanks to all contributors:
 The following dependencies were used to build this framework:
 
 - JDA
-    - Version: 4.2.0_250
+    - Version: 4.4.0_352
     - [Github](https://github.com/DV8FromTheWorld/JDA)
 - Reflections
     - Version: 0.9.10
