@@ -94,6 +94,7 @@ public class CommandRouter implements Router {
                     }
                 }
                 if (!success) {
+                    context.setPossibleCommands(possibleCommands);
                     context.setCancelled(true);
                     break;
                 }

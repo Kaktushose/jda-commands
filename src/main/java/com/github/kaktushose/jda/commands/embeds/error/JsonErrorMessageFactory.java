@@ -6,6 +6,8 @@ import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,10 +40,21 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         }
 
         GuildSettings settings = context.getSettings();
-        return embedCache.getEmbed("commandNotFound")
+
+        EmbedBuilder embed = embedCache.getEmbed("commandNotFound")
                 .injectValue("prefix", settings.getPrefix())
                 .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
-                .toMessage();
+                .toEmbedBuilder();
+
+        if (!context.getPossibleCommands().isEmpty()) {
+            StringBuilder sbPossible = new StringBuilder();
+            context.getPossibleCommands().forEach(command ->
+                    sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
+            );
+            embed.addField("Possible Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
+        }
+
+        return new MessageBuilder().setEmbeds(embed.build()).build();
     }
 
     @Override

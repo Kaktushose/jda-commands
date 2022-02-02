@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class CommandContext {
     private String[] input;
     private MessageReceivedEvent event;
     private CommandDefinition command;
+    private List<CommandDefinition> possibleCommands;
     private List<Object> arguments;
     private Message errorMessage;
     private GuildSettings settings;
@@ -91,6 +93,28 @@ public class CommandContext {
      */
     public CommandContext setCommand(@Nullable CommandDefinition command) {
         this.command = command;
+        return this;
+    }
+
+    /**
+     * Gets a list of {@link CommandDefinition CommandDefinitions} that match the input. This list gets populated if
+     * and only if the command routing fails because more than one matching command was found. If no matching command
+     * was found or if the command routing succeeded, this list will be empty.
+     *
+     * @return a possibly-empty list of {@link CommandDefinition CommandDefinitions} that match the input
+     */
+    public List<CommandDefinition> getPossibleCommands() {
+        return possibleCommands == null ? new ArrayList<>() : possibleCommands;
+    }
+
+    /**
+     * Sets the list of {@link CommandDefinition CommandDefinitions} that match the input.
+     *
+     * @param possibleCommands a list of {@link CommandDefinition CommandDefinitions} that match the input
+     * @return the current CommandContext instance
+     */
+    public CommandContext setPossibleCommands(@NotNull List<CommandDefinition> possibleCommands) {
+        this.possibleCommands = possibleCommands;
         return this;
     }
 

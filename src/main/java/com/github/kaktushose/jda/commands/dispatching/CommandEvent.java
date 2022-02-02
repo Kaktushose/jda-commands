@@ -171,7 +171,6 @@ public class CommandEvent extends MessageReceivedEvent {
     /**
      * Sends the generic help message via the
      * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
-     *
      */
     public void sendGenericHelpMessage() {
         getJdaCommands().getImplementationRegistry().getMessageSender().sendGenericHelpMessage(
@@ -183,7 +182,6 @@ public class CommandEvent extends MessageReceivedEvent {
     /**
      * Sends the specific help message for this command via the
      * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
-     *
      */
     public void sendSpecificHelpMessage() {
         getJdaCommands().getImplementationRegistry().getMessageSender().sendSpecificHelpMessage(

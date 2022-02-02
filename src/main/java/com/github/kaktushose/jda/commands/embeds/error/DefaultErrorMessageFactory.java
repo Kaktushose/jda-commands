@@ -30,14 +30,22 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
-        MessageEmbed embed = new EmbedBuilder()
+        EmbedBuilder embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Command Not Found")
-                .setDescription(String.format("```type %s%s to get a list of all available commands```",
-                        settings.getPrefix(),
-                        settings.getHelpLabels().stream().findFirst().orElse("help"))
-                ).build();
-        return new MessageBuilder().setEmbeds(embed).build();
+                .setDescription(
+                        String.format("```type %s%s to get a list of all available commands```",
+                                settings.getPrefix(),
+                                settings.getHelpLabels().stream().findFirst().orElse("help"))
+                );
+        if (!context.getPossibleCommands().isEmpty()) {
+            StringBuilder sbPossible = new StringBuilder();
+            context.getPossibleCommands().forEach(command ->
+                    sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
+            );
+            embed.addField("Possible Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
+        }
+        return new MessageBuilder().setEmbeds(embed.build()).build();
     }
 
     @Override
