@@ -64,20 +64,26 @@ public class CommandDocumentation {
             commandCallables.forEach(command -> {
                 docs.append(new Heading(replace(command.getMetadata().getName()), 2)).append("\n\n");
 
-                docs.append(new BoldText("Description:")).append("\n\n");
+                docs.append(new BoldText("Description:")).append("\n");
                 docs.append(replace(command.getMetadata().getDescription())).append("\n\n");
 
-                docs.append(new BoldText("Usage:")).append("\n\n");
+                docs.append(new BoldText("Usage:")).append("\n");
                 docs.append(replace(command.getMetadata().getUsage())).append("\n\n");
 
                 List<String> labels = command.getLabels().stream().skip(1).collect(Collectors.toList());
+                docs.append(new BoldText(("Aliases:"))).append("\n");
                 if (labels.size() > 0) {
-                    docs.append(new BoldText(("Aliases:"))).append("\n\n");
                     docs.append(new UnorderedList<>(labels)).append("\n\n");
+                } else {
+                    docs.append("N/A\n\n");
                 }
 
-                docs.append(new BoldText("Permissions:")).append("\n\n");
-                docs.append(new UnorderedList<>(new ArrayList<>(command.getPermissions()))).append("\n\n");
+                docs.append(new BoldText("Permissions:")).append("\n");
+                if (command.getPermissions().size() > 0) {
+                    docs.append(new UnorderedList<>(new ArrayList<>(command.getPermissions())));
+                } else {
+                    docs.append("N/A\n\n");
+                }
 
                 StringBuilder sbCommands = new StringBuilder();
                 List<CommandDefinition> commands;
@@ -88,9 +94,12 @@ public class CommandDocumentation {
                     commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
                 }
                 if (commands.size() > 0) {
-                    docs.append(new BoldText(isSuper ? "Sub Commands:" : "Super Commands:")).append("\n\n");
+                    docs.append(new BoldText(isSuper ? "Sub Commands:" : "Super Commands:")).append("\n");
                     commands.forEach(definition -> sbCommands.append(definition.getLabels().get(0)).append(", "));
                     docs.append(sbCommands.substring(0, sbCommands.length() - 2)).append("\n\n");
+                } else {
+                    docs.append(new BoldText(isSuper ? "Sub Commands:" : "Super Commands:")).append("\n");
+                    docs.append("N/A\n\n");
                 }
 
                 docs.append(new UnorderedList<>(new ArrayList<>(command.getPermissions()))).append("\n\n");
