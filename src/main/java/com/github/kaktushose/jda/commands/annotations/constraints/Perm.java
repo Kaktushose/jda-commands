@@ -33,5 +33,5 @@ public @interface Perm {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "Member or User is missing at least one permission that is required";
 }

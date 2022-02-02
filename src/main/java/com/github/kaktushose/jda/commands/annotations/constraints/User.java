@@ -35,5 +35,5 @@ public @interface User {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "The given Member or User is invalid as a parameter";
 }

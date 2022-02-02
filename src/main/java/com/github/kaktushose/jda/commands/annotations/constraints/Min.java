@@ -30,5 +30,5 @@ public @interface Min {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "Parameter falls below minimum value";
 }

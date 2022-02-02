@@ -33,5 +33,5 @@ public @interface NotPerm {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "Member or User has at least one permission that isn't allowed";
 }

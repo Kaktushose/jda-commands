@@ -35,5 +35,5 @@ public @interface NotRole {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "Member has at least one role that isn't allowed";
 }

@@ -30,5 +30,5 @@ public @interface Max {
      *
      * @return the error message
      */
-    String message() default "";
+    String message() default "Parameter exceeds maximum value";
 }
