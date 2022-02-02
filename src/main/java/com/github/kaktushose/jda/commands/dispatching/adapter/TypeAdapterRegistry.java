@@ -155,6 +155,15 @@ public class TypeAdapterRegistry {
                 raw = input[i - 1];
             }
 
+            if (i == command.getParameters().size() - 1 && parameter.isConcat()) {
+                StringBuilder sb = new StringBuilder();
+                for (String s : Arrays.copyOfRange(input, i - 1, input.length)) {
+                    sb.append(s).append(" ");
+                }
+                arguments.add(sb.toString().trim());
+                break;
+            }
+
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
 
             Optional<TypeAdapter<?>> adapter = get(parameter.getType());
