@@ -168,12 +168,28 @@ public class CommandEvent extends MessageReceivedEvent {
         getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).queue(success);
     }
 
+    /**
+     * Sends the generic help message via the
+     * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
+     *
+     */
     public void sendGenericHelpMessage() {
-        channel.sendMessage(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)).queue();
+        getJdaCommands().getImplementationRegistry().getMessageSender().sendGenericHelpMessage(
+                context,
+                getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)
+        );
     }
 
+    /**
+     * Sends the specific help message for this command via the
+     * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
+     *
+     */
     public void sendSpecificHelpMessage() {
-        channel.sendMessage(getHelpMessageFactory().getSpecificHelp(context)).queue();
+        getJdaCommands().getImplementationRegistry().getMessageSender().sendSpecificHelpMessage(
+                context,
+                getHelpMessageFactory().getSpecificHelp(context)
+        );
     }
 
     /**

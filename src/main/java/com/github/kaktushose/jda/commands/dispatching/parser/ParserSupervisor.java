@@ -77,7 +77,7 @@ public class ParserSupervisor extends ListenerAdapter {
 
         if (context.isCancelled()) {
             if (context.getErrorMessage() != null) {
-                context.getEvent().getChannel().sendMessage(context.getErrorMessage()).queue();
+                context.getImplementationRegistry().getMessageSender().sendErrorMessage(context, context.getErrorMessage());
             }
             return;
         }

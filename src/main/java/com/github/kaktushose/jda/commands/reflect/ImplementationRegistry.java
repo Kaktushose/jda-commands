@@ -5,6 +5,8 @@ import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.router.impl.CommandRouter;
+import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
+import com.github.kaktushose.jda.commands.dispatching.sender.impl.DefaultMessageSender;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
@@ -38,6 +40,7 @@ import java.util.Set;
  *     <li>{@link HelpMessageFactory}</li>
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link Router}</li>
+ *     <li>{@link MessageSender}</li>
  * </ul>
  *
  * @author Kaktushose
@@ -55,6 +58,7 @@ public class ImplementationRegistry {
     private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
     private Router router;
+    private MessageSender messageSender;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -67,6 +71,7 @@ public class ImplementationRegistry {
         helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
         router = new CommandRouter();
+        messageSender = new DefaultMessageSender();
         this.dependencyInjector = dependencyInjector;
     }
 
@@ -89,6 +94,7 @@ public class ImplementationRegistry {
         findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
         findImplementation(Router.class).ifPresent(this::setRouter);
+        findImplementation(MessageSender.class).ifPresent(this::setMessageSender);
 
     }
 
@@ -174,12 +180,30 @@ public class ImplementationRegistry {
     }
 
     /**
-     * Sets the {@link Router}
+     * Sets the {@link Router}.
      *
      * @param router the new {@link Router}
      */
     public void setRouter(Router router) {
         this.router = router;
+    }
+
+    /**
+     * Gets the {@link MessageSender}.
+     *
+     * @return the {@link MessageSender}
+     */
+    public MessageSender getMessageSender() {
+        return messageSender;
+    }
+
+    /**
+     * Sets the {@link MessageSender}.
+     *
+     * @param sender the new {@link MessageSender}
+     */
+    public void setMessageSender(MessageSender sender) {
+        this.messageSender = sender;
     }
 
     @SuppressWarnings("unchecked")

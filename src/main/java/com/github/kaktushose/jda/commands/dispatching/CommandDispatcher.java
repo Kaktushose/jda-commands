@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
+import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
@@ -128,12 +129,13 @@ public class CommandDispatcher {
 
         HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
         Router router = implementationRegistry.getRouter();
+        MessageSender sender = implementationRegistry.getMessageSender();
 
         router.findCommands(context, commandRegistry.getCommands());
 
         if (context.isCancelled() && context.isHelpEvent()) {
             log.debug("Sending generic help");
-            context.getEvent().getChannel().sendMessage(helpMessageFactory.getGenericHelp(commandRegistry.getControllers(), context)).queue();
+            sender.sendGenericHelpMessage(context, helpMessageFactory.getGenericHelp(commandRegistry.getControllers(), context));
             return;
         }
 
@@ -147,7 +149,7 @@ public class CommandDispatcher {
 
         if (context.isHelpEvent()) {
             log.debug("Sending specific help");
-            context.getEvent().getChannel().sendMessage(helpMessageFactory.getSpecificHelp(context)).queue();
+            sender.sendSpecificHelpMessage(context, helpMessageFactory.getSpecificHelp(context));
             return;
         }
 
@@ -187,7 +189,7 @@ public class CommandDispatcher {
 
     private boolean checkCancelled(CommandContext context) {
         if (context.isCancelled()) {
-            context.getEvent().getChannel().sendMessage(context.getErrorMessage()).queue();
+            implementationRegistry.getMessageSender().sendErrorMessage(context, context.getErrorMessage());
             return true;
         }
         return false;
