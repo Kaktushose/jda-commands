@@ -3,12 +3,14 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
+import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -41,20 +43,25 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
         GuildSettings settings = context.getSettings();
 
-        EmbedBuilder embed = embedCache.getEmbed("commandNotFound")
+        EmbedDTO embedDTO = embedCache.getEmbed("commandNotFound")
                 .injectValue("prefix", settings.getPrefix())
-                .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
-                .toEmbedBuilder();
+                .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"));
+        MessageEmbed embed;
 
-        if (!context.getPossibleCommands().isEmpty()) {
+        if (context.getPossibleCommands().isEmpty()) {
+            EmbedBuilder builder = embedDTO.toEmbedBuilder();
+            builder.getFields().removeIf(field -> "{commands}".equals(field.getValue()));
+            embed = builder.build();
+        } else {
             StringBuilder sbPossible = new StringBuilder();
             context.getPossibleCommands().forEach(command ->
                     sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
             );
-            embed.addField("Possible Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
+            embedDTO.injectValue("commands", sbPossible.substring(0, sbPossible.length() - 2));
+            embed = embedDTO.toMessageEmbed();
         }
 
-        return new MessageBuilder().setEmbeds(embed.build()).build();
+        return new MessageBuilder().setEmbeds(embed).build();
     }
 
     @Override

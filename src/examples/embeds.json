@@ -38,6 +38,12 @@
   "commandNotFound": {
     "title": "Command Not Found",
     "description": "```type {prefix}{helpLabel} to get a list of all available commands```",
+    "fields": [
+      {
+        "name": "Similar Commands",
+        "value": "{commands}"
+      }
+    ],
     "color": "#ffc800"
   },
   "insufficientPermissions": {

@@ -43,7 +43,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             context.getPossibleCommands().forEach(command ->
                     sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
             );
-            embed.addField("Possible Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
+            embed.addField("Similar Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
         }
         return new MessageBuilder().setEmbeds(embed.build()).build();
     }
