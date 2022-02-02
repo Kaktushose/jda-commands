@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
@@ -137,6 +136,7 @@ public class JDACommands {
      * Gets the {@link Router}.
      *
      * @return the {@link Router}
+     * @deprecated use {@link ImplementationRegistry#getRouter}
      */
     public Router getRouter() {
         return commandDispatcher.getRouter();
@@ -147,6 +147,7 @@ public class JDACommands {
      *
      * @param router the new {@link Router} to use
      * @return this JDACommands instance
+     * @deprecated use {@link ImplementationRegistry#setRouter(Router)}
      */
     public JDACommands setRouter(@NotNull Router router) {
         commandDispatcher.setRouter(router);

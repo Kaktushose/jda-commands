@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.router.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
@@ -43,7 +42,6 @@ public class CommandDispatcher {
     private final CommandRegistry commandRegistry;
     private final DependencyInjector dependencyInjector;
     private final JDACommands jdaCommands;
-    private Router router;
 
     /**
      * Constructs a new CommandDispatcher.
@@ -81,7 +79,6 @@ public class CommandDispatcher {
             ((JDA) jda).addEventListener(parserSupervisor);
         }
 
-        router = new CommandRouter();
         filterRegistry = new FilterRegistry();
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
@@ -130,6 +127,7 @@ public class CommandDispatcher {
         }
 
         HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
+        Router router = implementationRegistry.getRouter();
 
         router.findCommands(context, commandRegistry.getCommands());
 
@@ -272,18 +270,20 @@ public class CommandDispatcher {
      * Gets the {@link Router}.
      *
      * @return the {@link Router}
+     * @deprecated use {@link ImplementationRegistry#getRouter()}
      */
     public Router getRouter() {
-        return router;
+        return implementationRegistry.getRouter();
     }
 
     /**
      * Sets the {@link Router}.
      *
      * @param router the {@link Router} to use
+     * @deprecated use {@link ImplementationRegistry#setRouter(Router)}
      */
     public void setRouter(@NotNull Router router) {
-        this.router = router;
+        implementationRegistry.setRouter(router);
     }
 
     /**

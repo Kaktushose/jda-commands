@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.Component;
 import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.router.Router;
+import com.github.kaktushose.jda.commands.dispatching.router.impl.CommandRouter;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
@@ -35,6 +37,7 @@ import java.util.Set;
  *     <li>{@link PermissionsProvider}</li>
  *     <li>{@link HelpMessageFactory}</li>
  *     <li>{@link ErrorMessageFactory}</li>
+ *     <li>{@link Router}</li>
  * </ul>
  *
  * @author Kaktushose
@@ -51,6 +54,7 @@ public class ImplementationRegistry {
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
+    private Router router;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -62,6 +66,7 @@ public class ImplementationRegistry {
         permissionsProvider = new DefaultPermissionsProvider();
         helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
+        router = new CommandRouter();
         this.dependencyInjector = dependencyInjector;
     }
 
@@ -83,6 +88,7 @@ public class ImplementationRegistry {
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
         findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
+        findImplementation(Router.class).ifPresent(this::setRouter);
 
     }
 
@@ -156,6 +162,24 @@ public class ImplementationRegistry {
      */
     public void setErrorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = errorMessageFactory;
+    }
+
+    /**
+     * Gets the {@link Router}.
+     *
+     * @return the {@link Router}
+     */
+    public Router getRouter() {
+        return router;
+    }
+
+    /**
+     * Sets the {@link Router}
+     *
+     * @param router the new {@link Router}
+     */
+    public void setRouter(Router router) {
+        this.router = router;
     }
 
     @SuppressWarnings("unchecked")

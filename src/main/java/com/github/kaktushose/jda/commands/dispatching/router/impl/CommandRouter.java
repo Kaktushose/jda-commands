@@ -1,6 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.router;
+package com.github.kaktushose.jda.commands.dispatching.router.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import org.jetbrains.annotations.NotNull;
 
