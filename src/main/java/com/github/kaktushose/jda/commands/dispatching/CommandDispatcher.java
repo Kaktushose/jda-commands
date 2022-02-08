@@ -70,7 +70,11 @@ public class CommandDispatcher {
         dependencyInjector = new DependencyInjector();
         dependencyInjector.index(clazz, packages);
 
-        implementationRegistry = new ImplementationRegistry(dependencyInjector);
+        filterRegistry = new FilterRegistry();
+        adapterRegistry = new TypeAdapterRegistry();
+        validatorRegistry = new ValidatorRegistry();
+
+        implementationRegistry = new ImplementationRegistry(dependencyInjector, filterRegistry, adapterRegistry, validatorRegistry);
         implementationRegistry.index(clazz, packages);
 
         parserSupervisor = new ParserSupervisor(this);
@@ -79,10 +83,6 @@ public class CommandDispatcher {
         } else {
             ((JDA) jda).addEventListener(parserSupervisor);
         }
-
-        filterRegistry = new FilterRegistry();
-        adapterRegistry = new TypeAdapterRegistry();
-        validatorRegistry = new ValidatorRegistry();
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
         commandRegistry.index(clazz, packages);

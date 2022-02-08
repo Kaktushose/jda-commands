@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
+import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -140,7 +141,12 @@ public class TypeAdapterRegistryTest {
 
     private CommandContext buildContext(CommandDefinition command, String... input) {
         CommandContext context = new CommandContext();
-        context.setImplementationRegistry(new ImplementationRegistry(new DependencyInjector()));
+        context.setImplementationRegistry(new ImplementationRegistry(
+                new DependencyInjector(),
+                new FilterRegistry(),
+                new TypeAdapterRegistry(),
+                new ValidatorRegistry())
+        );
         context.setSettings(new GuildSettings());
         context.setEvent(new MessageReceivedEventMock(true));
         context.setInput(input);

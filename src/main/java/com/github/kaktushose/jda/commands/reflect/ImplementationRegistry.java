@@ -3,10 +3,14 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.Component;
 import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.router.impl.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.DefaultMessageSender;
+import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
@@ -26,10 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
 
 /**
  * Central registry for all custom user implementations. This class will look for custom implementations that
@@ -53,6 +55,9 @@ public class ImplementationRegistry {
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);
     private static Reflections reflections;
     private final DependencyInjector dependencyInjector;
+    private final FilterRegistry filterRegistry;
+    private final TypeAdapterRegistry typeAdapterRegistry;
+    private final ValidatorRegistry validatorRegistry;
     private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
@@ -64,15 +69,25 @@ public class ImplementationRegistry {
      * Constructs a new ImplementationRegistry.
      *
      * @param dependencyInjector the corresponding {@link DependencyInjector}
+     * @param filterRegistry the corresponding {@link FilterRegistry}
+     * @param typeAdapterRegistry the corresponding {@link TypeAdapterRegistry}
+     * @param validatorRegistry the corresponding {@link ValidatorRegistry}
      */
-    public ImplementationRegistry(DependencyInjector dependencyInjector) {
+    public ImplementationRegistry(DependencyInjector dependencyInjector,
+                                  FilterRegistry filterRegistry,
+                                  TypeAdapterRegistry typeAdapterRegistry,
+                                  ValidatorRegistry validatorRegistry) {
         settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
         helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
         router = new CommandRouter();
         messageSender = new DefaultMessageSender();
+
         this.dependencyInjector = dependencyInjector;
+        this.filterRegistry = filterRegistry;
+        this.typeAdapterRegistry = typeAdapterRegistry;
+        this.validatorRegistry = validatorRegistry;
     }
 
     /**
@@ -96,6 +111,7 @@ public class ImplementationRegistry {
         findImplementation(Router.class).ifPresent(this::setRouter);
         findImplementation(MessageSender.class).ifPresent(this::setMessageSender);
 
+        findAdapters().forEach(typeAdapterRegistry::register);
     }
 
     /**
@@ -233,5 +249,47 @@ public class ImplementationRegistry {
             dependencyInjector.registerDependencies(instance, fields);
         }
         return Optional.ofNullable(instance);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private Map<Class<?>, TypeAdapter<?>> findAdapters() {
+        Set<Class<? extends TypeAdapter>> implementations = reflections.getSubTypesOf(TypeAdapter.class);
+        TypeAdapter<?> instance;
+        Map<Class<?>, TypeAdapter<?>> result = new HashMap<>();
+        for (Class<? extends TypeAdapter<?>> clazz : implementations) {
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                continue;
+            }
+
+            Class<?> generic;
+            try {
+                generic = Class.forName(
+                        ((ParameterizedType) clazz.getGenericInterfaces()[0]).getActualTypeArguments()[0].getTypeName()
+                );
+            } catch (ClassNotFoundException e) {
+                log.error("Unable to find class of type adapter!", e);
+                continue;
+            }
+
+            log.debug("Found {}", clazz.getName());
+            try {
+                instance = clazz.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Unable to create an instance of the custom implementation!", e);
+                continue;
+            }
+
+            result.put(generic, instance);
+
+            List<Field> fields = new ArrayList<>();
+            for (Field field : clazz.getDeclaredFields()) {
+                if (!field.isAnnotationPresent(Inject.class)) {
+                    continue;
+                }
+                fields.add(field);
+            }
+            dependencyInjector.registerDependencies(instance, fields);
+        }
+        return result;
     }
 }
