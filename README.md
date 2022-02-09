@@ -1,15 +1,16 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-4.4.0__352-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-2.0.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![Generic badge](https://img.shields.io/badge/Download-2.1.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Grade)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
 [![migration-shield](https://img.shields.io/badge/Wiki-Migrating%20to%20V2-green.svg)](https://github.com/Kaktushose/jda-commands/wiki/Migration)
 
-
 # JDA-Commands
 
 An extendable, declarative and annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA).
+
+## Example
 
 The following example will demonstrate how easy it is to write a command:
 
@@ -18,11 +19,8 @@ The following example will demonstrate how easy it is to write a command:
 @Permission("BAN_MEMBERS")
 public class BanCommand {
 
-    @Command("ban")
-    public void ban(CommandEvent event, 
-                    @NotRole("admin") Member member, 
-                    @Max(7) int delDays, 
-                    @Optional @Concat String reason) {
+    @Command(value="ban", name="Ban Member", usage="{prefix}ban @Member", category="Moderation")
+    public void ban(CommandEvent event, @NotRole("admin") Member member, @Max(7) int delDays, @Optional @Concat String reason) {
       event.getGuild().ban(member, delDays).queue();
       event.reply("%s got banned for reason %s", member.getAsMention(), reason);
     }
@@ -30,20 +28,27 @@ public class BanCommand {
 ```
 
 Finally, start the framework by calling:
+
 ```java
 JDACommands.start(jda, Main.class);
 ```
 
+---
+
+JDA-Commandas also comes in with auto-generated, "plug and play" help messages:
+
+![embeds](https://cdn.discordapp.com/attachments/545967082253189121/938870552435757066/Untitled.png)
+
 ## Features
 
 As shown in the example, JDA-Commands makes it possible to focus only on the business logic inside your command classes.
-All other chores like permission checks, argument parsing and validation, cooldowns, etc. are dealt with on the site of 
+All other chores like permission checks, argument parsing and validation, cooldowns, etc. are dealt with on the site of
 the framework.
 
-Utility classes and methods for help and error messages, documentation, internationalization, embed generation, etc. 
+Utility classes and methods for help and error messages, documentation, internationalization, embed generation, etc.
 further improve the workflow when writing bots.
 
-You can find a detailed list of all features down below:
+You can find a detailed list of all features down below _(click on the ▶ for details)_:
 
 ### Parameters
 
@@ -53,6 +58,7 @@ You can find a detailed list of all features down below:
 As seen in the example, the method signature will be translated into a command syntax. When a command gets called, this
 framework will adapt the raw String input to the types specified in the method signature. As a result all the
 boilerplate code for parsing parameters becomes obsolete.
+
 </details>
 
 <details>
@@ -60,6 +66,9 @@ boilerplate code for parsing parameters becomes obsolete.
 
 Parameters can have additional constraints, such as min or max value, etc. When a constraint fails, an error message
 will be sent automatically. You can also define your own constraints.
+
+![embed](https://cdn.discordapp.com/attachments/545967082253189121/938871716749377586/Untitled.png)
+
 </details>
 
 ### Routing
@@ -70,6 +79,7 @@ will be sent automatically. You can also define your own constraints.
 The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or
 substitutions) required to change one word into the other. For instance, the input `tpyo` will match the command
 label `typo`.
+
 </details>
 
 <details>
@@ -79,6 +89,7 @@ Label shortening can be compared to the auto complete feature of a terminal. For
 also match the input
 `f` or `fo` as long as only one command that starts with `f` (or respectively `fo`) exists. This also works for sub
 command labels.
+
 </details>
 
 <details>
@@ -87,12 +98,14 @@ command labels.
 Normally arguments are split at every empty space. This makes it impossible to pass one argument that contains several
 words. In order to fix this issue, the default event parser can parse quotes. In other words: The
 input `label "arg0 arg1" arg2` will be parsed to `[label, arg0 arg1, arg2]` instead of `[label, "arg0, arg1", arg2]`.
+
 </details>
 
 <details>
 <summary>Private Channel Support</summary>
 
 If enabled, commands can also be called by sending a private message to the Bot.
+
 </details>
 
 ### Constraints
@@ -104,19 +117,22 @@ The permission system supports both using discord permissions and custom permiss
 permissions defined inside
 JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
 permission validator, you can use custom permission strings and bind permissions to certain roles or members.
+
 </details>
 
 <details>
 <summary>Filter Chain</summary>
 
 You can define filters that will run before each command execution. This can be useful to perform additional checks,
-which aren't supported by this framework.
+which aren't supported by this framework by default.
+
 </details>
 
 <details>
 <summary>Cooldown System</summary>
 
 Commands can have a per-user cooldown to rate limit the execution of commands.
+
 </details>
 
 ### Misc
@@ -124,8 +140,9 @@ Commands can have a per-user cooldown to rate limit the execution of commands.
 <details>
 <summary>Guild Settings</summary>
 
-Settings, such as the prefix or muted channels, are available on a per-guild level. By default, all settings apply
+Settings, such as the prefix, ignore case or muted channels, are available on a per-guild level. By default, all settings apply
 globally.
+
 </details>
 
 <details>
@@ -134,26 +151,34 @@ globally.
 The `@Command` annotation has additional attributes to document commands. These attributes are used to automatically
 create Help Embeds. Furthermore, there are default Error Embeds for all validation systems of this framework. (Parameter
 Constraints, Permissions, etc.)
+
+![embed default help](https://cdn.discordapp.com/attachments/545967082253189121/934774943261028362/unknown.png)
+
+![embed specific help](https://cdn.discordapp.com/attachments/545967082253189121/934775332530184283/unknown.png)
+
 </details>
 
 <details>
 <summary>Documentation</summary>
 
-It's possible to generate command documentation in markdown and html format. A GitHub Action for this is also planned.
+It's possible to generate command documentation in markdown format. A GitHub Action as well as html output for this is also planned.
+
 </details>
 
 <details>
 <summary>Internationalization</summary>
 
 This framework and all the output it generates are in English. However, you can easily change the language. All embeds
-sent can also be loaded from a json file, which uses placeholders.
+sent can also be loaded from a json file, which uses placeholders. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
+
 </details>
 
 <details>
 <summary>Embed Deserialization</summary>
 
 You can serialize and deserialize JDAs EmbedBuilder object to json. This comes in pretty handy, because for example you
-don't have to recompile the whole project if you find one typo inside your embed.
+don't have to recompile the whole project if you find one typo inside your embed. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
+
 </details>
 
 <details>
@@ -161,18 +186,21 @@ don't have to recompile the whole project if you find one typo inside your embed
 
 This framework has a basic implementation of dependency injection, since you don't construct your command classes on
 your own.
+
 </details>
 
 <details>
 <summary>Persistence</summary>
 
-This framework has builtin classes to store settings and user permissions in different formats, such as json or mysql.
+This framework has builtin classes to store settings as json.
+
 </details>
 
 <details>
 <summary>Reflect API</summary>
 
 Just like Javas Reflect API this framework also supports accessing and modifying command definitions at runtime.
+
 </details>
 
 If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or
@@ -230,17 +258,17 @@ Special thanks to all contributors:
 The following dependencies were used to build this framework:
 
 - JDA
-    - Version: 4.2.0_250
-    - [Github](https://github.com/DV8FromTheWorld/JDA)
+  - Version: 4.4.0_352
+  - [Github](https://github.com/DV8FromTheWorld/JDA)
 - Reflections
-    - Version: 0.9.10
-    - [Github](https://github.com/ronmamo/reflections)
+  - Version: 0.9.10
+  - [Github](https://github.com/ronmamo/reflections)
 - Gson
-    - Version: 2.8.6
-    - [Github](https://github.com/google/gson)
+  - Version: 2.8.6
+  - [Github](https://github.com/google/gson)
 - slf4j-api
-    - Version: 1.7.30
-    - [Website](http://www.slf4j.org/)
+  - Version: 1.7.30
+  - [Website](http://www.slf4j.org/)
 - markdowngenerator
-    - Version: 1.3.2
-    - [Github](https://github.com/Steppschuh/Java-Markdown-Generator)
+  - Version: 1.3.2
+  - [Github](https://github.com/Steppschuh/Java-Markdown-Generator)
