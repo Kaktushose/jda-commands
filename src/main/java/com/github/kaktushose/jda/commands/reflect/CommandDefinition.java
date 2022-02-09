@@ -130,8 +130,10 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
 
             // check if parameter adapter exists
             if (!adapterRegistry.exists(type)) {
-                logError(String.format("No parameter adapter for %s found!", type.getName()), method);
-                return Optional.empty();
+                log.warn("No type adapter for type {} found! Command {}.{} cannot be executed in this state!",
+                        type.getName(),
+                        method.getDeclaringClass().getSimpleName(),
+                        method.getName());
             }
 
             // argument parsing can be skipped by using just a String array (the traditional way of command frameworks)

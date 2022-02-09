@@ -101,5 +101,10 @@
     "title": "Wrong Channel Type",
     "description": "This command cannot be executed in this type of channel!",
     "color": "#ff0000"
+  },
+  "executionFailed": {
+    "title": "Command Execution Failed",
+    "description": "```exception```",
+    "color": "#ff0000"
   }
 }

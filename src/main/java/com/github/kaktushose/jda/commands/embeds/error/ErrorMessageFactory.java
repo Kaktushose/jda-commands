@@ -87,4 +87,13 @@ public interface ErrorMessageFactory {
      * @return a {@link Message} to send when the channel type isn't suitable for the command
      */
     Message getWrongChannelTypeMessage(@NotNull CommandContext context);
+
+    /**
+     * Gets a {@link Message} to send when the command execution failed.
+     *
+     * @param context   the corresponding {@link CommandContext}
+     * @param exception the Exception that made the command execution fail
+     * @return a {@link Message} to send when the command execution failed
+     */
+    Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception);
 }

@@ -176,4 +176,13 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         return embedCache.getEmbed("wrongChannel").toMessage();
     }
 
+    @Override
+    public Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
+        if (!embedCache.containsEmbed("executionFailed")) {
+            return super.getCommandExecutionFailedMessage(context, exception);
+        }
+        return embedCache.getEmbed("executionFailed")
+                .injectValue("exception", exception.toString())
+                .toMessage();
+    }
 }

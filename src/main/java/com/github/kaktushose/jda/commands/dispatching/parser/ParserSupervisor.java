@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
+import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -75,13 +76,20 @@ public class ParserSupervisor extends ListenerAdapter {
         log.debug("Calling {}", parser.getClass().getName());
         CommandContext context = parser.parseInternal(event, dispatcher);
 
+        MessageSender sender = context.getImplementationRegistry().getMessageSender();
+
         if (context.isCancelled()) {
             if (context.getErrorMessage() != null) {
-                context.getImplementationRegistry().getMessageSender().sendErrorMessage(context, context.getErrorMessage());
+                sender.sendErrorMessage(context, context.getErrorMessage());
             }
             return;
         }
 
-        dispatcher.onEvent(context);
+        try {
+            dispatcher.onEvent(context);
+        } catch (Exception e) {
+            sender.sendErrorMessage(context, context.getImplementationRegistry().getErrorMessageFactory().getCommandExecutionFailedMessage(context, e));
+            log.error("Command execution failed!", e);
+        }
     }
 }

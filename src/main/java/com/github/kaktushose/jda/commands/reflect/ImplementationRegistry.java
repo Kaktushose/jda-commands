@@ -75,10 +75,10 @@ public class ImplementationRegistry {
     /**
      * Constructs a new ImplementationRegistry.
      *
-     * @param dependencyInjector the corresponding {@link DependencyInjector}
-     * @param filterRegistry the corresponding {@link FilterRegistry}
+     * @param dependencyInjector  the corresponding {@link DependencyInjector}
+     * @param filterRegistry      the corresponding {@link FilterRegistry}
      * @param typeAdapterRegistry the corresponding {@link TypeAdapterRegistry}
-     * @param validatorRegistry the corresponding {@link ValidatorRegistry}
+     * @param validatorRegistry   the corresponding {@link ValidatorRegistry}
      */
     public ImplementationRegistry(DependencyInjector dependencyInjector,
                                   FilterRegistry filterRegistry,

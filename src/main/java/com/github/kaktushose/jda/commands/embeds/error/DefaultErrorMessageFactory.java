@@ -167,4 +167,14 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .build()
         ).build();
     }
+
+    @Override
+    public Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
+        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Command Execution Failed")
+                .setDescription(String.format("```%s```", exception))
+                .build()
+        ).build();
+    }
 }
