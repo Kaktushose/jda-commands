@@ -75,10 +75,19 @@ public class CommandDefinitionTest {
     }
 
     @Test
-    public void method_withUnsupportedType_ShouldReturnEmpty() throws NoSuchMethodException {
+    public void method_withUnsupportedType_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("unsupported", CommandEvent.class, UnsupportedType.class);
 
-        assertEquals(Optional.empty(), CommandDefinition.build(method, instance, adapter, validator));
+        CommandDefinition definition = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
+
+        assertNotNull(definition);
+
+        assertEquals(definition.getMethod(), method);
+        assertEquals(definition.getInstance(), instance);
+
+        assertEquals(2, definition.getParameters().size());
+        assertEquals(CommandEvent.class, definition.getParameters().get(0).getType());
+        assertEquals(UnsupportedType.class, definition.getParameters().get(1).getType());
     }
 
     @Test
