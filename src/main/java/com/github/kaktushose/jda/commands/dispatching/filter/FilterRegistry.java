@@ -52,7 +52,7 @@ public class FilterRegistry {
      */
     public void register(@NotNull Filter filter, @NotNull FilterPosition position) {
         filters.add(new FilterEntry(filter, position));
-        log.debug("Registered filter {}", filter.getClass().getName());
+        log.debug("Registered filter {} for position {}", filter.getClass().getName(), position);
     }
 
     /**
@@ -92,7 +92,7 @@ public class FilterRegistry {
      * Enum describing different filter positions.
      *
      * @author Kaktushose
-     * @version 2.0.0
+     * @version 2.2.0
      * @see com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry
      * @since 2.0.0
      */
@@ -113,7 +113,12 @@ public class FilterRegistry {
         /**
          * Filter will be executed just before the command execution.
          */
-        BEFORE_EXECUTION
+        BEFORE_EXECUTION,
+
+        /**
+         * Filter will not be executed.
+         */
+        UNKNOWN
     }
 
     private static class FilterEntry {

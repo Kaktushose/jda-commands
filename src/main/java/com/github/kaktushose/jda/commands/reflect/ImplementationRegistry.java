@@ -2,14 +2,17 @@ package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Component;
 import com.github.kaktushose.jda.commands.annotations.Inject;
+import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.router.impl.CommandRouter;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.DefaultMessageSender;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
@@ -28,6 +31,7 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -43,10 +47,13 @@ import java.util.*;
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link Router}</li>
  *     <li>{@link MessageSender}</li>
+ *     <li>{@link TypeAdapter}</li>
+ *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
+ *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
  * </ul>
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.2.0
  * @see Component
  * @since 2.0.0
  */
@@ -111,7 +118,9 @@ public class ImplementationRegistry {
         findImplementation(Router.class).ifPresent(this::setRouter);
         findImplementation(MessageSender.class).ifPresent(this::setMessageSender);
 
+        findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
+        findValidators().forEach(validatorRegistry::register);
     }
 
     /**
@@ -224,9 +233,8 @@ public class ImplementationRegistry {
 
     @SuppressWarnings("unchecked")
     private <T> Optional<T> findImplementation(Class<T> type) {
-        Set<Class<? extends T>> implementations = reflections.getSubTypesOf(type);
         T instance = null;
-        for (Class<?> clazz : implementations) {
+        for (Class<?> clazz : reflections.getSubTypesOf(type)) {
             if (!clazz.isAnnotationPresent(Component.class)) {
                 continue;
             }
@@ -251,15 +259,43 @@ public class ImplementationRegistry {
         return Optional.ofNullable(instance);
     }
 
-    @SuppressWarnings("rawtypes")
-    private Map<Class<?>, TypeAdapter<?>> findAdapters() {
-        Set<Class<? extends TypeAdapter>> implementations = reflections.getSubTypesOf(TypeAdapter.class);
-        TypeAdapter<?> instance;
-        Map<Class<?>, TypeAdapter<?>> result = new HashMap<>();
-        for (Class<? extends TypeAdapter<?>> clazz : implementations) {
+    private Map<Filter, FilterRegistry.FilterPosition> findFilters() {
+        Map<Filter, FilterRegistry.FilterPosition> result = new HashMap<>();
+        for (Class<? extends Filter> clazz : reflections.getSubTypesOf(Filter.class)) {
             if (!clazz.isAnnotationPresent(Component.class)) {
                 continue;
             }
+
+            log.debug("Found {}", clazz.getName());
+
+            Filter instance;
+            try {
+                instance = clazz.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Unable to create an instance of the custom implementation!", e);
+                continue;
+            }
+
+            FilterRegistry.FilterPosition position = clazz.getAnnotation(Component.class).position();
+            if (position == FilterRegistry.FilterPosition.UNKNOWN) {
+                log.error("Invalid filter position {}!", position);
+                continue;
+            }
+
+            result.put(instance, position);
+        }
+        return result;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private Map<Class<?>, TypeAdapter<?>> findAdapters() {
+        Map<Class<?>, TypeAdapter<?>> result = new HashMap<>();
+        for (Class<? extends TypeAdapter> clazz : reflections.getSubTypesOf(TypeAdapter.class)) {
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                continue;
+            }
+
+            log.debug("Found {}", clazz.getName());
 
             Class<?> generic;
             try {
@@ -271,7 +307,7 @@ public class ImplementationRegistry {
                 continue;
             }
 
-            log.debug("Found {}", clazz.getName());
+            TypeAdapter<?> instance;
             try {
                 instance = clazz.getConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -289,6 +325,34 @@ public class ImplementationRegistry {
                 fields.add(field);
             }
             dependencyInjector.registerDependencies(instance, fields);
+        }
+        return result;
+    }
+
+    private Map<Class<? extends Annotation>, Validator> findValidators() {
+        Map<Class<? extends Annotation>, Validator> result = new HashMap<>();
+        for (Class<? extends Validator> clazz : reflections.getSubTypesOf(Validator.class)) {
+            if (!clazz.isAnnotationPresent(Component.class)) {
+                continue;
+            }
+
+            log.debug("Found {}", clazz.getName());
+
+            Validator instance;
+            try {
+                instance = clazz.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Unable to create an instance of the custom implementation!", e);
+                continue;
+            }
+
+            Class<? extends Annotation> annotation = clazz.getAnnotation(Component.class).annotation();
+            if (Constraint.class.isAssignableFrom(annotation)) {
+                log.error("Invalid annotation type {}!", Constraint.class);
+                continue;
+            }
+
+            result.put(annotation, instance);
         }
         return result;
     }
