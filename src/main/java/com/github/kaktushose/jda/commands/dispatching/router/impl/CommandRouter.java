@@ -23,10 +23,8 @@ public class CommandRouter implements Router {
 
     @Override
     public void findCommands(@NotNull CommandContext context, @NotNull Collection<CommandDefinition> commands) {
-        for (int i = 0; i < context.getSettings().getMaxDistance(); i++) {
-            if (findCommand(context, commands, i)) {
-                return;
-            }
+        if (findCommand(context, commands)) {
+            return;
         }
         if (context.getCommand() == null || context.isCancelled()) {
             context.setErrorMessage(context.getImplementationRegistry()
@@ -37,18 +35,18 @@ public class CommandRouter implements Router {
         }
     }
 
-    private boolean findCommand(CommandContext context, Collection<CommandDefinition> commands, int maxDistance) {
+    private boolean findCommand(CommandContext context, Collection<CommandDefinition> commands) {
         CommandDefinition command = null;
         boolean success = false;
         String[] input = context.getInput();
         AtomicInteger matchingLength = new AtomicInteger(0);
-        for (int i = input.length - 1; i > -1; i--) {
+        for (int maxLabelLength = input.length - 1; maxLabelLength > -1; maxLabelLength--) {
 
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < i + 1; j++) {
-                sb.append(input[j]).append(" ");
+            StringBuilder labelBuilder = new StringBuilder();
+            for (int index = 0; index < maxLabelLength + 1; index++) {
+                labelBuilder.append(input[index]).append(" ");
             }
-            String generatedLabel = sb.toString().trim();
+            String generatedLabel = labelBuilder.toString().trim();
             List<CommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabels().stream().anyMatch(label -> {
                         String[] expectedLabels = label.split(" ");
                         String[] actualLabels = generatedLabel.split(" ");
@@ -58,18 +56,26 @@ public class CommandRouter implements Router {
                         }
 
                         boolean matches = true;
-                        for (int k = 0; k < expectedLabels.length; k++) {
+                        for (int index = 0; index < expectedLabels.length; index++) {
                             if (!matches) {
                                 return false;
                             }
-
                             boolean ignoreCase = context.getSettings().isIgnoreCase();
-                            String expected = ignoreCase ? expectedLabels[k].toUpperCase() : expectedLabels[k];
-                            String actual = ignoreCase ? actualLabels[k].toUpperCase() : actualLabels[k];
-                            if (maxDistance == 0) {
-                                matches = expected.startsWith(actual);
-                            } else {
-                                matches = calculateLevenshteinDistance(expected, actual) <= maxDistance;
+                            String expected = ignoreCase ? expectedLabels[index].toUpperCase() : expectedLabels[index];
+                            String actual = ignoreCase ? actualLabels[index].toUpperCase() : actualLabels[index];
+
+                            System.out.println(expected);
+                            System.out.println(actual);
+
+                            for (int maxDistance = 0; maxDistance < context.getSettings().getMaxDistance(); maxDistance++) {
+                                if (maxDistance == 0) {
+                                    matches = expected.startsWith(actual);
+                                } else {
+                                    matches = calculateLevenshteinDistance(expected, actual) <= maxDistance;
+                                }
+                                if (matches) {
+                                    break;
+                                }
                             }
 
                             if (matches) {

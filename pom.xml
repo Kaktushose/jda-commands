@@ -103,7 +103,19 @@
             <version>23.0.0</version>
         </dependency>
 
+        <!-- TODO remove dev dependencies -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.10</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.10</version>
+        </dependency>
     </dependencies>
+
 
     <repositories>
         <repository>
