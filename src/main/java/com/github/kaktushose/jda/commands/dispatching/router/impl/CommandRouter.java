@@ -64,9 +64,6 @@ public class CommandRouter implements Router {
                             String expected = ignoreCase ? expectedLabels[index].toUpperCase() : expectedLabels[index];
                             String actual = ignoreCase ? actualLabels[index].toUpperCase() : actualLabels[index];
 
-                            System.out.println(expected);
-                            System.out.println(actual);
-
                             for (int maxDistance = 0; maxDistance < context.getSettings().getMaxDistance(); maxDistance++) {
                                 if (maxDistance == 0) {
                                     matches = expected.startsWith(actual);
