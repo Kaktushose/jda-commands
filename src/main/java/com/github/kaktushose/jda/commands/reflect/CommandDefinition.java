@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.google.common.collect.Sets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -33,10 +32,10 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
     private final CooldownDefinition cooldown;
-    private boolean isSuper;
     private final boolean isDM;
     private final Method method;
     private final Object instance;
+    private boolean isSuper;
     private ControllerDefinition controller;
 
     private CommandDefinition(List<String> labels,
@@ -90,7 +89,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         Set<String> permissions = new HashSet<>();
         if (method.isAnnotationPresent(Permission.class)) {
             Permission permission = method.getAnnotation(Permission.class);
-            permissions = Sets.newHashSet(permission.value());
+            permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
         // generate possible labels

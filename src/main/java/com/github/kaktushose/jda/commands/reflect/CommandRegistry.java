@@ -6,8 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -61,10 +60,15 @@ public class CommandRegistry {
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing controllers...");
 
+        FilterBuilder filter = new FilterBuilder();
+        for (String pkg : packages) {
+            filter.includePackage(pkg);
+        }
+
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
+                .setScanners(Scanners.SubTypes, Scanners.TypesAnnotated)
                 .setUrls(ClasspathHelper.forClass(clazz))
-                .filterInputsBy(new FilterBuilder().includePackage(packages));
+                .filterInputsBy(filter);
         Reflections reflections = new Reflections(config);
 
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);

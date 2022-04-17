@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,6 @@ public class EmbedCache {
     /**
      * Loads all embeds from a file and caches them.
      */
-    @SuppressWarnings("UnstableApiUsage")
     public void loadEmbedsToCache() {
         try {
             Reader reader;

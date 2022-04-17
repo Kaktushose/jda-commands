@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.google.common.collect.Sets;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +75,7 @@ public class ControllerDefinition {
         Set<String> permissions = new HashSet<>();
         if (controllerClass.isAnnotationPresent(Permission.class)) {
             Permission permission = controllerClass.getAnnotation(Permission.class);
-            permissions = Sets.newHashSet(permission.value());
+            permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
         // get controller level cooldown and use it if no command level cooldown is present

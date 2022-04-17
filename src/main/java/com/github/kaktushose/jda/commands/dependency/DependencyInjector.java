@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
@@ -52,10 +53,16 @@ public class DependencyInjector {
      */
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing dependency providers...");
+
+        FilterBuilder filter = new FilterBuilder();
+        for (String pkg : packages) {
+            filter.includePackage(pkg);
+        }
+
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(), new MethodAnnotationsScanner())
+                .setScanners(Scanners.SubTypes, Scanners.MethodsAnnotated)
                 .setUrls(ClasspathHelper.forClass(clazz))
-                .filterInputsBy(new FilterBuilder().includePackage(packages));
+                .filterInputsBy(filter);
         Reflections reflections = new Reflections(config);
 
         Set<Method> methods = reflections.getMethodsAnnotatedWith(Produces.class);

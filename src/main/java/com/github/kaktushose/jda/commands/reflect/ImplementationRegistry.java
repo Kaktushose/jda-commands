@@ -24,7 +24,7 @@ import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
 import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -105,10 +105,16 @@ public class ImplementationRegistry {
      */
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing custom implementations...");
+
+        FilterBuilder filter = new FilterBuilder();
+        for (String pkg : packages) {
+            filter.includePackage(pkg);
+        }
+
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner())
+                .setScanners(Scanners.SubTypes)
                 .setUrls(ClasspathHelper.forClass(clazz))
-                .filterInputsBy(new FilterBuilder().includePackage(packages));
+                .filterInputsBy(filter);
         reflections = new Reflections(config);
 
         findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);

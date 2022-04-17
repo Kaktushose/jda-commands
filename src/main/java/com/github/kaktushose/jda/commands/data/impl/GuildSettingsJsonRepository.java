@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.data.impl;
 
 import com.github.kaktushose.jda.commands.data.JsonRepository;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
-import com.google.common.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -20,7 +20,6 @@ import java.util.Optional;
  */
 public class GuildSettingsJsonRepository extends JsonRepository<GuildSettings> {
 
-    @SuppressWarnings("UnstableApiUsage")
     private static final Type mapType = new TypeToken<Map<Long, GuildSettings>>() {
     }.getType();
 
