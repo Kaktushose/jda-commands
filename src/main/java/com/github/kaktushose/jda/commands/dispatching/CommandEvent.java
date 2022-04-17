@@ -4,26 +4,26 @@ import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.slash.GenericCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 /**
- * This class is a subclass of the {@code GuildMessageReceivedEvent} from JDA.
+ * This class is a subclass of {@code GenericCommandEvent}.
  * It provides some additional features for sending messages and also grants
  * access to the {@link CommandDefinition} object which describes the command that is executed.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @since 1.0.0
+ * @see GenericCommandEvent
  */
-public class CommandEvent extends MessageReceivedEvent {
+public class CommandEvent extends GenericCommandEvent {
 
     private final CommandDefinition commandDefinition;
     private final CommandContext context;
@@ -31,19 +31,11 @@ public class CommandEvent extends MessageReceivedEvent {
     /**
      * Constructs a CommandEvent.
      *
-     * @param api            the {@code JDA}, needed for the {@code GuildMessageReceivedEvent}
-     * @param responseNumber the responseNumber, needed for the {@code GuildMessageReceivedEvent}
-     * @param message        the {@code Message}, needed for the {@code GuildMessageReceivedEvent}
-     * @param command        the underlying {@link CommandDefinition} object
-     * @param context        the {@link CommandContext}
+     * @param command the underlying {@link CommandDefinition} object
+     * @param context the {@link CommandContext}
      */
-    public CommandEvent(@NotNull JDA api,
-                        long responseNumber,
-                        @NotNull Message message,
-                        @NotNull CommandDefinition command,
-                        @NotNull CommandContext context
-    ) {
-        super(api, responseNumber, message);
+    public CommandEvent(@NotNull CommandDefinition command, @NotNull CommandContext context) {
+        super(context.getEvent());
         this.commandDefinition = command;
         this.context = context;
     }

@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * An implementation of {@link Parser} that can parse {@link MessageReceivedEvent MessageReceivedEvents}.
+ * An implementation of {@link Parser} that can parse {@link MessageReceivedEvent}.
  * This parser will work within the limitations given by the {@link GuildSettings}.
  *
  * @author Kaktushose
@@ -37,10 +36,11 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
      * @return a new {@link CommandContext}
      */
     @Override
+    @NotNull
     public CommandContext parse(@NotNull MessageReceivedEvent event, @NotNull CommandDispatcher dispatcher) {
         CommandContext context = new CommandContext();
         ImplementationRegistry registry = dispatcher.getImplementationRegistry();
-        GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromType(ChannelType.TEXT) ? event.getGuild() : null);
+        GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromGuild() ? event.getGuild() : null);
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
 
         context.setEvent(event)

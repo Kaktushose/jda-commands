@@ -14,6 +14,7 @@ import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.slash.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -92,6 +93,9 @@ public class CommandDispatcher {
         commandRegistry.index(clazz, packages);
 
         dependencyInjector.inject();
+
+        SlashCommandUpdater updater = new SlashCommandUpdater((JDA) jda, configuration);
+        updater.update(commandRegistry.getCommands());
         isActive = true;
     }
 

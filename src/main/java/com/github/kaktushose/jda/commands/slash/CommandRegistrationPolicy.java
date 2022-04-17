@@ -3,10 +3,10 @@ package com.github.kaktushose.jda.commands.slash;
 /**
  * Policy defining different operation modes.
  *
- *   @author Kaktushose
- *   @version 2.3.0
- *   @see com.github.kaktushose.jda.commands.JDACommandsSlashBuilder
- *   @since 2.3.0
+ * @author Kaktushose
+ * @version 2.3.0
+ * @see com.github.kaktushose.jda.commands.JDACommandsSlashBuilder JDACommandsSlashBuilder
+ * @since 2.3.0
  */
 public enum CommandRegistrationPolicy {
     /**

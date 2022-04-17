@@ -4,7 +4,9 @@ import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import com.github.kaktushose.jda.commands.slash.GenericCommandEvent;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +27,7 @@ import java.util.List;
 public class CommandContext {
 
     private String[] input;
-    private MessageReceivedEvent event;
+    private GenericCommandEvent event;
     private CommandDefinition command;
     private List<CommandDefinition> possibleCommands;
     private List<Object> arguments;
@@ -61,7 +63,7 @@ public class CommandContext {
      *
      * @return the corresponding {@link MessageReceivedEvent}
      */
-    public MessageReceivedEvent getEvent() {
+    public GenericCommandEvent getEvent() {
         return event;
     }
 
@@ -72,7 +74,18 @@ public class CommandContext {
      * @return the current CommandContext instance
      */
     public CommandContext setEvent(@NotNull MessageReceivedEvent event) {
-        this.event = event;
+        this.event = GenericCommandEvent.fromEvent(event);
+        return this;
+    }
+
+    /**
+     * Set the {@link SlashCommandInteractionEvent}.
+     *
+     * @param event the {@link SlashCommandInteractionEvent}
+     * @return the current CommandContext instance
+     */
+    public CommandContext setEvent(@NotNull SlashCommandInteractionEvent event) {
+        this.event = GenericCommandEvent.fromEvent(event);
         return this;
     }
 

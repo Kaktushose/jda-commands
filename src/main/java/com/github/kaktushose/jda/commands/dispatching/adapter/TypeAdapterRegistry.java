@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -119,8 +118,7 @@ public class TypeAdapterRegistry {
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        MessageReceivedEvent event = context.getEvent();
-        arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, context));
+        arguments.add(new CommandEvent(command, context));
         // start with index 1 so we skip the CommandEvent
         for (int i = 1; i < command.getParameters().size(); i++) {
             ParameterDefinition parameter = command.getParameters().get(i);

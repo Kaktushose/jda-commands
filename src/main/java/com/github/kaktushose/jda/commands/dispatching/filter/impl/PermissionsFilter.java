@@ -3,10 +3,10 @@ package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import com.github.kaktushose.jda.commands.slash.GenericCommandEvent;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,12 +40,12 @@ public class PermissionsFilter implements Filter {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 
-        MessageReceivedEvent event = context.getEvent();
+        GenericCommandEvent event = context.getEvent();
 
         boolean isCancelled = !provider.hasPermission(event.getAuthor(), context);
 
         // we only have member information in a guild channel
-        if (!isCancelled && event.isFromType(ChannelType.TEXT)) {
+        if (!isCancelled && event.isFromGuild()) {
             isCancelled = !provider.hasPermission(event.getMember(), context);
         }
 

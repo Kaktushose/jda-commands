@@ -148,7 +148,7 @@ public class TypeAdapterRegistryTest {
                 new ValidatorRegistry())
         );
         context.setSettings(new GuildSettings());
-        context.setEvent(new MessageReceivedEventMock(true));
+        //context.setEvent(new MessageReceivedEventMock(true));
         context.setInput(input);
         context.setCommand(command);
         return context;

@@ -1,15 +1,16 @@
 package com.github.kaktushose.jda.commands.slash;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Container class holding the configuration for registering slash commands. This class is only used internally and can
  * be ignored.
  *
- *   @author Kaktushose
- *   @version 2.3.0
- *   @see com.github.kaktushose.jda.commands.JDACommandsSlashBuilder JDACommandsSlashBuilder
- *   @since 2.3.0
+ * @author Kaktushose
+ * @version 2.3.0
+ * @see com.github.kaktushose.jda.commands.JDACommandsSlashBuilder JDACommandsSlashBuilder
+ * @since 2.3.0
  */
 public class SlashConfiguration {
 
@@ -24,7 +25,7 @@ public class SlashConfiguration {
     }
 
     List<Long> getGuildIds() {
-        return guildIds;
+        return Collections.unmodifiableList(guildIds);
     }
 
     boolean isGlobal() {

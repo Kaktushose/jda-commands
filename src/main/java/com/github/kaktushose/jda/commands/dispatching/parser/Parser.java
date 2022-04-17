@@ -26,6 +26,7 @@ public abstract class Parser<T extends GenericEvent> {
      * @param dispatcher the calling {@link CommandDispatcher}
      * @return a new {@link CommandContext}
      */
+    @NotNull
     public abstract CommandContext parse(@NotNull T event, @NotNull CommandDispatcher dispatcher);
 
 }

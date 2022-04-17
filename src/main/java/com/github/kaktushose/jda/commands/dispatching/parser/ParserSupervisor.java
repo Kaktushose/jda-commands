@@ -3,8 +3,10 @@ package com.github.kaktushose.jda.commands.dispatching.parser;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
+import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultSlashCommandParser;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +39,7 @@ public class ParserSupervisor extends ListenerAdapter {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
         register(MessageReceivedEvent.class, new DefaultMessageParser());
+        register(SlashCommandInteractionEvent.class, new DefaultSlashCommandParser());
     }
 
     /**
