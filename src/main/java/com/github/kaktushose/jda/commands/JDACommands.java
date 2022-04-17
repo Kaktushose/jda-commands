@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -32,8 +33,12 @@ public class JDACommands {
     private final CommandDispatcher commandDispatcher;
 
     private JDACommands(Object jda, boolean isShardManager, Class<?> clazz, String... packages) {
+        this(jda, isShardManager, clazz, null, packages);
+    }
+
+    JDACommands(Object jda, boolean isShardManager, Class<?> clazz, SlashConfiguration configuration, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, packages);
+        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, configuration, packages);
         log.info("Finished loading!");
     }
 
@@ -59,6 +64,30 @@ public class JDACommands {
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACommands(shardManager, true, clazz, packages);
+    }
+
+    /**
+     * Returns a new {@link JDACommandsSlashBuilder) instance.
+     *
+     * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
+     * @param packages package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommandsSlashBuilder slash(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACommandsSlashBuilder(jda, false, clazz, packages);
+    }
+
+    /**
+     * Returns a new {@link JDACommandsSlashBuilder) instance.
+     *
+     * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
+     * @param packages package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommandsSlashBuilder slash(@NotNull ShardManager jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACommandsSlashBuilder(jda, true, clazz, packages);
     }
 
     /**

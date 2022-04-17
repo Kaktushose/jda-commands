@@ -14,6 +14,7 @@ import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,7 @@ public class CommandDispatcher {
     private final CommandRegistry commandRegistry;
     private final DependencyInjector dependencyInjector;
     private final JDACommands jdaCommands;
+    private final SlashConfiguration configuration;
 
     /**
      * Constructs a new CommandDispatcher.
@@ -58,10 +60,12 @@ public class CommandDispatcher {
                              boolean isShardManager,
                              @NotNull JDACommands jdaCommands,
                              @NotNull Class<?> clazz,
+                             @NotNull SlashConfiguration configuration,
                              @NotNull String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
         this.jdaCommands = jdaCommands;
+        this.configuration = configuration;
 
         if (isActive) {
             throw new IllegalStateException("An instance of the command framework is already running!");
