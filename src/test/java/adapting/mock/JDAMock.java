@@ -249,19 +249,31 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public SnowflakeCacheView<StageChannel> getStageChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<ThreadChannel> getThreadChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SnowflakeCacheView<Category> getCategoryCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public SnowflakeCacheView<StoreChannel> getStoreChannelCache() {
+    public SnowflakeCacheView<TextChannel> getTextChannelCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public SnowflakeCacheView<TextChannel> getTextChannelCache() {
+    public SnowflakeCacheView<NewsChannel> getNewsChannelCache() {
         return null;
     }
 

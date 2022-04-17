@@ -3,7 +3,7 @@ package adapting.mock;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ComponentLayout;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
@@ -169,40 +169,13 @@ public class MessageMock implements Message {
     @NotNull
     @Override
     public MessageChannel getChannel() {
-        return new MessageChannel() {
-            @Override
-            public long getLatestMessageIdLong() {
-                return 0;
-            }
+        return null;
+    }
 
-            @Override
-            public boolean hasLatestMessage() {
-                return false;
-            }
-
-            @NotNull
-            @Override
-            public String getName() {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public ChannelType getType() {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public JDA getJDA() {
-                return null;
-            }
-
-            @Override
-            public long getIdLong() {
-                return 0;
-            }
-        };
+    @NotNull
+    @Override
+    public GuildMessageChannel getGuildChannel() {
+        return null;
     }
 
     @NotNull
@@ -214,6 +187,12 @@ public class MessageMock implements Message {
     @NotNull
     @Override
     public TextChannel getTextChannel() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public NewsChannel getNewsChannel() {
         return null;
     }
 
@@ -296,7 +275,7 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public MessageAction editMessageComponents(@NotNull Collection<? extends ComponentLayout> collection) {
+    public MessageAction editMessageComponents(@NotNull Collection<? extends LayoutComponent> collection) {
         return null;
     }
 
@@ -467,6 +446,11 @@ public class MessageMock implements Message {
     @Nullable
     @Override
     public Interaction getInteraction() {
+        return null;
+    }
+
+    @Override
+    public RestAction<ThreadChannel> createThreadChannel(String s) {
         return null;
     }
 

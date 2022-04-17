@@ -88,12 +88,12 @@ public class MemberMock implements Member {
     }
 
     @Override
-    public boolean canSync(@NotNull GuildChannel guildChannel, @NotNull GuildChannel guildChannel1) {
+    public boolean canSync(@NotNull IPermissionContainer iPermissionContainer, @NotNull IPermissionContainer iPermissionContainer1) {
         return false;
     }
 
     @Override
-    public boolean canSync(@NotNull GuildChannel guildChannel) {
+    public boolean canSync(@NotNull IPermissionContainer iPermissionContainer) {
         return false;
     }
 
@@ -117,6 +117,17 @@ public class MemberMock implements Member {
     @Nullable
     @Override
     public OffsetDateTime getTimeBoosted() {
+        return null;
+    }
+
+    @Override
+    public boolean isBoosting() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public OffsetDateTime getTimeOutEnd() {
         return null;
     }
 

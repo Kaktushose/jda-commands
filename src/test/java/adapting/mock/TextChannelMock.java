@@ -2,9 +2,10 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.managers.ChannelManager;
+import net.dv8tion.jda.api.managers.channel.concrete.TextChannelManager;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.*;
+import net.dv8tion.jda.api.requests.restaction.pagination.ThreadChannelPaginationAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,11 +35,6 @@ public class TextChannelMock implements TextChannel {
     }
 
     @Override
-    public boolean isNews() {
-        return false;
-    }
-
-    @Override
     public int getSlowmode() {
         return 0;
     }
@@ -46,12 +42,6 @@ public class TextChannelMock implements TextChannel {
     @NotNull
     @Override
     public Guild getGuild() {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public Category getParent() {
         return null;
     }
 
@@ -114,13 +104,24 @@ public class TextChannelMock implements TextChannel {
 
     @NotNull
     @Override
-    public ChannelManager getManager() {
+    public TextChannelManager getManager() {
         return null;
     }
+
+    @Override
+    public long getParentCategoryIdLong() {
+        return 0;
+    }
+
 
     @NotNull
     @Override
     public AuditableRestAction<Void> delete() {
+        return null;
+    }
+
+    @Override
+    public IPermissionContainer getPermissionContainer() {
         return null;
     }
 
@@ -157,12 +158,6 @@ public class TextChannelMock implements TextChannel {
     @NotNull
     @Override
     public WebhookAction createWebhook(@NotNull String s) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Webhook.WebhookReference> follow(@NotNull String s) {
         return null;
     }
 
@@ -228,11 +223,6 @@ public class TextChannelMock implements TextChannel {
         return 0;
     }
 
-    @Override
-    public boolean hasLatestMessage() {
-        return false;
-    }
-
     @NotNull
     @Override
     public String getName() {
@@ -260,5 +250,35 @@ public class TextChannelMock implements TextChannel {
     @Override
     public long getIdLong() {
         return id;
+    }
+
+    @NotNull
+    @Override
+    public ThreadChannelAction createThreadChannel(String s, boolean b) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ThreadChannelAction createThreadChannel(String s, long l) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ThreadChannelPaginationAction retrieveArchivedPublicThreadChannels() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ThreadChannelPaginationAction retrieveArchivedPrivateThreadChannels() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ThreadChannelPaginationAction retrieveArchivedPrivateJoinedThreadChannels() {
+        return null;
     }
 }
