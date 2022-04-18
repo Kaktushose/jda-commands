@@ -7,6 +7,10 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.slash.OptionDataResolver;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -163,9 +167,27 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
             }
         }
 
+        CommandMetadata metadata = CommandMetadata.build(command, commandController);
+
+        if (metadata.getUsage().equals("N/A") || metadata.getUsage().isEmpty()) {
+            StringBuilder usage = new StringBuilder("{prefix}");
+            usage.append(labels.get(0));
+            parameters.forEach(parameter -> {
+                if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+                    return;
+                }
+                if (parameter.isOptional()) {
+                    usage.append(" ").append(String.format("(%s)", parameter.getName()));
+                } else {
+                    usage.append(" ").append(parameter.getName());
+                }
+            });
+            metadata.setUsage(usage.toString());
+        }
+
         return Optional.of(new CommandDefinition(
                 labels,
-                CommandMetadata.build(command, commandController),
+                metadata,
                 parameters,
                 permissions,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
@@ -182,6 +204,17 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 commandMethod.getDeclaringClass().getSimpleName(),
                 commandMethod.getName(),
                 message);
+    }
+
+    public CommandData toCommandData() {
+        SlashCommandData command = Commands.slash(labels.get(0).toLowerCase(), metadata.getDescription().replaceAll("/", ""));
+        for (ParameterDefinition parameter : parameters) {
+            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+                continue;
+            }
+            command.addOption(OptionDataResolver.resolveType(parameter), parameter.getName(), "N A", !parameter.isOptional());
+        }
+        return command;
     }
 
     /**
