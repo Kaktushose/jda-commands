@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.Concat;
 import com.github.kaktushose.jda.commands.annotations.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.annotations.slash.Options;
+import com.github.kaktushose.jda.commands.annotations.slash.Param;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -21,10 +23,12 @@ import java.util.Map;
  * Representation of a command parameter.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see Concat
  * @see Optional
  * @see Constraint
+ * @see Options
+ * @see Param
  * @since 2.0.0
  */
 public class ParameterDefinition {
@@ -48,6 +52,8 @@ public class ParameterDefinition {
     private final String defaultValue;
     private final boolean isPrimitive;
     private final String name;
+    private final String description;
+    private final String[] options;
     private final List<ConstraintDefinition> constraints;
 
     private ParameterDefinition(@NotNull Class<?> type,
@@ -56,6 +62,8 @@ public class ParameterDefinition {
                                 @Nullable String defaultValue,
                                 boolean isPrimitive,
                                 @NotNull String name,
+                                @NotNull String description,
+                                @NotNull String[] options,
                                 @NotNull List<ConstraintDefinition> constraints) {
         this.type = type;
         this.isConcat = isConcat;
@@ -63,6 +71,8 @@ public class ParameterDefinition {
         this.defaultValue = defaultValue;
         this.isPrimitive = isPrimitive;
         this.name = name;
+        this.description = description;
+        this.options = options;
         this.constraints = constraints;
     }
 
@@ -73,6 +83,7 @@ public class ParameterDefinition {
      * @param registry  an instance of the corresponding {@link ValidatorRegistry}
      * @return a new ParameterDefinition
      */
+    @NotNull
     public static ParameterDefinition build(@NotNull Parameter parameter, @NotNull ValidatorRegistry registry) {
         if (parameter.isVarArgs()) {
             throw new IllegalArgumentException("VarArgs is not supported for parameters!");
@@ -81,11 +92,13 @@ public class ParameterDefinition {
         Class<?> parameterType = parameter.getType();
         parameterType = TYPE_MAPPINGS.getOrDefault(parameterType, parameterType);
 
+        // Concat
         final boolean isConcat = parameter.isAnnotationPresent(Concat.class);
         if (isConcat && !String.class.isAssignableFrom(parameterType)) {
             throw new IllegalArgumentException("Concat can only be applied to Strings!");
         }
 
+        // Optional
         final boolean isOptional = parameter.isAnnotationPresent(Optional.class);
         String defaultValue = "";
         if (isOptional) {
@@ -120,6 +133,22 @@ public class ParameterDefinition {
             }
         }
 
+        // Param
+        String name = parameter.getName();
+        String description = "";
+        if (parameter.isAnnotationPresent(Param.class)) {
+            Param param = parameter.getAnnotation(Param.class);
+            name = param.name().isEmpty() ? name : param.name();
+            description = param.value();
+        }
+
+        String[] options = new String[0];
+        // Options
+        if (parameter.isAnnotationPresent(Options.class)) {
+            Options opt = parameter.getAnnotation(Options.class);
+            options = opt.value();
+        }
+
         // this value is only used to determine if a default value must be present (primitives cannot be null)
         boolean usesPrimitives = TYPE_MAPPINGS.containsKey(parameter.getType());
 
@@ -129,7 +158,9 @@ public class ParameterDefinition {
                 isOptional,
                 defaultValue,
                 usesPrimitives,
-                parameter.getName(),
+                name,
+                description,
+                options,
                 constraints
         );
     }
@@ -139,6 +170,7 @@ public class ParameterDefinition {
      *
      * @return the type of the parameter
      */
+    @NotNull
     public Class<?> getType() {
         return type;
     }
@@ -185,6 +217,7 @@ public class ParameterDefinition {
      *
      * @return a possibly-empty list of {@link ConstraintDefinition ConstraintDefinitions}
      */
+    @NotNull
     public List<ConstraintDefinition> getConstraints() {
         return constraints;
     }
@@ -194,8 +227,29 @@ public class ParameterDefinition {
      *
      * @return the parameter name
      */
+    @NotNull
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the parameter description. Only used for slash commands.
+     *
+     * @return the parameter description
+     */
+    @NotNull
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Gets the parameter options. Only used for slash commands.
+     *
+     * @return the parameter options
+     */
+    @NotNull
+    public String[] getOptions() {
+        return options;
     }
 
     @Override

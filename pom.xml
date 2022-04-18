@@ -19,6 +19,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
+                    <parameters>true</parameters>
+                    <testCompilerArgument>-parameters</testCompilerArgument>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
