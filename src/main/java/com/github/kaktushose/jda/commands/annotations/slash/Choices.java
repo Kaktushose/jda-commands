@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used to add option choices to parameters.
+ * Annotation used to add choices to parameters.
  *
  * @author Kaktushose
  * @version 2.3.0
@@ -14,12 +14,12 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Options {
+public @interface Choices {
 
     /**
-     * Returns the option choices of a parameter. This value will only be used for slash commands.
+     * Returns the choices of a parameter. This value will only be used for slash commands.
      *
-     * @return the description of the parameter
+     * @return the choices of the parameter
      */
     String[] value();
 

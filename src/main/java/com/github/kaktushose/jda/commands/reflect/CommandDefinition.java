@@ -7,9 +7,9 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.slash.OptionDataResolver;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -206,14 +206,22 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 message);
     }
 
+    /**
+     * Transforms this command definition to a {@link CommandData}.
+     *
+     * @return the transformed {@link CommandData}
+     */
     public CommandData toCommandData() {
-        SlashCommandData command = Commands.slash(labels.get(0).toLowerCase(), metadata.getDescription().replaceAll("/", ""));
-        for (ParameterDefinition parameter : parameters) {
+        SlashCommandData command = Commands.slash(
+                "say",
+                metadata.getDescription().replaceAll("N/A", "no description")
+        );
+        parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
-                continue;
+                return;
             }
-            command.addOption(OptionDataResolver.resolveType(parameter), parameter.getName(), "N A", !parameter.isOptional());
-        }
+            command.addOptions(parameter.toOptionData());
+        });
         return command;
     }
 
