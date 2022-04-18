@@ -20,8 +20,8 @@ import java.util.function.Consumer;
  *
  * @author Kaktushose
  * @version 2.3.0
- * @since 1.0.0
  * @see GenericCommandEvent
+ * @since 1.0.0
  */
 public class CommandEvent extends GenericCommandEvent {
 

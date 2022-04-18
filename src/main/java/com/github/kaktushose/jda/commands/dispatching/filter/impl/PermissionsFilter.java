@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.slash.GenericCommandEvent;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
