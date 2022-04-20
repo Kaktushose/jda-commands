@@ -213,7 +213,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      */
     public CommandData toCommandData() {
         SlashCommandData command = Commands.slash(
-                "say",
+                labels.get(0),
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
         parameters.forEach(parameter -> {

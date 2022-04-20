@@ -14,8 +14,8 @@ import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.slash.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.slash.SlashConfiguration;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -159,6 +159,10 @@ public class CommandDispatcher {
             log.debug("Sending specific help");
             sender.sendSpecificHelpMessage(context, helpMessageFactory.getSpecificHelp(context));
             return;
+        }
+
+        if (context.isSlash()) {
+
         }
 
         log.debug("Applying filters in phase BEFORE_ADAPTING...");

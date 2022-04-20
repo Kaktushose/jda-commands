@@ -38,15 +38,10 @@ public class DefaultMessageParser extends Parser<MessageReceivedEvent> {
     @Override
     @NotNull
     public CommandContext parse(@NotNull MessageReceivedEvent event, @NotNull CommandDispatcher dispatcher) {
-        CommandContext context = new CommandContext();
         ImplementationRegistry registry = dispatcher.getImplementationRegistry();
         GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromGuild() ? event.getGuild() : null);
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
-
-        context.setEvent(event)
-                .setSettings(settings)
-                .setJdaCommands(dispatcher.getJdaCommands())
-                .setImplementationRegistry(registry);
+        CommandContext context = new CommandContext(event, dispatcher.getJdaCommands(), settings, registry);
 
         if (event.getAuthor().isBot() && settings.isIgnoreBots()) {
             return context.setCancelled(true);

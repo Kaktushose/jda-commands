@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.slash;
+package com.github.kaktushose.jda.commands.dispatching.slash;
 
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.JDA;

@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.slash.SlashConfiguration;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;

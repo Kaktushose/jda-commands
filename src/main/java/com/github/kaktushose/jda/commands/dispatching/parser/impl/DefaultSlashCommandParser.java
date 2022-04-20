@@ -31,10 +31,10 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
     public CommandContext parse(@NotNull SlashCommandInteractionEvent event, @NotNull CommandDispatcher dispatcher) {
         event.deferReply(false).queue();
 
-        CommandContext context = new CommandContext();
         ImplementationRegistry registry = dispatcher.getImplementationRegistry();
         GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromGuild() ? event.getGuild() : null);
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
+        CommandContext context = new CommandContext(event, dispatcher.getJdaCommands(), settings, registry);
 
         if (settings.isMutedGuild()) {
             context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
@@ -47,15 +47,9 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
         }
 
         StringBuilder message = new StringBuilder(event.getName());
-        event.getOptions().forEach(mapping -> message.append(" ").append(mapping.getAsString()));
+        event.getOptions().forEach(mapping -> message.append(" ").append(String.format("%s=%s", mapping.getName(), mapping.getAsString())));
         String[] input = message.toString().split(" ");
 
-        context.setEvent(event)
-                .setSettings(settings)
-                .setInput(input)
-                .setJdaCommands(dispatcher.getJdaCommands())
-                .setImplementationRegistry(registry);
-
-        return context;
+        return context.setSlash(true).setInput(input);
     }
 }

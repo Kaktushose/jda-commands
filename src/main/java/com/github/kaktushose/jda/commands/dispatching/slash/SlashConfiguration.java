@@ -1,4 +1,6 @@
-package com.github.kaktushose.jda.commands.slash;
+package com.github.kaktushose.jda.commands.dispatching.slash;
+
+import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,15 +26,15 @@ public class SlashConfiguration {
         this.policy = policy;
     }
 
-    List<Long> getGuildIds() {
+    public List<Long> getGuildIds() {
         return Collections.unmodifiableList(guildIds);
     }
 
-    boolean isGlobal() {
+    public boolean isGlobal() {
         return global;
     }
 
-    CommandRegistrationPolicy getPolicy() {
+    public CommandRegistrationPolicy getPolicy() {
         return policy;
     }
 }
