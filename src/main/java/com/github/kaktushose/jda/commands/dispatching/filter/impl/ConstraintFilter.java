@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A {@link Filter} implementation that will check the parameter constraints a
@@ -32,7 +33,7 @@ public class ConstraintFilter implements Filter {
     @Override
     public void apply(@NotNull CommandContext context) {
         List<Object> arguments = context.getArguments();
-        List<ParameterDefinition> parameters = context.getCommand().getParameters();
+        List<ParameterDefinition> parameters = Objects.requireNonNull(context.getCommand()).getParameters();
 
         log.debug("Applying parameter constraints...");
         for (int i = 1; i < arguments.size(); i++) {

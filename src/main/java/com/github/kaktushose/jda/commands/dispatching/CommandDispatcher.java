@@ -9,13 +9,13 @@ import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.Filt
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
@@ -152,7 +154,7 @@ public class CommandDispatcher {
             return;
         }
 
-        CommandDefinition command = context.getCommand();
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         log.debug("Input matches command: {}", command);
 
         if (context.isHelpEvent()) {
@@ -162,7 +164,13 @@ public class CommandDispatcher {
         }
 
         if (context.isSlash()) {
-
+            StringBuilder builder = new StringBuilder();
+            command.getActualParameters().forEach(param -> builder.append(param.getName()).append(" "));
+            AtomicReference<String> parameter = new AtomicReference<>(builder.toString());
+            context.getOptions().forEach(optionMapping ->
+                    parameter.set(parameter.get().replace(optionMapping.getName(), optionMapping.getAsString()))
+            );
+            context.setInput(parameter.get().split(" "));
         }
 
         log.debug("Applying filters in phase BEFORE_ADAPTING...");
@@ -201,7 +209,7 @@ public class CommandDispatcher {
 
     private boolean checkCancelled(CommandContext context) {
         if (context.isCancelled()) {
-            implementationRegistry.getMessageSender().sendErrorMessage(context, context.getErrorMessage());
+            implementationRegistry.getMessageSender().sendErrorMessage(context, Objects.requireNonNull(context.getErrorMessage()));
             return true;
         }
         return false;

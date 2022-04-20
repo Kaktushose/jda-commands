@@ -21,7 +21,8 @@ import java.util.List;
  * a {@link CommandEvent}.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
+ * @see GenericCommandEvent
  * @since 2.0.0
  */
 public class CommandContext {
@@ -40,7 +41,18 @@ public class CommandContext {
     private boolean isSlash;
     private boolean cancelled;
 
-    private CommandContext(GenericCommandEvent event, JDACommands jdaCommands, GuildSettings settings, ImplementationRegistry registry) {
+    /**
+     * Constructs a new CommandContext.
+     *
+     * @param event       The underlying {@link GenericCommandEvent}
+     * @param jdaCommands the corresponding {@link JDACommands} instance
+     * @param settings    the corresponding {@link GuildSettings}
+     * @param registry    the corresponding {@link ImplementationRegistry}
+     */
+    public CommandContext(@NotNull GenericCommandEvent event,
+                          @NotNull JDACommands jdaCommands,
+                          @NotNull GuildSettings settings,
+                          @NotNull ImplementationRegistry registry) {
         input = new String[0];
         options = new ArrayList<>();
         possibleCommands = new ArrayList<>();
@@ -51,16 +63,40 @@ public class CommandContext {
         this.registry = registry;
     }
 
-    public CommandContext(SlashCommandInteractionEvent event, JDACommands jdaCommands, GuildSettings settings, ImplementationRegistry registry) {
-        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry);
-    }
-
-    public CommandContext(MessageReceivedEvent event, JDACommands jdaCommands, GuildSettings settings, ImplementationRegistry registry) {
+    /**
+     * Constructs a new CommandContext.
+     *
+     * @param event       The underlying {@link SlashCommandInteractionEvent}
+     * @param jdaCommands the corresponding {@link JDACommands} instance
+     * @param settings    the corresponding {@link GuildSettings}
+     * @param registry    the corresponding {@link ImplementationRegistry}
+     */
+    public CommandContext(@NotNull SlashCommandInteractionEvent event,
+                          @NotNull JDACommands jdaCommands,
+                          @NotNull GuildSettings settings,
+                          @NotNull ImplementationRegistry registry) {
         this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry);
     }
 
     /**
-     * Gets the raw user input. Will be empty if {@link #isSlash} returns {@code true}.
+     * Constructs a new CommandContext.
+     *
+     * @param event       The underlying {@link MessageReceivedEvent}
+     * @param jdaCommands the corresponding {@link JDACommands} instance
+     * @param settings    the corresponding {@link GuildSettings}
+     * @param registry    the corresponding {@link ImplementationRegistry}
+     */
+    public CommandContext(@NotNull MessageReceivedEvent event,
+                          @NotNull JDACommands jdaCommands,
+                          @NotNull GuildSettings settings,
+                          @NotNull ImplementationRegistry registry) {
+        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry);
+    }
+
+    /**
+     * Gets the raw user input. Will be empty in phase
+     * {@link com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition#BEFORE_ROUTING
+     * FilterPosition.BEFORE_ROUTING} if {@link #isSlash} returns {@code true}.
      *
      * @return the raw user input
      * @see #getOptions()

@@ -46,10 +46,6 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
             return context.setCancelled(true);
         }
 
-        StringBuilder message = new StringBuilder(event.getName());
-        event.getOptions().forEach(mapping -> message.append(" ").append(String.format("%s=%s", mapping.getName(), mapping.getAsString())));
-        String[] input = message.toString().split(" ");
-
-        return context.setSlash(true).setInput(input);
+        return context.setSlash(true).setInput(event.getCommandPath().split("/")).setOptions(event.getOptions());
     }
 }

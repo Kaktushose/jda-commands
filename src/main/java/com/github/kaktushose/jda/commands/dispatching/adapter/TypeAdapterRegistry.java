@@ -116,7 +116,7 @@ public class TypeAdapterRegistry {
      * @param context the {@link CommandContext} to type adapt
      */
     public void adapt(@NotNull CommandContext context) {
-        CommandDefinition command = context.getCommand();
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
@@ -124,8 +124,8 @@ public class TypeAdapterRegistry {
         log.debug("Type adapting arguments...");
         arguments.add(new CommandEvent(command, context));
         // start with index 1 so we skip the CommandEvent
-        for (int i = 1; i < command.getParameters().size(); i++) {
-            ParameterDefinition parameter = command.getParameters().get(i);
+        for (int i = 0; i < command.getActualParameters().size(); i++) {
+            ParameterDefinition parameter = command.getActualParameters().get(i);
 
             // if parameter is array don't parse
             if (String[].class.isAssignableFrom(parameter.getType())) {
@@ -135,8 +135,8 @@ public class TypeAdapterRegistry {
             }
 
             String raw;
-            // current parameter index > total amount of input, check if it's optional else cancel context
-            if (i > input.length) {
+            // current parameter index == total amount of input, check if it's optional else cancel context
+            if (i == input.length) {
                 if (!parameter.isOptional()) {
                     log.debug("Syntax error! Cancelled event.");
                     context.setCancelled(true);
@@ -153,13 +153,12 @@ public class TypeAdapterRegistry {
                     raw = parameter.getDefaultValue();
                 }
             } else {
-                // - 1 because we start with index 1
-                raw = input[i - 1];
+                raw = input[i];
             }
 
-            if (i == command.getParameters().size() - 1 && parameter.isConcat()) {
+            if (i == command.getActualParameters().size() && parameter.isConcat()) {
                 StringBuilder sb = new StringBuilder();
-                for (String s : Arrays.copyOfRange(input, i - 1, input.length)) {
+                for (String s : Arrays.copyOfRange(input, i, input.length)) {
                     sb.append(s).append(" ");
                 }
                 arguments.add(sb.toString().trim());

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
@@ -101,13 +102,11 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
         StringBuilder sbExpected = new StringBuilder();
-        CommandDefinition command = context.getCommand();
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<String> arguments = Arrays.asList(context.getInput());
 
-        command.getParameters().forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
-                return;
-            }
+        command.getActualParameters().forEach(parameter -> {
+
             String typeName = parameter.getType().getTypeName();
             if (typeName.contains(".")) {
                 typeName = typeName.substring(typeName.lastIndexOf(".") + 1);

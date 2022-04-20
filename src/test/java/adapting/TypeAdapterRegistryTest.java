@@ -5,6 +5,7 @@ import adapting.mock.TypeAdapterRegistryTestController;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.GenericCommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
@@ -140,7 +141,7 @@ public class TypeAdapterRegistryTest {
     }
 
     private CommandContext buildContext(CommandDefinition command, String... input) {
-        CommandContext context = new CommandContext();
+        CommandContext context = new CommandContext((GenericCommandEvent) null, null, null, null);
         context.setImplementationRegistry(new ImplementationRegistry(
                 new DependencyInjector(),
                 new FilterRegistry(),

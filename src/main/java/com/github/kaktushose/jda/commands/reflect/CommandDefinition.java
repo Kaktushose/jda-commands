@@ -253,6 +253,17 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     /**
+     * Gets a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}
+     * excluding the {@link CommandEvent} at index 0.
+     *
+     * @return a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}  excluding the
+     * {@link CommandEvent} at index 0
+     */
+    public List<ParameterDefinition> getActualParameters() {
+        return parameters.subList(parameters.isEmpty() ? 0 : 1, parameters.size());
+    }
+
+    /**
      * Gets a set of permission Strings.
      *
      * @return set of permission Strings

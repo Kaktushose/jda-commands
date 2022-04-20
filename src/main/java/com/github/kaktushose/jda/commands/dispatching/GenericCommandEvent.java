@@ -10,7 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Bridge between {@link MessageReceivedEvent} and {@link SlashCommandInteractionEvent}. This class contains all methods
- * both events share.
+ * both events share and extends JDAs {@link Event}. In addition, this class provides the bare minimum needed for
+ * {@link CommandContext} to function.
  *
  * @author Kaktushose
  * @version 2.3.0
