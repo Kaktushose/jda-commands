@@ -8,9 +8,6 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.junit.jupiter.api.AfterEach;
-
-import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
