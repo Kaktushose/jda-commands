@@ -6,10 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,6 +59,7 @@ public class TypeAdapterRegistry {
         register(Member.class, new MemberAdapter());
         register(User.class, new UserAdapter());
         register(TextChannel.class, new TextChannelAdapter());
+        register(VoiceChannel.class, new VoiceChannelAdapter());
         register(Role.class, new RoleAdapter());
     }
 

@@ -319,6 +319,46 @@ public class TypeAdapterTest {
     }
 
     @Test
+    public void voiceChannelAdapter_withExistingId_ShouldReturnMember() {
+        VoiceChannelAdapter userAdapter = new VoiceChannelAdapter();
+        context.setEvent(new MessageReceivedEventMock(true));
+
+        assertEquals(GuildMock.VOICE_CHANNEL, userAdapter.parse(String.valueOf(GuildMock.VOICE_CHANNEL.getIdLong()), context).orElse(null));
+    }
+
+    @Test
+    public void voiceChannelAdapter_withNonExistingId_ShouldBeEmpty() {
+        VoiceChannelAdapter userAdapter = new VoiceChannelAdapter();
+        context.setEvent(new MessageReceivedEventMock(true));
+
+        assertFalse(userAdapter.parse("1234567890", context).isPresent());
+    }
+
+    @Test
+    public void voiceChannelAdapter_withExistingName_ShouldReturnMember() {
+        VoiceChannelAdapter userAdapter = new VoiceChannelAdapter();
+        context.setEvent(new MessageReceivedEventMock(true));
+
+        assertEquals(GuildMock.VOICE_CHANNEL, userAdapter.parse(GuildMock.VOICE_CHANNEL.getName(), context).orElse(null));
+    }
+
+    @Test
+    public void voiceChannelAdapter_withNonExistingName_ShouldBeEmpty() {
+        VoiceChannelAdapter userAdapter = new VoiceChannelAdapter();
+        context.setEvent(new MessageReceivedEventMock(true));
+
+        assertFalse(userAdapter.parse("thispersondoesnotexist.com", context).isPresent());
+    }
+
+    @Test
+    public void voiceChannelAdapter_inNotGuildContext_ShouldBeEmpty() {
+        VoiceChannelAdapter userAdapter = new VoiceChannelAdapter();
+        context.setEvent(new MessageReceivedEventMock(false));
+
+        assertFalse(userAdapter.parse("name", context).isPresent());
+    }
+
+    @Test
     public void sanitizeMention__() {
         MemberAdapter memberAdapter = new MemberAdapter();
 

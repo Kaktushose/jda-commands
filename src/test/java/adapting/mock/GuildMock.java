@@ -35,6 +35,7 @@ public class GuildMock implements Guild {
     public static final Member MEMBER = new MemberMock("member", 1);
     public static final Role ROLE = new RoleMock("role", 2);
     public static final TextChannel TEXT_CHANNEL = new TextChannelMock("channel", 3);
+    public static final VoiceChannel VOICE_CHANNEL = new VoiceChannelMock("voice channel", 4);
 
     @NotNull
     @Override
@@ -106,6 +107,31 @@ public class GuildMock implements Guild {
         if (name.equals(username)) {
             return new ArrayList<TextChannel>() {{
                 add(TEXT_CHANNEL);
+            }};
+        }
+        return new ArrayList<>();
+    }
+
+    @Nullable
+    @Override
+    public VoiceChannel getVoiceChannelById(@NotNull String id) {
+        if (id.equals(VOICE_CHANNEL.getId())) {
+            return VOICE_CHANNEL;
+        }
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<VoiceChannel> getVoiceChannelsByName(@NotNull String name, boolean ignoreCase) {
+        String username = VOICE_CHANNEL.getName();
+        if (ignoreCase) {
+            username = username.toUpperCase();
+            name = name.toUpperCase();
+        }
+        if (name.equals(username)) {
+            return new ArrayList<VoiceChannel>() {{
+                add(VOICE_CHANNEL);
             }};
         }
         return new ArrayList<>();
