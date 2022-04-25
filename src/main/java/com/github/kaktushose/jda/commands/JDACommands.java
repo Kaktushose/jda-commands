@@ -38,7 +38,7 @@ public class JDACommands {
 
     JDACommands(Object jda, boolean isShardManager, Class<?> clazz, SlashConfiguration configuration, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, configuration, packages);
+        this.commandDispatcher = new CommandDispatcher(new JDAContext(jda, isShardManager), this, clazz, configuration, packages);
         log.info("Finished loading!");
     }
 

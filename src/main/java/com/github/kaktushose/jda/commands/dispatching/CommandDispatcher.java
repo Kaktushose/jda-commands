@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
@@ -37,8 +38,7 @@ public class CommandDispatcher {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
     private static boolean isActive;
-    private final Object jda;
-    private final boolean isShardManager;
+    private final JDAContext jdaContext;
     private final ImplementationRegistry implementationRegistry;
     private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
@@ -52,21 +52,19 @@ public class CommandDispatcher {
     /**
      * Constructs a new CommandDispatcher.
      *
-     * @param jda            the corresponding {@link JDA} instance
-     * @param isShardManager whether the jda instance is a shard manager
+     * @param jdaContext     the corresponding {@link JDAContext} instance
      * @param jdaCommands    the corresponding {@link JDACommands} instance
      * @param packages       optional packages to exclusively scan
      * @param clazz          a class of the classpath to scan
+     * @param configuration  the corresponding {@link SlashConfiguration}
      * @throws IllegalStateException if an instance of this class is already active.
      */
-    public CommandDispatcher(@NotNull Object jda,
-                             boolean isShardManager,
+    public CommandDispatcher(@NotNull JDAContext jdaContext,
                              @NotNull JDACommands jdaCommands,
                              @NotNull Class<?> clazz,
                              @NotNull SlashConfiguration configuration,
                              @NotNull String... packages) {
-        this.jda = jda;
-        this.isShardManager = isShardManager;
+        this.jdaContext = jdaContext;
         this.jdaCommands = jdaCommands;
         this.configuration = configuration;
 
@@ -85,18 +83,14 @@ public class CommandDispatcher {
         implementationRegistry.index(clazz, packages);
 
         parserSupervisor = new ParserSupervisor(this);
-        if (isShardManager) {
-            ((ShardManager) jda).addEventListener(parserSupervisor);
-        } else {
-            ((JDA) jda).addEventListener(parserSupervisor);
-        }
+        jdaContext.performTask(actualJda -> actualJda.addEventListener(parserSupervisor));
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
         commandRegistry.index(clazz, packages);
 
         dependencyInjector.inject();
 
-        SlashCommandUpdater updater = new SlashCommandUpdater((JDA) jda, configuration);
+        SlashCommandUpdater updater = new SlashCommandUpdater(jdaContext, configuration);
         updater.update(commandRegistry.getCommands());
         isActive = true;
     }
@@ -114,11 +108,7 @@ public class CommandDispatcher {
      * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord.
      */
     public void shutdown() {
-        if (isShardManager) {
-            ((ShardManager) jda).removeEventListener(this);
-        } else {
-            ((JDA) jda).removeEventListener(this);
-        }
+        jdaContext.performTask(actualJda -> actualJda.removeEventListener(parserSupervisor));
         isActive = false;
     }
 
@@ -265,18 +255,29 @@ public class CommandDispatcher {
      * to distinguish.
      *
      * @return the JDA instance.
+     * @deprecated use {@link #getJdaContext()}
      */
     public Object getJda() {
-        return jda;
+        return jdaContext.getJda();
     }
 
     /**
      * Whether the JDA instance is a {@link ShardManager}.
      *
      * @return {@code true} if the JDA instance is a {@link ShardManager}
+     * @deprecated use {@link #getJdaContext()}
      */
     public boolean isShardManager() {
-        return isShardManager;
+        return jdaContext.isShardManager();
+    }
+
+    /**
+     * Gets the {@link JDAContext}.
+     *
+     * @return the JDAContext.
+     */
+    public JDAContext getJdaContext() {
+        return jdaContext;
     }
 
     /**

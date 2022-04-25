@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.slash;
 
+import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 public class SlashCommandUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
-    private final JDA jda;
+    private final JDAContext jdaContext;
     private final SlashConfiguration configuration;
 
-    public SlashCommandUpdater(JDA jda, SlashConfiguration configuration) {
-        this.jda = jda;
+    public SlashCommandUpdater(JDAContext jdaContext, SlashConfiguration configuration) {
+        this.jdaContext = jdaContext;
         this.configuration = configuration;
     }
 
@@ -52,13 +52,13 @@ public class SlashCommandUpdater {
         commandData.add(Commands.slash("help", "Get specific help for commands").addOptions(optionData));
 
         if (configuration.isGlobal()) {
-            jda.updateCommands().addCommands(commandData).queue();
+            jdaContext.performTask(jda -> jda.updateCommands().addCommands(commandData).queue());
         } else {
-            configuration.getGuildIds()
+            jdaContext.performTask(jda -> configuration.getGuildIds()
                     .stream()
                     .map(id -> Optional.ofNullable(jda.getGuildById(id)))
                     .filter(Optional::isPresent)
-                    .forEach(guild -> guild.get().updateCommands().addCommands(commandData).queue());
+                    .forEach(guild -> guild.get().updateCommands().addCommands(commandData).queue()));
         }
     }
 }
