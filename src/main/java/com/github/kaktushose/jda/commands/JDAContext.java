@@ -16,17 +16,14 @@ import java.util.function.Consumer;
 public class JDAContext {
 
     private final Object jda;
-    private final boolean isShardManager;
 
     /**
      * Constructs a new JDAContext.
      *
-     * @param jda            the {@link JDA} or {@link ShardManager} object
-     * @param isShardManager {@code true} if the jda object is a {@link ShardManager}
+     * @param jda the {@link JDA} or {@link ShardManager} object
      */
-    public JDAContext(Object jda, boolean isShardManager) {
+    public JDAContext(Object jda) {
         this.jda = jda;
-        this.isShardManager = isShardManager;
     }
 
     /**
@@ -35,10 +32,12 @@ public class JDAContext {
      * @param consumer the operation to perform
      */
     public void performTask(Consumer<JDA> consumer) {
-        if (isShardManager) {
+        if (jda instanceof ShardManager) {
+            ((ShardManager) jda).getShardCache().forEach(consumer);
+        } else if (jda instanceof JDA) {
             consumer.accept((JDA) jda);
         } else {
-            ((ShardManager) jda).getShardCache().forEach(consumer);
+            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
         }
     }
 
@@ -58,7 +57,7 @@ public class JDAContext {
      * @return {@code true} if the JDA instance is a {@link ShardManager}
      */
     public boolean isShardManager() {
-        return isShardManager;
+        return jda instanceof ShardManager;
     }
 
     /**

@@ -48,15 +48,16 @@ public class CommandDispatcher {
     private final DependencyInjector dependencyInjector;
     private final JDACommands jdaCommands;
     private final SlashConfiguration configuration;
+    private final SlashCommandUpdater updater;
 
     /**
      * Constructs a new CommandDispatcher.
      *
-     * @param jdaContext     the corresponding {@link JDAContext} instance
-     * @param jdaCommands    the corresponding {@link JDACommands} instance
-     * @param packages       optional packages to exclusively scan
-     * @param clazz          a class of the classpath to scan
-     * @param configuration  the corresponding {@link SlashConfiguration}
+     * @param jdaContext    the corresponding {@link JDAContext} instance
+     * @param jdaCommands   the corresponding {@link JDACommands} instance
+     * @param packages      optional packages to exclusively scan
+     * @param clazz         a class of the classpath to scan
+     * @param configuration the corresponding {@link SlashConfiguration}
      * @throws IllegalStateException if an instance of this class is already active.
      */
     public CommandDispatcher(@NotNull JDAContext jdaContext,
@@ -90,7 +91,7 @@ public class CommandDispatcher {
 
         dependencyInjector.inject();
 
-        SlashCommandUpdater updater = new SlashCommandUpdater(jdaContext, configuration);
+        updater = new SlashCommandUpdater(jdaContext, configuration);
         updater.update(commandRegistry.getCommands());
         isActive = true;
     }
@@ -105,10 +106,12 @@ public class CommandDispatcher {
     }
 
     /**
-     * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord.
+     * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord. This will
+     * unregister all slash commands.
      */
     public void shutdown() {
         jdaContext.performTask(actualJda -> actualJda.removeEventListener(parserSupervisor));
+        updater.shutdown();
         isActive = false;
     }
 

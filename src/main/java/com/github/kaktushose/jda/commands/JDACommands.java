@@ -6,11 +6,11 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -32,13 +32,13 @@ public class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final CommandDispatcher commandDispatcher;
 
-    private JDACommands(Object jda, boolean isShardManager, Class<?> clazz, String... packages) {
-        this(jda, isShardManager, clazz, null, packages);
+    private JDACommands(Object jda, Class<?> clazz, String... packages) {
+        this(jda, clazz, null, packages);
     }
 
-    JDACommands(Object jda, boolean isShardManager, Class<?> clazz, SlashConfiguration configuration, String... packages) {
+    JDACommands(Object jda, Class<?> clazz, SlashConfiguration configuration, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(new JDAContext(jda, isShardManager), this, clazz, configuration, packages);
+        this.commandDispatcher = new CommandDispatcher(new JDAContext(jda), this, clazz, configuration, packages);
         log.info("Finished loading!");
     }
 
@@ -51,7 +51,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(jda, false, clazz, packages);
+        return new JDACommands(jda, clazz, packages);
     }
 
     /**
@@ -63,7 +63,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(shardManager, true, clazz, packages);
+        return new JDACommands(shardManager, clazz, packages);
     }
 
     /**
@@ -75,7 +75,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommandsSlashBuilder slash(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsSlashBuilder(jda, false, clazz, packages);
+        return new JDACommandsSlashBuilder(jda, clazz, packages);
     }
 
     /**
@@ -87,11 +87,12 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommandsSlashBuilder slash(@NotNull ShardManager jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsSlashBuilder(jda, true, clazz, packages);
+        return new JDACommandsSlashBuilder(jda, clazz, packages);
     }
 
     /**
-     * Shuts down this JDACommands instance making it unable to receive any events from Discord.
+     * Shuts down this JDACommands instance making it unable to receive any events from Discord. This will
+     * unregister all slash commands.
      */
     public void shutdown() {
         commandDispatcher.shutdown();

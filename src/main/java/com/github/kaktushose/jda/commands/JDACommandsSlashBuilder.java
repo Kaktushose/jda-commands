@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
 import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
+import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,14 +20,12 @@ public class JDACommandsSlashBuilder {
 
     private final List<Long> guildIds;
     private final Object jda;
-    private final boolean isShardManager;
     private final Class<?> clazz;
     private final String[] packages;
     private CommandRegistrationPolicy policy;
 
-    JDACommandsSlashBuilder(Object jda, boolean isShardManager, Class<?> clazz, String... packages) {
+    JDACommandsSlashBuilder(Object jda, Class<?> clazz, String... packages) {
         this.jda = jda;
-        this.isShardManager = isShardManager;
         this.clazz = clazz;
         this.packages = packages;
         this.guildIds = new ArrayList<>();
@@ -77,7 +75,7 @@ public class JDACommandsSlashBuilder {
      */
     @NotNull
     public JDACommands startGlobal() {
-        return new JDACommands(jda, isShardManager, clazz, new SlashConfiguration(guildIds, true, policy), packages);
+        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, true, policy), packages);
     }
 
     /**
@@ -88,7 +86,7 @@ public class JDACommandsSlashBuilder {
      */
     @NotNull
     public JDACommands startGuild() {
-        return new JDACommands(jda, isShardManager, clazz, new SlashConfiguration(guildIds, false, policy), packages);
+        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, false, policy), packages);
     }
 
 }

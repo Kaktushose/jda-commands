@@ -21,10 +21,13 @@ public class SlashCommandUpdater {
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
     private final SlashConfiguration configuration;
+    private final HelpAutoCompleteListener autoCompleteListener;
 
     public SlashCommandUpdater(JDAContext jdaContext, SlashConfiguration configuration) {
         this.jdaContext = jdaContext;
         this.configuration = configuration;
+        autoCompleteListener = new HelpAutoCompleteListener();
+        jdaContext.performTask(jda -> jda.addEventListener(autoCompleteListener));
     }
 
     public void update(Set<CommandDefinition> commands) {
@@ -51,6 +54,8 @@ public class SlashCommandUpdater {
         }
         commandData.add(Commands.slash("help", "Get specific help for commands").addOptions(optionData));
 
+        autoCompleteListener.setLabels(labels);
+
         if (configuration.isGlobal()) {
             jdaContext.performTask(jda -> jda.updateCommands().addCommands(commandData).queue());
         } else {
@@ -61,4 +66,18 @@ public class SlashCommandUpdater {
                     .forEach(guild -> guild.get().updateCommands().addCommands(commandData).queue()));
         }
     }
+
+    public void shutdown() {
+        if (configuration.isGlobal()) {
+            jdaContext.performTask(jda -> jda.updateCommands().queue());
+        } else {
+            jdaContext.performTask(jda -> configuration.getGuildIds()
+                    .stream()
+                    .map(id -> Optional.ofNullable(jda.getGuildById(id)))
+                    .filter(Optional::isPresent)
+                    .forEach(guild -> guild.get().updateCommands().queue()));
+        }
+        jdaContext.performTask(jda -> jda.removeEventListener(autoCompleteListener));
+    }
+
 }
