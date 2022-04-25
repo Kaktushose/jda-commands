@@ -179,7 +179,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 if (parameter.isOptional()) {
                     usage.append(" ").append(String.format("(%s)", parameter.getName()));
                 } else {
-                    usage.append(" ").append(parameter.getName());
+                    usage.append(" ").append(String.format("<%s>", parameter.getName()));
                 }
             });
             metadata.setUsage(usage.toString());

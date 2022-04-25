@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,6 +37,8 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
         CommandContext context = new CommandContext(event, dispatcher.getJdaCommands(), settings, registry);
 
+        context.setSlash(true).setInput(event.getCommandPath().split("/")).setOptions(event.getOptions());
+
         if (settings.isMutedGuild()) {
             context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
             return context.setCancelled(true);
@@ -46,6 +49,16 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
             return context.setCancelled(true);
         }
 
-        return context.setSlash(true).setInput(event.getCommandPath().split("/")).setOptions(event.getOptions());
+        if (event.getName().equals("commands")) {
+            return context.setHelpEvent(true);
+        }
+
+        if (event.getName().equals("help")) {
+            return context.setHelpEvent(true).setInput(
+                    event.getOptions().stream().map(OptionMapping::getAsString).toArray(String[]::new)
+            );
+        }
+
+        return context;
     }
 }
