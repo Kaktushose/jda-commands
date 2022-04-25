@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see CommandController
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @since 1.0.0
@@ -81,9 +81,19 @@ public @interface Command {
     String category() default "Other";
 
     /**
-     * Returns whether this command is active and thus can be executed or not
+     * Returns whether this command is active and thus can be executed or not.
      *
      * @return {@code true} if this command is active
      */
     boolean isActive() default true;
+
+    /**
+     * Returns Whether this command is available to everyone by default. If this is disabled, you need to
+     * explicitly whitelist users and roles per guild via
+     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    boolean defaultEnable() default true;
+
 }

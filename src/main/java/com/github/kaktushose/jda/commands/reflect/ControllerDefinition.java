@@ -98,6 +98,8 @@ public class ControllerDefinition {
             // add controller level permissions
             commandDefinition.getPermissions().addAll(permissions);
 
+            commandDefinition.setDefaultEnabled(commandController.defaultEnable());
+
             // TODO remove once command overloading is working
             if (subCommands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
                 log.error("An error has occurred! Skipping Command {}.{}!",

@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * will be skipped.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see Command
  * @see Inject
  * @since 1.0.0
@@ -42,5 +42,15 @@ public @interface CommandController {
      * @return {@code true} if this command is active
      */
     boolean isActive() default true;
+
+    /**
+     * Returns Whether this command is available to everyone by default. If this is disabled, you need to
+     * explicitly whitelist users and roles per guild via
+     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}. This will
+     * override command level values.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    boolean defaultEnable() default true;
 
 }

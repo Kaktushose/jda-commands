@@ -39,6 +39,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     private final Method method;
     private final Object instance;
     private boolean isSuper;
+    private boolean isDefaultEnabled;
     private ControllerDefinition controller;
 
     private CommandDefinition(List<String> labels,
@@ -48,7 +49,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                               CooldownDefinition cooldown,
                               ControllerDefinition controller,
                               boolean isSuper,
-                              boolean isDM,
+                              boolean isDefaultEnabled, boolean isDM,
                               Method method,
                               Object instance) {
         this.labels = labels;
@@ -58,6 +59,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         this.cooldown = cooldown;
         this.controller = controller;
         this.isSuper = isSuper;
+        this.isDefaultEnabled = isDefaultEnabled;
         this.isDM = isDM;
         this.method = method;
         this.instance = instance;
@@ -192,6 +194,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 null,
                 command.isSuper(),
+                command.defaultEnable(),
                 command.isDM(),
                 method,
                 instance
@@ -210,11 +213,12 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      *
      * @return the transformed {@link CommandData}
      */
-    public CommandData toCommandData() {
+    public SlashCommandData toCommandData() {
         SlashCommandData command = Commands.slash(
                 labels.get(0),
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
+        command.setDefaultEnabled(isDefaultEnabled);
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
@@ -324,6 +328,29 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      */
     public void setSuper(boolean isSuper) {
         this.isSuper = isSuper;
+    }
+
+    /**
+     * Whether this command is available to everyone by default. If this is disabled, you need to
+     * explicitly whitelist users and roles per guild via
+     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    public boolean isDefaultEnabled() {
+        return isDefaultEnabled;
+    }
+
+    /**
+     * Set whether this command is available to everyone by default. If this is disabled, you need to
+     * explicitly whitelist users and roles per guild via
+     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
+     *
+     *
+     * @param defaultEnabled {@code true} if this command is available to everyone by default
+     */
+    public void setDefaultEnabled(boolean defaultEnabled) {
+        isDefaultEnabled = defaultEnabled;
     }
 
     /**

@@ -243,7 +243,7 @@ public class ParameterDefinition {
                 constraint.getAnnotation().getClass().isAssignableFrom(Max.class)
         ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.getAnnotation()).value()));
 
-        optionData.setChannelTypes(CHANNEL_TYPE_RESTRICTIONS.getOrDefault(type, new ArrayList<>()));
+        java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(type)).ifPresent(optionData::setChannelTypes);
 
         return optionData;
     }
