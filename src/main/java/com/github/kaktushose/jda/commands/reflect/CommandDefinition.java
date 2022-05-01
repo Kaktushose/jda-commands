@@ -102,6 +102,9 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         for (String controllerLabel : commandController.value()) {
             for (String commandLabel : command.value()) {
                 String label = (controllerLabel + " " + commandLabel).trim();
+                while (label.contains("  ")) {
+                    label = label.replaceAll(" {2}", " ");
+                }
                 labels.add(label);
             }
         }

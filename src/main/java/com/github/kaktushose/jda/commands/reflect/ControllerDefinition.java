@@ -97,8 +97,7 @@ public class ControllerDefinition {
 
             // add controller level permissions
             commandDefinition.getPermissions().addAll(permissions);
-
-            commandDefinition.setDefaultEnabled(commandController.defaultEnable());
+            commandDefinition.setDefaultEnabled(commandDefinition.isDefaultEnabled() && commandController.defaultEnable());
 
             // TODO remove once command overloading is working
             if (subCommands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
