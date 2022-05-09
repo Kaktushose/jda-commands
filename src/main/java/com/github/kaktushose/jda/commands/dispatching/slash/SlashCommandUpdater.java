@@ -39,7 +39,6 @@ public class SlashCommandUpdater {
     }
 
     private void addHelpCommands(Collection<SlashCommandData> commandData, Collection<String> labels) {
-        commandData.add(Commands.slash("commands", "Get an overview over all available commands"));
         OptionData optionData = new OptionData(OptionType.STRING, "command", "the command you need help with");
         if (labels.size() > 25) {
             optionData.setAutoComplete(true);

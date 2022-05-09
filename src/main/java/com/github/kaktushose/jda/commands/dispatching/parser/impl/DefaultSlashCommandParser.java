@@ -51,10 +51,6 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
             return context.setCancelled(true);
         }
 
-        if (event.getName().equals("commands")) {
-            return context.setHelpEvent(true);
-        }
-
         if (event.getName().equals("help")) {
             return context.setHelpEvent(true).setInput(
                     event.getOptions().stream().map(OptionMapping::getAsString).flatMap(it -> Stream.of(it.split(" "))).toArray(String[]::new)
