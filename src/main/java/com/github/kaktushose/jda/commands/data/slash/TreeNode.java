@@ -11,6 +11,7 @@ import java.util.*;
  *
  * @author Kaktushose
  * @version 2.3.0
+ * @see CommandTree
  * @since 2.3.0
  */
 public class TreeNode implements Iterable<TreeNode> {
@@ -99,8 +100,17 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     /**
+     * Gets whether this {@link TreeNode} has children.
+     *
+     * @return {@code true} if this {@link TreeNode} has children
+     */
+    public boolean hasChildren() {
+        return !children.isEmpty();
+    }
+
+    /**
      * Gets the {@link CommandDefinition} of this {@link TreeNode}. Returns an empty {@link Optional} if one or more
-     * children exist.
+     * children exist or if the {@link CommandDefinition} is {@code null}.
      *
      * @return an {@link Optional} holding the result
      */
@@ -111,12 +121,32 @@ public class TreeNode implements Iterable<TreeNode> {
         return Optional.ofNullable(command);
     }
 
+    /**
+     * Gets all labels of the leaf nodes.
+     *
+     * @return a {@link List} of all labels of the leaf nodes.
+     */
+    public List<String> getLabels() {
+        List<String> result = new ArrayList<>();
+        toLabel(result, label);
+        return result;
+    }
+
+    private void toLabel(List<String> labels, String root) {
+        if (hasChildren()) {
+            children.forEach(child -> child.toLabel(labels, (root + " " + label).trim()));
+        } else {
+            labels.add((root + " " + label).trim());
+        }
+    }
+
     @NotNull
     @Override
     public Iterator<TreeNode> iterator() {
         return children.iterator();
     }
 
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(50);
         print(builder, "", "");

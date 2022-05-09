@@ -5,8 +5,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
@@ -19,14 +19,13 @@ import java.util.stream.Collectors;
  */
 public class HelpAutoCompleteListener extends ListenerAdapter {
 
-    private Set<String> labels;
+    private Collection<String> labels;
 
     /**
      * Constructs a new HelpAutoCompleteListener.
-     *
      */
     public HelpAutoCompleteListener() {
-        this.labels = new HashSet<>();
+        this.labels = new ArrayList<>();
     }
 
     @Override
@@ -46,7 +45,7 @@ public class HelpAutoCompleteListener extends ListenerAdapter {
      *
      * @param labels the labels to use for auto complete
      */
-    public void setLabels(@NotNull Set<String> labels) {
+    public void setLabels(@NotNull Collection<String> labels) {
         this.labels = labels;
     }
 }

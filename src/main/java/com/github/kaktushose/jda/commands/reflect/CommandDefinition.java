@@ -7,9 +7,9 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -212,9 +212,9 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     /**
-     * Transforms this command definition to a {@link CommandData}.
+     * Transforms this command definition to a {@link SlashCommandData}.
      *
-     * @return the transformed {@link CommandData}
+     * @return the transformed {@link SlashCommandData}
      */
     public SlashCommandData toCommandData() {
         SlashCommandData command = Commands.slash(
@@ -222,6 +222,27 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
         command.setDefaultEnabled(isDefaultEnabled);
+        parameters.forEach(parameter -> {
+            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+                return;
+            }
+            command.addOptions(parameter.toOptionData());
+        });
+        return command;
+    }
+
+    /**
+     * Transforms this command definition to a {@link SubcommandData}.
+     *
+     * @param label the name of the sub command
+     * @return the transformed {@link SubcommandData}
+     */
+    public SubcommandData toSubCommandData(String label) {
+        SubcommandData command = new SubcommandData(
+                label,
+                metadata.getDescription().replaceAll("N/A", "no description")
+
+        );
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
@@ -348,7 +369,6 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      * Set whether this command is available to everyone by default. If this is disabled, you need to
      * explicitly whitelist users and roles per guild via
      * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
-     *
      *
      * @param defaultEnabled {@code true} if this command is available to everyone by default
      */

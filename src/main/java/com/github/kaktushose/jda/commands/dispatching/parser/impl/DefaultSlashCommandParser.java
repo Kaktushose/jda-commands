@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.Stream;
+
 /**
  * An implementation of {@link Parser} that can parse {@link SlashCommandInteractionEvent}.
  * This parser will work within the limitations given by the {@link GuildSettings}.
@@ -55,7 +57,7 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
 
         if (event.getName().equals("help")) {
             return context.setHelpEvent(true).setInput(
-                    event.getOptions().stream().map(OptionMapping::getAsString).toArray(String[]::new)
+                    event.getOptions().stream().map(OptionMapping::getAsString).flatMap(it -> Stream.of(it.split(" "))).toArray(String[]::new)
             );
         }
 
