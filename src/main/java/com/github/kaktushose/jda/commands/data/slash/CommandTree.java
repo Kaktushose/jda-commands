@@ -3,11 +3,16 @@ package com.github.kaktushose.jda.commands.data.slash;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A tree data structure representing Commands sorted into Subcommands and SubcommandGroups. Each {@link TreeNode} can
@@ -21,6 +26,7 @@ import java.util.List;
  */
 public class CommandTree {
 
+    private final static Logger log = LoggerFactory.getLogger(CommandTree.class);
     private final TreeNode root;
 
     /**
@@ -72,6 +78,7 @@ public class CommandTree {
                 if (!String.valueOf(c).matches("^[\\w-]+$")) {
                     split[i] = split[i].replace(String.valueOf(c), "");
                 }
+                split[i] = split[i].toLowerCase();
             }
         }
         return split;
@@ -122,7 +129,7 @@ public class CommandTree {
                 appendSubcommands(node, commandData);
                 result.add(commandData);
             } else {
-                node.getCommand().ifPresent(command -> result.add(command.toCommandData()));
+                getSlashCommandData(node).ifPresent(result::add);
             }
         });
         return result;
@@ -133,17 +140,43 @@ public class CommandTree {
             if (child.hasChildren()) {
                 appendSubcommandGroups(child, commandData);
             } else {
-                node.getCommand().ifPresent(command -> commandData.addSubcommands(command.toSubCommandData(node.getLabel())));
+                getSubcommandData(node).ifPresent(commandData::addSubcommands);
             }
         });
     }
 
     private void appendSubcommandGroups(TreeNode node, SlashCommandData commandData) {
         SubcommandGroupData subcommandGroup = new SubcommandGroupData(node.getLabel(), "no description");
-        node.getChildren().forEach(child ->
-                child.getCommand().ifPresent(command -> subcommandGroup.addSubcommands(command.toSubCommandData(child.getLabel())))
-        );
+        node.getChildren().forEach(child -> getSubcommandData(child).ifPresent(subcommandGroup::addSubcommands));
         commandData.addSubcommandGroups(subcommandGroup);
+    }
+
+    private Optional<SlashCommandData> getSlashCommandData(TreeNode node) {
+        return node.getCommand().map(command -> {
+            try {
+                return command.toCommandData();
+            } catch (Exception e) {
+                log.error(String.format("Failed to update command %s.%s!",
+                        command.getMethod().getDeclaringClass().getSimpleName(),
+                        command.getMethod().getName()
+                ), new InvocationTargetException(e, "Invalid slash command signature!"));
+                return null;
+            }
+        });
+    }
+
+    private Optional<SubcommandData> getSubcommandData(TreeNode node) {
+        return node.getCommand().map(command -> {
+            try {
+                return command.toSubCommandData(node.getLabel());
+            } catch (Exception e) {
+                log.error(String.format("Failed to update command %s.%s!",
+                        command.getMethod().getDeclaringClass().getSimpleName(),
+                        command.getMethod().getName()
+                ), new InvocationTargetException(e, "Invalid slash command signature!"));
+                return null;
+            }
+        });
     }
 
     @Override
