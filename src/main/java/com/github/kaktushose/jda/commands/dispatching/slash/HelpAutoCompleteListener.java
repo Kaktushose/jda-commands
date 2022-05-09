@@ -9,10 +9,22 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Listener providing auto complete for the help command. This listener will only be active if more than 25 commands
+ * are available. Otherwise, command options are used.
+ *
+ * @author Kaktushose
+ * @version 2.3.0
+ * @since 2.3.0
+ */
 public class HelpAutoCompleteListener extends ListenerAdapter {
 
     private Set<String> labels;
 
+    /**
+     * Constructs a new HelpAutoCompleteListener.
+     *
+     */
     public HelpAutoCompleteListener() {
         this.labels = new HashSet<>();
     }
@@ -29,7 +41,12 @@ public class HelpAutoCompleteListener extends ListenerAdapter {
 
     }
 
-    public void setLabels(Set<String> labels) {
+    /**
+     * Sets the labels to use for auto complete.
+     *
+     * @param labels the labels to use for auto complete
+     */
+    public void setLabels(@NotNull Set<String> labels) {
         this.labels = labels;
     }
 }
