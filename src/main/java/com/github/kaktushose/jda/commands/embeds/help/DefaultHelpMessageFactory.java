@@ -34,7 +34,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
     @Override
     public Message getSpecificHelp(@NotNull CommandContext context) {
-        String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
+        String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         EmbedBuilder builder = new EmbedBuilder();
         CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
@@ -81,11 +81,12 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
         EmbedBuilder builder = new EmbedBuilder();
         CommandList superCommands = new CommandList();
         controllers.forEach(definition -> superCommands.addAll(definition.getSuperCommands()));
+        String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
 
         builder.setColor(Color.GREEN)
                 .setTitle("General Help")
                 .setDescription(String.format("The following commands are available. Type `%s%s <command>` to get specific help",
-                        settings.getPrefix(),
+                        prefix,
                         settings.getHelpLabels().stream().findFirst().orElse("help")));
 
         superCommands.getSortedByCategories().forEach((category, commands) -> {

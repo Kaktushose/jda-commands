@@ -40,7 +40,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
             return super.getSpecificHelp(context);
         }
 
-        String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
+        String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
@@ -87,12 +87,13 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
             return super.getGenericHelp(controllers, context);
         }
 
+        String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         GuildSettings settings = context.getSettings();
         CommandList superCommands = new CommandList();
         controllers.forEach(definition -> superCommands.addAll(definition.getSuperCommands()));
 
         EmbedBuilder builder = embedCache.getEmbed("genericHelp")
-                .injectValue("prefix", settings.getPrefix())
+                .injectValue("prefix", prefix)
                 .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
                 .toEmbedBuilder();
 

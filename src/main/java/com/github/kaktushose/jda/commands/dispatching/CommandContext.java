@@ -393,4 +393,15 @@ public class CommandContext {
         isSlash = slash;
         return this;
     }
+
+    /**
+     * Gets the right prefix for the current context. If {@link #isSlash()} is {@code true} this returns <em>/</em> else
+     * {@link GuildSettings#getPrefix()}
+     *
+     * @return the contextual prefix
+     */
+    public String getContextualPrefix() {
+        return isSlash ? "/" : settings.getPrefix();
+    }
+
 }
