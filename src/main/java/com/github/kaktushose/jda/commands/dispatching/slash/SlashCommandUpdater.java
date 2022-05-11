@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.slash;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.data.slash.CommandTree;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,10 @@ public class SlashCommandUpdater {
     }
 
     public void update(Collection<CommandDefinition> commands) {
+        if (configuration.getPolicy() == CommandRegistrationPolicy.TEXT) {
+            push(new ArrayList<>());
+            return;
+        }
         CommandTree tree = new CommandTree(commands);
         Collection<SlashCommandData> commandData = tree.toCommandData();
         List<String> labels = tree.getLabels();
