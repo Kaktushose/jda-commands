@@ -1,9 +1,15 @@
 package com.github.kaktushose.jda.commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Wrapper class for {@link JDA} and {@link ShardManager}. Use {@link #performTask(Consumer)} when you need to do
@@ -27,7 +33,7 @@ public class JDAContext {
     }
 
     /**
-     * Performs an operation on either the {@link JDA} or the {@link ShardManager} object.
+     * Performs an operation on either the {@link JDA} object or on all shards.
      *
      * @param consumer the operation to perform
      */
@@ -42,12 +48,29 @@ public class JDAContext {
     }
 
     /**
-     * Gets the JDA instance. This can either be {@link JDA} or a {@link ShardManager}. Use {@link #isShardManager()}
-     * to distinguish.
+     * Gets an JDA instance. Either one from the {@link ShardManager} or the one used to construct this Context.
      *
      * @return the JDA instance.
+     * @throws IllegalStateException if the ShardManager has no active JDA instances, this might only happen during startup
      */
-    public Object getJda() {
+    public JDA getJda() throws IllegalStateException {
+        if (jda instanceof ShardManager) {
+            return ((ShardManager) jda).getShardCache().stream().findAny().orElseThrow(() -> new IllegalStateException("Shard cache is empty!"));
+        } else if (jda instanceof JDA) {
+            return (JDA) jda;
+        } else {
+            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
+        }
+    }
+
+    /**
+     * Gets the JDA instance as an Object. This can either be {@link JDA} or a {@link ShardManager}.
+     * Use {@link #isShardManager()} to distinguish.
+     *
+     * @return the JDA instance.
+     * @deprecated
+     */
+    public Object getJDAObject() {
         return jda;
     }
 
@@ -55,9 +78,44 @@ public class JDAContext {
      * Whether the JDA instance is a {@link ShardManager}.
      *
      * @return {@code true} if the JDA instance is a {@link ShardManager}
+     * @deprecated
      */
     public boolean isShardManager() {
         return jda instanceof ShardManager;
+    }
+
+    /**
+     * {@link SnowflakeCacheView} of all cached {@link Guild Guilds}.
+     *
+     * @return {@link SnowflakeCacheView}
+     */
+    public List<Guild> getGuilds() {
+        if (jda instanceof ShardManager) {
+            return ((ShardManager) jda).getGuilds();
+        } else if (jda instanceof JDA) {
+            return ((JDA) jda).getGuilds();
+        } else {
+            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
+        }
+    }
+
+    /**
+     * An unmodifiable List of all {@link Guild Guilds} that the logged account is connected to.
+     * If this account is not connected to any {@link Guild Guilds}, this will return an empty list.
+     * This copies the backing store into a list. This means every call creates a new list with O(n) complexity.
+     * It is recommended to store this into a local variable or use getGuildCache() and use its more efficient
+     * versions of handling these values.
+     *
+     * @return Possibly-empty list of all the {@link Guild Guilds} that this account is connected to.
+     */
+    public SnowflakeCacheView<Guild> getGuildCache() {
+        if (jda instanceof ShardManager) {
+            return ((ShardManager) jda).getGuildCache();
+        } else if (jda instanceof JDA) {
+            return ((JDA) jda).getGuildCache();
+        } else {
+            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
+        }
     }
 
     /**
