@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a single command.
@@ -107,6 +108,11 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 }
                 labels.add(label);
             }
+        }
+        labels = labels.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
+        if (labels.isEmpty()) {
+            logError("Labels must not be empty!", method);
+            return Optional.empty();
         }
 
         // build parameter definitions
@@ -205,10 +211,10 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     private static void logError(String message, Method commandMethod) {
-        log.error("An error has occurred! Skipping Command \"{}.{}\"\nCommand method has an invalid method signature! {}",
+        log.error("An error has occurred! Skipping Command {}.{}:",
                 commandMethod.getDeclaringClass().getSimpleName(),
                 commandMethod.getName(),
-                message);
+                new IllegalArgumentException(message));
     }
 
     /**
