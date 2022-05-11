@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * Generic interface for factory classes that generate error messages.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see DefaultErrorMessageFactory
  * @since 2.0.0
  */
@@ -96,4 +96,15 @@ public interface ErrorMessageFactory {
      * @return a {@link Message} to send when the command execution failed
      */
     Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception);
+
+    /**
+     * Gets a {@link Message} to send when a text command gets invoked but the
+     * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy CommandRegistrationPolicy} is set to
+     * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy#MIGRATING
+     * CommandRegistrationPolicy.MIGRATING}
+     *
+     * @param context   the corresponding {@link CommandContext}
+     * @return a {@link Message} to send when a text command gets invoked
+     */
+    Message getSlashCommandMigrationMessage(@NotNull CommandContext context);
 }

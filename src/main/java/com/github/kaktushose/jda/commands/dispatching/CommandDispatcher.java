@@ -338,4 +338,13 @@ public class CommandDispatcher {
     public DependencyInjector getDependencyInjector() {
         return dependencyInjector;
     }
+
+    /**
+     * Gets the {@link SlashConfiguration}.
+     *
+     * @return the {@link SlashConfiguration}
+     */
+    public SlashConfiguration getSlashConfiguration() {
+        return configuration;
+    }
 }

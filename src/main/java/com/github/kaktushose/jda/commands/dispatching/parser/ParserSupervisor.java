@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultMessageParser;
 import com.github.kaktushose.jda.commands.dispatching.parser.impl.DefaultSlashCommandParser;
+import com.github.kaktushose.jda.commands.dispatching.parser.impl.MigratingMessageParser;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -20,7 +21,7 @@ import java.util.Map;
  * Registry for {@link Parser Parsers}. This is also the event listener that will call the corresponding parser.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see Parser
  * @since 2.0.0
  */
@@ -38,8 +39,22 @@ public class ParserSupervisor extends ListenerAdapter {
     public ParserSupervisor(@NotNull CommandDispatcher dispatcher) {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
-        register(MessageReceivedEvent.class, new DefaultMessageParser());
-        register(SlashCommandInteractionEvent.class, new DefaultSlashCommandParser());
+        switch (dispatcher.getSlashConfiguration().getPolicy()) {
+            case TEXT:
+                register(MessageReceivedEvent.class, new DefaultMessageParser());
+                break;
+            case SLASH:
+                register(SlashCommandInteractionEvent.class, new DefaultSlashCommandParser());
+                break;
+            case TEXT_AND_SLASH:
+                register(MessageReceivedEvent.class, new DefaultMessageParser());
+                register(SlashCommandInteractionEvent.class, new DefaultSlashCommandParser());
+                break;
+            case MIGRATING:
+                register(MessageReceivedEvent.class, new MigratingMessageParser());
+                register(SlashCommandInteractionEvent.class, new DefaultSlashCommandParser());
+                break;
+        }
     }
 
     /**

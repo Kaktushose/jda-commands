@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
  * Subtype of {@link DefaultErrorMessageFactory} that can load the embeds from an {@link EmbedCache}.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see DefaultErrorMessageFactory
  * @see EmbedCache
  * @since 2.0.0
@@ -182,5 +182,13 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         return embedCache.getEmbed("executionFailed")
                 .injectValue("exception", exception.toString())
                 .toMessage();
+    }
+
+    @Override
+    public Message getSlashCommandMigrationMessage(@NotNull CommandContext context) {
+        if (!embedCache.containsEmbed("migration")) {
+            return super.getInsufficientPermissionsMessage(context);
+        }
+        return embedCache.getEmbed("migration").toMessage();
     }
 }

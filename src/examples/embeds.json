@@ -106,5 +106,10 @@
     "title": "Command Execution Failed",
     "description": "```exception```",
     "color": "#ff0000"
+  },
+  "migration": {
+    "title": "Deprecated",
+    "description": "Text commands have been disabled. This command is now only available as a slash command. Type `/` to see a list of all available commands!",
+    "color": "ffc800"
   }
 }

@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
  * Implementation of {@link ErrorMessageFactory} with default embeds.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 2.3.0
  * @see JsonErrorMessageFactory
  * @since 2.0.0
  */
@@ -172,6 +172,16 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")
                 .setDescription(String.format("```%s```", exception))
+                .build()
+        ).build();
+    }
+
+    @Override
+    public Message getSlashCommandMigrationMessage(@NotNull CommandContext context) {
+        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.ORANGE)
+                .setTitle("Deprecated")
+                .setDescription("Text commands have been disabled. This command is now only available as a slash command. Type `/` to see a list of all available commands!")
                 .build()
         ).build();
     }

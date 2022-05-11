@@ -22,7 +22,7 @@ public enum CommandRegistrationPolicy {
      */
     TEXT_AND_SLASH,
     /**
-     * This policy will register slash commands will respond with a deprecation message to text commands.
+     * This policy will register slash commands and will respond with a deprecation message to text commands.
      */
     MIGRATING
 }
