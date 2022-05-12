@@ -1,18 +1,10 @@
 package com.github.kaktushose.jda.commands.data.slash;
 
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A tree data structure representing Commands sorted into Subcommands and SubcommandGroups. Each {@link TreeNode} can
@@ -26,7 +18,6 @@ import java.util.Optional;
  */
 public class CommandTree {
 
-    private final static Logger log = LoggerFactory.getLogger(CommandTree.class);
     private final TreeNode root;
 
     /**
@@ -85,98 +76,23 @@ public class CommandTree {
     }
 
     /**
-     * Gets all {@link CommandDefinition CommandDefinitions}. Please note that this will only return
-     * {@link CommandDefinition CommandDefinitions} that have no sub commands. More formally, this will only return
-     * the {@link CommandDefinition CommandDefinitions} of the leaf nodes.
+     * Gets all {@link SlashCommandData}.This will only return the {@link SlashCommandData} of the leaf nodes.
      *
-     * @return a {@link List} of {@link CommandDefinition CommandDefinitions}
+     * @return a {@link List} of {@link SlashCommandData}
      */
-    public List<CommandDefinition> getCommands() {
-        return getCommands(root);
-    }
-
-    private List<CommandDefinition> getCommands(TreeNode node) {
-        List<CommandDefinition> commands = new ArrayList<>();
-        for (TreeNode child : node.getChildren()) {
-            commands.addAll(getCommands(child));
-        }
-        node.getCommand().ifPresent(commands::add);
-        return commands;
+    public List<SlashCommandData> getCommands() {
+        return root.getCommandData();
     }
 
     /**
-     * Gets the sanitized labels of all {@link CommandDefinition CommandDefinitions} returned by {@link #getCommands()}.
+     * Gets the sanitized labels of all {@link SlashCommandData} returned by {@link #getCommands()}.
      * The labels will match the regex {@code ^[\w-]+$}. Furthermore, if the label consists of more than three spaces
      * any additional space will be replaced with {@code _} due to Discords limitations on SubcommandGroups.
      *
      * @return a {@link List} of labels
      */
-    public List<String> getLabels() {
-        return root.getLabels();
-    }
-
-    /**
-     * Transforms the {@link CommandTree} to a {@link List} of {@link SlashCommandData}. The tree structure will be
-     * transformed to Subcommands and SubcommandGroups.
-     *
-     * @return a {@link List} of {@link SlashCommandData}
-     */
-    public List<SlashCommandData> toCommandData() {
-        List<SlashCommandData> result = new ArrayList<>();
-        root.getChildren().forEach(node -> {
-            if (node.hasChildren()) {
-                SlashCommandData commandData = Commands.slash(node.getLabel(), "no description");
-                appendSubcommands(node, commandData);
-                result.add(commandData);
-            } else {
-                getSlashCommandData(node).ifPresent(result::add);
-            }
-        });
-        return result;
-    }
-
-    private void appendSubcommands(TreeNode node, SlashCommandData commandData) {
-        node.getChildren().forEach(child -> {
-            if (child.hasChildren()) {
-                appendSubcommandGroups(child, commandData);
-            } else {
-                getSubcommandData(node).ifPresent(commandData::addSubcommands);
-            }
-        });
-    }
-
-    private void appendSubcommandGroups(TreeNode node, SlashCommandData commandData) {
-        SubcommandGroupData subcommandGroup = new SubcommandGroupData(node.getLabel(), "no description");
-        node.getChildren().forEach(child -> getSubcommandData(child).ifPresent(subcommandGroup::addSubcommands));
-        commandData.addSubcommandGroups(subcommandGroup);
-    }
-
-    private Optional<SlashCommandData> getSlashCommandData(TreeNode node) {
-        return node.getCommand().map(command -> {
-            try {
-                return command.toCommandData();
-            } catch (Exception e) {
-                log.error(String.format("Failed to update command %s.%s!",
-                        command.getMethod().getDeclaringClass().getSimpleName(),
-                        command.getMethod().getName()
-                ), new InvocationTargetException(e, "Invalid slash command signature!"));
-                return null;
-            }
-        });
-    }
-
-    private Optional<SubcommandData> getSubcommandData(TreeNode node) {
-        return node.getCommand().map(command -> {
-            try {
-                return command.toSubCommandData(node.getLabel());
-            } catch (Exception e) {
-                log.error(String.format("Failed to update command %s.%s!",
-                        command.getMethod().getDeclaringClass().getSimpleName(),
-                        command.getMethod().getName()
-                ), new InvocationTargetException(e, "Invalid slash command signature!"));
-                return null;
-            }
-        });
+    public List<String> getNames() {
+        return root.getNames();
     }
 
     @Override

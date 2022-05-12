@@ -1,6 +1,9 @@
 package com.github.kaktushose.jda.commands.data.slash;
 
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +19,7 @@ import java.util.*;
  */
 public class TreeNode implements Iterable<TreeNode> {
 
-    private final String label;
+    private final String name;
     private final CommandDefinition command;
     private final List<TreeNode> children;
 
@@ -30,11 +33,11 @@ public class TreeNode implements Iterable<TreeNode> {
     /**
      * Constructs a new TreeNode.
      *
-     * @param label   the label of the command
+     * @param name   the name of the command
      * @param command the {@link CommandDefinition}
      */
-    public TreeNode(@NotNull String label, @Nullable CommandDefinition command) {
-        this.label = label;
+    public TreeNode(@NotNull String name, @Nullable CommandDefinition command) {
+        this.name = name;
         this.command = command;
         children = new ArrayList<>();
     }
@@ -72,13 +75,13 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     /**
-     * Gets a child {@link TreeNode} based on its label.
+     * Gets a child {@link TreeNode} based on its name.
      *
-     * @param label the label to get the child {@link TreeNode} from
+     * @param name the label to get the child {@link TreeNode} from
      * @return an {@link Optional} holding the result
      */
-    public Optional<TreeNode> getChild(String label) {
-        return children.stream().filter(child -> child.label.equals(label)).findFirst();
+    public Optional<TreeNode> getChild(String name) {
+        return children.stream().filter(child -> child.name.equals(name)).findFirst();
     }
 
     /**
@@ -86,8 +89,8 @@ public class TreeNode implements Iterable<TreeNode> {
      *
      * @return the label of the {@link CommandDefinition}
      */
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
     /**
@@ -122,21 +125,61 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     /**
-     * Gets all labels of the leaf nodes.
+     * Gets all names of the leaf nodes.
      *
-     * @return a {@link List} of all labels of the leaf nodes.
+     * @return a {@link List} of all names of the leaf nodes.
      */
-    public List<String> getLabels() {
+    public List<String> getNames() {
         List<String> result = new ArrayList<>();
-        toLabel(result, label);
+        toLabel(result, "");
         return result;
     }
 
     private void toLabel(List<String> labels, String root) {
         if (hasChildren()) {
-            children.forEach(child -> child.toLabel(labels, (root + " " + label).trim()));
+            children.forEach(child -> child.toLabel(labels, (root + " " + name).trim()));
         } else {
-            labels.add((root + " " + label).trim());
+            labels.add((root + " " + name).trim());
+        }
+    }
+
+    /**
+     * Gets all {@link SlashCommandData of the leaf nodes}.
+     *
+     * @return a {@link List} of all {@link SlashCommandData of the leaf nodes.
+     */
+    public List<SlashCommandData> getCommandData() {
+        List<SlashCommandData> result = new ArrayList<>();
+        toCommandData(result, null, 0);
+        return result;
+    }
+
+    private void toCommandData(List<SlashCommandData> commands, SlashCommandData root, int depth) {
+        if (depth == 0) {
+            children.forEach(child -> child.toCommandData(commands, root, 1));
+            return;
+        }
+        if (command == null) {
+            return;
+        }
+        if (depth == 1) {
+            if (hasChildren()) {
+                SlashCommandData data = Commands.slash(name, "no description");
+                children.forEach(child -> child.toCommandData(commands, data, 2));
+                return;
+            }
+            commands.add(command.toCommandData());
+            return;
+        }
+        if (depth == 2) {
+            if (hasChildren()) {
+                SubcommandGroupData data = new SubcommandGroupData(name, "no description");
+                children.forEach(child -> child.getCommand().ifPresent(command -> data.addSubcommands(command.toSubCommandData(child.name))));
+                root.addSubcommandGroups(data);
+            } else {
+                root.addSubcommands(command.toSubCommandData(name));
+            }
+            commands.add(root);
         }
     }
 
@@ -155,7 +198,7 @@ public class TreeNode implements Iterable<TreeNode> {
 
     private void print(StringBuilder builder, String prefix, String childrenPrefix) {
         builder.append(prefix);
-        builder.append(label);
+        builder.append(name);
         builder.append('\n');
         Iterator<TreeNode> it = children.iterator();
         while (it.hasNext()) {
