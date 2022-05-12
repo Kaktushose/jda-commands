@@ -33,7 +33,7 @@ public class TreeNode implements Iterable<TreeNode> {
     /**
      * Constructs a new TreeNode.
      *
-     * @param name   the name of the command
+     * @param name    the name of the command
      * @param command the {@link CommandDefinition}
      */
     public TreeNode(@NotNull String name, @Nullable CommandDefinition command) {
@@ -150,36 +150,33 @@ public class TreeNode implements Iterable<TreeNode> {
      */
     public List<SlashCommandData> getCommandData() {
         List<SlashCommandData> result = new ArrayList<>();
-        toCommandData(result, null, 0);
+        children.forEach(child -> child.toCommandData(result));
         return result;
     }
 
-    private void toCommandData(List<SlashCommandData> commands, SlashCommandData root, int depth) {
-        if (depth == 0) {
-            children.forEach(child -> child.toCommandData(commands, root, 1));
-            return;
-        }
+    private void toCommandData(Collection<SlashCommandData> commands) {
         if (command == null) {
             return;
         }
-        if (depth == 1) {
-            if (hasChildren()) {
-                SlashCommandData data = Commands.slash(name, "no description");
-                children.forEach(child -> child.toCommandData(commands, data, 2));
-                return;
-            }
-            commands.add(command.toCommandData());
+        if (hasChildren()) {
+            SlashCommandData data = Commands.slash(name, "empty description");
+            children.forEach(child -> child.toSubCommandData(data));
+            commands.add(data);
             return;
         }
-        if (depth == 2) {
-            if (hasChildren()) {
-                SubcommandGroupData data = new SubcommandGroupData(name, "no description");
-                children.forEach(child -> child.getCommand().ifPresent(command -> data.addSubcommands(command.toSubCommandData(child.name))));
-                root.addSubcommandGroups(data);
-            } else {
-                root.addSubcommands(command.toSubCommandData(name));
-            }
-            commands.add(root);
+        commands.add(command.toCommandData());
+    }
+
+    private void toSubCommandData(SlashCommandData commandData) {
+        if (command == null) {
+            return;
+        }
+        if (hasChildren()) {
+            SubcommandGroupData data = new SubcommandGroupData(name, "empty description");
+            children.forEach(child -> child.getCommand().ifPresent(command -> data.addSubcommands(command.toSubCommandData(child.name))));
+            commandData.addSubcommandGroups(data);
+        } else {
+            commandData.addSubcommands(command.toSubCommandData(name));
         }
     }
 

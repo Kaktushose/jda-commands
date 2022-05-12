@@ -91,8 +91,8 @@ public class JDACommands {
     }
 
     /**
-     * Shuts down this JDACommands instance making it unable to receive any events from Discord. This will
-     * unregister all slash commands.
+     * Shuts down this JDACommands instance making it unable to receive any events from Discord.
+     * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
         commandDispatcher.shutdown();

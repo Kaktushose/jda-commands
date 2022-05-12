@@ -29,8 +29,66 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public Mentions getMentions() {
+    public List<User> getMentionedUsers() {
         return null;
+    }
+
+    @NotNull
+    @Override
+    public Bag<User> getMentionedUsersBag() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<TextChannel> getMentionedChannels() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Bag<TextChannel> getMentionedChannelsBag() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Role> getMentionedRoles() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Bag<Role> getMentionedRolesBag() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Member> getMentionedMembers(@NotNull Guild guild) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Member> getMentionedMembers() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<IMentionable> getMentions(@NotNull MentionType... mentionTypes) {
+        return null;
+    }
+
+    @Override
+    public boolean isMentioned(@NotNull IMentionable iMentionable, @NotNull MentionType... mentionTypes) {
+        return false;
+    }
+
+    @Override
+    public boolean mentionsEveryone() {
+        return false;
     }
 
     @Override
@@ -165,6 +223,18 @@ public class MessageMock implements Message {
     @NotNull
     @Override
     public List<ActionRow> getActionRows() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Emote> getEmotes() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Bag<Emote> getEmotesBag() {
         return null;
     }
 
@@ -359,12 +429,6 @@ public class MessageMock implements Message {
     @Override
     public boolean isEphemeral() {
         return false;
-    }
-
-    @Nullable
-    @Override
-    public ThreadChannel getStartedThread() {
-        return null;
     }
 
     @NotNull

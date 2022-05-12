@@ -84,7 +84,7 @@ public class CommandDispatcher {
         implementationRegistry.index(clazz, packages);
 
         parserSupervisor = new ParserSupervisor(this);
-        jdaContext.performTask(actualJda -> actualJda.addEventListener(parserSupervisor));
+        jdaContext.performTask(jda -> jda.addEventListener(parserSupervisor));
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
         commandRegistry.index(clazz, packages);
@@ -106,11 +106,11 @@ public class CommandDispatcher {
     }
 
     /**
-     * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord. This will
-     * unregister all slash commands.
+     * Shuts down this CommandDispatcher instance, making it unable to receive any events from Discord.
+     * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(actualJda -> actualJda.removeEventListener(parserSupervisor));
+        jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor));
         updater.shutdown();
         isActive = false;
     }
@@ -261,7 +261,7 @@ public class CommandDispatcher {
      * @deprecated use {@link #getJdaContext()}
      */
     public Object getJda() {
-        return jdaContext.getJda();
+        return jdaContext.getJDAObject();
     }
 
     /**
