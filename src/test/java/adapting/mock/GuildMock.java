@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.requests.restaction.order.CategoryOrderAction;
 import net.dv8tion.jda.api.requests.restaction.order.ChannelOrderAction;
 import net.dv8tion.jda.api.requests.restaction.order.RoleOrderAction;
 import net.dv8tion.jda.api.requests.restaction.pagination.AuditLogPaginationAction;
+import net.dv8tion.jda.api.requests.restaction.pagination.BanPaginationAction;
 import net.dv8tion.jda.api.utils.cache.MemberCacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.dv8tion.jda.api.utils.cache.SortedSnowflakeCacheView;
@@ -90,67 +91,55 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> kick(@NotNull Member member, @Nullable String s) {
+    public AuditableRestAction<Void> kick(@NotNull UserSnowflake userSnowflake, @Nullable String s) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> kick(@NotNull String s, @Nullable String s1) {
+    public AuditableRestAction<Void> ban(@NotNull UserSnowflake userSnowflake, int i, @Nullable String s) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> ban(@NotNull User user, int i, @Nullable String s) {
+    public AuditableRestAction<Void> unban(@NotNull UserSnowflake userSnowflake) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> ban(@NotNull String s, int i, @Nullable String s1) {
+    public AuditableRestAction<Void> timeoutUntil(@NotNull UserSnowflake userSnowflake, @NotNull TemporalAccessor temporalAccessor) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> unban(@NotNull String s) {
+    public AuditableRestAction<Void> removeTimeout(@NotNull UserSnowflake userSnowflake) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> timeoutUntilById(@NotNull String s, @NotNull TemporalAccessor temporalAccessor) {
+    public AuditableRestAction<Void> deafen(@NotNull UserSnowflake userSnowflake, boolean b) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> removeTimeoutById(@NotNull String s) {
+    public AuditableRestAction<Void> mute(@NotNull UserSnowflake userSnowflake, boolean b) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> deafen(@NotNull Member member, boolean b) {
+    public AuditableRestAction<Void> addRoleToMember(@NotNull UserSnowflake userSnowflake, @NotNull Role role) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> mute(@NotNull Member member, boolean b) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> addRoleToMember(@NotNull Member member, @NotNull Role role) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> removeRoleFromMember(@NotNull Member member, @NotNull Role role) {
+    public AuditableRestAction<Void> removeRoleFromMember(@NotNull UserSnowflake userSnowflake, @NotNull Role role) {
         return null;
     }
 
@@ -318,7 +307,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public MemberAction addMember(@NotNull String s, @NotNull String s1) {
+    public MemberAction addMember(@NotNull String s, @NotNull UserSnowflake userSnowflake) {
         return null;
     }
 
@@ -471,7 +460,7 @@ public class GuildMock implements Guild {
     }
 
     @Override
-    public boolean isMember(@NotNull User user) {
+    public boolean isMember(@NotNull UserSnowflake userSnowflake) {
         return false;
     }
 
@@ -489,7 +478,7 @@ public class GuildMock implements Guild {
 
     @Nullable
     @Override
-    public Member getMember(@NotNull User user) {
+    public Member getMember(@NotNull UserSnowflake userSnowflake) {
         return null;
     }
 
@@ -608,13 +597,13 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public RestAction<List<Ban>> retrieveBanList() {
+    public BanPaginationAction retrieveBanList() {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Ban> retrieveBanById(@NotNull String s) {
+    public RestAction<Ban> retrieveBan(@NotNull UserSnowflake userSnowflake) {
         return null;
     }
 

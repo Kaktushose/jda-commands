@@ -85,6 +85,12 @@ public class TextChannelMock implements TextChannel {
         return null;
     }
 
+    @NotNull
+    @Override
+    public PermissionOverrideAction upsertPermissionOverride(@NotNull IPermissionHolder iPermissionHolder) {
+        return null;
+    }
+
     @Override
     public boolean isSynced() {
         return false;
@@ -122,18 +128,6 @@ public class TextChannelMock implements TextChannel {
 
     @Override
     public IPermissionContainer getPermissionContainer() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public PermissionOverrideAction createPermissionOverride(@NotNull IPermissionHolder iPermissionHolder) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public PermissionOverrideAction putPermissionOverride(@NotNull IPermissionHolder iPermissionHolder) {
         return null;
     }
 
