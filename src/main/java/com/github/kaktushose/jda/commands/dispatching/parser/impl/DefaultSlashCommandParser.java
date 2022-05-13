@@ -32,14 +32,12 @@ public class DefaultSlashCommandParser extends Parser<SlashCommandInteractionEve
     @Override
     @NotNull
     public CommandContext parse(@NotNull SlashCommandInteractionEvent event, @NotNull CommandDispatcher dispatcher) {
-        event.deferReply(false).queue();
-
         ImplementationRegistry registry = dispatcher.getImplementationRegistry();
         GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromGuild() ? event.getGuild() : null);
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
         CommandContext context = new CommandContext(event, dispatcher.getJdaCommands(), settings, registry);
 
-        context.setSlash(true).setInput(event.getCommandPath().split("/")).setOptions(event.getOptions());
+        context.setInput(event.getCommandPath().split("/")).setOptions(event.getOptions());
 
         if (settings.isMutedGuild()) {
             context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));

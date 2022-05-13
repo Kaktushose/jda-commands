@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class CommandContext {
 
+    private final SlashCommandInteractionEvent interactionEvent;
     private String[] input;
     private List<OptionMapping> options;
     private GenericCommandEvent event;
@@ -38,21 +39,12 @@ public class CommandContext {
     private ImplementationRegistry registry;
     private JDACommands jdaCommands;
     private boolean isHelpEvent;
-    private boolean isSlash;
     private boolean cancelled;
 
-    /**
-     * Constructs a new CommandContext.
-     *
-     * @param event       The underlying {@link GenericCommandEvent}
-     * @param jdaCommands the corresponding {@link JDACommands} instance
-     * @param settings    the corresponding {@link GuildSettings}
-     * @param registry    the corresponding {@link ImplementationRegistry}
-     */
-    public CommandContext(@NotNull GenericCommandEvent event,
-                          @NotNull JDACommands jdaCommands,
-                          @NotNull GuildSettings settings,
-                          @NotNull ImplementationRegistry registry) {
+    private CommandContext(GenericCommandEvent event, JDACommands jdaCommands,
+                           GuildSettings settings,
+                           ImplementationRegistry registry,
+                           SlashCommandInteractionEvent interactionEvent) {
         input = new String[0];
         options = new ArrayList<>();
         possibleCommands = new ArrayList<>();
@@ -61,6 +53,7 @@ public class CommandContext {
         this.jdaCommands = jdaCommands;
         this.settings = settings;
         this.registry = registry;
+        this.interactionEvent = interactionEvent;
     }
 
     /**
@@ -75,7 +68,7 @@ public class CommandContext {
                           @NotNull JDACommands jdaCommands,
                           @NotNull GuildSettings settings,
                           @NotNull ImplementationRegistry registry) {
-        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry);
+        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry, event);
     }
 
     /**
@@ -90,7 +83,7 @@ public class CommandContext {
                           @NotNull JDACommands jdaCommands,
                           @NotNull GuildSettings settings,
                           @NotNull ImplementationRegistry registry) {
-        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry);
+        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry, null);
     }
 
     /**
@@ -379,19 +372,18 @@ public class CommandContext {
      * @return {@code true} if the context was created from a slash command
      */
     public boolean isSlash() {
-        return isSlash;
+        return interactionEvent != null;
     }
 
     /**
-     * Set whether the context was created from a slash command.
+     * Gets the possibly-null {@link SlashCommandInteractionEvent}.
      *
-     * @param slash whether the context was created from a slash command
-     * @return the current CommandContext instance
+     * @return possibly-null {@link SlashCommandInteractionEvent}
+     * @see #isSlash()
      */
-    @NotNull
-    public CommandContext setSlash(boolean slash) {
-        isSlash = slash;
-        return this;
+    @Nullable
+    public SlashCommandInteractionEvent getInteractionEvent() {
+        return interactionEvent;
     }
 
     /**
@@ -401,7 +393,7 @@ public class CommandContext {
      * @return the contextual prefix
      */
     public String getContextualPrefix() {
-        return isSlash ? "/" : settings.getPrefix();
+        return isSlash() ? "/" : settings.getPrefix();
     }
 
 }
