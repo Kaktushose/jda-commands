@@ -11,57 +11,57 @@ public class CommandDefinitionTestController {
     public void noAnnotation() {
     }
 
-    @Command
+    @Command("a")
     public void noArgs() {
     }
 
-    @Command
+    @Command("b")
     public void noCommandEvent(int i) {
     }
 
-    @Command
+    @Command("c")
     public void wrongCommandEvent(int i, CommandEvent event) {
     }
 
-    @Command
+    @Command("d")
     public void commandEvent(CommandEvent event) {
     }
 
-    @Command
+    @Command("e")
     public void unsupported(CommandEvent event, UnsupportedType type) {
     }
 
-    @Command
+    @Command("f")
     public void arrayArgument(CommandEvent event, String[] args) {
 
     }
 
-    @Command
+    @Command("g")
     public void argsAfterArray(CommandEvent event, String[] args, int i) {
 
     }
 
-    @Command
+    @Command("h")
     public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
 
     }
 
-    @Command
+    @Command("i")
     public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
 
     }
 
-    @Command
+    @Command("j")
     public void argsAfterConcat(CommandEvent event, @Concat String s, int i) {
 
     }
 
-    @Command(isActive = false)
+    @Command(value = "k", isActive = false)
     public void inactive() {
 
     }
 
-    @Command(isSuper = true, isDM = false)
+    @Command(value = "l", isSuper = true, isDM = false)
     public void superAndDM(CommandEvent event) {
 
     }
@@ -71,19 +71,19 @@ public class CommandDefinitionTestController {
 
     }
 
-    @Command
+    @Command("m")
     @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
     public void zeroCooldown(CommandEvent event) {
 
     }
 
-    @Command
+    @Command("n")
     @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
     public void cooldown(CommandEvent event) {
 
     }
 
-    @Command
+    @Command("o")
     @Permission("permission")
     public void permission(CommandEvent event) {
 

@@ -226,7 +226,7 @@ public class TextChannelMock implements TextChannel {
     @NotNull
     @Override
     public ChannelType getType() {
-        return null;
+        return ChannelType.TEXT;
     }
 
     @NotNull

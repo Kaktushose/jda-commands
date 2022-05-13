@@ -1,7 +1,9 @@
 package adapting;
 
+import adapting.mock.JDACommandsMock;
 import adapting.mock.MessageReceivedEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
@@ -9,6 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.GenericCommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -17,6 +20,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -141,17 +146,18 @@ public class TypeAdapterRegistryTest {
     }
 
     private CommandContext buildContext(CommandDefinition command, String... input) {
-        CommandContext context = new CommandContext((GenericCommandEvent) null, null, null, null);
-        context.setImplementationRegistry(new ImplementationRegistry(
-                new DependencyInjector(),
-                new FilterRegistry(),
-                new TypeAdapterRegistry(),
-                new ValidatorRegistry())
-        );
-        context.setSettings(new GuildSettings());
-        //context.setEvent(new MessageReceivedEventMock(true));
+        CommandContext context = new CommandContext(
+                new MessageReceivedEventMock(true),
+                new JDACommandsMock(),
+                new GuildSettings(),
+                new ImplementationRegistry(new DependencyInjector(), new FilterRegistry(), new TypeAdapterRegistry(), new ValidatorRegistry()));
         context.setInput(input);
         context.setCommand(command);
         return context;
     }
+
+    private <T> T giveNull() {
+        return null;
+    }
+
 }

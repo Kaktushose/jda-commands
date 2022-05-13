@@ -32,6 +32,10 @@ public class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final CommandDispatcher commandDispatcher;
 
+    protected JDACommands() {
+        commandDispatcher = null;
+    }
+
     private JDACommands(Object jda, Class<?> clazz, String... packages) {
         this(jda, clazz, null, packages);
     }

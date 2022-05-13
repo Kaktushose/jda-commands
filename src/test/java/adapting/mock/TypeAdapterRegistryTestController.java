@@ -11,32 +11,32 @@ public class TypeAdapterRegistryTestController {
 
     public static final String OPTIONAL_DEFAULT = "default";
 
-    @Command
+    @Command("1")
     public void stringArray(CommandEvent event, String[] args) {
 
     }
 
-    @Command
+    @Command("2")
     public void inputLength(CommandEvent event, int i) {
 
     }
 
-    @Command
+    @Command("3")
     public void optionalNull(CommandEvent event, @Optional int i) {
 
     }
 
-    @Command
+    @Command("4")
     public void optionalDefault(CommandEvent event, @Optional(OPTIONAL_DEFAULT) String s) {
 
     }
 
-    @Command
+    @Command("5")
     public void noAdapter(CommandEvent event, CustomType type) {
 
     }
 
-    @Command
+    @Command("6")
     public void wrongArgument(CommandEvent event, int i) {
 
     }

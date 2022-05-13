@@ -105,7 +105,7 @@ public class MessageMock implements Message {
     @NotNull
     @Override
     public User getAuthor() {
-        return null;
+        return new UserMock("name", 0);
     }
 
     @Nullable
@@ -169,7 +169,7 @@ public class MessageMock implements Message {
     @NotNull
     @Override
     public MessageChannel getChannel() {
-        return null;
+        return new TextChannelMock("name", 0);
     }
 
     @NotNull
