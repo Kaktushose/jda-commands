@@ -47,7 +47,7 @@ public class CommandEvent extends GenericCommandEvent {
         if (context.isSlash()) {
             replyCallback = new InteractionReplyCallback(context.getInteractionEvent());
         } else {
-            replyCallback = new TextReplyCallback(getTextChannel());
+            replyCallback = new TextReplyCallback(getChannel());
         }
     }
 

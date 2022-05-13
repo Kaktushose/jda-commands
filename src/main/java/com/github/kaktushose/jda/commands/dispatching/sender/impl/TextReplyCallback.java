@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.sender.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.sender.ReplyCallback;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -21,14 +22,14 @@ import java.util.function.Consumer;
  */
 public class TextReplyCallback implements ReplyCallback {
 
-    private final TextChannel channel;
+    private final MessageChannel channel;
 
     /**
      * Constructs a new {@link ReplyCallback}.
      *
      * @param channel the corresponding {@link TextChannel}
      */
-    public TextReplyCallback(TextChannel channel) {
+    public TextReplyCallback(MessageChannel channel) {
         this.channel = channel;
     }
 

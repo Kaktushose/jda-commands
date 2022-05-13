@@ -186,7 +186,7 @@ public class GenericCommandEvent extends Event {
      */
     @NotNull
     public TextChannel getTextChannel() {
-        if (channel instanceof NewsChannel) {
+        if (channel instanceof TextChannel) {
             return (TextChannel) channel;
         } else {
             throw new IllegalStateException("Cannot convert channel of type " + channelType + " to TextChannel");
@@ -204,7 +204,7 @@ public class GenericCommandEvent extends Event {
      * @see #getChannelType()
      */
     public ThreadChannel getThreadChannel() {
-        if (channel instanceof NewsChannel) {
+        if (channel instanceof ThreadChannel) {
             return (ThreadChannel) channel;
         } else {
             throw new IllegalStateException("Cannot convert channel of type " + channelType + " to ThreadChannel");
@@ -222,7 +222,7 @@ public class GenericCommandEvent extends Event {
      * @see #getChannelType()
      */
     public GuildChannel getGuildChannel() {
-        if (channel instanceof NewsChannel) {
+        if (channel instanceof GuildChannel) {
             return (GuildChannel) channel;
         } else {
             throw new IllegalStateException("Cannot convert channel of type " + channelType + " to GuildChannel");
@@ -240,7 +240,7 @@ public class GenericCommandEvent extends Event {
      * @see #getChannelType()
      */
     public PrivateChannel getPrivateChannel() {
-        if (channel instanceof NewsChannel) {
+        if (channel instanceof PrivateChannel) {
             return (PrivateChannel) channel;
         } else {
             throw new IllegalStateException("Cannot convert channel of type " + channelType + " to PrivateChannel");
