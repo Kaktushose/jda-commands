@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
@@ -99,8 +100,8 @@ public interface ErrorMessageFactory {
 
     /**
      * Gets a {@link Message} to send when a text command gets invoked but the
-     * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy CommandRegistrationPolicy} is set to
-     * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy#MIGRATING
+     * {@link CommandRegistrationPolicy CommandRegistrationPolicy} is set to
+     * {@link CommandRegistrationPolicy#MIGRATING
      * CommandRegistrationPolicy.MIGRATING}
      *
      * @param context   the corresponding {@link CommandContext}

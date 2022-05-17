@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.Parser;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,13 +13,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An implementation of {@link Parser} that can parse {@link MessageReceivedEvent}.
  * This parser will only be used if the
- * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy CommandRegistrationPolicy} is set to
- * {@link com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy#MIGRATING
+ * {@link CommandRegistrationPolicy CommandRegistrationPolicy} is set to
+ * {@link CommandRegistrationPolicy#MIGRATING
  * CommandRegistrationPolicy.MIGRATING}. It will make any text command fail but respond with a deprecation message.
  *
  * @author Kaktushose
  * @version 2.3.0
- * @see com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy CommandRegistrationPolicy
+ * @see CommandRegistrationPolicy CommandRegistrationPolicy
  * @see ErrorMessageFactory#getSlashCommandMigrationMessage(CommandContext)
  * @since 2.3.0
  */

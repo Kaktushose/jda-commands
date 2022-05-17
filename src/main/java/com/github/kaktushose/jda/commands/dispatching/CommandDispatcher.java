@@ -10,8 +10,8 @@ import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.Filt
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;

@@ -1,9 +1,9 @@
-package com.github.kaktushose.jda.commands.dispatching.slash;
+package com.github.kaktushose.jda.commands.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.data.slash.CommandTree;
+import com.github.kaktushose.jda.commands.dispatching.slash.HelpAutoCompleteListener;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
-import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;

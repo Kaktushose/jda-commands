@@ -1,6 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.slash;
-
-import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
+package com.github.kaktushose.jda.commands.interactions.commands;
 
 import java.util.Collections;
 import java.util.List;

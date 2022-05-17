@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.slash;
+package com.github.kaktushose.jda.commands.interactions.commands;
 
 /**
  * Policy defining different operation modes.

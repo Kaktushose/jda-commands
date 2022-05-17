@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.dispatching.slash.SlashConfiguration;
-import com.github.kaktushose.jda.commands.slash.CommandRegistrationPolicy;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
+import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
