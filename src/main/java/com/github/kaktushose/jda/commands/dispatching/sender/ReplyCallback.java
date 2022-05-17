@@ -25,66 +25,72 @@ public interface ReplyCallback {
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param message the {@link String} message to send
-     * @param success the JDA RestAction success consumer
+     * @param message   the {@link String} message to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    void sendMessage(@NotNull String message, @Nullable Consumer<Message> success);
+    void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success);
 
     /**
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param message the {@link Message} to send
-     * @param success the JDA RestAction success consumer
+     * @param message   the {@link Message} to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    void sendMessage(@NotNull Message message, @Nullable Consumer<Message> success);
+    void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success);
 
     /**
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param embed   the {@link MessageEmbed} to send
-     * @param success the JDA RestAction success consumer
+     * @param embed     the {@link MessageEmbed} to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    void sendMessage(@NotNull MessageEmbed embed, @Nullable Consumer<Message> success);
+    void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success);
 
     /**
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param builder the {@link EmbedBuilder} to send
-     * @param success the JDA RestAction success consumer
+     * @param builder   the {@link EmbedBuilder} to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    default void sendMessage(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
-        sendMessage(builder.build(), success);
+    default void sendMessage(@NotNull EmbedBuilder builder, boolean ephemeral, @Nullable Consumer<Message> success) {
+        sendMessage(builder.build(), ephemeral, success);
     }
 
     /**
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param builder the {@link MessageBuilder} to send
-     * @param success the JDA RestAction success consumer
+     * @param builder   the {@link MessageBuilder} to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    default void sendMessage(@NotNull MessageBuilder builder, @Nullable Consumer<Message> success) {
-        sendMessage(builder.build(), success);
+    default void sendMessage(@NotNull MessageBuilder builder, boolean ephemeral, @Nullable Consumer<Message> success) {
+        sendMessage(builder.build(), ephemeral, success);
     }
 
     /**
      * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
      * consumer.
      *
-     * @param embedDTO the {@link EmbedDTO} to send
-     * @param success  the JDA RestAction success consumer
+     * @param embedDTO  the {@link EmbedDTO} to send
+     * @param ephemeral whether to send an ephemeral reply
+     * @param success   the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    default void sendMessage(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
-        sendMessage(embedDTO.toMessageEmbed(), success);
+    default void sendMessage(@NotNull EmbedDTO embedDTO, boolean ephemeral, @Nullable Consumer<Message> success) {
+        sendMessage(embedDTO.toMessageEmbed(), ephemeral, success);
     }
 
 }

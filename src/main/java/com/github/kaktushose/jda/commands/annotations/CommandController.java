@@ -53,4 +53,11 @@ public @interface CommandController {
      */
     boolean defaultEnable() default true;
 
+    /**
+     * Returns whether this command should send ephemeral replies by default. This only affects slash commands.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    boolean ephemeral() default false;
+
 }

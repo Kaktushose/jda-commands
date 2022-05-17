@@ -39,6 +39,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     private final boolean isDM;
     private final Method method;
     private final Object instance;
+    private boolean isEphemeral;
     private boolean isSuper;
     private boolean isDefaultEnabled;
     private ControllerDefinition controller;
@@ -50,7 +51,9 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                               CooldownDefinition cooldown,
                               ControllerDefinition controller,
                               boolean isSuper,
-                              boolean isDefaultEnabled, boolean isDM,
+                              boolean isDefaultEnabled,
+                              boolean isEphemeral,
+                              boolean isDM,
                               Method method,
                               Object instance) {
         this.labels = labels;
@@ -61,6 +64,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         this.controller = controller;
         this.isSuper = isSuper;
         this.isDefaultEnabled = isDefaultEnabled;
+        this.isEphemeral = isEphemeral;
         this.isDM = isDM;
         this.method = method;
         this.instance = instance;
@@ -204,6 +208,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 null,
                 command.isSuper(),
                 command.defaultEnable(),
+                command.ephemeral(),
                 command.isDM(),
                 method,
                 instance
@@ -380,6 +385,24 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      */
     public void setDefaultEnabled(boolean defaultEnabled) {
         isDefaultEnabled = defaultEnabled;
+    }
+
+    /**
+     * Whether this command should send ephemeral replies by default. This only affects slash commands.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    public boolean isEphemeral() {
+        return isEphemeral;
+    }
+
+    /**
+     * Set whether this command should send ephemeral replies by default. This only affects slash commands.
+     *
+     * @param ephemeral whether to send ephemeral replies
+     */
+    public void setEphemeral(boolean ephemeral) {
+        isEphemeral = ephemeral;
     }
 
     /**

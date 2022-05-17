@@ -99,6 +99,8 @@ public class ControllerDefinition {
             commandDefinition.getPermissions().addAll(permissions);
             commandDefinition.setDefaultEnabled(commandDefinition.isDefaultEnabled() && commandController.defaultEnable());
 
+            commandDefinition.setEphemeral(commandDefinition.isEphemeral() || commandController.ephemeral());
+
             // TODO remove once command overloading is working
             if (subCommands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
                 log.error("An error has occurred! Skipping Command {}.{}!",

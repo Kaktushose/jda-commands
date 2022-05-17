@@ -88,12 +88,19 @@ public @interface Command {
     boolean isActive() default true;
 
     /**
-     * Returns Whether this command is available to everyone by default. If this is disabled, you need to
+     * Returns whether this command is available to everyone by default. If this is disabled, you need to
      * explicitly whitelist users and roles per guild via
      * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
      *
      * @return {@code true} if this command is available to everyone by default
      */
     boolean defaultEnable() default true;
+
+    /**
+     * Returns whether this command should send ephemeral replies by default. This only affects slash commands.
+     *
+     * @return {@code true} if this command is available to everyone by default
+     */
+    boolean ephemeral() default false;
 
 }

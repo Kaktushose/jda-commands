@@ -34,18 +34,18 @@ public class TextReplyCallback implements ReplyCallback {
     }
 
     @Override
-    public void sendMessage(@NotNull String message, @Nullable Consumer<Message> success) {
+    public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
         channel.sendMessage(message).queue(success);
     }
 
     @Override
-    public void sendMessage(@NotNull Message message, @Nullable Consumer<Message> success) {
+    public void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success) {
         channel.sendMessage(message).queue(success);
 
     }
 
     @Override
-    public void sendMessage(@NotNull MessageEmbed embed, @Nullable Consumer<Message> success) {
+    public void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success) {
         channel.sendMessageEmbeds(embed).queue();
     }
 

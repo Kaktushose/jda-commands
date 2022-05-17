@@ -35,26 +35,25 @@ public class InteractionReplyCallback implements ReplyCallback {
     }
 
     @Override
-    public void sendMessage(@NotNull String message, @Nullable Consumer<Message> success) {
-        initialReply().sendMessage(message).queue(success);
+    public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
+        initialReply(ephemeral).sendMessage(message).queue(success);
     }
 
     @Override
-    public void sendMessage(@NotNull Message message, @Nullable Consumer<Message> success) {
-        initialReply().sendMessage(message).queue(success);
+    public void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success) {
+        initialReply(ephemeral).sendMessage(message).queue(success);
     }
 
     @Override
-    public void sendMessage(@NotNull MessageEmbed embed, @Nullable Consumer<Message> success) {
-        initialReply().sendMessageEmbeds(embed).queue(success);
+    public void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success) {
+        initialReply(ephemeral).sendMessageEmbeds(embed).queue(success);
     }
 
-    private InteractionHook initialReply() {
+    private InteractionHook initialReply(boolean ephemeral) {
         if (!initialReply) {
             initialReply = true;
-            return event.deferReply().complete();
+            return event.deferReply().setEphemeral(ephemeral).complete();
         }
-        return event.getHook();
+        return event.getHook().setEphemeral(ephemeral);
     }
-
 }
