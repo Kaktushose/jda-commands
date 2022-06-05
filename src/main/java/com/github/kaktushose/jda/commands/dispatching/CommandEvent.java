@@ -6,17 +6,20 @@ import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionRep
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -34,6 +37,7 @@ public class CommandEvent extends GenericCommandEvent {
 
     private final CommandDefinition command;
     private final CommandContext context;
+    private final List<ActionRow> actionRows;
     private ReplyCallback replyCallback;
 
     /**
@@ -42,21 +46,17 @@ public class CommandEvent extends GenericCommandEvent {
      * @param command the underlying {@link CommandDefinition} object
      * @param context the {@link CommandContext}
      */
+    @SuppressWarnings("ConstantConditions")
     public CommandEvent(@NotNull CommandDefinition command, @NotNull CommandContext context) {
         super(context.getEvent());
         this.command = command;
         this.context = context;
+        actionRows = new ArrayList<>();
         if (context.isSlash()) {
-            replyCallback = new InteractionReplyCallback(Objects.requireNonNull(context.getInteractionEvent()));
+            replyCallback = new InteractionReplyCallback(context.getInteractionEvent(), actionRows);
         } else {
-            replyCallback = new TextReplyCallback(getChannel());
+            replyCallback = new TextReplyCallback(getChannel(), actionRows);
         }
-    }
-
-    public void withButton(String button, String message) {
-        command.getController().getButtons().forEach(it -> System.out.println(it.getId()));
-        Button component = command.getController().getButtons().stream().filter(it -> it.getId().equals(String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button))).findFirst().get().toButton();
-        context.getInteractionEvent().reply(message).addActionRow(component).queue();
     }
 
     /**
@@ -366,6 +366,32 @@ public class CommandEvent extends GenericCommandEvent {
     }
 
     /**
+     * Adds an {@link ActionRow} to the reply and adds the passed buttons to it. The buttons must be defined in the same
+     * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
+     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
+     *
+     * @param buttons the ids of the buttons to add
+     * @return the current instance for fluent interface
+     */
+    @SuppressWarnings("ConstantConditions")
+    public CommandEvent withButton(String... buttons) {
+        List<ItemComponent> items = new ArrayList<>();
+        for (String button : buttons) {
+            String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button);
+            command.getController().getButtons()
+                    .stream()
+                    .filter(it -> it.getId().equals(id))
+                    .findFirst()
+                    .map(ButtonDefinition::toButton)
+                    .ifPresent(items::add);
+        }
+        if (items.size() > 0) {
+            actionRows.add(ActionRow.of(items));
+        }
+        return this;
+    }
+
+    /**
      * Get the {@link CommandDefinition} object which describes the command that is executed.
      *
      * @return the underlying {@link CommandDefinition} object
@@ -409,6 +435,15 @@ public class CommandEvent extends GenericCommandEvent {
      */
     public Optional<InteractionHook> getInteractionHook() {
         return Optional.ofNullable(context.getInteractionEvent()).map(GenericCommandInteractionEvent::getHook);
+    }
+
+    /**
+     * Gets the {@link ActionRow ActionRows} already added to the reply.
+     *
+     * @return a possibly-empty {@link List} of {@link ActionRow ActionRows}.
+     */
+    public List<ActionRow> getActionRows() {
+        return new ArrayList<>(actionRows);
     }
 
     /**

@@ -6,9 +6,13 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -23,30 +27,39 @@ import java.util.function.Consumer;
 public class TextReplyCallback implements ReplyCallback {
 
     private final MessageChannel channel;
+    private final Collection<ActionRow> actionRows;
 
     /**
      * Constructs a new {@link ReplyCallback}.
      *
      * @param channel the corresponding {@link TextChannel}
+     * @param actionRows a {@link Collection} of {@link ActionRow ActionRows to send}
      */
-    public TextReplyCallback(MessageChannel channel) {
+    public TextReplyCallback(MessageChannel channel, Collection<ActionRow> actionRows) {
         this.channel = channel;
+        this.actionRows = actionRows;
     }
 
     @Override
     public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        channel.sendMessage(message).queue(success);
+        send(channel.sendMessage(message), success);
     }
 
     @Override
     public void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        channel.sendMessage(message).queue(success);
-
+        send(channel.sendMessage(message), success);
     }
 
     @Override
     public void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success) {
-        channel.sendMessageEmbeds(embed).queue();
+        send(channel.sendMessageEmbeds(embed), success);
     }
 
+    private void send(MessageAction restAction, Consumer<Message> success) {
+        if (actionRows.size() > 0) {
+            restAction.setActionRows(actionRows).queue(success);
+        } else {
+            restAction.queue(success);
+        }
+    }
 }
