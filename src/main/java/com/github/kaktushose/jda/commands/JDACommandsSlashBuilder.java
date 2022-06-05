@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ public class JDACommandsSlashBuilder {
         this.clazz = clazz;
         this.packages = packages;
         this.guildIds = new ArrayList<>();
+        this.policy = CommandRegistrationPolicy.SLASH;
     }
 
     /**

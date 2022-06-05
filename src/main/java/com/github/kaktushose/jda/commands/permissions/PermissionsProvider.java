@@ -54,7 +54,7 @@ public interface PermissionsProvider {
     /**
      * Gets a {@link List} of user ids that map to the given permission string.
      *
-     * @param guild the corresponding guild
+     * @param guild      the corresponding guild
      * @param permission the corresponding string
      * @return a {@link List} of user ids
      */
@@ -65,7 +65,7 @@ public interface PermissionsProvider {
     /**
      * Gets a {@link List} of role ids that map to the given permission string.
      *
-     * @param guild the corresponding guild
+     * @param guild      the corresponding guild
      * @param permission the corresponding string
      * @return a {@link List} of role ids
      */

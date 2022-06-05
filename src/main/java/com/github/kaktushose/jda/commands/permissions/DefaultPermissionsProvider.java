@@ -2,16 +2,13 @@ package com.github.kaktushose.jda.commands.permissions;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Default implementation of {@link PermissionsProvider} with the following behaviour:

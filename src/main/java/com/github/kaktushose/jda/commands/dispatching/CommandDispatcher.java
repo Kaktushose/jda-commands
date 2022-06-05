@@ -7,13 +7,14 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
+import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionListener;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -49,6 +50,7 @@ public class CommandDispatcher {
     private final JDACommands jdaCommands;
     private final SlashConfiguration configuration;
     private final SlashCommandUpdater updater;
+    private final ButtonInteractionListener buttonListener;
 
     /**
      * Constructs a new CommandDispatcher.
@@ -84,9 +86,10 @@ public class CommandDispatcher {
         implementationRegistry.index(clazz, packages);
 
         parserSupervisor = new ParserSupervisor(this);
-        jdaContext.performTask(jda -> jda.addEventListener(parserSupervisor));
+        buttonListener = new ButtonInteractionListener();
+        jdaContext.performTask(jda -> jda.addEventListener(parserSupervisor, buttonListener));
 
-        commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
+        commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector, buttonListener);
         commandRegistry.index(clazz, packages);
 
         dependencyInjector.inject();
@@ -110,7 +113,7 @@ public class CommandDispatcher {
      * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor));
+        jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor, buttonListener));
         updater.shutdown();
         isActive = false;
     }

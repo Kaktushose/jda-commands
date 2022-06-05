@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 
 import java.lang.annotation.*;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
  *
  * @author Kaktushose
  * @version 2.2.0
- * @see com.github.kaktushose.jda.commands.reflect.ImplementationRegistry ImplementationRegistry
+ * @see ImplementationRegistry ImplementationRegistry
  * @since 2.0.0
  */
 @Target(ElementType.TYPE)

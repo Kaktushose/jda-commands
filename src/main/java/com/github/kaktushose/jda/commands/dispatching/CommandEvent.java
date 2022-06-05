@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,6 +51,12 @@ public class CommandEvent extends GenericCommandEvent {
         } else {
             replyCallback = new TextReplyCallback(getChannel());
         }
+    }
+
+    public void withButton(String button, String message) {
+        command.getController().getButtons().forEach(it -> System.out.println(it.getId()));
+        Button component = command.getController().getButtons().stream().filter(it -> it.getId().equals(String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button))).findFirst().get().toButton();
+        context.getInteractionEvent().reply(message).addActionRow(component).queue();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.slash;
+package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

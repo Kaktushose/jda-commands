@@ -6,8 +6,9 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
+import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -37,7 +39,7 @@ public class JDACommands {
     }
 
     private JDACommands(Object jda, Class<?> clazz, String... packages) {
-        this(jda, clazz, null, packages);
+        this(jda, clazz, new SlashConfiguration(new ArrayList<>(), true, CommandRegistrationPolicy.TEXT), packages);
     }
 
     JDACommands(Object jda, Class<?> clazz, SlashConfiguration configuration, String... packages) {

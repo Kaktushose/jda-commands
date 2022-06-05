@@ -26,11 +26,14 @@ public class ControllerDefinition {
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
     private final List<CommandDefinition> superCommands;
     private final List<CommandDefinition> subCommands;
+    private final List<ButtonDefinition> buttons;
 
     private ControllerDefinition(List<CommandDefinition> superCommands,
-                                 List<CommandDefinition> subCommands) {
+                                 List<CommandDefinition> subCommands,
+                                 List<ButtonDefinition> buttons) {
         this.superCommands = superCommands;
         this.subCommands = subCommands;
+        this.buttons = buttons;
     }
 
     /**
@@ -87,7 +90,10 @@ public class ControllerDefinition {
         // index commands
         List<CommandDefinition> superCommands = new ArrayList<>();
         List<CommandDefinition> subCommands = new ArrayList<>();
+        List<ButtonDefinition> buttons = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
+            ButtonDefinition.build(method, instance).ifPresent(buttons::add);
+
             Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, adapterRegistry, validatorRegistry);
 
             if (!optional.isPresent()) {
@@ -101,7 +107,6 @@ public class ControllerDefinition {
 
             commandDefinition.setEphemeral(commandDefinition.isEphemeral() || commandController.ephemeral());
 
-            // TODO remove once command overloading is working
             if (subCommands.stream().flatMap(command -> command.getLabels().stream()).anyMatch(commandDefinition.getLabels()::contains)) {
                 log.error("An error has occurred! Skipping Command {}.{}!",
                         commandController.getClass().getName(),
@@ -130,7 +135,7 @@ public class ControllerDefinition {
             subCommands.clear();
         }
 
-        ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands);
+        ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands, buttons);
         controller.getSuperCommands().forEach(definition -> definition.setController(controller));
         controller.getSubCommands().forEach(definition -> definition.setController(controller));
         return Optional.of(controller);
@@ -163,11 +168,21 @@ public class ControllerDefinition {
         return subCommands;
     }
 
+    /**
+     * Gets a possibly-empty list of all buttons.
+     *
+     * @return a possibly-empty list of all buttons
+     */
+    public List<ButtonDefinition> getButtons() {
+        return buttons;
+    }
+
     @Override
     public String toString() {
         return "ControllerDefinition{" +
                 "superCommands=" + superCommands +
                 ", subCommands=" + subCommands +
+                ", buttons=" + buttons +
                 '}';
     }
 }

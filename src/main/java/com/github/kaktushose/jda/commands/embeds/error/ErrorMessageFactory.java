@@ -104,7 +104,7 @@ public interface ErrorMessageFactory {
      * {@link CommandRegistrationPolicy#MIGRATING
      * CommandRegistrationPolicy.MIGRATING}
      *
-     * @param context   the corresponding {@link CommandContext}
+     * @param context the corresponding {@link CommandContext}
      * @return a {@link Message} to send when a text command gets invoked
      */
     Message getSlashCommandMigrationMessage(@NotNull CommandContext context);

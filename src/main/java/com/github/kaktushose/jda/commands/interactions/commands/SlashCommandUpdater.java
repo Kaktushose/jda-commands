@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.data.slash.CommandTree;
-import com.github.kaktushose.jda.commands.dispatching.slash.HelpAutoCompleteListener;
+import com.github.kaktushose.jda.commands.dispatching.interactions.HelpAutoCompleteListener;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -40,7 +40,7 @@ public class SlashCommandUpdater {
     /**
      * Constructs a new SlashCommandUpdater.
      *
-     * @param jdaContext the corresponding {@link JDAContext}
+     * @param jdaContext    the corresponding {@link JDAContext}
      * @param configuration the corresponding {@link SlashConfiguration}
      */
     public SlashCommandUpdater(JDAContext jdaContext, SlashConfiguration configuration) {
@@ -101,7 +101,6 @@ public class SlashCommandUpdater {
 
     /**
      * Shutdowns the {@link HelpAutoCompleteListener}. This will <b>not</b> unregister any slash commands.
-     *
      */
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(autoCompleteListener));
