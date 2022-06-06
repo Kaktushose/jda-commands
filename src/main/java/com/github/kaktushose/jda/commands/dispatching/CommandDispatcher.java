@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
-import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionListener;
+import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
@@ -50,7 +50,7 @@ public class CommandDispatcher {
     private final JDACommands jdaCommands;
     private final SlashConfiguration configuration;
     private final SlashCommandUpdater updater;
-    private final ButtonInteractionListener buttonListener;
+    private final ButtonInteractionDispatcher buttonListener;
 
     /**
      * Constructs a new CommandDispatcher.
@@ -86,7 +86,7 @@ public class CommandDispatcher {
         implementationRegistry.index(clazz, packages);
 
         parserSupervisor = new ParserSupervisor(this);
-        buttonListener = new ButtonInteractionListener();
+        buttonListener = new ButtonInteractionDispatcher(jdaCommands);
         jdaContext.performTask(jda -> jda.addEventListener(parserSupervisor, buttonListener));
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector, buttonListener);

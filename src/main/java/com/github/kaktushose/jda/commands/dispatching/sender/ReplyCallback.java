@@ -11,10 +11,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 /**
- * Generic reply callback used to reply to {@link com.github.kaktushose.jda.commands.dispatching.CommandEvent CommandEvents}.
+ * Generic reply callback used to reply to {@link com.github.kaktushose.jda.commands.dispatching.GenericEvent GenericEvents}.
  *
  * @author Kaktushose
  * @version 2.3.0
+ * @see EditCallback
  * @see com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallback TextReplyCallback
  * @see com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback InteractionReplyCallback
  * @since 2.3.0
@@ -92,5 +93,10 @@ public interface ReplyCallback {
     default void sendMessage(@NotNull EmbedDTO embedDTO, boolean ephemeral, @Nullable Consumer<Message> success) {
         sendMessage(embedDTO.toMessageEmbed(), ephemeral, success);
     }
+
+    /**
+     * Deletes the original message the button was attached to.
+     */
+    void deleteOriginal(boolean ephemeral);
 
 }

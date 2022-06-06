@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionListener;
+import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
@@ -32,7 +32,7 @@ public class CommandRegistry {
     private final TypeAdapterRegistry parameterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
-    private final ButtonInteractionListener buttonListener;
+    private final ButtonInteractionDispatcher buttonListener;
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
 
@@ -46,7 +46,7 @@ public class CommandRegistry {
     public CommandRegistry(@NotNull TypeAdapterRegistry adapterRegistry,
                            @NotNull ValidatorRegistry validatorRegistry,
                            @NotNull DependencyInjector dependencyInjector,
-                           ButtonInteractionListener buttonListener) {
+                           ButtonInteractionDispatcher buttonListener) {
         this.parameterRegistry = adapterRegistry;
         this.validatorRegistry = validatorRegistry;
         this.dependencyInjector = dependencyInjector;

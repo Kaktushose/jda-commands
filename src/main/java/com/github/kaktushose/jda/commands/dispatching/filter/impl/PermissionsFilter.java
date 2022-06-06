@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.GenericCommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
@@ -39,7 +39,7 @@ public class PermissionsFilter implements Filter {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 
-        GenericCommandEvent event = context.getEvent();
+        GenericEvent event = context.getEvent();
 
         boolean isCancelled = !provider.hasPermission(event.getAuthor(), context);
 

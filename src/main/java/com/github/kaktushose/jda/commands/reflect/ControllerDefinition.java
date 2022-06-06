@@ -92,7 +92,10 @@ public class ControllerDefinition {
         List<CommandDefinition> subCommands = new ArrayList<>();
         List<ButtonDefinition> buttons = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
-            ButtonDefinition.build(method, instance).ifPresent(buttons::add);
+            ButtonDefinition.build(method, instance).ifPresent(button -> {
+                button.setEphemeral(button.isEphemeral() || commandController.ephemeral());
+                buttons.add(button);
+            });
 
             Optional<CommandDefinition> optional = CommandDefinition.build(method, instance, adapterRegistry, validatorRegistry);
 
@@ -138,6 +141,7 @@ public class ControllerDefinition {
         ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands, buttons);
         controller.getSuperCommands().forEach(definition -> definition.setController(controller));
         controller.getSubCommands().forEach(definition -> definition.setController(controller));
+        controller.getButtons().forEach(button -> button.setController(controller));
         return Optional.of(controller);
     }
 

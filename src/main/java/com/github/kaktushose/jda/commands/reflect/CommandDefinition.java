@@ -320,7 +320,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     /**
-     * Gets the {@link ControllerDefinition} this command is defined inside.
+     * Gets the {@link ControllerDefinition} this command is defined inside. Can be null during indexing.
      *
      * @return the {@link ControllerDefinition}
      */
@@ -390,7 +390,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     /**
      * Whether this command should send ephemeral replies by default. This only affects slash commands.
      *
-     * @return {@code true} if this command is available to everyone by default
+     * @return {@code true} if to send ephemeral replies
      */
     public boolean isEphemeral() {
         return isEphemeral;

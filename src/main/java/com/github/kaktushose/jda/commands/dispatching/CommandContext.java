@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author Kaktushose
  * @version 2.3.0
- * @see GenericCommandEvent
+ * @see GenericEvent
  * @since 2.0.0
  */
 public class CommandContext {
@@ -30,7 +30,7 @@ public class CommandContext {
     private final SlashCommandInteractionEvent interactionEvent;
     private String[] input;
     private List<OptionMapping> options;
-    private GenericCommandEvent event;
+    private GenericEvent event;
     private CommandDefinition command;
     private List<CommandDefinition> possibleCommands;
     private List<Object> arguments;
@@ -41,7 +41,7 @@ public class CommandContext {
     private boolean isHelpEvent;
     private boolean cancelled;
 
-    private CommandContext(GenericCommandEvent event, JDACommands jdaCommands,
+    private CommandContext(GenericEvent event, JDACommands jdaCommands,
                            GuildSettings settings,
                            ImplementationRegistry registry,
                            SlashCommandInteractionEvent interactionEvent) {
@@ -68,7 +68,7 @@ public class CommandContext {
                           @NotNull JDACommands jdaCommands,
                           @NotNull GuildSettings settings,
                           @NotNull ImplementationRegistry registry) {
-        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry, event);
+        this(GenericEvent.fromEvent(event), jdaCommands, settings, registry, event);
     }
 
     /**
@@ -83,7 +83,7 @@ public class CommandContext {
                           @NotNull JDACommands jdaCommands,
                           @NotNull GuildSettings settings,
                           @NotNull ImplementationRegistry registry) {
-        this(GenericCommandEvent.fromEvent(event), jdaCommands, settings, registry, null);
+        this(GenericEvent.fromEvent(event), jdaCommands, settings, registry, null);
     }
 
     /**
@@ -140,7 +140,7 @@ public class CommandContext {
      * @return the corresponding {@link MessageReceivedEvent}
      */
     @NotNull
-    public GenericCommandEvent getEvent() {
+    public GenericEvent getEvent() {
         return event;
     }
 
@@ -152,7 +152,7 @@ public class CommandContext {
      */
     @NotNull
     public CommandContext setEvent(@NotNull MessageReceivedEvent event) {
-        this.event = GenericCommandEvent.fromEvent(event);
+        this.event = GenericEvent.fromEvent(event);
         return this;
     }
 
@@ -164,7 +164,7 @@ public class CommandContext {
      */
     @NotNull
     public CommandContext setEvent(@NotNull SlashCommandInteractionEvent event) {
-        this.event = GenericCommandEvent.fromEvent(event);
+        this.event = GenericEvent.fromEvent(event);
         return this;
     }
 

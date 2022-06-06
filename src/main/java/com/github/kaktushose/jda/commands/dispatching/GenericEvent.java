@@ -3,21 +3,22 @@ package com.github.kaktushose.jda.commands.dispatching;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Bridge between {@link MessageReceivedEvent} and {@link SlashCommandInteractionEvent}. This class contains all methods
- * both events share and extends JDAs {@link Event}. In addition, this class provides the bare minimum needed for
- * {@link CommandContext} to function.
+ * Bridge between {@link MessageReceivedEvent} and {@link GenericInteractionCreateEvent}. This class contains all
+ * methods both events share and extends JDAs {@link Event}. In addition, this class provides the bare minimum needed for
+ * a {@link CommandContext} to function.
  *
  * @author Kaktushose
  * @version 2.3.0
  * @since 2.3.0
  */
-public class GenericCommandEvent extends Event {
+public class GenericEvent extends Event {
 
     private final Guild guild;
     private final User user;
@@ -26,8 +27,8 @@ public class GenericCommandEvent extends Event {
     private final ChannelType channelType;
     private final Message message;
 
-    protected GenericCommandEvent(JDA api, long responseNumber, Guild guild, User user, Member member,
-                                  MessageChannel channel, ChannelType channelType, Message message) {
+    protected GenericEvent(JDA api, long responseNumber, Guild guild, User user, Member member,
+                           MessageChannel channel, ChannelType channelType, Message message) {
         super(api, responseNumber);
         this.guild = guild;
         this.user = user;
@@ -37,33 +38,33 @@ public class GenericCommandEvent extends Event {
         this.message = message;
     }
 
-    protected GenericCommandEvent(GenericCommandEvent event) {
+    protected GenericEvent(GenericEvent event) {
         this(event.getJDA(), event.getResponseNumber(), event.getGuild(), event.getUser(), event.getMember(),
                 event.getChannel(), event.getChannelType(), event.getMessage());
     }
 
     /**
-     * Constructs a new {@link GenericCommandEvent} from a {@link MessageReceivedEvent}.
+     * Constructs a new {@link GenericEvent} from a {@link MessageReceivedEvent}.
      *
      * @param event the {@link MessageReceivedEvent} to construct from
-     * @return a {@link GenericCommandEvent}
+     * @return a {@link GenericEvent}
      */
     @NotNull
-    public static GenericCommandEvent fromEvent(@NotNull MessageReceivedEvent event) {
-        return new GenericCommandEvent(event.getJDA(), event.getResponseNumber(), event.getGuild(),
+    public static GenericEvent fromEvent(@NotNull MessageReceivedEvent event) {
+        return new GenericEvent(event.getJDA(), event.getResponseNumber(), event.getGuild(),
                 event.getAuthor(), event.getMember(), event.getChannel(), event.getChannelType(), event.getMessage());
     }
 
     /**
-     * Constructs a new {@link GenericCommandEvent} from a {@link SlashCommandInteractionEvent}.
+     * Constructs a new {@link GenericEvent} from a {@link SlashCommandInteractionEvent}.
      *
      * @param event the {@link SlashCommandInteractionEvent} to construct from
-     * @return a {@link GenericCommandEvent}
+     * @return a {@link GenericEvent}
      */
     @NotNull
-    public static GenericCommandEvent fromEvent(@NotNull SlashCommandInteractionEvent event) {
-        return new GenericCommandEvent(event.getJDA(), event.getResponseNumber(), event.getGuild(),
-                event.getUser(), event.getMember(), event.getChannel(), event.getChannelType(), null);
+    public static GenericEvent fromEvent(@NotNull GenericInteractionCreateEvent event) {
+        return new GenericEvent(event.getJDA(), event.getResponseNumber(), event.getGuild(),
+                event.getUser(), event.getMember(), event.getMessageChannel(), event.getChannelType(), null);
     }
 
     /**

@@ -5,10 +5,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import net.dv8tion.jda.api.requests.restaction.WebhookMessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +14,8 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
- * Implementation of {@link ReplyCallback} used for {@link SlashCommandInteractionEvent SlashCommandInteractionEvents}.
+ * Implementation of {@link ReplyCallback} that can handle any type of event. More formally, this callback can handle
+ * any event that has a {@link MessageChannel} linked to it.
  *
  * @author Kaktushose
  * @version 2.3.0
@@ -32,7 +31,7 @@ public class TextReplyCallback implements ReplyCallback {
     /**
      * Constructs a new {@link ReplyCallback}.
      *
-     * @param channel the corresponding {@link TextChannel}
+     * @param channel    the corresponding {@link TextChannel}
      * @param actionRows a {@link Collection} of {@link ActionRow ActionRows to send}
      */
     public TextReplyCallback(MessageChannel channel, Collection<ActionRow> actionRows) {
