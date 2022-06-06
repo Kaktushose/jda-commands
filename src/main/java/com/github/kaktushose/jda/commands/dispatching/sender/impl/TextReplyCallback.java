@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,24 +40,22 @@ public class TextReplyCallback implements ReplyCallback {
 
     @Override
     public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        send(channel.sendMessage(message), success);
+        channel.sendMessage(message).setActionRows(actionRows).queue(success);
     }
 
     @Override
     public void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        send(channel.sendMessage(message), success);
+        channel.sendMessage(message).setActionRows(actionRows).queue(success);
     }
 
     @Override
     public void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success) {
-        send(channel.sendMessageEmbeds(embed), success);
+        channel.sendMessageEmbeds(embed).setActionRows(actionRows).queue(success);
     }
 
-    private void send(MessageAction restAction, Consumer<Message> success) {
-        if (actionRows.size() > 0) {
-            restAction.setActionRows(actionRows).queue(success);
-        } else {
-            restAction.queue(success);
-        }
+    @Override
+    public void deleteOriginal(boolean ephemeral) {
+        throw new UnsupportedOperationException("Cannot delete original message for text commands!");
     }
+
 }
