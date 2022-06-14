@@ -286,8 +286,18 @@ public interface ReplyAction {
     /**
      * Deletes the original message the button was attached to.
      */
-    default void deleteOriginal(boolean ephemeral) {
-        getReplyCallback().deleteOriginal(ephemeral);
+    default void deleteOriginal() {
+        getReplyCallback().deleteOriginal();
+    }
+
+    /**
+     * Removes all components form the original message.
+     *
+     * @return the current instance for fluent interface
+     */
+    default ReplyAction clearComponents() {
+        getReplyCallback().editComponents();
+        return this;
     }
 
     /**

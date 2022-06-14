@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,8 +55,13 @@ public class TextReplyCallback implements ReplyCallback {
     }
 
     @Override
-    public void deleteOriginal(boolean ephemeral) {
+    public void deleteOriginal() {
         throw new UnsupportedOperationException("Cannot delete original message for text commands!");
+    }
+
+    @Override
+    public void editComponents(@NotNull LayoutComponent... components) {
+        throw new UnsupportedOperationException("Cannot edit components for text commands!");
     }
 
 }

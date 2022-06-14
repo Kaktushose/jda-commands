@@ -1,10 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.sender.EditAction;
-import com.github.kaktushose.jda.commands.dispatching.sender.EditCallback;
-import com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction;
-import com.github.kaktushose.jda.commands.dispatching.sender.ReplyCallback;
+import com.github.kaktushose.jda.commands.dispatching.sender.*;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionEditCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
@@ -52,7 +49,7 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
     }
 
     @Override
-    public void editButtons(String... buttons) {
+    public ButtonEvent editButtons(String... buttons) {
         List<ItemComponent> items = new ArrayList<>();
         for (String b : buttons) {
             String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), b);
@@ -64,12 +61,15 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
                     .ifPresent(items::add);
         }
         if (items.size() > 0) {
-            editCallback.editComponent(ActionRow.of(items));
+            replyCallback.editComponents(ActionRow.of(items));
+        } else {
+            replyCallback.editComponents();
         }
+        return this;
     }
 
     @SuppressWarnings("ConstantConditions")
-    public ButtonEvent withButtons(@NotNull String @NotNull ... buttons) {
+    public ButtonEvent withButtons(@NotNull String... buttons) {
         List<ItemComponent> items = new ArrayList<>();
         for (String b : buttons) {
             String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), b);

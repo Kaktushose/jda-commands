@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.LayoutComponent;
+import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,35 +43,33 @@ public class InteractionEditCallback implements EditCallback {
 
     @Override
     public void editMessage(@NotNull String message, @Nullable Consumer<Message> success) {
-        initialReply().editOriginal(message).setActionRows(actionRows).queue(success);
+        initialReply(hook -> send(hook.editOriginal(message), success));
     }
 
     @Override
     public void editMessage(@NotNull Message message, @Nullable Consumer<Message> success) {
-        initialReply().editOriginal(message).setActionRows(actionRows).queue(success);
+        initialReply(hook -> send(hook.editOriginal(message), success));
     }
 
     @Override
     public void editMessage(@NotNull MessageEmbed embed, @Nullable Consumer<Message> success) {
-        initialReply().editOriginalEmbeds(embed).setActionRows(actionRows).queue(success);
+        initialReply(hook -> send(hook.editOriginalEmbeds(embed), success));
     }
 
-    @Override
-    public void editComponent(@NotNull LayoutComponent component) {
-        initialReply().editOriginalComponents(component).queue();
+    private void send(WebhookMessageUpdateAction<Message> restAction, Consumer<Message> success) {
+        if (actionRows.size() > 0) {
+            restAction.setActionRows(actionRows).queue(success);
+        }
+        restAction.queue(success);
     }
 
-    @Override
-    public void deleteOriginal() {
-        initialReply().deleteOriginal().queue();
-    }
-
-    private InteractionHook initialReply() {
+    private void initialReply(Consumer<InteractionHook> consumer) {
         if (!initialReply) {
             initialReply = true;
-            return event.deferEdit().complete();
+            event.deferEdit().queue(consumer);
+            return;
         }
-        return event.getHook();
+        consumer.accept(event.getHook());
     }
 
 }

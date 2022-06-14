@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,29 +43,35 @@ public class InteractionReplyCallback implements ReplyCallback {
 
     @Override
     public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        initialReply(ephemeral).sendMessage(message).addActionRows(actionRows).queue(success);
+        initialReply(ephemeral, hook -> hook.sendMessage(message).addActionRows(actionRows).queue(success));
     }
 
     @Override
     public void sendMessage(@NotNull Message message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        initialReply(ephemeral).sendMessage(message).addActionRows(actionRows).queue(success);
+        initialReply(ephemeral, hook -> hook.sendMessage(message).addActionRows(actionRows).queue(success));
     }
 
     @Override
     public void sendMessage(@NotNull MessageEmbed embed, boolean ephemeral, @Nullable Consumer<Message> success) {
-        initialReply(ephemeral).sendMessageEmbeds(embed).addActionRows(actionRows).queue(success);
+        initialReply(ephemeral, hook -> hook.sendMessageEmbeds(embed).addActionRows(actionRows).queue(success));
     }
 
     @Override
-    public void deleteOriginal(boolean ephemeral) {
-        initialReply(ephemeral).deleteOriginal().queue();
+    public void deleteOriginal() {
+        initialReply(false, hook -> hook.deleteOriginal().queue());
     }
 
-    private InteractionHook initialReply(boolean ephemeral) {
+    @Override
+    public void editComponents(@NotNull LayoutComponent @NotNull ... components) {
+        initialReply(false, hook -> hook.editOriginalComponents(components).queue());
+    }
+
+    private void initialReply(boolean ephemeral, Consumer<InteractionHook> consumer) {
         if (!initialReply) {
             initialReply = true;
-            return event.deferReply().setEphemeral(ephemeral).complete();
+            event.deferReply().setEphemeral(ephemeral).queue(consumer);
+            return;
         }
-        return event.getHook().setEphemeral(ephemeral);
+        consumer.accept(event.getHook().setEphemeral(ephemeral));
     }
 }

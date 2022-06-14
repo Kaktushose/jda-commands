@@ -1,9 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.sender.EditAction;
-import com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction;
-import com.github.kaktushose.jda.commands.dispatching.sender.ReplyCallback;
+import com.github.kaktushose.jda.commands.dispatching.sender.*;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
@@ -112,7 +110,7 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public CommandEvent withButtons(@NotNull String @NotNull ... buttons) {
+    public CommandEvent withButtons(@NotNull String... buttons) {
         List<ItemComponent> items = new ArrayList<>();
         for (String button : buttons) {
             String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button);

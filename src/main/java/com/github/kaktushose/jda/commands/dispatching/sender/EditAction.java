@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -143,30 +142,14 @@ public interface EditAction {
     }
 
     /**
-     * Deletes the original message the button was attached to.
-     */
-    default void deleteOriginal() {
-        getEditCallback().deleteOriginal();
-    }
-
-    /**
      * Edits the buttons attached to the message without changing the message itself. The buttons must be defined in the
      * same {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
      * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
      *
      * @param buttons the ids of the new buttons
-     */
-    void editButtons(String... buttons);
-
-    /**
-     * Adds an {@link ActionRow} to the edit and adds the passed buttons to it. The buttons must be defined in the same
-     * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
-     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
-     *
-     * @param buttons the ids of the buttons to add
      * @return the current instance for fluent interface
      */
-    EditAction withButtons(@NotNull String... buttons);
+    EditAction editButtons(String... buttons);
 
     /**
      * Gets the {@link EditCallback} to use.
