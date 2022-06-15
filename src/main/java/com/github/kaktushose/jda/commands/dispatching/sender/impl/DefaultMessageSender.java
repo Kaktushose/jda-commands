@@ -17,17 +17,29 @@ public class DefaultMessageSender implements MessageSender {
 
     @Override
     public void sendGenericHelpMessage(@NotNull CommandContext context, @NotNull Message message) {
-        context.getEvent().getChannel().sendMessage(message).queue();
+        if(context.isSlash()) {
+            context.getInteractionEvent().reply(message).queue();
+        } else {
+            context.getEvent().getChannel().sendMessage(message).queue();
+        }
     }
 
     @Override
     public void sendSpecificHelpMessage(@NotNull CommandContext context, @NotNull Message message) {
-        context.getEvent().getChannel().sendMessage(message).queue();
+        if(context.isSlash()) {
+            context.getInteractionEvent().reply(message).queue();
+        } else {
+            context.getEvent().getChannel().sendMessage(message).queue();
+        }
     }
 
     @Override
     public void sendErrorMessage(@NotNull CommandContext context, @NotNull Message message) {
-        context.getEvent().getChannel().sendMessage(message).queue();
+        if(context.isSlash()) {
+            context.getInteractionEvent().reply(message).queue();
+        } else {
+            context.getEvent().getChannel().sendMessage(message).queue();
+        }
     }
 
 }
