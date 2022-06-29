@@ -95,16 +95,4 @@ public interface ReplyCallback {
         sendMessage(embedDTO.toMessageEmbed(), ephemeral, success);
     }
 
-    /**
-     * Deletes the original message the button was attached to.
-     */
-    void deleteOriginal();
-
-    /**
-     * Edits the {@link LayoutComponent} attached to the message without changing the message itself.
-     *
-     * @param components the new {@link LayoutComponent}
-     */
-    void editComponents(@NotNull LayoutComponent... components);
-
 }

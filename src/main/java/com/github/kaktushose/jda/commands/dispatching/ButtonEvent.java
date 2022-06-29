@@ -61,9 +61,9 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
                     .ifPresent(items::add);
         }
         if (items.size() > 0) {
-            replyCallback.editComponents(ActionRow.of(items));
+            editCallback.editComponents(ActionRow.of(items));
         } else {
-            replyCallback.editComponents();
+            editCallback.editComponents();
         }
         return this;
     }

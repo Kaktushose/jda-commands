@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -54,6 +55,16 @@ public class InteractionEditCallback implements EditCallback {
     @Override
     public void editMessage(@NotNull MessageEmbed embed, @Nullable Consumer<Message> success) {
         initialReply(hook -> send(hook.editOriginalEmbeds(embed), success));
+    }
+
+    @Override
+    public void deleteOriginal() {
+        initialReply( hook -> hook.deleteOriginal().queue());
+    }
+
+    @Override
+    public void editComponents(@NotNull LayoutComponent @NotNull ... components) {
+        initialReply( hook -> hook.editOriginalComponents(components).queue());
     }
 
     private void send(WebhookMessageUpdateAction<Message> restAction, Consumer<Message> success) {

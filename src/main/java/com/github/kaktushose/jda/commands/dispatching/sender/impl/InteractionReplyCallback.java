@@ -56,16 +56,6 @@ public class InteractionReplyCallback implements ReplyCallback {
         initialReply(ephemeral, hook -> hook.sendMessageEmbeds(embed).addActionRows(actionRows).queue(success));
     }
 
-    @Override
-    public void deleteOriginal() {
-        initialReply(false, hook -> hook.deleteOriginal().queue());
-    }
-
-    @Override
-    public void editComponents(@NotNull LayoutComponent @NotNull ... components) {
-        initialReply(false, hook -> hook.editOriginalComponents(components).queue());
-    }
-
     private void initialReply(boolean ephemeral, Consumer<InteractionHook> consumer) {
         if (!initialReply) {
             initialReply = true;

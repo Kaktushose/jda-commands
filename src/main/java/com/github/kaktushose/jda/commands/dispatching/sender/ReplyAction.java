@@ -284,23 +284,6 @@ public interface ReplyAction {
     ReplyAction withButtons(@NotNull String... buttons);
 
     /**
-     * Deletes the original message the button was attached to.
-     */
-    default void deleteOriginal() {
-        getReplyCallback().deleteOriginal();
-    }
-
-    /**
-     * Removes all components form the original message.
-     *
-     * @return the current instance for fluent interface
-     */
-    default ReplyAction clearComponents() {
-        getReplyCallback().editComponents();
-        return this;
-    }
-
-    /**
      * Gets the {@link ReplyCallback} to use.
      *
      * @return the {@link ReplyCallback}

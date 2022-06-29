@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,5 +87,17 @@ public interface EditCallback {
     default void editMessage(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         editMessage(embedDTO.toMessageEmbed(), success);
     }
+
+    /**
+     * Deletes the original message the button was attached to.
+     */
+    void deleteOriginal();
+
+    /**
+     * Edits the {@link LayoutComponent} attached to the message without changing the message itself.
+     *
+     * @param components the new {@link LayoutComponent}
+     */
+    void editComponents(@NotNull LayoutComponent... components);
 
 }

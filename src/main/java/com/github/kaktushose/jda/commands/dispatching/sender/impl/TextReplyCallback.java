@@ -54,14 +54,4 @@ public class TextReplyCallback implements ReplyCallback {
         channel.sendMessageEmbeds(embed).setActionRows(actionRows).queue(success);
     }
 
-    @Override
-    public void deleteOriginal() {
-        throw new UnsupportedOperationException("Cannot delete original message for text commands!");
-    }
-
-    @Override
-    public void editComponents(@NotNull LayoutComponent... components) {
-        throw new UnsupportedOperationException("Cannot edit components for text commands!");
-    }
-
 }

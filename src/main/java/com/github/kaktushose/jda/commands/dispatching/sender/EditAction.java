@@ -152,6 +152,24 @@ public interface EditAction {
     EditAction editButtons(String... buttons);
 
     /**
+     * Deletes the original message the button was attached to.
+     */
+    default EditAction deleteOriginal() {
+        getEditCallback().deleteOriginal();
+        return this;
+    }
+
+    /**
+     * Removes all components form the original message.
+     *
+     * @return the current instance for fluent interface
+     */
+    default EditAction clearComponents() {
+        getEditCallback().editComponents();
+        return this;
+    }
+
+    /**
      * Gets the {@link EditCallback} to use.
      *
      * @return the {@link EditCallback}
