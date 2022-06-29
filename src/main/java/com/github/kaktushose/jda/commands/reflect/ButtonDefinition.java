@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.dispatching.ButtonEvent;
-import net.dv8tion.jda.api.entities.Emoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -85,7 +85,7 @@ public class ButtonDefinition {
         Emoji emoji;
         String emojiString = button.emoji();
         if (emojiString.matches("<:[\\w-]{2,}:[0-9]{4,}>")) {
-            emoji = Emoji.fromMarkdown(emojiString);
+            emoji = Emoji.fromFormatted(emojiString);
         } else if (emojiString.startsWith("U+") || emojiString.startsWith("u+")) {
             emoji = Emoji.fromUnicode(emojiString);
         } else {

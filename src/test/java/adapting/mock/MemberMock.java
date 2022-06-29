@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -219,7 +220,7 @@ public class MemberMock implements Member {
     }
 
     @Override
-    public boolean canInteract(@NotNull Emote emote) {
+    public boolean canInteract(@NotNull RichCustomEmoji richCustomEmoji) {
         return false;
     }
 

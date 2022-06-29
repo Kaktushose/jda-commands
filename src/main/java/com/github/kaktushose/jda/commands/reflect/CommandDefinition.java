@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -19,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Representation of a single command.
@@ -232,7 +234,20 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 labels.get(0),
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
-        command.setDefaultEnabled(isDefaultEnabled);
+        if (!isDefaultEnabled) {
+            command.setDefaultPermissions(DefaultMemberPermissions.DISABLED);
+        } else {
+            Collection<net.dv8tion.jda.api.Permission> perms = new HashSet<>();
+            for (String perm : permissions) {
+                // not a discord perm, continue
+                if (Arrays.stream(net.dv8tion.jda.api.Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(perm))) {
+                    continue;
+                }
+                perms.add(net.dv8tion.jda.api.Permission.valueOf(perm.toUpperCase()));
+            }
+            command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms));
+        }
+        command.setGuildOnly(!isDM);
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;

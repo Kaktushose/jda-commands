@@ -3,13 +3,18 @@ package adapting.mock;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import net.dv8tion.jda.api.entities.sticker.GuildSticker;
+import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.entities.templates.Template;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.PrivilegeConfig;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
+import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.managers.GuildManager;
+import net.dv8tion.jda.api.managers.GuildStickerManager;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -19,6 +24,7 @@ import net.dv8tion.jda.api.requests.restaction.order.ChannelOrderAction;
 import net.dv8tion.jda.api.requests.restaction.order.RoleOrderAction;
 import net.dv8tion.jda.api.requests.restaction.pagination.AuditLogPaginationAction;
 import net.dv8tion.jda.api.requests.restaction.pagination.BanPaginationAction;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.cache.MemberCacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.dv8tion.jda.api.utils.cache.SortedSnowflakeCacheView;
@@ -199,7 +205,19 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<Emote> createEmote(@NotNull String s, @NotNull Icon icon, @NotNull Role... roles) {
+    public AuditableRestAction<RichCustomEmoji> createEmoji(@NotNull String s, @NotNull Icon icon, @NotNull Role... roles) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<GuildSticker> createSticker(@NotNull String s, @NotNull String s1, @NotNull FileUpload fileUpload, @NotNull Collection<String> collection) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> deleteSticker(@NotNull StickerSnowflake stickerSnowflake) {
         return null;
     }
 
@@ -277,25 +295,13 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public RestAction<List<CommandPrivilege>> retrieveCommandPrivilegesById(@NotNull String s) {
+    public RestAction<List<IntegrationPrivilege>> retrieveIntegrationPrivilegesById(@NotNull String s) {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Map<String, List<CommandPrivilege>>> retrieveCommandPrivileges() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<List<CommandPrivilege>> updateCommandPrivilegesById(@NotNull String s, @NotNull Collection<? extends CommandPrivilege> collection) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Map<String, List<CommandPrivilege>>> updateCommandPrivileges(@NotNull Map<String, ? extends Collection<CommandPrivilege>> map) {
+    public RestAction<PrivilegeConfig> retrieveCommandPrivileges() {
         return null;
     }
 
@@ -579,19 +585,43 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public SnowflakeCacheView<Emote> getEmoteCache() {
+    public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<List<ListedEmote>> retrieveEmotes() {
+    public SnowflakeCacheView<GuildSticker> getStickerCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<ListedEmote> retrieveEmoteById(@NotNull String s) {
+    public RestAction<List<RichCustomEmoji>> retrieveEmojis() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<RichCustomEmoji> retrieveEmojiById(@NotNull String s) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<GuildSticker>> retrieveStickers() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<GuildSticker> retrieveSticker(@NotNull StickerSnowflake stickerSnowflake) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public GuildStickerManager editSticker(@NotNull StickerSnowflake stickerSnowflake) {
         return null;
     }
 

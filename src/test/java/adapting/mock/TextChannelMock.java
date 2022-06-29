@@ -2,6 +2,8 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.managers.channel.concrete.TextChannelManager;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.*;
@@ -181,19 +183,13 @@ public class TextChannelMock implements TextChannel {
 
     @NotNull
     @Override
-    public RestAction<Void> clearReactionsById(@NotNull String s, @NotNull String s1) {
+    public RestAction<Void> clearReactionsById(@NotNull String s, @NotNull Emoji emoji) {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Void> clearReactionsById(@NotNull String s, @NotNull Emote emote) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Void> removeReactionById(@NotNull String s, @NotNull String s1, @NotNull User user) {
+    public MessageAction sendStickers(@NotNull Collection<? extends StickerSnowflake> collection) {
         return null;
     }
 
@@ -205,6 +201,12 @@ public class TextChannelMock implements TextChannel {
     @Override
     public boolean canTalk(@NotNull Member member) {
         return false;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Void> removeReactionById(@NotNull String s, @NotNull Emoji emoji, @NotNull User user) {
+        return null;
     }
 
     @Override

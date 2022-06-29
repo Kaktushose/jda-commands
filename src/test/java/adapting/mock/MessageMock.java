@@ -2,6 +2,8 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.sticker.StickerItem;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -29,66 +31,8 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public List<User> getMentionedUsers() {
+    public Mentions getMentions() {
         return null;
-    }
-
-    @NotNull
-    @Override
-    public Bag<User> getMentionedUsersBag() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<TextChannel> getMentionedChannels() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Bag<TextChannel> getMentionedChannelsBag() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<Role> getMentionedRoles() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Bag<Role> getMentionedRolesBag() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<Member> getMentionedMembers(@NotNull Guild guild) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<Member> getMentionedMembers() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<IMentionable> getMentions(@NotNull MentionType... mentionTypes) {
-        return null;
-    }
-
-    @Override
-    public boolean isMentioned(@NotNull IMentionable iMentionable, @NotNull MentionType... mentionTypes) {
-        return false;
-    }
-
-    @Override
-    public boolean mentionsEveryone() {
-        return false;
     }
 
     @Override
@@ -228,25 +172,13 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public List<Emote> getEmotes() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Bag<Emote> getEmotesBag() {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public List<MessageReaction> getReactions() {
         return null;
     }
 
     @NotNull
     @Override
-    public List<MessageSticker> getStickers() {
+    public List<StickerItem> getStickers() {
         return null;
     }
 
@@ -322,13 +254,7 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public RestAction<Void> addReaction(@NotNull Emote emote) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Void> addReaction(@NotNull String s) {
+    public RestAction<Void> addReaction(@NotNull Emoji emoji) {
         return null;
     }
 
@@ -340,61 +266,31 @@ public class MessageMock implements Message {
 
     @NotNull
     @Override
-    public RestAction<Void> clearReactions(@NotNull String s) {
+    public RestAction<Void> clearReactions(@NotNull Emoji emoji) {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Void> clearReactions(@NotNull Emote emote) {
+    public RestAction<Void> removeReaction(@NotNull Emoji emoji) {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Void> removeReaction(@NotNull Emote emote) {
+    public RestAction<Void> removeReaction(@NotNull Emoji emoji, @NotNull User user) {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<Void> removeReaction(@NotNull Emote emote, @NotNull User user) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Void> removeReaction(@NotNull String s) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public RestAction<Void> removeReaction(@NotNull String s, @NotNull User user) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public ReactionPaginationAction retrieveReactionUsers(@NotNull Emote emote) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public ReactionPaginationAction retrieveReactionUsers(@NotNull String s) {
+    public ReactionPaginationAction retrieveReactionUsers(@NotNull Emoji emoji) {
         return null;
     }
 
     @Nullable
     @Override
-    public MessageReaction getReactionByUnicode(@NotNull String s) {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public MessageReaction getReactionById(long l) {
+    public MessageReaction getReaction(@NotNull Emoji emoji) {
         return null;
     }
 
@@ -429,6 +325,12 @@ public class MessageMock implements Message {
     @Override
     public boolean isEphemeral() {
         return false;
+    }
+
+    @Nullable
+    @Override
+    public ThreadChannel getStartedThread() {
+        return null;
     }
 
     @NotNull

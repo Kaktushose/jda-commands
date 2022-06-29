@@ -4,6 +4,10 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import net.dv8tion.jda.api.entities.sticker.StickerPack;
+import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
+import net.dv8tion.jda.api.entities.sticker.StickerUnion;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -297,7 +301,19 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public SnowflakeCacheView<Emote> getEmoteCache() {
+    public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<StickerUnion> retrieveSticker(@NotNull StickerSnowflake stickerSnowflake) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<StickerPack>> retrieveNitroStickerPacks() {
         return null;
     }
 
