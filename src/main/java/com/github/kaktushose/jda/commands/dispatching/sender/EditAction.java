@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.sender;
 
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
+import com.github.kaktushose.jda.commands.interactions.components.Component;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -146,10 +147,10 @@ public interface EditAction {
      * same {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
      * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
      *
-     * @param buttons the ids of the new buttons
+     * @param components the {@link Component Components} to edit
      * @return the current instance for fluent interface
      */
-    EditAction editButtons(String... buttons);
+    EditAction editComponents(@NotNull Component... components);
 
     /**
      * Deletes the original message the button was attached to.

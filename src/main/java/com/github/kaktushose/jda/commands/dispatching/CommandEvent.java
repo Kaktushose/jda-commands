@@ -5,7 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.sender.*;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.ButtonDefinition;
+import com.github.kaktushose.jda.commands.interactions.components.Buttons;
+import com.github.kaktushose.jda.commands.interactions.components.Component;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -110,16 +111,22 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public CommandEvent withButtons(@NotNull String... buttons) {
+    public CommandEvent with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (String button : buttons) {
-            String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button);
-            command.getController().getButtons()
-                    .stream()
-                    .filter(it -> it.getId().equals(id))
-                    .findFirst()
-                    .map(ButtonDefinition::toButton)
-                    .ifPresent(items::add);
+        for (Component component : components) {
+            if (!(component instanceof Buttons)) {
+                return this;
+            }
+            Buttons buttons = (Buttons) component;
+            buttons.getButtons().forEach(button -> {
+                String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button.getId());
+                command.getController().getButtons()
+                        .stream()
+                        .filter(it -> it.getId().equals(id))
+                        .findFirst()
+                        .map(it -> it.toButton().withDisabled(!button.isEnabled()))
+                        .ifPresent(items::add);
+            });
         }
         if (items.size() > 0) {
             actionRows.add(ActionRow.of(items));

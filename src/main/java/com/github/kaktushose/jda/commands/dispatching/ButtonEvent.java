@@ -5,6 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.sender.*;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionEditCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
+import com.github.kaktushose.jda.commands.interactions.components.Buttons;
+import com.github.kaktushose.jda.commands.interactions.components.Component;
 import com.github.kaktushose.jda.commands.reflect.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -49,16 +51,22 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
     }
 
     @Override
-    public ButtonEvent editButtons(String... buttons) {
+    public ButtonEvent editComponents(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (String b : buttons) {
-            String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), b);
-            button.getController().getButtons()
-                    .stream()
-                    .filter(it -> it.getId().equals(id))
-                    .findFirst()
-                    .map(ButtonDefinition::toButton)
-                    .ifPresent(items::add);
+        for (Component component : components) {
+            if (!(component instanceof Buttons)) {
+                return this;
+            }
+            Buttons buttons = (Buttons) component;
+            buttons.getButtons().forEach(container -> {
+                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
+                button.getController().getButtons()
+                        .stream()
+                        .filter(it -> it.getId().equals(id))
+                        .findFirst()
+                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
+                        .ifPresent(items::add);
+            });
         }
         if (items.size() > 0) {
             editCallback.editComponents(ActionRow.of(items));
@@ -69,16 +77,22 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
     }
 
     @SuppressWarnings("ConstantConditions")
-    public ButtonEvent withButtons(@NotNull String... buttons) {
+    public ButtonEvent with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (String b : buttons) {
-            String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), b);
-            button.getController().getButtons()
-                    .stream()
-                    .filter(it -> it.getId().equals(id))
-                    .findFirst()
-                    .map(ButtonDefinition::toButton)
-                    .ifPresent(items::add);
+        for (Component component : components) {
+            if (!(component instanceof Buttons)) {
+                return this;
+            }
+            Buttons buttons = (Buttons) component;
+            buttons.getButtons().forEach(container -> {
+                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
+                button.getController().getButtons()
+                        .stream()
+                        .filter(it -> it.getId().equals(id))
+                        .findFirst()
+                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
+                        .ifPresent(items::add);
+            });
         }
         if (items.size() > 0) {
             actionRows.add(ActionRow.of(items));

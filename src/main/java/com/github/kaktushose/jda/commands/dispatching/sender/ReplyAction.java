@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.sender;
 
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
+import com.github.kaktushose.jda.commands.interactions.components.Buttons;
+import com.github.kaktushose.jda.commands.interactions.components.Component;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -274,14 +276,30 @@ public interface ReplyAction {
     }
 
     /**
-     * Adds an {@link ActionRow} to the reply and adds the passed buttons to it. The buttons must be defined in the same
+     * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
+     * For buttons, they must be defined in the same
      * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
      * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
      *
-     * @param buttons the ids of the buttons to add
+     * @param components the {@link Component Components} to add
      * @return the current instance for fluent interface
      */
-    ReplyAction withButtons(@NotNull String... buttons);
+    ReplyAction with(@NotNull Component... components);
+
+    /**
+     * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
+     * The buttons must be defined in the same
+     * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
+     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}. This will enable all buttons. To add
+     * disabled buttons, use {@link #with(Component...)}.
+     *
+     * @param buttons the id of the buttons to add
+     * @return the current instance for fluent interface
+     */
+    default ReplyAction withButtons(@NotNull String... buttons) {
+        with(Buttons.enabled(buttons));
+        return this;
+    }
 
     /**
      * Gets the {@link ReplyCallback} to use.
