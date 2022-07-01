@@ -296,26 +296,6 @@ public class CommandDispatcher {
     }
 
     /**
-     * Gets the {@link Router}.
-     *
-     * @return the {@link Router}
-     * @deprecated use {@link ImplementationRegistry#getRouter()}
-     */
-    public Router getRouter() {
-        return implementationRegistry.getRouter();
-    }
-
-    /**
-     * Sets the {@link Router}.
-     *
-     * @param router the {@link Router} to use
-     * @deprecated use {@link ImplementationRegistry#setRouter(Router)}
-     */
-    public void setRouter(@NotNull Router router) {
-        implementationRegistry.setRouter(router);
-    }
-
-    /**
      * Gets the {@link HelpMessageFactory}.
      *
      * @return the {@link HelpMessageFactory}

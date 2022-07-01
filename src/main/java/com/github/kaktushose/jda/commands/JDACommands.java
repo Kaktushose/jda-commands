@@ -169,28 +169,6 @@ public class JDACommands {
     }
 
     /**
-     * Gets the {@link Router}.
-     *
-     * @return the {@link Router}
-     * @deprecated use {@link ImplementationRegistry#getRouter}
-     */
-    public Router getRouter() {
-        return commandDispatcher.getRouter();
-    }
-
-    /**
-     * Sets the {@link Router} to use.
-     *
-     * @param router the new {@link Router} to use
-     * @return this JDACommands instance
-     * @deprecated use {@link ImplementationRegistry#setRouter(Router)}
-     */
-    public JDACommands setRouter(@NotNull Router router) {
-        commandDispatcher.setRouter(router);
-        return this;
-    }
-
-    /**
      * Gets all active commands.
      *
      * @return a set of all active commands
