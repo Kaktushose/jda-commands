@@ -19,12 +19,14 @@ import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -161,12 +163,17 @@ public class CommandDispatcher {
 
         if (context.isSlash()) {
             StringBuilder builder = new StringBuilder();
-            command.getActualParameters().forEach(param -> builder.append(param.getName()).append(" "));
-            AtomicReference<String> parameter = new AtomicReference<>(builder.toString());
-            context.getOptions().forEach(optionMapping ->
-                    parameter.set(parameter.get().replace(optionMapping.getName(), optionMapping.getAsString()))
-            );
-            context.setInput(parameter.get().split(" "));
+            Map<String, OptionMapping> options = context.getOptionsAsMap();
+            command.getActualParameters().forEach(param -> {
+                if (!options.containsKey(param.getName())) {
+                    return;
+                }
+                builder.append(options.get(param.getName()).getAsString()).append(" ");
+            });
+            String parameters = builder.toString().trim();
+            if (!parameters.isEmpty()) {
+                context.setInput(parameters.split(" "));
+            }
         }
 
         log.debug("Applying filters in phase BEFORE_ADAPTING...");

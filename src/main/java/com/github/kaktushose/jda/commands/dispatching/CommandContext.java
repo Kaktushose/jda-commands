@@ -12,7 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class models a command execution. The
@@ -120,6 +122,20 @@ public class CommandContext {
     @NotNull
     public List<OptionMapping> getOptions() {
         return options;
+    }
+
+    /**
+     * Gets the {@link OptionMapping OptionMappings} inserted in a {@code Map<Name, Mapping>}.
+     * Will be empty if {@link #isSlash} returns {@code false}.
+     *
+     * @return the {@link OptionMapping OptionMappings}
+     * @see #getInput()
+     */
+    @NotNull
+    public Map<String, OptionMapping> getOptionsAsMap() {
+        Map<String, OptionMapping> result = new HashMap<>();
+        options.forEach(option -> result.put(option.getName(), option));
+        return result;
     }
 
     /**
