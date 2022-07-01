@@ -44,7 +44,6 @@ public class Buttons implements Component {
 
     /**
      * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button}.
-     *
      */
     public static class ButtonContainer {
         private final String id;

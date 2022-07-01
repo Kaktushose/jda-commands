@@ -20,7 +20,6 @@ public class StateSection {
 
     /**
      * Constructs a new StateSection.
-     *
      */
     public StateSection() {
         this.sections = new ConcurrentHashMap<>();
@@ -56,9 +55,9 @@ public class StateSection {
     /**
      * Gets a value.
      *
-     * @param key the key
+     * @param key   the key
      * @param clazz the class of the value
-     * @param <T> the type of the value
+     * @param <T>   the type of the value
      * @return an {@link Optional} holding the value
      */
     public <T> Optional<T> get(String key, Class<? extends T> clazz) {
@@ -68,7 +67,7 @@ public class StateSection {
     /**
      * Associates the specified value with the specified key.
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      */
     public void put(String key, Object value) {

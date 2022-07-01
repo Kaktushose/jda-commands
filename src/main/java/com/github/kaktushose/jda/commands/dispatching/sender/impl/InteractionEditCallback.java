@@ -59,12 +59,12 @@ public class InteractionEditCallback implements EditCallback {
 
     @Override
     public void deleteOriginal() {
-        initialReply( hook -> hook.deleteOriginal().queue());
+        initialReply(hook -> hook.deleteOriginal().queue());
     }
 
     @Override
     public void editComponents(@NotNull LayoutComponent @NotNull ... components) {
-        initialReply( hook -> hook.editOriginalComponents(components).queue());
+        initialReply(hook -> hook.editOriginalComponents(components).queue());
     }
 
     private void send(WebhookMessageUpdateAction<Message> restAction, Consumer<Message> success) {
