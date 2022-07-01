@@ -17,7 +17,7 @@ public class DefaultMessageSender implements MessageSender {
 
     @Override
     public void sendGenericHelpMessage(@NotNull CommandContext context, @NotNull Message message) {
-        if(context.isSlash()) {
+        if (context.isSlash()) {
             context.getInteractionEvent().reply(message).queue();
         } else {
             context.getEvent().getChannel().sendMessage(message).queue();
@@ -26,7 +26,7 @@ public class DefaultMessageSender implements MessageSender {
 
     @Override
     public void sendSpecificHelpMessage(@NotNull CommandContext context, @NotNull Message message) {
-        if(context.isSlash()) {
+        if (context.isSlash()) {
             context.getInteractionEvent().reply(message).queue();
         } else {
             context.getEvent().getChannel().sendMessage(message).queue();
@@ -35,7 +35,7 @@ public class DefaultMessageSender implements MessageSender {
 
     @Override
     public void sendErrorMessage(@NotNull CommandContext context, @NotNull Message message) {
-        if(context.isSlash()) {
+        if (context.isSlash()) {
             context.getInteractionEvent().reply(message).queue();
         } else {
             context.getEvent().getChannel().sendMessage(message).queue();

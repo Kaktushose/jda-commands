@@ -34,7 +34,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 @SuppressWarnings("ConstantConditions")

@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
 import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
