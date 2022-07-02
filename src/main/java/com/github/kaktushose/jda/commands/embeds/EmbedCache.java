@@ -41,6 +41,7 @@ public class EmbedCache {
         embedMap = new ConcurrentHashMap<>();
         this.file = file;
         this.stream = null;
+        loadEmbeds();
     }
 
     /**
@@ -52,6 +53,7 @@ public class EmbedCache {
         embedMap = new ConcurrentHashMap<>();
         this.stream = stream;
         this.file = null;
+        loadEmbeds();
     }
 
     /**
@@ -63,12 +65,25 @@ public class EmbedCache {
         embedMap = new ConcurrentHashMap<>();
         this.file = new File(file);
         this.stream = null;
+        loadEmbeds();
     }
 
     /**
      * Loads all embeds from a file and caches them.
+     *
+     * @deprecated This now happens automatically. Use {@link #loadEmbeds()} if you want to reload the cache
      */
+    @Deprecated
     public void loadEmbedsToCache() {
+        loadEmbeds();
+    }
+
+    /**
+     * Loads all embeds from a file and stores them. This happens automatically each time you construct a new
+     * EmbedCache. Thus, it's <b>not</b> needed to call this method manually, unless you want to reload the embeds.
+     *
+     */
+    public void loadEmbeds() {
         try {
             Reader reader;
             if (file != null) {
