@@ -1,10 +1,15 @@
 package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Simple key value store for state management.
@@ -17,6 +22,9 @@ public class StateSection {
 
     private final Map<String, StateSection> sections;
     private final Map<String, Object> values;
+    private final long amount;
+    private final TimeUnit unit;
+    private final ScheduledExecutorService executorService;
 
     /**
      * Constructs a new StateSection.
@@ -24,6 +32,23 @@ public class StateSection {
     public StateSection() {
         this.sections = new ConcurrentHashMap<>();
         this.values = new ConcurrentHashMap<>();
+        amount = 0;
+        unit = TimeUnit.MINUTES;
+        executorService = Executors.newScheduledThreadPool(10);
+    }
+
+    /**
+     * Constructs a new StateSection with a specified time to live for all values.
+     *
+     * @param amount the amount of time of the TTL
+     * @param unit the time unit of the delay parameter
+     */
+    public StateSection(long amount, @NotNull TimeUnit unit) {
+        this.sections = new ConcurrentHashMap<>();
+        this.values = new ConcurrentHashMap<>();
+        this.amount = amount;
+        this.unit = unit;
+        executorService = Executors.newScheduledThreadPool(10);
     }
 
     /**
@@ -33,8 +58,21 @@ public class StateSection {
      * @param event the {@link GenericEvent}
      * @return a StateSection
      */
-    public StateSection section(GenericEvent event) {
+    public StateSection section(@NotNull GenericEvent event) {
         return section(event.getUser().getId());
+    }
+
+    /**
+     * Gets or creates a section from a {@link GenericEvent} with a specified time to live for all values.
+     * Creates a new StateSection if and only if no value is present yet.
+     *
+     * @param event the {@link GenericEvent}
+     * @param amount the amount of time of the TTL
+     * @param unit the time unit of the delay parameter
+     * @return a StateSection
+     */
+    public StateSection section(@NotNull GenericEvent event, long amount, @NotNull TimeUnit unit) {
+        return section(event.getUser().getId(), amount, unit);
     }
 
     /**
@@ -49,6 +87,30 @@ public class StateSection {
         }
         StateSection section = new StateSection();
         sections.put(key, section);
+        if (amount > 0) {
+            executorService.schedule(() -> sections.remove(key), amount, unit);
+        }
+        return section;
+    }
+
+    /**
+     * Gets or creates a section with a specified time to live for all values. Creates a new StateSection if and only
+     * if no value is present yet.
+     *
+     * @param key the key
+     * @param amount the amount of the duration, measured in terms of the unit, positive or negative
+     * @param unit the unit that the duration is measured in, must have an exact duration, not null
+     * @return a StateSection
+     */
+    public StateSection section(String key, long amount, @NotNull TimeUnit unit) {
+        if (sections.containsKey(key)) {
+            return sections.get(key);
+        }
+        StateSection section = new StateSection(amount, unit);
+        sections.put(key, section);
+        if (amount > 0) {
+            executorService.schedule(() -> sections.remove(key), amount, unit);
+        }
         return section;
     }
 
@@ -60,7 +122,7 @@ public class StateSection {
      * @param <T>   the type of the value
      * @return an {@link Optional} holding the value
      */
-    public <T> Optional<T> get(String key, Class<? extends T> clazz) {
+    public <T> Optional<T> get(String key, @NotNull Class<? extends T> clazz) {
         return Optional.ofNullable(values.get(key)).filter(it -> it.getClass().isAssignableFrom(clazz)).map(clazz::cast);
     }
 
@@ -73,6 +135,9 @@ public class StateSection {
      */
     public StateSection put(String key, Object value) {
         values.put(key, value);
+        if (amount > 0) {
+            executorService.schedule(() -> values.remove(key), amount, unit);
+        }
         return this;
     }
 
