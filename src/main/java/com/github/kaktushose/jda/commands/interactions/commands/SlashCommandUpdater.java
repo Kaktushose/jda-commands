@@ -67,9 +67,9 @@ public class SlashCommandUpdater {
         }
         CommandTree tree = new CommandTree(commands);
         log.debug("Generated command tree:\n" + tree);
-        Collection<SlashCommandData> commandData = tree.getCommands();
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
+        Collection<SlashCommandData> commandData = tree.getCommands();
         addHelpCommands(commandData, labels);
         push(commandData);
         log.debug("Done!");

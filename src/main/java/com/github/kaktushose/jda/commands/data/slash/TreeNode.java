@@ -1,11 +1,14 @@
 package com.github.kaktushose.jda.commands.data.slash;
 
+import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -19,6 +22,7 @@ import java.util.*;
  */
 public class TreeNode implements Iterable<TreeNode> {
 
+    private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final String name;
     private final CommandDefinition command;
     private final List<TreeNode> children;
@@ -164,7 +168,14 @@ public class TreeNode implements Iterable<TreeNode> {
             commands.add(data);
             return;
         }
-        commands.add(command.toCommandData());
+        try {
+            commands.add(command.toCommandData());
+        } catch (Exception e) {
+            log.error(String.format("Cannot convert command %s.%s to  SlashCommandData!",
+                    command.getMethod().getDeclaringClass().getSimpleName(),
+                    command.getMethod().getName()), e
+            );
+        }
     }
 
     private void toSubCommandData(SlashCommandData commandData) {
