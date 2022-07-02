@@ -85,4 +85,29 @@ public class StateSection {
     public boolean contains(String key) {
         return values.containsKey(key);
     }
+
+    /**
+     * Removes the mapping for a key from this {@link StateSection}. This can either be a value or another
+     * {@link StateSection}.
+     *
+     * @param key key whose mapping is to be removed
+     * @return this instance for fluent interface
+     */
+    public StateSection remove(String key) {
+        values.remove(key);
+        return this;
+    }
+
+    /**
+     * Removes all of the mappings from this {@link StateSection} including values and
+     * {@link StateSection StateSections}.
+     *
+     * @return this instance for fluent interface
+     */
+    public StateSection clear() {
+        values.clear();
+        sections.clear();
+        return this;
+    }
+
 }
