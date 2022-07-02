@@ -100,6 +100,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
     public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
+        String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         StringBuilder sbExpected = new StringBuilder();
         CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<String> arguments = Arrays.asList(context.getInput());
@@ -122,7 +123,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
                 .setDescription(String.format("`%s`", command.getMetadata().getUsage().replaceAll(
-                        "\\{prefix}", Matcher.quoteReplacement(context.getSettings().getPrefix())))
+                        "\\{prefix}", prefix))
                 )
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
