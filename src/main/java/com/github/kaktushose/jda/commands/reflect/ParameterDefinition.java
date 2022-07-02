@@ -226,6 +226,8 @@ public class ParameterDefinition {
      * @return the transformed {@link OptionData}
      */
     public OptionData toOptionData() {
+        String name = getName();
+        name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
         OptionData optionData = new OptionData(
                 OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING),
                 name,
