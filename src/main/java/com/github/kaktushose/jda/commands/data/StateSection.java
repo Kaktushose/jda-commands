@@ -69,9 +69,11 @@ public class StateSection {
      *
      * @param key   the key
      * @param value the value
+     * @return this instance for fluent interface
      */
-    public void put(String key, Object value) {
+    public StateSection put(String key, Object value) {
         values.put(key, value);
+        return this;
     }
 
     /**
