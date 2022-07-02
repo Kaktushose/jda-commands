@@ -59,7 +59,13 @@ public class InteractionEditCallback implements EditCallback {
 
     @Override
     public void deleteOriginal() {
-        initialReply(hook -> hook.deleteOriginal().queue());
+        initialReply(hook -> hook.retrieveOriginal().queue(message -> {
+            if (message.isEphemeral()) {
+                hook.editOriginalEmbeds().setActionRows().setContent("*deleted*").queue();
+                return;
+            }
+            hook.deleteOriginal().queue();
+        }));
     }
 
     @Override
