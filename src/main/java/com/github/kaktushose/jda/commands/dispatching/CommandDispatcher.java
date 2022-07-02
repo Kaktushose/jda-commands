@@ -26,9 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
@@ -162,17 +163,16 @@ public class CommandDispatcher {
         }
 
         if (context.isSlash()) {
-            StringBuilder builder = new StringBuilder();
+            List<String> parameters = new ArrayList<>();
             Map<String, OptionMapping> options = context.getOptionsAsMap();
             command.getActualParameters().forEach(param -> {
                 if (!options.containsKey(param.getName())) {
                     return;
                 }
-                builder.append(options.get(param.getName()).getAsString()).append(" ");
+                parameters.add(options.get(param.getName()).getAsString());
             });
-            String parameters = builder.toString().trim();
             if (!parameters.isEmpty()) {
-                context.setInput(parameters.split(" "));
+                context.setInput(parameters.toArray(new String[]{}));
             }
         }
 
