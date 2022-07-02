@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.data;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,7 +40,7 @@ public class StateSection {
      * Constructs a new StateSection with a specified time to live for all values.
      *
      * @param amount the amount of time of the TTL
-     * @param unit the time unit of the delay parameter
+     * @param unit   the time unit of the delay parameter
      */
     public StateSection(long amount, @NotNull TimeUnit unit) {
         this.sections = new ConcurrentHashMap<>();
@@ -66,9 +65,9 @@ public class StateSection {
      * Gets or creates a section from a {@link GenericEvent} with a specified time to live for all values.
      * Creates a new StateSection if and only if no value is present yet.
      *
-     * @param event the {@link GenericEvent}
+     * @param event  the {@link GenericEvent}
      * @param amount the amount of time of the TTL
-     * @param unit the time unit of the delay parameter
+     * @param unit   the time unit of the delay parameter
      * @return a StateSection
      */
     public StateSection section(@NotNull GenericEvent event, long amount, @NotNull TimeUnit unit) {
@@ -97,9 +96,9 @@ public class StateSection {
      * Gets or creates a section with a specified time to live for all values. Creates a new StateSection if and only
      * if no value is present yet.
      *
-     * @param key the key
+     * @param key    the key
      * @param amount the amount of the duration, measured in terms of the unit, positive or negative
-     * @param unit the unit that the duration is measured in, must have an exact duration, not null
+     * @param unit   the unit that the duration is measured in, must have an exact duration, not null
      * @return a StateSection
      */
     public StateSection section(String key, long amount, @NotNull TimeUnit unit) {
@@ -152,8 +151,17 @@ public class StateSection {
     }
 
     /**
-     * Removes the mapping for a key from this {@link StateSection}. This can either be a value or another
-     * {@link StateSection}.
+     * Whether this StateSection has a {@link StateSection} mapped to the key.
+     *
+     * @param key the key
+     * @return {@code true} if this StateSection has a value mapped to the key
+     */
+    public boolean containsSection(String key) {
+        return sections.containsKey(key);
+    }
+
+    /**
+     * Removes the value mapping for a key from this {@link StateSection}.
      *
      * @param key key whose mapping is to be removed
      * @return this instance for fluent interface
@@ -164,13 +172,32 @@ public class StateSection {
     }
 
     /**
-     * Removes all of the mappings from this {@link StateSection} including values and
-     * {@link StateSection StateSections}.
+     * Removes the {@link StateSection} mapping for a key from this {@link StateSection}.
+     *
+     * @param key key whose mapping is to be removed
+     * @return this instance for fluent interface
+     */
+    public StateSection removeSection(String key) {
+        sections.remove(key);
+        return this;
+    }
+
+    /**
+     * Removes all the value mappings from this {@link StateSection}.
      *
      * @return this instance for fluent interface
      */
     public StateSection clear() {
         values.clear();
+        return this;
+    }
+
+    /**
+     * Removes all the {@link StateSection} mappings from this {@link StateSection}.
+     *
+     * @return this instance for fluent interface
+     */
+    public StateSection clearSections() {
         sections.clear();
         return this;
     }
