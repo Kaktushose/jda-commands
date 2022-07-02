@@ -337,6 +337,73 @@ public class EmbedDTO implements Serializable {
         return this;
     }
 
+    /**
+     * Attempts to format all fields with the given arguments. Be aware that this might only be useful for some fields
+     * such as title, description or fields.
+     *
+     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than
+     *             format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
+     *             zero.
+     * @return the current instance to use fluent interface
+     */
+    public EmbedDTO injectFormat(Object... args) {
+        if (title != null) {
+            title = String.format(title, args);
+        }
+        if (description != null) {
+            description = String.format(description, args);
+        }
+        if (url != null) {
+            url = String.format(url, args);
+        }
+        if (color != null) {
+            color = String.format(color, args);
+        }
+        if (timestamp != null) {
+            timestamp = String.format(timestamp, args);
+        }
+        if (footer != null) {
+            if (footer.iconUrl != null) {
+                footer.iconUrl = String.format(footer.iconUrl, args);
+            }
+            if (footer.text != null) {
+                footer.text = String.format(footer.text, args);
+            }
+        }
+        if (thumbnail != null) {
+            if (thumbnail.url != null) {
+                thumbnail.url = String.format(thumbnail.url, args);
+            }
+        }
+        if (image != null) {
+            if (image.url != null) {
+                image.url = String.format(image.url, args);
+            }
+        }
+        if (author != null) {
+            if (author.iconUrl != null) {
+                author.iconUrl = String.format(author.iconUrl, args);
+            }
+            if (author.name != null) {
+                author.name = String.format(author.name, args);
+            }
+            if (author.url != null) {
+                author.url = String.format(author.url, args);
+            }
+        }
+        if (fields != null) {
+            for (Field field : fields) {
+                if (field.name != null) {
+                    field.name = String.format(field.name, args);
+                }
+                if (field.value != null) {
+                    field.value = String.format(field.value, args);
+                }
+            }
+        }
+        return this;
+    }
+
     public static class Footer {
         private String iconUrl;
         private String text;
