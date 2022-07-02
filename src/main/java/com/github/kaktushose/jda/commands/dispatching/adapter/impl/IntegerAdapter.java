@@ -25,7 +25,7 @@ public class IntegerAdapter implements TypeAdapter<Integer> {
     @Override
     public Optional<Integer> parse(@NotNull String raw, @NotNull CommandContext context) {
         try {
-            return Optional.of(Integer.valueOf(raw));
+            return Optional.of((int) Double.parseDouble(raw));
         } catch (NumberFormatException ignored) {
             return Optional.empty();
         }

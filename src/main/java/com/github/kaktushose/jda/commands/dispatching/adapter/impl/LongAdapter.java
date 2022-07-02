@@ -25,7 +25,7 @@ public class LongAdapter implements TypeAdapter<Long> {
     @Override
     public Optional<Long> parse(@NotNull String raw, @NotNull CommandContext context) {
         try {
-            return Optional.of(Long.valueOf(raw));
+            return Optional.of((long) Double.parseDouble(raw));
         } catch (NumberFormatException ignored) {
             return Optional.empty();
         }
