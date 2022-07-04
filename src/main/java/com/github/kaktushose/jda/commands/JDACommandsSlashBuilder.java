@@ -23,6 +23,7 @@ public class JDACommandsSlashBuilder {
     private final Class<?> clazz;
     private final String[] packages;
     private CommandRegistrationPolicy policy;
+    private boolean helpEnabled;
 
     JDACommandsSlashBuilder(Object jda, Class<?> clazz, String... packages) {
         this.jda = jda;
@@ -30,6 +31,7 @@ public class JDACommandsSlashBuilder {
         this.packages = packages;
         this.guildIds = new ArrayList<>();
         this.policy = CommandRegistrationPolicy.SLASH;
+        this.helpEnabled = true;
     }
 
     /**
@@ -69,6 +71,17 @@ public class JDACommandsSlashBuilder {
     }
 
     /**
+     * Whether to register the auto generated help commands.
+     *
+     * @param helpEnabled {@code true} if help commands should be auto generated
+     * @return the current instance for fluent interface
+     */
+    public JDACommandsSlashBuilder enableHelp(boolean helpEnabled) {
+        this.helpEnabled = helpEnabled;
+        return this;
+    }
+
+    /**
      * Starts JDACommands with the predefined values. This will register slash commands as global commands, ignoring the
      * guilds passed to {@link #guilds(long...)}.
      *
@@ -76,7 +89,7 @@ public class JDACommandsSlashBuilder {
      */
     @NotNull
     public JDACommands startGlobal() {
-        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, true, policy), packages);
+        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, true, helpEnabled, policy), packages);
     }
 
     /**
@@ -87,7 +100,7 @@ public class JDACommandsSlashBuilder {
      */
     @NotNull
     public JDACommands startGuild() {
-        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, false, policy), packages);
+        return new JDACommands(jda, clazz, new SlashConfiguration(guildIds, false, helpEnabled, policy), packages);
     }
 
 }

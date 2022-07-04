@@ -70,7 +70,9 @@ public class SlashCommandUpdater {
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
         Collection<SlashCommandData> commandData = tree.getCommands();
-        addHelpCommands(commandData, labels);
+        if (configuration.isHelpEnabled() && !commandData.isEmpty()) {
+            addHelpCommands(commandData, labels);
+        }
         push(commandData);
         log.debug("Done!");
     }

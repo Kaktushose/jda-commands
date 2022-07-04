@@ -38,7 +38,7 @@ public class JDACommands {
     }
 
     private JDACommands(Object jda, Class<?> clazz, String... packages) {
-        this(jda, clazz, new SlashConfiguration(new ArrayList<>(), true, CommandRegistrationPolicy.TEXT), packages);
+        this(jda, clazz, new SlashConfiguration(new ArrayList<>(), true, true, CommandRegistrationPolicy.TEXT), packages);
     }
 
     JDACommands(Object jda, Class<?> clazz, SlashConfiguration configuration, String... packages) {
