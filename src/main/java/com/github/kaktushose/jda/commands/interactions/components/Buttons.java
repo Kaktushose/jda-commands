@@ -1,8 +1,6 @@
 package com.github.kaktushose.jda.commands.interactions.components;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * {@link Component} implementation for buttons. This class can be used to add
@@ -31,7 +29,7 @@ public class Buttons implements Component {
     }
 
     private static Buttons build(boolean enabled, String... buttons) {
-        Set<ButtonContainer> result = new HashSet<>();
+        List<ButtonContainer> result = new ArrayList<>();
         for (String button : buttons) {
             result.add(new ButtonContainer(button, enabled));
         }
