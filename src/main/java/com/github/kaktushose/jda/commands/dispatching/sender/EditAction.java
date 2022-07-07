@@ -171,6 +171,16 @@ public interface EditAction {
     }
 
     /**
+     * No-op acknowledgement of this interaction. See
+     * {@link net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback#deferEdit() IMessageEditCallback#deferEdit()}
+     * for details.
+     */
+    default EditAction deferEdit() {
+        getEditCallback().deferEdit();
+        return this;
+    }
+
+    /**
      * Gets the {@link EditCallback} to use.
      *
      * @return the {@link EditCallback}

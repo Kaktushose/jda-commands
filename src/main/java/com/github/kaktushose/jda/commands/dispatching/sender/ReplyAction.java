@@ -302,6 +302,17 @@ public interface ReplyAction {
     }
 
     /**
+     * Acknowledge this interaction and defer the reply to a later time.
+     * See {@link net.dv8tion.jda.api.interactions.callbacks.IReplyCallback#deferReply(boolean) IReplyCallback#deferReply(boolean)}
+     * for details.
+     *
+     */
+    default ReplyAction deferReply() {
+        getReplyCallback().deferReply(isEphemeral());
+        return this;
+    }
+
+    /**
      * Gets the {@link ReplyCallback} to use.
      *
      * @return the {@link ReplyCallback}

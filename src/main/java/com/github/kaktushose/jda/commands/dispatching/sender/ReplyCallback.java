@@ -94,4 +94,13 @@ public interface ReplyCallback {
         sendMessage(embedDTO.toMessageEmbed(), ephemeral, success);
     }
 
+    /**
+     * Acknowledge this interaction and defer the reply to a later time.
+     * See {@link net.dv8tion.jda.api.interactions.callbacks.IReplyCallback#deferReply(boolean) IReplyCallback#deferReply(boolean)}
+     * for details.
+     *
+     * @param ephemeral whether to send an ephemeral reply
+     */
+    void deferReply(boolean ephemeral);
+
 }

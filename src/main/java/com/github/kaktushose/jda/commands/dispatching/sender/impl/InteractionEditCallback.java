@@ -28,7 +28,6 @@ public class InteractionEditCallback implements EditCallback {
 
     private final IMessageEditCallback event;
     private final Collection<ActionRow> actionRows;
-    private boolean initialReply;
 
     /**
      * Constructs a new {@link ReplyCallback}.
@@ -39,7 +38,6 @@ public class InteractionEditCallback implements EditCallback {
     public InteractionEditCallback(IMessageEditCallback event, Collection<ActionRow> actionRows) {
         this.event = event;
         this.actionRows = actionRows;
-        initialReply = false;
     }
 
     @Override
@@ -73,6 +71,11 @@ public class InteractionEditCallback implements EditCallback {
         initialReply(hook -> hook.editOriginalComponents(components).queue());
     }
 
+    @Override
+    public void deferEdit() {
+        event.deferEdit().queue();
+    }
+
     private void send(WebhookMessageUpdateAction<Message> restAction, Consumer<Message> success) {
         if (actionRows.size() > 0) {
             restAction.setActionRows(actionRows).queue(success);
@@ -81,8 +84,7 @@ public class InteractionEditCallback implements EditCallback {
     }
 
     private void initialReply(Consumer<InteractionHook> consumer) {
-        if (!initialReply) {
-            initialReply = true;
+        if (!event.isAcknowledged()) {
             event.deferEdit().queue(consumer);
             return;
         }

@@ -100,4 +100,11 @@ public interface EditCallback {
      */
     void editComponents(@NotNull LayoutComponent... components);
 
+    /**
+     * No-op acknowledgement of this interaction. See
+     * {@link net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback#deferEdit() IMessageEditCallback#deferEdit()}
+     * for details.
+     */
+    void deferEdit();
+
 }

@@ -26,7 +26,6 @@ public class InteractionReplyCallback implements ReplyCallback {
 
     private final IReplyCallback event;
     private final Collection<ActionRow> actionRows;
-    private boolean initialReply;
 
     /**
      * Constructs a new {@link ReplyCallback}.
@@ -37,7 +36,6 @@ public class InteractionReplyCallback implements ReplyCallback {
     public InteractionReplyCallback(@NotNull IReplyCallback event, @NotNull Collection<ActionRow> actionRows) {
         this.event = event;
         this.actionRows = actionRows;
-        initialReply = false;
     }
 
     @Override
@@ -55,9 +53,13 @@ public class InteractionReplyCallback implements ReplyCallback {
         initialReply(ephemeral, hook -> hook.sendMessageEmbeds(embed).addActionRows(actionRows).queue(success));
     }
 
+    @Override
+    public void deferReply(boolean ephemeral) {
+        event.deferReply(ephemeral).queue();
+    }
+
     private void initialReply(boolean ephemeral, Consumer<InteractionHook> consumer) {
-        if (!initialReply) {
-            initialReply = true;
+        if (!event.isAcknowledged()) {
             event.deferReply().setEphemeral(ephemeral).queue(consumer);
             return;
         }
