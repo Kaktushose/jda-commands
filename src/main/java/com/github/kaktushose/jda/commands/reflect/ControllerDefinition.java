@@ -27,13 +27,16 @@ public class ControllerDefinition {
     private final List<CommandDefinition> superCommands;
     private final List<CommandDefinition> subCommands;
     private final List<ButtonDefinition> buttons;
+    private final boolean autoAcknowledge;
 
     private ControllerDefinition(List<CommandDefinition> superCommands,
                                  List<CommandDefinition> subCommands,
-                                 List<ButtonDefinition> buttons) {
+                                 List<ButtonDefinition> buttons,
+                                 boolean autoAcknowledge) {
         this.superCommands = superCommands;
         this.subCommands = subCommands;
         this.buttons = buttons;
+        this.autoAcknowledge = autoAcknowledge;
     }
 
     /**
@@ -138,7 +141,7 @@ public class ControllerDefinition {
             subCommands.clear();
         }
 
-        ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands, buttons);
+        ControllerDefinition controller = new ControllerDefinition(superCommands, subCommands, buttons, commandController.acknowledge());
         controller.getSuperCommands().forEach(definition -> definition.setController(controller));
         controller.getSubCommands().forEach(definition -> definition.setController(controller));
         controller.getButtons().forEach(button -> button.setController(controller));
@@ -179,6 +182,15 @@ public class ControllerDefinition {
      */
     public List<ButtonDefinition> getButtons() {
         return buttons;
+    }
+
+    /**
+     * Gets whether incoming events should be acknowledged by default. This only affects slash commands.
+     *
+     * @return {@code true} if events should be acknowledged by default
+     */
+    public boolean isAutoAcknowledge() {
+        return autoAcknowledge;
     }
 
     @Override

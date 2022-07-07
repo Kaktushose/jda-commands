@@ -60,4 +60,11 @@ public @interface CommandController {
      */
     boolean ephemeral() default false;
 
+    /**
+     * Returns whether incoming events should be acknowledged by default. This only affects slash commands.
+     *
+     * @return {@code true} if events should be acknowledged by default
+     */
+    boolean acknowledge() default true;
+
 }

@@ -203,6 +203,9 @@ public class CommandDispatcher {
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getAuthor());
         try {
+            if (context.isSlash() && command.getController().isAutoAcknowledge()) {
+                context.getInteractionEvent().deferReply(context.getCommand().isEphemeral()).queue();
+            }
             log.debug("Invoking method with following arguments: {}", context.getArguments());
             command.getMethod().invoke(command.getInstance(), context.getArguments().toArray());
         } catch (Exception e) {

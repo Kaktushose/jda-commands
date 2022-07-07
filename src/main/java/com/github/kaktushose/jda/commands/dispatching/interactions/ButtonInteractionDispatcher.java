@@ -62,6 +62,9 @@ public class ButtonInteractionDispatcher extends ListenerAdapter {
         }
         ButtonDefinition button = optional.get();
         log.info("Executing button interaction {} for user {}", button.getMethod().getName(), event.getUser());
+        if (button.getController().isAutoAcknowledge()) {
+            event.deferEdit().queue();
+        }
         try {
             button.getMethod().invoke(button.getInstance(), new ButtonEvent(event, button, jdaCommands));
         } catch (Exception e) {
