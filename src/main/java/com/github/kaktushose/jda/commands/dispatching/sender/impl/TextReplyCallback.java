@@ -53,4 +53,8 @@ public class TextReplyCallback implements ReplyCallback {
         channel.sendMessageEmbeds(embed).setActionRows(actionRows).queue(success);
     }
 
+    @Override
+    public void deferReply(boolean ephemeral) {
+    }
+
 }
