@@ -84,12 +84,10 @@ public class ButtonDefinition {
 
         Emoji emoji;
         String emojiString = button.emoji();
-        if (emojiString.matches("<:[\\w-]{2,}:[0-9]{4,}>")) {
-            emoji = Emoji.fromFormatted(emojiString);
-        } else if (emojiString.startsWith("U+") || emojiString.startsWith("u+")) {
-            emoji = Emoji.fromUnicode(emojiString);
-        } else {
+        if (emojiString.isEmpty()) {
             emoji = null;
+        } else {
+            emoji = Emoji.fromFormatted(emojiString);
         }
 
         String name = button.id().isEmpty() ? method.getName() : button.id();
