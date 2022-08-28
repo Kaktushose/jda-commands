@@ -156,7 +156,7 @@ public class TypeAdapterRegistry {
                 raw = input[i];
             }
 
-            if (i == command.getActualParameters().size() && parameter.isConcat()) {
+            if (i == command.getActualParameters().size() - 1 && parameter.isConcat()) {
                 StringBuilder sb = new StringBuilder();
                 for (String s : Arrays.copyOfRange(input, i, input.length)) {
                     sb.append(s).append(" ");
