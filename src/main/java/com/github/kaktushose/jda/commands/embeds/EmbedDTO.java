@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -281,60 +282,68 @@ public class EmbedDTO implements Serializable {
      */
     public EmbedDTO injectValue(String name, Object object) {
         if (title != null) {
-            title = title.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+            title = title.replaceAll(pattern(name), replacement(object));
         }
         if (description != null) {
-            description = description.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+            description = description.replaceAll(pattern(name), replacement(object));
         }
         if (url != null) {
-            url = url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+            url = url.replaceAll(pattern(name), replacement(object));
         }
         if (color != null) {
-            color = color.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+            color = color.replaceAll(pattern(name), replacement(object));
         }
         if (timestamp != null) {
-            timestamp = timestamp.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+            timestamp = timestamp.replaceAll(pattern(name), replacement(object));
         }
         if (footer != null) {
             if (footer.iconUrl != null) {
-                footer.iconUrl = footer.iconUrl.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                footer.iconUrl = footer.iconUrl.replaceAll(pattern(name), replacement(object));
             }
             if (footer.text != null) {
-                footer.text = footer.text.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                footer.text = footer.text.replaceAll(pattern(name), replacement(object));
             }
         }
         if (thumbnail != null) {
             if (thumbnail.url != null) {
-                thumbnail.url = thumbnail.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                thumbnail.url = thumbnail.url.replaceAll(pattern(name), replacement(object));
             }
         }
         if (image != null) {
             if (image.url != null) {
-                image.url = image.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                image.url = image.url.replaceAll(pattern(name), replacement(object));
             }
         }
         if (author != null) {
             if (author.iconUrl != null) {
-                author.iconUrl = author.iconUrl.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                author.iconUrl = author.iconUrl.replaceAll(pattern(name), replacement(object));
             }
             if (author.name != null) {
-                author.name = author.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                author.name = author.name.replaceAll(pattern(name), replacement(object));
             }
             if (author.url != null) {
-                author.url = author.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                author.url = author.url.replaceAll(pattern(name), replacement(object));
             }
         }
         if (fields != null) {
             for (Field field : fields) {
                 if (field.name != null) {
-                    field.name = field.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                    field.name = field.name.replaceAll(pattern(name), replacement(object));
                 }
                 if (field.value != null) {
-                    field.value = field.value.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
+                    field.value = field.value.replaceAll(pattern(name), replacement(object));
                 }
             }
         }
         return this;
+    }
+
+    private String pattern(String name) {
+        return String.format(Pattern.quote("{%s}"), name);
+    }
+
+    private String replacement(Object object) {
+        return Matcher.quoteReplacement(String.valueOf(object));
     }
 
     /**
