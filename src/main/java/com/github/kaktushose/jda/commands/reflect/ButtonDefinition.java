@@ -110,7 +110,7 @@ public class ButtonDefinition {
      * @return the transformed {@link net.dv8tion.jda.api.interactions.components.buttons.Button Button}
      */
     public net.dv8tion.jda.api.interactions.components.buttons.Button toButton() {
-        String label = getLabel().orElse("empty label");
+        String label = getLabel().orElse("");
         String id = getLink().orElse(this.id);
         if (emoji == null) {
             return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label);
