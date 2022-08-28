@@ -45,21 +45,21 @@ public @interface Button {
     /**
      * Gets the label of the button.
      *
-     * @return an {@link Optional} holding the label
+     * @return the label of the button
      */
     String label() default "";
 
     /**
      * Gets the {@link Emoji} of the button.
      *
-     * @return an {@link Optional} holding the {@link Emoji}
+     * @return the {@link Emoji}
      */
     String emoji() default "";
 
     /**
      * Gets the link of the button.
      *
-     * @return an {@link Optional} holding the link
+     * @return the link of the button
      */
     String link() default "";
 
