@@ -58,6 +58,7 @@ public class CommandDispatcher {
                              boolean isShardManager,
                              @NotNull JDACommands jdaCommands,
                              @NotNull Class<?> clazz,
+                             String pluginDir,
                              @NotNull String... packages) {
         this.jda = jda;
         this.isShardManager = isShardManager;
@@ -85,7 +86,7 @@ public class CommandDispatcher {
         }
 
         commandRegistry = new CommandRegistry(adapterRegistry, validatorRegistry, dependencyInjector);
-        commandRegistry.index(clazz, packages);
+        commandRegistry.index(clazz, pluginDir, packages);
 
         dependencyInjector.inject();
         isActive = true;

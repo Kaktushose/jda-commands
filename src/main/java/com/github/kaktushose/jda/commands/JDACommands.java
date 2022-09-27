@@ -31,9 +31,9 @@ public class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final CommandDispatcher commandDispatcher;
 
-    private JDACommands(Object jda, boolean isShardManager, Class<?> clazz, String... packages) {
+    private JDACommands(Object jda, boolean isShardManager, Class<?> clazz, String pluginDir, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, packages);
+        this.commandDispatcher = new CommandDispatcher(jda, isShardManager, this, clazz, pluginDir, packages);
         log.info("Finished loading!");
     }
 
@@ -46,7 +46,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(jda, false, clazz, packages);
+        return new JDACommands(jda, false, clazz, null, packages);
     }
 
     /**
@@ -58,7 +58,33 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(shardManager, true, clazz, packages);
+        return new JDACommands(shardManager, true, clazz, null, packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
+     * @param pluginDir the directory where the plugins are located
+     * @param packages package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String pluginDir, @NotNull String... packages) {
+        return new JDACommands(jda, false, clazz, pluginDir, packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param shardManager the corresponding {@link ShardManager} instance
+     * @param clazz        a class of the classpath to scan
+     * @param pluginDir    the directory where the plugins are located
+     * @param packages     package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String pluginDir, @NotNull String... packages) {
+        return new JDACommands(shardManager, true, clazz, pluginDir, packages);
     }
 
     /**

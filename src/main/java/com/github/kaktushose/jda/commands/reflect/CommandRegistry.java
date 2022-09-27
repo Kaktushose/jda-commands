@@ -4,7 +4,10 @@ import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.plugins.CommandPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.pf4j.DefaultPluginManager;
+import org.pf4j.PluginManager;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -14,10 +17,8 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 /**
  * Central registry for all {@link CommandDefinition CommandDefinitions}.
@@ -58,7 +59,7 @@ public class CommandRegistry {
      * @param packages package(s) to exclusively scan
      * @param clazz    a class of the classpath to scan
      */
-    public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
+    public void index(@NotNull Class<?> clazz, String pluginDir, @NotNull String... packages) {
         log.debug("Indexing controllers...");
 
         ConfigurationBuilder config = new ConfigurationBuilder()
@@ -67,7 +68,11 @@ public class CommandRegistry {
                 .filterInputsBy(new FilterBuilder().includePackage(packages));
         Reflections reflections = new Reflections(config);
 
+        Set<Class<?>> pluginControllers = indexPlugins(pluginDir);
+
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);
+
+        controllerSet.addAll(pluginControllers);
 
         for (Class<?> aClass : controllerSet) {
             log.debug("Found controller {}", aClass.getName());
@@ -92,6 +97,43 @@ public class CommandRegistry {
         }
 
         log.debug("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
+    }
+
+    private Set<Class<?>> indexPlugins(String pluginDir) {
+
+        if (pluginDir == null) {
+            log.debug("No plugin directory specified. Skipping plugin indexing...");
+            return Collections.emptySet();
+        }
+
+        File pluginFolder = new File(pluginDir);
+        if (!pluginFolder.exists()) {
+            pluginFolder.mkdirs();
+        }
+
+        PluginManager pluginManager = new DefaultPluginManager(pluginFolder.toPath());
+        pluginManager.loadPlugins();
+        pluginManager.startPlugins();
+
+        List<ClassLoader> classLoadersList = new ArrayList<>();
+        List<String> pluginPackages = new ArrayList<>();
+        pluginManager.getExtensions(CommandPlugin.class).forEach(plugin -> {
+            log.debug("Found Plugin: {} version {}", plugin.getPluginName(), plugin.getVersion());
+            classLoadersList.add(plugin.getClass().getClassLoader());
+            pluginPackages.addAll(plugin.getCommandPackages());
+        });
+
+        ClassLoader[] arr = classLoadersList.toArray(new ClassLoader[0]);
+
+        ConfigurationBuilder config = new ConfigurationBuilder()
+                .addClassLoaders(arr)
+                .setUrls(ClasspathHelper.forClassLoader(arr))
+                .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
+                .filterInputsBy(new FilterBuilder().includePackage(pluginPackages.toArray(new String[0])));
+
+        Reflections reflections = new Reflections(config);
+
+        return reflections.getTypesAnnotatedWith(CommandController.class);
     }
 
     /**
