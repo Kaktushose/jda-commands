@@ -103,9 +103,9 @@
             <version>23.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
-            <version>3.7.0</version>
+            <groupId>com.github.kamranzafar</groupId>
+            <artifactId>JCL</artifactId>
+            <version>v2.3</version>
         </dependency>
 
     </dependencies>

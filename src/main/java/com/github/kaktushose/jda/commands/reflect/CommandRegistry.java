@@ -6,8 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.plugins.CommandPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.pf4j.DefaultPluginManager;
-import org.pf4j.PluginManager;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -16,6 +14,7 @@ import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xeustechnologies.jcl.JarClassLoader;
 
 import java.io.File;
 import java.util.*;
@@ -111,23 +110,28 @@ public class CommandRegistry {
             pluginFolder.mkdirs();
         }
 
-        PluginManager pluginManager = new DefaultPluginManager(pluginFolder.toPath());
-        pluginManager.loadPlugins();
-        pluginManager.startPlugins();
 
-        List<ClassLoader> classLoadersList = new ArrayList<>();
+        JarClassLoader jcl = new JarClassLoader();
+
+        jcl.add(pluginFolder.getAbsolutePath());
+
         List<String> pluginPackages = new ArrayList<>();
-        pluginManager.getExtensions(CommandPlugin.class).forEach(plugin -> {
-            log.debug("Found Plugin: {} version {}", plugin.getPluginName(), plugin.getVersion());
-            classLoadersList.add(plugin.getClass().getClassLoader());
-            pluginPackages.addAll(plugin.getCommandPackages());
+
+        jcl.getLoadedClasses().forEach((s, clazz) -> {
+            Class<?> c = clazz;
+            while (c != null) {
+                if (c.getSuperclass() == CommandPlugin.class) {
+                    pluginPackages.add(clazz.getPackage().getName());
+                    break;
+                } else {
+                    c = c.getSuperclass();
+                }
+            }
         });
 
-        ClassLoader[] arr = classLoadersList.toArray(new ClassLoader[0]);
-
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .addClassLoaders(arr)
-                .setUrls(ClasspathHelper.forClassLoader(arr))
+                .addClassLoaders(jcl)
+                .setUrls(ClasspathHelper.forClassLoader(jcl))
                 .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
                 .filterInputsBy(new FilterBuilder().includePackage(pluginPackages.toArray(new String[0])));
 
