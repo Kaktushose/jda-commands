@@ -16,7 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xeustechnologies.jcl.JarClassLoader;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -107,13 +108,32 @@ public class CommandRegistry {
 
         File pluginFolder = new File(pluginDir);
         if (!pluginFolder.exists()) {
-            pluginFolder.mkdirs();
+            if (!pluginFolder.mkdirs()) {
+                log.warn("Unable to create plugin directory. Skipping plugin indexing...");
+                return Collections.emptySet();
+            }
         }
 
 
         JarClassLoader jcl = new JarClassLoader();
 
-        jcl.add(pluginFolder.getAbsolutePath());
+        File[] files = pluginFolder.listFiles();
+
+        if (files == null) {
+            log.debug("No plugins found. Skipping plugin indexing...");
+            return Collections.emptySet();
+        }
+
+        for (File file : files) {
+            if (file.getName().endsWith(".jar")) {
+                try (InputStream is = Files.newInputStream(file.toPath())){
+                    jcl.add(is);
+                } catch (IOException e) {
+                    log.error("Error for File {}", file.getAbsolutePath(), e);
+                }
+                jcl.add(file.getAbsolutePath());
+            }
+        }
 
         List<String> pluginPackages = new ArrayList<>();
 
