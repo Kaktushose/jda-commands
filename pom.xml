@@ -102,11 +102,6 @@
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.kamranzafar</groupId>
-            <artifactId>JCL</artifactId>
-            <version>v2.3</version>
-        </dependency>
 
     </dependencies>
 

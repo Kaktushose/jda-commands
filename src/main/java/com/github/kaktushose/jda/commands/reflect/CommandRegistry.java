@@ -14,11 +14,15 @@ import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xeustechnologies.jcl.JarClassLoader;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Central registry for all {@link CommandDefinition CommandDefinitions}.
@@ -115,49 +119,64 @@ public class CommandRegistry {
         }
 
 
-        JarClassLoader jcl = new JarClassLoader();
-
-        File[] files = pluginFolder.listFiles();
+        File[] files = pluginFolder.listFiles((file) -> file.getName().endsWith(".jar"));
 
         if (files == null) {
             log.debug("No plugins found. Skipping plugin indexing...");
             return Collections.emptySet();
         }
 
+        List<JarFile> jars = new ArrayList<>();
+        List<URL> urls = new ArrayList<>();
         for (File file : files) {
-            if (file.getName().endsWith(".jar")) {
-                try (InputStream is = Files.newInputStream(file.toPath())){
-                    jcl.add(is);
-                } catch (IOException e) {
-                    log.error("Error for File {}", file.getAbsolutePath(), e);
-                }
-                jcl.add(file.getAbsolutePath());
+            try {
+                jars.add(new JarFile(file));
+                urls.add(file.toURI().toURL());
+            } catch (IOException e) {
+                log.warn("Unable to load plugin jar file: {}", file.getName());
             }
         }
 
-        List<String> pluginPackages = new ArrayList<>();
+        URLClassLoader loaders = new URLClassLoader(urls.toArray(new URL[0]));
 
-        jcl.getLoadedClasses().forEach((s, clazz) -> {
-            Class<?> c = clazz;
-            while (c != null) {
-                if (c.getSuperclass() == CommandPlugin.class) {
-                    pluginPackages.add(clazz.getPackage().getName());
-                    break;
-                } else {
-                    c = c.getSuperclass();
+        Set<Class<? extends CommandPlugin>> pluginClasses = new HashSet<>();
+        for (JarFile jar : jars) {
+            Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.getName().endsWith(".class")) {
+                    String className = entry.getName().replace("/", ".").substring(0, entry.getName().length() - 6);
+                    try {
+                        Class<?> clazz = loaders.loadClass(className);
+                        if (CommandPlugin.class.isAssignableFrom(clazz)) {
+                            pluginClasses.add((Class<? extends CommandPlugin>) clazz);
+                        }
+                    } catch (ClassNotFoundException e) {
+                        log.warn("Unable to load plugin class: {}", className);
+                    }
                 }
+            }
+        }
+
+        List<String> packages = new ArrayList<>();
+        pluginClasses.forEach(plugin -> {
+            try {
+                CommandPlugin commandPlugin = (CommandPlugin) plugin.getConstructors()[0].newInstance();
+                packages.addAll(commandPlugin.getCommandPackages());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                log.warn("Unable to load plugin: {}", plugin.getName());
             }
         });
 
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .addClassLoaders(jcl)
-                .setUrls(ClasspathHelper.forClassLoader(jcl))
+                .addClassLoaders(loaders)
+                .setUrls(ClasspathHelper.forClassLoader(loaders))
                 .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
-                .filterInputsBy(new FilterBuilder().includePackage(pluginPackages.toArray(new String[0])));
+                .filterInputsBy(new FilterBuilder().includePackage(packages.toArray(new String[0])));
 
-        Reflections reflections = new Reflections(config);
+        Reflections pluginReflections = new Reflections(config);
 
-        return reflections.getTypesAnnotatedWith(CommandController.class);
+        return pluginReflections.getTypesAnnotatedWith(CommandController.class);
     }
 
     /**
