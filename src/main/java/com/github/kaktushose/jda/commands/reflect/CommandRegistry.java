@@ -103,8 +103,14 @@ public class CommandRegistry {
         log.debug("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
     }
 
+    /**
+     * Scans the given directory for plugins and returns all controllers found in the plugins.
+     * @param pluginDir the directory to scan for plugins
+     * @return a set of all {@link CommandController CommandControllers} found in the plugins
+     */
     private Set<Class<?>> indexPlugins(String pluginDir) {
 
+        // Check if the pluginDir is valid
         if (pluginDir == null) {
             log.debug("No plugin directory specified. Skipping plugin indexing...");
             return Collections.emptySet();
@@ -119,13 +125,16 @@ public class CommandRegistry {
         }
 
 
+        // Get all files in the plugin directory with the .jar extension
         File[] files = pluginFolder.listFiles((file) -> file.getName().endsWith(".jar"));
 
+        // If there are no files, return an empty set
         if (files == null) {
             log.debug("No plugins found. Skipping plugin indexing...");
             return Collections.emptySet();
         }
 
+        // Create a lists of Jar Files and URLs
         List<JarFile> jars = new ArrayList<>();
         List<URL> urls = new ArrayList<>();
         for (File file : files) {
@@ -137,18 +146,22 @@ public class CommandRegistry {
             }
         }
 
+        // Create a new class loader with the URLs to the Jar Files
         URLClassLoader loaders = new URLClassLoader(urls.toArray(new URL[0]));
 
         Set<Class<? extends CommandPlugin>> pluginClasses = new HashSet<>();
         for (JarFile jar : jars) {
             Enumeration<JarEntry> entries = jar.entries();
+            // Find all classes by iterating over all entries in the jar file
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
                 if (entry.getName().endsWith(".class")) {
                     String className = entry.getName().replace("/", ".").substring(0, entry.getName().length() - 6);
                     try {
+                        // Load the class and check if it is a CommandPlugin
                         Class<?> clazz = loaders.loadClass(className);
                         if (CommandPlugin.class.isAssignableFrom(clazz)) {
+                            //noinspection unchecked - we know that the class is a subclass of CommandPlugin because of the isAssignableFrom check
                             pluginClasses.add((Class<? extends CommandPlugin>) clazz);
                         }
                     } catch (ClassNotFoundException e) {
@@ -158,6 +171,7 @@ public class CommandRegistry {
             }
         }
 
+        //Create a new instance of each plugin and get the Command Packages from it.
         List<String> packages = new ArrayList<>();
         pluginClasses.forEach(plugin -> {
             try {
@@ -168,6 +182,7 @@ public class CommandRegistry {
             }
         });
 
+        // Scan the packages for CommandControllers
         ConfigurationBuilder config = new ConfigurationBuilder()
                 .addClassLoaders(loaders)
                 .setUrls(ClasspathHelper.forClassLoader(loaders))
@@ -175,7 +190,7 @@ public class CommandRegistry {
                 .filterInputsBy(new FilterBuilder().includePackage(packages.toArray(new String[0])));
 
         Reflections pluginReflections = new Reflections(config);
-
+        
         return pluginReflections.getTypesAnnotatedWith(CommandController.class);
     }
 
