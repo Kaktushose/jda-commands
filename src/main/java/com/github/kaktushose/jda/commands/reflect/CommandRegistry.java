@@ -117,11 +117,9 @@ public class CommandRegistry {
         }
 
         File pluginFolder = new File(pluginDir);
-        if (!pluginFolder.exists()) {
-            if (!pluginFolder.mkdirs()) {
-                log.warn("Unable to create plugin directory. Skipping plugin indexing...");
-                return Collections.emptySet();
-            }
+        if (!pluginFolder.exists() && !pluginFolder.mkdirs()) {
+            log.warn("Unable to create plugin directory. Skipping plugin indexing...");
+            return Collections.emptySet();
         }
 
 
