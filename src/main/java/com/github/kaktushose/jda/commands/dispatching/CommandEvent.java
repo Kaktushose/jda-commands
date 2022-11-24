@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.function.Consumer;
 
 /**
@@ -55,6 +56,127 @@ public class CommandEvent extends MessageReceivedEvent {
      */
     public void reply(@NotNull String message) {
         getChannel().sendMessage(message).queue();
+    }
+
+    /**
+     * Sends a message to the TextChannel where the command was called and attaches a file to it.
+     *
+     * @param file    The file to send.
+     * @param message The message to send
+     */
+    public void reply(@NotNull File file, @NotNull String message) {
+        getChannel().sendMessage(message).addFile(file).queue();
+    }
+
+    /**
+     * Sends a file to the TextChannel where the command was called.
+     *
+     * @param file The file to send.
+     */
+    public void reply(@NotNull File file) {
+        getChannel().sendFile(file).queue();
+    }
+
+    /**
+     * Sends a formatted message using the specified format string and arguments to the TextChannel where the command was called, as well as attaching a file to the message.
+     *
+     * @param file   The file to send.
+     * @param format The message to send
+     * @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
+     *               format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
+     *               zero.
+     * @throws java.util.IllegalFormatException If a format string contains an illegal syntax, a format specifier that
+     *                                          is incompatible with the given arguments, insufficient arguments given
+     *                                          the format string, or other illegal conditions.
+     */
+    public void reply(@NotNull File file, @NotNull String format, @NotNull Object... args) {
+        String message = String.format(format, args);
+        getChannel().sendFile(file, message).queue();
+    }
+
+    /**
+     * Sends a message to the TextChannel where the command was called and attaches a File to it. This method also allows to access the JDA RestAction consumer.
+     *
+     * @param file    The file to send.
+     * @param message The message to send
+     * @param success The JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@NotNull File file, @NotNull String message, @Nullable Consumer<Message> success) {
+        getChannel().sendMessage(message).addFile(file).queue(success);
+    }
+
+    /**
+     * Sends a file to the TextChannel where the command was called. This method also allows to access the JDA RestAction consumer.
+     * @param file    The file to send.
+     * @param success The JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@NotNull File file, @Nullable Consumer<Message> success) {
+        getChannel().sendFile(file).queue(success);
+    }
+
+    /**
+     * Sends a message to the TextChannel where the command was called and attaches a file to it.
+     *
+     * @param messageBuilder The {@code MessageBuilder} to send
+     */
+    public void reply(@NotNull File file, @NotNull MessageBuilder messageBuilder) {
+        getChannel().sendMessage(messageBuilder.build()).addFile(file).queue();
+    }
+
+    /**
+     * Sends a message to the TextChannel where the command was called and attaches a file to it. This method also allows to access the JDA RestAction consumer.
+     *
+     * @param file           The file to send.
+     * @param messageBuilder The {@code MessageBuilder} to send
+     * @param success        The JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@NotNull File file, @NotNull MessageBuilder messageBuilder, @Nullable Consumer<Message> success) {
+        getChannel().sendMessage(messageBuilder.build()).addFile(file).queue(success);
+    }
+
+    /**
+     * Sends a message embed to the TextChannel where the command was called and attach a file to it.
+     * @param file         The file to send.
+     * @param embedBuilder The {@code EmbedBuilder} to send
+     */
+    public void reply(@NotNull File file, @NotNull EmbedBuilder embedBuilder) {
+        getChannel().sendMessageEmbeds(embedBuilder.build()).addFile(file).queue();
+    }
+
+    /**
+     * Sends a message embed to the TextChannel where the command was called and attach a file to it. This method also allows to access the JDA RestAction consumer.
+     * @param file         The file to send.
+     * @param embedBuilder The {@code EmbedBuilder} to send
+     * @param success      The JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@NotNull File file, @NotNull EmbedBuilder embedBuilder, @Nullable Consumer<Message> success) {
+        getChannel().sendMessageEmbeds(embedBuilder.build()).addFile(file).queue(success);
+    }
+
+    /**
+     * Sends a message embed DTO to the TextChannel where the command was called and attach a file to it.
+     *
+     * @param file     The file to send.
+     * @param embedDTO The {@link EmbedDTO} to send
+     */
+    public void reply(@NotNull File file, @NotNull EmbedDTO embedDTO) {
+        getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).addFile(file).queue();
+    }
+
+    /**
+     * Sends a message embed DTO to the TextChannel where the command was called and attach a file to it. This method also allows to access the JDA RestAction consumer.
+     *
+     * @param file     The file to send.
+     * @param embedDTO The {@link EmbedDTO} to send
+     * @param success  The JDA RestAction success consumer
+     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
+     */
+    public void reply(@NotNull File file, @NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
+        getChannel().sendMessageEmbeds(embedDTO.toEmbedBuilder().build()).addFile(file).queue(success);
     }
 
     /**
