@@ -6,9 +6,10 @@ import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -89,7 +90,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param message the {@code Message} to send
      */
-    public void reply(@NotNull Message message) {
+    public void reply(@NotNull MessageCreateData message) {
         getChannel().sendMessage(message).queue();
     }
 
@@ -101,7 +102,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@NotNull Message message, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
         getChannel().sendMessage(message).queue(success);
     }
 
@@ -110,7 +111,7 @@ public class CommandEvent extends MessageReceivedEvent {
      *
      * @param messageBuilder the {@code MessageBuilder} to send
      */
-    public void reply(@NotNull MessageBuilder messageBuilder) {
+    public void reply(@NotNull MessageCreateBuilder messageBuilder) {
         getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
@@ -122,7 +123,7 @@ public class CommandEvent extends MessageReceivedEvent {
      * @param success        the JDA RestAction success consumer
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
-    public void reply(@NotNull MessageBuilder messageBuilder, @Nullable Consumer<Message> success) {
+    public void reply(@NotNull MessageCreateBuilder messageBuilder, @Nullable Consumer<Message> success) {
         getChannel().sendMessage(messageBuilder.build()).queue(success);
     }
 

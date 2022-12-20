@@ -242,7 +242,8 @@ public class ImplementationRegistry {
             log.debug("Found {}", clazz.getName());
             try {
                 instance = (T) clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -271,7 +272,8 @@ public class ImplementationRegistry {
             Filter instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -310,7 +312,8 @@ public class ImplementationRegistry {
             TypeAdapter<?> instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -341,7 +344,8 @@ public class ImplementationRegistry {
             Validator instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }

@@ -8,8 +8,11 @@ import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +64,14 @@ public class TypeAdapterRegistry {
         // jda specific
         register(Member.class, new MemberAdapter());
         register(User.class, new UserAdapter());
+        register(GuildChannel.class, new GuildChannelAdapter());
+        register(GuildMessageChannel.class, new GuildMessageChannelAdapter());
+        register(ThreadChannel.class, new ThreadChannelAdapter());
         register(TextChannel.class, new TextChannelAdapter());
+        register(NewsChannel.class, new NewsChannelAdapter());
+        register(AudioChannel.class, new AudioChannelAdapter());
+        register(VoiceChannel.class, new VoiceChannelAdapter());
+        register(StageChannel.class, new StageChannelAdapter());
         register(Role.class, new RoleAdapter());
     }
 

@@ -6,9 +6,9 @@ import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -28,7 +28,7 @@ import java.util.regex.Matcher;
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
-    public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
+    public MessageCreateData getCommandNotFoundMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -45,11 +45,11 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             );
             embed.addField("Similar Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
         }
-        return new MessageBuilder().setEmbeds(embed.build()).build();
+        return new MessageCreateBuilder().setEmbeds(embed.build()).build();
     }
 
     @Override
-    public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         CommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
@@ -65,12 +65,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
-        return new MessageBuilder().setEmbeds(embed).build();
+        return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
     @Override
-    public Message getGuildMutedMessage(@NotNull CommandContext context) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getGuildMutedMessage(@NotNull CommandContext context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription("This guild is muted!")
@@ -79,8 +79,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getChannelMutedMessage(@NotNull CommandContext context) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getChannelMutedMessage(@NotNull CommandContext context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription("This channel is muted!")
@@ -89,8 +89,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getUserMutedMessage(@NotNull CommandContext context) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getUserMutedMessage(@NotNull CommandContext context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription("You are muted!")
@@ -99,7 +99,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
+    public MessageCreateData getSyntaxErrorMessage(@NotNull CommandContext context) {
         StringBuilder sbExpected = new StringBuilder();
         CommandDefinition command = context.getCommand();
         List<String> arguments = Arrays.asList(context.getInput());
@@ -130,12 +130,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
 
-        return new MessageBuilder().setEmbeds(embed).build();
+        return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
     @Override
-    public Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
                 .setDescription(String.format("```%s```", constraint.getMessage()))
@@ -144,13 +144,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getCooldownMessage(@NotNull CommandContext context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull CommandContext context, long ms) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;
         long m = (seconds / 60) % 60;
         long h = (seconds / (60 * 60)) % 24;
         String cooldown = String.format("%d:%02d:%02d", h, m, s);
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Cooldown")
                 .setDescription(String.format("You cannot use this command for %s!", cooldown))
@@ -159,8 +159,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getWrongChannelTypeMessage(@NotNull CommandContext context) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull CommandContext context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
                 .setDescription("This command cannot be executed in this type of channel!")
@@ -169,8 +169,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
-        return new MessageBuilder().setEmbeds(new EmbedBuilder()
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")
                 .setDescription(String.format("```%s```", exception))
