@@ -4,6 +4,11 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import net.dv8tion.jda.api.entities.sticker.StickerPack;
+import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
+import net.dv8tion.jda.api.entities.sticker.StickerUnion;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -15,10 +20,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
-import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
-import net.dv8tion.jda.api.requests.restaction.CommandEditAction;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
-import net.dv8tion.jda.api.requests.restaction.GuildAction;
+import net.dv8tion.jda.api.requests.restaction.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.utils.cache.CacheView;
@@ -38,11 +40,17 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public RestAction<User> retrieveUserById(@NotNull String id) {
+    public CacheRestAction<User> retrieveUserById(@NotNull String id) {
         if (id.equals(USER.getId())) {
-            return new RestActionMock<>(USER);
+            return new CacheRestActionMock<>(USER);
         }
         throw ErrorResponseException.create(ErrorResponse.UNKNOWN_USER, new Response(new IllegalArgumentException(), new HashSet<>()));
+    }
+
+    @NotNull
+    @Override
+    public CacheRestAction<User> retrieveUserById(long l) {
+        return null;
     }
 
     @NotNull
@@ -154,6 +162,12 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public RestAction<List<Command>> retrieveCommands(boolean b) {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public RestAction<Command> retrieveCommandById(@NotNull String s) {
         return null;
     }
@@ -220,12 +234,6 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public RestAction<User> retrieveUserById(long l, boolean b) {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public SnowflakeCacheView<Guild> getGuildCache() {
         return null;
     }
@@ -249,13 +257,25 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public SnowflakeCacheView<Category> getCategoryCache() {
+    public SnowflakeCacheView<ScheduledEvent> getScheduledEventCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public SnowflakeCacheView<StoreChannel> getStoreChannelCache() {
+    public SnowflakeCacheView<StageChannel> getStageChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<ThreadChannel> getThreadChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<Category> getCategoryCache() {
         return null;
     }
 
@@ -267,7 +287,19 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public SnowflakeCacheView<NewsChannel> getNewsChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<ForumChannel> getForumChannelCache() {
         return null;
     }
 
@@ -277,15 +309,26 @@ public class JDAMock implements JDA {
         return null;
     }
 
-    @NotNull
     @Override
-    public RestAction<PrivateChannel> openPrivateChannelById(long l) {
+    public CacheRestAction<PrivateChannel> openPrivateChannelById(long l) {
         return null;
     }
 
     @NotNull
     @Override
-    public SnowflakeCacheView<Emote> getEmoteCache() {
+    public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<StickerUnion> retrieveSticker(@NotNull StickerSnowflake stickerSnowflake) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<StickerPack>> retrieveNitroStickerPacks() {
         return null;
     }
 
