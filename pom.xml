@@ -6,7 +6,7 @@
 
     <groupId>com.github.kaktushose</groupId>
     <artifactId>jda-commands</artifactId>
-    <version>2.2.0</version>
+    <version>3.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -2,15 +2,15 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 /**
- * Type adapter for JDAs {@link net.dv8tion.jda.api.entities.VoiceChannel}.
+ * Type adapter for JDAs {@link VoiceChannel}.
  *
  * @author Kaktushose
  * @version 2.3.0
