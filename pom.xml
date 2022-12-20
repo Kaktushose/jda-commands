@@ -21,8 +21,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <parameters>true</parameters>
-                    <testCompilerArgument>-parameters</testCompilerArgument>
                 </configuration>
             </plugin>
             <plugin>
@@ -65,7 +63,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-alpha.13</version>
+            <version>5.0.0-beta.2</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -121,6 +119,11 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
         </repository>
     </repositories>
 
