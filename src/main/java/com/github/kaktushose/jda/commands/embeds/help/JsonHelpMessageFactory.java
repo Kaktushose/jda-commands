@@ -8,8 +8,8 @@ import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getSpecificHelp(@NotNull CommandContext context) {
+    public MessageCreateData getSpecificHelp(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("specificHelp")) {
             return super.getSpecificHelp(context);
         }
@@ -78,11 +78,11 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
         String commands = sbCommands.toString().isEmpty() ? "N/A" : sbCommands.substring(0, sbCommands.length() - 2);
         builder.addField(name, commands, false);
 
-        return new MessageBuilder().setEmbeds(builder.build()).build();
+        return new MessageCreateBuilder().setEmbeds(builder.build()).build();
     }
 
     @Override
-    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
+    public MessageCreateData getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
         if (!embedCache.containsEmbed("genericHelp")) {
             return super.getGenericHelp(controllers, context);
         }
@@ -102,7 +102,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
             builder.addField(category, sb.substring(0, sb.length() - 2), false);
         });
 
-        return new MessageBuilder().setEmbeds(builder.build()).build();
+        return new MessageCreateBuilder().setEmbeds(builder.build()).build();
     }
 
 }

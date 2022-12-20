@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -234,10 +235,21 @@ public class EmbedDTO implements Serializable {
     /**
      * Transfers this object to a {@link net.dv8tion.jda.api.entities.Message}.
      *
-     * @return the {@link net.dv8tion.jda.api.entities.Message}
+     * @return null
+     * @deprecated use {@link #toMessageCreateData()} ()}
      */
+    @Deprecated
     public Message toMessage() {
-        return new MessageBuilder().setEmbeds(toMessageEmbed()).build();
+        return null;
+    }
+
+    /**
+     * Transfers this object to a {@link MessageCreateBuilder}.
+     *
+     * @return the {@link MessageCreateBuilder}
+     */
+    public MessageCreateData toMessageCreateData() {
+        return new MessageCreateBuilder().setEmbeds(toMessageEmbed()).build();
     }
 
     /**

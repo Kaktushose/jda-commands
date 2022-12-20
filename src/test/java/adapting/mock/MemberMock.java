@@ -4,6 +4,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.attribute.IPermissionContainer;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.unions.DefaultGuildChannelUnion;
+import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -88,12 +92,12 @@ public class MemberMock implements Member {
     }
 
     @Override
-    public boolean canSync(@NotNull GuildChannel guildChannel, @NotNull GuildChannel guildChannel1) {
+    public boolean canSync(@NotNull IPermissionContainer iPermissionContainer, @NotNull IPermissionContainer iPermissionContainer1) {
         return false;
     }
 
     @Override
-    public boolean canSync(@NotNull GuildChannel guildChannel) {
+    public boolean canSync(@NotNull IPermissionContainer iPermissionContainer) {
         return false;
     }
 
@@ -117,6 +121,17 @@ public class MemberMock implements Member {
     @Nullable
     @Override
     public OffsetDateTime getTimeBoosted() {
+        return null;
+    }
+
+    @Override
+    public boolean isBoosting() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public OffsetDateTime getTimeOutEnd() {
         return null;
     }
 
@@ -208,7 +223,7 @@ public class MemberMock implements Member {
     }
 
     @Override
-    public boolean canInteract(@NotNull Emote emote) {
+    public boolean canInteract(@NotNull RichCustomEmoji richCustomEmoji) {
         return false;
     }
 
@@ -224,20 +239,8 @@ public class MemberMock implements Member {
 
     @Nullable
     @Override
-    public TextChannel getDefaultChannel() {
+    public DefaultGuildChannelUnion getDefaultChannel() {
         return null;
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> ban(int delDays) {
-        return Member.super.ban(delDays);
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> ban(int delDays, @Nullable String reason) {
-        return Member.super.ban(delDays, reason);
     }
 
     @NotNull

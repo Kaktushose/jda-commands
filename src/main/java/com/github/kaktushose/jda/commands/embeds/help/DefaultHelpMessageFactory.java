@@ -7,8 +7,8 @@ import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
     protected String prefixPattern = "\\{prefix}";
 
     @Override
-    public Message getSpecificHelp(@NotNull CommandContext context) {
+    public MessageCreateData getSpecificHelp(@NotNull CommandContext context) {
         String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
         EmbedBuilder builder = new EmbedBuilder();
         CommandDefinition command = context.getCommand();
@@ -72,11 +72,11 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
         String commands = sbCommands.toString().isEmpty() ? "N/A" : sbCommands.substring(0, sbCommands.length() - 2);
         builder.addField(name, commands, false);
 
-        return new MessageBuilder().setEmbeds(builder.build()).build();
+        return new MessageCreateBuilder().setEmbeds(builder.build()).build();
     }
 
     @Override
-    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
+    public MessageCreateData getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
         EmbedBuilder builder = new EmbedBuilder();
         CommandList superCommands = new CommandList();
@@ -94,6 +94,6 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
             builder.addField(category, sb.substring(0, sb.length() - 2), false);
         });
 
-        return new MessageBuilder().setEmbeds(builder.build()).build();
+        return new MessageCreateBuilder().setEmbeds(builder.build()).build();
     }
 }

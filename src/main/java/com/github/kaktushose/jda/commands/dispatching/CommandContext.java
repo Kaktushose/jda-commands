@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +30,7 @@ public class CommandContext {
     private CommandDefinition command;
     private List<CommandDefinition> possibleCommands;
     private List<Object> arguments;
-    private Message errorMessage;
+    private MessageCreateData errorMessage;
     private GuildSettings settings;
     private ImplementationRegistry registry;
     private JDACommands jdaCommands;
@@ -143,17 +144,17 @@ public class CommandContext {
      *
      * @return {@link Message} to send
      */
-    public Message getErrorMessage() {
+    public MessageCreateData getErrorMessage() {
         return errorMessage;
     }
 
     /**
-     * Set the the {@link Message} to send if an error occurred.
+     * Set the {@link Message} to send if an error occurred.
      *
      * @param message the {@link Message} to send
      * @return the current CommandContext instance
      */
-    public CommandContext setErrorMessage(@NotNull Message message) {
+    public CommandContext setErrorMessage(@NotNull MessageCreateData message) {
         this.errorMessage = message;
         return this;
     }

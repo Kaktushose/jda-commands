@@ -2,9 +2,9 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
+import net.dv8tion.jda.api.requests.restaction.CacheRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,9 +46,8 @@ public class UserMock implements User {
         return null;
     }
 
-    @NotNull
     @Override
-    public RestAction<Profile> retrieveProfile() {
+    public CacheRestAction<Profile> retrieveProfile() {
         return null;
     }
 
@@ -63,9 +62,8 @@ public class UserMock implements User {
         return false;
     }
 
-    @NotNull
     @Override
-    public RestAction<PrivateChannel> openPrivateChannel() {
+    public CacheRestAction<PrivateChannel> openPrivateChannel() {
         return null;
     }
 

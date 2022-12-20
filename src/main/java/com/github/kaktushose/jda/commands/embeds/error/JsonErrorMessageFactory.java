@@ -8,9 +8,9 @@ import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
+    public MessageCreateData getCommandNotFoundMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("commandNotFound")) {
             return super.getCommandNotFoundMessage(context);
         }
@@ -61,11 +61,11 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             embed = embedDTO.toMessageEmbed();
         }
 
-        return new MessageBuilder().setEmbeds(embed).build();
+        return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
     @Override
-    public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
@@ -80,36 +80,36 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .injectValue("prefix", settings.getPrefix())
                 .injectValue("label", command.getLabels().get(0))
                 .injectValue("permissions", permissions)
-                .toMessage();
+                .toMessageCreateData();
     }
 
     @Override
-    public Message getGuildMutedMessage(@NotNull CommandContext context) {
+    public MessageCreateData getGuildMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("guildMuted")) {
             return super.getGuildMutedMessage(context);
         }
-        return embedCache.getEmbed("guildMuted").toMessage();
+        return embedCache.getEmbed("guildMuted").toMessageCreateData();
     }
 
     @Override
-    public Message getChannelMutedMessage(@NotNull CommandContext context) {
+    public MessageCreateData getChannelMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("channelMuted")) {
             return super.getChannelMutedMessage(context);
         }
-        return embedCache.getEmbed("channelMuted").toMessage();
+        return embedCache.getEmbed("channelMuted").toMessageCreateData();
     }
 
     @Override
-    public Message getUserMutedMessage(@NotNull CommandContext context) {
+    public MessageCreateData getUserMutedMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("userMuted")) {
             return super.getUserMutedMessage(context);
         }
-        return embedCache.getEmbed("userMuted").toMessage();
+        return embedCache.getEmbed("userMuted").toMessageCreateData();
     }
 
 
     @Override
-    public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
+    public MessageCreateData getSyntaxErrorMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("syntaxError")) {
             return super.getSyntaxErrorMessage(context);
         }
@@ -139,21 +139,21 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 )
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
-                .toMessage();
+                .toMessageCreateData();
     }
 
     @Override
-    public Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }
         return embedCache.getEmbed("constraintFailed")
                 .injectValue("message", constraint.getMessage())
-                .toMessage();
+                .toMessageCreateData();
     }
 
     @Override
-    public Message getCooldownMessage(@NotNull CommandContext context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull CommandContext context, long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
             return super.getCooldownMessage(context, ms);
         }
@@ -165,24 +165,24 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
         return embedCache.getEmbed("cooldown")
                 .injectValue("cooldown", cooldown)
-                .toMessage();
+                .toMessageCreateData();
     }
 
     @Override
-    public Message getWrongChannelTypeMessage(@NotNull CommandContext context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull CommandContext context) {
         if (!embedCache.containsEmbed("wrongChannel")) {
             return super.getInsufficientPermissionsMessage(context);
         }
-        return embedCache.getEmbed("wrongChannel").toMessage();
+        return embedCache.getEmbed("wrongChannel").toMessageCreateData();
     }
 
     @Override
-    public Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
         if (!embedCache.containsEmbed("executionFailed")) {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
         return embedCache.getEmbed("executionFailed")
                 .injectValue("exception", exception.toString())
-                .toMessage();
+                .toMessageCreateData();
     }
 }
