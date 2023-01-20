@@ -29,8 +29,7 @@ import java.util.*;
  * Representation of a command parameter.
  *
  * @author Kaktushose
- * @version 2.3.0
- * @see Concat
+ * @version 4.0.0
  * @see Optional
  * @see Constraint
  * @see Choices
@@ -95,7 +94,6 @@ public class ParameterDefinition {
     };
 
     private final Class<?> type;
-    private final boolean isConcat;
     private final boolean isOptional;
     private final String defaultValue;
     private final boolean isPrimitive;
@@ -105,7 +103,6 @@ public class ParameterDefinition {
     private final List<ConstraintDefinition> constraints;
 
     private ParameterDefinition(@NotNull Class<?> type,
-                                boolean isConcat,
                                 boolean isOptional,
                                 @Nullable String defaultValue,
                                 boolean isPrimitive,
@@ -114,7 +111,6 @@ public class ParameterDefinition {
                                 @NotNull List<Choice> choices,
                                 @NotNull List<ConstraintDefinition> constraints) {
         this.type = type;
-        this.isConcat = isConcat;
         this.isOptional = isOptional;
         this.defaultValue = defaultValue;
         this.isPrimitive = isPrimitive;
@@ -212,7 +208,6 @@ public class ParameterDefinition {
 
         return new ParameterDefinition(
                 parameterType,
-                isConcat,
                 isOptional,
                 defaultValue,
                 usesPrimitives,
@@ -261,15 +256,6 @@ public class ParameterDefinition {
     @NotNull
     public Class<?> getType() {
         return type;
-    }
-
-    /**
-     * Whether the parameter should be concatenated.
-     *
-     * @return {@code true} if the parameter should be concatenated
-     */
-    public boolean isConcat() {
-        return isConcat;
     }
 
     /**
@@ -343,7 +329,6 @@ public class ParameterDefinition {
     public String toString() {
         return "{" +
                 type.getName() +
-                ", isConcat=" + isConcat +
                 ", isOptional=" + isOptional +
                 ", defaultValue='" + defaultValue + '\'' +
                 ", isPrimitive=" + isPrimitive +

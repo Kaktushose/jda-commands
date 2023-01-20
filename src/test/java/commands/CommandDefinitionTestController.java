@@ -11,79 +11,79 @@ public class CommandDefinitionTestController {
     public void noAnnotation() {
     }
 
-    @Command("a")
+    @SlashCommand("a")
     public void noArgs() {
     }
 
-    @Command("b")
+    @SlashCommand("b")
     public void noCommandEvent(int i) {
     }
 
-    @Command("c")
+    @SlashCommand("c")
     public void wrongCommandEvent(int i, CommandEvent event) {
     }
 
-    @Command("d")
+    @SlashCommand("d")
     public void commandEvent(CommandEvent event) {
     }
 
-    @Command("e")
+    @SlashCommand("e")
     public void unsupported(CommandEvent event, UnsupportedType type) {
     }
 
-    @Command("f")
+    @SlashCommand("f")
     public void arrayArgument(CommandEvent event, String[] args) {
 
     }
 
-    @Command("g")
+    @SlashCommand("g")
     public void argsAfterArray(CommandEvent event, String[] args, int i) {
 
     }
 
-    @Command("h")
+    @SlashCommand("h")
     public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
 
     }
 
-    @Command("i")
+    @SlashCommand("i")
     public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
 
     }
 
-    @Command("j")
+    @SlashCommand("j")
     public void argsAfterConcat(CommandEvent event, @Concat String s, int i) {
 
     }
 
-    @Command(value = "k", isActive = false)
+    @SlashCommand(value = "k", isActive = false)
     public void inactive() {
 
     }
 
-    @Command(value = "l", isSuper = true, isDM = false)
+    @SlashCommand(value = "l", isSuper = true, isDM = false)
     public void superAndDM(CommandEvent event) {
 
     }
 
-    @Command(value = {"sub", "subAlias"})
+    @SlashCommand(value = {"sub", "subAlias"})
     public void label(CommandEvent event) {
 
     }
 
-    @Command("m")
+    @SlashCommand("m")
     @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
     public void zeroCooldown(CommandEvent event) {
 
     }
 
-    @Command("n")
+    @SlashCommand("n")
     @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
     public void cooldown(CommandEvent event) {
 
     }
 
-    @Command("o")
+    @SlashCommand("o")
     @Permission("permission")
     public void permission(CommandEvent event) {
 

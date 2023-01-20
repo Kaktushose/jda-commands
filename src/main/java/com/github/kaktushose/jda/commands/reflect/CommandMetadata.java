@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect;
 
-import com.github.kaktushose.jda.commands.annotations.Command;
-import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see Command
- * @see CommandController
+ * @see SlashCommand
+ * @see Interaction
  * @since 2.0.0
  */
 public class CommandMetadata {
@@ -30,12 +30,12 @@ public class CommandMetadata {
     /**
      * Builds a new CommandMetadata.
      *
-     * @param command           instance of the corresponding {@link Command} annotation
-     * @param commandController instance of the corresponding {@link CommandController} annotation
+     * @param command           instance of the corresponding {@link SlashCommand} annotation
+     * @param interaction instance of the corresponding {@link CommandController} annotation
      * @return CommandMetadata
      */
-    public static CommandMetadata build(@NotNull Command command, @NotNull CommandController commandController) {
-        String category = commandController.category();
+    public static CommandMetadata build(@NotNull SlashCommand command, @NotNull Interaction interaction) {
+        String category = interaction.category();
         if (!command.category().equals("Other")) {
             category = command.category();
         }

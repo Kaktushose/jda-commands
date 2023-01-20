@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,15 +26,15 @@ public class CommandListTest {
         TypeAdapterRegistry adapters = new TypeAdapterRegistry();
         commandList = new CommandList();
 
-        commandList.add(CommandDefinition.build(instance.getClass().getDeclaredMethod("firstCommand", CommandEvent.class), instance, adapters, validators).get());
-        commandList.add(CommandDefinition.build(instance.getClass().getDeclaredMethod("secondCommand", CommandEvent.class), instance, adapters, validators).get());
-        commandList.add(CommandDefinition.build(instance.getClass().getDeclaredMethod("thirdCommand", CommandEvent.class), instance, adapters, validators).get());
+        commandList.add(SlashCommandDefinition.build(instance.getClass().getDeclaredMethod("firstCommand", CommandEvent.class), instance, adapters, validators).get());
+        commandList.add(SlashCommandDefinition.build(instance.getClass().getDeclaredMethod("secondCommand", CommandEvent.class), instance, adapters, validators).get());
+        commandList.add(SlashCommandDefinition.build(instance.getClass().getDeclaredMethod("thirdCommand", CommandEvent.class), instance, adapters, validators).get());
 
     }
 
     @Test
     public void getByName_WithTwoCommands_ShouldReturnList() {
-        List<CommandDefinition> commands = commandList.getByName("second name");
+        List<SlashCommandDefinition> commands = commandList.getByName("second name");
 
         assertEquals(2, commands.size());
         commands.forEach(command -> assertEquals("second name", command.getMetadata().getName()));
@@ -42,7 +42,7 @@ public class CommandListTest {
 
     @Test
     public void getByCategory_WithTwoCommands_ShouldReturnList() {
-        List<CommandDefinition> commands = commandList.getByCategory("A");
+        List<SlashCommandDefinition> commands = commandList.getByCategory("A");
 
         assertEquals(2, commands.size());
         commands.forEach(command -> assertEquals("A", command.getMetadata().getCategory()));
@@ -50,14 +50,14 @@ public class CommandListTest {
 
     @Test
     public void getByLabel_WithOneCommand_ShouldReturnRightCommand() {
-        CommandDefinition command = commandList.getByLabel("first");
+        SlashCommandDefinition command = commandList.getByLabel("first");
 
-        assertTrue(command.getLabels().contains("first"));
+        assertTrue(command.getLabel().contains("first"));
     }
 
     @Test
     public void getSortedByCategories_WithTwoCategories_ShouldSort() {
-        Map<String, List<CommandDefinition>> sorted = commandList.getSortedByCategories();
+        Map<String, List<SlashCommandDefinition>> sorted = commandList.getSortedByCategories();
 
         assertEquals(sorted.keySet(), new HashSet<String>() {{
             add("A");

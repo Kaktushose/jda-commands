@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Central registry for all {@link CommandDefinition CommandDefinitions}.
+ * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
  *
  * @author Kaktushose
  * @version 2.0.0
@@ -34,7 +35,7 @@ public class CommandRegistry {
     private final DependencyInjector dependencyInjector;
     private final ButtonInteractionDispatcher buttonListener;
     private final Set<ControllerDefinition> controllers;
-    private final Set<CommandDefinition> commands;
+    private final Set<SlashCommandDefinition> commands;
 
     /**
      * Constructs a new CommandRegistry.
@@ -113,11 +114,11 @@ public class CommandRegistry {
     }
 
     /**
-     * Gets a list of all {@link CommandDefinition CommandDefinitions}.
+     * Gets a list of all {@link SlashCommandDefinition CommandDefinitions}.
      *
-     * @return a list of all {@link CommandDefinition CommandDefinitions}
+     * @return a list of all {@link SlashCommandDefinition CommandDefinitions}
      */
-    public Set<CommandDefinition> getCommands() {
+    public Set<SlashCommandDefinition> getCommands() {
         return Collections.unmodifiableSet(commands);
     }
 }

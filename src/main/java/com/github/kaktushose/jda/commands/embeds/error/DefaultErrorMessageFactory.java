@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -41,7 +41,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         if (!context.getPossibleCommands().isEmpty()) {
             StringBuilder sbPossible = new StringBuilder();
             context.getPossibleCommands().forEach(command ->
-                    sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
+                    sbPossible.append(String.format("`%s`", command.getLabel().get(0))).append(", ")
             );
             embed.addField("Similar Commands", sbPossible.substring(0, sbPossible.length() - 2), false);
         }
@@ -51,7 +51,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         GuildSettings settings = context.getSettings();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -61,7 +61,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s%s` requires specific permissions to be executed",
                         settings.getPrefix(),
-                        command.getLabels().get(0)))
+                        command.getLabel().get(0)))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
@@ -102,7 +102,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
         String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         StringBuilder sbExpected = new StringBuilder();
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getActualParameters().forEach(parameter -> {

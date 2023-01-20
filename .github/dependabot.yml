@@ -4,4 +4,9 @@ updates:
     directory: "/"
     target-branch: "dev"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    ignore:
+      - dependency-name: "jda*"
+        update-types: [ "version-update:semver-major" ]
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-patch" ]

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.sender;
 
+import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -145,7 +146,7 @@ public interface EditAction {
     /**
      * Edits the buttons attached to the message without changing the message itself. The buttons must be defined in the
      * same {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
-     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
+     * {@link SlashCommand Command}.
      *
      * @param components the {@link Component Components} to edit
      * @return the current instance for fluent interface

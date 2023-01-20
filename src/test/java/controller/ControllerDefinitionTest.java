@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import commands.UnsupportedType;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,13 +44,13 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
 
-        assertEquals(2, definition.getLabels().size());
-        assertTrue(definition.getLabels().contains("super"));
-        assertTrue(definition.getLabels().contains("superAlias"));
+        assertEquals(2, definition.getLabel().size());
+        assertTrue(definition.getLabel().contains("super"));
+        assertTrue(definition.getLabel().contains("superAlias"));
 
         assertTrue(definition.hasCooldown());
         assertEquals(10, definition.getCooldown().getDelay());
@@ -66,14 +66,14 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
-        assertEquals(4, definition.getLabels().size());
-        assertTrue(definition.getLabels().contains("super sub"));
-        assertTrue(definition.getLabels().contains("superAlias sub"));
-        assertTrue(definition.getLabels().contains("super subAlias"));
-        assertTrue(definition.getLabels().contains("superAlias subAlias"));
+        assertEquals(4, definition.getLabel().size());
+        assertTrue(definition.getLabel().contains("super sub"));
+        assertTrue(definition.getLabel().contains("superAlias sub"));
+        assertTrue(definition.getLabel().contains("super subAlias"));
+        assertTrue(definition.getLabel().contains("superAlias subAlias"));
 
         assertTrue(definition.hasCooldown());
         assertEquals(5, definition.getCooldown().getDelay());

@@ -6,9 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.parser.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.interactions.commands.CommandRegistrationPolicy;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -33,17 +30,14 @@ public class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final CommandDispatcher commandDispatcher;
 
+    // this is needed for unit testing
     protected JDACommands() {
         commandDispatcher = null;
     }
 
     private JDACommands(Object jda, Class<?> clazz, String... packages) {
-        this(jda, clazz, new SlashConfiguration(new ArrayList<>(), true, true, CommandRegistrationPolicy.TEXT), packages);
-    }
-
-    JDACommands(Object jda, Class<?> clazz, SlashConfiguration configuration, String... packages) {
         log.info("Starting JDA-Commands...");
-        this.commandDispatcher = new CommandDispatcher(new JDAContext(jda), this, clazz, configuration, packages);
+        this.commandDispatcher = new CommandDispatcher(new JDAContext(jda), this, clazz, packages);
         log.info("Finished loading!");
     }
 
@@ -69,30 +63,6 @@ public class JDACommands {
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACommands(shardManager, clazz, packages);
-    }
-
-    /**
-     * Returns a new {@link JDACommandsSlashBuilder) instance.
-     *
-     * @param jda      the corresponding {@link JDA} instance
-     * @param clazz    a class of the classpath to scan
-     * @param packages package(s) to exclusively scan
-     * @return a new JDACommands instance
-     */
-    public static JDACommandsSlashBuilder slash(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsSlashBuilder(jda, clazz, packages);
-    }
-
-    /**
-     * Returns a new {@link JDACommandsSlashBuilder) instance.
-     *
-     * @param jda      the corresponding {@link JDA} instance
-     * @param clazz    a class of the classpath to scan
-     * @param packages package(s) to exclusively scan
-     * @return a new JDACommands instance
-     */
-    public static JDACommandsSlashBuilder slash(@NotNull ShardManager jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsSlashBuilder(jda, clazz, packages);
     }
 
     /**
@@ -172,7 +142,7 @@ public class JDACommands {
      *
      * @return a set of all active commands
      */
-    public Set<CommandDefinition> getCommands() {
+    public Set<SlashCommandDefinition> getCommands() {
         return commandDispatcher.getCommandRegistry().getCommands();
     }
 }

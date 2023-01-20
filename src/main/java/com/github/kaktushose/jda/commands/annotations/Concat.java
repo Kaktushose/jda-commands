@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see Command
+ * @see SlashCommand
  * @since 1.0.0
  */
 @Target(ElementType.PARAMETER)

@@ -1,75 +1,58 @@
-package com.github.kaktushose.jda.commands.reflect;
+package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.Command;
-import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
+import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
- * Representation of a single command.
+ * Representation of a slash command.
  *
  * @author Kaktushose
- * @version 2.0.0
- * @see Command
+ * @version 4.0.0
+ * @see SlashCommand
  * @since 2.0.0
  */
-public class CommandDefinition implements Comparable<CommandDefinition> {
+public class SlashCommandDefinition extends EphemeralInteraction implements Comparable<SlashCommandDefinition> {
 
-    private static final Logger log = LoggerFactory.getLogger(CommandDefinition.class);
-    private final List<String> labels;
+    private final String label;
     private final CommandMetadata metadata;
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
     private final CooldownDefinition cooldown;
     private final boolean isDM;
-    private final Method method;
-    private final Object instance;
-    private boolean isEphemeral;
-    private boolean isSuper;
-    private boolean isDefaultEnabled;
-    private ControllerDefinition controller;
 
-    private CommandDefinition(List<String> labels,
-                              CommandMetadata metadata,
-                              List<ParameterDefinition> parameters,
-                              Set<String> permissions,
-                              CooldownDefinition cooldown,
-                              ControllerDefinition controller,
-                              boolean isSuper,
-                              boolean isDefaultEnabled,
-                              boolean isEphemeral,
-                              boolean isDM,
-                              Method method,
-                              Object instance) {
-        this.labels = labels;
+    protected SlashCommandDefinition(Method method,
+                                     boolean ephemeral,
+                                     String label,
+                                     CommandMetadata metadata,
+                                     List<ParameterDefinition> parameters,
+                                     Set<String> permissions,
+                                     CooldownDefinition cooldown,
+                                     boolean isDM) {
+        super(method, ephemeral);
+        this.label = label;
         this.metadata = metadata;
         this.parameters = parameters;
         this.permissions = permissions;
         this.cooldown = cooldown;
-        this.controller = controller;
-        this.isSuper = isSuper;
-        this.isDefaultEnabled = isDefaultEnabled;
-        this.isEphemeral = isEphemeral;
         this.isDM = isDM;
-        this.method = method;
-        this.instance = instance;
     }
+
 
     /**
      * Builds a new CommandDefinition.
@@ -80,17 +63,17 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      * @param validatorRegistry the corresponding {@link ValidatorRegistry}
      * @return an {@link Optional} holding the CommandDefinition
      */
-    public static Optional<CommandDefinition> build(@NotNull Method method,
-                                                    @NotNull Object instance,
-                                                    @NotNull TypeAdapterRegistry adapterRegistry,
-                                                    @NotNull ValidatorRegistry validatorRegistry) {
+    public static Optional<SlashCommandDefinition> build(@NotNull Method method,
+                                                         @NotNull Object instance,
+                                                         @NotNull TypeAdapterRegistry adapterRegistry,
+                                                         @NotNull ValidatorRegistry validatorRegistry) {
 
-        if (!method.isAnnotationPresent(Command.class) || !method.getDeclaringClass().isAnnotationPresent(CommandController.class)) {
+        if (!method.isAnnotationPresent(SlashCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
-        Command command = method.getAnnotation(Command.class);
-        CommandController commandController = method.getDeclaringClass().getAnnotation(CommandController.class);
+        SlashCommand command = method.getAnnotation(SlashCommand.class);
+        Interaction interaction = method.getDeclaringClass().getAnnotation(Interaction.class);
 
         if (!command.isActive()) {
             log.debug("Command {} is set inactive. Skipping this command!", method.getName());
@@ -103,19 +86,12 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
             permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
-        // generate possible labels
-        List<String> labels = new ArrayList<>();
-        for (String controllerLabel : commandController.value()) {
-            for (String commandLabel : command.value()) {
-                String label = (controllerLabel + " " + commandLabel).trim();
-                while (label.contains("  ")) {
-                    label = label.replaceAll(" {2}", " ");
-                }
-                labels.add(label);
-            }
+        String label = interaction.value() + " " + command.value().trim();
+        while (label.contains("  ")) {
+            label = label.replaceAll(" {2}", " ");
         }
-        labels = labels.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
-        if (labels.isEmpty()) {
+
+        if (label.isEmpty()) {
             logError("Labels must not be empty!", method);
             return Optional.empty();
         }
@@ -132,7 +108,6 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         }
 
         // validate parameter definitions
-        boolean hasOptional = false;
         for (int i = 0; i < parameters.size(); i++) {
             ParameterDefinition parameter = parameters.get(i);
             Class<?> type = parameter.getType();
@@ -161,32 +136,20 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
                 return Optional.empty();
             }
 
-            // String concatenation is enabled => must be last parameter
-            if (parameter.isConcat() && i != parameters.size() - 1) {
-                logError("Concatenation may be only enabled for the last parameter", method);
-                return Optional.empty();
-            }
-
-            // if method already had an optional parameter (hasOptional == true) this one has to be optional as well
-            if (hasOptional && !parameter.isOptional()) {
-                logError("An optional parameter must not be followed by a non-optional parameter!", method);
-                return Optional.empty();
-            }
             if (parameter.isOptional()) {
                 // using primitives with default values results in NPEs. Warn the user about it
                 if (parameter.getDefaultValue() == null && parameter.isPrimitive()) {
                     log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
                             "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());
                 }
-                hasOptional = true;
             }
         }
 
-        CommandMetadata metadata = CommandMetadata.build(command, commandController);
+        CommandMetadata metadata = CommandMetadata.build(command, interaction);
 
         if (metadata.getUsage().equals("N/A") || metadata.getUsage().isEmpty()) {
             StringBuilder usage = new StringBuilder("{prefix}");
-            usage.append(labels.get(0));
+            usage.append(label);
             parameters.forEach(parameter -> {
                 if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                     return;
@@ -200,19 +163,15 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
             metadata.setUsage(usage.toString());
         }
 
-        return Optional.of(new CommandDefinition(
-                labels,
+        return Optional.of(new SlashCommandDefinition(
+                method,
+                command.ephemeral(),
+                label,
                 metadata,
                 parameters,
                 permissions,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
-                null,
-                command.isSuper(),
-                command.defaultEnable(),
-                command.ephemeral(),
-                command.isDM(),
-                method,
-                instance
+                command.isDM()
         ));
     }
 
@@ -230,22 +189,10 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      */
     public SlashCommandData toCommandData() {
         SlashCommandData command = Commands.slash(
-                labels.get(0),
+                label,
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
-        if (!isDefaultEnabled) {
-            command.setDefaultPermissions(DefaultMemberPermissions.DISABLED);
-        } else {
-            Collection<net.dv8tion.jda.api.Permission> perms = new HashSet<>();
-            for (String perm : permissions) {
-                // not a discord perm, continue
-                if (Arrays.stream(net.dv8tion.jda.api.Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(perm))) {
-                    continue;
-                }
-                perms.add(net.dv8tion.jda.api.Permission.valueOf(perm.toUpperCase()));
-            }
-            command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms));
-        }
+        // TODO permission handling
         command.setGuildOnly(!isDM);
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
@@ -278,12 +225,12 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     /**
-     * Gets a list of all command labels.
+     * Gets the slash command label.
      *
-     * @return a list of all command labels
+     * @return the slash command label
      */
-    public List<String> getLabels() {
-        return labels;
+    public String getLabel() {
+        return label;
     }
 
     /**
@@ -308,7 +255,7 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
      * Gets a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}
      * excluding the {@link CommandEvent} at index 0.
      *
-     * @return a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions}  excluding the
+     * @return a possibly-empty list of all {@link ParameterDefinition ParameterDefinitions} excluding the
      * {@link CommandEvent} at index 0
      */
     public List<ParameterDefinition> getActualParameters() {
@@ -334,89 +281,12 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
     }
 
     /**
-     * Gets the {@link ControllerDefinition} this command is defined inside. Can be null during indexing.
-     *
-     * @return the {@link ControllerDefinition}
-     */
-    @Nullable
-    public ControllerDefinition getController() {
-        return controller;
-    }
-
-    /**
-     * Sets the {@link ControllerDefinition}.
-     *
-     * @param controller the {@link ControllerDefinition} to use
-     */
-    public void setController(ControllerDefinition controller) {
-        this.controller = controller;
-    }
-
-    /**
      * Whether this command has a cooldown. More formally, checks if {@link CooldownDefinition#getDelay()} > 0.
      *
      * @return {@code true} if this command has a cooldown.
      */
     public boolean hasCooldown() {
         return getCooldown().getDelay() > 0;
-    }
-
-    /**
-     * Whether this command is a super command.
-     *
-     * @return {@code true} if this command is a super command
-     */
-    public boolean isSuper() {
-        return isSuper;
-    }
-
-    /**
-     * Set whether this command is a super command.
-     *
-     * @param isSuper {@code true} if this command is a super command
-     */
-    public void setSuper(boolean isSuper) {
-        this.isSuper = isSuper;
-    }
-
-    /**
-     * Whether this command is available to everyone by default. If this is disabled, you need to
-     * explicitly whitelist users and roles per guild via
-     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
-     *
-     * @return {@code true} if this command is available to everyone by default
-     */
-    public boolean isDefaultEnabled() {
-        return isDefaultEnabled;
-    }
-
-    /**
-     * Set whether this command is available to everyone by default. If this is disabled, you need to
-     * explicitly whitelist users and roles per guild via
-     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
-     *
-     * @param defaultEnabled {@code true} if this command is available to everyone by default
-     */
-    public void setDefaultEnabled(boolean defaultEnabled) {
-        isDefaultEnabled = defaultEnabled;
-    }
-
-    /**
-     * Whether this command should send ephemeral replies by default. This only affects slash commands.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    public boolean isEphemeral() {
-        return isEphemeral;
-    }
-
-    /**
-     * Set whether this command should send ephemeral replies by default. This only affects slash commands.
-     *
-     * @param ephemeral whether to send ephemeral replies
-     */
-    public void setEphemeral(boolean ephemeral) {
-        isEphemeral = ephemeral;
     }
 
     /**
@@ -437,30 +307,23 @@ public class CommandDefinition implements Comparable<CommandDefinition> {
         return method;
     }
 
-    /**
-     * Gets an instance of the method defining class
-     *
-     * @return an instance of the method defining class
-     */
-    public Object getInstance() {
-        return instance;
-    }
-
     @Override
     public String toString() {
-        return "{" +
-                "labels=" + labels +
+        return "SlashCommandDefinition{" +
+                "label='" + label + '\'' +
                 ", metadata=" + metadata +
                 ", parameters=" + parameters +
                 ", permissions=" + permissions +
                 ", cooldown=" + cooldown +
-                ", isSuper=" + isSuper +
                 ", isDM=" + isDM +
+                ", ephemeral=" + ephemeral +
+                ", id='" + id + '\'' +
+                ", method=" + method +
                 '}';
     }
 
     @Override
-    public int compareTo(@NotNull CommandDefinition command) {
-        return labels.get(0).compareTo(command.getLabels().get(0));
+    public int compareTo(@NotNull SlashCommandDefinition command) {
+        return label.compareTo(command.label);
     }
 }

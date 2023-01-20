@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
@@ -33,8 +33,8 @@ public class CommandContext {
     private String[] input;
     private List<OptionMapping> options;
     private GenericEvent event;
-    private CommandDefinition command;
-    private List<CommandDefinition> possibleCommands;
+    private SlashCommandDefinition command;
+    private List<SlashCommandDefinition> possibleCommands;
     private List<Object> arguments;
     private Message errorMessage;
     private GuildSettings settings;
@@ -185,47 +185,47 @@ public class CommandContext {
     }
 
     /**
-     * Gets the {@link CommandDefinition}.
+     * Gets the {@link SlashCommandDefinition}.
      *
-     * @return the {@link CommandDefinition}
+     * @return the {@link SlashCommandDefinition}
      */
     @Nullable
-    public CommandDefinition getCommand() {
+    public SlashCommandDefinition getCommand() {
         return command;
     }
 
     /**
-     * Set the {@link CommandDefinition}.
+     * Set the {@link SlashCommandDefinition}.
      *
-     * @param command the {@link CommandDefinition}
+     * @param command the {@link SlashCommandDefinition}
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setCommand(@Nullable CommandDefinition command) {
+    public CommandContext setCommand(@Nullable SlashCommandDefinition command) {
         this.command = command;
         return this;
     }
 
     /**
-     * Gets a list of {@link CommandDefinition CommandDefinitions} that match the input. This list gets populated if
+     * Gets a list of {@link SlashCommandDefinition CommandDefinitions} that match the input. This list gets populated if
      * and only if the command routing fails because more than one matching command was found. If no matching command
      * was found or if the command routing succeeded, this list will be empty.
      *
-     * @return a possibly-empty list of {@link CommandDefinition CommandDefinitions} that match the input
+     * @return a possibly-empty list of {@link SlashCommandDefinition CommandDefinitions} that match the input
      */
     @NotNull
-    public List<CommandDefinition> getPossibleCommands() {
+    public List<SlashCommandDefinition> getPossibleCommands() {
         return possibleCommands == null ? new ArrayList<>() : possibleCommands;
     }
 
     /**
-     * Sets the list of {@link CommandDefinition CommandDefinitions} that match the input.
+     * Sets the list of {@link SlashCommandDefinition CommandDefinitions} that match the input.
      *
-     * @param possibleCommands a list of {@link CommandDefinition CommandDefinitions} that match the input
+     * @param possibleCommands a list of {@link SlashCommandDefinition CommandDefinitions} that match the input
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setPossibleCommands(@NotNull List<CommandDefinition> possibleCommands) {
+    public CommandContext setPossibleCommands(@NotNull List<SlashCommandDefinition> possibleCommands) {
         this.possibleCommands = possibleCommands;
         return this;
     }

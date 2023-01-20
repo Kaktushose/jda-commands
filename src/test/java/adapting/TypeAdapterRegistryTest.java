@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import org.junit.jupiter.api.BeforeAll;
@@ -133,14 +133,14 @@ public class TypeAdapterRegistryTest {
         assertTrue(context.isCancelled());
     }
 
-    private CommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+    private SlashCommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        CommandDefinition command = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
+        SlashCommandDefinition command = SlashCommandDefinition.build(method, instance, adapter, validator).orElse(null);
         assertNotNull(command);
         return command;
     }
 
-    private CommandContext buildContext(CommandDefinition command, String... input) {
+    private CommandContext buildContext(SlashCommandDefinition command, String... input) {
         CommandContext context = new CommandContext(
                 new MessageReceivedEventMock(true),
                 new JDACommandsMock(),

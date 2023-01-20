@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.ButtonEvent;
-import com.github.kaktushose.jda.commands.reflect.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;

@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -55,7 +55,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         } else {
             StringBuilder sbPossible = new StringBuilder();
             context.getPossibleCommands().forEach(command ->
-                    sbPossible.append(String.format("`%s`", command.getLabels().get(0))).append(", ")
+                    sbPossible.append(String.format("`%s`", command.getLabel().get(0))).append(", ")
             );
             embedDTO.injectValue("commands", sbPossible.substring(0, sbPossible.length() - 2));
             embed = embedDTO.toMessageEmbed();
@@ -71,14 +71,14 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         }
 
         GuildSettings settings = context.getSettings();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         return embedCache.getEmbed("insufficientPermissions")
                 .injectValue("prefix", settings.getPrefix())
-                .injectValue("label", command.getLabels().get(0))
+                .injectValue("label", command.getLabel().get(0))
                 .injectValue("permissions", permissions)
                 .toMessage();
     }
@@ -114,7 +114,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getSyntaxErrorMessage(context);
         }
         StringBuilder sbExpected = new StringBuilder();
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getActualParameters().forEach(parameter -> {

@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
@@ -36,10 +36,10 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
     public Message getSpecificHelp(@NotNull CommandContext context) {
         String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         EmbedBuilder builder = new EmbedBuilder();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
-        List<String> labels = command.getLabels();
+        List<String> labels = command.getLabel();
         StringBuilder sbAliases = new StringBuilder();
         labels.subList(1, labels.size()).forEach(label -> sbAliases.append(label).append(", "));
         String aliases = sbAliases.toString().isEmpty() ? "N/A" : sbAliases.substring(0, sbAliases.length() - 2);
@@ -50,7 +50,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
         builder.setColor(Color.GREEN)
                 .setTitle("Specific Help")
-                .setDescription(String.format("Command Details for `%s%s`", prefix, command.getLabels().get(0)))
+                .setDescription(String.format("Command Details for `%s%s`", prefix, command.getLabel().get(0)))
                 .addField("Name:", String.format("`%s`", metadata.getName().replaceAll(prefixPattern, prefix)), false)
                 .addField("Usage:", String.format("`%s`", metadata.getUsage().replaceAll(prefixPattern, prefix)), false)
                 .addField("Aliases", String.format("`%s`", aliases), false)
@@ -62,12 +62,12 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
         String name;
         if (command.isSuper()) {
             name = "Sub Commands:";
-            List<CommandDefinition> commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
-            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
+            List<SlashCommandDefinition> commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
+            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabel().get(0))).append(", "));
         } else {
             name = "Super Command:";
-            List<CommandDefinition> commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
-            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabels().get(0))).append(", "));
+            List<SlashCommandDefinition> commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
+            commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabel().get(0))).append(", "));
         }
         String commands = sbCommands.toString().isEmpty() ? "N/A" : sbCommands.substring(0, sbCommands.length() - 2);
         builder.addField(name, commands, false);
@@ -91,7 +91,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
         superCommands.getSortedByCategories().forEach((category, commands) -> {
             StringBuilder sb = new StringBuilder();
-            commands.forEach(command -> sb.append(String.format("`%s`", command.getLabels().get(0))).append(", "));
+            commands.forEach(command -> sb.append(String.format("`%s`", command.getLabel().get(0))).append(", "));
             builder.addField(category, sb.substring(0, sb.length() - 2), false);
         });
 

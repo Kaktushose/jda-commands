@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.sender;
 
+import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
@@ -279,7 +280,7 @@ public interface ReplyAction {
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
      * For buttons, they must be defined in the same
      * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
-     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}.
+     * {@link SlashCommand Command}.
      *
      * @param components the {@link Component Components} to add
      * @return the current instance for fluent interface
@@ -290,7 +291,7 @@ public interface ReplyAction {
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
      * The buttons must be defined in the same
      * {@link com.github.kaktushose.jda.commands.annotations.CommandController CommandController} as the referring
-     * {@link com.github.kaktushose.jda.commands.annotations.Command Command}. This will enable all buttons. To add
+     * {@link SlashCommand Command}. This will enable all buttons. To add
      * disabled buttons, use {@link #with(Component...)}.
      *
      * @param buttons the id of the buttons to add

@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.interactions.commands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.data.slash.CommandTree;
 import com.github.kaktushose.jda.commands.dispatching.interactions.HelpAutoCompleteListener;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -14,13 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Class that sends the {@link SlashCommandData} to Discord. Uses a {@link CommandTree} to properly transpile all
- * {@link CommandDefinition CommandDefinitions} to {@link SlashCommandData}. Also registers the
+ * {@link SlashCommandDefinition CommandDefinitions} to {@link SlashCommandData}. Also registers the
  * {@link HelpAutoCompleteListener}.
  *
  * @author Kaktushose
@@ -34,43 +32,34 @@ public class SlashCommandUpdater {
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
     private final JDA jda;
-    private final SlashConfiguration configuration;
     private final HelpAutoCompleteListener autoCompleteListener;
 
     /**
      * Constructs a new SlashCommandUpdater.
      *
-     * @param jdaContext    the corresponding {@link JDAContext}
-     * @param configuration the corresponding {@link SlashConfiguration}
+     * @param jdaContext the corresponding {@link JDAContext}
      */
-    public SlashCommandUpdater(JDAContext jdaContext, SlashConfiguration configuration) {
+    public SlashCommandUpdater(JDAContext jdaContext) {
         this.jdaContext = jdaContext;
-        this.configuration = configuration;
         autoCompleteListener = new HelpAutoCompleteListener();
         jdaContext.performTask(jda -> jda.addEventListener(autoCompleteListener));
         jda = jdaContext.getJda();
     }
 
     /**
-     * Sends the {@link SlashCommandData} to Discord. Depending on the {@link SlashConfiguration} this will register
-     * guild or global commands.
+     * Sends the {@link SlashCommandData} to Discord.
      *
      * @param commands a {@link Collection} of {@link SlashCommandData} to update
      */
-    public void update(Collection<CommandDefinition> commands) {
-        log.debug("Updating slash commands with {} scope...", configuration.isGlobal() ? "global" : "guild");
-        if (configuration.getPolicy() == CommandRegistrationPolicy.TEXT) {
-            log.info("CommandRegistrationPolicy is set to TEXT. Unregistering all slash commands!");
-            push(Collections.emptyList());
-            log.debug("Done!");
-            return;
-        }
+    public void update(Collection<SlashCommandDefinition> commands) {
+        log.debug("Updating slash commands...");
         CommandTree tree = new CommandTree(commands);
         log.debug("Generated command tree:\n" + tree);
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
         Collection<SlashCommandData> commandData = tree.getCommands();
-        if (configuration.isHelpEnabled() && !commandData.isEmpty()) {
+        // TODO check of help enabled flag
+        if (true) {
             addHelpCommands(commandData, labels);
         }
         push(commandData);
@@ -90,15 +79,8 @@ public class SlashCommandUpdater {
     }
 
     private void push(Collection<SlashCommandData> commands) {
-        if (configuration.isGlobal()) {
-            jda.updateCommands().addCommands(commands).queue();
-        } else {
-            configuration.getGuildIds()
-                    .stream().map(id -> Optional.ofNullable(jdaContext.getGuildCache().getElementById(id)))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .forEach(guild -> guild.updateCommands().addCommands(commands).queue());
-        }
+        // TODO add support for global and guild commands
+        jda.getGuilds().forEach(guild -> guild.updateCommands().addCommands(commands).queue());
     }
 
     /**

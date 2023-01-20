@@ -14,8 +14,7 @@ import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashConfiguration;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
@@ -51,28 +50,24 @@ public class CommandDispatcher {
     private final CommandRegistry commandRegistry;
     private final DependencyInjector dependencyInjector;
     private final JDACommands jdaCommands;
-    private final SlashConfiguration configuration;
     private final SlashCommandUpdater updater;
     private final ButtonInteractionDispatcher buttonListener;
 
     /**
      * Constructs a new CommandDispatcher.
      *
-     * @param jdaContext    the corresponding {@link JDAContext} instance
-     * @param jdaCommands   the corresponding {@link JDACommands} instance
-     * @param packages      optional packages to exclusively scan
-     * @param clazz         a class of the classpath to scan
-     * @param configuration the corresponding {@link SlashConfiguration}
+     * @param jdaContext  the corresponding {@link JDAContext} instance
+     * @param jdaCommands the corresponding {@link JDACommands} instance
+     * @param packages    optional packages to exclusively scan
+     * @param clazz       a class of the classpath to scan
      * @throws IllegalStateException if an instance of this class is already active.
      */
     public CommandDispatcher(@NotNull JDAContext jdaContext,
                              @NotNull JDACommands jdaCommands,
                              @NotNull Class<?> clazz,
-                             @NotNull SlashConfiguration configuration,
                              @NotNull String... packages) {
         this.jdaContext = jdaContext;
         this.jdaCommands = jdaCommands;
-        this.configuration = configuration;
 
         if (isActive) {
             throw new IllegalStateException("An instance of the command framework is already running!");
@@ -97,7 +92,7 @@ public class CommandDispatcher {
 
         dependencyInjector.inject();
 
-        updater = new SlashCommandUpdater(jdaContext, configuration);
+        updater = new SlashCommandUpdater(jdaContext);
         updater.update(commandRegistry.getCommands());
         isActive = true;
     }
@@ -153,7 +148,7 @@ public class CommandDispatcher {
             return;
         }
 
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
         log.debug("Input matches command: {}", command);
 
         if (context.isHelpEvent()) {
@@ -332,12 +327,4 @@ public class CommandDispatcher {
         return dependencyInjector;
     }
 
-    /**
-     * Gets the {@link SlashConfiguration}.
-     *
-     * @return the {@link SlashConfiguration}
-     */
-    public SlashConfiguration getSlashConfiguration() {
-        return configuration;
-    }
 }

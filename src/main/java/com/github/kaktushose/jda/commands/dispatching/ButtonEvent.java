@@ -10,8 +10,8 @@ import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionRep
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
-import com.github.kaktushose.jda.commands.reflect.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -139,9 +139,9 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
     }
 
     /**
-     * Get the {@link CommandDefinition} object which describes the command that is executed.
+     * Get the {@link SlashCommandDefinition} object which describes the command that is executed.
      *
-     * @return the underlying {@link CommandDefinition} object
+     * @return the underlying {@link SlashCommandDefinition} object
      */
     public ButtonDefinition getCommandDefinition() {
         return button;

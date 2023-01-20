@@ -9,12 +9,11 @@ import com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallb
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.Optional;
 /**
  * This class is a subclass of {@link GenericEvent}.
  * It provides some additional features for sending messages and also grants
- * access to the {@link CommandDefinition} object which describes the command that is executed.
+ * access to the {@link SlashCommandDefinition} object which describes the command that is executed.
  *
  * @author Kaktushose
  * @version 2.3.0
@@ -35,7 +34,7 @@ import java.util.Optional;
  */
 public class CommandEvent extends GenericEvent implements ReplyAction {
 
-    private final CommandDefinition command;
+    private final SlashCommandDefinition command;
     private final CommandContext context;
     private final List<ActionRow> actionRows;
     private ReplyCallback replyCallback;
@@ -43,11 +42,11 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
     /**
      * Constructs a CommandEvent.
      *
-     * @param command the underlying {@link CommandDefinition} object
+     * @param command the underlying {@link SlashCommandDefinition} object
      * @param context the {@link CommandContext}
      */
     @SuppressWarnings("ConstantConditions")
-    public CommandEvent(@NotNull CommandDefinition command, @NotNull CommandContext context) {
+    public CommandEvent(@NotNull SlashCommandDefinition command, @NotNull CommandContext context) {
         super(context.getEvent());
         this.command = command;
         this.context = context;
@@ -138,11 +137,11 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
     }
 
     /**
-     * Get the {@link CommandDefinition} object which describes the command that is executed.
+     * Get the {@link SlashCommandDefinition} object which describes the command that is executed.
      *
-     * @return the underlying {@link CommandDefinition} object
+     * @return the underlying {@link SlashCommandDefinition} object
      */
-    public CommandDefinition getCommandDefinition() {
+    public SlashCommandDefinition getCommandDefinition() {
         return command;
     }
 

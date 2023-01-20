@@ -1,14 +1,11 @@
-package com.github.kaktushose.jda.commands.reflect;
+package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.dispatching.ButtonEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -17,50 +14,39 @@ import java.util.Optional;
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.buttons.Button Button}.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @see Button
  * @since 2.3.0
  */
-public class ButtonDefinition {
+public class ButtonDefinition extends EphemeralInteraction {
 
-    private static final Logger log = LoggerFactory.getLogger(ButtonDefinition.class);
-    private final String id;
+
     private final String label;
     private final Emoji emoji;
     private final String link;
     private final ButtonStyle style;
-    private final Method method;
-    private final Object instance;
-    private boolean isEphemeral;
-    private ControllerDefinition controller;
 
-    private ButtonDefinition(String id,
-                             String label,
-                             Emoji emoji,
-                             String link,
-                             ButtonStyle style,
-                             boolean isEphemeral,
-                             Method method,
-                             Object instance) {
-        this.id = id;
+    protected ButtonDefinition(Method method,
+                               boolean ephemeral,
+                               String label,
+                               Emoji emoji,
+                               String link,
+                               ButtonStyle style) {
+        super(method, ephemeral);
         this.label = label;
         this.emoji = emoji;
         this.link = link;
         this.style = style;
-        this.isEphemeral = isEphemeral;
-        this.method = method;
-        this.instance = instance;
     }
 
     /**
      * Builds a new ButtonDefinition.
      *
      * @param method   the {@link Method} of the button
-     * @param instance an instance of the method defining class
      * @return an {@link Optional} holding the ButtonDefinition
      */
-    public static Optional<ButtonDefinition> build(@NotNull Method method, @NotNull Object instance) {
-        if (!method.isAnnotationPresent(Button.class) || !method.getDeclaringClass().isAnnotationPresent(CommandController.class)) {
+    public static Optional<ButtonDefinition> build(@NotNull Method method) {
+        if (!method.isAnnotationPresent(Button.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
@@ -90,18 +76,14 @@ public class ButtonDefinition {
             emoji = Emoji.fromFormatted(emojiString);
         }
 
-        String name = button.id().isEmpty() ? method.getName() : button.id();
-        name = String.format("%s.%s", method.getDeclaringClass().getSimpleName(), name);
         return Optional.of(new ButtonDefinition(
-                name,
-                button.label(),
+                method,
+                button.ephemeral(),
+                button.value(),
                 emoji,
                 button.link(),
-                button.style(),
-                button.ephemeral(),
-                method,
-                instance)
-        );
+                button.style()
+        ));
     }
 
     /**
@@ -109,6 +91,7 @@ public class ButtonDefinition {
      *
      * @return the transformed {@link net.dv8tion.jda.api.interactions.components.buttons.Button Button}
      */
+    @NotNull
     public net.dv8tion.jda.api.interactions.components.buttons.Button toButton() {
         String label = getLabel().orElse("");
         String id = getLink().orElse(this.id);
@@ -117,16 +100,6 @@ public class ButtonDefinition {
         } else {
             return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label, emoji);
         }
-    }
-
-    /**
-     * Gets the id of the button.
-     *
-     * @return the id of the button
-     */
-    @NotNull
-    public String getId() {
-        return id;
     }
 
     /**
@@ -169,71 +142,16 @@ public class ButtonDefinition {
         return style;
     }
 
-    /**
-     * Whether this button should send ephemeral replies by default.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    public boolean isEphemeral() {
-        return isEphemeral;
-    }
-
-    /**
-     * Set whether this button should send ephemeral replies by default.
-     *
-     * @param ephemeral whether to send ephemeral replies
-     */
-    public void setEphemeral(boolean ephemeral) {
-        isEphemeral = ephemeral;
-    }
-
-    /**
-     * Gets the {@link ControllerDefinition} this button is defined inside. Can be null during indexing.
-     *
-     * @return the {@link ControllerDefinition}
-     */
-    @Nullable
-    public ControllerDefinition getController() {
-        return controller;
-    }
-
-    /**
-     * Sets the {@link ControllerDefinition}.
-     *
-     * @param controller the {@link ControllerDefinition} to use
-     */
-    public void setController(@NotNull ControllerDefinition controller) {
-        this.controller = controller;
-    }
-
-    /**
-     * Gets the {@link Method} of the command.
-     *
-     * @return the {@link Method} of the command
-     */
-    @NotNull
-    public Method getMethod() {
-        return method;
-    }
-
-    /**
-     * Gets an instance of the method defining class
-     *
-     * @return an instance of the method defining class
-     */
-    @NotNull
-    public Object getInstance() {
-        return instance;
-    }
-
     @Override
     public String toString() {
         return "ButtonDefinition{" +
-                "id='" + id + '\'' +
-                ", label='" + label + '\'' +
+                "label='" + label + '\'' +
                 ", emoji=" + emoji +
                 ", link='" + link + '\'' +
                 ", style=" + style +
+                ", ephemeral=" + ephemeral +
+                ", id='" + id + '\'' +
+                ", method=" + method +
                 '}';
     }
 }

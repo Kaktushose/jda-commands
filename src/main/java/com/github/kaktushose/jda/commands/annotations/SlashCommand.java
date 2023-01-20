@@ -8,9 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Methods annotated with Command will be registered as a command at startup.
+ * Methods annotated with SlashCommand will be registered as a command at startup.
  *
- * <p>Therefore the method must be declared inside a class that is annotated with {@link CommandController}.
+ * <p>Therefore the method must be declared inside a class that is annotated with
+ * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction}.
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type {@link CommandEvent}</li>
@@ -21,29 +22,21 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @author Kaktushose
- * @version 2.3.0
- * @see CommandController
+ * @version 4.0.0
+ * @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @since 1.0.0
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Command {
+public @interface SlashCommand {
 
     /**
-     * Returns a String array of all labels.
+     * Retruns the label of the command.
      *
-     * @return a String array of all labels
+     * @return the label of the command
      */
-    String[] value() default "";
-
-    /**
-     * Returns whether this command is a super command. A super command will be listed separately in the default help
-     * embed and will have all non-super commands inside the same controller as a sub command.
-     *
-     * @return {@code true} if this is a super command
-     */
-    boolean isSuper() default false;
+    String value() default "";
 
     /**
      * Returns whether this command can be executed in direct messages.
@@ -86,15 +79,6 @@ public @interface Command {
      * @return {@code true} if this command is active
      */
     boolean isActive() default true;
-
-    /**
-     * Returns whether this command is available to everyone by default. If this is disabled, you need to
-     * explicitly whitelist users and roles per guild via
-     * {@link com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider}.
-     *
-     * @return {@code true} if this command is available to everyone by default
-     */
-    boolean defaultEnable() default true;
 
     /**
      * Returns whether this command should send ephemeral replies by default. This only affects slash commands.

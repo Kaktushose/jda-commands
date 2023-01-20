@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.router.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class CommandRouter implements Router {
 
     @Override
-    public void findCommands(@NotNull CommandContext context, @NotNull Collection<CommandDefinition> commands) {
+    public void findCommands(@NotNull CommandContext context, @NotNull Collection<SlashCommandDefinition> commands) {
         if (findCommand(context, commands)) {
             return;
         }
@@ -35,8 +35,8 @@ public class CommandRouter implements Router {
         }
     }
 
-    private boolean findCommand(CommandContext context, Collection<CommandDefinition> commands) {
-        CommandDefinition command = null;
+    private boolean findCommand(CommandContext context, Collection<SlashCommandDefinition> commands) {
+        SlashCommandDefinition command = null;
         boolean success = false;
         String[] input = context.getInput();
         AtomicInteger matchingLength = new AtomicInteger(0);
@@ -47,7 +47,7 @@ public class CommandRouter implements Router {
                 labelBuilder.append(input[index]).append(" ");
             }
             String generatedLabel = labelBuilder.toString().trim();
-            List<CommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabels().stream().anyMatch(label -> {
+            List<SlashCommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabel().stream().anyMatch(label -> {
                         String[] expectedLabels = label.split(" ");
                         String[] actualLabels = generatedLabel.split(" ");
 
@@ -89,8 +89,8 @@ public class CommandRouter implements Router {
                 break;
             }
             if (possibleCommands.size() > 1) {
-                for (CommandDefinition possible : possibleCommands) {
-                    if (possible.getLabels().contains(generatedLabel)) {
+                for (SlashCommandDefinition possible : possibleCommands) {
+                    if (possible.getLabel().contains(generatedLabel)) {
                         command = possible;
                         success = true;
                         break;
