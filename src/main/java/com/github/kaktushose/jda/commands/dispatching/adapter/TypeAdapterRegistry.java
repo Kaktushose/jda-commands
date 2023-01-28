@@ -159,7 +159,7 @@ public class TypeAdapterRegistry {
                 if (!parameter.isOptional()) {
                     log.debug("Syntax error! Cancelled event.");
                     context.setCancelled(true);
-                    context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
+                    // TODO context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
                     break;
                 }
 
@@ -186,7 +186,7 @@ public class TypeAdapterRegistry {
             if (!parsed.isPresent()) {
                 log.debug("Type adapting failed!");
                 context.setCancelled(true);
-                context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
+                // TODO context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
                 break;
             }
 

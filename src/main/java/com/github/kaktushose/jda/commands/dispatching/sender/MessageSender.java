@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.sender;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.sender.impl.DefaultMessageSender;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,6 +37,6 @@ public interface MessageSender {
      * @param context the corresponding {@link GenericContext}
      * @param message the error message to send
      */
-    void sendErrorMessage(@NotNull GenericContext context, @NotNull Message message);
+    void sendErrorMessage(@NotNull GenericContext context, @NotNull MessageCreateData message);
 
 }

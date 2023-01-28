@@ -55,10 +55,10 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
      * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
      */
     public void sendGenericHelpMessage() {
-        getJdaCommands().getImplementationRegistry().getMessageSender().sendGenericHelpMessage(
-                context,
-                getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)
-        );
+//        getJdaCommands().getImplementationRegistry().getMessageSender().sendGenericHelpMessage(
+//                context,
+//                getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)
+//        );
     }
 
     /**
@@ -66,43 +66,43 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
      * {@link com.github.kaktushose.jda.commands.dispatching.sender.MessageSender MessageSender}
      */
     public void sendSpecificHelpMessage() {
-        getJdaCommands().getImplementationRegistry().getMessageSender().sendSpecificHelpMessage(
-                context,
-                getHelpMessageFactory().getSpecificHelp(context)
-        );
+//        getJdaCommands().getImplementationRegistry().getMessageSender().sendSpecificHelpMessage(
+//                context,
+//                getHelpMessageFactory().getSpecificHelp(context)
+//        );
     }
 
-    /**
-     * Replies to this event with the generic help embed.
-     */
-    public void replyGenericHelp() {
-        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context));
-    }
-
-    /**
-     * Replies to this event with the specific help embed.
-     */
-    public void replySpecificHelp() {
-        reply(getHelpMessageFactory().getSpecificHelp(context));
-    }
-
-    /**
-     * Replies to this event with the generic help embed.
-     *
-     * @param ephemeral whether to send an ephemeral reply
-     */
-    public void replyGenericHelp(boolean ephemeral) {
-        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context), ephemeral);
-    }
-
-    /**
-     * Replies to this event with the specific help embed.
-     *
-     * @param ephemeral whether to send an ephemeral reply
-     */
-    public void replySpecificHelp(boolean ephemeral) {
-        reply(getHelpMessageFactory().getSpecificHelp(context), ephemeral);
-    }
+//    /**
+//     * Replies to this event with the generic help embed.
+//     */
+//    public void replyGenericHelp() {
+//        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context));
+//    }
+//
+//    /**
+//     * Replies to this event with the specific help embed.
+//     */
+//    public void replySpecificHelp() {
+//        reply(getHelpMessageFactory().getSpecificHelp(context));
+//    }
+//
+//    /**
+//     * Replies to this event with the generic help embed.
+//     *
+//     * @param ephemeral whether to send an ephemeral reply
+//     */
+//    public void replyGenericHelp(boolean ephemeral) {
+//        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context), ephemeral);
+//    }
+//
+//    /**
+//     * Replies to this event with the specific help embed.
+//     *
+//     * @param ephemeral whether to send an ephemeral reply
+//     */
+//    public void replySpecificHelp(boolean ephemeral) {
+//        reply(getHelpMessageFactory().getSpecificHelp(context), ephemeral);
+//    }
 
     /**
      * Get the {@link CommandDefinition} object which describes the command that is executed.

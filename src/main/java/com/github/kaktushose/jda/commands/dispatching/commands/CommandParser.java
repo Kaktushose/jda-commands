@@ -41,12 +41,12 @@ public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
         context.setInput(event.getFullCommandName().split(" ")).setOptions(event.getOptions());
 
         if (settings.isMutedGuild()) {
-            context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
+            //context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
             return context.setCancelled(true);
         }
 
         if (settings.getMutedChannels().contains(event.getChannel().getIdLong())) {
-            context.setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
+            //context.setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
             return context.setCancelled(true);
         }
 

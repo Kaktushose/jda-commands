@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 /**
  * Default implementation of {@link PermissionsProvider} with the following behaviour:
  * <ul>
@@ -43,16 +41,16 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
 
     @Override
     public boolean hasPermission(@NotNull Member member, @NotNull GenericContext context) {
-        for (String s : context.getCommand().getPermissions()) {
-            // not a discord perm, continue
-            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
-                continue;
-            }
-            if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
-                log.debug("{} permission is missing!", s.toUpperCase());
-                return false;
-            }
-        }
-        return true;
+//        for (String s : context.getCommand().getPermissions()) {
+//            // not a discord perm, continue
+//            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
+//                continue;
+//            }
+//            if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
+//                log.debug("{} permission is missing!", s.toUpperCase());
+//                return false;
+//            }
+//        }
+return true;
     }
 }

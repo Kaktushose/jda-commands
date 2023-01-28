@@ -49,11 +49,11 @@ public class ConstraintFilter implements Filter {
 
                 if (!validated) {
                     context.setCancelled(true);
-                    context.setErrorMessage(
-                            context.getImplementationRegistry()
-                                    .getErrorMessageFactory()
-                                    .getConstraintFailedMessage(context, constraint)
-                    );
+//                    context.setErrorMessage(
+//                            context.getImplementationRegistry()
+//                                    .getErrorMessageFactory()
+//                                    .getConstraintFailedMessage(context, constraint)
+//                    );
                     log.debug("Constraint failed!");
                     return;
                 }

@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
-import com.github.kaktushose.jda.commands.dispatching.router.Router;
 import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
@@ -14,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Dispatches commands by taking a {@link GenericContext} and passing it through the execution chain.
@@ -50,14 +46,23 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
         }
 
         HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
-        Router router = implementationRegistry.getRouter();
         MessageSender sender = implementationRegistry.getMessageSender();
 
-        router.findCommands(context, interactionRegistry.getCommands());
+
+        Optional<CommandDefinition> optional = interactionRegistry.getCommands().stream()
+                .filter(it -> it.getLabel().equals(context.getEvent().getFullCommandName()))
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            throw new IllegalStateException("no slash command found?");
+            // TODO this is a race condition and should produce a error message
+        }
+
+        context.setCommand(optional.get());
 
         if (context.isCancelled() && context.isHelpEvent()) {
             log.debug("Sending generic help");
-            sender.sendGenericHelpMessage(context, helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
+            // TODO sender.sendGenericHelpMessage(context, helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
             return;
         }
 
@@ -71,7 +76,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
 
         if (context.isHelpEvent()) {
             log.debug("Sending specific help");
-            sender.sendSpecificHelpMessage(context, helpMessageFactory.getSpecificHelp(context));
+            // TODO sender.sendSpecificHelpMessage(context, helpMessageFactory.getSpecificHelp(context));
             return;
         }
 

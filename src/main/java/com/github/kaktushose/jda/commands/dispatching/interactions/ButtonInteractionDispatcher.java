@@ -66,7 +66,7 @@ public class ButtonInteractionDispatcher extends ListenerAdapter {
         event.deferEdit().queue();
 
         try {
-            button.getMethod().invoke(button.getInstance(), new ButtonEvent(event, button, jdaCommands));
+            // button.getMethod().invoke(button.getInstance(), new ButtonEvent(event, button, jdaCommands));
         } catch (Exception e) {
             log.error("Interaction execution failed!", new InvocationTargetException(e));
         }

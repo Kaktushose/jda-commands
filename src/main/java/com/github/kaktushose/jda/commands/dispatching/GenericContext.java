@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class GenericContext<T extends GenericInteractionCreateEvent> {
 
     protected final T event;
-    protected Message errorMessage;
+    protected MessageCreateData errorMessage;
     protected GuildSettings settings;
     protected ImplementationRegistry registry;
     protected JDACommands jdaCommands;
@@ -57,7 +58,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return {@link Message} to send
      */
     @Nullable
-    public Message getErrorMessage() {
+    public MessageCreateData getErrorMessage() {
         return errorMessage;
     }
 
@@ -68,7 +69,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return the current CommandContext instance
      */
     @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setErrorMessage(@NotNull Message message) {
+    public GenericContext<? extends GenericInteractionCreateEvent> setErrorMessage(@NotNull MessageCreateData message) {
         this.errorMessage = message;
         return this;
     }

@@ -74,7 +74,7 @@ public class ParserSupervisor extends ListenerAdapter {
         GenericParser<?> parser = listeners.get(event.getClass());
         log.debug("Calling {}", parser.getClass().getName());
 
-        GenericContext<? extends GenericInteractionCreateEvent> context = parser.parseInternal(event, dispatcher);
+        GenericContext<? extends GenericInteractionCreateEvent> context = parser.parseInternal(event, dispatcher.getJdaCommands());
 
         if (context.isCancelled()) {
             if (context.getErrorMessage() != null) {
