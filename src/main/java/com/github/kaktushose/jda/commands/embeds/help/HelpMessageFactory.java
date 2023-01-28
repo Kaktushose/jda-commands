@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -23,7 +25,7 @@ public interface HelpMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send to get information about a specific command
      */
-    Message getSpecificHelp(@NotNull GenericContext context);
+    MessageCreateData getSpecificHelp(@NotNull CommandContext context);
 
     /**
      * Gets a {@link Message} to send to get an overview over all available commands.
@@ -32,5 +34,5 @@ public interface HelpMessageFactory {
      * @param context     context the corresponding {@link GenericContext}
      * @return a {@link Message} to send to get an overview over all available commands
      */
-    Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull GenericContext context);
+    MessageCreateData getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context);
 }
