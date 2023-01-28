@@ -1,29 +1,25 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.sender.EditAction;
 import com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction;
 import com.github.kaktushose.jda.commands.dispatching.sender.ReplyCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.impl.InteractionReplyCallback;
-import com.github.kaktushose.jda.commands.dispatching.sender.impl.TextReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
-import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This class is a subclass of {@link GenericEvent}.
  * It provides some additional features for sending messages and also grants
- * access to the {@link SlashCommandDefinition} object which describes the command that is executed.
+ * access to the {@link CommandDefinition} object which describes the command that is executed.
  *
  * @author Kaktushose
  * @version 2.3.0
@@ -34,28 +30,24 @@ import java.util.Optional;
  */
 public class CommandEvent extends GenericEvent implements ReplyAction {
 
-    private final SlashCommandDefinition command;
+    private final CommandDefinition command;
     private final CommandContext context;
-    private final List<ActionRow> actionRows;
+    private final List<ItemComponent> actionRows;
     private ReplyCallback replyCallback;
 
     /**
      * Constructs a CommandEvent.
      *
-     * @param command the underlying {@link SlashCommandDefinition} object
-     * @param context the {@link CommandContext}
+     * @param command the underlying {@link CommandDefinition} object
+     * @param context the {@link GenericContext}
      */
     @SuppressWarnings("ConstantConditions")
-    public CommandEvent(@NotNull SlashCommandDefinition command, @NotNull CommandContext context) {
-        super(context.getEvent());
+    public CommandEvent(@NotNull CommandDefinition command, @NotNull CommandContext context) {
+        super(GenericEvent.fromEvent(context.getEvent()));
         this.command = command;
         this.context = context;
         actionRows = new ArrayList<>();
-        if (context.isSlash()) {
-            replyCallback = new InteractionReplyCallback(context.getInteractionEvent(), actionRows);
-        } else {
-            replyCallback = new TextReplyCallback(getChannel(), actionRows);
-        }
+        replyCallback = new InteractionReplyCallback(context.getEvent(), actionRows);
     }
 
     /**
@@ -112,36 +104,12 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
         reply(getHelpMessageFactory().getSpecificHelp(context), ephemeral);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    public CommandEvent with(@NotNull Component... components) {
-        List<ItemComponent> items = new ArrayList<>();
-        for (Component component : components) {
-            if (!(component instanceof Buttons)) {
-                return this;
-            }
-            Buttons buttons = (Buttons) component;
-            buttons.getButtons().forEach(button -> {
-                String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button.getId());
-                command.getController().getButtons()
-                        .stream()
-                        .filter(it -> it.getId().equals(id))
-                        .findFirst()
-                        .map(it -> it.toButton().withDisabled(!button.isEnabled()))
-                        .ifPresent(items::add);
-            });
-        }
-        if (items.size() > 0) {
-            actionRows.add(ActionRow.of(items));
-        }
-        return this;
-    }
-
     /**
-     * Get the {@link SlashCommandDefinition} object which describes the command that is executed.
+     * Get the {@link CommandDefinition} object which describes the command that is executed.
      *
-     * @return the underlying {@link SlashCommandDefinition} object
+     * @return the underlying {@link CommandDefinition} object
      */
-    public SlashCommandDefinition getCommandDefinition() {
+    public CommandDefinition getCommandDefinition() {
         return command;
     }
 
@@ -164,31 +132,17 @@ public class CommandEvent extends GenericEvent implements ReplyAction {
     }
 
     /**
-     * Get the {@link CommandContext} object.
+     * Get the {@link GenericContext} object.
      *
-     * @return the registered {@link CommandContext} object
+     * @return the registered {@link GenericContext} object
      */
     public CommandContext getCommandContext() {
         return context;
     }
 
-    /**
-     * Gets the {@link InteractionHook}. The {@link InteractionHook} is only available if the underlying event was a
-     * {@link net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent SlashCommandInteractionEvent}.
-     *
-     * @return an {@link Optional} holding the {@link InteractionHook}.
-     */
-    public Optional<InteractionHook> getInteractionHook() {
-        return Optional.ofNullable(context.getInteractionEvent()).map(GenericCommandInteractionEvent::getHook);
-    }
-
-    /**
-     * Gets the {@link ActionRow ActionRows} already added to the reply.
-     *
-     * @return a possibly-empty {@link List} of {@link ActionRow ActionRows}.
-     */
-    public List<ActionRow> getActionRows() {
-        return new ArrayList<>(actionRows);
+    @Override
+    public ReplyAction with(@NotNull Component... components) {
+        return null;
     }
 
     @Override

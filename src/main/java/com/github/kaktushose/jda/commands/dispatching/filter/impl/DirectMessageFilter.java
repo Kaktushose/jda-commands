@@ -1,17 +1,19 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.annotations.SlashCommand;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
-import net.dv8tion.jda.api.entities.ChannelType;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * A {@link Filter} implementation that checks if a
- * {@link SlashCommandDefinition} is available for execution in direct messages.
+ * {@link CommandDefinition} is available for execution in direct messages.
  *
  * @author Kaktushose
  * @version 2.0.0
@@ -23,14 +25,19 @@ public class DirectMessageFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(DirectMessageFilter.class);
 
     /**
-     * Checks if a {@link SlashCommandDefinition} is available for execution in
-     * direct messages and if not cancels the {@link CommandContext},
+     * Checks if a {@link CommandDefinition} is available for execution in
+     * direct messages and if not cancels the {@link GenericContext},
      *
-     * @param context the {@link CommandContext} to filter
+     * @param context the {@link GenericContext} to filter
      */
     @Override
-    public void apply(@NotNull CommandContext context) {
-        if (context.getEvent().isFromType(ChannelType.PRIVATE) && !context.getCommand().isDM()) {
+    public void apply(@NotNull GenericContext context) {
+        CommandContext commandContext = (CommandContext) context;
+        Channel channel = context.getEvent().getChannel();
+        if (channel == null) {
+            return;
+        }
+        if (channel.getType().equals(ChannelType.PRIVATE) && !commandContext.getCommand().isDM()) {
             log.debug("Received private message but command cannot be executed in DMs!");
             context.setCancelled(true);
             context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getWrongChannelTypeMessage(context));

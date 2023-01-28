@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect;
 
-import com.github.kaktushose.jda.commands.annotations.CommandController;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.interactions.ButtonInteractionDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -21,39 +20,33 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
+ * Central registry for all {@link CommandDefinition CommandDefinitions}.
  *
  * @author Kaktushose
  * @version 2.0.0
  * @since 2.0.0
  */
-public class CommandRegistry {
+public class InteractionRegistry {
 
-    private final static Logger log = LoggerFactory.getLogger(CommandRegistry.class);
-    private final TypeAdapterRegistry parameterRegistry;
+    private final static Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
-    private final ButtonInteractionDispatcher buttonListener;
     private final Set<ControllerDefinition> controllers;
-    private final Set<SlashCommandDefinition> commands;
+    private final Set<CommandDefinition> commands;
+    private final Set<ButtonDefinition> buttons;
 
     /**
      * Constructs a new CommandRegistry.
      *
-     * @param adapterRegistry    the corresponding {@link TypeAdapterRegistry}
      * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
      * @param dependencyInjector the corresponding {@link DependencyInjector}
      */
-    public CommandRegistry(@NotNull TypeAdapterRegistry adapterRegistry,
-                           @NotNull ValidatorRegistry validatorRegistry,
-                           @NotNull DependencyInjector dependencyInjector,
-                           ButtonInteractionDispatcher buttonListener) {
-        this.parameterRegistry = adapterRegistry;
+    public InteractionRegistry(@NotNull ValidatorRegistry validatorRegistry, @NotNull DependencyInjector dependencyInjector) {
         this.validatorRegistry = validatorRegistry;
         this.dependencyInjector = dependencyInjector;
-        this.buttonListener = buttonListener;
         controllers = new HashSet<>();
         commands = new HashSet<>();
+        buttons = new HashSet<>();
     }
 
     /**
@@ -76,16 +69,12 @@ public class CommandRegistry {
                 .filterInputsBy(filter);
         Reflections reflections = new Reflections(config);
 
-        Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(CommandController.class);
+        Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(Interaction.class);
 
         for (Class<?> aClass : controllerSet) {
             log.debug("Found controller {}", aClass.getName());
 
-            Optional<ControllerDefinition> optional = ControllerDefinition.build(aClass,
-                    parameterRegistry,
-                    validatorRegistry,
-                    dependencyInjector
-            );
+            Optional<ControllerDefinition> optional = ControllerDefinition.build(aClass, validatorRegistry, dependencyInjector);
 
             if (!optional.isPresent()) {
                 log.warn("Unable to index the controller!");
@@ -94,31 +83,42 @@ public class CommandRegistry {
 
             ControllerDefinition controller = optional.get();
             controllers.add(controller);
-            commands.addAll(controller.getSuperCommands());
-            commands.addAll(controller.getSubCommands());
-            buttonListener.addButtons(controller.getButtons());
+            commands.addAll(controller.getCommands());
+            buttons.addAll(controller.getButtons());
 
             log.debug("Registered controller {}", controller);
         }
 
-        log.debug("Successfully registered {} controller(s) with a total of {} command(s)!", controllers.size(), commands.size());
+        log.debug("Successfully registered {} controller(s) with a total of {} interaction(s)!",
+                controllers.size(),
+                commands.size() + buttons.size());
     }
 
     /**
-     * Gets a list of all {@link ControllerDefinition ControllerDefinitions}.
+     * Gets a possibly-empty list of all {@link ControllerDefinition ControllerDefinitions}.
      *
-     * @return a list of all {@link ControllerDefinition ControllerDefinitions}
+     * @return a possibly-empty list of all {@link ControllerDefinition ControllerDefinitions}
      */
     public Set<ControllerDefinition> getControllers() {
         return Collections.unmodifiableSet(controllers);
     }
 
     /**
-     * Gets a list of all {@link SlashCommandDefinition CommandDefinitions}.
+     * Gets a possibly-empty list of all {@link CommandDefinition CommandDefinitions}.
      *
-     * @return a list of all {@link SlashCommandDefinition CommandDefinitions}
+     * @return a possibly-empty list of all {@link CommandDefinition CommandDefinitions}
      */
-    public Set<SlashCommandDefinition> getCommands() {
+    public Set<CommandDefinition> getCommands() {
         return Collections.unmodifiableSet(commands);
     }
+
+    /**
+     * Gets a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
+     */
+    public Set<ButtonDefinition> getButtons() {
+        return Collections.unmodifiableSet(buttons);
+    }
+
 }

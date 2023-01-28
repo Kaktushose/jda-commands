@@ -1,7 +1,7 @@
 package commands;
 
 import com.github.kaktushose.jda.commands.annotations.*;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 

@@ -14,14 +14,14 @@ import java.lang.reflect.Method;
  * @version 4.0.0
  * @since 4.0.0
  */
-public abstract class Interaction {
+public abstract class GenericInteraction {
 
-    protected static final Logger log = LoggerFactory.getLogger(Interaction.class);
+    protected static final Logger log = LoggerFactory.getLogger(GenericInteraction.class);
 
     protected final String id;
     protected final Method method;
 
-    protected Interaction(Method method) {
+    protected GenericInteraction(Method method) {
         this.id = String.format("%s.%s", method.getDeclaringClass().getSimpleName(), method.getName());
         this.method = method;
     }

@@ -4,13 +4,13 @@ import adapting.mock.JDACommandsMock;
 import adapting.mock.MessageReceivedEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import org.junit.jupiter.api.BeforeAll;
@@ -73,7 +73,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withStringArray_ShouldNotAdapt() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
+        GenericContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
 
         registry.adapt(context);
 
@@ -82,7 +82,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withLessInputThanParameters_ShouldCancel() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
+        GenericContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
 
         registry.adapt(context);
 
@@ -91,7 +91,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withMoreInputThanParameters_ShouldNotCancel() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
+        GenericContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
 
         registry.adapt(context);
 
@@ -100,7 +100,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefaultNull_ShouldAddNull() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
+        GenericContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
 
         registry.adapt(context);
 
@@ -109,7 +109,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefault_ShouldAddDefault() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
+        GenericContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
 
         registry.adapt(context);
 
@@ -119,7 +119,7 @@ public class TypeAdapterRegistryTest {
     @Test
     public void adapt_withMissingTypeAdapter_ShouldThrowIllegalArgumentException() throws NoSuchMethodException {
         adapter.register(CustomType.class, new CustomTypeAdapter());
-        CommandContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
+        GenericContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
         adapter.unregister(CustomType.class);
 
         assertThrows(IllegalArgumentException.class, () -> registry.adapt(context));
@@ -127,21 +127,21 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withWrongArgument_ShouldCancel() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
+        GenericContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
 
         registry.adapt(context);
         assertTrue(context.isCancelled());
     }
 
-    private SlashCommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+    private CommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        SlashCommandDefinition command = SlashCommandDefinition.build(method, instance, adapter, validator).orElse(null);
+        CommandDefinition command = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
         assertNotNull(command);
         return command;
     }
 
-    private CommandContext buildContext(SlashCommandDefinition command, String... input) {
-        CommandContext context = new CommandContext(
+    private GenericContext buildContext(CommandDefinition command, String... input) {
+        GenericContext context = new GenericContext(
                 new MessageReceivedEventMock(true),
                 new JDACommandsMock(),
                 new GuildSettings(),

@@ -1,16 +1,15 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -233,12 +232,12 @@ public class EmbedDTO implements Serializable {
     }
 
     /**
-     * Transfers this object to a {@link net.dv8tion.jda.api.entities.Message}.
+     * Transfers this object to a {@link MessageCreateBuilder}.
      *
-     * @return the {@link net.dv8tion.jda.api.entities.Message}
+     * @return the {@link MessageCreateBuilder}
      */
-    public Message toMessage() {
-        return new MessageBuilder().setEmbeds(toMessageEmbed()).build();
+    public MessageCreateData toMessageCreateData() {
+        return new MessageCreateBuilder().setEmbeds(toMessageEmbed()).build();
     }
 
     /**
@@ -282,131 +281,56 @@ public class EmbedDTO implements Serializable {
      */
     public EmbedDTO injectValue(String name, Object object) {
         if (title != null) {
-            title = title.replaceAll(pattern(name), replacement(object));
+            title = title.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
         }
         if (description != null) {
-            description = description.replaceAll(pattern(name), replacement(object));
+            description = description.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
         }
         if (url != null) {
-            url = url.replaceAll(pattern(name), replacement(object));
+            url = url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
         }
         if (color != null) {
-            color = color.replaceAll(pattern(name), replacement(object));
+            color = color.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
         }
         if (timestamp != null) {
-            timestamp = timestamp.replaceAll(pattern(name), replacement(object));
+            timestamp = timestamp.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
         }
         if (footer != null) {
             if (footer.iconUrl != null) {
-                footer.iconUrl = footer.iconUrl.replaceAll(pattern(name), replacement(object));
+                footer.iconUrl = footer.iconUrl.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
             if (footer.text != null) {
-                footer.text = footer.text.replaceAll(pattern(name), replacement(object));
+                footer.text = footer.text.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
         }
         if (thumbnail != null) {
             if (thumbnail.url != null) {
-                thumbnail.url = thumbnail.url.replaceAll(pattern(name), replacement(object));
+                thumbnail.url = thumbnail.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
         }
         if (image != null) {
             if (image.url != null) {
-                image.url = image.url.replaceAll(pattern(name), replacement(object));
+                image.url = image.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
         }
         if (author != null) {
             if (author.iconUrl != null) {
-                author.iconUrl = author.iconUrl.replaceAll(pattern(name), replacement(object));
+                author.iconUrl = author.iconUrl.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
             if (author.name != null) {
-                author.name = author.name.replaceAll(pattern(name), replacement(object));
+                author.name = author.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
             if (author.url != null) {
-                author.url = author.url.replaceAll(pattern(name), replacement(object));
+                author.url = author.url.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
             }
         }
         if (fields != null) {
             for (Field field : fields) {
                 if (field.name != null) {
-                    field.name = field.name.replaceAll(pattern(name), replacement(object));
+                    field.name = field.name.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
                 }
                 if (field.value != null) {
-                    field.value = field.value.replaceAll(pattern(name), replacement(object));
-                }
-            }
-        }
-        return this;
-    }
-
-    private String pattern(String name) {
-        return String.format(Pattern.quote("{%s}"), name);
-    }
-
-    private String replacement(Object object) {
-        return Matcher.quoteReplacement(String.valueOf(object));
-    }
-
-    /**
-     * Attempts to format all fields with the given arguments. Be aware that this might only be useful for some fields
-     * such as title, description or fields.
-     *
-     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than
-     *             format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
-     *             zero.
-     * @return the current instance to use fluent interface
-     */
-    public EmbedDTO injectFormat(Object... args) {
-        if (title != null) {
-            title = String.format(title, args);
-        }
-        if (description != null) {
-            description = String.format(description, args);
-        }
-        if (url != null) {
-            url = String.format(url, args);
-        }
-        if (color != null) {
-            color = String.format(color, args);
-        }
-        if (timestamp != null) {
-            timestamp = String.format(timestamp, args);
-        }
-        if (footer != null) {
-            if (footer.iconUrl != null) {
-                footer.iconUrl = String.format(footer.iconUrl, args);
-            }
-            if (footer.text != null) {
-                footer.text = String.format(footer.text, args);
-            }
-        }
-        if (thumbnail != null) {
-            if (thumbnail.url != null) {
-                thumbnail.url = String.format(thumbnail.url, args);
-            }
-        }
-        if (image != null) {
-            if (image.url != null) {
-                image.url = String.format(image.url, args);
-            }
-        }
-        if (author != null) {
-            if (author.iconUrl != null) {
-                author.iconUrl = String.format(author.iconUrl, args);
-            }
-            if (author.name != null) {
-                author.name = String.format(author.name, args);
-            }
-            if (author.url != null) {
-                author.url = String.format(author.url, args);
-            }
-        }
-        if (fields != null) {
-            for (Field field : fields) {
-                if (field.name != null) {
-                    field.name = String.format(field.name, args);
-                }
-                if (field.value != null) {
-                    field.value = String.format(field.value, args);
+                    field.value = field.value.replaceAll(String.format(Pattern.quote("{%s}"), name), String.valueOf(object));
                 }
             }
         }

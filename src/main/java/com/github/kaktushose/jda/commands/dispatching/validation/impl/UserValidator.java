@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.User;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
@@ -24,11 +24,11 @@ public class UserValidator implements Validator {
      *
      * @param argument   the argument to validate
      * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link CommandContext}
+     * @param context    the corresponding {@link GenericContext}
      * @return {@code true} if the argument is the specified user or member
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull CommandContext context) {
+    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull GenericContext context) {
         Member member = (Member) argument;
         User user = (User) annotation;
         Optional<Member> optional = new MemberAdapter().parse(user.value(), context);

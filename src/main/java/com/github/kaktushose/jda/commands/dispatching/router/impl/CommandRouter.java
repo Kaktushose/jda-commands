@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.router.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.router.Router;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class CommandRouter implements Router {
 
     @Override
-    public void findCommands(@NotNull CommandContext context, @NotNull Collection<SlashCommandDefinition> commands) {
+    public void findCommands(@NotNull GenericContext context, @NotNull Collection<CommandDefinition> commands) {
         if (findCommand(context, commands)) {
             return;
         }
@@ -35,8 +35,8 @@ public class CommandRouter implements Router {
         }
     }
 
-    private boolean findCommand(CommandContext context, Collection<SlashCommandDefinition> commands) {
-        SlashCommandDefinition command = null;
+    private boolean findCommand(GenericContext context, Collection<CommandDefinition> commands) {
+        CommandDefinition command = null;
         boolean success = false;
         String[] input = context.getInput();
         AtomicInteger matchingLength = new AtomicInteger(0);
@@ -47,7 +47,7 @@ public class CommandRouter implements Router {
                 labelBuilder.append(input[index]).append(" ");
             }
             String generatedLabel = labelBuilder.toString().trim();
-            List<SlashCommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabel().stream().anyMatch(label -> {
+            List<CommandDefinition> possibleCommands = commands.stream().filter(cmd -> cmd.getLabel().stream().anyMatch(label -> {
                         String[] expectedLabels = label.split(" ");
                         String[] actualLabels = generatedLabel.split(" ");
 
@@ -89,7 +89,7 @@ public class CommandRouter implements Router {
                 break;
             }
             if (possibleCommands.size() > 1) {
-                for (SlashCommandDefinition possible : possibleCommands) {
+                for (CommandDefinition possible : possibleCommands) {
                     if (possible.getLabel().contains(generatedLabel)) {
                         command = possible;
                         success = true;

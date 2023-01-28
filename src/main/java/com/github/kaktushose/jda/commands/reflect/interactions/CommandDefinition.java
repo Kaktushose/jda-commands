@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
+import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
@@ -27,7 +26,7 @@ import java.util.*;
  * @see SlashCommand
  * @since 2.0.0
  */
-public class SlashCommandDefinition extends EphemeralInteraction implements Comparable<SlashCommandDefinition> {
+public class CommandDefinition extends EphemeralInteraction implements Comparable<CommandDefinition> {
 
     private final String label;
     private final CommandMetadata metadata;
@@ -36,14 +35,14 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
     private final CooldownDefinition cooldown;
     private final boolean isDM;
 
-    protected SlashCommandDefinition(Method method,
-                                     boolean ephemeral,
-                                     String label,
-                                     CommandMetadata metadata,
-                                     List<ParameterDefinition> parameters,
-                                     Set<String> permissions,
-                                     CooldownDefinition cooldown,
-                                     boolean isDM) {
+    protected CommandDefinition(Method method,
+                                boolean ephemeral,
+                                String label,
+                                CommandMetadata metadata,
+                                List<ParameterDefinition> parameters,
+                                Set<String> permissions,
+                                CooldownDefinition cooldown,
+                                boolean isDM) {
         super(method, ephemeral);
         this.label = label;
         this.metadata = metadata;
@@ -58,15 +57,11 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
      * Builds a new CommandDefinition.
      *
      * @param method            the {@link Method} of the command
-     * @param instance          an instance of the method defining class
-     * @param adapterRegistry   the corresponding {@link TypeAdapterRegistry}
      * @param validatorRegistry the corresponding {@link ValidatorRegistry}
      * @return an {@link Optional} holding the CommandDefinition
      */
-    public static Optional<SlashCommandDefinition> build(@NotNull Method method,
-                                                         @NotNull Object instance,
-                                                         @NotNull TypeAdapterRegistry adapterRegistry,
-                                                         @NotNull ValidatorRegistry validatorRegistry) {
+    public static Optional<CommandDefinition> build(@NotNull Method method,
+                                                    @NotNull ValidatorRegistry validatorRegistry) {
 
         if (!method.isAnnotationPresent(SlashCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
@@ -121,27 +116,11 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
                 continue;
             }
 
-            // check if parameter adapter exists
-            if (!adapterRegistry.exists(type)) {
-                log.warn("No type adapter for type {} found! Command {}.{} cannot be executed in this state!",
-                        type.getName(),
-                        method.getDeclaringClass().getSimpleName(),
-                        method.getName());
-            }
-
             // argument parsing can be skipped by using just a String array (the traditional way of command frameworks)
             // this means that no other parameters are allowed in this case
             if (type.isAssignableFrom(String[].class) && parameters.size() > 2) {
                 logError("Additional parameters aren't allowed when using arrays!", method);
                 return Optional.empty();
-            }
-
-            if (parameter.isOptional()) {
-                // using primitives with default values results in NPEs. Warn the user about it
-                if (parameter.getDefaultValue() == null && parameter.isPrimitive()) {
-                    log.warn("Command {} has an optional primitive datatype parameter, but no default value is present! " +
-                            "This will result in a NullPointerException if the command is executed without the optional parameter!", method.getName());
-                }
             }
         }
 
@@ -163,7 +142,7 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
             metadata.setUsage(usage.toString());
         }
 
-        return Optional.of(new SlashCommandDefinition(
+        return Optional.of(new CommandDefinition(
                 method,
                 command.ephemeral(),
                 label,
@@ -323,7 +302,7 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
     }
 
     @Override
-    public int compareTo(@NotNull SlashCommandDefinition command) {
+    public int compareTo(@NotNull CommandDefinition command) {
         return label.compareTo(command.label);
     }
 }

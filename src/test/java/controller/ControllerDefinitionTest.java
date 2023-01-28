@@ -1,10 +1,10 @@
 package controller;
 
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import commands.UnsupportedType;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,7 +44,7 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
-        SlashCommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
 
@@ -66,7 +66,7 @@ public class ControllerDefinitionTest {
 
         ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
         assertNotNull(controllerDefinition);
-        SlashCommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
         assertEquals(4, definition.getLabel().size());

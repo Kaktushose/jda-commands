@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -100,13 +101,13 @@ public class FilterRegistry {
 
         /**
          * Filter will be executed before command routing. The command will not be present in the
-         * {@link com.github.kaktushose.jda.commands.dispatching.CommandContext}.
+         * {@link GenericContext}.
          */
         BEFORE_ROUTING,
 
         /**
          * Filter will be executed before type adapting. The command will be present in the
-         * {@link com.github.kaktushose.jda.commands.dispatching.CommandContext} but not the type adapted input.
+         * {@link GenericContext} but not the type adapted input.
          */
         BEFORE_ADAPTING,
 

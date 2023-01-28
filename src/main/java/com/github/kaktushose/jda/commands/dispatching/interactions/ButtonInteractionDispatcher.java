@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.ButtonEvent;
+import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -62,9 +62,9 @@ public class ButtonInteractionDispatcher extends ListenerAdapter {
         }
         ButtonDefinition button = optional.get();
         log.info("Executing button interaction {} for user {}", button.getMethod().getName(), event.getUser());
-        if (button.getController().isAutoAcknowledge()) {
-            event.deferEdit().queue();
-        }
+
+        event.deferEdit().queue();
+
         try {
             button.getMethod().invoke(button.getInstance(), new ButtonEvent(event, button, jdaCommands));
         } catch (Exception e) {

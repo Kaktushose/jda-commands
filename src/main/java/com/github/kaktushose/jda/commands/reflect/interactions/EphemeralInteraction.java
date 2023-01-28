@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * @version 4.0.0
  * @since 4.0.0
  */
-public abstract class EphemeralInteraction extends Interaction {
+public abstract class EphemeralInteraction extends GenericInteraction {
 
     protected boolean ephemeral;
 

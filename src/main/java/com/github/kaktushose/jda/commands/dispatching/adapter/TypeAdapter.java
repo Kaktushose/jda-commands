@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -19,10 +19,10 @@ public interface TypeAdapter<T> {
      * Attempts to parse a String to the given type.
      *
      * @param raw     the String to parse
-     * @param context the {@link CommandContext}
+     * @param context the {@link GenericContext}
      * @return the parsed type or an empty Optional if the parsing fails
      */
-    Optional<T> parse(@NotNull String raw, @NotNull CommandContext context);
+    Optional<T> parse(@NotNull String raw, @NotNull GenericContext context);
 
     /**
      * Sanitizes a String containing a raw mention. This will remove all markdown characters namely <em>< @ # & ! ></em>

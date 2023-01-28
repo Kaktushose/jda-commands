@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,12 +23,13 @@ public class MemberAdapter implements TypeAdapter<Member> {
      * Attempts to parse a String to a {@link Member}. Accepts both the member id and name.
      *
      * @param raw     the String to parse
-     * @param context the {@link CommandContext}
+     * @param context the {@link GenericContext}
      * @return the parsed {@link Member} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Member> parse(@NotNull String raw, @NotNull CommandContext context) {
-        if (!context.getEvent().isFromType(ChannelType.TEXT)) {
+    public Optional<Member> parse(@NotNull String raw, @NotNull GenericContext context) {
+        Channel channel = context.getEvent().getChannel();
+        if (channel == null) {
             return Optional.empty();
         }
 

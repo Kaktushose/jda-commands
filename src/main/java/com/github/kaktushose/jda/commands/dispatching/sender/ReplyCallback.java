@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.sender;
 
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
@@ -65,19 +64,6 @@ public interface ReplyCallback {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     default void sendMessage(@NotNull EmbedBuilder builder, boolean ephemeral, @Nullable Consumer<Message> success) {
-        sendMessage(builder.build(), ephemeral, success);
-    }
-
-    /**
-     * Sends a message to the TextChannel where the command was called. This method also allows to access the JDA RestAction
-     * consumer.
-     *
-     * @param builder   the {@link MessageBuilder} to send
-     * @param ephemeral whether to send an ephemeral reply
-     * @param success   the JDA RestAction success consumer
-     * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
-     */
-    default void sendMessage(@NotNull MessageBuilder builder, boolean ephemeral, @Nullable Consumer<Message> success) {
         sendMessage(builder.build(), ephemeral, success);
     }
 

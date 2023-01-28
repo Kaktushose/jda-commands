@@ -1,12 +1,19 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import net.dv8tion.jda.api.entities.*;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -25,6 +32,18 @@ import java.util.*;
 public class TypeAdapterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
+    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = new HashMap<Class<?>, Object>() {
+        {
+            put(byte.class, (byte) 0);
+            put(short.class, (short) 0);
+            put(int.class, 0);
+            put(long.class, 0L);
+            put(double.class, 0.0d);
+            put(float.class, 0.0f);
+            put(boolean.class, false);
+            put(char.class, '\u0000');
+        }
+    };
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
     /**
@@ -110,13 +129,13 @@ public class TypeAdapterRegistry {
     }
 
     /**
-     * Takes a {@link CommandContext} and attempts to type adapt the command input to the type specified by the
-     * {@link SlashCommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
+     * Takes a {@link GenericContext} and attempts to type adapt the command input to the type specified by the
+     * {@link CommandDefinition}. Cancels the {@link GenericContext} if the type adapting fails.
      *
-     * @param context the {@link CommandContext} to type adapt
+     * @param context the {@link GenericContext} to type adapt
      */
     public void adapt(@NotNull CommandContext context) {
-        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
@@ -147,22 +166,13 @@ public class TypeAdapterRegistry {
                 // if the default value is an empty String (thus not present) add a null value to the argument list
                 // else try to type adapt the default value
                 if (parameter.getDefaultValue() == null) {
-                    arguments.add(null);
+                    arguments.add(DEFAULT_MAPPINGS.getOrDefault(parameter.getType(), null));
                     continue;
                 } else {
                     raw = parameter.getDefaultValue();
                 }
             } else {
                 raw = input[i];
-            }
-
-            if (i == command.getActualParameters().size() - 1 && parameter.isConcat()) {
-                StringBuilder sb = new StringBuilder();
-                for (String s : Arrays.copyOfRange(input, i, input.length)) {
-                    sb.append(s).append(" ");
-                }
-                arguments.add(sb.toString().trim());
-                break;
             }
 
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());

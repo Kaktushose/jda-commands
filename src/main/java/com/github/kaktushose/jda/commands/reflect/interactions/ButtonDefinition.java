@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
-import com.github.kaktushose.jda.commands.dispatching.ButtonEvent;
+import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;

@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
@@ -35,13 +35,13 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getSpecificHelp(@NotNull CommandContext context) {
+    public Message getSpecificHelp(@NotNull GenericContext context) {
         if (!embedCache.containsEmbed("specificHelp")) {
             return super.getSpecificHelp(context);
         }
 
         String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
-        SlashCommandDefinition command = context.getCommand();
+        CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
         List<String> labels = command.getLabel();
@@ -68,11 +68,11 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
         String name;
         if (command.isSuper()) {
             name = "Sub Commands:";
-            List<SlashCommandDefinition> commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
+            List<CommandDefinition> commands = command.getController().getSubCommands().stream().sorted().collect(Collectors.toList());
             commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabel().get(0))).append(", "));
         } else {
             name = "Super Command:";
-            List<SlashCommandDefinition> commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
+            List<CommandDefinition> commands = command.getController().getSuperCommands().stream().sorted().collect(Collectors.toList());
             commands.forEach(definition -> sbCommands.append(String.format("`%s`", definition.getLabel().get(0))).append(", "));
         }
         String commands = sbCommands.toString().isEmpty() ? "N/A" : sbCommands.substring(0, sbCommands.length() - 2);
@@ -82,7 +82,7 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
     }
 
     @Override
-    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull CommandContext context) {
+    public Message getGenericHelp(@NotNull Set<ControllerDefinition> controllers, @NotNull GenericContext context) {
         if (!embedCache.containsEmbed("genericHelp")) {
             return super.getGenericHelp(controllers, context);
         }

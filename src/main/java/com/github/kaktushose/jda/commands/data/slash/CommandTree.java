@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.data.slash;
 
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.Collection;
@@ -30,29 +30,29 @@ public class CommandTree {
     /**
      * Constructs a new CommandTree.
      */
-    public CommandTree(Collection<SlashCommandDefinition> commands) {
+    public CommandTree(Collection<CommandDefinition> commands) {
         root = new TreeNode();
         addAll(commands);
     }
 
     /**
-     * Adds a {@link SlashCommandDefinition} to the {@link CommandTree}. The label of the {@link SlashCommandDefinition} will be
+     * Adds a {@link CommandDefinition} to the {@link CommandTree}. The label of the {@link CommandDefinition} will be
      * sanitized to match the regex {@code ^[\w-]+$}. Furthermore, if the label consists of more than three spaces any
      * additional space will be replaced with {@code _} due to Discords limitations on SubcommandGroups.
      *
-     * @param command the {@link SlashCommandDefinition} to add
+     * @param command the {@link CommandDefinition} to add
      */
-    public void add(SlashCommandDefinition command) {
-        root.addChild(resolveLabel(command.getLabel().get(0)), command);
+    public void add(CommandDefinition command) {
+        root.addChild(resolveLabel(command.getLabel()), command);
     }
 
     /**
-     * Adds all {@link SlashCommandDefinition CommandDefinitions} of the {@link Collection} to the {@link CommandTree}.
+     * Adds all {@link CommandDefinition CommandDefinitions} of the {@link Collection} to the {@link CommandTree}.
      *
-     * @param commands a {@link Collection} of {@link SlashCommandDefinition CommandDefinitions} to add
-     * @see #add(SlashCommandDefinition)
+     * @param commands a {@link Collection} of {@link CommandDefinition CommandDefinitions} to add
+     * @see #add(CommandDefinition)
      */
-    public void addAll(Collection<SlashCommandDefinition> commands) {
+    public void addAll(Collection<CommandDefinition> commands) {
         commands.forEach(this::add);
     }
 

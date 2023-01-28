@@ -2,7 +2,7 @@ package data;
 
 import com.github.kaktushose.jda.commands.annotations.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 @CommandController
 public class CommandListTestController {

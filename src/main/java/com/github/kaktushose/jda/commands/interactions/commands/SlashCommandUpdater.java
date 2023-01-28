@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.interactions.commands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.data.slash.CommandTree;
 import com.github.kaktushose.jda.commands.dispatching.interactions.HelpAutoCompleteListener;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class that sends the {@link SlashCommandData} to Discord. Uses a {@link CommandTree} to properly transpile all
- * {@link SlashCommandDefinition CommandDefinitions} to {@link SlashCommandData}. Also registers the
+ * {@link CommandDefinition CommandDefinitions} to {@link SlashCommandData}. Also registers the
  * {@link HelpAutoCompleteListener}.
  *
  * @author Kaktushose
@@ -51,7 +51,7 @@ public class SlashCommandUpdater {
      *
      * @param commands a {@link Collection} of {@link SlashCommandData} to update
      */
-    public void update(Collection<SlashCommandDefinition> commands) {
+    public void update(Collection<CommandDefinition> commands) {
         log.debug("Updating slash commands...");
         CommandTree tree = new CommandTree(commands);
         log.debug("Generated command tree:\n" + tree);

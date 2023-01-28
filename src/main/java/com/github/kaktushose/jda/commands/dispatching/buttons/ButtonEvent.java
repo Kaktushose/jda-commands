@@ -1,6 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.sender.EditAction;
 import com.github.kaktushose.jda.commands.dispatching.sender.EditCallback;
 import com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction;
@@ -11,7 +12,7 @@ import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -61,20 +62,20 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
                 return this;
             }
             Buttons buttons = (Buttons) component;
-            buttons.getButtons().forEach(container -> {
-                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
-                button.getController().getButtons()
-                        .stream()
-                        .filter(it -> it.getId().equals(id))
-                        .findFirst()
-                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
-                        .ifPresent(items::add);
-            });
-        }
-        if (items.size() > 0) {
-            editCallback.editComponents(ActionRow.of(items));
-        } else {
-            editCallback.editComponents();
+//            buttons.getButtons().forEach(container -> {
+//                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
+//                button.getController().getButtons()
+//                        .stream()
+//                        .filter(it -> it.getId().equals(id))
+//                        .findFirst()
+//                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
+//                        .ifPresent(items::add);
+//            });
+//        }
+//        if (items.size() > 0) {
+//            editCallback.editComponents(ActionRow.of(items));
+//        } else {
+//            editCallback.editComponents();
         }
         return this;
     }
@@ -87,15 +88,15 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
                 return this;
             }
             Buttons buttons = (Buttons) component;
-            buttons.getButtons().forEach(container -> {
-                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
-                button.getController().getButtons()
-                        .stream()
-                        .filter(it -> it.getId().equals(id))
-                        .findFirst()
-                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
-                        .ifPresent(items::add);
-            });
+//            buttons.getButtons().forEach(container -> {
+//                String id = String.format("%s.%s", button.getMethod().getDeclaringClass().getSimpleName(), container.getId());
+//                button.getController().getButtons()
+//                        .stream()
+//                        .filter(it -> it.getId().equals(id))
+//                        .findFirst()
+//                        .map(it -> it.toButton().withDisabled(!container.isEnabled()))
+//                        .ifPresent(items::add);
+//            });
         }
         if (items.size() > 0) {
             actionRows.add(ActionRow.of(items));
@@ -139,9 +140,9 @@ public class ButtonEvent extends GenericEvent implements ReplyAction, EditAction
     }
 
     /**
-     * Get the {@link SlashCommandDefinition} object which describes the command that is executed.
+     * Get the {@link CommandDefinition} object which describes the command that is executed.
      *
-     * @return the underlying {@link SlashCommandDefinition} object
+     * @return the underlying {@link CommandDefinition} object
      */
     public ButtonDefinition getCommandDefinition() {
         return button;

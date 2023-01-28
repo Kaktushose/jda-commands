@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -28,7 +28,7 @@ import java.util.regex.Matcher;
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
-    public Message getCommandNotFoundMessage(@NotNull CommandContext context) {
+    public Message getCommandNotFoundMessage(@NotNull GenericContext context) {
         GuildSettings settings = context.getSettings();
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -49,9 +49,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getInsufficientPermissionsMessage(@NotNull CommandContext context) {
+    public Message getInsufficientPermissionsMessage(@NotNull GenericContext context) {
         GuildSettings settings = context.getSettings();
-        SlashCommandDefinition command = context.getCommand();
+        CommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -69,7 +69,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getGuildMutedMessage(@NotNull CommandContext context) {
+    public Message getGuildMutedMessage(@NotNull GenericContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -79,7 +79,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getChannelMutedMessage(@NotNull CommandContext context) {
+    public Message getChannelMutedMessage(@NotNull GenericContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -89,7 +89,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getUserMutedMessage(@NotNull CommandContext context) {
+    public Message getUserMutedMessage(@NotNull GenericContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -99,10 +99,10 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getSyntaxErrorMessage(@NotNull CommandContext context) {
+    public Message getSyntaxErrorMessage(@NotNull GenericContext context) {
         String prefix = Matcher.quoteReplacement(context.getContextualPrefix());
         StringBuilder sbExpected = new StringBuilder();
-        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getActualParameters().forEach(parameter -> {
@@ -133,7 +133,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getConstraintFailedMessage(@NotNull CommandContext context, @NotNull ConstraintDefinition constraint) {
+    public Message getConstraintFailedMessage(@NotNull GenericContext context, @NotNull ConstraintDefinition constraint) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -143,7 +143,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getCooldownMessage(@NotNull CommandContext context, long ms) {
+    public Message getCooldownMessage(@NotNull GenericContext context, long ms) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;
         long m = (seconds / 60) % 60;
@@ -158,7 +158,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getWrongChannelTypeMessage(@NotNull CommandContext context) {
+    public Message getWrongChannelTypeMessage(@NotNull GenericContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -168,7 +168,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getCommandExecutionFailedMessage(@NotNull CommandContext context, @NotNull Exception exception) {
+    public Message getCommandExecutionFailedMessage(@NotNull GenericContext context, @NotNull Exception exception) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")
@@ -178,7 +178,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public Message getSlashCommandMigrationMessage(@NotNull CommandContext context) {
+    public Message getSlashCommandMigrationMessage(@NotNull GenericContext context) {
         return new MessageBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Deprecated")
