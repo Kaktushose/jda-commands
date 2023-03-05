@@ -60,31 +60,30 @@ public class JDACommands {
         }
 
         jdaContext = new JDAContext(jda);
-
-        dispatcherSupervisor = new DispatcherSupervisor(this);
-        parserSupervisor = new ParserSupervisor(dispatcherSupervisor);
-
         dependencyInjector = new DependencyInjector();
         dependencyInjector.index(clazz, packages);
 
         filterRegistry = new FilterRegistry();
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
-
+        interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector);
+        updater = new SlashCommandUpdater(jdaContext);
         implementationRegistry = new ImplementationRegistry(
                 dependencyInjector,
                 filterRegistry,
                 adapterRegistry,
                 validatorRegistry
         );
+
+        dispatcherSupervisor = new DispatcherSupervisor(this);
+        parserSupervisor = new ParserSupervisor(dispatcherSupervisor);
+
         implementationRegistry.index(clazz, packages);
 
-        interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector);
         interactionRegistry.index(clazz, packages);
 
         dependencyInjector.inject();
 
-        updater = new SlashCommandUpdater(jdaContext);
         updater.update(interactionRegistry.getCommands());
         jdaContext.performTask(it -> it.addEventListener(parserSupervisor));
 

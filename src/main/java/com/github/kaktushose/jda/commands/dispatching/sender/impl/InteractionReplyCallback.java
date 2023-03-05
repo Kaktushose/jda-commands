@@ -40,7 +40,7 @@ public class InteractionReplyCallback implements ReplyCallback {
 
     @Override
     public void sendMessage(@NotNull String message, boolean ephemeral, @Nullable Consumer<Message> success) {
-        initialReply(ephemeral, hook -> hook.sendMessage(message).setActionRow(actionRows).queue(success));
+        initialReply(ephemeral, hook -> hook.sendMessage(message).queue(success));
     }
 
     @Override
