@@ -81,10 +81,11 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
-        String label = interaction.value() + " " + command.value().trim();
+        String label = interaction.value() + " " + command.value();
         while (label.contains("  ")) {
             label = label.replaceAll(" {2}", " ");
         }
+        label = label.trim();
 
         if (label.isEmpty()) {
             logError("Labels must not be empty!", method);
