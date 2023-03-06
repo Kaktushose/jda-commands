@@ -3,14 +3,22 @@ package com.github.kaktushose.jda.commands.dispatching;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.entities.channel.concrete.*;
-import net.dv8tion.jda.api.entities.channel.middleman.*;
+import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Bridge between {@link MessageReceivedEvent} and {@link GenericInteractionCreateEvent}. This class contains all
@@ -29,6 +37,8 @@ public class GenericEvent extends Event {
     private final MessageChannel channel;
     private final ChannelType channelType;
     private final Message message;
+    private final Map<String, Object> values;
+
 
     protected GenericEvent(JDA api, long responseNumber, Guild guild, User user, Member member,
                            MessageChannel channel, ChannelType channelType, Message message) {
@@ -39,6 +49,7 @@ public class GenericEvent extends Event {
         this.channel = channel;
         this.channelType = channelType;
         this.message = message;
+        this.values = new ConcurrentHashMap<>();
     }
 
     protected GenericEvent(GenericEvent event) {
@@ -269,5 +280,60 @@ public class GenericEvent extends Event {
      */
     public boolean isFromType(ChannelType type) {
         return type == channelType;
+    }
+
+    /**
+     * Gets a value.
+     *
+     * @param key   the key
+     * @param clazz the class of the value
+     * @param <T>   the type of the value
+     * @return an {@link Optional} holding the value
+     */
+    public <T> Optional<T> get(String key, @NotNull Class<? extends T> clazz) {
+        return Optional.ofNullable(values.get(key)).filter(it -> it.getClass().isAssignableFrom(clazz)).map(clazz::cast);
+    }
+
+    /**
+     * Associates the specified value with the specified key.
+     *
+     * @param key   the key
+     * @param value the value
+     * @return this instance for fluent interface
+     */
+    public GenericEvent put(String key, Object value) {
+        values.put(key, value);
+        return this;
+    }
+
+    /**
+     * Whether this StateSection has a value mapped to the key.
+     *
+     * @param key the key
+     * @return {@code true} if this StateSection has a value mapped to the key
+     */
+    public boolean contains(String key) {
+        return values.containsKey(key);
+    }
+
+    /**
+     * Removes the value mapping for a key.
+     *
+     * @param key key whose mapping is to be removed
+     * @return this instance for fluent interface
+     */
+    public GenericEvent remove(String key) {
+        values.remove(key);
+        return this;
+    }
+
+    /**
+     * Removes all the value mappings.
+     *
+     * @return this instance for fluent interface
+     */
+    public GenericEvent clear() {
+        values.clear();
+        return this;
     }
 }
