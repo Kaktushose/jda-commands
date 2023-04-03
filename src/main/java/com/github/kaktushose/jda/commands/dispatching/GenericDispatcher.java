@@ -18,7 +18,7 @@ public abstract class GenericDispatcher<T extends GenericContext<? extends Gener
         JDACommands jdaCommands = supervisor.getJdaCommands();
         filterRegistry = jdaCommands.getFilterRegistry();
         implementationRegistry = jdaCommands.getImplementationRegistry();
-        interactionRegistry = jdaCommands.getCommandRegistry();
+        interactionRegistry = jdaCommands.getInteractionRegistry();
         adapterRegistry = jdaCommands.getAdapterRegistry();
     }
 

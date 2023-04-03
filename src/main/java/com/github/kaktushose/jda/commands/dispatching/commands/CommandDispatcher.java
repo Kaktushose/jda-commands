@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
-import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
+import com.github.kaktushose.jda.commands.dispatching.reply.MessageSender;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -36,6 +36,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
      *
      * @param context the {@link GenericContext} to dispatch.
      */
+    @SuppressWarnings("ConstantConditions")
     public void onEvent(CommandContext context) {
         log.debug("Applying filters in phase BEFORE_ROUTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
@@ -60,6 +61,8 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
 
         context.setCommand(optional.get());
 
+        context.getEvent().deferReply(context.getCommand().isEphemeral()).queue();
+
         if (context.isCancelled() && context.isHelpEvent()) {
             log.debug("Sending generic help");
             // TODO sender.sendGenericHelpMessage(context, helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
@@ -71,7 +74,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             return;
         }
 
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+        CommandDefinition command = context.getCommand();
         log.debug("Input matches command: {}", command);
 
         if (context.isHelpEvent()) {
@@ -120,17 +123,15 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
-
-            context.getEvent().deferReply(context.getCommand().isEphemeral()).queue();
-
             log.debug("Invoking method with following arguments: {}", context.getArguments());
             command.getMethod().invoke(command.getInstance(), context.getArguments().toArray());
         } catch (Exception e) {
+            // TODO bot error reply goes here
             log.error("Command execution failed!", new InvocationTargetException(e));
         }
     }
 
-    private boolean checkCancelled(GenericContext context) {
+    private boolean checkCancelled(GenericContext<?> context) {
         if (context.isCancelled()) {
             implementationRegistry.getMessageSender().sendErrorMessage(context, Objects.requireNonNull(context.getErrorMessage()));
             return true;

@@ -168,7 +168,6 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      * @return the transformed {@link SlashCommandData}
      */
     public SlashCommandData toCommandData() {
-        System.out.println(label + "<");
         SlashCommandData command = Commands.slash(
                 label,
                 metadata.getDescription().replaceAll("N/A", "no description")

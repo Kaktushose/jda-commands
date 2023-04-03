@@ -1,8 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.buttons;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
-import com.github.kaktushose.jda.commands.dispatching.sender.EditAction;
-import com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction;
+import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 
 /**
@@ -13,8 +12,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
  * @author Kaktushose
  * @version 2.3.0
  * @see GenericEvent
- * @see ReplyAction
- * @see EditAction
+ * @see Replyable
  * @since 1.0.0
  */
 public class ButtonEvent  {

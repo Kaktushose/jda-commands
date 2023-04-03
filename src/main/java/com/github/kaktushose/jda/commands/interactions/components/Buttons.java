@@ -1,6 +1,10 @@
 package com.github.kaktushose.jda.commands.interactions.components;
 
-import java.util.*;
+import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * {@link Component} implementation for buttons. This class can be used to add
@@ -9,14 +13,14 @@ import java.util.*;
  *
  * @author Kaktushose
  * @version 2.3.0
- * @see com.github.kaktushose.jda.commands.dispatching.sender.ReplyAction#with(Component...) ReplyAction#with(Component...)
+ * @see Replyable#with(Component...)
  * @since 2.3.0
  */
 public class Buttons implements Component {
 
     private final Collection<ButtonContainer> buttons;
 
-    public Buttons(Collection<ButtonContainer> buttons) {
+    private Buttons(Collection<ButtonContainer> buttons) {
         this.buttons = buttons;
     }
 
@@ -41,7 +45,7 @@ public class Buttons implements Component {
     }
 
     /**
-     * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button}.
+     * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Button}.
      */
     public static class ButtonContainer {
         private final String id;

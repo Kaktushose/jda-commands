@@ -175,7 +175,7 @@ public class JDACommands {
      *
      * @return the {@link InteractionRegistry}
      */
-    public InteractionRegistry getCommandRegistry() {
+    public InteractionRegistry getInteractionRegistry() {
         return interactionRegistry;
     }
 

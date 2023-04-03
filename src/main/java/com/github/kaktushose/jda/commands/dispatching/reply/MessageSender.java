@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.sender;
+package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import net.dv8tion.jda.api.entities.Message;
