@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.settings;
 
-import net.dv8tion.jda.api.entities.Guild;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,18 +31,8 @@ public class DefaultSettingsProvider implements SettingsProvider {
             Properties properties = new Properties();
             properties.load(DefaultSettingsProvider.class.getClassLoader().getResourceAsStream("jdac.properties"));
 
-            settings.setPrefix(properties.getProperty("prefix", "!"));
-            settings.setIgnoreCase(Boolean.parseBoolean(properties.getProperty("ignoreCase", "true")));
-            settings.setIgnoreBots(Boolean.parseBoolean(properties.getProperty("ignoreBots", "true")));
-            settings.setParseQuotes(Boolean.parseBoolean(properties.getProperty("parseQuotes", "true")));
-            settings.setMaxDistance(Integer.parseInt(properties.getProperty("maxDistance", "3")));
-
-            String helpLabels = properties.getProperty("helpLabels", "help");
-            String[] labels = helpLabels.split(", ");
-            settings.getHelpLabels().clear();
-            for (String label : labels) {
-                settings.getHelpLabels().add(label.trim());
-            }
+            settings.setHelpLabel(properties.getProperty("helpLabel", "help"));
+            settings.setEphemeralHelp(Boolean.parseBoolean(properties.getProperty("ephemeralHelp", "true")));
 
             String mutedChannels = properties.getProperty("mutedChannels", "");
             String[] channels = mutedChannels.split(", ");
@@ -62,12 +50,17 @@ public class DefaultSettingsProvider implements SettingsProvider {
 
             log.debug("Loaded settings from jdac.properties file");
         } catch (IOException | NullPointerException ignored) {
-            log.debug("No jdac.properties file found, using default values");
+            log.debug("jdac.properties missing or malformed, using default values");
         }
     }
 
     @Override
-    public GuildSettings getSettings(@Nullable Guild guild) {
+    public GuildSettings getSettings(long id) {
+        return settings;
+    }
+
+    @Override
+    public GuildSettings getDefaultSettings() {
         return settings;
     }
 }
