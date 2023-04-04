@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.commands;
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageSender;
@@ -25,9 +27,11 @@ import java.util.*;
 public class CommandDispatcher extends GenericDispatcher<CommandContext> {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
+    private final RuntimeSupervisor runtimeSupervisor;
 
-    public CommandDispatcher(DispatcherSupervisor dispatcher) {
+    public CommandDispatcher(DispatcherSupervisor dispatcher, RuntimeSupervisor runtimeSupervisor) {
         super(dispatcher);
+        this.runtimeSupervisor = runtimeSupervisor;
     }
 
     /**
@@ -123,8 +127,10 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
+            InteractionRuntime runtime = runtimeSupervisor.newRuntime(context.getEvent(), command);
+            context.setRuntime(runtime);
             log.debug("Invoking method with following arguments: {}", context.getArguments());
-            command.getMethod().invoke(command.getInstance(), context.getArguments().toArray());
+            command.getMethod().invoke(runtime.getInstance(), context.getArguments().toArray());
         } catch (Exception e) {
             // TODO bot error reply goes here
             log.error("Command execution failed!", new InvocationTargetException(e));

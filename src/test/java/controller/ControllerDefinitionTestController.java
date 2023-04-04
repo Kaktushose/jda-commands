@@ -1,6 +1,6 @@
 package controller;
 
-import com.github.kaktushose.jda.commands.annotations.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;

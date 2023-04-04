@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.documentation;
 
-import com.github.kaktushose.jda.commands.annotations.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.CommandList;
 import net.steppschuh.markdowngenerator.list.UnorderedList;
 import net.steppschuh.markdowngenerator.text.emphasis.BoldText;

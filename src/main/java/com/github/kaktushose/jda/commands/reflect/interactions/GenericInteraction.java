@@ -52,7 +52,7 @@ public abstract class GenericInteraction {
      * @return a new instance of the method defining class
      */
     @NotNull
-    public Object getInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         return method.getDeclaringClass().getConstructors()[0].newInstance();
     }
 }

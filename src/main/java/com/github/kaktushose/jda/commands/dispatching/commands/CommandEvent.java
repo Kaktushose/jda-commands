@@ -151,11 +151,12 @@ public class CommandEvent extends GenericEvent implements Replyable {
                             .stream()
                             .filter(it -> it.getId().equals(id))
                             .findFirst()
-                            .map(it -> it.toButton().withDisabled(!button.isEnabled()))
+                            .map(it -> it.toButton().withDisabled(!button.isEnabled()).withId(it.getRuntimeId(context)))
                             .ifPresent(items::add);
                 });
             }
         }
+
         if (items.size() > 0) {
             getReplyContext().getBuilder().addComponents(ActionRow.of(items));
         }

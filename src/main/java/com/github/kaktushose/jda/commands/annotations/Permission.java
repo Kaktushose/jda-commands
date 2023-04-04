@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

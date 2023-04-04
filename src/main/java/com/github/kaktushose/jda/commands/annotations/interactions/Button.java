@@ -61,6 +61,6 @@ public @interface Button {
      *
      * @return {@code true} if to send ephemeral replies
      */
-    boolean ephemeral() default true;
+    boolean ephemeral() default false;
 
 }

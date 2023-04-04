@@ -68,7 +68,7 @@ public class CommandDefinitionTest {
         assertNotNull(definition);
 
         assertEquals(definition.getMethod(), method);
-        assertEquals(definition.getInstance(), instance);
+        assertEquals(definition.newInstance(), instance);
 
         assertEquals(1, definition.getParameters().size());
         assertEquals(CommandEvent.class, definition.getParameters().get(0).getType());
@@ -83,7 +83,7 @@ public class CommandDefinitionTest {
         assertNotNull(definition);
 
         assertEquals(definition.getMethod(), method);
-        assertEquals(definition.getInstance(), instance);
+        assertEquals(definition.newInstance(), instance);
 
         assertEquals(2, definition.getParameters().size());
         assertEquals(CommandEvent.class, definition.getParameters().get(0).getType());
@@ -98,7 +98,7 @@ public class CommandDefinitionTest {
         assertNotNull(definition);
 
         assertEquals(definition.getMethod(), method);
-        assertEquals(definition.getInstance(), instance);
+        assertEquals(definition.newInstance(), instance);
 
         assertEquals(2, definition.getParameters().size());
         assertEquals(CommandEvent.class, definition.getParameters().get(0).getType());
@@ -127,7 +127,7 @@ public class CommandDefinitionTest {
         assertNotNull(definition);
 
         assertEquals(definition.getMethod(), method);
-        assertEquals(definition.getInstance(), instance);
+        assertEquals(definition.newInstance(), instance);
 
         assertEquals(3, definition.getParameters().size());
         assertEquals(CommandEvent.class, definition.getParameters().get(0).getType());

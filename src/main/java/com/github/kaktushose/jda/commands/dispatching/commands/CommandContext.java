@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
@@ -22,6 +23,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     private CommandDefinition command;
     private List<Object> arguments;
     private boolean isHelpEvent;
+    private InteractionRuntime runtime;
 
     /**
      * Constructs a new CommandContext.
@@ -163,4 +165,22 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
         return this;
     }
 
+    /**
+     * Gets the {@link InteractionRuntime} used to execute this command event.
+     *
+     * @return the {@link InteractionRuntime}
+     */
+    public InteractionRuntime getRuntime() {
+        return runtime;
+    }
+
+    /**
+     * Sets the {@link InteractionRuntime} that will be used to execute this command event.
+     *
+     * @return the current CommandContext instance
+     */
+    public CommandContext setRuntime(InteractionRuntime runtime) {
+        this.runtime = runtime;
+        return this;
+    }
 }

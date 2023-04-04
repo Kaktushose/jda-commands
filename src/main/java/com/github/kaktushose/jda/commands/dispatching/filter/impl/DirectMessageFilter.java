@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
-import com.github.kaktushose.jda.commands.annotations.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;

@@ -27,6 +27,7 @@ public class DispatcherSupervisor {
     private final Map<Class<? extends GenericInteractionCreateEvent>,
             GenericDispatcher<? extends GenericContext<? extends GenericInteractionCreateEvent>>> dispatchers;
     private final JDACommands jdaCommands;
+    private final RuntimeSupervisor runtimeSupervisor;
 
     /**
      * Constructs a new DispatcherSupervisor.
@@ -34,8 +35,9 @@ public class DispatcherSupervisor {
     public DispatcherSupervisor(JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         dispatchers = new HashMap<>();
-        register(SlashCommandInteractionEvent.class, new CommandDispatcher(this));
-        register(ButtonInteractionEvent.class, new ButtonDispatcher(this));
+        runtimeSupervisor = new RuntimeSupervisor();
+        register(SlashCommandInteractionEvent.class, new CommandDispatcher(this, runtimeSupervisor));
+        register(ButtonInteractionEvent.class, new ButtonDispatcher(this, runtimeSupervisor));
     }
 
     /**
