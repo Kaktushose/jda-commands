@@ -6,12 +6,10 @@ import com.github.kaktushose.jda.commands.dispatching.GenericParser;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.stream.Stream;
 
 /**
  * An implementation of {@link GenericParser} that can parse {@link SlashCommandInteractionEvent}.
@@ -34,26 +32,25 @@ public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
     @NotNull
     public GenericContext<? extends GenericInteractionCreateEvent> parse(@NotNull SlashCommandInteractionEvent event, @NotNull JDACommands jdaCommands) {
         ImplementationRegistry registry =jdaCommands.getImplementationRegistry();
-        GuildSettings settings = registry.getSettingsProvider().getSettings(event.isFromGuild() ? event.getGuild() : null);
+        SettingsProvider provider = registry.getSettingsProvider();
+        GuildSettings settings = event.getGuild() == null ? provider.getSettings(event.getGuild().getIdLong()) : provider.getDefaultSettings();
         ErrorMessageFactory errorMessageFactory = registry.getErrorMessageFactory();
         CommandContext context = new CommandContext(event, jdaCommands, settings, registry);
 
-        context.setInput(event.getFullCommandName().split(" ")).setOptions(event.getOptions());
+        context.setOptions(event.getOptions());
 
         if (settings.isMutedGuild()) {
-            //context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
+            context.setErrorMessage(errorMessageFactory.getGuildMutedMessage(context));
             return context.setCancelled(true);
         }
 
         if (settings.getMutedChannels().contains(event.getChannel().getIdLong())) {
-            //context.setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
+            context.setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
             return context.setCancelled(true);
         }
 
-        if (event.getName().equals("help")) {
-            return context.setHelpEvent(true).setInput(
-                    event.getOptions().stream().map(OptionMapping::getAsString).flatMap(it -> Stream.of(it.split(" "))).toArray(String[]::new)
-            );
+        if (event.getName().equals(settings.getHelpLabel())) {
+            return context.setHelpEvent(true).setEphemeral(settings.isEphemeralHelp());
         }
         return context;
     }

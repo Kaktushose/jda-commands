@@ -58,10 +58,7 @@ public class SlashCommandUpdater {
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
         Collection<SlashCommandData> commandData = tree.getCommands();
-        // TODO check of help enabled flag
-        if (true) {
-            addHelpCommands(commandData, labels);
-        }
+        addHelpCommands(commandData, labels);
         push(commandData);
         log.debug("Done!");
     }

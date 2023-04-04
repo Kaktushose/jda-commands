@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-import com.github.kaktushose.jda.commands.dispatching.reply.impl.CommandReplyCallback;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
@@ -23,7 +22,7 @@ import java.util.List;
  * access to the {@link CommandDefinition} object which describes the command that is executed.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @see GenericEvent
  * @see Replyable
  * @since 1.0.0
@@ -33,7 +32,6 @@ public class CommandEvent extends GenericEvent implements Replyable {
     private final CommandDefinition command;
     private final CommandContext context;
     private final ReplyContext replyContext;
-    private final CommandReplyCallback replyCallback;
 
     /**
      * Constructs a CommandEvent.
@@ -45,63 +43,8 @@ public class CommandEvent extends GenericEvent implements Replyable {
         super(GenericEvent.fromEvent(context.getEvent()));
         this.command = command;
         this.context = context;
-        replyContext = new ReplyContext();
-        replyCallback = new CommandReplyCallback(context);
+        replyContext = new ReplyContext(context);
     }
-
-    /**
-     * Sends the generic help message via the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.MessageSender MessageSender}
-     */
-    public void sendGenericHelpMessage() {
-//        getJdaCommands().getImplementationRegistry().getMessageSender().sendGenericHelpMessage(
-//                context,
-//                getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context)
-//        );
-    }
-
-    /**
-     * Sends the specific help message for this command via the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.MessageSender MessageSender}
-     */
-    public void sendSpecificHelpMessage() {
-//        getJdaCommands().getImplementationRegistry().getMessageSender().sendSpecificHelpMessage(
-//                context,
-//                getHelpMessageFactory().getSpecificHelp(context)
-//        );
-    }
-
-//    /**
-//     * Replies to this event with the generic help embed.
-//     */
-//    public void replyGenericHelp() {
-//        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context));
-//    }
-//
-//    /**
-//     * Replies to this event with the specific help embed.
-//     */
-//    public void replySpecificHelp() {
-//        reply(getHelpMessageFactory().getSpecificHelp(context));
-//    }
-//
-//    /**
-//     * Replies to this event with the generic help embed.
-//     *
-//     * @param ephemeral whether to send an ephemeral reply
-//     */
-//    public void replyGenericHelp(boolean ephemeral) {
-//        reply(getHelpMessageFactory().getGenericHelp(getJdaCommands().getCommandRegistry().getControllers(), context), ephemeral);
-//    }
-//
-//    /**
-//     * Replies to this event with the specific help embed.
-//     *
-//     * @param ephemeral whether to send an ephemeral reply
-//     */
-//    public void replySpecificHelp(boolean ephemeral) {
-//        reply(getHelpMessageFactory().getSpecificHelp(context), ephemeral);
-//    }
 
     /**
      * Get the {@link CommandDefinition} object which describes the command that is executed.
@@ -165,11 +108,11 @@ public class CommandEvent extends GenericEvent implements Replyable {
 
     @Override
     public ReplyContext getReplyContext() {
-        return replyContext.setEphemeralReply(command.isEphemeral());
+        return replyContext;
     }
 
     @Override
     public void reply() {
-        replyCallback.sendMessage(replyContext);
+        replyContext.queue();
     }
 }

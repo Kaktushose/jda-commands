@@ -22,7 +22,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when a user is missing permissions
      */
-    MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericContext context);
+    MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted.
@@ -30,7 +30,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted
      */
-    MessageCreateData getGuildMutedMessage(@NotNull GenericContext context);
+    MessageCreateData getGuildMutedMessage(@NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} is muted.
@@ -38,7 +38,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} is muted
      */
-    MessageCreateData getChannelMutedMessage(@NotNull GenericContext context);
+    MessageCreateData getChannelMutedMessage(@NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted.
@@ -46,7 +46,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted
      */
-    MessageCreateData getUserMutedMessage(@NotNull GenericContext context);
+    MessageCreateData getUserMutedMessage(@NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link Message} to send when a parameter constraint fails.
@@ -55,7 +55,7 @@ public interface ErrorMessageFactory {
      * @param constraint the corresponding {@link ConstraintDefinition} that failed
      * @return a {@link Message} to send when a parameter constraint fails
      */
-    MessageCreateData getConstraintFailedMessage(@NotNull GenericContext context, @NotNull ConstraintDefinition constraint);
+    MessageCreateData getConstraintFailedMessage(@NotNull GenericContext<?> context, @NotNull ConstraintDefinition constraint);
 
     /**
      * Gets a {@link Message} to send when a command still has a cooldown.
@@ -63,7 +63,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when a command still has a cooldown
      */
-    MessageCreateData getCooldownMessage(@NotNull GenericContext context, long ms);
+    MessageCreateData getCooldownMessage(@NotNull GenericContext<?> context, long ms);
 
     /**
      * Gets a {@link Message} to send when the channel type isn't suitable for the command.
@@ -71,7 +71,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link GenericContext}
      * @return a {@link Message} to send when the channel type isn't suitable for the command
      */
-    MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext context);
+    MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link Message} to send when the command execution failed.
@@ -80,6 +80,6 @@ public interface ErrorMessageFactory {
      * @param exception the Exception that made the command execution fail
      * @return a {@link Message} to send when the command execution failed
      */
-    MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext context, @NotNull Exception exception);
+    MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Exception exception);
 
 }

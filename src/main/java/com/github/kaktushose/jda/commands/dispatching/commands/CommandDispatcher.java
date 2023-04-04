@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageSender;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -15,13 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Dispatches commands by taking a {@link GenericContext} and passing it through the execution chain.
+ * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
  *
  * @author Kaktushose
- * @version 2.0.0
+ * @version 4.0.0
  * @since 2.0.0
  */
 public class CommandDispatcher extends GenericDispatcher<CommandContext> {
@@ -40,7 +44,6 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
      *
      * @param context the {@link GenericContext} to dispatch.
      */
-    @SuppressWarnings("ConstantConditions")
     public void onEvent(CommandContext context) {
         log.debug("Applying filters in phase BEFORE_ROUTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
@@ -50,43 +53,26 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             }
         }
 
-        HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
-        MessageSender sender = implementationRegistry.getMessageSender();
-
+        if (context.isHelpEvent()) {
+            log.debug("Detected help event");
+            onHelpEvent(context);
+            return;
+        }
 
         Optional<CommandDefinition> optional = interactionRegistry.getCommands().stream()
                 .filter(it -> it.getLabel().equals(context.getEvent().getFullCommandName()))
                 .findFirst();
-
         if (optional.isEmpty()) {
-            throw new IllegalStateException("no slash command found?");
-            // TODO this is a race condition and should produce a error message
+            throw new IllegalStateException("No slash command found?");
+            // TODO this should produce a error message
         }
 
-        context.setCommand(optional.get());
-
-        context.getEvent().deferReply(context.getCommand().isEphemeral()).queue();
-
-        if (context.isCancelled() && context.isHelpEvent()) {
-            log.debug("Sending generic help");
-            // TODO sender.sendGenericHelpMessage(context, helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
-            return;
-        }
-
-        if (checkCancelled(context)) {
-            log.debug("No matching command found!");
-            return;
-        }
-
-        CommandDefinition command = context.getCommand();
+        CommandDefinition command = optional.get();
+        context.setCommand(command).setEphemeral(command.isEphemeral());
         log.debug("Input matches command: {}", command);
 
-        if (context.isHelpEvent()) {
-            log.debug("Sending specific help");
-            // TODO sender.sendSpecificHelpMessage(context, helpMessageFactory.getSpecificHelp(context));
-            return;
-        }
-
+        log.debug("Acknowledging event");
+        context.getEvent().deferReply(context.isEphemeral()).queue();
 
         List<String> parameters = new ArrayList<>();
         Map<String, OptionMapping> options = context.getOptionsAsMap();
@@ -96,9 +82,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             }
             parameters.add(options.get(param.getName()).getAsString());
         });
-        if (!parameters.isEmpty()) {
-            context.setInput(parameters.toArray(new String[]{}));
-        }
+        context.setInput(parameters.toArray(new String[]{}));
 
         log.debug("Applying filters in phase BEFORE_ADAPTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ADAPTING)) {
@@ -121,10 +105,6 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             }
         }
 
-        if (checkCancelled(context)) {
-            return;
-        }
-
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
             InteractionRuntime runtime = runtimeSupervisor.newRuntime(context.getEvent(), command);
@@ -137,13 +117,38 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
         }
     }
 
-    private boolean checkCancelled(GenericContext<?> context) {
+    public void onHelpEvent(CommandContext context) {
+        context.getEvent().deferReply(context.isEphemeral()).queue();
+
+        HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
+        ReplyContext replyContext = new ReplyContext(context);
+
+        String fullCommandName = context.getEvent().getOptions().stream()
+                .map(OptionMapping::getAsString)
+                .collect(Collectors.joining(" "));
+        Optional<CommandDefinition> optional = interactionRegistry.getCommands().stream()
+                .filter(it -> it.getLabel().equals(fullCommandName))
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            log.debug("Sending generic help");
+            replyContext.getBuilder().applyData(helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
+        } else {
+            log.debug("Sending specific help");
+            context.setCommand(optional.get());
+            replyContext.getBuilder().applyData(helpMessageFactory.getSpecificHelp(context));
+        }
+        replyContext.queue();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private boolean checkCancelled(CommandContext context) {
         if (context.isCancelled()) {
-            implementationRegistry.getMessageSender().sendErrorMessage(context, Objects.requireNonNull(context.getErrorMessage()));
+            ReplyContext replyContext = new ReplyContext(context);
+            replyContext.getBuilder().applyData(context.getErrorMessage());
+            replyContext.queue();
             return true;
         }
         return false;
     }
-
-
 }

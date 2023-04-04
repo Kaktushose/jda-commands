@@ -29,10 +29,10 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
      * The pattern that is used to insert prefixes. The default value is {@code {prefix}}.
      */
     protected String prefixPattern = "\\{prefix}";
+    protected static final String PREFIX = Matcher.quoteReplacement("/");
 
     @Override
     public MessageCreateData getSpecificHelp(@NotNull CommandContext context) {
-        String prefix = Matcher.quoteReplacement("/");
         EmbedBuilder builder = new EmbedBuilder();
         CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
@@ -43,12 +43,12 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
         builder.setColor(Color.GREEN)
                 .setTitle("Specific Help")
-                .setDescription(String.format("Command Details for `%s%s`", prefix, command.getLabel()))
-                .addField("Name:", String.format("`%s`", metadata.getName().replaceAll(prefixPattern, prefix)), false)
-                .addField("Usage:", String.format("`%s`", metadata.getUsage().replaceAll(prefixPattern, prefix)), false)
-                .addField("Description:", String.format("`%s`", metadata.getDescription().replaceAll(prefixPattern, prefix)), false)
+                .setDescription(String.format("Command Details for `%s%s`", PREFIX, command.getLabel()))
+                .addField("Name:", String.format("`%s`", metadata.getName().replaceAll(prefixPattern, PREFIX)), false)
+                .addField("Usage:", String.format("`%s`", metadata.getUsage().replaceAll(prefixPattern, PREFIX)), false)
+                .addField("Description:", String.format("`%s`", metadata.getDescription().replaceAll(prefixPattern, PREFIX)), false)
                 .addField("Permissions:", String.format("`%s`", permissions), false)
-                .addField("Category:", String.format("`%s`", metadata.getCategory().replaceAll(prefixPattern, prefix)), false);
+                .addField("Category:", String.format("`%s`", metadata.getCategory().replaceAll(prefixPattern, PREFIX)), false);
 
         return new MessageCreateBuilder().setEmbeds(builder.build()).build();
     }
@@ -65,7 +65,7 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
                 .setTitle("General Help")
                 .setDescription(String.format("The following commands are available. Type `%s%s <command>` to get specific help",
                         prefix,
-                        settings.getHelpLabels().stream().findFirst().orElse("help")));
+                        settings.getHelpLabel()));
 
         commandList.getSortedByCategories().forEach((category, commands) -> {
             StringBuilder sb = new StringBuilder();

@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
-import java.util.regex.Matcher;
 
 /**
  * Subtype of {@link DefaultHelpMessageFactory} that can load the embeds from an {@link EmbedCache}.
@@ -37,7 +36,6 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
         if (!embedCache.containsEmbed("specificHelp")) {
             return super.getSpecificHelp(context);
         }
-        String prefix = Matcher.quoteReplacement(context.getSettings().getPrefix());
         CommandDefinition command = context.getCommand();
         CommandMetadata metadata = command.getMetadata();
 
@@ -46,13 +44,13 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         EmbedBuilder builder = embedCache.getEmbed("specificHelp")
-                .injectValue("prefix", prefix)
+                .injectValue("prefix", PREFIX)
                 .injectValue("label", command.getLabel())
-                .injectValue("name", metadata.getName().replaceAll(prefixPattern, prefix))
-                .injectValue("usage", metadata.getUsage().replaceAll(prefixPattern, prefix))
-                .injectValue("description", metadata.getDescription().replaceAll(prefixPattern, prefix))
+                .injectValue("name", metadata.getName().replaceAll(prefixPattern, PREFIX))
+                .injectValue("usage", metadata.getUsage().replaceAll(prefixPattern, PREFIX))
+                .injectValue("description", metadata.getDescription().replaceAll(prefixPattern, PREFIX))
                 .injectValue("permissions", permissions)
-                .injectValue("category", metadata.getCategory().replaceAll(prefixPattern, prefix))
+                .injectValue("category", metadata.getCategory().replaceAll(prefixPattern, PREFIX))
                 .toEmbedBuilder();
 
         return new MessageCreateBuilder().setEmbeds(builder.build()).build();
@@ -69,8 +67,8 @@ public class JsonHelpMessageFactory extends DefaultHelpMessageFactory {
         controllers.forEach(definition -> commandList.addAll(definition.getCommands()));
 
         EmbedBuilder builder = embedCache.getEmbed("genericHelp")
-                .injectValue("prefix", settings.getPrefix())
-                .injectValue("helpLabel", settings.getHelpLabels().stream().findFirst().orElse("help"))
+                .injectValue("prefix", PREFIX)
+                .injectValue("helpLabel", settings.getHelpLabel())
                 .toEmbedBuilder();
 
         commandList.getSortedByCategories().forEach((category, commands) -> {

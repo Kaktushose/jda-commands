@@ -142,7 +142,7 @@ public class TypeAdapterRegistry {
 
         log.debug("Type adapting arguments...");
         arguments.add(new CommandEvent(command, context));
-        // start with index 1 so we skip the CommandEvent
+        System.out.println(Arrays.toString(input));
         for (int i = 0; i < command.getActualParameters().size(); i++) {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 
@@ -178,12 +178,12 @@ public class TypeAdapterRegistry {
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
 
             Optional<TypeAdapter<?>> adapter = get(parameter.getType());
-            if (!adapter.isPresent()) {
+            if (adapter.isEmpty()) {
                 throw new IllegalArgumentException("No type adapter found!");
             }
 
             Optional<?> parsed = adapter.get().parse(raw, context);
-            if (!parsed.isPresent()) {
+            if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
                 context.setCancelled(true);
                 // TODO context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
@@ -191,7 +191,7 @@ public class TypeAdapterRegistry {
             }
 
             arguments.add(parsed.get());
-            log.debug("Added {} to the argument list", parsed.get());
+            log.debug("Added \"{}\" to the argument list", parsed.get());
         }
         context.setArguments(arguments);
     }

@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -11,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 /**
  * Implementation of {@link ErrorMessageFactory} with default embeds.
@@ -22,17 +22,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
+    protected static final String PREFIX = Matcher.quoteReplacement("/");
+
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericContext context) {
-        GuildSettings settings = context.getSettings();
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericContext<?> context) {
         StringBuilder sbPermissions = new StringBuilder();
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
-        // TODO fix this
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s%s` requires specific permissions to be executed",
-                        settings.getPrefix(),
+                        PREFIX,
                         "command.getLabel()"))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
@@ -41,7 +41,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getGuildMutedMessage(@NotNull GenericContext context) {
+    public MessageCreateData getGuildMutedMessage(@NotNull GenericContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -51,7 +51,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getChannelMutedMessage(@NotNull GenericContext context) {
+    public MessageCreateData getChannelMutedMessage(@NotNull GenericContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -61,7 +61,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUserMutedMessage(@NotNull GenericContext context) {
+    public MessageCreateData getUserMutedMessage(@NotNull GenericContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -71,7 +71,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull GenericContext context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull GenericContext<?> context, @NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -81,7 +81,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull GenericContext context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull GenericContext<?> context, long ms) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;
         long m = (seconds / 60) % 60;
@@ -96,7 +96,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -106,7 +106,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext context, @NotNull Exception exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Exception exception) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")

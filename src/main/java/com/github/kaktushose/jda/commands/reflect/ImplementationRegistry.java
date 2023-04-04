@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageSender;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
@@ -42,7 +41,6 @@ import java.util.*;
  *     <li>{@link PermissionsProvider}</li>
  *     <li>{@link HelpMessageFactory}</li>
  *     <li>{@link ErrorMessageFactory}</li>
- *     <li>{@link MessageSender}</li>
  *     <li>{@link TypeAdapter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
@@ -65,7 +63,6 @@ public class ImplementationRegistry {
     private PermissionsProvider permissionsProvider;
     private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
-    private MessageSender messageSender;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -114,7 +111,6 @@ public class ImplementationRegistry {
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
         findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
-        findImplementation(MessageSender.class).ifPresent(this::setMessageSender);
 
         findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
@@ -191,24 +187,6 @@ public class ImplementationRegistry {
      */
     public void setErrorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = errorMessageFactory;
-    }
-
-    /**
-     * Gets the {@link MessageSender}.
-     *
-     * @return the {@link MessageSender}
-     */
-    public MessageSender getMessageSender() {
-        return messageSender;
-    }
-
-    /**
-     * Sets the {@link MessageSender}.
-     *
-     * @param sender the new {@link MessageSender}
-     */
-    public void setMessageSender(MessageSender sender) {
-        this.messageSender = sender;
     }
 
     @SuppressWarnings("unchecked")

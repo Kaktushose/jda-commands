@@ -29,6 +29,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
     protected ImplementationRegistry registry;
     protected JDACommands jdaCommands;
     protected boolean cancelled;
+    protected boolean ephemeral;
 
     /**
      * Constructs a new CommandContext.
@@ -161,4 +162,12 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
         return this;
     }
 
+    public boolean isEphemeral() {
+        return ephemeral;
+    }
+
+    public GenericContext<? extends GenericInteractionCreateEvent> setEphemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
+        return this;
+    }
 }

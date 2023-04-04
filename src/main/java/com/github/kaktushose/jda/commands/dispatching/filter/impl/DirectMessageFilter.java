@@ -40,7 +40,7 @@ public class DirectMessageFilter implements Filter {
         if (channel.getType().equals(ChannelType.PRIVATE) && !commandContext.getCommand().isDM()) {
             log.debug("Received private message but command cannot be executed in DMs!");
             context.setCancelled(true);
-            // TODO context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getWrongChannelTypeMessage(context));
+            context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getWrongChannelTypeMessage(context));
         }
     }
 }
