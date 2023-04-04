@@ -13,10 +13,6 @@
         "value": "`{usage}`"
       },
       {
-        "name": "Aliases",
-        "value": "`{aliases}`"
-      },
-      {
         "name": "Description",
         "value": "`{description}`"
       },
