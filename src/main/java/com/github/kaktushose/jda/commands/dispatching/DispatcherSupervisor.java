@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,7 @@ public class DispatcherSupervisor {
         this.jdaCommands = jdaCommands;
         dispatchers = new HashMap<>();
         register(SlashCommandInteractionEvent.class, new CommandDispatcher(this));
+        register(ButtonInteractionEvent.class, new ButtonDispatcher(this));
     }
 
     /**
@@ -63,6 +66,7 @@ public class DispatcherSupervisor {
      *
      * @param context the {@link GenericContext} to dispatch
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void onGenericEvent(@NotNull GenericContext<? extends GenericInteractionCreateEvent> context) {
         Class<? extends GenericInteractionCreateEvent> event = context.getEvent().getClass();
         if (!dispatchers.containsKey(event)) {

@@ -55,7 +55,6 @@ public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
                     event.getOptions().stream().map(OptionMapping::getAsString).flatMap(it -> Stream.of(it.split(" "))).toArray(String[]::new)
             );
         }
-
         return context;
     }
 }

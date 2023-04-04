@@ -1,10 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonParser;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandParser;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class ParserSupervisor extends ListenerAdapter {
         listeners = new HashMap<>();
         this.dispatcher = dispatcher;
         register(SlashCommandInteractionEvent.class, new CommandParser());
+        register(ButtonInteractionEvent.class, new ButtonParser());
     }
 
     /**
@@ -61,7 +63,7 @@ public class ParserSupervisor extends ListenerAdapter {
 
     /**
      * Distributes {@link GenericEvent GenericEvents} to the corresponding parser. If the parsing didn't fail, will call
-     * {@link CommandDispatcher#onEvent(GenericContext)}
+     * {@link DispatcherSupervisor#onGenericEvent(GenericContext)}
      *
      * @param event the {@link GenericEvent GenericEvents} to distribute
      */
