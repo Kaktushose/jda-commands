@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a slash command.
@@ -32,6 +34,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final CommandMetadata metadata;
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
+    private final Set<String> enabledPermissions;
     private final CooldownDefinition cooldown;
     private final boolean isDM;
 
@@ -41,6 +44,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                                 CommandMetadata metadata,
                                 List<ParameterDefinition> parameters,
                                 Set<String> permissions,
+                                Set<String> enabledPermissions,
                                 CooldownDefinition cooldown,
                                 boolean isDM) {
         super(method, ephemeral);
@@ -48,6 +52,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         this.metadata = metadata;
         this.parameters = parameters;
         this.permissions = permissions;
+        this.enabledPermissions = enabledPermissions;
         this.cooldown = cooldown;
         this.isDM = isDM;
     }
@@ -150,6 +155,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 metadata,
                 parameters,
                 permissions,
+                Arrays.stream(command.enabledFor()).collect(Collectors.toSet()),
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isDM()
         ));
@@ -172,8 +178,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 label,
                 metadata.getDescription().replaceAll("N/A", "no description")
         );
-        // TODO permission handling
         command.setGuildOnly(!isDM);
+        command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(resolvePermissions(enabledPermissions)));
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
@@ -181,6 +187,18 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             command.addOptions(parameter.toOptionData());
         });
         return command;
+    }
+
+    private Set<net.dv8tion.jda.api.Permission> resolvePermissions(Set<String> permissions) {
+        Set<net.dv8tion.jda.api.Permission> result = new HashSet<>();
+        for (String perm : permissions) {
+            // not a discord perm, continue
+            if (Arrays.stream(net.dv8tion.jda.api.Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(perm))) {
+                continue;
+            }
+            result.add(net.dv8tion.jda.api.Permission.valueOf(perm.toUpperCase()));
+        }
+        return result;
     }
 
     /**
@@ -249,6 +267,15 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      */
     public Set<String> getPermissions() {
         return permissions;
+    }
+
+    /**
+     * Gets a set of Discord permission Strings this command will be enabled for by default.
+     *
+     * @return a set of Discord permission Strings this command will be enabled for by default
+     */
+    public Set<String> getEnabledPermissions() {
+        return enabledPermissions;
     }
 
     /**

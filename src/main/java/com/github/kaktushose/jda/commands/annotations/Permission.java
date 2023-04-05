@@ -8,7 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@link CommandController} classes or {@link SlashCommand} methods annotated with Permission will
+ * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} classes or
+ * {@link SlashCommand} methods annotated with Permission will
  * require the user to have the given permissions in order to execute the command.
  *
  * <p>The default implementation of this framework can only handle discord permissions.
