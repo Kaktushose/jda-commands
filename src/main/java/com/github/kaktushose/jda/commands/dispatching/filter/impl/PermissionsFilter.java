@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
@@ -49,11 +50,8 @@ public class PermissionsFilter implements Filter {
         }
 
         if (isCancelled) {
-            context.setCancelled(true);
-            context.setErrorMessage(context
-                    .getImplementationRegistry()
-                    .getErrorMessageFactory()
-                    .getInsufficientPermissionsMessage(context)
+            context.setCancelled(true).setErrorMessage(
+                    context.getImplementationRegistry().getErrorMessageFactory().getInsufficientPermissionsMessage((CommandContext) context)
             );
             log.debug("Insufficient permissions!");
             return;

@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.Interact
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -45,6 +46,8 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
      * @param context the {@link GenericContext} to dispatch.
      */
     public void onEvent(CommandContext context) {
+        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
+
         log.debug("Applying filters in phase BEFORE_ROUTING...");
         for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
             filter.apply(context);
@@ -63,8 +66,12 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
                 .filter(it -> it.getLabel().equals(context.getEvent().getFullCommandName()))
                 .findFirst();
         if (optional.isEmpty()) {
-            throw new IllegalStateException("No slash command found?");
-            // TODO this should produce a error message
+            IllegalStateException exception = new IllegalStateException(
+                    "No slash command found! Please report this error the the devs of jda-commands."
+            );
+            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            checkCancelled(context);
+            throw exception;
         }
 
         CommandDefinition command = optional.get();
@@ -111,9 +118,12 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             context.setRuntime(runtime);
             log.debug("Invoking method with following arguments: {}", context.getArguments());
             command.getMethod().invoke(runtime.getInstance(), context.getArguments().toArray());
-        } catch (Exception e) {
-            // TODO bot error reply goes here
-            log.error("Command execution failed!", new InvocationTargetException(e));
+        } catch (Exception exception) {
+            log.error("Command execution failed!", exception);
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            checkCancelled(context);
         }
     }
 

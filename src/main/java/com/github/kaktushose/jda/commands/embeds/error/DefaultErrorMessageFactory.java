@@ -1,7 +1,10 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -9,6 +12,9 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
@@ -16,7 +22,7 @@ import java.util.regex.Matcher;
  * Implementation of {@link ErrorMessageFactory} with default embeds.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @see JsonErrorMessageFactory
  * @since 2.0.0
  */
@@ -25,15 +31,52 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     protected static final String PREFIX = Matcher.quoteReplacement("/");
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull CommandContext context) {
+        StringBuilder sbExpected = new StringBuilder();
+        CommandDefinition command = context.getCommand();
+        List<String> arguments = Arrays.asList(context.getInput());
+
+        command.getParameters().forEach(parameter -> {
+            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+                return;
+            }
+            String typeName = parameter.getType().getTypeName();
+            if (typeName.contains(".")) {
+                typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
+            }
+            sbExpected.append(typeName).append(", ");
+        });
+        String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
+
+        StringBuilder sbActual = new StringBuilder();
+        arguments.forEach(argument -> sbActual.append(argument).append(", "));
+        String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
+
+        MessageEmbed embed = new EmbedBuilder()
+                .setColor(Color.ORANGE)
+                .setTitle("Syntax Error")
+                .setDescription(String.format("`%s`", command.getMetadata().getUsage().replaceAll(
+                        "\\{prefix}", PREFIX))
+                )
+                .addField("Expected", String.format("`%s`", expected), false)
+                .addField("Actual", String.format("`%s`", actual), false)
+                .build();
+
+        return new MessageCreateBuilder().setEmbeds(embed).build();
+    }
+
+    @Override
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         StringBuilder sbPermissions = new StringBuilder();
+        CommandDefinition command = context.getCommand();
+        command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s%s` requires specific permissions to be executed",
                         PREFIX,
-                        "command.getLabel()"))
+                        command.getLabel()))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
@@ -100,17 +143,32 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
-                .setDescription("This command cannot be executed in this type of channel!")
+                .setDescription("This command cannot be executed in this type of channels!")
                 .build()
         ).build();
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Exception exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Throwable exception) {
+        String error;
+        if (context instanceof CommandContext) {
+            CommandContext commandContext = (CommandContext) context;
+            error = String.format("```The user \"%s\" attempted to execute the command \"%s\" at %s, " +
+                            "but a \"%s\" occurred. " +
+                            "Please refer to the logs for further information.```",
+                    commandContext.getEvent().getUser().toString(),
+                    commandContext.getEvent().getFullCommandName(),
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
+                    exception.getClass().getName()
+            );
+        } else {
+            error = exception.getClass().getName();
+        }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")
-                .setDescription(String.format("```%s```", exception))
+                .setDescription("The command execution has unexpectedly failed. Please report the following error to the bot devs.")
+                .addField("Error Message", error, false)
                 .build()
         ).build();
     }

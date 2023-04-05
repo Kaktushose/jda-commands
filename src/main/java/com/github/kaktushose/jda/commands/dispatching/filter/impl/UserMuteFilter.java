@@ -35,11 +35,8 @@ public class UserMuteFilter implements Filter {
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 
         if (provider.isMuted(context.getEvent().getUser(), context)) {
-            context.setCancelled(true);
-            context.setErrorMessage(context
-                    .getImplementationRegistry()
-                    .getErrorMessageFactory()
-                    .getUserMutedMessage(context)
+            context.setCancelled(true).setErrorMessage(
+                    context.getImplementationRegistry().getErrorMessageFactory().getUserMutedMessage(context)
             );
             log.debug("Insufficient permissions - User is muted!");
             return;

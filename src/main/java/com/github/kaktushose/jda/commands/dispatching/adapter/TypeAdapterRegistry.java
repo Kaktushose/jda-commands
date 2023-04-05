@@ -142,7 +142,6 @@ public class TypeAdapterRegistry {
 
         log.debug("Type adapting arguments...");
         arguments.add(new CommandEvent(command, context));
-        System.out.println(Arrays.toString(input));
         for (int i = 0; i < command.getActualParameters().size(); i++) {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 
@@ -157,10 +156,11 @@ public class TypeAdapterRegistry {
             // current parameter index == total amount of input, check if it's optional else cancel context
             if (i == input.length) {
                 if (!parameter.isOptional()) {
-                    log.debug("Syntax error! Cancelled event.");
-                    context.setCancelled(true);
-                    // TODO context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
-                    break;
+                    IllegalStateException exception = new IllegalStateException(
+                            "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
+                    );
+                    context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+                    throw exception;
                 }
 
                 // if the default value is an empty String (thus not present) add a null value to the argument list
@@ -185,8 +185,7 @@ public class TypeAdapterRegistry {
             Optional<?> parsed = adapter.get().parse(raw, context);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                context.setCancelled(true);
-                // TODO context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
+                context.setCancelled(true).setErrorMessage(messageFactory.getTypeAdaptingFailedMessage(context));
                 break;
             }
 
