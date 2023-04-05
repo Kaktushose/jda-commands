@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class DispatcherSupervisor {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherSupervisor.class);
-    private final Map<Class<? extends GenericInteractionCreateEvent>,
+    private final Map<Class<? extends GenericContext<? extends GenericInteractionCreateEvent>>,
             GenericDispatcher<? extends GenericContext<? extends GenericInteractionCreateEvent>>> dispatchers;
     private final JDACommands jdaCommands;
     private final RuntimeSupervisor runtimeSupervisor;
@@ -36,30 +36,30 @@ public class DispatcherSupervisor {
         this.jdaCommands = jdaCommands;
         dispatchers = new HashMap<>();
         runtimeSupervisor = new RuntimeSupervisor();
-        register(SlashCommandInteractionEvent.class, new CommandDispatcher(this, runtimeSupervisor));
-        register(ButtonInteractionEvent.class, new ButtonDispatcher(this, runtimeSupervisor));
+        register(CommandContext.class, new CommandDispatcher(this, runtimeSupervisor));
+        register(ButtonContext.class, new ButtonDispatcher(this, runtimeSupervisor));
     }
 
     /**
      * Registers a new {@link GenericDispatcher}.
      *
-     * @param event a subtype of {@link GenericInteractionCreateEvent}
+     * @param context a subtype of {@link GenericContext}
      * @param dispatcher the {@link GenericDispatcher} implementation for the event
      */
-    public void register(@NotNull Class<? extends GenericInteractionCreateEvent> event,
+    public void register(@NotNull Class<? extends GenericContext<? extends GenericInteractionCreateEvent>> context,
                          @NotNull GenericDispatcher<? extends GenericContext<? extends GenericInteractionCreateEvent>> dispatcher) {
-        dispatchers.put(event, dispatcher);
-        log.debug("Registered dispatcher {} for event {}", dispatcher.getClass().getName(), event.getSimpleName());
+        dispatchers.put(context, dispatcher);
+        log.debug("Registered dispatcher {} for event {}", dispatcher.getClass().getName(), context.getSimpleName());
     }
 
     /**
      * Unregisters a {@link GenericDispatcher}
      *
-     * @param event the {@link GenericInteractionCreateEvent} to unregister any {@link GenericDispatcher} for
+     * @param context the {@link GenericContext} to unregister any {@link GenericDispatcher} for
      */
-    public void unregister(@NotNull Class<? extends GenericInteractionCreateEvent> event) {
-        dispatchers.remove(event);
-        log.debug("Unregistered dispatcher binding for event {}", event.getSimpleName());
+    public void unregister(@NotNull Class<? extends GenericContext<? extends GenericInteractionCreateEvent>> context) {
+        dispatchers.remove(context);
+        log.debug("Unregistered dispatcher binding for event {}", context.getSimpleName());
     }
 
     /**
@@ -70,14 +70,14 @@ public class DispatcherSupervisor {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void onGenericEvent(@NotNull GenericContext<? extends GenericInteractionCreateEvent> context) {
-        Class<? extends GenericInteractionCreateEvent> event = context.getEvent().getClass();
-        if (!dispatchers.containsKey(event)) {
-            log.warn("No dispatcher found for {}", event.getSimpleName());
+        Class<?> clazz = context.getClass();
+        if (!dispatchers.containsKey(clazz)) {
+            log.warn("No dispatcher found for {}", clazz.getSimpleName());
             return;
         }
 
-        log.debug("Received {}", event.getSimpleName());
-        GenericDispatcher dispatcher = dispatchers.get(event);
+        log.debug("Received {}", clazz.getSimpleName());
+        GenericDispatcher dispatcher = dispatchers.get(clazz);
         log.debug("Calling {}", dispatcher.getClass().getName());
 
         try {
