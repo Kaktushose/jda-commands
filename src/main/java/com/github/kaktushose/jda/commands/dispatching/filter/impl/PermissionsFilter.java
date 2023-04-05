@@ -42,14 +42,13 @@ public class PermissionsFilter implements Filter {
 
         GenericInteractionCreateEvent event = context.getEvent();
 
-        boolean isCancelled = !provider.hasPermission(event.getUser(), context);
-
-        // we only have member information in a guild channel
-        if (!isCancelled && event.isFromGuild()) {
-            isCancelled = !provider.hasPermission(event.getMember(), context);
+        boolean hasPerms;
+        if (event.isFromGuild()) {
+            hasPerms = provider.hasPermission(event.getMember(), context);
+        } else {
+            hasPerms = provider.hasPermission(event.getUser(), context);
         }
-
-        if (isCancelled) {
+        if (!hasPerms) {
             context.setCancelled(true).setErrorMessage(
                     context.getImplementationRegistry().getErrorMessageFactory().getInsufficientPermissionsMessage((CommandContext) context)
             );

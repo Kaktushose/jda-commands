@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.Inject;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.Permission;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
@@ -14,9 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a interaction controller.
@@ -64,8 +64,12 @@ public class ControllerDefinition {
         }
         dependencyInjector.registerDependencies(controllerClass, fields);
 
+        Set<String> permissions = new HashSet<>();
         // index controller level permissions
-        // TODO permissions
+        if (controllerClass.isAnnotationPresent(Permission.class)) {
+            Permission permission = controllerClass.getAnnotation(Permission.class);
+            permissions = Arrays.stream(permission.value()).collect(Collectors.toSet());
+        }
 
         // get controller level cooldown and use it if no command level cooldown is present
         CooldownDefinition cooldown = null;
@@ -80,13 +84,13 @@ public class ControllerDefinition {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
                 Optional<CommandDefinition> optional = CommandDefinition.build(method, validatorRegistry);
-                if (!optional.isPresent()) {
+                if (optional.isEmpty()) {
                     continue;
                 }
                 CommandDefinition commandDefinition = optional.get();
 
                 // add controller level permissions
-                commandDefinition.getPermissions().addAll(new ArrayList<>());
+                commandDefinition.getPermissions().addAll(permissions);
 
                 if (commandDefinition.getCooldown().getDelay() == 0) {
                     commandDefinition.getCooldown().set(cooldown);

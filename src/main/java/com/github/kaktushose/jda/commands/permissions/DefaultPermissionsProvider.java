@@ -1,12 +1,15 @@
 package com.github.kaktushose.jda.commands.permissions;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * Default implementation of {@link PermissionsProvider} with the following behaviour:
@@ -30,27 +33,31 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
 
     @Override
-    public boolean isMuted(@NotNull User user, @NotNull GenericContext context) {
+    public boolean isMuted(@NotNull User user, @NotNull GenericContext<?> context) {
         return false;
     }
 
     @Override
-    public boolean hasPermission(@NotNull User user, @NotNull GenericContext context) {
+    public boolean hasPermission(@NotNull User user, @NotNull GenericContext<?> context) {
         return true;
     }
 
     @Override
-    public boolean hasPermission(@NotNull Member member, @NotNull GenericContext context) {
-//        for (String s : context.getCommand().getPermissions()) {
-//            // not a discord perm, continue
-//            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
-//                continue;
-//            }
-//            if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
-//                log.debug("{} permission is missing!", s.toUpperCase());
-//                return false;
-//            }
-//        }
-return true;
+    public boolean hasPermission(@NotNull Member member, @NotNull GenericContext<?> ctx) {
+        // TODO temporary fix until permissions for other events were figured out
+        CommandContext context = (CommandContext) ctx;
+        for (String s : context.getCommand().getPermissions()) {
+            // not a discord perm, continue
+            if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
+                continue;
+            }
+            if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
+                log.debug("{} permission is missing!", s.toUpperCase());
+                return false;
+            }
+        }
+
+        return true;
+
     }
 }

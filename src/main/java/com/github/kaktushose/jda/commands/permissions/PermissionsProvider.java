@@ -29,7 +29,7 @@ public interface PermissionsProvider {
      * @return {@code true} if the user is muted
      * @see com.github.kaktushose.jda.commands.dispatching.filter.impl.UserMuteFilter UserMuteFilter
      */
-    boolean isMuted(@NotNull User user, @NotNull GenericContext context);
+    boolean isMuted(@NotNull User user, @NotNull GenericContext<?> context);
 
     /**
      * Checks if a {@link User} has permissions. Compared to {@link #hasPermission(Member, GenericContext)} this method will be
@@ -40,7 +40,7 @@ public interface PermissionsProvider {
      * @return {@code true} if the user has the permission to execute the command
      * @see #hasPermission(Member, GenericContext)
      */
-    boolean hasPermission(@NotNull User user, @NotNull GenericContext context);
+    boolean hasPermission(@NotNull User user, @NotNull GenericContext<?> context);
 
     /**
      * Checks if a {@link Member} has permissions.
@@ -49,7 +49,7 @@ public interface PermissionsProvider {
      * @param context the corresponding {@link GenericContext}
      * @return {@code true} if the user has the permission to execute the command
      */
-    boolean hasPermission(@NotNull Member member, @NotNull GenericContext context);
+    boolean hasPermission(@NotNull Member member, @NotNull GenericContext<?> context);
 
     /**
      * Gets a {@link List} of user ids that map to the given permission string.
