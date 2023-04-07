@@ -27,6 +27,12 @@ import java.util.stream.Collectors;
  */
 public class DefaultHelpMessageFactory implements HelpMessageFactory {
 
+    private final PermissionsFilter filter;
+
+    public DefaultHelpMessageFactory() {
+        filter = new PermissionsFilter();
+    }
+
     /**
      * The pattern that is used to insert prefixes. The default value is {@code {prefix}}.
      */
@@ -68,7 +74,6 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
                         PREFIX,
                         settings.getHelpLabel()));
 
-        PermissionsFilter filter = new PermissionsFilter();
         CommandList filteredList = commandList.stream().filter(command -> {
             filter.apply(context.setCommand(command));
             System.out.println(context.isCancelled());
