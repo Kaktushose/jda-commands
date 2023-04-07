@@ -63,7 +63,7 @@ public class CommandList extends ArrayList<CommandDefinition> {
      * @return the command having the given label or {@code null} if no command was found
      */
     @Nullable
-    public CommandDefinition getByLabel(@Nullable String label) {
+    public CommandDefinition getByLabel(@NotNull String label) {
         return stream().filter(command -> command.getLabel().contains(label)).findFirst().orElse(null);
     }
 

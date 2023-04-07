@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.embeds.help;
 
 import com.github.kaktushose.jda.commands.data.CommandList;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.PermissionsFilter;
 import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link HelpMessageFactory} with default embeds.
@@ -59,15 +61,21 @@ public class DefaultHelpMessageFactory implements HelpMessageFactory {
         EmbedBuilder builder = new EmbedBuilder();
         CommandList commandList = new CommandList();
         controllers.forEach(definition -> commandList.addAll(definition.getCommands()));
-        String prefix = Matcher.quoteReplacement("/");
 
         builder.setColor(Color.GREEN)
                 .setTitle("General Help")
                 .setDescription(String.format("The following commands are available. Type `%s%s <command>` to get specific help",
-                        prefix,
+                        PREFIX,
                         settings.getHelpLabel()));
 
-        commandList.getSortedByCategories().forEach((category, commands) -> {
+        PermissionsFilter filter = new PermissionsFilter();
+        CommandList filteredList = commandList.stream().filter(command -> {
+            filter.apply(context.setCommand(command));
+            System.out.println(context.isCancelled());
+            return !context.isCancelled();
+        }).collect(Collectors.toCollection(CommandList::new));
+
+        filteredList.getSortedByCategories().forEach((category, commands) -> {
             StringBuilder sb = new StringBuilder();
             commands.forEach(command -> sb.append(String.format("`%s`", command.getLabel())).append(", "));
             builder.addField(category, sb.substring(0, sb.length() - 2), false);
