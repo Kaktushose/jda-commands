@@ -81,7 +81,7 @@ public class CommandList extends ArrayList<CommandDefinition> {
             if (sortedByCategories.containsKey(command.getMetadata().getCategory())) {
                 sortedByCategories.get(command.getMetadata().getCategory()).add(command);
             } else {
-                sortedByCategories.put(command.getMetadata().getCategory(), new ArrayList<CommandDefinition>() {{
+                sortedByCategories.put(command.getMetadata().getCategory(), new ArrayList<>() {{
                     add(command);
                 }});
             }
@@ -92,6 +92,6 @@ public class CommandList extends ArrayList<CommandDefinition> {
             sortedByCategories.put(category, sorted);
         });
 
-        return sortedByCategories;
+        return new TreeMap<>(sortedByCategories);
     }
 }
