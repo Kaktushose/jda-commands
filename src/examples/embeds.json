@@ -29,7 +29,8 @@
   "genericHelp": {
     "title": "General Help",
     "description": "The following commands are available. Type `{prefix}{helpLabel} <command>` to get specific help",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "footer": "This only displays commands that you are allowed to execute"
   },
   "commandNotFound": {
     "title": "Command Not Found",
