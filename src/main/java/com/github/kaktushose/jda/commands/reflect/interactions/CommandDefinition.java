@@ -33,7 +33,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final String description;
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
-    private final Set<String> enabledPermissions;
+    private final Set<net.dv8tion.jda.api.Permission> enabledPermissions;
     private final CooldownDefinition cooldown;
     private final boolean isGuildOnly;
 
@@ -43,7 +43,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                                 String description,
                                 List<ParameterDefinition> parameters,
                                 Set<String> permissions,
-                                Set<String> enabledPermissions,
+                                Set<net.dv8tion.jda.api.Permission> enabledPermissions,
                                 CooldownDefinition cooldown,
                                 boolean isGuildOnly) {
         super(method, ephemeral);
@@ -129,6 +129,11 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             }
         }
 
+        Set<net.dv8tion.jda.api.Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
+        if (enabledFor.size() == 1 && enabledFor.contains(net.dv8tion.jda.api.Permission.UNKNOWN)) {
+            enabledFor.clear();
+        }
+
         return Optional.of(new CommandDefinition(
                 method,
                 command.ephemeral(),
@@ -136,7 +141,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 command.desc(),
                 parameters,
                 permissions,
-                Arrays.stream(command.enabledFor()).collect(Collectors.toSet()),
+                enabledFor,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isGuildOnly()
         ));
@@ -160,7 +165,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 description.replaceAll("N/A", "no description")
         );
         command.setGuildOnly(isGuildOnly);
-        command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(resolvePermissions(enabledPermissions)));
+        command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
@@ -168,18 +173,6 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             command.addOptions(parameter.toOptionData());
         });
         return command;
-    }
-
-    private Set<net.dv8tion.jda.api.Permission> resolvePermissions(Set<String> permissions) {
-        Set<net.dv8tion.jda.api.Permission> result = new HashSet<>();
-        for (String perm : permissions) {
-            // not a discord perm, continue
-            if (Arrays.stream(net.dv8tion.jda.api.Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(perm))) {
-                continue;
-            }
-            result.add(net.dv8tion.jda.api.Permission.valueOf(perm.toUpperCase()));
-        }
-        return result;
     }
 
     /**
@@ -255,7 +248,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      *
      * @return a set of Discord permission Strings this command will be enabled for by default
      */
-    public Set<String> getEnabledPermissions() {
+    public Set<net.dv8tion.jda.api.Permission> getEnabledPermissions() {
         return enabledPermissions;
     }
 
