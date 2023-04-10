@@ -48,9 +48,9 @@ public class ControllerDefinitionTest {
         assertNotNull(definition);
 
 
-        assertEquals(2, definition.getLabel().size());
-        assertTrue(definition.getLabel().contains("super"));
-        assertTrue(definition.getLabel().contains("superAlias"));
+        assertEquals(2, definition.getName().size());
+        assertTrue(definition.getName().contains("super"));
+        assertTrue(definition.getName().contains("superAlias"));
 
         assertTrue(definition.hasCooldown());
         assertEquals(10, definition.getCooldown().getDelay());
@@ -69,11 +69,11 @@ public class ControllerDefinitionTest {
         CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
-        assertEquals(4, definition.getLabel().size());
-        assertTrue(definition.getLabel().contains("super sub"));
-        assertTrue(definition.getLabel().contains("superAlias sub"));
-        assertTrue(definition.getLabel().contains("super subAlias"));
-        assertTrue(definition.getLabel().contains("superAlias subAlias"));
+        assertEquals(4, definition.getName().size());
+        assertTrue(definition.getName().contains("super sub"));
+        assertTrue(definition.getName().contains("superAlias sub"));
+        assertTrue(definition.getName().contains("super subAlias"));
+        assertTrue(definition.getName().contains("superAlias subAlias"));
 
         assertTrue(definition.hasCooldown());
         assertEquals(5, definition.getCooldown().getDelay());

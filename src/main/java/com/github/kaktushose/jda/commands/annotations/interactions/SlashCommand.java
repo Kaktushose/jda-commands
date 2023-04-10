@@ -32,25 +32,19 @@ import java.lang.annotation.Target;
 public @interface SlashCommand {
 
     /**
-     * Retruns the label of the command.
+     * Returns the name of the command.
      *
-     * @return the label of the command
+     * @return the name of the command
      */
     String value() default "";
 
     /**
-     * Returns whether this command can be executed in direct messages.
+     * Returns whether this command is only usable in a guild.
+     * This only has an effect if this command is registered globally.
      *
-     * @return {@code true} if this command can be executed in direct messages
+     * @return {@code true} if this command is only usable in a guild
      */
-    boolean isDM() default true;
-
-    /**
-     * Returns the name of the command. This is <em>not</em> the command label.
-     *
-     * @return the name of the command
-     */
-    String name() default "N/A";
+    boolean isGuildOnly() default false;
 
     /**
      * Returns the description of the command.
@@ -58,20 +52,6 @@ public @interface SlashCommand {
      * @return the description of the command
      */
     String desc() default "N/A";
-
-    /**
-     * Returns the usage of the command.
-     *
-     * @return the usage of the command
-     */
-    String usage() default "N/A";
-
-    /**
-     * Returns the category of the command.
-     *
-     * @return the category of the command
-     */
-    String category() default "Other";
 
     /**
      * Returns whether this command is active and thus can be executed or not.

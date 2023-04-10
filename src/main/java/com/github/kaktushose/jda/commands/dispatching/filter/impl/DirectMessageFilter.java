@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see SlashCommand#isDM()
+ * @see SlashCommand#isGuildOnly()
  * @since 2.0.0
  */
 public class DirectMessageFilter implements Filter {
@@ -37,7 +37,7 @@ public class DirectMessageFilter implements Filter {
         if (channel == null) {
             return;
         }
-        if (channel.getType().equals(ChannelType.PRIVATE) && !commandContext.getCommand().isDM()) {
+        if (channel.getType().equals(ChannelType.PRIVATE) && !commandContext.getCommand().isGuildOnly()) {
             log.debug("Received private message but command cannot be executed in DMs!");
             context.setCancelled(true).setErrorMessage(
                     context.getImplementationRegistry().getErrorMessageFactory().getWrongChannelTypeMessage(context)

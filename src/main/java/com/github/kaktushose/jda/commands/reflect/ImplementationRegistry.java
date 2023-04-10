@@ -12,8 +12,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
@@ -39,7 +37,6 @@ import java.util.*;
  * <ul>
  *     <li>{@link SettingsProvider}</li>
  *     <li>{@link PermissionsProvider}</li>
- *     <li>{@link HelpMessageFactory}</li>
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link TypeAdapter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
@@ -61,7 +58,6 @@ public class ImplementationRegistry {
     private final ValidatorRegistry validatorRegistry;
     private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
-    private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
 
     /**
@@ -78,7 +74,6 @@ public class ImplementationRegistry {
                                   ValidatorRegistry validatorRegistry) {
         settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
-        helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
 
         this.dependencyInjector = dependencyInjector;
@@ -109,7 +104,6 @@ public class ImplementationRegistry {
 
         findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
-        findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
 
         findFilters().forEach(filterRegistry::register);
@@ -154,24 +148,6 @@ public class ImplementationRegistry {
     }
 
     /**
-     * Gets the {@link HelpMessageFactory}.
-     *
-     * @return the {@link HelpMessageFactory}
-     */
-    public HelpMessageFactory getHelpMessageFactory() {
-        return helpMessageFactory;
-    }
-
-    /**
-     * Sets the {@link HelpMessageFactory}
-     *
-     * @param helpMessageFactory the new {@link HelpMessageFactory}
-     */
-    public void setHelpMessageFactory(HelpMessageFactory helpMessageFactory) {
-        this.helpMessageFactory = helpMessageFactory;
-    }
-
-    /**
      * Gets the {@link ErrorMessageFactory}.
      *
      * @return the {@link ErrorMessageFactory}
@@ -200,7 +176,8 @@ public class ImplementationRegistry {
             log.debug("Found {}", clazz.getName());
             try {
                 instance = (T) clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -229,7 +206,8 @@ public class ImplementationRegistry {
             Filter instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -268,7 +246,8 @@ public class ImplementationRegistry {
             TypeAdapter<?> instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }
@@ -299,7 +278,8 @@ public class ImplementationRegistry {
             Validator instance;
             try {
                 instance = clazz.getConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 log.error("Unable to create an instance of the custom implementation!", e);
                 continue;
             }

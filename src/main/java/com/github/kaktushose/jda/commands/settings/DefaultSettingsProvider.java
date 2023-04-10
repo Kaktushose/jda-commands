@@ -31,9 +31,6 @@ public class DefaultSettingsProvider implements SettingsProvider {
             Properties properties = new Properties();
             properties.load(DefaultSettingsProvider.class.getClassLoader().getResourceAsStream("jdac.properties"));
 
-            settings.setHelpLabel(properties.getProperty("helpLabel", "help"));
-            settings.setEphemeralHelp(Boolean.parseBoolean(properties.getProperty("ephemeralHelp", "true")));
-
             String mutedChannels = properties.getProperty("mutedChannels", "");
             String[] channels = mutedChannels.split(", ");
             settings.getMutedChannels().clear();

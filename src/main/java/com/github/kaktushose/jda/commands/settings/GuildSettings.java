@@ -17,43 +17,31 @@ import java.util.Set;
 public class GuildSettings {
 
     private long guildId;
-    private String helpLabel;
     private Set<Long> mutedChannels;
     private boolean isMutedGuild;
-    private boolean ephemeralHelp;
 
     /**
      * Constructs a new GuildSettings object with the following default values.
      * <ul>
-     *     <li>helpLabels: help</li>
      *     <li>mutedChannels: none</li>
      *     <li>isMutedGuild: false</li>
-     *     <li>ephemeralHelp: true</li>
      * </ul>
      */
     public GuildSettings() {
-        this(0, "help", new HashSet<>(), false, true);
+        this(0,  new HashSet<>(), false);
     }
 
     /**
      * Constructs a new GuildSettings object.
      *
      * @param guildId       the guild id
-     * @param helpLabel     the help label
      * @param mutedChannels a set of muted channels
      * @param isMutedGuild  whether this guild should be ignored completely
-     * @param ephemeralHelp whether help replies should be ephemeral
      */
-    public GuildSettings(long guildId,
-                         @NotNull String helpLabel,
-                         @NotNull Set<Long> mutedChannels,
-                         boolean isMutedGuild,
-                         boolean ephemeralHelp) {
+    public GuildSettings(long guildId, @NotNull Set<Long> mutedChannels, boolean isMutedGuild) {
         this.guildId = guildId;
-        this.helpLabel = helpLabel;
         this.mutedChannels = mutedChannels;
         this.isMutedGuild = isMutedGuild;
-        this.ephemeralHelp = ephemeralHelp;
     }
 
     /**
@@ -73,27 +61,6 @@ public class GuildSettings {
      */
     public GuildSettings setGuildId(long guildId) {
         this.guildId = guildId;
-        return this;
-    }
-
-    /**
-     * Gets a set of all help labels.
-     *
-     * @return a set of all help labels
-     */
-    @NotNull
-    public String getHelpLabel() {
-        return helpLabel;
-    }
-
-    /**
-     * Sets the help labels.
-     *
-     * @param helpLabel the help label
-     * @return this instance
-     */
-    public GuildSettings setHelpLabel(@NotNull String helpLabel) {
-        this.helpLabel = helpLabel;
         return this;
     }
 
@@ -137,22 +104,12 @@ public class GuildSettings {
         return this;
     }
 
-    public boolean isEphemeralHelp() {
-        return ephemeralHelp;
-    }
-
-    public void setEphemeralHelp(boolean ephemeralHelp) {
-        this.ephemeralHelp = ephemeralHelp;
-    }
-
     @Override
     public String toString() {
         return "GuildSettings{" +
                 "guildId=" + guildId +
-                ", helpLabel='" + helpLabel + '\'' +
                 ", mutedChannels=" + mutedChannels +
                 ", isMutedGuild=" + isMutedGuild +
-                ", ephemeralHelp=" + ephemeralHelp +
                 '}';
     }
 }

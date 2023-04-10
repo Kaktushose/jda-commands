@@ -9,7 +9,6 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
@@ -56,14 +54,8 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             }
         }
 
-        if (context.isHelpEvent()) {
-            log.debug("Detected help event");
-            onHelpEvent(context);
-            return;
-        }
-
         Optional<CommandDefinition> optional = interactionRegistry.getCommands().stream()
-                .filter(it -> it.getLabel().equals(context.getEvent().getFullCommandName()))
+                .filter(it -> it.getName().equals(context.getEvent().getFullCommandName()))
                 .findFirst();
         if (optional.isEmpty()) {
             IllegalStateException exception = new IllegalStateException(
@@ -125,30 +117,6 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
             checkCancelled(context);
         }
-    }
-
-    public void onHelpEvent(CommandContext context) {
-        context.getEvent().deferReply(context.isEphemeral()).queue();
-
-        HelpMessageFactory helpMessageFactory = implementationRegistry.getHelpMessageFactory();
-        ReplyContext replyContext = new ReplyContext(context);
-
-        String fullCommandName = context.getEvent().getOptions().stream()
-                .map(OptionMapping::getAsString)
-                .collect(Collectors.joining(" "));
-        Optional<CommandDefinition> optional = interactionRegistry.getCommands().stream()
-                .filter(it -> it.getLabel().equals(fullCommandName))
-                .findFirst();
-
-        if (optional.isEmpty()) {
-            log.debug("Sending generic help");
-            replyContext.getBuilder().applyData(helpMessageFactory.getGenericHelp(interactionRegistry.getControllers(), context));
-        } else {
-            log.debug("Sending specific help");
-            context.setCommand(optional.get());
-            replyContext.getBuilder().applyData(helpMessageFactory.getSpecificHelp(context));
-        }
-        replyContext.queue();
     }
 
     @SuppressWarnings("ConstantConditions")

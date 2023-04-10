@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.components.Buttons;
 import com.github.kaktushose.jda.commands.interactions.components.Component;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
@@ -62,15 +61,6 @@ public class CommandEvent extends GenericEvent implements Replyable {
      */
     public JDACommands getJdaCommands() {
         return context.getJdaCommands();
-    }
-
-    /**
-     * Get the registered {@link HelpMessageFactory} object.
-     *
-     * @return the registered {@link HelpMessageFactory} object
-     */
-    public HelpMessageFactory getHelpMessageFactory() {
-        return getJdaCommands().getImplementationRegistry().getHelpMessageFactory();
     }
 
     /**

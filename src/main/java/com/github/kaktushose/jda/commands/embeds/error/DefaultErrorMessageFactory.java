@@ -55,9 +55,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
-                .setDescription(String.format("`%s`", command.getMetadata().getUsage().replaceAll(
-                        "\\{prefix}", PREFIX))
-                )
+                .setDescription(String.format("%s%s", PREFIX, command.getName()))
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
@@ -76,7 +74,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s%s` requires specific permissions to be executed",
                         PREFIX,
-                        command.getLabel()))
+                        command.getName()))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();

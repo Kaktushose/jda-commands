@@ -2,11 +2,10 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.Permission;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.CommandMetadata;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -30,31 +29,31 @@ import java.util.stream.Collectors;
  */
 public class CommandDefinition extends EphemeralInteraction implements Comparable<CommandDefinition> {
 
-    private final String label;
-    private final CommandMetadata metadata;
+    private final String name;
+    private final String description;
     private final List<ParameterDefinition> parameters;
     private final Set<String> permissions;
     private final Set<String> enabledPermissions;
     private final CooldownDefinition cooldown;
-    private final boolean isDM;
+    private final boolean isGuildOnly;
 
     protected CommandDefinition(Method method,
                                 boolean ephemeral,
-                                String label,
-                                CommandMetadata metadata,
+                                String name,
+                                String description,
                                 List<ParameterDefinition> parameters,
                                 Set<String> permissions,
                                 Set<String> enabledPermissions,
                                 CooldownDefinition cooldown,
-                                boolean isDM) {
+                                boolean isGuildOnly) {
         super(method, ephemeral);
-        this.label = label;
-        this.metadata = metadata;
+        this.name = name;
+        this.description = description;
         this.parameters = parameters;
         this.permissions = permissions;
         this.enabledPermissions = enabledPermissions;
         this.cooldown = cooldown;
-        this.isDM = isDM;
+        this.isGuildOnly = isGuildOnly;
     }
 
 
@@ -130,34 +129,16 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             }
         }
 
-        CommandMetadata metadata = CommandMetadata.build(command, interaction);
-
-        if (metadata.getUsage().equals("N/A") || metadata.getUsage().isEmpty()) {
-            StringBuilder usage = new StringBuilder("{prefix}");
-            usage.append(label);
-            parameters.forEach(parameter -> {
-                if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
-                    return;
-                }
-                if (parameter.isOptional()) {
-                    usage.append(" ").append(String.format("(%s)", parameter.getName()));
-                } else {
-                    usage.append(" ").append(String.format("<%s>", parameter.getName()));
-                }
-            });
-            metadata.setUsage(usage.toString());
-        }
-
         return Optional.of(new CommandDefinition(
                 method,
                 command.ephemeral(),
                 label,
-                metadata,
+                command.desc(),
                 parameters,
                 permissions,
                 Arrays.stream(command.enabledFor()).collect(Collectors.toSet()),
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
-                command.isDM()
+                command.isGuildOnly()
         ));
     }
 
@@ -175,10 +156,10 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      */
     public SlashCommandData toCommandData() {
         SlashCommandData command = Commands.slash(
-                label,
-                metadata.getDescription().replaceAll("N/A", "no description")
+                name,
+                description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(!isDM);
+        command.setGuildOnly(isGuildOnly);
         command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(resolvePermissions(enabledPermissions)));
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
@@ -210,7 +191,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     public SubcommandData toSubCommandData(String label) {
         SubcommandData command = new SubcommandData(
                 label,
-                metadata.getDescription().replaceAll("N/A", "no description")
+                description.replaceAll("N/A", "no description")
 
         );
         parameters.forEach(parameter -> {
@@ -223,21 +204,21 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     }
 
     /**
-     * Gets the slash command label.
+     * Gets the command name.
      *
-     * @return the slash command label
+     * @return the command name
      */
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Gets the {@link CommandMetadata}.
+     * Returns the slash command description.
      *
-     * @return the {@link CommandMetadata}
+     * @return the description
      */
-    public CommandMetadata getMetadata() {
-        return metadata;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -301,8 +282,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      *
      * @return {@code true} if this command can be executed inside direct messages
      */
-    public boolean isDM() {
-        return isDM;
+    public boolean isGuildOnly() {
+        return isGuildOnly;
     }
 
     /**
@@ -317,12 +298,12 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     @Override
     public String toString() {
         return "SlashCommandDefinition{" +
-                "label='" + label + '\'' +
-                ", metadata=" + metadata +
+                "name='" + name + '\'' +
+                ", description=" + description +
                 ", parameters=" + parameters +
                 ", permissions=" + permissions +
                 ", cooldown=" + cooldown +
-                ", isDM=" + isDM +
+                ", isDM=" + isGuildOnly +
                 ", ephemeral=" + ephemeral +
                 ", id='" + id + '\'' +
                 ", method=" + method +
@@ -331,6 +312,6 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
 
     @Override
     public int compareTo(@NotNull CommandDefinition command) {
-        return label.compareTo(command.label);
+        return name.compareTo(command.name);
     }
 }

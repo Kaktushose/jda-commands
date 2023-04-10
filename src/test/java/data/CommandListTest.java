@@ -52,7 +52,7 @@ public class CommandListTest {
     public void getByLabel_WithOneCommand_ShouldReturnRightCommand() {
         CommandDefinition command = commandList.getByLabel("first");
 
-        assertTrue(command.getLabel().contains("first"));
+        assertTrue(command.getName().contains("first"));
     }
 
     @Test

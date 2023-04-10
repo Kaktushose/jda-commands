@@ -43,7 +43,7 @@ public class CommandTree {
      * @param command the {@link CommandDefinition} to add
      */
     public void add(CommandDefinition command) {
-        root.addChild(resolveLabel(command.getLabel()), command);
+        root.addChild(resolveLabel(command.getName()), command);
     }
 
     /**

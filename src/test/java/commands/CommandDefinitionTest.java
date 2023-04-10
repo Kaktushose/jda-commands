@@ -157,7 +157,7 @@ public class CommandDefinitionTest {
         assertNotNull(definition);
 
         assertTrue(definition.isSuper());
-        assertFalse(definition.isDM());
+        assertFalse(definition.isGuildOnly());
     }
 
     @Test
@@ -167,9 +167,9 @@ public class CommandDefinitionTest {
 
         assertNotNull(definition);
 
-        assertEquals(2, definition.getLabel().size());
-        assertTrue(definition.getLabel().contains("sub"));
-        assertTrue(definition.getLabel().contains("subAlias"));
+        assertEquals(2, definition.getName().size());
+        assertTrue(definition.getName().contains("sub"));
+        assertTrue(definition.getName().contains("subAlias"));
     }
 
     @Test

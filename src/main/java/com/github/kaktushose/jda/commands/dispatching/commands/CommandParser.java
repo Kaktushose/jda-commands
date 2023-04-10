@@ -47,9 +47,6 @@ public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
             return context.setCancelled(true).setErrorMessage(errorMessageFactory.getChannelMutedMessage(context));
         }
 
-        if (event.getName().equals(settings.getHelpLabel())) {
-            return context.setHelpEvent(true).setEphemeral(settings.isEphemeralHelp());
-        }
         return context;
     }
 }

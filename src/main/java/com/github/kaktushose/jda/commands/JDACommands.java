@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
 import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -130,7 +129,6 @@ public class JDACommands {
      */
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor));
-        updater.shutdown();
         isActive = false;
     }
 
@@ -195,15 +193,6 @@ public class JDACommands {
      */
     public FilterRegistry getFilterRegistry() {
         return filterRegistry;
-    }
-
-    /**
-     * Gets the {@link HelpMessageFactory}.
-     *
-     * @return the {@link HelpMessageFactory}
-     */
-    public HelpMessageFactory getHelpMessageFactory() {
-        return implementationRegistry.getHelpMessageFactory();
     }
 
     /**

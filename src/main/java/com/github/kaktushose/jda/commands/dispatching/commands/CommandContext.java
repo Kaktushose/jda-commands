@@ -22,7 +22,6 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     private List<OptionMapping> options;
     private CommandDefinition command;
     private List<Object> arguments;
-    private boolean isHelpEvent;
     private InteractionRuntime runtime;
 
     /**
@@ -141,27 +140,6 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     @NotNull
     public CommandContext setArguments(@NotNull List<Object> arguments) {
         this.arguments = arguments;
-        return this;
-    }
-
-    /**
-     * Whether the context represents a help event.
-     *
-     * @return {@code true} if the context represents a help event
-     */
-    public boolean isHelpEvent() {
-        return isHelpEvent;
-    }
-
-    /**
-     * Set whether the context represents a help event.
-     *
-     * @param helpEvent whether the context represents a help event
-     * @return the current CommandContext instance
-     */
-    @NotNull
-    public CommandContext setHelpEvent(boolean helpEvent) {
-        isHelpEvent = helpEvent;
         return this;
     }
 

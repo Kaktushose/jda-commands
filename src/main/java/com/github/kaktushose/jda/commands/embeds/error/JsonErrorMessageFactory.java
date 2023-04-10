@@ -57,8 +57,8 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         arguments.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
-        return embedCache.getEmbed("syntaxError")
-                .injectValue("usage", command.getMetadata().getUsage().replaceAll("\\{prefix}", PREFIX))
+        return embedCache.getEmbed("typeAdaptingFailed")
+                .injectValue("usage", String.format("%s%s", PREFIX, command.getName()))
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
                 .toMessageCreateData();
@@ -78,7 +78,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
         return embedCache.getEmbed("insufficientPermissions")
                 .injectValue("prefix", PREFIX)
-                .injectValue("label", command.getLabel())
+                .injectValue("label", command.getName())
                 .injectValue("permissions", permissions)
                 .toMessageCreateData();
     }

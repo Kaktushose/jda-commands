@@ -62,7 +62,7 @@ public class CommandDefinitionTestController {
 
     }
 
-    @SlashCommand(value = "l", isSuper = true, isDM = false)
+    @SlashCommand(value = "l", isSuper = true, isGuildOnly = false)
     public void superAndDM(CommandEvent event) {
 
     }
