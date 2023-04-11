@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -25,7 +24,6 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
 
     protected final T event;
     protected MessageCreateData errorMessage;
-    protected GuildSettings settings;
     protected ImplementationRegistry registry;
     protected JDACommands jdaCommands;
     protected boolean cancelled;
@@ -35,18 +33,13 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * Constructs a new CommandContext.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
-     * @param settings    the corresponding {@link GuildSettings}
      * @param registry    the corresponding {@link ImplementationRegistry}
      * @param event the corresponding {@link GenericInteractionCreateEvent}
      */
-    public GenericContext(T event,
-                          JDACommands jdaCommands,
-                          GuildSettings settings,
-                          ImplementationRegistry registry) {
+    public GenericContext(T event, JDACommands jdaCommands) {
         this.event = event;
         this.jdaCommands = jdaCommands;
-        this.settings = settings;
-        this.registry = registry;
+        this.registry = jdaCommands.getImplementationRegistry();
     }
 
     public T getEvent() {
@@ -72,28 +65,6 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
     @NotNull
     public GenericContext<? extends GenericInteractionCreateEvent> setErrorMessage(@NotNull MessageCreateData message) {
         this.errorMessage = message;
-        return this;
-    }
-
-    /**
-     * Gets the corresponding {@link GuildSettings}.
-     *
-     * @return the corresponding {@link GuildSettings}
-     */
-    @NotNull
-    public GuildSettings getSettings() {
-        return settings;
-    }
-
-    /**
-     * Set the {@link GuildSettings}.
-     *
-     * @param settings the {@link GuildSettings}
-     * @return the current CommandContext instance
-     */
-    @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setSettings(@NotNull GuildSettings settings) {
-        this.settings = settings;
         return this;
     }
 

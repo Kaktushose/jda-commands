@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,7 +69,6 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getInsufficientPermissionsMessage(context);
         }
 
-        GuildSettings settings = context.getSettings();
         CommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));

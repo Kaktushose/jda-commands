@@ -14,8 +14,6 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -35,7 +33,6 @@ import java.util.*;
  * Central registry for all custom user implementations. This class will look for custom implementations that
  * override the default implementation of this framework. Supports the following interfaces:
  * <ul>
- *     <li>{@link SettingsProvider}</li>
  *     <li>{@link PermissionsProvider}</li>
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link TypeAdapter}</li>
@@ -56,7 +53,6 @@ public class ImplementationRegistry {
     private final FilterRegistry filterRegistry;
     private final TypeAdapterRegistry typeAdapterRegistry;
     private final ValidatorRegistry validatorRegistry;
-    private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
     private ErrorMessageFactory errorMessageFactory;
 
@@ -72,7 +68,6 @@ public class ImplementationRegistry {
                                   FilterRegistry filterRegistry,
                                   TypeAdapterRegistry typeAdapterRegistry,
                                   ValidatorRegistry validatorRegistry) {
-        settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
         errorMessageFactory = new DefaultErrorMessageFactory();
 
@@ -102,31 +97,12 @@ public class ImplementationRegistry {
                 .filterInputsBy(filter);
         reflections = new Reflections(config);
 
-        findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
 
         findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
         findValidators().forEach(validatorRegistry::register);
-    }
-
-    /**
-     * Gets the {@link SettingsProvider}.
-     *
-     * @return the {@link SettingsProvider}
-     */
-    public SettingsProvider getSettingsProvider() {
-        return settingsProvider;
-    }
-
-    /**
-     * Sets the {@link SettingsProvider}.
-     *
-     * @param settingsProvider the new {@link SettingsProvider}
-     */
-    public void setSettingsProvider(SettingsProvider settingsProvider) {
-        this.settingsProvider = settingsProvider;
     }
 
     /**
