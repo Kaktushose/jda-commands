@@ -1,14 +1,22 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.ConstraintFilter;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.CooldownFilter;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.DirectMessageFilter;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.PermissionsFilter;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.UserMuteFilter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -19,10 +27,10 @@ import java.util.stream.Collectors;
  * @see Filter
  * @since 2.0.0
  */
-public class FilterRegistry {
+public final class FilterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(FilterRegistry.class);
-    private final List<FilterEntry> filters;
+    private final Map<FilterPosition, Set<Filter>> filters;
 
     /**
      * Constructs a new FilterRegistry. This will register the following {@link Filter Filters} by default:
@@ -35,7 +43,7 @@ public class FilterRegistry {
      * </ul>
      */
     public FilterRegistry() {
-        this.filters = new ArrayList<>();
+        this.filters = new EnumMap<>(FilterPosition.class);
 
         register(new UserMuteFilter(), FilterPosition.BEFORE_ROUTING);
         register(new PermissionsFilter(), FilterPosition.BEFORE_ADAPTING);
@@ -52,7 +60,7 @@ public class FilterRegistry {
      * @param position the {@link FilterPosition FilterPosition} at which the {@link Filter} gets registered
      */
     public void register(@NotNull Filter filter, @NotNull FilterPosition position) {
-        filters.add(new FilterEntry(filter, position));
+        filters.putIfAbsent(position, new HashSet<>()).add(filter);
         log.debug("Registered filter {} for position {}", filter.getClass().getName(), position);
     }
 
@@ -62,8 +70,21 @@ public class FilterRegistry {
      * @param filter the {@link Filter} to unregister
      */
     public void unregister(@NotNull Class<? extends Filter> filter) {
-        filters.removeIf(entry -> filter.isAssignableFrom(filter));
+        filters.keySet().forEach(position -> unregister(filter, position));
         log.debug("Unregistered filter(s) {}", filter.getName());
+    }
+
+    /**
+     * Unregisters all occurrences of the given {@link Filter} with the given {@link FilterPosition}.
+     *
+     * @param filter   the {@link Filter} to unregister
+     * @param position the {@link FilterPosition} to use
+     */
+    public void unregister(Class<? extends Filter> filter, FilterPosition position) {
+        Set<Filter> filterSet = filters.get(position);
+        if (filterSet != null) {
+            filterSet.removeIf(current -> current.getClass().isAssignableFrom(filter));
+        }
     }
 
     /**
@@ -72,8 +93,11 @@ public class FilterRegistry {
      *
      * @return all registered {@link Filter Filters}
      */
-    public List<Filter> getAll() {
-        return Collections.unmodifiableList(filters.stream().map(entry -> entry.filter).collect(Collectors.toList()));
+    public Collection<Filter> getAll() {
+        return filters.values()
+                      .stream()
+                      .flatMap(Set::stream)
+                      .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -82,11 +106,8 @@ public class FilterRegistry {
      * @param position the {@link FilterPosition} to retrieve the {@link Filter Filters} for
      * @return all registered {@link Filter Filters}
      */
-    public List<Filter> getAll(@NotNull FilterPosition position) {
-        return Collections.unmodifiableList(filters.stream()
-                .filter(entry -> entry.position.equals(position))
-                .map(entry -> entry.filter)
-                .collect(Collectors.toList()));
+    public Collection<Filter> getAll(@NotNull FilterPosition position) {
+        return Collections.unmodifiableCollection(filters.get(position));
     }
 
     /**
@@ -94,7 +115,7 @@ public class FilterRegistry {
      *
      * @author Kaktushose
      * @version 2.2.0
-     * @see com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry
+     * @see TypeAdapterRegistry
      * @since 2.0.0
      */
     public enum FilterPosition {
@@ -120,17 +141,6 @@ public class FilterRegistry {
          * Filter will not be executed.
          */
         UNKNOWN
-    }
-
-    private static class FilterEntry {
-
-        private final Filter filter;
-        private final FilterPosition position;
-
-        public FilterEntry(Filter filter, FilterPosition position) {
-            this.filter = filter;
-            this.position = position;
-        }
     }
 
 }
