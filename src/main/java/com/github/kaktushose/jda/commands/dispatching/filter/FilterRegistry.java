@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @see Filter
  * @since 2.0.0
  */
-public final class FilterRegistry {
+public class FilterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(FilterRegistry.class);
     private final Map<FilterPosition, Set<Filter>> filters;
@@ -60,7 +60,8 @@ public final class FilterRegistry {
      * @param position the {@link FilterPosition FilterPosition} at which the {@link Filter} gets registered
      */
     public void register(@NotNull Filter filter, @NotNull FilterPosition position) {
-        filters.putIfAbsent(position, new HashSet<>()).add(filter);
+        filters.putIfAbsent(position, new HashSet<>());
+        filters.get(position).add(filter);
         log.debug("Registered filter {} for position {}", filter.getClass().getName(), position);
     }
 
@@ -88,8 +89,7 @@ public final class FilterRegistry {
     }
 
     /**
-     * Retrieves all available {@link Filter Filters} regardless of their {@link FilterPosition FilterPosition}. This
-     * List might contain duplicates.
+     * Retrieves all available {@link Filter Filters} regardless of their {@link FilterPosition FilterPosition}.
      *
      * @return all registered {@link Filter Filters}
      */
@@ -142,5 +142,4 @@ public final class FilterRegistry {
          */
         UNKNOWN
     }
-
 }
