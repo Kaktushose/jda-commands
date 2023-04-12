@@ -18,18 +18,11 @@ import java.lang.annotation.Target;
 public @interface Interaction {
 
     /**
-     * Returns the base label for slash commands.
+     * Returns the base name for slash commands.
      *
-     * @return the base label for slash commands
+     * @return the base name for slash commands
      */
     String value() default "";
-
-    /**
-     * Returns the category of the slash command.
-     *
-     * @return the category of the slash command
-     */
-    String category() default "Other";
 
     /**
      * Returns whether this interaction is active and thus can be executed or not

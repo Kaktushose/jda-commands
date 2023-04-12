@@ -62,9 +62,10 @@ public @interface SlashCommand {
     boolean isActive() default true;
 
     /**
-     * Returns whether this command should send ephemeral replies by default. This only affects slash commands.
+     * Returns whether this command should send ephemeral replies by default. Note that {@link Interaction#ephemeral()}
+     * set to {@code true} will override this value.
      *
-     * @return {@code true} if this command is available to everyone by default
+     * @return {@code true} if this command should send ephemeral replies
      */
     boolean ephemeral() default false;
 

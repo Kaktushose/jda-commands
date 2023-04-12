@@ -91,9 +91,12 @@ public class ControllerDefinition {
 
                 // add controller level permissions
                 commandDefinition.getPermissions().addAll(permissions);
-
                 if (commandDefinition.getCooldown().getDelay() == 0) {
                     commandDefinition.getCooldown().set(cooldown);
+                }
+
+                if (interaction.ephemeral()) {
+                    commandDefinition.setEphemeral(true);
                 }
 
                 commands.add(commandDefinition);
