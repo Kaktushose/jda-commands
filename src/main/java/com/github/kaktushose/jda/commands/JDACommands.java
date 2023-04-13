@@ -10,6 +10,8 @@ import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpda
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -51,7 +53,7 @@ public class JDACommands {
         updater = null;
     }
 
-    private JDACommands(Object jda, Class<?> clazz, String... packages) {
+    private JDACommands(Object jda, Class<?> clazz, LocalizationFunction function, String... packages) {
         log.info("Starting JDA-Commands...");
 
         if (isActive) {
@@ -65,13 +67,13 @@ public class JDACommands {
         filterRegistry = new FilterRegistry();
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
-        interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector);
         implementationRegistry = new ImplementationRegistry(
                 dependencyInjector,
                 filterRegistry,
                 adapterRegistry,
                 validatorRegistry
         );
+        interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
         dispatcherSupervisor = new DispatcherSupervisor(this);
         parserSupervisor = new ParserSupervisor(dispatcherSupervisor);
@@ -99,7 +101,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, packages);
+        return new JDACommands(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), packages);
     }
 
     /**
@@ -111,7 +113,33 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, packages);
+        return new JDACommands(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
+     * @param function the {@link LocalizationFunction} to use
+     * @param packages package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
+        return new JDACommands(jda, clazz, function, packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param shardManager the corresponding {@link ShardManager} instance
+     * @param clazz        a class of the classpath to scan
+     * @param function the {@link LocalizationFunction} to use
+     * @param packages     package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
+        return new JDACommands(shardManager, clazz, function, packages);
     }
 
     /**

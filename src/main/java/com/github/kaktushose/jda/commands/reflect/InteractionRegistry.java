@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -31,6 +32,7 @@ public class InteractionRegistry {
     private final static Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
+    private final LocalizationFunction localizationFunction;
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
@@ -38,12 +40,16 @@ public class InteractionRegistry {
     /**
      * Constructs a new CommandRegistry.
      *
-     * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
-     * @param dependencyInjector the corresponding {@link DependencyInjector}
+     * @param validatorRegistry    the corresponding {@link ValidatorRegistry}
+     * @param dependencyInjector   the corresponding {@link DependencyInjector}
+     * @param localizationFunction the {@link LocalizationFunction} to use
      */
-    public InteractionRegistry(@NotNull ValidatorRegistry validatorRegistry, @NotNull DependencyInjector dependencyInjector) {
+    public InteractionRegistry(@NotNull ValidatorRegistry validatorRegistry,
+                               @NotNull DependencyInjector dependencyInjector,
+                               @NotNull LocalizationFunction localizationFunction) {
         this.validatorRegistry = validatorRegistry;
         this.dependencyInjector = dependencyInjector;
+        this.localizationFunction = localizationFunction;
         controllers = new HashSet<>();
         commands = new HashSet<>();
         buttons = new HashSet<>();
@@ -74,7 +80,12 @@ public class InteractionRegistry {
         for (Class<?> aClass : controllerSet) {
             log.debug("Found controller {}", aClass.getName());
 
-            Optional<ControllerDefinition> optional = ControllerDefinition.build(aClass, validatorRegistry, dependencyInjector);
+            Optional<ControllerDefinition> optional = ControllerDefinition.build(
+                    aClass,
+                    validatorRegistry,
+                    dependencyInjector,
+                    localizationFunction
+                    );
 
             if (!optional.isPresent()) {
                 log.warn("Unable to index the controller!");

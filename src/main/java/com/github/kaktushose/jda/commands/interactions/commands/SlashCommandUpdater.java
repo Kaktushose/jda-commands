@@ -83,10 +83,8 @@ public class SlashCommandUpdater {
                 return;
             }
             guild.updateCommands().addCommands(commandDataSet).queue();
+            log.debug("Done!");
         });
-
-        jdaContext.performTask(jda -> jda.updateCommands().addCommands(tree.getCommands()).queue());
-        log.debug("Done!");
     }
 
     /**

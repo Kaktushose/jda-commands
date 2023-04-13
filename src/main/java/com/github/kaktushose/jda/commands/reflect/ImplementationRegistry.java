@@ -16,6 +16,8 @@ import com.github.kaktushose.jda.commands.interactions.commands.DefaultGuildScop
 import com.github.kaktushose.jda.commands.interactions.commands.GuildScopeProvider;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -38,6 +40,7 @@ import java.util.*;
  *     <li>{@link PermissionsProvider}</li>
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link GuildScopeProvider}</li>
+ *     <li>{@link LocalizationFunction}</li>
  *     <li>{@link TypeAdapter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
@@ -59,6 +62,7 @@ public class ImplementationRegistry {
     private PermissionsProvider permissionsProvider;
     private ErrorMessageFactory errorMessageFactory;
     private GuildScopeProvider guildScopeProvider;
+    private LocalizationFunction localizationFunction;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -75,6 +79,7 @@ public class ImplementationRegistry {
         permissionsProvider = new DefaultPermissionsProvider();
         errorMessageFactory = new DefaultErrorMessageFactory();
         guildScopeProvider = new DefaultGuildScopeProvider();
+        localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
         this.dependencyInjector = dependencyInjector;
         this.filterRegistry = filterRegistry;
@@ -104,6 +109,7 @@ public class ImplementationRegistry {
 
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
+        findImplementation(LocalizationFunction.class).ifPresent(this::setLocalizationFunction);
 
         findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
@@ -163,6 +169,24 @@ public class ImplementationRegistry {
      */
     public void setGuildScopeProvider(GuildScopeProvider guildScopeProvider) {
         this.guildScopeProvider = guildScopeProvider;
+    }
+
+    /**
+     * Gets the {@link LocalizationFunction}.
+     *
+     * @return the {@link LocalizationFunction}
+     */
+    public LocalizationFunction getLocalizationFunction() {
+        return localizationFunction;
+    }
+
+    /**
+     * Sets the {@link LocalizationFunction}
+     *
+     * @param localizationFunction the new {@link LocalizationFunction}
+     */
+    public void setLocalizationFunction(LocalizationFunction localizationFunction) {
+        this.localizationFunction = localizationFunction;
     }
 
     @SuppressWarnings("unchecked")

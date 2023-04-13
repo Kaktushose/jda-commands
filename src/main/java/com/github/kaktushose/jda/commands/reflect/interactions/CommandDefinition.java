@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -37,6 +38,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final CooldownDefinition cooldown;
     private final boolean isGuildOnly;
     private final SlashCommand.CommandScope scope;
+    private final LocalizationFunction localizationFunction;
 
     protected CommandDefinition(Method method,
                                 boolean ephemeral,
@@ -47,7 +49,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                                 Set<net.dv8tion.jda.api.Permission> enabledPermissions,
                                 CooldownDefinition cooldown,
                                 boolean isGuildOnly,
-                                SlashCommand.CommandScope scope) {
+                                SlashCommand.CommandScope scope, LocalizationFunction localizationFunction) {
         super(method, ephemeral);
         this.name = name;
         this.description = description;
@@ -57,18 +59,21 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         this.cooldown = cooldown;
         this.isGuildOnly = isGuildOnly;
         this.scope = scope;
+        this.localizationFunction = localizationFunction;
     }
 
 
     /**
      * Builds a new CommandDefinition.
      *
-     * @param method            the {@link Method} of the command
-     * @param validatorRegistry the corresponding {@link ValidatorRegistry}
+     * @param method               the {@link Method} of the command
+     * @param validatorRegistry    the corresponding {@link ValidatorRegistry}
+     * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the CommandDefinition
      */
     public static Optional<CommandDefinition> build(@NotNull Method method,
-                                                    @NotNull ValidatorRegistry validatorRegistry) {
+                                                    @NotNull ValidatorRegistry validatorRegistry,
+                                                    @NotNull LocalizationFunction localizationFunction) {
 
         if (!method.isAnnotationPresent(SlashCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
@@ -147,7 +152,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 enabledFor,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isGuildOnly(),
-                command.scope()));
+                command.scope(),
+                localizationFunction));
     }
 
     private static void logError(String message, Method commandMethod) {
@@ -167,8 +173,9 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 name,
                 description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(isGuildOnly);
-        command.setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
+        command.setGuildOnly(isGuildOnly)
+                .setLocalizationFunction(localizationFunction)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         parameters.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;

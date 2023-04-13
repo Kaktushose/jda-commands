@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +41,16 @@ public class ControllerDefinition {
     /**
      * Builds a new ControllerDefinition.
      *
-     * @param controllerClass    the {@link Class} of the controller
-     * @param validatorRegistry  the corresponding {@link ValidatorRegistry}
-     * @param dependencyInjector the corresponding {@link DependencyInjector}
+     * @param controllerClass      the {@link Class} of the controller
+     * @param validatorRegistry    the corresponding {@link ValidatorRegistry}
+     * @param dependencyInjector   the corresponding {@link DependencyInjector}
+     * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the ControllerDefinition
      */
     public static Optional<ControllerDefinition> build(@NotNull Class<?> controllerClass,
                                                        @NotNull ValidatorRegistry validatorRegistry,
-                                                       @NotNull DependencyInjector dependencyInjector) {
+                                                       @NotNull DependencyInjector dependencyInjector,
+                                                       @NotNull LocalizationFunction localizationFunction) {
         Interaction interaction = controllerClass.getAnnotation(Interaction.class);
 
         if (!interaction.isActive()) {
@@ -83,7 +86,7 @@ public class ControllerDefinition {
         for (Method method : controllerClass.getDeclaredMethods()) {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
-                Optional<CommandDefinition> optional = CommandDefinition.build(method, validatorRegistry);
+                Optional<CommandDefinition> optional = CommandDefinition.build(method, validatorRegistry, localizationFunction);
                 if (optional.isEmpty()) {
                     continue;
                 }
