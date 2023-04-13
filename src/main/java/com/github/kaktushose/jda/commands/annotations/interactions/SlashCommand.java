@@ -62,6 +62,13 @@ public @interface SlashCommand {
     boolean isActive() default true;
 
     /**
+     * Returns whether this command can only be executed in NSFW channels.
+     *
+     * @return {@code true} if this command can only be executed in NSFW channels
+     */
+    boolean isNSFW() default false;
+
+    /**
      * Returns whether this command should send ephemeral replies by default. Note that {@link Interaction#ephemeral()}
      * set to {@code true} will override this value.
      *

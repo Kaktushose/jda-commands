@@ -37,6 +37,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final Set<net.dv8tion.jda.api.Permission> enabledPermissions;
     private final CooldownDefinition cooldown;
     private final boolean isGuildOnly;
+    private final boolean isNSFW;
     private final SlashCommand.CommandScope scope;
     private final LocalizationFunction localizationFunction;
 
@@ -49,6 +50,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                                 Set<net.dv8tion.jda.api.Permission> enabledPermissions,
                                 CooldownDefinition cooldown,
                                 boolean isGuildOnly,
+                                boolean isNSFW,
                                 SlashCommand.CommandScope scope, LocalizationFunction localizationFunction) {
         super(method, ephemeral);
         this.name = name;
@@ -58,6 +60,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         this.enabledPermissions = enabledPermissions;
         this.cooldown = cooldown;
         this.isGuildOnly = isGuildOnly;
+        this.isNSFW = isNSFW;
         this.scope = scope;
         this.localizationFunction = localizationFunction;
     }
@@ -152,6 +155,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 enabledFor,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isGuildOnly(),
+                command.isNSFW(),
                 command.scope(),
                 localizationFunction));
     }
@@ -174,6 +178,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 description.replaceAll("N/A", "no description")
         );
         command.setGuildOnly(isGuildOnly)
+                .setNSFW(isNSFW)
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         parameters.forEach(parameter -> {
@@ -287,6 +292,15 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      */
     public boolean isGuildOnly() {
         return isGuildOnly;
+    }
+
+    /**
+     * Whether this command can only be executed in NSFW channels.
+     *
+     * @return {@code true} if this command can only be executed in NSFW channels
+     */
+    public boolean isNSFW() {
+        return isNSFW;
     }
 
     /**
