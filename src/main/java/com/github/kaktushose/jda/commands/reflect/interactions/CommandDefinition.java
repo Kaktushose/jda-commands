@@ -36,6 +36,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final Set<net.dv8tion.jda.api.Permission> enabledPermissions;
     private final CooldownDefinition cooldown;
     private final boolean isGuildOnly;
+    private final SlashCommand.CommandScope scope;
 
     protected CommandDefinition(Method method,
                                 boolean ephemeral,
@@ -45,7 +46,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                                 Set<String> permissions,
                                 Set<net.dv8tion.jda.api.Permission> enabledPermissions,
                                 CooldownDefinition cooldown,
-                                boolean isGuildOnly) {
+                                boolean isGuildOnly,
+                                SlashCommand.CommandScope scope) {
         super(method, ephemeral);
         this.name = name;
         this.description = description;
@@ -54,6 +56,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         this.enabledPermissions = enabledPermissions;
         this.cooldown = cooldown;
         this.isGuildOnly = isGuildOnly;
+        this.scope = scope;
     }
 
 
@@ -143,8 +146,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
                 permissions,
                 enabledFor,
                 CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
-                command.isGuildOnly()
-        ));
+                command.isGuildOnly(),
+                command.scope()));
     }
 
     private static void logError(String message, Method commandMethod) {
@@ -277,6 +280,15 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      */
     public boolean isGuildOnly() {
         return isGuildOnly;
+    }
+
+    /**
+     * Gets the {@link SlashCommand.CommandScope CommandScope} of this command.
+     *
+     * @return the {@link SlashCommand.CommandScope CommandScope} of this command
+     */
+    public SlashCommand.CommandScope getCommandScope() {
+        return scope;
     }
 
     /**

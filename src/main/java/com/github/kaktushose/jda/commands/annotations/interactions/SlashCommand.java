@@ -79,4 +79,26 @@ public @interface SlashCommand {
      * @return a set of permissions this command will be enabled for by default
      */
     Permission[] enabledFor() default Permission.UNKNOWN;
+
+    /**
+     * Returns whether this command should be registered as a global or as a guild command.
+     *
+     * @see CommandScope
+     * @return whether this command should be registered as a global or as a guild command
+     */
+    CommandScope scope() default CommandScope.GLOBAL;
+
+    /**
+     * Enum describing the two possible scopes a command can be registered for.
+     *
+     * @author Kaktushose
+     * @version 4.0.0
+     * @see SlashCommand#scope()
+     * @since 4.0.0
+     */
+    enum CommandScope {
+        GUILD,
+        GLOBAL
+    }
+
 }

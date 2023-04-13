@@ -12,6 +12,8 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.interactions.commands.DefaultGuildScopeProvider;
+import com.github.kaktushose.jda.commands.interactions.commands.GuildScopeProvider;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import org.jetbrains.annotations.NotNull;
@@ -35,13 +37,14 @@ import java.util.*;
  * <ul>
  *     <li>{@link PermissionsProvider}</li>
  *     <li>{@link ErrorMessageFactory}</li>
+ *     <li>{@link GuildScopeProvider}</li>
  *     <li>{@link TypeAdapter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
  * </ul>
  *
  * @author Kaktushose
- * @version 2.2.0
+ * @version 4.0.0
  * @see Component
  * @since 2.0.0
  */
@@ -55,6 +58,7 @@ public class ImplementationRegistry {
     private final ValidatorRegistry validatorRegistry;
     private PermissionsProvider permissionsProvider;
     private ErrorMessageFactory errorMessageFactory;
+    private GuildScopeProvider guildScopeProvider;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -70,6 +74,7 @@ public class ImplementationRegistry {
                                   ValidatorRegistry validatorRegistry) {
         permissionsProvider = new DefaultPermissionsProvider();
         errorMessageFactory = new DefaultErrorMessageFactory();
+        guildScopeProvider = new DefaultGuildScopeProvider();
 
         this.dependencyInjector = dependencyInjector;
         this.filterRegistry = filterRegistry;
@@ -139,6 +144,25 @@ public class ImplementationRegistry {
      */
     public void setErrorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = errorMessageFactory;
+    }
+
+    /**
+     * Gets the {@link GuildScopeProvider}.
+     *
+     * @return the {@link GuildScopeProvider}
+     */
+    public GuildScopeProvider getGuildScopeProvider() {
+        return guildScopeProvider;
+    }
+
+
+    /**
+     * Sets the {@link GuildScopeProvider}
+     *
+     * @param guildScopeProvider the new {@link GuildScopeProvider}
+     */
+    public void setGuildScopeProvider(GuildScopeProvider guildScopeProvider) {
+        this.guildScopeProvider = guildScopeProvider;
     }
 
     @SuppressWarnings("unchecked")

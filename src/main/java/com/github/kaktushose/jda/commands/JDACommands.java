@@ -7,8 +7,8 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -66,7 +66,6 @@ public class JDACommands {
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
         interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector);
-        updater = new SlashCommandUpdater(jdaContext);
         implementationRegistry = new ImplementationRegistry(
                 dependencyInjector,
                 filterRegistry,
@@ -83,7 +82,8 @@ public class JDACommands {
 
         dependencyInjector.inject();
 
-        updater.update(interactionRegistry.getCommands());
+        updater = new SlashCommandUpdater(this, interactionRegistry.getCommands());
+        updater.updateAllCommands();
         jdaContext.performTask(it -> it.addEventListener(parserSupervisor));
 
         isActive = true;
@@ -130,6 +130,18 @@ public class JDACommands {
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor));
         isActive = false;
+    }
+
+    /**
+     * Updates all slash commands that are registered with
+     * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
+     * CommandScope#Guild}
+     *
+     * @return this instance
+     */
+    public JDACommands updateGuildCommands() {
+        updater.updateGuildCommands();
+        return this;
     }
 
     /**

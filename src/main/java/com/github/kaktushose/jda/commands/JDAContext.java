@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * work with an {@link JDA} object.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @since 2.3.0
  */
 public class JDAContext {
@@ -45,27 +45,10 @@ public class JDAContext {
     }
 
     /**
-     * Gets an JDA instance. Either one from the {@link ShardManager} or the one used to construct this Context.
-     *
-     * @return the JDA instance.
-     * @throws IllegalStateException if the ShardManager has no active JDA instances, this might only happen during startup
-     */
-    public JDA getJda() throws IllegalStateException {
-        if (jda instanceof ShardManager) {
-            return ((ShardManager) jda).getShardCache().stream().findAny().orElseThrow(() -> new IllegalStateException("Shard cache is empty!"));
-        } else if (jda instanceof JDA) {
-            return (JDA) jda;
-        } else {
-            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
-        }
-    }
-
-    /**
      * Gets the JDA instance as an Object. This can either be {@link JDA} or a {@link ShardManager}.
      * Use {@link #isShardManager()} to distinguish.
      *
      * @return the JDA instance.
-     * @deprecated
      */
     public Object getJDAObject() {
         return jda;
