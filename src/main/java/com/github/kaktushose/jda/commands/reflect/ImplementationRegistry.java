@@ -104,6 +104,7 @@ public class ImplementationRegistry {
 
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
+        findImplementation(GuildScopeProvider.class).ifPresent(this::setGuildScopeProvider);
 
         findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);

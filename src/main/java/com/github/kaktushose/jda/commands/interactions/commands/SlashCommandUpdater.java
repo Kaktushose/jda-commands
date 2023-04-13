@@ -69,6 +69,8 @@ public class SlashCommandUpdater {
             Set<Long> guildIds = guildScopeProvider.getGuildsForCommand(SlashCommandData.fromData(command.toData()));
             if (guildIds.isEmpty()) {
                 log.debug("No guilds provided for command {}", command.getName());
+            } else {
+                log.debug("Using guilds {} for command {}", guildIds, command.getName());
             }
             guildIds.forEach(id -> {
                 guildMapping.putIfAbsent(id, new HashSet<>());
@@ -76,15 +78,11 @@ public class SlashCommandUpdater {
             });
         }
 
-        guildMapping.forEach((id, commandDataSet) -> {
-            Guild guild = jdaContext.getGuildCache().getElementById(id);
-            if (guild == null) {
-                log.debug("No guilds with id {} found", id);
-                return;
-            }
-            guild.updateCommands().addCommands(commandDataSet).queue();
+        for (Guild guild : jdaContext.getGuildCache()) {
+            Set<CommandData> commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
+            guild.updateCommands().addCommands(commands).queue();
             log.debug("Done!");
-        });
+        }
     }
 
     /**
