@@ -21,7 +21,8 @@ public class ReplyContext {
     public ReplyContext(CommandContext context) {
         event = context.getEvent();
         builder = new MessageCreateBuilder();
-        consumer = (message) -> {};
+        consumer = (message) -> {
+        };
         editReply = true;
         clearComponents = false;
         ephemeralReply = context.isEphemeral();

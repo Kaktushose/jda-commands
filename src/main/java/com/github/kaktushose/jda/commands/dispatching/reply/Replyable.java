@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
-import com.github.kaktushose.jda.commands.interactions.components.Buttons;
-import com.github.kaktushose.jda.commands.interactions.components.Component;
+import com.github.kaktushose.jda.commands.data.EmbedDTO;
+import com.github.kaktushose.jda.commands.components.Buttons;
+import com.github.kaktushose.jda.commands.components.Component;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -28,8 +28,8 @@ public interface Replyable {
      * @param message the message to send
      */
     default void reply(@NotNull String message) {
-       getReplyContext().getBuilder().setContent(message);
-       reply();
+        getReplyContext().getBuilder().setContent(message);
+        reply();
     }
 
     /**
@@ -54,7 +54,7 @@ public interface Replyable {
      * @param message the {@code Message} to send
      */
     default void reply(@NotNull MessageCreateData message) {
-       getReplyContext().getBuilder().applyData(message);
+        getReplyContext().getBuilder().applyData(message);
         reply();
     }
 

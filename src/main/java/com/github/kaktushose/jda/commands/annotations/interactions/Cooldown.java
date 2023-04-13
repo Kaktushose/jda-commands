@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.annotations;
+package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

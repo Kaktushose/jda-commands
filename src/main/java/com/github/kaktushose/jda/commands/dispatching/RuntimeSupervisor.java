@@ -30,7 +30,7 @@ public class RuntimeSupervisor {
         InteractionRuntime runtime = new InteractionRuntime(id, instance);
 
         runtimes.put(id, runtime);
-        executor.schedule(() ->  runtimes.remove(id), 15, TimeUnit.MINUTES);
+        executor.schedule(() -> runtimes.remove(id), 15, TimeUnit.MINUTES);
 
         return runtime;
     }

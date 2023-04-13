@@ -42,7 +42,7 @@ public class ButtonDefinition extends EphemeralInteraction {
     /**
      * Builds a new ButtonDefinition.
      *
-     * @param method   the {@link Method} of the button
+     * @param method the {@link Method} of the button
      * @return an {@link Optional} holding the ButtonDefinition
      */
     public static Optional<ButtonDefinition> build(@NotNull Method method) {

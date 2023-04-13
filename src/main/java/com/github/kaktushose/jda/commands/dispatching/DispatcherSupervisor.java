@@ -43,7 +43,7 @@ public class DispatcherSupervisor {
     /**
      * Registers a new {@link GenericDispatcher}.
      *
-     * @param context a subtype of {@link GenericContext}
+     * @param context    a subtype of {@link GenericContext}
      * @param dispatcher the {@link GenericDispatcher} implementation for the event
      */
     public void register(@NotNull Class<? extends GenericContext<? extends GenericInteractionCreateEvent>> context,

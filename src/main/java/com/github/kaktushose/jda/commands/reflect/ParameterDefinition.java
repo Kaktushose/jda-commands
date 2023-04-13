@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect;
 
-import com.github.kaktushose.jda.commands.annotations.Optional;
+import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;

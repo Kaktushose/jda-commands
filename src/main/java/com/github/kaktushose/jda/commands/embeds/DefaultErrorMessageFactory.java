@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.embeds.error;
+package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;

@@ -95,9 +95,9 @@ public class FilterRegistry {
      */
     public Collection<Filter> getAll() {
         return filters.values()
-                      .stream()
-                      .flatMap(Set::stream)
-                      .collect(Collectors.toUnmodifiableSet());
+                .stream()
+                .flatMap(Set::stream)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**

@@ -1,9 +1,8 @@
-package com.github.kaktushose.jda.commands.interactions.commands;
+package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.data.slash.CommandTree;
+import com.github.kaktushose.jda.commands.data.CommandTree;
+import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;

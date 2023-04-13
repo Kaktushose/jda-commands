@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.embeds;
+package com.github.kaktushose.jda.commands.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -81,7 +81,6 @@ public class EmbedCache {
     /**
      * Loads all embeds from a file and stores them. This happens automatically each time you construct a new
      * EmbedCache. Thus, it's <b>not</b> needed to call this method manually, unless you want to reload the embeds.
-     *
      */
     public void loadEmbeds() {
         try {

@@ -19,7 +19,7 @@ public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
     /**
      * Takes a {@link SlashCommandInteractionEvent}, parses and transpiles it into a {@link GenericContext}.
      *
-     * @param event      the {@link SlashCommandInteractionEvent} to parse
+     * @param event       the {@link SlashCommandInteractionEvent} to parse
      * @param jdaCommands the {@link JDACommands} instance
      * @return a new {@link GenericContext}
      */

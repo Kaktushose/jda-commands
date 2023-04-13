@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.interactions.commands;
+package com.github.kaktushose.jda.commands.scope;
 
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 

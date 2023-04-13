@@ -1,7 +1,7 @@
 package parameters;
 
 import com.github.kaktushose.jda.commands.annotations.Concat;
-import com.github.kaktushose.jda.commands.annotations.Optional;
+import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 
 public class ParameterTestController {

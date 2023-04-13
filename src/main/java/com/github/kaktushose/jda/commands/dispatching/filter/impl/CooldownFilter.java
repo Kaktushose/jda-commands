@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
@@ -12,13 +13,13 @@ import java.util.*;
 
 /**
  * A {@link Filter} implementation that contains the business logic behind command cooldowns.
- * If the command isn't annotated with {@link com.github.kaktushose.jda.commands.annotations.Cooldown Cooldown} or more
+ * If the command isn't annotated with {@link Cooldown Cooldown} or more
  * formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
  * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.annotations.Cooldown
+ * @see Cooldown
  * @since 2.0.0
  */
 public class CooldownFilter implements Filter {

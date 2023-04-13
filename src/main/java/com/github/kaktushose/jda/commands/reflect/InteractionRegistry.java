@@ -85,7 +85,7 @@ public class InteractionRegistry {
                     validatorRegistry,
                     dependencyInjector,
                     localizationFunction
-                    );
+            );
 
             if (!optional.isPresent()) {
                 log.warn("Unable to index the controller!");

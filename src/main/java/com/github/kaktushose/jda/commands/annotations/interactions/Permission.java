@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.annotations;
+package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 

@@ -15,7 +15,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
  * @see Replyable
  * @since 1.0.0
  */
-public class ButtonEvent  {
+public class ButtonEvent {
 
 
 }

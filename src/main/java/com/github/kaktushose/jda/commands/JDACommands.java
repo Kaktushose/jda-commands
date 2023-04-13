@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.ParserSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.interactions.commands.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.JDA;
@@ -134,7 +133,7 @@ public class JDACommands {
      *
      * @param shardManager the corresponding {@link ShardManager} instance
      * @param clazz        a class of the classpath to scan
-     * @param function the {@link LocalizationFunction} to use
+     * @param function     the {@link LocalizationFunction} to use
      * @param packages     package(s) to exclusively scan
      * @return a new JDACommands instance
      */

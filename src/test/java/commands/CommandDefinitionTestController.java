@@ -1,6 +1,8 @@
 package commands;
 
-import com.github.kaktushose.jda.commands.annotations.*;
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
+import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 

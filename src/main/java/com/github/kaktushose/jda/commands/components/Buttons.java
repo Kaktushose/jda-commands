@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.interactions.components;
+package com.github.kaktushose.jda.commands.components;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 

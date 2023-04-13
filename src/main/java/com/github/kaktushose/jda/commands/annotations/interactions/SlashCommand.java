@@ -80,18 +80,18 @@ public @interface SlashCommand {
      * Returns an array of {@link net.dv8tion.jda.api.Permission Permissions} this command
      * should be enabled for by default. Note that guild admins can modify this at any time.
      *
-     * @see com.github.kaktushose.jda.commands.annotations.Permission Permission
+     * @return a set of permissions this command will be enabled for by default
+     * @see com.github.kaktushose.jda.commands.annotations.interactions.Permission Permission
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
-     * @return a set of permissions this command will be enabled for by default
      */
     Permission[] enabledFor() default Permission.UNKNOWN;
 
     /**
      * Returns whether this command should be registered as a global or as a guild command.
      *
-     * @see CommandScope
      * @return whether this command should be registered as a global or as a guild command
+     * @see CommandScope
      */
     CommandScope scope() default CommandScope.GLOBAL;
 
