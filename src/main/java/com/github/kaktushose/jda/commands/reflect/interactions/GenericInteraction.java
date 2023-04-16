@@ -50,6 +50,10 @@ public abstract class GenericInteraction {
      * Gets a new instance of the method defining class
      *
      * @return a new instance of the method defining class
+     * @throws InvocationTargetException if the underlying constructor throws an exception
+     * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
+     * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
+     *                                   the underlying constructor is inaccessible
      */
     @NotNull
     public Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {

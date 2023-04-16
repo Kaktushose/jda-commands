@@ -1,22 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.ConstraintFilter;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.CooldownFilter;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.DirectMessageFilter;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.PermissionsFilter;
-import com.github.kaktushose.jda.commands.dispatching.filter.impl.UserMuteFilter;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -122,13 +113,13 @@ public class FilterRegistry {
 
         /**
          * Filter will be executed before command routing. The command will not be present in the
-         * {@link GenericContext}.
+         * {@link CommandContext}.
          */
         BEFORE_ROUTING,
 
         /**
          * Filter will be executed before type adapting. The command will be present in the
-         * {@link GenericContext} but not the type adapted input.
+         * {@link CommandContext} but not the type adapted input.
          */
         BEFORE_ADAPTING,
 

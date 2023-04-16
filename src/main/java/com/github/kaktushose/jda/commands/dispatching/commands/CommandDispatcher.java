@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
@@ -32,16 +31,22 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
     private final RuntimeSupervisor runtimeSupervisor;
 
-    public CommandDispatcher(DispatcherSupervisor dispatcher, RuntimeSupervisor runtimeSupervisor) {
-        super(dispatcher);
+    /**
+     * Constructs a new ButtonDispatcher.
+     *
+     * @param supervisor        the {@link DispatcherSupervisor} which supervises this dispatcher.
+     * @param runtimeSupervisor the corresponding {@link RuntimeSupervisor}
+     */
+    public CommandDispatcher(DispatcherSupervisor supervisor, RuntimeSupervisor runtimeSupervisor) {
+        super(supervisor);
         this.runtimeSupervisor = runtimeSupervisor;
     }
 
     /**
-     * Dispatches a {@link GenericContext}. This will route the command, apply all filters and parse the arguments.
+     * Dispatches a {@link CommandContext}. This will route the command, apply all filters and parse the arguments.
      * Finally, the command will be executed.
      *
-     * @param context the {@link GenericContext} to dispatch.
+     * @param context the {@link CommandContext} to dispatch.
      */
     public void onEvent(CommandContext context) {
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();

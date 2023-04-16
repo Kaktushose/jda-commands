@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 public class CommandParser extends GenericParser<SlashCommandInteractionEvent> {
 
     /**
-     * Takes a {@link SlashCommandInteractionEvent}, parses and transpiles it into a {@link GenericContext}.
+     * Takes a {@link SlashCommandInteractionEvent}, parses and transpiles it into a {@link CommandContext}.
      *
      * @param event       the {@link SlashCommandInteractionEvent} to parse
      * @param jdaCommands the {@link JDACommands} instance
-     * @return a new {@link GenericContext}
+     * @return a new {@link CommandContext}
      */
     @Override
     @NotNull

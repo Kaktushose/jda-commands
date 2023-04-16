@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
+import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -160,21 +160,45 @@ public interface Replyable {
         return this;
     }
 
-    default void setEphemeral(boolean ephemeral) {
+    /**
+     * Whether to send ephemeral replies.
+     *
+     * @param ephemeral {@code true} if replies should be ephemeral
+     * @return the current instance for fluent interface
+     */
+    default Replyable setEphemeral(boolean ephemeral) {
         getReplyContext().setEphemeralReply(ephemeral);
-        reply();
+        return this;
     }
 
-    default void setConsumer(Consumer<Message> success) {
+    /**
+     * Sets the success callback consumer.
+     *
+     * @param success the callback consumer
+     * @return the current instance for fluent interface
+     */
+    default Replyable setConsumer(Consumer<Message> success) {
         getReplyContext().setConsumer(success);
-        reply();
+        return this;
     }
 
+    /**
+     * Whether this reply should edit the existing message or send a new one
+     *
+     * @param edit {@code true} if this reply should edit the existing message
+     * @return the current instance for fluent interface
+     */
     default Replyable editReply(boolean edit) {
         getReplyContext().setEditReply(edit);
         return this;
     }
 
+    /**
+     * Whether this reply should clear all components that are attached to the previous message
+     *
+     * @param clear {@code true} if this reply should clear all components
+     * @return the current instance for fluent interface
+     */
     default Replyable clearComponents(boolean clear) {
         getReplyContext().setClearComponents(clear);
         return this;
@@ -185,9 +209,11 @@ public interface Replyable {
      *
      * @return the {@link ReplyContext}
      */
-    @NotNull
-    ReplyContext getReplyContext();
+    @NotNull ReplyContext getReplyContext();
 
+    /**
+     * Sends a reply with no message content. The main use-case of this method is for editing components of a reply.
+     */
     void reply();
 
 }

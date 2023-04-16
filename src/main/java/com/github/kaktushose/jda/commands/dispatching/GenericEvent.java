@@ -21,13 +21,14 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Bridge between {@link MessageReceivedEvent} and {@link GenericInteractionCreateEvent}. This class contains all
- * methods both events share and extends JDAs {@link Event}. In addition, this class provides the bare minimum needed for
- * a {@link GenericContext} to function.
+ * Extension of JDAs {@link Event} class that combines all common fields of all interaction events. This is the base
+ * class for the different event classes.
  *
  * @author Kaktushose
- * @version 2.3.0
- * @since 2.3.0
+ * @version 4.0.0
+ * @see com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent CommandEvent
+ * @see com.github.kaktushose.jda.commands.dispatching.buttons.ButtonEvent ButtonEvent
+ * @since 4.0.0
  */
 public class GenericEvent extends Event {
 
@@ -55,18 +56,6 @@ public class GenericEvent extends Event {
     protected GenericEvent(GenericEvent event) {
         this(event.getJDA(), event.getResponseNumber(), event.getGuild(), event.getUser(), event.getMember(),
                 event.getChannel(), event.getChannelType(), event.getMessage());
-    }
-
-    /**
-     * Constructs a new {@link GenericEvent} from a {@link MessageReceivedEvent}.
-     *
-     * @param event the {@link MessageReceivedEvent} to construct from
-     * @return a {@link GenericEvent}
-     */
-    @NotNull
-    public static GenericEvent fromEvent(@NotNull MessageReceivedEvent event) {
-        return new GenericEvent(event.getJDA(), event.getResponseNumber(), event.getGuild(),
-                event.getAuthor(), event.getMember(), event.getChannel(), event.getChannelType(), event.getMessage());
     }
 
     /**

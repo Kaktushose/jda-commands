@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of {@link GenericContext} for {@link SlashCommandInteractionEvent}.
+ *
+ * @author Kaktushose
+ * @version 4.0.0
+ * @since 4.0.0
+ */
 public class CommandContext extends GenericContext<SlashCommandInteractionEvent> {
 
     private String[] input;
@@ -94,7 +101,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     }
 
     /**
-     * Gets the {@link CommandDefinition}.
+     * Gets the {@link CommandDefinition}. This will return null until the command got routed.
      *
      * @return the {@link CommandDefinition}
      */

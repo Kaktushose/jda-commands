@@ -1,12 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.components.Buttons;
+import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-import com.github.kaktushose.jda.commands.components.Buttons;
-import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
@@ -36,7 +35,7 @@ public class CommandEvent extends GenericEvent implements Replyable {
      * Constructs a CommandEvent.
      *
      * @param command the underlying {@link CommandDefinition} object
-     * @param context the {@link GenericContext}
+     * @param context the {@link CommandContext}
      */
     public CommandEvent(@NotNull CommandDefinition command, @NotNull CommandContext context) {
         super(GenericEvent.fromEvent(context.getEvent()));
@@ -64,9 +63,9 @@ public class CommandEvent extends GenericEvent implements Replyable {
     }
 
     /**
-     * Get the {@link GenericContext} object.
+     * Get the {@link CommandContext} object.
      *
-     * @return the registered {@link GenericContext} object
+     * @return the registered {@link CommandContext} object
      */
     public CommandContext getCommandContext() {
         return context;

@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
@@ -129,10 +128,10 @@ public class TypeAdapterRegistry {
     }
 
     /**
-     * Takes a {@link GenericContext} and attempts to type adapt the command input to the type specified by the
-     * {@link CommandDefinition}. Cancels the {@link GenericContext} if the type adapting fails.
+     * Takes a {@link CommandContext} and attempts to type adapt the command input to the type specified by the
+     * {@link CommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
      *
-     * @param context the {@link GenericContext} to type adapt
+     * @param context the {@link CommandContext} to type adapt
      */
     public void adapt(@NotNull CommandContext context) {
         CommandDefinition command = Objects.requireNonNull(context.getCommand());
