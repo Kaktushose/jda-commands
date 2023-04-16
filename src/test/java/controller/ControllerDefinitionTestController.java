@@ -3,13 +3,13 @@ package controller;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
 @Interaction(value = "super")
-@Permission("superPermission")
+@Permissions("superPermission")
 @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
 public class ControllerDefinitionTestController {
 
@@ -19,7 +19,7 @@ public class ControllerDefinitionTestController {
     }
 
     @SlashCommand(value = "sub")
-    @Permission("subPermission")
+    @Permissions("subPermission")
     @Cooldown(value = 5, timeUnit = TimeUnit.DAYS)
     public void combine(CommandEvent event) {
 

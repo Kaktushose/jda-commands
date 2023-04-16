@@ -69,7 +69,7 @@ public class CommandDefinitionTestController {
     }
 
     @SlashCommand("o")
-    @Permission("permission")
+    @Permissions("permission")
     public void permission(CommandEvent event) {
 
     }
