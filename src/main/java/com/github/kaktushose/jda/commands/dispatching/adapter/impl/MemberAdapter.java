@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,8 +27,7 @@ public class MemberAdapter implements TypeAdapter<Member> {
      */
     @Override
     public Optional<Member> parse(@NotNull String raw, @NotNull GenericContext context) {
-        Channel channel = context.getEvent().getChannel();
-        if (channel == null) {
+        if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 

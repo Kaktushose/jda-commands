@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.channel.Channel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -27,8 +26,7 @@ public class RoleAdapter implements TypeAdapter<Role> {
      */
     @Override
     public Optional<Role> parse(@NotNull String raw, @NotNull GenericContext context) {
-        Channel channel = context.getEvent().getChannel();
-        if (channel == null) {
+        if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 

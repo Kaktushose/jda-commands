@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,8 +26,7 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
      */
     @Override
     public Optional<TextChannel> parse(@NotNull String raw, @NotNull GenericContext context) {
-        Channel channel = context.getEvent().getChannel();
-        if (channel == null) {
+        if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 
