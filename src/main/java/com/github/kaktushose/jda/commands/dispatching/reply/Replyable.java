@@ -22,6 +22,8 @@ import java.util.function.Consumer;
  */
 public interface Replyable {
 
+    Consumer<Message> EMPTY_CONSUMER = unused -> {};
+
     /**
      * Sends a message to the TextChannel where the button was called.
      *
@@ -29,6 +31,7 @@ public interface Replyable {
      */
     default void reply(@NotNull String message) {
         getReplyContext().getBuilder().setContent(message);
+        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -45,6 +48,7 @@ public interface Replyable {
      */
     default void reply(@NotNull String format, @NotNull Object... args) {
         getReplyContext().getBuilder().setContent(String.format(format, args));
+        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -55,6 +59,7 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message) {
         getReplyContext().getBuilder().applyData(message);
+        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -65,6 +70,7 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder) {
         getReplyContext().getBuilder().setEmbeds(builder.build());
+        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -75,6 +81,7 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
         getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
+        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -177,7 +184,7 @@ public interface Replyable {
      * @param success the callback consumer
      * @return the current instance for fluent interface
      */
-    default Replyable setConsumer(Consumer<Message> success) {
+    private Replyable setConsumer(Consumer<Message> success) {
         getReplyContext().setConsumer(success);
         return this;
     }
