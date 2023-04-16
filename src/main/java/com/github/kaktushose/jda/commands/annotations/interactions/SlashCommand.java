@@ -81,7 +81,7 @@ public @interface SlashCommand {
      * should be enabled for by default. Note that guild admins can modify this at any time.
      *
      * @return a set of permissions this command will be enabled for by default
-     * @see com.github.kaktushose.jda.commands.annotations.interactions.Permission Permission
+     * @see Permissions Permission
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
      */

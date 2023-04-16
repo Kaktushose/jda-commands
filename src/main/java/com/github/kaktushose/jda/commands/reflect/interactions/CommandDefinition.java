@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -91,8 +91,8 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         }
 
         Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permission.class)) {
-            Permission permission = method.getAnnotation(Permission.class);
+        if (method.isAnnotationPresent(Permissions.class)) {
+            Permissions permission = method.getAnnotation(Permissions.class);
             permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 

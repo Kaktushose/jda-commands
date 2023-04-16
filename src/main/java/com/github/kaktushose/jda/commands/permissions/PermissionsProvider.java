@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.permissions;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Kaktushose
  * @version 2.3.0
  * @see DefaultPermissionsProvider
- * @see Permission Permission
+ * @see Permissions Permission
  * @since 2.0.0
  */
 public interface PermissionsProvider {

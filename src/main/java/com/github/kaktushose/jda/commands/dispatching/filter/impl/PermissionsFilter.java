@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see Permission
+ * @see Permissions
  * @see PermissionsProvider
  * @since 2.0.0
  */

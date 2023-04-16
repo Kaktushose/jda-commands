@@ -67,8 +67,8 @@ public class ControllerDefinition {
 
         Set<String> permissions = new HashSet<>();
         // index controller level permissions
-        if (controllerClass.isAnnotationPresent(Permission.class)) {
-            Permission permission = controllerClass.getAnnotation(Permission.class);
+        if (controllerClass.isAnnotationPresent(Permissions.class)) {
+            Permissions permission = controllerClass.getAnnotation(Permissions.class);
             permissions = Arrays.stream(permission.value()).collect(Collectors.toSet());
         }
 

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Permission {
+public @interface Permissions {
 
     /**
      * Returns a String array of all required permissions.
