@@ -1,28 +1,58 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-4.4.0__352-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-2.2.0-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.0.0--beta.8-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![Generic badge](https://img.shields.io/badge/Download-4.0.0--alpha.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://www.codacy.com/manual/Kaktushose/jda-commands?utm_source=github.com&utm_medium=referral&utm_content=Kaktushose/jda-commands&utm_campaign=Badge_Grade)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
-[![migration-shield](https://img.shields.io/badge/Wiki-Migrating%20to%20V2-green.svg)](https://github.com/Kaktushose/jda-commands/wiki/Migration)
+[![migration-shield](https://img.shields.io/badge/Wiki-Migrating%20to%20V4-green.svg)](https://github.com/Kaktushose/jda-commands/wiki/Migration)
 
 # JDA-Commands
 
-An extendable, declarative and annotation driven command framework for [JDA](https://github.com/DV8FromTheWorld/JDA).
+A lightweight, easy-to-use command framework for building Discord bots with [JDA](https://github.com/DV8FromTheWorld/JDA) with full support for interactions. JDA-Commands goal is to remove any boilerplate code, so you can focus solely on the business logic of your bot - writing bots has never been easier!
 
-## Example
+### Version Overview
 
-The following example will demonstrate how easy it is to write a command:
+| jda-commands | JDA  | Text Commands | Interactions | Stable |
+|-----------------------------------------------------------------------------|-|--|---|---|
+| [4.0.0-alpha.1](https://github.com/Kaktushose/jda-commands/releases/latest) |5|❌|✅|❌|
+| [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)     |5|✅|❌|✅|
+| [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)    |4|✅|❌|✅|
+
+## Features
+
+- Simple and intuitive syntax following an annotation-driven and declarative style
+
+- Built-in support for slash commands, components, context menus and modals
+
+- Type adapting of parameters
+
+- Expandable execution chain including type adapters, filters, permissions and constraints 
+
+- Built-in support for ephemeral replies, permissions, localization
+
+---
+
+The following example will demonstrate how easy it is to write commands:
+
+Let's rebuild the official slash commands example from the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) using jda-commands: 
 
 ```java
-@CommandController
-@Permission("BAN_MEMBERS")
-public class BanCommand {
+@Interaction
+public class SlashCommandExample {
 
-    @Command(value="ban", name="Ban Member", usage="{prefix}ban @Member", category="Moderation")
-    public void ban(CommandEvent event, @NotRole("admin") Member member, @Max(7) int delDays, @Optional @Concat String reason) {
-      event.getGuild().ban(member, delDays).queue();
-      event.reply("%s got banned for reason %s", member.getAsMention(), reason);
+    @SlashCommand(value = "ping", desc = "Calculate ping of the bot")
+    public void onPing(CommandEvent event) {
+        long time = System.currentTimeMillis();
+        event.reply("Pong!", success -> event.reply("Pong: %d ms", System.currentTimeMillis() - time));
+    }
+
+    @Permissions("BAN_MEMBERS")
+    @SlashCommand(value = "ban", enabledFor = Permission.BAN_MEMBERS, desc = "Bans a user", ephemeral=true)
+    public void onBan(CommandEvent event, @Param("The member to ban") Member target, @Param("The ban reason") String reason) {
+        event.getGuild().ban(target, 0, TimeUnit.SECONDS).reason(reason).queue(
+                success -> event.reply("**%s** was banned by **%s**", target.getAsMention(), event.getUser().getAsMention()),
+                error -> event.reply("Some error occurred, try again!")
+        );
     }
 }
 ```
@@ -30,25 +60,29 @@ public class BanCommand {
 Finally, start the framework by calling:
 
 ```java
-JDACommands.start(jda, Main.class);
+JDACommands.start(jda, Main.class, "com.package");
 ```
 
 ---
 
-JDA-Commandas also comes in with auto-generated, "plug and play" help messages:
-
-![embeds](https://cdn.discordapp.com/attachments/545967082253189121/938870552435757066/Untitled.png)
-
-## Features
-
-As shown in the example, JDA-Commands makes it possible to focus only on the business logic inside your command classes.
-All other chores like permission checks, argument parsing and validation, cooldowns, etc. are dealt with on the site of
-the framework.
-
-Utility classes and methods for help and error messages, documentation, internationalization, embed generation, etc.
-further improve the workflow when writing bots.
-
 You can find a detailed list of all features down below _(click on the ▶ for details)_:
+
+### Execution
+
+<details>
+<summary>Request-scoped Instances</summary>
+
+For every command execution a new instance of the controller class is created. Subsequent executions of components are executed in the same instance. 
+This allows you to store stateful objects, like the target of a ban command, _inside_ the controller class.
+
+</details>
+
+<details>
+<summary>Private Channel Support</summary>
+
+If enabled, commands can also be executed in direct messages.
+
+</details>
 
 ### Parameters
 
@@ -71,51 +105,13 @@ will be sent automatically. You can also define your own constraints.
 
 </details>
 
-### Routing
-
-<details>
-<summary>Levenshtein Distance</summary>
-
-The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or
-substitutions) required to change one word into the other. For instance, the input `tpyo` will match the command
-label `typo`.
-
-</details>
-
-<details>
-<summary>Label Shortening</summary>
-
-Label shortening can be compared to the auto complete feature of a terminal. For instance, the command label `foo` will
-also match the input
-`f` or `fo` as long as only one command that starts with `f` (or respectively `fo`) exists. This also works for sub
-command labels.
-
-</details>
-
-<details>
-<summary>Quote Parsing</summary>
-
-Normally arguments are split at every empty space. This makes it impossible to pass one argument that contains several
-words. In order to fix this issue, the default event parser can parse quotes. In other words: The
-input `label "arg0 arg1" arg2` will be parsed to `[label, arg0 arg1, arg2]` instead of `[label, "arg0, arg1", arg2]`.
-
-</details>
-
-<details>
-<summary>Private Channel Support</summary>
-
-If enabled, commands can also be called by sending a private message to the Bot.
-
-</details>
-
 ### Constraints
 
 <details>
 <summary>Permissions System</summary>
 
-The permission system supports both using discord permissions and custom permissions. By default, you can use all
-permissions defined inside
-JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
+Besides the default permissions system of slash commands, this framework comes in with an own system, supporting both discord and custom permissions. By default, you can use all
+permissions defined inside JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
 permission validator, you can use custom permission strings and bind permissions to certain roles or members.
 
 </details>
@@ -138,37 +134,18 @@ Commands can have a per-user cooldown to rate limit the execution of commands.
 ### Misc
 
 <details>
-<summary>Guild Settings</summary>
+<summary>Error Messages</summary>
 
-Settings, such as the prefix, ignore case or muted channels, are available on a per-guild level. By default, all settings apply
-globally.
-
-</details>
-
-<details>
-<summary>Help & Error Messages</summary>
-
-The `@Command` annotation has additional attributes to document commands. These attributes are used to automatically
-create Help Embeds. Furthermore, there are default Error Embeds for all validation systems of this framework. (Parameter
-Constraints, Permissions, etc.)
-
-![embed default help](https://cdn.discordapp.com/attachments/545967082253189121/934774943261028362/unknown.png)
-
-![embed specific help](https://cdn.discordapp.com/attachments/545967082253189121/934775332530184283/unknown.png)
+There are default error embeds for all validation systems of this framework, i.e. parameter constraints, permissions, etc.
 
 </details>
 
 <details>
-<summary>Documentation</summary>
+<summary>Localization</summary>
 
-It's possible to generate command documentation in markdown format. A GitHub Action as well as html output for this is also planned.
+This framework supports the use of JDAs [LocalizationFunction](https://ci.dv8tion.net/job/JDA5/javadoc/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html) for localizing slash commands.
 
-</details>
-
-<details>
-<summary>Internationalization</summary>
-
-This framework and all the output it generates are in English. However, you can easily change the language. All embeds
+Furthermore, you can adapt the auto generated bot responses. All embeds
 sent can also be loaded from a json file, which uses placeholders. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
 
 </details>
@@ -186,13 +163,6 @@ don't have to recompile the whole project if you find one typo inside your embed
 
 This framework has a basic implementation of dependency injection, since you don't construct your command classes on
 your own.
-
-</details>
-
-<details>
-<summary>Persistence</summary>
-
-This framework has builtin classes to store settings as json.
 
 </details>
 
@@ -221,7 +191,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 
 ```xml
 <dependency>
-    <groupId>com.github.Kaktushose</groupId>
+    <groupId>com.github.kaktushose</groupId>
     <artifactId>jda-commands</artifactId>
     <version>VERSION</version>
 </dependency>
@@ -240,7 +210,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.Kaktushose:jda-commands:VERSION'
+    implementation 'com.github.kaktushose:jda-commands:VERSION'
 }
 ```
 
@@ -249,26 +219,4 @@ dependencies {
 If you think that something is missing, and you want to add it yourself, feel free to open a pull request. Please try to
 keep your code quality as good as mine and stick to the core concepts of this framework.
 
-Special thanks to all contributors:
-
-[![Contributors Display](https://badges.pufler.dev/contributors/kaktushose/jda-commands?size=50&padding=5&bots=false)](https://github.com/Kaktushose/jda-commands/graphs/contributors)
-
-## Dependencies
-
-The following dependencies were used to build this framework:
-
-- JDA
-  - Version: 4.4.0_352
-  - [Github](https://github.com/DV8FromTheWorld/JDA)
-- Reflections
-  - Version: 0.9.10
-  - [Github](https://github.com/ronmamo/reflections)
-- Gson
-  - Version: 2.8.6
-  - [Github](https://github.com/google/gson)
-- slf4j-api
-  - Version: 1.7.30
-  - [Website](http://www.slf4j.org/)
-- markdowngenerator
-  - Version: 1.3.2
-  - [Github](https://github.com/Steppschuh/Java-Markdown-Generator)
+Special thanks to all contributors <3
