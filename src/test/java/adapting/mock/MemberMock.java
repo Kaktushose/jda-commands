@@ -4,6 +4,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.attribute.IPermissionContainer;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.unions.DefaultGuildChannelUnion;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
@@ -47,11 +50,11 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
-    public EnumSet<Permission> getPermissions(@NotNull GuildChannel guildChannel) {
+    public EnumSet<Permission> getPermissions(@NotNull GuildChannel channel) {
         return null;
     }
 
-    @NotNull
+
     @Override
     public EnumSet<Permission> getPermissionsExplicit() {
         return null;
@@ -59,9 +62,10 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
-    public EnumSet<Permission> getPermissionsExplicit(@NotNull GuildChannel guildChannel) {
+    public EnumSet<Permission> getPermissionsExplicit(@NotNull GuildChannel channel) {
         return null;
     }
+
 
     @Override
     public boolean hasPermission(@NotNull Permission... permissions) {
@@ -210,6 +214,11 @@ public class MemberMock implements Member {
     }
 
     @Override
+    public int getFlagsRaw() {
+        return 0;
+    }
+
+    @Override
     public boolean canInteract(@NotNull Member member) {
         return false;
     }
@@ -236,20 +245,8 @@ public class MemberMock implements Member {
 
     @Nullable
     @Override
-    public TextChannel getDefaultChannel() {
+    public DefaultGuildChannelUnion getDefaultChannel() {
         return null;
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> ban(int delDays) {
-        return Member.super.ban(delDays);
-    }
-
-    @NotNull
-    @Override
-    public AuditableRestAction<Void> ban(int delDays, @Nullable String reason) {
-        return Member.super.ban(delDays, reason);
     }
 
     @NotNull

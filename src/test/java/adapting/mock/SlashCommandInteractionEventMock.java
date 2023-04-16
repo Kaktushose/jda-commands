@@ -1,26 +1,54 @@
 package adapting.mock;
 
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("ConstantConditions")
-public class MessageReceivedEventMock extends MessageReceivedEvent {
+public class SlashCommandInteractionEventMock extends SlashCommandInteractionEvent {
 
-    private final boolean isGuildEvent;
 
-    public MessageReceivedEventMock(boolean isGuildEvent) {
-        super(new JDAMock(), 0, new MessageMock());
-        this.isGuildEvent = isGuildEvent;
+    public SlashCommandInteractionEventMock() {
+        super(new JDAMock(), 0, new SlashCommandInteractionMock());
     }
 
-    public boolean isFromType(@NotNull ChannelType type) {
-        return isGuildEvent;
-    }
-
+    @Nullable
+    @Override
     public Guild getGuild() {
         return new GuildMock();
+    }
+
+    @NotNull
+    @Override
+    public User getUser() {
+        return new UserMock("user", 0);
+    }
+
+    @Nullable
+    @Override
+    public Member getMember() {
+        return GuildMock.MEMBER;
+    }
+
+    @NotNull
+    @Override
+    public ChannelType getChannelType() {
+        return ChannelType.TEXT;
+    }
+
+    @NotNull
+    @Override
+    public String getFullCommandName() {
+        return "command group sub";
+    }
+
+    @NotNull
+    @Override
+    public MessageChannel getMessageChannel() {
+        return new TextChannelMock("channel", 0);
     }
 }

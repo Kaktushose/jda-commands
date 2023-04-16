@@ -1,9 +1,9 @@
 package adapting.mock;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.entities.sticker.StickerPack;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
@@ -19,10 +19,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
-import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
-import net.dv8tion.jda.api.requests.restaction.CommandEditAction;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
-import net.dv8tion.jda.api.requests.restaction.GuildAction;
+import net.dv8tion.jda.api.requests.restaction.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.utils.cache.CacheView;
@@ -34,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("ConstantConditions")
 public class JDAMock implements JDA {
@@ -42,11 +40,17 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public RestAction<User> retrieveUserById(@NotNull String id) {
+    public CacheRestAction<User> retrieveUserById(@NotNull String id) {
         if (id.equals(USER.getId())) {
-            return new RestActionMock<>(USER);
+            return new CacheRestActionMock<>(USER);
         }
         throw ErrorResponseException.create(ErrorResponse.UNKNOWN_USER, new Response(new IllegalArgumentException(), new HashSet<>()));
+    }
+
+    @NotNull
+    @Override
+    public CacheRestAction<User> retrieveUserById(long id) {
+        return null;
     }
 
     @NotNull
@@ -97,6 +101,11 @@ public class JDAMock implements JDA {
     @Override
     public JDA awaitStatus(@NotNull JDA.Status status, @NotNull Status... statuses) throws InterruptedException {
         return null;
+    }
+
+    @Override
+    public boolean awaitShutdown(long duration, @NotNull TimeUnit unit) throws InterruptedException {
+        return false;
     }
 
     @Override
@@ -158,6 +167,12 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public RestAction<List<Command>> retrieveCommands(boolean withLocalizations) {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public RestAction<Command> retrieveCommandById(@NotNull String s) {
         return null;
     }
@@ -183,6 +198,18 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public RestAction<Void> deleteCommandById(@NotNull String s) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<RoleConnectionMetadata>> retrieveRoleConnectionMetadata() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<RoleConnectionMetadata>> updateRoleConnectionMetadata(@NotNull Collection<? extends RoleConnectionMetadata> records) {
         return null;
     }
 
@@ -224,12 +251,6 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public RestAction<User> retrieveUserById(long l, boolean b) {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public SnowflakeCacheView<Guild> getGuildCache() {
         return null;
     }
@@ -248,6 +269,12 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public SnowflakeCacheView<Role> getRoleCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<ScheduledEvent> getScheduledEventCache() {
         return null;
     }
 
@@ -289,13 +316,19 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public SnowflakeCacheView<ForumChannel> getForumChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SnowflakeCacheView<PrivateChannel> getPrivateChannelCache() {
         return null;
     }
 
     @NotNull
     @Override
-    public RestAction<PrivateChannel> openPrivateChannelById(long l) {
+    public CacheRestAction<PrivateChannel> openPrivateChannelById(long userId) {
         return null;
     }
 
@@ -390,12 +423,6 @@ public class JDAMock implements JDA {
     @Override
     public void shutdownNow() {
 
-    }
-
-    @NotNull
-    @Override
-    public AccountType getAccountType() {
-        return null;
     }
 
     @NotNull

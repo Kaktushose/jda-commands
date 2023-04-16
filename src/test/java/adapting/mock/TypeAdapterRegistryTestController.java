@@ -1,12 +1,12 @@
 package adapting.mock;
 
 import adapting.CustomType;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
-@CommandController
+@Interaction
 public class TypeAdapterRegistryTestController {
 
     public static final String OPTIONAL_DEFAULT = "default";

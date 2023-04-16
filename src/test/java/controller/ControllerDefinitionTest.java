@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
 import commands.UnsupportedType;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -17,22 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ControllerDefinitionTest {
 
-
+    private static final LocalizationFunction LOCALIZATION_FUNCTION = ResourceBundleLocalizationFunction.empty().build();
     private static Class<?> controller;
-    private static ControllerDefinitionTestController instance;
     private static ValidatorRegistry validators;
-    private static TypeAdapterRegistry adapters;
     private static DependencyInjector dependencyInjector;
 
     @BeforeAll
     public static void setup() {
-        instance = new ControllerDefinitionTestController();
+        ControllerDefinitionTestController instance = new ControllerDefinitionTestController();
         controller = instance.getClass();
 
         validators = new ValidatorRegistry();
 
         // make sure that this type is not registered before testing
-        adapters = new TypeAdapterRegistry();
+        TypeAdapterRegistry adapters = new TypeAdapterRegistry();
         adapters.unregister(UnsupportedType.class);
 
         dependencyInjector = new DependencyInjector();
@@ -42,15 +42,13 @@ public class ControllerDefinitionTest {
     public void command_NoValues_ShouldAdoptControllerValues() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("adopt", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
 
-        assertEquals(2, definition.getName().size());
         assertTrue(definition.getName().contains("super"));
-        assertTrue(definition.getName().contains("superAlias"));
 
         assertTrue(definition.hasCooldown());
         assertEquals(10, definition.getCooldown().getDelay());
@@ -64,16 +62,12 @@ public class ControllerDefinitionTest {
     public void command_OwnValues_ShouldCombineOrOverride() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("combine", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
+        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getSubCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
         assertNotNull(definition);
 
-        assertEquals(4, definition.getName().size());
-        assertTrue(definition.getName().contains("super sub"));
-        assertTrue(definition.getName().contains("superAlias sub"));
-        assertTrue(definition.getName().contains("super subAlias"));
-        assertTrue(definition.getName().contains("superAlias subAlias"));
+        assertEquals("super sub", definition.getName());
 
         assertTrue(definition.hasCooldown());
         assertEquals(5, definition.getCooldown().getDelay());
@@ -84,24 +78,4 @@ public class ControllerDefinitionTest {
         assertTrue(definition.getPermissions().contains("subPermission"));
     }
 
-    @Test
-    public void commands_Overloading_ShouldOnlyRegisterOne() {
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
-
-        assertNotNull(controllerDefinition);
-        assertEquals(3, controllerDefinition.getSubCommands().size());
-        assertEquals(1, controllerDefinition.getSuperCommands().size());
-
-    }
-
-    @Test
-    public void command_isSuper_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("superCommand", CommandEvent.class);
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, adapters, validators, dependencyInjector).orElse(null);
-
-        assertNotNull(controllerDefinition);
-        assertTrue(controllerDefinition.hasSuperCommands());
-        assertEquals(1, controllerDefinition.getSuperCommands().size());
-        assertEquals(method, controllerDefinition.getSuperCommands().get(0).getMethod());
-    }
 }

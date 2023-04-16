@@ -2,6 +2,10 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.attribute.IPermissionContainer;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.managers.channel.concrete.TextChannelManager;
@@ -189,7 +193,7 @@ public class TextChannelMock implements TextChannel {
 
     @NotNull
     @Override
-    public MessageAction sendStickers(@NotNull Collection<? extends StickerSnowflake> collection) {
+    public MessageCreateAction sendStickers(@NotNull Collection<? extends StickerSnowflake> stickers) {
         return null;
     }
 
@@ -246,6 +250,11 @@ public class TextChannelMock implements TextChannel {
     @Override
     public long getIdLong() {
         return id;
+    }
+
+    @Override
+    public int getDefaultThreadSlowmode() {
+        return 0;
     }
 
     @NotNull

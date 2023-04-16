@@ -1,14 +1,14 @@
 package controller;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.annotations.CommandController;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
-@CommandController(value = {"super", "superAlias"})
+@Interaction(value = "super")
 @Permission("superPermission")
 @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
 public class ControllerDefinitionTestController {
@@ -18,7 +18,7 @@ public class ControllerDefinitionTestController {
 
     }
 
-    @SlashCommand(value = {"sub", "subAlias"})
+    @SlashCommand(value = "sub")
     @Permission("subPermission")
     @Cooldown(value = 5, timeUnit = TimeUnit.DAYS)
     public void combine(CommandEvent event) {
@@ -32,11 +32,6 @@ public class ControllerDefinitionTestController {
 
     @SlashCommand("overload")
     public void overloadingTwo(CommandEvent event) {
-
-    }
-
-    @SlashCommand(value = "super", isSuper = true)
-    public void superCommand(CommandEvent event) {
 
     }
 

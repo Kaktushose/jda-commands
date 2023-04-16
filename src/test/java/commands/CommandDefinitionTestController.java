@@ -1,14 +1,11 @@
 package commands;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permission;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
-@CommandController
+@Interaction
 public class CommandDefinitionTestController {
 
     public void noAnnotation() {
@@ -54,23 +51,8 @@ public class CommandDefinitionTestController {
 
     }
 
-    @SlashCommand("j")
-    public void argsAfterConcat(CommandEvent event, @Concat String s, int i) {
-
-    }
-
     @SlashCommand(value = "k", isActive = false)
     public void inactive() {
-
-    }
-
-    @SlashCommand(value = "l", isSuper = true, isGuildOnly = false)
-    public void superAndDM(CommandEvent event) {
-
-    }
-
-    @SlashCommand(value = {"sub", "subAlias"})
-    public void label(CommandEvent event) {
 
     }
 

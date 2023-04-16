@@ -1,18 +1,15 @@
 package adapting;
 
 import adapting.mock.JDACommandsMock;
-import adapting.mock.MessageReceivedEventMock;
+import adapting.mock.SlashCommandInteractionEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TypeAdapterRegistryTest {
 
     private static Class<?> controller;
-    private static TypeAdapterRegistryTestController instance;
     private static ValidatorRegistry validator;
     private static TypeAdapterRegistry adapter;
     private TypeAdapterRegistry registry;
 
     @BeforeAll
     public static void setup() {
-        instance = new TypeAdapterRegistryTestController();
+        TypeAdapterRegistryTestController instance = new TypeAdapterRegistryTestController();
         controller = instance.getClass();
         validator = new ValidatorRegistry();
         adapter = new TypeAdapterRegistry();
@@ -73,7 +69,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withStringArray_ShouldNotAdapt() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
+        CommandContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
 
         registry.adapt(context);
 
@@ -81,17 +77,15 @@ public class TypeAdapterRegistryTest {
     }
 
     @Test
-    public void adapt_withLessInputThanParameters_ShouldCancel() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
+    public void adapt_withLessInputThanParameters_ShouldThrow() throws NoSuchMethodException {
+        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
 
-        registry.adapt(context);
-
-        assertTrue(context.isCancelled());
+        assertThrows(IllegalStateException.class, () -> registry.adapt(context));
     }
 
     @Test
     public void adapt_withMoreInputThanParameters_ShouldNotCancel() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
+        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
 
         registry.adapt(context);
 
@@ -100,7 +94,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefaultNull_ShouldAddNull() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
+        CommandContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
 
         registry.adapt(context);
 
@@ -109,7 +103,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefault_ShouldAddDefault() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
+        CommandContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
 
         registry.adapt(context);
 
@@ -119,7 +113,7 @@ public class TypeAdapterRegistryTest {
     @Test
     public void adapt_withMissingTypeAdapter_ShouldThrowIllegalArgumentException() throws NoSuchMethodException {
         adapter.register(CustomType.class, new CustomTypeAdapter());
-        GenericContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
+        CommandContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
         adapter.unregister(CustomType.class);
 
         assertThrows(IllegalArgumentException.class, () -> registry.adapt(context));
@@ -127,7 +121,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withWrongArgument_ShouldCancel() throws NoSuchMethodException {
-        GenericContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
+        CommandContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
 
         registry.adapt(context);
         assertTrue(context.isCancelled());
@@ -135,17 +129,15 @@ public class TypeAdapterRegistryTest {
 
     private CommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        CommandDefinition command = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
+        CommandDefinition command = CommandDefinition.build(method, validator, ResourceBundleLocalizationFunction.empty().build()).orElse(null);
         assertNotNull(command);
         return command;
     }
 
-    private GenericContext buildContext(CommandDefinition command, String... input) {
-        GenericContext context = new GenericContext(
-                new MessageReceivedEventMock(true),
-                new JDACommandsMock(),
-                new GuildSettings(),
-                new ImplementationRegistry(new DependencyInjector(), new FilterRegistry(), new TypeAdapterRegistry(), new ValidatorRegistry()));
+    private CommandContext buildContext(CommandDefinition command, String... input) {
+        CommandContext context = new CommandContext(
+                new SlashCommandInteractionEventMock(),
+                new JDACommandsMock());
         context.setInput(input);
         context.setCommand(command);
         return context;

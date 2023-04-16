@@ -3,11 +3,16 @@ package adapting.mock;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.unions.DefaultGuildChannelUnion;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.entities.sticker.GuildSticker;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.entities.templates.Template;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.PrivilegeConfig;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -15,6 +20,7 @@ import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.managers.GuildManager;
 import net.dv8tion.jda.api.managers.GuildStickerManager;
+import net.dv8tion.jda.api.managers.GuildWelcomeScreenManager;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -32,8 +38,10 @@ import net.dv8tion.jda.api.utils.concurrent.Task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 @SuppressWarnings("ConstantConditions")
@@ -43,18 +51,17 @@ public class GuildMock implements Guild {
     public static final Role ROLE = new RoleMock("role", 2);
     public static final TextChannel TEXT_CHANNEL = new TextChannelMock("channel", 3);
 
-    @NotNull
     @Override
-    public RestAction<Member> retrieveMemberById(@NotNull String id) {
+    public CacheRestAction<Member> retrieveMemberById(@NotNull String id) {
         if (id.equals(MEMBER.getId())) {
-            return new RestActionMock<>(MEMBER);
+            return new CacheRestActionMock<>(MEMBER);
         }
         throw ErrorResponseException.create(ErrorResponse.UNKNOWN_USER, new Response(new IllegalArgumentException(), new HashSet<>()));
     }
 
     @NotNull
     @Override
-    public RestAction<Member> retrieveMemberById(long l, boolean b) {
+    public CacheRestAction<Member> retrieveMemberById(long id) {
         return null;
     }
 
@@ -73,6 +80,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public RestAction<List<ThreadChannel>> retrieveActiveThreads() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public CacheRestAction<ScheduledEvent> retrieveScheduledEventById(@NotNull String id) {
         return null;
     }
 
@@ -102,7 +115,13 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> ban(@NotNull UserSnowflake userSnowflake, int i, @Nullable String s) {
+    public AuditableRestAction<Void> kick(@NotNull UserSnowflake user) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> ban(@NotNull UserSnowflake user, int deletionTimeframe, @NotNull TimeUnit unit) {
         return null;
     }
 
@@ -168,7 +187,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public ChannelAction<TextChannel> createTextChannel(@NotNull String s, @Nullable Category category) {
+    public ChannelAction<TextChannel> createTextChannel(@NotNull String name, @Nullable Category parent) {
         return null;
     }
 
@@ -187,6 +206,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public ChannelAction<StageChannel> createStageChannel(@NotNull String s, @Nullable Category category) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ChannelAction<ForumChannel> createForumChannel(@NotNull String name, @Nullable Category parent) {
         return null;
     }
 
@@ -217,6 +242,18 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public AuditableRestAction<Void> deleteSticker(@NotNull StickerSnowflake stickerSnowflake) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ScheduledEventAction createScheduledEvent(@NotNull String name, @NotNull String location, @NotNull OffsetDateTime startTime, @NotNull OffsetDateTime endTime) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ScheduledEventAction createScheduledEvent(@NotNull String name, @NotNull GuildChannel channel, @NotNull OffsetDateTime startTime) {
         return null;
     }
 
@@ -258,7 +295,19 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
+    public GuildWelcomeScreenManager modifyWelcomeScreen() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public RestAction<List<Command>> retrieveCommands() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<Command>> retrieveCommands(boolean withLocalizations) {
         return null;
     }
 
@@ -380,7 +429,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public Locale getLocale() {
+    public DiscordLocale getLocale() {
         return null;
     }
 
@@ -511,6 +560,12 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
+    public SortedSnowflakeCacheView<ScheduledEvent> getScheduledEventCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SortedSnowflakeCacheView<StageChannel> getStageChannelCache() {
         return null;
     }
@@ -542,6 +597,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public SortedSnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<ForumChannel> getForumChannelCache() {
         return null;
     }
 
@@ -650,7 +711,7 @@ public class GuildMock implements Guild {
 
     @Nullable
     @Override
-    public BaseGuildMessageChannel getDefaultChannel() {
+    public DefaultGuildChannelUnion getDefaultChannel() {
         return null;
     }
 
@@ -734,6 +795,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public RestAction<List<Webhook>> retrieveWebhooks() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<GuildWelcomeScreen> retrieveWelcomeScreen() {
         return null;
     }
 
