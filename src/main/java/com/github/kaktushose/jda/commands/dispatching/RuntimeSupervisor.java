@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -24,11 +25,13 @@ public class RuntimeSupervisor {
 
     private final Map<String, InteractionRuntime> runtimes;
     private final ScheduledExecutorService executor;
+    private final DependencyInjector injector;
 
     /**
      * Constructs a new RuntimeSupervisor.
      */
-    public RuntimeSupervisor() {
+    public RuntimeSupervisor(DependencyInjector injector) {
+        this.injector = injector;
         runtimes = new HashMap<>();
         executor = new ScheduledThreadPoolExecutor(4);
     }
@@ -48,6 +51,9 @@ public class RuntimeSupervisor {
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
 
         Object instance = interaction.newInstance();
+
+        injector.inject(instance);
+
         String id = event.getId();
         InteractionRuntime runtime = new InteractionRuntime(id, instance);
 

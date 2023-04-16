@@ -190,7 +190,8 @@ public class ImplementationRegistry {
                 }
                 fields.add(field);
             }
-            dependencyInjector.registerDependencies(instance, fields);
+            dependencyInjector.registerDependencies(clazz, fields);
+            dependencyInjector.inject(instance);
         }
         return Optional.ofNullable(instance);
     }
@@ -262,7 +263,8 @@ public class ImplementationRegistry {
                 }
                 fields.add(field);
             }
-            dependencyInjector.registerDependencies(instance, fields);
+            dependencyInjector.registerDependencies(clazz, fields);
+            dependencyInjector.inject(instance);
         }
         return result;
     }

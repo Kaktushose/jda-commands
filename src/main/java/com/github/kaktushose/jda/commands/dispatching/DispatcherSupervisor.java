@@ -35,7 +35,7 @@ public class DispatcherSupervisor {
     public DispatcherSupervisor(JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         dispatchers = new HashMap<>();
-        runtimeSupervisor = new RuntimeSupervisor();
+        runtimeSupervisor = new RuntimeSupervisor(jdaCommands.getDependencyInjector());
         register(CommandContext.class, new CommandDispatcher(this, runtimeSupervisor));
         register(ButtonContext.class, new ButtonDispatcher(this, runtimeSupervisor));
     }
