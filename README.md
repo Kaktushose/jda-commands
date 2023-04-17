@@ -8,11 +8,13 @@
 
 # JDA-Commands
 
-A lightweight, easy-to-use command framework for building Discord bots with [JDA](https://github.com/DV8FromTheWorld/JDA) with full support for interactions. JDA-Commands goal is to remove any boilerplate code, so you can focus solely on the business logic of your bot - writing bots has never been easier!
+A lightweight, easy-to-use command framework for building Discord bots
+with [JDA](https://github.com/DV8FromTheWorld/JDA) with full support for interactions. JDA-Commands goal is to remove
+any boilerplate code, so you can focus solely on the business logic of your bot - writing bots has never been easier!
 
 ### Version Overview
 
-| jda-commands | JDA  | Text Commands | Interactions | Stable |
+| jda-commands | JDA | Text Commands | Interactions | Stable |
 |-----------------------------------------------------------------------------|-|--|---|---|
 | [4.0.0-alpha.1](https://github.com/Kaktushose/jda-commands/releases/latest) |5|❌|✅|❌|
 | [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)     |5|✅|❌|✅|
@@ -26,7 +28,7 @@ A lightweight, easy-to-use command framework for building Discord bots with [JDA
 
 - Type adapting of parameters
 
-- Expandable execution chain including type adapters, filters, permissions and constraints 
+- Expandable execution chain including type adapters, filters, permissions and constraints
 
 - Built-in support for ephemeral replies, permissions, localization
 
@@ -34,7 +36,8 @@ A lightweight, easy-to-use command framework for building Discord bots with [JDA
 
 The following example will demonstrate how easy it is to write commands:
 
-Let's rebuild the official slash commands example from the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) using jda-commands: 
+Let's rebuild the official slash commands example from
+the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) using jda-commands:
 
 ```java
 @Interaction
@@ -47,8 +50,8 @@ public class SlashCommandExample {
     }
 
     @Permissions("BAN_MEMBERS")
-    @SlashCommand(value = "ban", enabledFor = Permission.BAN_MEMBERS, desc = "Bans a user", ephemeral=true)
-    public void onBan(CommandEvent event, @Param("The member to ban") Member target, @Param("The ban reason") String reason) {
+    @SlashCommand(value = "ban", enabledFor = Permission.BAN_MEMBERS, desc = "Bans a user", ephemeral = true)
+    public void onBan(CommandEvent event, @Param("The member to ban") Member target, @Optional("no reason") @Param("The ban reason") String reason) {
         event.getGuild().ban(target, 0, TimeUnit.SECONDS).reason(reason).queue(
                 success -> event.reply("**%s** was banned by **%s**", target.getAsMention(), event.getUser().getAsMention()),
                 error -> event.reply("Some error occurred, try again!")
@@ -60,7 +63,7 @@ public class SlashCommandExample {
 Finally, start the framework by calling:
 
 ```java
-JDACommands.start(jda, Main.class, "com.package");
+JDACommands.start(jda,Main.class,"com.package");
 ```
 
 ---
@@ -72,7 +75,8 @@ You can find a detailed list of all features down below _(click on the ▶ for d
 <details>
 <summary>Request-scoped Instances</summary>
 
-For every command execution a new instance of the controller class is created. Subsequent executions of components are executed in the same instance. 
+For every command execution a new instance of the controller class is created. Subsequent executions of components are
+executed in the same instance.
 This allows you to store stateful objects, like the target of a ban command, _inside_ the controller class.
 
 </details>
@@ -110,8 +114,10 @@ will be sent automatically. You can also define your own constraints.
 <details>
 <summary>Permissions System</summary>
 
-Besides the default permissions system of slash commands, this framework comes in with an own system, supporting both discord and custom permissions. By default, you can use all
-permissions defined inside JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
+Besides the default permissions system of slash commands, this framework comes in with an own system, supporting both
+discord and custom permissions. By default, you can use all
+permissions defined inside
+JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
 permission validator, you can use custom permission strings and bind permissions to certain roles or members.
 
 </details>
@@ -136,17 +142,21 @@ Commands can have a per-user cooldown to rate limit the execution of commands.
 <details>
 <summary>Error Messages</summary>
 
-There are default error embeds for all validation systems of this framework, i.e. parameter constraints, permissions, etc.
+There are default error embeds for all validation systems of this framework, i.e. parameter constraints, permissions,
+etc.
 
 </details>
 
 <details>
 <summary>Localization</summary>
 
-This framework supports the use of JDAs [LocalizationFunction](https://ci.dv8tion.net/job/JDA5/javadoc/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html) for localizing slash commands.
+This framework supports the use of
+JDAs [LocalizationFunction](https://ci.dv8tion.net/job/JDA5/javadoc/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html)
+for localizing slash commands.
 
 Furthermore, you can adapt the auto generated bot responses. All embeds
-sent can also be loaded from a json file, which uses placeholders. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
+sent can also be loaded from a json file, which uses
+placeholders. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
 
 </details>
 
@@ -154,7 +164,8 @@ sent can also be loaded from a json file, which uses placeholders. _[example](ht
 <summary>Embed Deserialization</summary>
 
 You can serialize and deserialize JDAs EmbedBuilder object to json. This comes in pretty handy, because for example you
-don't have to recompile the whole project if you find one typo inside your embed. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
+don't have to recompile the whole project if you find one typo inside your
+embed. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
 
 </details>
 
@@ -183,6 +194,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 ### Maven
 
 ```xml
+
 <repository>
     <id>jitpack.io</id>
     <url>https://jitpack.io</url>
@@ -190,6 +202,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 ```
 
 ```xml
+
 <dependency>
     <groupId>com.github.kaktushose</groupId>
     <artifactId>jda-commands</artifactId>
