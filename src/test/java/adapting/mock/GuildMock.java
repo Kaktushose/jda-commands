@@ -217,12 +217,6 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public ChannelAction<ForumChannel> createForumChannel(@NotNull String s, @Nullable Category category) {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public ChannelAction<Category> createCategory(@NotNull String s) {
         return null;
     }
@@ -565,42 +559,6 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public SortedSnowflakeCacheView<ScheduledEvent> getScheduledEventCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<StageChannel> getStageChannelCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<ThreadChannel> getThreadChannelCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<Role> getRoleCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<TextChannel> getTextChannelCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<NewsChannel> getNewsChannelCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public SortedSnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
         return null;
     }
@@ -757,6 +715,12 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
+    public SortedSnowflakeCacheView<TextChannel> getTextChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public AuditLogPaginationAction retrieveAuditLogs() {
         return null;
     }
@@ -860,6 +824,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public ExplicitContentLevel getExplicitContentLevel() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Task<Void> loadMembers(@NotNull Consumer<Member> callback) {
         return null;
     }
 

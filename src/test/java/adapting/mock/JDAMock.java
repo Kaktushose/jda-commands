@@ -326,17 +326,6 @@ public class JDAMock implements JDA {
         return null;
     }
 
-    @Override
-    public CacheRestAction<PrivateChannel> openPrivateChannelById(long l) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
-        return null;
-    }
-
     @NotNull
     @Override
     public CacheRestAction<PrivateChannel> openPrivateChannelById(long userId) {
