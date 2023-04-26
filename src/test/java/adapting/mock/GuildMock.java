@@ -61,74 +61,8 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public CacheRestAction<Member> retrieveMemberById(long l) {
+    public CacheRestAction<Member> retrieveMemberById(long id) {
         return null;
-    }
-
-    @NotNull
-    @Override
-    public List<Member> getMembersByEffectiveName(@NotNull String name, boolean ignoreCase) {
-        String username = MEMBER.getNickname();
-        if (ignoreCase) {
-            username = username.toUpperCase();
-            name = name.toUpperCase();
-        }
-        if (name.equals(username)) {
-            return new ArrayList<Member>() {{
-                add(MEMBER);
-            }};
-        }
-        return new ArrayList<>();
-    }
-
-    @Nullable
-    @Override
-    public Role getRoleById(@NotNull String id) {
-        if (id.equals(ROLE.getId())) {
-            return ROLE;
-        }
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<Role> getRolesByName(@NotNull String name, boolean ignoreCase) {
-        String username = ROLE.getName();
-        if (ignoreCase) {
-            username = username.toUpperCase();
-            name = name.toUpperCase();
-        }
-        if (name.equals(username)) {
-            return new ArrayList<Role>() {{
-                add(ROLE);
-            }};
-        }
-        return new ArrayList<>();
-    }
-
-    @Nullable
-    @Override
-    public TextChannel getTextChannelById(@NotNull String id) {
-        if (id.equals(TEXT_CHANNEL.getId())) {
-            return TEXT_CHANNEL;
-        }
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public List<TextChannel> getTextChannelsByName(@NotNull String name, boolean ignoreCase) {
-        String username = TEXT_CHANNEL.getName();
-        if (ignoreCase) {
-            username = username.toUpperCase();
-            name = name.toUpperCase();
-        }
-        if (name.equals(username)) {
-            return new ArrayList<TextChannel>() {{
-                add(TEXT_CHANNEL);
-            }};
-        }
-        return new ArrayList<>();
     }
 
     @NotNull
@@ -151,7 +85,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public CacheRestAction<ScheduledEvent> retrieveScheduledEventById(@NotNull String s) {
+    public CacheRestAction<ScheduledEvent> retrieveScheduledEventById(@NotNull String id) {
         return null;
     }
 
@@ -175,13 +109,19 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> kick(@NotNull UserSnowflake userSnowflake) {
+    public AuditableRestAction<Void> kick(@NotNull UserSnowflake userSnowflake, @Nullable String s) {
         return null;
     }
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> ban(@NotNull UserSnowflake userSnowflake, int i, @NotNull TimeUnit timeUnit) {
+    public AuditableRestAction<Void> kick(@NotNull UserSnowflake user) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> ban(@NotNull UserSnowflake user, int deletionTimeframe, @NotNull TimeUnit unit) {
         return null;
     }
 
@@ -247,7 +187,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public ChannelAction<TextChannel> createTextChannel(@NotNull String s, @Nullable Category category) {
+    public ChannelAction<TextChannel> createTextChannel(@NotNull String name, @Nullable Category parent) {
         return null;
     }
 
@@ -266,6 +206,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public ChannelAction<StageChannel> createStageChannel(@NotNull String s, @Nullable Category category) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ChannelAction<ForumChannel> createForumChannel(@NotNull String name, @Nullable Category parent) {
         return null;
     }
 
@@ -307,13 +253,13 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public ScheduledEventAction createScheduledEvent(@NotNull String s, @NotNull String s1, @NotNull OffsetDateTime offsetDateTime, @NotNull OffsetDateTime offsetDateTime1) {
+    public ScheduledEventAction createScheduledEvent(@NotNull String name, @NotNull String location, @NotNull OffsetDateTime startTime, @NotNull OffsetDateTime endTime) {
         return null;
     }
 
     @NotNull
     @Override
-    public ScheduledEventAction createScheduledEvent(@NotNull String s, @NotNull GuildChannel guildChannel, @NotNull OffsetDateTime offsetDateTime) {
+    public ScheduledEventAction createScheduledEvent(@NotNull String name, @NotNull GuildChannel channel, @NotNull OffsetDateTime startTime) {
         return null;
     }
 
@@ -367,7 +313,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public RestAction<List<Command>> retrieveCommands(boolean b) {
+    public RestAction<List<Command>> retrieveCommands(boolean withLocalizations) {
         return null;
     }
 
@@ -379,7 +325,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public CommandCreateAction upsertCommand(@NotNull CommandData commandData) {
+    public RestAction<Command> upsertCommand(@NotNull CommandData commandData) {
         return null;
     }
 
@@ -597,6 +543,107 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
+    public List<Member> getMembersByEffectiveName(@NotNull String name, boolean ignoreCase) {
+        String username = MEMBER.getNickname();
+        if (ignoreCase) {
+            username = username.toUpperCase();
+            name = name.toUpperCase();
+        }
+        if (name.equals(username)) {
+            return new ArrayList<Member>() {{
+                add(MEMBER);
+            }};
+        }
+        return new ArrayList<>();
+    }
+
+    @NotNull
+    @Override
+    public MemberCacheView getMemberCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<ScheduledEvent> getScheduledEventCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<StageChannel> getStageChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<ThreadChannel> getThreadChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<Role> getRoleCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<TextChannel> getTextChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<NewsChannel> getNewsChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedSnowflakeCacheView<ForumChannel> getForumChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<GuildChannel> getChannels(boolean b) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Role getRoleById(@NotNull String id) {
+        if (id.equals(ROLE.getId())) {
+            return ROLE;
+        }
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Role> getRolesByName(@NotNull String name, boolean ignoreCase) {
+        String username = ROLE.getName();
+        if (ignoreCase) {
+            username = username.toUpperCase();
+            name = name.toUpperCase();
+        }
+        if (name.equals(username)) {
+            return new ArrayList<Role>() {{
+                add(ROLE);
+            }};
+        }
+        return new ArrayList<>();
+    }
+
+    @NotNull
+    @Override
     public SortedSnowflakeCacheView<Role> getRoleCache() {
         return null;
     }
@@ -682,12 +729,6 @@ public class GuildMock implements Guild {
     @Override
     public boolean isBoostProgressBarEnabled() {
         return false;
-    }
-
-    @NotNull
-    @Override
-    public MemberCacheView getMemberCache() {
-        return null;
     }
 
     @NotNull
@@ -824,39 +865,35 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public Task<Void> loadMembers(@NotNull Consumer<Member> consumer) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public SortedSnowflakeCacheView<TextChannel> getTextChannelCache() {
-        return null;
-    }
-
-    @NotNull
-    @Override
     public SortedSnowflakeCacheView<NewsChannel> getNewsChannelCache() {
         return null;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public SortedSnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+    public TextChannel getTextChannelById(@NotNull String id) {
+        if (id.equals(TEXT_CHANNEL.getId())) {
+            return TEXT_CHANNEL;
+        }
         return null;
     }
 
     @NotNull
     @Override
-    public SortedSnowflakeCacheView<ForumChannel> getForumChannelCache() {
-        return null;
+    public List<TextChannel> getTextChannelsByName(@NotNull String name, boolean ignoreCase) {
+        String username = TEXT_CHANNEL.getName();
+        if (ignoreCase) {
+            username = username.toUpperCase();
+            name = name.toUpperCase();
+        }
+        if (name.equals(username)) {
+            return new ArrayList<TextChannel>() {{
+                add(TEXT_CHANNEL);
+            }};
+        }
+        return new ArrayList<>();
     }
 
-    @NotNull
-    @Override
-    public List<GuildChannel> getChannels(boolean b) {
-        return null;
-    }
 
     @Override
     public long getIdLong() {

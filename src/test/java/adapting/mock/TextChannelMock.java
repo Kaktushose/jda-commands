@@ -120,21 +120,21 @@ public class TextChannelMock implements TextChannel {
         return null;
     }
 
+    @Override
+    public long getParentCategoryIdLong() {
+        return 0;
+    }
+
+
     @NotNull
     @Override
     public AuditableRestAction<Void> delete() {
         return null;
     }
 
-    @NotNull
     @Override
     public IPermissionContainer getPermissionContainer() {
         return null;
-    }
-
-    @Override
-    public long getParentCategoryIdLong() {
-        return 0;
     }
 
     @NotNull
@@ -193,7 +193,7 @@ public class TextChannelMock implements TextChannel {
 
     @NotNull
     @Override
-    public MessageCreateAction sendStickers(@NotNull Collection<? extends StickerSnowflake> collection) {
+    public MessageCreateAction sendStickers(@NotNull Collection<? extends StickerSnowflake> stickers) {
         return null;
     }
 
@@ -232,7 +232,7 @@ public class TextChannelMock implements TextChannel {
     @NotNull
     @Override
     public ChannelType getType() {
-        return null;
+        return ChannelType.TEXT;
     }
 
     @NotNull
@@ -259,13 +259,13 @@ public class TextChannelMock implements TextChannel {
 
     @NotNull
     @Override
-    public ThreadChannelAction createThreadChannel(@NotNull String s, boolean b) {
+    public ThreadChannelAction createThreadChannel(String s, boolean b) {
         return null;
     }
 
     @NotNull
     @Override
-    public ThreadChannelAction createThreadChannel(@NotNull String s, long l) {
+    public ThreadChannelAction createThreadChannel(String s, long l) {
         return null;
     }
 

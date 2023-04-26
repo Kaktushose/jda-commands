@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public class CacheRestActionMock<T> implements CacheRestAction<T> {
 
-    private final T member;
+    private T member;
 
     public CacheRestActionMock(T member) {
         this.member = member;
@@ -26,29 +26,29 @@ public class CacheRestActionMock<T> implements CacheRestAction<T> {
 
     @NotNull
     @Override
-    public CacheRestAction<T> setCheck(@Nullable BooleanSupplier booleanSupplier) {
+    public CacheRestAction<T> setCheck(@Nullable BooleanSupplier checks) {
         return null;
     }
 
     @Override
-    public void queue(@Nullable Consumer<? super T> consumer, @Nullable Consumer<? super Throwable> consumer1) {
+    public void queue(@Nullable Consumer<? super T> success, @Nullable Consumer<? super Throwable> failure) {
 
     }
 
     @Override
-    public T complete(boolean b) throws RateLimitedException {
+    public T complete(boolean shouldQueue) throws RateLimitedException {
         return member;
     }
 
     @NotNull
     @Override
-    public CompletableFuture<T> submit(boolean b) {
+    public CompletableFuture<T> submit(boolean shouldQueue) {
         return null;
     }
 
     @NotNull
     @Override
-    public CacheRestAction<T> useCache(boolean b) {
-        return new CacheRestActionMock<>(member);
+    public CacheRestAction<T> useCache(boolean useCache) {
+        return null;
     }
 }

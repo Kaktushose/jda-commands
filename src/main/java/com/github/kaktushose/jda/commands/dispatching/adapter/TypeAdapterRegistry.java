@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -32,6 +31,18 @@ import java.util.*;
 public class TypeAdapterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
+    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = new HashMap<Class<?>, Object>() {
+        {
+            put(byte.class, (byte) 0);
+            put(short.class, (short) 0);
+            put(int.class, 0);
+            put(long.class, 0L);
+            put(double.class, 0.0d);
+            put(float.class, 0.0f);
+            put(boolean.class, false);
+            put(char.class, '\u0000');
+        }
+    };
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
     /**
@@ -123,17 +134,15 @@ public class TypeAdapterRegistry {
      * @param context the {@link CommandContext} to type adapt
      */
     public void adapt(@NotNull CommandContext context) {
-        CommandDefinition command = context.getCommand();
+        CommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        MessageReceivedEvent event = context.getEvent();
-        arguments.add(new CommandEvent(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, context));
-        // start with index 1 so we skip the CommandEvent
-        for (int i = 1; i < command.getParameters().size(); i++) {
-            ParameterDefinition parameter = command.getParameters().get(i);
+        arguments.add(new CommandEvent(command, context));
+        for (int i = 0; i < command.getActualParameters().size(); i++) {
+            ParameterDefinition parameter = command.getActualParameters().get(i);
 
             // if parameter is array don't parse
             if (String[].class.isAssignableFrom(parameter.getType())) {
@@ -143,54 +152,44 @@ public class TypeAdapterRegistry {
             }
 
             String raw;
-            // current parameter index > total amount of input, check if it's optional else cancel context
-            if (i > input.length) {
+            // current parameter index == total amount of input, check if it's optional else cancel context
+            if (i == input.length) {
                 if (!parameter.isOptional()) {
-                    log.debug("Syntax error! Cancelled event.");
-                    context.setCancelled(true);
-                    context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
-                    break;
+                    IllegalStateException exception = new IllegalStateException(
+                            "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
+                    );
+                    context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+                    throw exception;
                 }
 
                 // if the default value is an empty String (thus not present) add a null value to the argument list
                 // else try to type adapt the default value
                 if (parameter.getDefaultValue() == null) {
-                    arguments.add(null);
+                    arguments.add(DEFAULT_MAPPINGS.getOrDefault(parameter.getType(), null));
                     continue;
                 } else {
                     raw = parameter.getDefaultValue();
                 }
             } else {
-                // - 1 because we start with index 1
-                raw = input[i - 1];
-            }
-
-            if (i == command.getParameters().size() - 1 && parameter.isConcat()) {
-                StringBuilder sb = new StringBuilder();
-                for (String s : Arrays.copyOfRange(input, i - 1, input.length)) {
-                    sb.append(s).append(" ");
-                }
-                arguments.add(sb.toString().trim());
-                break;
+                raw = input[i];
             }
 
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
 
             Optional<TypeAdapter<?>> adapter = get(parameter.getType());
-            if (!adapter.isPresent()) {
+            if (adapter.isEmpty()) {
                 throw new IllegalArgumentException("No type adapter found!");
             }
 
             Optional<?> parsed = adapter.get().parse(raw, context);
-            if (!parsed.isPresent()) {
+            if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                context.setCancelled(true);
-                context.setErrorMessage(messageFactory.getSyntaxErrorMessage(context));
+                context.setCancelled(true).setErrorMessage(messageFactory.getTypeAdaptingFailedMessage(context));
                 break;
             }
 
             arguments.add(parsed.get());
-            log.debug("Added {} to the argument list", parsed.get());
+            log.debug("Added \"{}\" to the argument list", parsed.get());
         }
         context.setArguments(arguments);
     }

@@ -8,23 +8,17 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.router.Router;
-import com.github.kaktushose.jda.commands.dispatching.router.impl.CommandRouter;
-import com.github.kaktushose.jda.commands.dispatching.sender.MessageSender;
-import com.github.kaktushose.jda.commands.dispatching.sender.impl.DefaultMessageSender;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.help.DefaultHelpMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.help.HelpMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.DefaultErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.settings.DefaultSettingsProvider;
-import com.github.kaktushose.jda.commands.settings.SettingsProvider;
+import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
+import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -41,19 +35,16 @@ import java.util.*;
  * Central registry for all custom user implementations. This class will look for custom implementations that
  * override the default implementation of this framework. Supports the following interfaces:
  * <ul>
- *     <li>{@link SettingsProvider}</li>
  *     <li>{@link PermissionsProvider}</li>
- *     <li>{@link HelpMessageFactory}</li>
  *     <li>{@link ErrorMessageFactory}</li>
- *     <li>{@link Router}</li>
- *     <li>{@link MessageSender}</li>
+ *     <li>{@link GuildScopeProvider}</li>
  *     <li>{@link TypeAdapter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
  *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
  * </ul>
  *
  * @author Kaktushose
- * @version 2.2.0
+ * @version 4.0.0
  * @see Component
  * @since 2.0.0
  */
@@ -65,12 +56,9 @@ public class ImplementationRegistry {
     private final FilterRegistry filterRegistry;
     private final TypeAdapterRegistry typeAdapterRegistry;
     private final ValidatorRegistry validatorRegistry;
-    private SettingsProvider settingsProvider;
     private PermissionsProvider permissionsProvider;
-    private HelpMessageFactory helpMessageFactory;
     private ErrorMessageFactory errorMessageFactory;
-    private Router router;
-    private MessageSender messageSender;
+    private GuildScopeProvider guildScopeProvider;
 
     /**
      * Constructs a new ImplementationRegistry.
@@ -84,12 +72,9 @@ public class ImplementationRegistry {
                                   FilterRegistry filterRegistry,
                                   TypeAdapterRegistry typeAdapterRegistry,
                                   ValidatorRegistry validatorRegistry) {
-        settingsProvider = new DefaultSettingsProvider();
         permissionsProvider = new DefaultPermissionsProvider();
-        helpMessageFactory = new DefaultHelpMessageFactory();
         errorMessageFactory = new DefaultErrorMessageFactory();
-        router = new CommandRouter();
-        messageSender = new DefaultMessageSender();
+        guildScopeProvider = new DefaultGuildScopeProvider();
 
         this.dependencyInjector = dependencyInjector;
         this.filterRegistry = filterRegistry;
@@ -105,40 +90,25 @@ public class ImplementationRegistry {
      */
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing custom implementations...");
+
+        FilterBuilder filter = new FilterBuilder();
+        for (String pkg : packages) {
+            filter.includePackage(pkg);
+        }
+
         ConfigurationBuilder config = new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner())
+                .setScanners(Scanners.SubTypes)
                 .setUrls(ClasspathHelper.forClass(clazz))
-                .filterInputsBy(new FilterBuilder().includePackage(packages));
+                .filterInputsBy(filter);
         reflections = new Reflections(config);
 
-        findImplementation(SettingsProvider.class).ifPresent(this::setSettingsProvider);
         findImplementation(PermissionsProvider.class).ifPresent(this::setPermissionsProvider);
-        findImplementation(HelpMessageFactory.class).ifPresent(this::setHelpMessageFactory);
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
-        findImplementation(Router.class).ifPresent(this::setRouter);
-        findImplementation(MessageSender.class).ifPresent(this::setMessageSender);
+        findImplementation(GuildScopeProvider.class).ifPresent(this::setGuildScopeProvider);
 
         findFilters().forEach(filterRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
         findValidators().forEach(validatorRegistry::register);
-    }
-
-    /**
-     * Gets the {@link SettingsProvider}.
-     *
-     * @return the {@link SettingsProvider}
-     */
-    public SettingsProvider getSettingsProvider() {
-        return settingsProvider;
-    }
-
-    /**
-     * Sets the {@link SettingsProvider}.
-     *
-     * @param settingsProvider the new {@link SettingsProvider}
-     */
-    public void setSettingsProvider(SettingsProvider settingsProvider) {
-        this.settingsProvider = settingsProvider;
     }
 
     /**
@@ -160,24 +130,6 @@ public class ImplementationRegistry {
     }
 
     /**
-     * Gets the {@link HelpMessageFactory}.
-     *
-     * @return the {@link HelpMessageFactory}
-     */
-    public HelpMessageFactory getHelpMessageFactory() {
-        return helpMessageFactory;
-    }
-
-    /**
-     * Sets the {@link HelpMessageFactory}
-     *
-     * @param helpMessageFactory the new {@link HelpMessageFactory}
-     */
-    public void setHelpMessageFactory(HelpMessageFactory helpMessageFactory) {
-        this.helpMessageFactory = helpMessageFactory;
-    }
-
-    /**
      * Gets the {@link ErrorMessageFactory}.
      *
      * @return the {@link ErrorMessageFactory}
@@ -196,39 +148,22 @@ public class ImplementationRegistry {
     }
 
     /**
-     * Gets the {@link Router}.
+     * Gets the {@link GuildScopeProvider}.
      *
-     * @return the {@link Router}
+     * @return the {@link GuildScopeProvider}
      */
-    public Router getRouter() {
-        return router;
+    public GuildScopeProvider getGuildScopeProvider() {
+        return guildScopeProvider;
     }
 
-    /**
-     * Sets the {@link Router}.
-     *
-     * @param router the new {@link Router}
-     */
-    public void setRouter(Router router) {
-        this.router = router;
-    }
 
     /**
-     * Gets the {@link MessageSender}.
+     * Sets the {@link GuildScopeProvider}
      *
-     * @return the {@link MessageSender}
+     * @param guildScopeProvider the new {@link GuildScopeProvider}
      */
-    public MessageSender getMessageSender() {
-        return messageSender;
-    }
-
-    /**
-     * Sets the {@link MessageSender}.
-     *
-     * @param sender the new {@link MessageSender}
-     */
-    public void setMessageSender(MessageSender sender) {
-        this.messageSender = sender;
+    public void setGuildScopeProvider(GuildScopeProvider guildScopeProvider) {
+        this.guildScopeProvider = guildScopeProvider;
     }
 
     @SuppressWarnings("unchecked")
@@ -255,7 +190,8 @@ public class ImplementationRegistry {
                 }
                 fields.add(field);
             }
-            dependencyInjector.registerDependencies(instance, fields);
+            dependencyInjector.registerDependencies(clazz, fields);
+            dependencyInjector.inject(instance);
         }
         return Optional.ofNullable(instance);
     }
@@ -327,7 +263,8 @@ public class ImplementationRegistry {
                 }
                 fields.add(field);
             }
-            dependencyInjector.registerDependencies(instance, fields);
+            dependencyInjector.registerDependencies(clazz, fields);
+            dependencyInjector.inject(instance);
         }
         return result;
     }

@@ -1,90 +1,75 @@
 package commands;
 
-import com.github.kaktushose.jda.commands.annotations.*;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
-@CommandController
+@Interaction
 public class CommandDefinitionTestController {
 
     public void noAnnotation() {
     }
 
-    @Command
+    @SlashCommand("a")
     public void noArgs() {
     }
 
-    @Command
+    @SlashCommand("b")
     public void noCommandEvent(int i) {
     }
 
-    @Command
+    @SlashCommand("c")
     public void wrongCommandEvent(int i, CommandEvent event) {
     }
 
-    @Command
+    @SlashCommand("d")
     public void commandEvent(CommandEvent event) {
     }
 
-    @Command
+    @SlashCommand("e")
     public void unsupported(CommandEvent event, UnsupportedType type) {
     }
 
-    @Command
+    @SlashCommand("f")
     public void arrayArgument(CommandEvent event, String[] args) {
 
     }
 
-    @Command
+    @SlashCommand("g")
     public void argsAfterArray(CommandEvent event, String[] args, int i) {
 
     }
 
-    @Command
+    @SlashCommand("h")
     public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
 
     }
 
-    @Command
+    @SlashCommand("i")
     public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
 
     }
 
-    @Command
-    public void argsAfterConcat(CommandEvent event, @Concat String s, int i) {
-
-    }
-
-    @Command(isActive = false)
+    @SlashCommand(value = "k", isActive = false)
     public void inactive() {
 
     }
 
-    @Command(isSuper = true, isDM = false)
-    public void superAndDM(CommandEvent event) {
-
-    }
-
-    @Command(value = {"sub", "subAlias"})
-    public void label(CommandEvent event) {
-
-    }
-
-    @Command
+    @SlashCommand("m")
     @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
     public void zeroCooldown(CommandEvent event) {
 
     }
 
-    @Command
+    @SlashCommand("n")
     @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
     public void cooldown(CommandEvent event) {
 
     }
 
-    @Command
-    @Permission("permission")
+    @SlashCommand("o")
+    @Permissions("permission")
     public void permission(CommandEvent event) {
 
     }

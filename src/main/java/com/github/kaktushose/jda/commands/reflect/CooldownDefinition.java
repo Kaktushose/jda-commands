@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect;
 
-import com.github.kaktushose.jda.commands.annotations.Cooldown;
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

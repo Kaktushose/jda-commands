@@ -1,10 +1,11 @@
 package adapting;
 
 import adapting.mock.GuildMock;
+import adapting.mock.JDACommandsMock;
 import adapting.mock.JDAMock;
-import adapting.mock.MessageReceivedEventMock;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import adapting.mock.SlashCommandInteractionEventMock;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class TypeAdapterTest {
 
     @BeforeAll
     public static void setup() {
-        context = new CommandContext();
+        context = new CommandContext(new SlashCommandInteractionEventMock(), new JDACommandsMock());
     }
 
     @Test
@@ -62,8 +63,8 @@ public class TypeAdapterTest {
     public void byteAdapter_withNumber_ShouldBePresent() {
         ByteAdapter adapter = new ByteAdapter();
 
-        assertEquals(Byte.MIN_VALUE, adapter.parse(String.valueOf(Byte.MIN_VALUE), context).orElse(null));
-        assertEquals(Byte.MAX_VALUE, adapter.parse(String.valueOf(Byte.MAX_VALUE), context).orElse(null));
+        assertEquals(Byte.MIN_VALUE, adapter.parse(String.valueOf(Byte.MIN_VALUE), context).orElseThrow());
+        assertEquals(Byte.MAX_VALUE, adapter.parse(String.valueOf(Byte.MAX_VALUE), context).orElseThrow());
     }
 
     @Test
@@ -91,10 +92,10 @@ public class TypeAdapterTest {
     public void doubleAdapter_withNumber_ShouldReturnDouble() {
         DoubleAdapter adapter = new DoubleAdapter();
 
-        assertEquals(Double.MIN_VALUE, adapter.parse(String.valueOf(Double.MIN_VALUE), context).orElse(null));
-        assertEquals(Double.MIN_EXPONENT, adapter.parse(String.valueOf(Double.MIN_EXPONENT), context).orElse(null));
-        assertEquals(Double.MAX_VALUE, adapter.parse(String.valueOf(Double.MAX_VALUE), context).orElse(null));
-        assertEquals(Double.MAX_EXPONENT, adapter.parse(String.valueOf(Double.MAX_EXPONENT), context).orElse(null));
+        assertEquals(Double.MIN_VALUE, adapter.parse(String.valueOf(Double.MIN_VALUE), context).orElseThrow());
+        assertEquals(Double.MIN_EXPONENT, adapter.parse(String.valueOf(Double.MIN_EXPONENT), context).orElseThrow());
+        assertEquals(Double.MAX_VALUE, adapter.parse(String.valueOf(Double.MAX_VALUE), context).orElseThrow());
+        assertEquals(Double.MAX_EXPONENT, adapter.parse(String.valueOf(Double.MAX_EXPONENT), context).orElseThrow());
     }
 
     @Test
@@ -108,10 +109,10 @@ public class TypeAdapterTest {
     public void floatAdapter_withNumber_ShouldReturnDouble() {
         FloatAdapter adapter = new FloatAdapter();
 
-        assertEquals(Float.MIN_VALUE, adapter.parse(String.valueOf(Float.MIN_VALUE), context).orElse(null));
-        assertEquals(Float.MIN_EXPONENT, adapter.parse(String.valueOf(Float.MIN_EXPONENT), context).orElse(null));
-        assertEquals(Float.MAX_VALUE, adapter.parse(String.valueOf(Float.MAX_VALUE), context).orElse(null));
-        assertEquals(Float.MAX_EXPONENT, adapter.parse(String.valueOf(Float.MAX_EXPONENT), context).orElse(null));
+        assertEquals(Float.MIN_VALUE, adapter.parse(String.valueOf(Float.MIN_VALUE), context).orElseThrow());
+        assertEquals(Float.MIN_EXPONENT, adapter.parse(String.valueOf(Float.MIN_EXPONENT), context).orElseThrow());
+        assertEquals(Float.MAX_VALUE, adapter.parse(String.valueOf(Float.MAX_VALUE), context).orElseThrow());
+        assertEquals(Float.MAX_EXPONENT, adapter.parse(String.valueOf(Float.MAX_EXPONENT), context).orElseThrow());
     }
 
     @Test
@@ -125,8 +126,8 @@ public class TypeAdapterTest {
     public void integerAdapter_withNumber_ShouldReturnDouble() {
         IntegerAdapter adapter = new IntegerAdapter();
 
-        assertEquals(Integer.MIN_VALUE, adapter.parse(String.valueOf(Integer.MIN_VALUE), context).orElse(null));
-        assertEquals(Integer.MAX_VALUE, adapter.parse(String.valueOf(Integer.MAX_VALUE), context).orElse(null));
+        assertEquals(Integer.MIN_VALUE, adapter.parse(String.valueOf(Integer.MIN_VALUE), context).orElseThrow());
+        assertEquals(Integer.MAX_VALUE, adapter.parse(String.valueOf(Integer.MAX_VALUE), context).orElseThrow());
     }
 
     @Test
@@ -140,8 +141,8 @@ public class TypeAdapterTest {
     public void longAdapter_withNumber_ShouldReturnDouble() {
         LongAdapter adapter = new LongAdapter();
 
-        assertEquals(Long.MIN_VALUE, adapter.parse(String.valueOf(Long.MIN_VALUE), context).orElse(null));
-        assertEquals(Long.MAX_VALUE, adapter.parse(String.valueOf(Long.MAX_VALUE), context).orElse(null));
+        assertEquals(Long.MIN_VALUE, adapter.parse(String.valueOf(Long.MIN_VALUE), context).orElseThrow());
+        assertEquals(Long.MAX_VALUE, adapter.parse(String.valueOf(Long.MAX_VALUE), context).orElseThrow());
     }
 
     @Test
@@ -155,8 +156,8 @@ public class TypeAdapterTest {
     public void shortAdapter_withNumber_ShouldReturnDouble() {
         ShortAdapter adapter = new ShortAdapter();
 
-        assertEquals(Short.MIN_VALUE, adapter.parse(String.valueOf(Short.MIN_VALUE), context).orElse(null));
-        assertEquals(Short.MAX_VALUE, adapter.parse(String.valueOf(Short.MAX_VALUE), context).orElse(null));
+        assertEquals(Short.MIN_VALUE, adapter.parse(String.valueOf(Short.MIN_VALUE), context).orElseThrow());
+        assertEquals(Short.MAX_VALUE, adapter.parse(String.valueOf(Short.MAX_VALUE), context).orElseThrow());
     }
 
     @Test
@@ -167,155 +168,136 @@ public class TypeAdapterTest {
     }
 
     @Test
-    public void userAdapter_withExistingId_ShouldReturnUser() {
-        UserAdapter userAdapter = new UserAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+    public void adapter_withExistingId_ShouldReturnUser() {
+        UserAdapter adapter = new UserAdapter();
 
-        assertEquals(JDAMock.USER, userAdapter.parse(String.valueOf(JDAMock.USER.getIdLong()), context).orElse(null));
+        assertEquals(JDAMock.USER, adapter.parse(String.valueOf(JDAMock.USER.getIdLong()), context).orElseThrow());
     }
 
     @Test
-    public void userAdapter_withNonExistingId_ShouldBeEmpty() {
-        UserAdapter userAdapter = new UserAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+    public void adapter_withNonExistingId_ShouldBeEmpty() {
+        UserAdapter adapter = new UserAdapter();
 
-        assertFalse(userAdapter.parse("1234567890", context).isPresent());
+        assertFalse(adapter.parse("1234567890", context).isPresent());
     }
 
     @Test
-    public void userAdapter_withExistingName_ShouldReturnUser() {
-        UserAdapter userAdapter = new UserAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+    public void adapter_withExistingName_ShouldReturnUser() {
+        UserAdapter adapter = new UserAdapter();
 
-        assertEquals(JDAMock.USER, userAdapter.parse(JDAMock.USER.getName(), context).orElse(null));
+        assertEquals(JDAMock.USER, adapter.parse(JDAMock.USER.getName(), context).orElseThrow());
     }
 
     @Test
-    public void userAdapter_withNonExistingName_ShouldBeEmpty() {
-        UserAdapter userAdapter = new UserAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+    public void adapter_withNonExistingName_ShouldBeEmpty() {
+        UserAdapter adapter = new UserAdapter();
 
-        assertFalse(userAdapter.parse("thispersondoesnotexist.com", context).isPresent());
+        assertFalse(adapter.parse("thispersondoesnotexist.com", context).isPresent());
     }
 
     @Test
     public void memberAdapter_withExistingId_ShouldReturnMember() {
-        MemberAdapter userAdapter = new MemberAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        MemberAdapter adapter = new MemberAdapter();
 
-        assertEquals(GuildMock.MEMBER, userAdapter.parse(String.valueOf(GuildMock.MEMBER.getIdLong()), context).orElse(null));
+        assertEquals(GuildMock.MEMBER, adapter.parse(String.valueOf(GuildMock.MEMBER.getIdLong()), context).orElseThrow());
     }
 
     @Test
     public void memberAdapter_withNonExistingId_ShouldBeEmpty() {
-        MemberAdapter userAdapter = new MemberAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        MemberAdapter adapter = new MemberAdapter();
 
-        assertFalse(userAdapter.parse("1234567890", context).isPresent());
+        assertFalse(adapter.parse("1234567890", context).isPresent());
     }
 
     @Test
     public void memberAdapter_withExistingName_ShouldReturnMember() {
-        MemberAdapter userAdapter = new MemberAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        MemberAdapter adapter = new MemberAdapter();
 
-        assertEquals(GuildMock.MEMBER, userAdapter.parse(GuildMock.MEMBER.getNickname(), context).orElse(null));
+        assertEquals(GuildMock.MEMBER, adapter.parse(GuildMock.MEMBER.getNickname(), context).orElseThrow());
     }
 
     @Test
     public void memberAdapter_withNonExistingName_ShouldBeEmpty() {
-        MemberAdapter userAdapter = new MemberAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        MemberAdapter adapter = new MemberAdapter();
 
-        assertFalse(userAdapter.parse("thispersondoesnotexist.com", context).isPresent());
+        assertFalse(adapter.parse("thispersondoesnotexist.com", context).isPresent());
     }
 
     @Test
     public void memberAdapter_inNotGuildContext_ShouldBeEmpty() {
-        MemberAdapter userAdapter = new MemberAdapter();
-        context.setEvent(new MessageReceivedEventMock(false));
+        MemberAdapter adapter = new MemberAdapter();
 
-        assertFalse(userAdapter.parse("name", context).isPresent());
+        assertFalse(adapter.parse("name", context).isPresent());
     }
 
     @Test
     public void roleAdapter_withExistingId_ShouldReturnMember() {
-        RoleAdapter userAdapter = new RoleAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        RoleAdapter adapter = new RoleAdapter();
 
-        assertEquals(GuildMock.ROLE, userAdapter.parse(String.valueOf(GuildMock.ROLE.getIdLong()), context).orElse(null));
+        assertEquals(GuildMock.ROLE, adapter.parse(String.valueOf(GuildMock.ROLE.getIdLong()), context).orElseThrow());
     }
 
     @Test
     public void roleAdapter_withNonExistingId_ShouldBeEmpty() {
-        RoleAdapter userAdapter = new RoleAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        RoleAdapter adapter = new RoleAdapter();
 
-        assertFalse(userAdapter.parse("1234567890", context).isPresent());
+        assertFalse(adapter.parse("1234567890", context).isPresent());
     }
 
     @Test
     public void roleAdapter_withExistingName_ShouldReturnMember() {
-        RoleAdapter userAdapter = new RoleAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        RoleAdapter adapter = new RoleAdapter();
 
-        assertEquals(GuildMock.ROLE, userAdapter.parse(GuildMock.ROLE.getName(), context).orElse(null));
+        assertEquals(GuildMock.ROLE, adapter.parse(GuildMock.ROLE.getName(), context).orElseThrow());
     }
 
     @Test
     public void roleAdapter_withNonExistingName_ShouldBeEmpty() {
-        RoleAdapter userAdapter = new RoleAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        RoleAdapter adapter = new RoleAdapter();
 
-        assertFalse(userAdapter.parse("thispersondoesnotexist.com", context).isPresent());
+        assertFalse(adapter.parse("thispersondoesnotexist.com", context).isPresent());
     }
 
     @Test
     public void roleAdapter_inNotGuildContext_ShouldBeEmpty() {
-        RoleAdapter userAdapter = new RoleAdapter();
-        context.setEvent(new MessageReceivedEventMock(false));
+        RoleAdapter adapter = new RoleAdapter();
 
-        assertFalse(userAdapter.parse("name", context).isPresent());
+        assertFalse(adapter.parse("name", context).isPresent());
     }
 
     @Test
     public void textChannelAdapter_withExistingId_ShouldReturnMember() {
-        TextChannelAdapter userAdapter = new TextChannelAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        TextChannelAdapter adapter = new TextChannelAdapter();
 
-        assertEquals(GuildMock.TEXT_CHANNEL, userAdapter.parse(String.valueOf(GuildMock.TEXT_CHANNEL.getIdLong()), context).orElse(null));
+        assertEquals(GuildMock.TEXT_CHANNEL, adapter.parse(String.valueOf(GuildMock.TEXT_CHANNEL.getIdLong()), context).orElseThrow());
     }
 
     @Test
     public void textChannelAdapter_withNonExistingId_ShouldBeEmpty() {
-        TextChannelAdapter userAdapter = new TextChannelAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        TextChannelAdapter adapter = new TextChannelAdapter();
 
-        assertFalse(userAdapter.parse("1234567890", context).isPresent());
+        assertFalse(adapter.parse("1234567890", context).isPresent());
     }
 
     @Test
     public void textChannelAdapter_withExistingName_ShouldReturnMember() {
-        TextChannelAdapter userAdapter = new TextChannelAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        TextChannelAdapter adapter = new TextChannelAdapter();
 
-        assertEquals(GuildMock.TEXT_CHANNEL, userAdapter.parse(GuildMock.TEXT_CHANNEL.getName(), context).orElse(null));
+        assertEquals(GuildMock.TEXT_CHANNEL, adapter.parse(GuildMock.TEXT_CHANNEL.getName(), context).orElseThrow());
     }
 
     @Test
     public void textChannelAdapter_withNonExistingName_ShouldBeEmpty() {
-        TextChannelAdapter userAdapter = new TextChannelAdapter();
-        context.setEvent(new MessageReceivedEventMock(true));
+        TextChannelAdapter adapter = new TextChannelAdapter();
 
-        assertFalse(userAdapter.parse("thispersondoesnotexist.com", context).isPresent());
+        assertFalse(adapter.parse("thispersondoesnotexist.com", context).isPresent());
     }
 
     @Test
     public void textChannelAdapter_inNotGuildContext_ShouldBeEmpty() {
-        TextChannelAdapter userAdapter = new TextChannelAdapter();
-        context.setEvent(new MessageReceivedEventMock(false));
+        TextChannelAdapter adapter = new TextChannelAdapter();
 
-        assertFalse(userAdapter.parse("name", context).isPresent());
+        assertFalse(adapter.parse("name", context).isPresent());
     }
 
     @Test

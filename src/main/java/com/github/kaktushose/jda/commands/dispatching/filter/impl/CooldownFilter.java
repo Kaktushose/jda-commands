@@ -1,24 +1,27 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A {@link Filter} implementation that contains the business logic behind command cooldowns.
- * If the command isn't annotated with {@link com.github.kaktushose.jda.commands.annotations.Cooldown Cooldown} or more
+ * If the command isn't annotated with {@link Cooldown Cooldown} or more
  * formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
  * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.annotations.Cooldown
+ * @see Cooldown
  * @since 2.0.0
  */
 public class CooldownFilter implements Filter {
@@ -34,40 +37,40 @@ public class CooldownFilter implements Filter {
      * Checks if an active cooldown for the given {@link CommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param context the {@link CommandContext} to filter
+     * @param context the {@link GenericContext} to filter
      */
     @Override
-    public void apply(@NotNull CommandContext context) {
-        CommandDefinition command = context.getCommand();
-
-        if (!command.hasCooldown()) {
-            return;
-        }
-
-        long id = context.getEvent().getAuthor().getIdLong();
-
-        activeCooldowns.putIfAbsent(id, new HashSet<>());
-
-        Optional<CooldownEntry> optional = activeCooldowns.get(id).stream().filter(entry -> entry.command.equals(command)).findFirst();
-
-        if (optional.isPresent()) {
-            CooldownEntry entry = optional.get();
-            long remaining = entry.duration - (System.currentTimeMillis() - entry.startTime);
-            if (remaining <= 0) {
-                activeCooldowns.get(id).remove(entry);
-            } else {
-                context.setCancelled(true);
-                context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
-                log.debug("Command has a remaining cooldown of {} ms!", remaining);
-                return;
-            }
-        }
-
-        CooldownDefinition cooldown = command.getCooldown();
-        long startTime = System.currentTimeMillis();
-        long duration = cooldown.getTimeUnit().toMillis(cooldown.getDelay());
-        activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
-        log.debug("Added new cooldown entry for this user");
+    public void apply(@NotNull GenericContext context) {
+//        CommandDefinition command = context.getCommand();
+//
+//        if (!command.hasCooldown()) {
+//            return;
+//        }
+//
+//        long id = context.getEvent().getAuthor().getIdLong();
+//
+//        activeCooldowns.putIfAbsent(id, new HashSet<>());
+//
+//        Optional<CooldownEntry> optional = activeCooldowns.get(id).stream().filter(entry -> entry.command.equals(command)).findFirst();
+//
+//        if (optional.isPresent()) {
+//            CooldownEntry entry = optional.get();
+//            long remaining = entry.duration - (System.currentTimeMillis() - entry.startTime);
+//            if (remaining <= 0) {
+//                activeCooldowns.get(id).remove(entry);
+//            } else {
+//                context.setCancelled(true);
+//                context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+//                log.debug("Command has a remaining cooldown of {} ms!", remaining);
+//                return;
+//            }
+//        }
+//
+//        CooldownDefinition cooldown = command.getCooldown();
+//        long startTime = System.currentTimeMillis();
+//        long duration = cooldown.getTimeUnit().toMillis(cooldown.getDelay());
+//        activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
+//        log.debug("Added new cooldown entry for this user");
     }
 
     private static class CooldownEntry {

@@ -32,29 +32,29 @@ public class DependencyInjectorTest {
 
     @Test
     public void inject_withRegisteredDependency_ShouldBePresent() {
-        dependencyInjector.registerDependencies(instance, fields);
+        dependencyInjector.registerDependencies(instance.getClass(), fields);
         dependencyInjector.registerProvider(new ProducingClass());
 
-        dependencyInjector.inject();
+        dependencyInjector.inject(instance);
 
         assertEquals(Dependency.FOO, instance.getDependency().getString());
     }
 
     @Test
     public void inject_withoutRegisteredDependency_ShouldBeNull() {
-        dependencyInjector.registerDependencies(instance, fields);
+        dependencyInjector.registerDependencies(instance.getClass(), fields);
 
-        dependencyInjector.inject();
+        dependencyInjector.inject(instance);
 
         assertNull(instance.getDependency());
     }
 
     @Test
     public void registerProvider_withProducerMethodWithParameter_ShouldThrow() {
-        dependencyInjector.registerDependencies(instance, fields);
+        dependencyInjector.registerDependencies(instance.getClass(), fields);
         dependencyInjector.registerProvider(new WrongProducingClass());
 
-        dependencyInjector.inject();
+        dependencyInjector.inject(instance);
 
         assertNull(instance.getDependency());
     }

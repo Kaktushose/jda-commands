@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import org.jetbrains.annotations.NotNull;
@@ -23,12 +23,13 @@ public class AudioChannelAdapter implements TypeAdapter<AudioChannel> {
      * Attempts to parse a String to a {@link AudioChannel}. Accepts both the channel id and name.
      *
      * @param raw     the String to parse
-     * @param context the {@link CommandContext}
+     * @param context the {@link GenericContext}
      * @return the parsed {@link AudioChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<AudioChannel> parse(@NotNull String raw, @NotNull CommandContext context) {
-        if (!context.getEvent().isFromType(ChannelType.TEXT)) {
+    public Optional<AudioChannel> parse(@NotNull String raw, @NotNull GenericContext context) {
+        Channel channel = context.getEvent().getChannel();
+        if (channel == null) {
             return Optional.empty();
         }
 
@@ -40,7 +41,7 @@ public class AudioChannelAdapter implements TypeAdapter<AudioChannel> {
             guildChannel = guild.getGuildChannelById(raw);
         } else {
             String finalRaw = raw;
-            guildChannel = guild.getChannels().stream().filter(channel -> channel.getName().equalsIgnoreCase(finalRaw))
+            guildChannel = guild.getChannels().stream().filter(it -> it.getName().equalsIgnoreCase(finalRaw))
                     .findFirst().orElse(null);
         }
         if (guildChannel == null) {

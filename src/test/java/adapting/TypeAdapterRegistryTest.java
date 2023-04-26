@@ -1,17 +1,15 @@
 package adapting;
 
-import adapting.mock.MessageReceivedEventMock;
+import adapting.mock.JDACommandsMock;
+import adapting.mock.SlashCommandInteractionEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.settings.GuildSettings;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,14 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TypeAdapterRegistryTest {
 
     private static Class<?> controller;
-    private static TypeAdapterRegistryTestController instance;
     private static ValidatorRegistry validator;
     private static TypeAdapterRegistry adapter;
     private TypeAdapterRegistry registry;
 
     @BeforeAll
     public static void setup() {
-        instance = new TypeAdapterRegistryTestController();
+        TypeAdapterRegistryTestController instance = new TypeAdapterRegistryTestController();
         controller = instance.getClass();
         validator = new ValidatorRegistry();
         adapter = new TypeAdapterRegistry();
@@ -80,12 +77,10 @@ public class TypeAdapterRegistryTest {
     }
 
     @Test
-    public void adapt_withLessInputThanParameters_ShouldCancel() throws NoSuchMethodException {
+    public void adapt_withLessInputThanParameters_ShouldThrow() throws NoSuchMethodException {
         CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
 
-        registry.adapt(context);
-
-        assertTrue(context.isCancelled());
+        assertThrows(IllegalStateException.class, () -> registry.adapt(context));
     }
 
     @Test
@@ -134,23 +129,22 @@ public class TypeAdapterRegistryTest {
 
     private CommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        CommandDefinition command = CommandDefinition.build(method, instance, adapter, validator).orElse(null);
+        CommandDefinition command = CommandDefinition.build(method, validator, ResourceBundleLocalizationFunction.empty().build()).orElse(null);
         assertNotNull(command);
         return command;
     }
 
     private CommandContext buildContext(CommandDefinition command, String... input) {
-        CommandContext context = new CommandContext();
-        context.setImplementationRegistry(new ImplementationRegistry(
-                new DependencyInjector(),
-                new FilterRegistry(),
-                new TypeAdapterRegistry(),
-                new ValidatorRegistry())
-        );
-        context.setSettings(new GuildSettings());
-        context.setEvent(new MessageReceivedEventMock(true));
+        CommandContext context = new CommandContext(
+                new SlashCommandInteractionEventMock(),
+                new JDACommandsMock());
         context.setInput(input);
         context.setCommand(command);
         return context;
     }
+
+    private <T> T giveNull() {
+        return null;
+    }
+
 }

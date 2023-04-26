@@ -1,18 +1,21 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A {@link Filter} implementation that will check the parameter constraints a
- * {@link com.github.kaktushose.jda.commands.reflect.CommandDefinition} might have.
+ * {@link CommandDefinition} might have.
  *
  * @author Kaktushose
  * @version 2.0.0
@@ -24,15 +27,16 @@ public class ConstraintFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(ConstraintFilter.class);
 
     /**
-     * Checks if all parameters fulfill their constraints. Will cancel the {@link CommandContext} if a parameter
+     * Checks if all parameters fulfill their constraints. Will cancel the {@link GenericContext} if a parameter
      * constraint fails.
      *
-     * @param context the {@link CommandContext} to filter
+     * @param ctx the {@link GenericContext} to filter
      */
     @Override
-    public void apply(@NotNull CommandContext context) {
+    public void apply(@NotNull GenericContext ctx) {
+        CommandContext context = (CommandContext) ctx;
         List<Object> arguments = context.getArguments();
-        List<ParameterDefinition> parameters = context.getCommand().getParameters();
+        List<ParameterDefinition> parameters = Objects.requireNonNull(context.getCommand()).getParameters();
 
         log.debug("Applying parameter constraints...");
         for (int i = 1; i < arguments.size(); i++) {
@@ -45,11 +49,11 @@ public class ConstraintFilter implements Filter {
 
                 if (!validated) {
                     context.setCancelled(true);
-                    context.setErrorMessage(
-                            context.getImplementationRegistry()
-                                    .getErrorMessageFactory()
-                                    .getConstraintFailedMessage(context, constraint)
-                    );
+//                    context.setErrorMessage(
+//                            context.getImplementationRegistry()
+//                                    .getErrorMessageFactory()
+//                                    .getConstraintFailedMessage(context, constraint)
+//                    );
                     log.debug("Constraint failed!");
                     return;
                 }

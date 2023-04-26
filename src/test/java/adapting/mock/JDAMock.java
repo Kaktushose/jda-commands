@@ -1,6 +1,5 @@
 package adapting.mock;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -32,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("ConstantConditions")
 public class JDAMock implements JDA {
@@ -49,7 +49,7 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public CacheRestAction<User> retrieveUserById(long l) {
+    public CacheRestAction<User> retrieveUserById(long id) {
         return null;
     }
 
@@ -101,6 +101,11 @@ public class JDAMock implements JDA {
     @Override
     public JDA awaitStatus(@NotNull JDA.Status status, @NotNull Status... statuses) throws InterruptedException {
         return null;
+    }
+
+    @Override
+    public boolean awaitShutdown(long duration, @NotNull TimeUnit unit) throws InterruptedException {
+        return false;
     }
 
     @Override
@@ -162,7 +167,7 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
-    public RestAction<List<Command>> retrieveCommands(boolean b) {
+    public RestAction<List<Command>> retrieveCommands(boolean withLocalizations) {
         return null;
     }
 
@@ -193,6 +198,18 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public RestAction<Void> deleteCommandById(@NotNull String s) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<RoleConnectionMetadata>> retrieveRoleConnectionMetadata() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<RoleConnectionMetadata>> updateRoleConnectionMetadata(@NotNull Collection<? extends RoleConnectionMetadata> records) {
         return null;
     }
 
@@ -322,6 +339,18 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public CacheRestAction<PrivateChannel> openPrivateChannelById(long userId) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public RestAction<StickerUnion> retrieveSticker(@NotNull StickerSnowflake stickerSnowflake) {
         return null;
     }
@@ -405,12 +434,6 @@ public class JDAMock implements JDA {
     @Override
     public void shutdownNow() {
 
-    }
-
-    @NotNull
-    @Override
-    public AccountType getAccountType() {
-        return null;
     }
 
     @NotNull

@@ -2,9 +2,7 @@ package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.RoleIcon;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.attribute.IPermissionContainer;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.managers.RoleManager;
@@ -99,7 +97,7 @@ public class RoleMock implements Role {
 
     @NotNull
     @Override
-    public EnumSet<Permission> getPermissions(@NotNull GuildChannel guildChannel) {
+    public EnumSet<Permission> getPermissions(@NotNull GuildChannel channel) {
         return null;
     }
 
@@ -136,7 +134,7 @@ public class RoleMock implements Role {
     }
 
     @Override
-    public boolean canSync(@NotNull IPermissionContainer iPermissionContainer, @NotNull IPermissionContainer iPermissionContainer1) {
+    public boolean canSync(@NotNull IPermissionContainer targetChannel, @NotNull IPermissionContainer syncSource) {
         return false;
     }
 

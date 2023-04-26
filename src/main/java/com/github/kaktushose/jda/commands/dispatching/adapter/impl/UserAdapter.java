@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
@@ -22,11 +22,11 @@ public class UserAdapter implements TypeAdapter<User> {
      * Attempts to parse a String to a {@link User}. Accepts both the user id and name.
      *
      * @param raw     the String to parse
-     * @param context the {@link CommandContext}
+     * @param context the {@link GenericContext}
      * @return the parsed {@link User} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<User> parse(@NotNull String raw, @NotNull CommandContext context) {
+    public Optional<User> parse(@NotNull String raw, @NotNull GenericContext context) {
         User user;
         raw = sanitizeMention(raw);
         JDA jda = context.getEvent().getJDA();

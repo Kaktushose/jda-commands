@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.User;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see PermissionsProvider#isMuted(User, CommandContext)
+ * @see PermissionsProvider#isMuted(User, GenericContext)
  * @since 2.0.0
  */
 public class UserMuteFilter implements Filter {
@@ -25,21 +25,18 @@ public class UserMuteFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(UserMuteFilter.class);
 
     /**
-     * Checks if a {@link User} is muted and will cancel the {@link CommandContext} if he is.
+     * Checks if a {@link User} is muted and will cancel the {@link GenericContext} if he is.
      *
-     * @param context the {@link CommandContext} to filter
+     * @param context the {@link GenericContext} to filter
      */
     @Override
-    public void apply(@NotNull CommandContext context) {
+    public void apply(@NotNull GenericContext context) {
         log.debug("Checking mutes...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
 
-        if (provider.isMuted(context.getEvent().getAuthor(), context)) {
-            context.setCancelled(true);
-            context.setErrorMessage(context
-                    .getImplementationRegistry()
-                    .getErrorMessageFactory()
-                    .getUserMutedMessage(context)
+        if (provider.isMuted(context.getEvent().getUser(), context)) {
+            context.setCancelled(true).setErrorMessage(
+                    context.getImplementationRegistry().getErrorMessageFactory().getUserMutedMessage(context)
             );
             log.debug("Insufficient permissions - User is muted!");
             return;

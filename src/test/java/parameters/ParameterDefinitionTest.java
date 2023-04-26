@@ -57,21 +57,6 @@ public class ParameterDefinitionTest {
     }
 
     @Test
-    public void concat_withString_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("concat", String.class);
-        ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
-
-        assertTrue(parameter.isConcat());
-    }
-
-    @Test
-    public void concat_withNonString_ShouldThrow() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("concat", Object.class);
-
-        assertThrows(IllegalArgumentException.class, () -> ParameterDefinition.build(method.getParameters()[0], validatorRegistry));
-    }
-
-    @Test
     public void constraintMin_withLimit10_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraint", int.class);
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);

@@ -50,11 +50,11 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
-    public EnumSet<Permission> getPermissions(@NotNull GuildChannel guildChannel) {
+    public EnumSet<Permission> getPermissions(@NotNull GuildChannel channel) {
         return null;
     }
 
-    @NotNull
+
     @Override
     public EnumSet<Permission> getPermissionsExplicit() {
         return null;
@@ -62,9 +62,10 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
-    public EnumSet<Permission> getPermissionsExplicit(@NotNull GuildChannel guildChannel) {
+    public EnumSet<Permission> getPermissionsExplicit(@NotNull GuildChannel channel) {
         return null;
     }
+
 
     @Override
     public boolean hasPermission(@NotNull Permission... permissions) {
@@ -209,6 +210,11 @@ public class MemberMock implements Member {
 
     @Override
     public int getColorRaw() {
+        return 0;
+    }
+
+    @Override
+    public int getFlagsRaw() {
         return 0;
     }
 

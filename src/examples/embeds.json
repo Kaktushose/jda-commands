@@ -1,51 +1,4 @@
 {
-  "specificHelp": {
-    "title": "Specific Help",
-    "description": "Command Details for `{prefix}{label}`",
-    "color": "#00ff00",
-    "fields": [
-      {
-        "name": "Name",
-        "value": "`{name}`"
-      },
-      {
-        "name": "Usage",
-        "value": "`{usage}`"
-      },
-      {
-        "name": "Aliases",
-        "value": "`{aliases}`"
-      },
-      {
-        "name": "Description",
-        "value": "`{description}`"
-      },
-      {
-        "name": "Permissions",
-        "value": "`{permissions}`"
-      },
-      {
-        "name": "Category",
-        "value": "`{category}`"
-      }
-    ]
-  },
-  "genericHelp": {
-    "title": "General Help",
-    "description": "The following commands are available. Type `{prefix}{helpLabel} <command>` to get specific help",
-    "color": "#00ff00"
-  },
-  "commandNotFound": {
-    "title": "Command Not Found",
-    "description": "```type {prefix}{helpLabel} to get a list of all available commands```",
-    "fields": [
-      {
-        "name": "Similar Commands",
-        "value": "{commands}"
-      }
-    ],
-    "color": "#ffc800"
-  },
   "insufficientPermissions": {
     "title": "Insufficient Permissions",
     "description": "`{prefix}{label}` requires specific permissions to be executed",
@@ -72,7 +25,7 @@
     "description": "This channel is muted!",
     "color": "#ff0000"
   },
-  "syntaxError": {
+  "typeAdaptingFailed": {
     "title": "Syntax Error",
     "description": "`{usage}`",
     "color": "#ffc800",

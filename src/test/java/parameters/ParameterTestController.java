@@ -1,8 +1,7 @@
 package parameters;
 
-import com.github.kaktushose.jda.commands.annotations.Concat;
-import com.github.kaktushose.jda.commands.annotations.Optional;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
 
 public class ParameterTestController {
 
@@ -19,14 +18,6 @@ public class ParameterTestController {
     }
 
     public void optionalWithDefault(@Optional("default") Object argument) {
-
-    }
-
-    public void concat(@Concat String argument) {
-
-    }
-
-    public void concat(@Concat Object argument) {
 
     }
 
