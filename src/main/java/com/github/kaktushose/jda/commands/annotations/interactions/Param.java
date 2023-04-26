@@ -31,11 +31,4 @@ public @interface Param {
      */
     String name() default "";
 
-    /**
-     * Whether this parameter is optional.
-     *
-     * @return {@code true} if this parameter is optional
-     */
-    boolean optional() default false;
-
 }
