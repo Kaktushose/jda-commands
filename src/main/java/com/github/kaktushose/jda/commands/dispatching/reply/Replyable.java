@@ -17,15 +17,18 @@ import java.util.function.Consumer;
  * Generic interface holding reply methods.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @since 2.3.0
  */
 public interface Replyable {
 
+    /**
+     * A no-op consumer used as a placeholder.
+     */
     Consumer<Message> EMPTY_CONSUMER = unused -> {};
 
     /**
-     * Sends a message to the TextChannel where the button was called.
+     * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param message the message to send
      */
@@ -36,7 +39,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a formatted message using the specified format string and arguments to the TextChannel where the button was called.
+     * Sends a formatted message using the specified format string and arguments to the TextChannel where the interaction was executed.
      *
      * @param format the message to send
      * @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
@@ -53,7 +56,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called.
+     * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param message the {@code Message} to send
      */
@@ -64,7 +67,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called.
+     * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param builder the {@code EmbedBuilder} to send
      */
@@ -75,7 +78,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called.
+     * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param embedDTO the {@link EmbedDTO} to send
      */
@@ -86,7 +89,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called. This method also allows to access the JDA RestAction
+     * Sends a message to the TextChannel where the interaction was executed. This method also allows to access the JDA RestAction
      * consumer.
      *
      * @param message the {@link String} message to send
@@ -100,7 +103,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called. This method also allows to access the JDA RestAction
+     * Sends a message to the TextChannel where the interaction was executed. This method also allows to access the JDA RestAction
      * consumer.
      *
      * @param message the {@link Message} to send
@@ -114,7 +117,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called. This method also allows to access the JDA RestAction
+     * Sends a message to the TextChannel where the interaction was executed. This method also allows to access the JDA RestAction
      * consumer.
      *
      * @param builder the {@link EmbedBuilder} to send
@@ -128,7 +131,7 @@ public interface Replyable {
     }
 
     /**
-     * Sends a message to the TextChannel where the button was called. This method also allows to access the JDA RestAction
+     * Sends a message to the TextChannel where the interaction was executed. This method also allows to access the JDA RestAction
      * consumer.
      *
      * @param embedDTO the {@link EmbedDTO} to send
