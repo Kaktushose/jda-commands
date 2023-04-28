@@ -36,6 +36,6 @@ public @interface Interaction {
      *
      * @return {@code true} if this interaction should send ephemeral replies by default
      */
-    boolean ephemeral() default true;
+    boolean ephemeral() default false;
 
 }

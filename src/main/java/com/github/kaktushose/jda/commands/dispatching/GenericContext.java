@@ -33,7 +33,6 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * Constructs a new CommandContext.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
-     * @param registry    the corresponding {@link ImplementationRegistry}
      * @param event       the corresponding {@link GenericInteractionCreateEvent}
      */
     public GenericContext(T event, JDACommands jdaCommands) {
