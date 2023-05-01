@@ -6,76 +6,177 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
+/**
+ * This class models a reply to an interaction. It is mainly used by the {@link Replyable} interface to construct a
+ * reply but can also be accessed directly.
+ *
+ * @author Kaktushose
+ * @version 4.0.0
+ * @since 4.0.0
+ */
 public class ReplyContext {
 
+    private static final Logger log = LoggerFactory.getLogger(ReplyContext.class);
     private final SlashCommandInteractionEvent event;
     private final MessageCreateBuilder builder;
-    private Consumer<Message> consumer;
+    private Consumer<Message> success;
+    private Consumer<Throwable> failure;
     private boolean editReply;
     private boolean clearComponents;
     private boolean ephemeralReply;
 
+    /**
+     * Constructs a new ReplyContext.
+     *
+     * @param context the corresponding {@link CommandContext}
+     */
     public ReplyContext(CommandContext context) {
         event = context.getEvent();
         builder = new MessageCreateBuilder();
-        consumer = (message) -> {
+        success = (message) -> {
+        };
+        failure = (throwable) -> {
+            log.error("The response request encountered an exception at its execution point!", new InvocationTargetException(throwable));
         };
         editReply = true;
         clearComponents = false;
         ephemeralReply = context.isEphemeral();
     }
 
+    /**
+     * Transforms this ReplyContext to a {@link MessageCreateData}. This is equal to {@code getBuilder().build()}.
+     *
+     * @return the {@link MessageCreateData}
+     */
     public MessageCreateData toMessageCreateData() {
         return builder.build();
     }
 
+    /**
+     * Transforms this ReplyContext to a {@link MessageEditData}.
+     *
+     * @return the {@link MessageEditData}
+     */
     public MessageEditData toMessageEditData() {
         return MessageEditData.fromCreateData(toMessageCreateData());
     }
 
+    /**
+     * Returns the underlying {@link MessageCreateBuilder}.
+     *
+     * @return the underlying {@link MessageCreateBuilder}
+     */
     public MessageCreateBuilder getBuilder() {
         return builder;
     }
 
-    public Consumer<Message> getConsumer() {
-        return consumer;
+    /**
+     * Returns the success callback.
+     *
+     * @return the success callback
+     */
+    public Consumer<Message> getSuccessCallback() {
+        return success;
     }
 
-    public ReplyContext setConsumer(Consumer<Message> consumer) {
-        this.consumer = consumer;
+    /**
+     * Sets the success callback.
+     *
+     * @return this instance
+     */
+    public ReplyContext setSuccessCallback(Consumer<Message> consumer) {
+        this.success = consumer;
         return this;
     }
 
+    /**
+     * Returns the failure callback.
+     *
+     * @return the failure callback
+     */
+    public Consumer<Throwable> getFailureCallback() {
+        return failure;
+    }
+
+    /**
+     * Returns the failure callback.
+     *
+     * @return this instance
+     */
+    public ReplyContext setFailureCallback(Consumer<Throwable> consumer) {
+        this.failure = consumer;
+        return this;
+    }
+
+    /**
+     * Whether this reply should edit the original message.
+     *
+     * @return {@code true} if this reply should edit the original message
+     */
     public boolean isEditReply() {
         return editReply;
     }
 
+    /**
+     * Whether this reply should edit the original message.
+     *
+     * @param editReply {@code true} if this reply should edit the original message
+     * @return this instance
+     */
     public ReplyContext setEditReply(boolean editReply) {
         this.editReply = editReply;
         return this;
     }
 
+    /**
+     * Whether this reply should clear all components of the original message.
+     *
+     * @return {@code true} this reply should clear all components of the original message
+     */
     public boolean isClearComponents() {
         return clearComponents;
     }
 
+    /**
+     * Whether this reply should clear all components of the original message.
+     *
+     * @param clearComponents {@code true} this reply should clear all components of the original message
+     * @return this instance
+     */
     public ReplyContext setClearComponents(boolean clearComponents) {
         this.clearComponents = clearComponents;
         return this;
     }
 
+    /**
+     * Whether this reply should be ephemeral.
+     *
+     * @return this instance
+     */
     public boolean isEphemeralReply() {
         return ephemeralReply;
     }
 
+    /**
+     * Whether this reply should be ephemeral.
+     *
+     * @return  {@code true} if this reply should be ephemeral
+     */
     public ReplyContext setEphemeralReply(boolean ephemeralReply) {
         this.ephemeralReply = ephemeralReply;
         return this;
     }
 
+    /**
+     * Sends the reply to Discord, taking into account all the settings that were previously made to this context.
+     *
+     */
     public void queue() {
         // The ReplyContext is also used for error messages and some appear even before acknowledging took place
         // In this case the event gets acknowledged with ephemeral set to false
@@ -84,9 +185,9 @@ public class ReplyContext {
         }
         event.getHook().setEphemeral(ephemeralReply);
         if (editReply) {
-            event.getHook().editOriginal(toMessageEditData()).queue(consumer);
+            event.getHook().editOriginal(toMessageEditData()).queue(success, failure);
             return;
         }
-        event.getHook().sendMessage(toMessageCreateData()).queue(consumer);
+        event.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
     }
 }

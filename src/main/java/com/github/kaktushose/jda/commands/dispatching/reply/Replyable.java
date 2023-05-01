@@ -23,18 +23,12 @@ import java.util.function.Consumer;
 public interface Replyable {
 
     /**
-     * A no-op consumer used as a placeholder.
-     */
-    Consumer<Message> EMPTY_CONSUMER = unused -> {};
-
-    /**
      * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param message the message to send
      */
     default void reply(@NotNull String message) {
         getReplyContext().getBuilder().setContent(message);
-        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -51,7 +45,6 @@ public interface Replyable {
      */
     default void reply(@NotNull String format, @NotNull Object... args) {
         getReplyContext().getBuilder().setContent(String.format(format, args));
-        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -62,7 +55,6 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message) {
         getReplyContext().getBuilder().applyData(message);
-        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -73,7 +65,6 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder) {
         getReplyContext().getBuilder().setEmbeds(builder.build());
-        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -84,7 +75,6 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
         getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
-        setConsumer(EMPTY_CONSUMER);
         reply();
     }
 
@@ -98,7 +88,7 @@ public interface Replyable {
      */
     default void reply(@NotNull String message, @Nullable Consumer<Message> success) {
         reply(message);
-        setConsumer(success);
+        setSuccessCallback(success);
         reply();
     }
 
@@ -112,7 +102,7 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
         reply(message);
-        setConsumer(success);
+        setSuccessCallback(success);
         reply();
     }
 
@@ -126,7 +116,7 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
         reply(builder);
-        setConsumer(success);
+        setSuccessCallback(success);
         reply();
     }
 
@@ -140,7 +130,7 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         reply(embedDTO);
-        setConsumer(success);
+        setSuccessCallback(success);
         reply();
     }
 
@@ -187,8 +177,19 @@ public interface Replyable {
      * @param success the callback consumer
      * @return the current instance for fluent interface
      */
-    private Replyable setConsumer(Consumer<Message> success) {
-        getReplyContext().setConsumer(success);
+    private Replyable setSuccessCallback(Consumer<Message> success) {
+        getReplyContext().setSuccessCallback(success);
+        return this;
+    }
+
+    /**
+     * Sets the failure callback consumer.
+     *
+     * @param failure the callback consumer
+     * @return the current instance for fluent interface
+     */
+    private Replyable setFailureCallback(Consumer<Throwable> failure) {
+        getReplyContext().setFailureCallback(failure);
         return this;
     }
 
@@ -215,15 +216,42 @@ public interface Replyable {
     }
 
     /**
+     * Sends the reply to Discord. Use this if you only want to edit components or if you have constructed the reply
+     * message by using {@link #getReplyContext()}. This method also allows to access the JDA RestAction
+     * consumer.
+     *
+     * @param success the JDA RestAction success consumer
+     */
+    default void reply(Consumer<Message> success) {
+        setSuccessCallback(success);
+        reply();
+    }
+
+    /**
+     * Sends the reply to Discord. Use this if you only want to edit components or if you have constructed the reply
+     * message by using {@link #getReplyContext()}. This method also allows to access the JDA RestAction
+     * consumer.
+     *
+     * @param success the JDA RestAction success consumer
+     * @param failure the JDA RestAction failure consumer
+     */
+    default void reply(Consumer<Message> success, Consumer<Throwable> failure) {
+        setSuccessCallback(success);
+        setFailureCallback(failure);
+        reply();
+    }
+
+    /**
+     * Sends the reply to Discord. Use this if you only want to edit components or if you have constructed the reply
+     * message by using {@link #getReplyContext()}.
+     */
+    void reply();
+
+    /**
      * Gets the {@link ReplyContext} to use.
      *
      * @return the {@link ReplyContext}
      */
     @NotNull ReplyContext getReplyContext();
-
-    /**
-     * Sends a reply with no message content. The main use-case of this method is for editing components of a reply.
-     */
-    void reply();
 
 }
