@@ -23,12 +23,24 @@ import java.util.function.Consumer;
 public interface Replyable {
 
     /**
+     * A no-op consumer used as a placeholder.
+     */
+    Consumer<Message> EMPTY_SUCCESS = unused -> {};
+
+    /**
+     * A no-op consumer used as a placeholder.
+     */
+    Consumer<Throwable> EMPTY_FAILURE = unused -> {};
+
+    /**
      * Sends a message to the TextChannel where the interaction was executed.
      *
      * @param message the message to send
      */
     default void reply(@NotNull String message) {
         getReplyContext().getBuilder().setContent(message);
+        setSuccessCallback(EMPTY_SUCCESS);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -45,6 +57,8 @@ public interface Replyable {
      */
     default void reply(@NotNull String format, @NotNull Object... args) {
         getReplyContext().getBuilder().setContent(String.format(format, args));
+        setSuccessCallback(EMPTY_SUCCESS);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -55,6 +69,8 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message) {
         getReplyContext().getBuilder().applyData(message);
+        setSuccessCallback(EMPTY_SUCCESS);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -65,6 +81,8 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder) {
         getReplyContext().getBuilder().setEmbeds(builder.build());
+        setSuccessCallback(EMPTY_SUCCESS);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -75,6 +93,8 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
         getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
+        setSuccessCallback(EMPTY_SUCCESS);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -89,6 +109,7 @@ public interface Replyable {
     default void reply(@NotNull String message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -103,6 +124,7 @@ public interface Replyable {
     default void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -117,6 +139,7 @@ public interface Replyable {
     default void reply(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
         reply(builder);
         setSuccessCallback(success);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -131,6 +154,7 @@ public interface Replyable {
     default void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         reply(embedDTO);
         setSuccessCallback(success);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -224,6 +248,7 @@ public interface Replyable {
      */
     default void reply(Consumer<Message> success) {
         setSuccessCallback(success);
+        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
