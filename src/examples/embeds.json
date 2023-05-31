@@ -48,7 +48,7 @@
   "cooldown": {
     "title": "Cooldown",
     "description": "You cannot use this command for {cooldown}!",
-    "color": "#ff0000"
+    "color": "#ffc800"
   },
   "wrongChannel": {
     "title": "Wrong Channel Type",

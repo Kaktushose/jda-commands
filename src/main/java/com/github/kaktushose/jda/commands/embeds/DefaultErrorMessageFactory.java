@@ -123,13 +123,29 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
     public MessageCreateData getCooldownMessage(@NotNull GenericContext<?> context, long ms) {
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
-        long s = seconds % 60;
-        long m = (seconds / 60) % 60;
-        long h = (seconds / (60 * 60)) % 24;
-        String cooldown = String.format("%d:%02d:%02d", h, m, s);
+        long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
+        long seconds = secs % 60;
+        long minutes = (secs / 60) % 60;
+        long hours = (secs / (60 * 60)) % 24;
+
+        StringBuilder cooldown = new StringBuilder();
+        if (hours > 0) {
+            cooldown.append(hours).append(hours == 1 ? " hour" : " hours");
+        }
+        if (minutes > 0) {
+            if (cooldown.length() > 0) {
+                cooldown.append(" ");
+            }
+            cooldown.append(minutes).append(minutes == 1 ? " minute" : " minutes");
+        }
+        if (seconds > 0) {
+            if (cooldown.length() > 0) {
+                cooldown.append(" ");
+            }
+            cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
+        }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
+                .setColor(Color.ORANGE)
                 .setTitle("Cooldown")
                 .setDescription(String.format("You cannot use this command for %s!", cooldown))
                 .build()
