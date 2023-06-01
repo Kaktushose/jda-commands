@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
@@ -16,7 +15,6 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 public class ButtonContext extends GenericContext<ButtonInteractionEvent> {
 
     private ButtonDefinition button;
-    private RuntimeSupervisor.InteractionRuntime runtime;
 
     /**
      * Constructs a new ButtonContext.
@@ -47,24 +45,4 @@ public class ButtonContext extends GenericContext<ButtonInteractionEvent> {
         this.button = button;
         return this;
     }
-
-    /**
-     * Gets the {@link RuntimeSupervisor.InteractionRuntime} used to execute this command event.
-     *
-     * @return the {@link RuntimeSupervisor.InteractionRuntime}
-     */
-    public RuntimeSupervisor.InteractionRuntime getRuntime() {
-        return runtime;
-    }
-
-    /**
-     * Sets the {@link RuntimeSupervisor.InteractionRuntime} that will be used to execute this command event.
-     *
-     * @return the current CommandContext instance
-     */
-    public ButtonContext setRuntime(RuntimeSupervisor.InteractionRuntime runtime) {
-        this.runtime = runtime;
-        return this;
-    }
-
 }

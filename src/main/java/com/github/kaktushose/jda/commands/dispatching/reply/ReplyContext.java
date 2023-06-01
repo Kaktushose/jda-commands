@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -37,7 +38,7 @@ public class ReplyContext {
      *
      * @param context the corresponding {@link CommandContext}
      */
-    public ReplyContext(CommandContext context) {
+    public ReplyContext(GenericContext<? extends GenericInteractionCreateEvent> context) {
         event = context.getEvent();
         builder = new MessageCreateBuilder();
         success = (message) -> {

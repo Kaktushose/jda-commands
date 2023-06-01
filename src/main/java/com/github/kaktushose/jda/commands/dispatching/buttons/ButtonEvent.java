@@ -1,12 +1,18 @@
 package com.github.kaktushose.jda.commands.dispatching.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is a subclass of {@link GenericEvent}.
@@ -23,6 +29,7 @@ public class ButtonEvent extends GenericEvent implements Replyable {
 
     private final ButtonDefinition button;
     private final ButtonContext context;
+    private final ReplyContext replyContext;
 
     /**
      * Constructs a CommandEvent.
@@ -34,6 +41,7 @@ public class ButtonEvent extends GenericEvent implements Replyable {
         super(GenericEvent.fromEvent(context.getEvent()));
         this.button = button;
         this.context = context;
+        replyContext = new ReplyContext(context);
     }
 
     /**
@@ -66,16 +74,37 @@ public class ButtonEvent extends GenericEvent implements Replyable {
 
     @Override
     public Replyable with(@NotNull Component... components) {
-        return null;
-    }
+        List<ItemComponent> items = new ArrayList<>();
+        ButtonDefinition definition = button;
+        for (Component component : components) {
+            if (component instanceof Buttons) {
+                Buttons buttons = (Buttons) component;
+                buttons.getButtons().forEach(button -> {
+                    String id = String.format("%s.%s", definition.getMethod().getDeclaringClass().getSimpleName(), button.getId());
+                    getJdaCommands().getInteractionRegistry().getButtons()
+                            .stream()
+                            .filter(it -> it.getId().equals(id))
+                            .findFirst()
+                            .map(it -> it.toButton().withDisabled(!button.isEnabled()).withId(it.getRuntimeId(context)))
+                            .ifPresent(items::add);
+                });
+            }
+        }
 
-    @Override
-    public void reply() {
-
+        if (items.size() > 0) {
+            getReplyContext().getBuilder().addComponents(ActionRow.of(items));
+        }
+        return this;
     }
 
     @Override
     public @NotNull ReplyContext getReplyContext() {
-        return null;
+        return replyContext;
     }
+
+    @Override
+    public void reply() {
+        replyContext.queue();
+    }
+
 }
