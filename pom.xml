@@ -103,5 +103,16 @@
             <artifactId>annotations</artifactId>
             <version>24.0.1</version>
         </dependency>
+        <!-- TODO remove dev dependencies -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.4.6</version>
+        </dependency>
     </dependencies>
 </project>
