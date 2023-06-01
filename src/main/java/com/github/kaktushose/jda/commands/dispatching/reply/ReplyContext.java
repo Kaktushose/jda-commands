@@ -2,7 +2,8 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -23,7 +24,7 @@ import java.util.function.Consumer;
 public class ReplyContext {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyContext.class);
-    private final SlashCommandInteractionEvent event;
+    private final GenericInteractionCreateEvent event;
     private final MessageCreateBuilder builder;
     private Consumer<Message> success;
     private Consumer<Throwable> failure;
@@ -178,16 +179,24 @@ public class ReplyContext {
      *
      */
     public void queue() {
+        IReplyCallback callback;
+        if (event instanceof IReplyCallback) {
+            callback = (IReplyCallback) event;
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
+            );
+        }
         // The ReplyContext is also used for error messages and some appear even before acknowledging took place
         // In this case the event gets acknowledged with ephemeral set to false
         if (!event.isAcknowledged()) {
-            event.deferReply(false).queue();
+            callback.deferReply(false).queue();
         }
-        event.getHook().setEphemeral(ephemeralReply);
+        callback.getHook().setEphemeral(ephemeralReply);
         if (editReply) {
-            event.getHook().editOriginal(toMessageEditData()).queue(success, failure);
+            callback.getHook().editOriginal(toMessageEditData()).queue(success, failure);
             return;
         }
-        event.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
+        callback.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
     }
 }
