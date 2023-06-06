@@ -4,6 +4,8 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -92,6 +94,7 @@ public class RuntimeSupervisor {
     public static class InteractionRuntime {
         private final String instanceId;
         private final Object instance;
+        private MessageCreateData messageCreateData;
 
         /**
          * Constructs a new InteractionRuntime.
@@ -121,6 +124,24 @@ public class RuntimeSupervisor {
          */
         public Object getInstance() {
             return instance;
+        }
+
+        /**
+         * Gets the latest message that was sent with this runtime.
+         *
+         * @return an {@link Optional} holding a {@link MessageCreateData} describing the latest message
+         */
+        public Optional<MessageCreateData> getLatestReply() {
+            return Optional.ofNullable(messageCreateData);
+        }
+
+        /**
+         * Sets the latest message sent with this runtime.
+         *
+         * @param messageCreateData a {@link MessageCreateData} describing the latest message
+         */
+        public void setLatestReply(@Nullable MessageCreateData messageCreateData) {
+            this.messageCreateData = messageCreateData;
         }
     }
 }

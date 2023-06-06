@@ -9,10 +9,12 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class is a subclass of {@link GenericEvent}.
@@ -104,7 +106,16 @@ public class ButtonEvent extends GenericEvent implements Replyable {
 
     @Override
     public void reply() {
+        Optional<MessageCreateData> optional = context.getRuntime().getLatestReply();
+        if (optional.isPresent()) {
+            MessageCreateData cached = optional.get();
+            if (replyContext.isKeepComponents() && replyContext.getBuilder().getComponents().isEmpty()) {
+                replyContext.getBuilder().setComponents(cached.getComponents());
+            }
+
+        }
         replyContext.queue();
+        context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
     }
 
 }

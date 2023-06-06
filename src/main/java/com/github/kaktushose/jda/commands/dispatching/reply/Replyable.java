@@ -25,12 +25,14 @@ public interface Replyable {
     /**
      * A no-op consumer used as a placeholder.
      */
-    Consumer<Message> EMPTY_SUCCESS = unused -> {};
+    Consumer<Message> EMPTY_SUCCESS = unused -> {
+    };
 
     /**
      * A no-op consumer used as a placeholder.
      */
-    Consumer<Throwable> EMPTY_FAILURE = unused -> {};
+    Consumer<Throwable> EMPTY_FAILURE = unused -> {
+    };
 
     /**
      * Sends a message to the TextChannel where the interaction was executed.
@@ -218,7 +220,8 @@ public interface Replyable {
     }
 
     /**
-     * Whether this reply should edit the existing message or send a new one
+     * Whether this reply should edit the existing message or send a new one. The default value is
+     * {@code true}.
      *
      * @param edit {@code true} if this reply should edit the existing message
      * @return the current instance for fluent interface
@@ -229,13 +232,14 @@ public interface Replyable {
     }
 
     /**
-     * Whether this reply should clear all components that are attached to the previous message
+     * Whether this reply should keep all components that are attached to the previous message. The default value is
+     * {@code true}.
      *
-     * @param clear {@code true} if this reply should clear all components
+     * @param keep {@code true} if this reply should keep all components
      * @return the current instance for fluent interface
      */
-    default Replyable clearComponents(boolean clear) {
-        getReplyContext().setClearComponents(clear);
+    default Replyable keepComponents(boolean keep) {
+        getReplyContext().setKeepComponents(keep);
         return this;
     }
 
@@ -264,6 +268,14 @@ public interface Replyable {
         setSuccessCallback(success);
         setFailureCallback(failure);
         reply();
+    }
+
+    /**
+     * Removes all components from the last message that was sent. <b>This will only work with
+     * {@link #editReply(boolean)} set to true.</b>
+     */
+    default void removeComponents() {
+        getReplyContext().removeComponents();
     }
 
     /**

@@ -30,7 +30,7 @@ public class ReplyContext {
     private Consumer<Message> success;
     private Consumer<Throwable> failure;
     private boolean editReply;
-    private boolean clearComponents;
+    private boolean keepComponents;
     private boolean ephemeralReply;
 
     /**
@@ -47,7 +47,7 @@ public class ReplyContext {
             log.error("The response request encountered an exception at its execution point!", new InvocationTargetException(throwable));
         };
         editReply = true;
-        clearComponents = false;
+        keepComponents = true;
         ephemeralReply = context.isEphemeral();
     }
 
@@ -137,22 +137,22 @@ public class ReplyContext {
     }
 
     /**
-     * Whether this reply should clear all components of the original message.
+     * Whether this reply should keep all components of the original message.
      *
-     * @return {@code true} this reply should clear all components of the original message
+     * @return {@code true} this reply should keep all components of the original message
      */
-    public boolean isClearComponents() {
-        return clearComponents;
+    public boolean isKeepComponents() {
+        return keepComponents;
     }
 
     /**
-     * Whether this reply should clear all components of the original message.
+     * Whether this reply should keep all components of the original message.
      *
-     * @param clearComponents {@code true} this reply should clear all components of the original message
+     * @param keepComponents {@code true} this reply should keep all components of the original message
      * @return this instance
      */
-    public ReplyContext setClearComponents(boolean clearComponents) {
-        this.clearComponents = clearComponents;
+    public ReplyContext setKeepComponents(boolean keepComponents) {
+        this.keepComponents = keepComponents;
         return this;
     }
 
@@ -173,6 +173,29 @@ public class ReplyContext {
     public ReplyContext setEphemeralReply(boolean ephemeralReply) {
         this.ephemeralReply = ephemeralReply;
         return this;
+    }
+
+    /**
+     * Removes all components from the last message that was sent. <b>This will only work with
+     * {@link #setEditReply(boolean)} set to true.</b>
+     */
+    public void removeComponents() {
+        IReplyCallback callback;
+        if (event instanceof IReplyCallback) {
+            callback = (IReplyCallback) event;
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
+            );
+        }
+        if (!event.isAcknowledged()) {
+            callback.deferReply(false).queue();
+        }
+        if (editReply) {
+            callback.getHook().editOriginalComponents().queue();
+        } else {
+            log.warn("Cannot remove components with 'editReply' set to 'false'!");
+        }
     }
 
     /**
