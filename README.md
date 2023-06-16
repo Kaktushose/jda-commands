@@ -233,3 +233,5 @@ If you think that something is missing, and you want to add it yourself, feel fr
 keep your code quality as good as mine and stick to the core concepts of this framework.
 
 Special thanks to all contributors <3
+
+[![Contributors Display](https://badges.pufler.dev/contributors/Kaktushose/jda-commands?size=50&padding=5&perRow=10&bots=false)]([https://badges.pufler.dev](https://github.com/Kaktushose/jda-commands/graphs/contributors))
