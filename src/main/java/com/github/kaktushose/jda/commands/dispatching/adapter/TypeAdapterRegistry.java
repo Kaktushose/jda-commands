@@ -153,7 +153,7 @@ public class TypeAdapterRegistry {
 
             String raw;
             // current parameter index == total amount of input, check if it's optional else cancel context
-            if (i == input.length) {
+            if (i >= input.length) {
                 if (!parameter.isOptional()) {
                     IllegalStateException exception = new IllegalStateException(
                             "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
