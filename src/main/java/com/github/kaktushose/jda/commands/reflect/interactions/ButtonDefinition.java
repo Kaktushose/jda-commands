@@ -96,11 +96,11 @@ public class ButtonDefinition extends EphemeralInteraction {
     @NotNull
     public net.dv8tion.jda.api.interactions.components.buttons.Button toButton() {
         String label = getLabel().orElse("");
-        String id = getLink().orElse(this.id);
+        String idOrUrl = getLink().orElse(this.id);
         if (emoji == null) {
-            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label);
+            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, idOrUrl, label);
         } else {
-            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label, emoji);
+            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, idOrUrl, label, emoji);
         }
     }
 
