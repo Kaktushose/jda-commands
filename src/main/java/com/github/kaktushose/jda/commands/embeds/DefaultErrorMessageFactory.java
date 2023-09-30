@@ -184,4 +184,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @Override
+    public MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Unknown Interaction")
+                .setDescription("This interaction timed out and is no longer available!")
+                .build()
+        ).build();
+    }
 }

@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.Interact
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,20 +45,21 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
     @Override
     public void onEvent(ButtonContext context) {
         log.debug("Acknowledging event");
-        context.getEvent().deferEdit().queue();
+        ButtonInteractionEvent event = context.getEvent();
+        event.deferEdit().queue();
 
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
-        Optional<InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(context.getEvent());
+        Optional<InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
         if (optionalRuntime.isEmpty()) {
-            context.getEvent().getHook().editOriginalComponents().queue();
-            context.getEvent().getHook().sendMessage("*this interaction timed out*").setEphemeral(true).queue();
+            event.getHook().editOriginalComponents().queue();
+            event.getHook().sendMessage(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
             return;
         }
         InteractionRuntime runtime = optionalRuntime.get();
         log.debug("Found corresponding runtime with id \"{}\"", runtime);
 
-        String[] splitId = context.getEvent().getButton().getId().split("\\.");
+        String[] splitId = event.getButton().getId().split("\\.");
         String buttonId = String.format("%s.%s", splitId[0], splitId[1]);
         Optional<ButtonDefinition> optionalButton = interactionRegistry.getButtons().stream()
                 .filter(it -> it.getId().equals(buttonId))
@@ -75,7 +77,7 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
         context.setButton(button).setEphemeral(button.isEphemeral());
         log.debug("Input matches button: {}", button);
 
-        log.info("Executing button {} for user {}", button.getMethod().getName(), context.getEvent().getMember());
+        log.info("Executing button {} for user {}", button.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);
             button.getMethod().invoke(runtime.getInstance(), new ButtonEvent(button, context));
