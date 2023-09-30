@@ -4,13 +4,17 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
+import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 /**
@@ -22,16 +26,19 @@ import java.util.function.Consumer;
  */
 public interface Replyable {
 
-    /**
-     * A no-op consumer used as a placeholder.
-     */
-    Consumer<Message> EMPTY_SUCCESS = unused -> {
-    };
+    Logger log = LoggerFactory.getLogger(GenericEvent.class);
 
     /**
      * A no-op consumer used as a placeholder.
      */
-    Consumer<Throwable> EMPTY_FAILURE = unused -> {
+    Consumer<Message> DEFAULT_SUCCESS = unused -> {
+    };
+
+    /**
+     * A default consumer for handling callback errors.
+     */
+    Consumer<Throwable> DEFAULT_FAILURE = throwable -> {
+        log.error("The response request encountered an exception at its execution point!", new InvocationTargetException(throwable));
     };
 
     /**
@@ -41,8 +48,8 @@ public interface Replyable {
      */
     default void reply(@NotNull String message) {
         getReplyContext().getBuilder().setContent(message);
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
+        setSuccessCallback(DEFAULT_SUCCESS);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -59,8 +66,8 @@ public interface Replyable {
      */
     default void reply(@NotNull String format, @NotNull Object... args) {
         getReplyContext().getBuilder().setContent(String.format(format, args));
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
+        setSuccessCallback(DEFAULT_SUCCESS);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -71,8 +78,8 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message) {
         getReplyContext().getBuilder().applyData(message);
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
+        setSuccessCallback(DEFAULT_SUCCESS);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -83,8 +90,8 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder) {
         getReplyContext().getBuilder().setEmbeds(builder.build());
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
+        setSuccessCallback(DEFAULT_SUCCESS);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -95,8 +102,8 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
         getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
+        setSuccessCallback(DEFAULT_SUCCESS);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -111,7 +118,7 @@ public interface Replyable {
     default void reply(@NotNull String message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -126,7 +133,7 @@ public interface Replyable {
     default void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -141,7 +148,7 @@ public interface Replyable {
     default void reply(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
         reply(builder);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -156,7 +163,7 @@ public interface Replyable {
     default void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         reply(embedDTO);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
@@ -252,7 +259,7 @@ public interface Replyable {
      */
     default void reply(Consumer<Message> success) {
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
+        setFailureCallback(DEFAULT_FAILURE);
         reply();
     }
 
