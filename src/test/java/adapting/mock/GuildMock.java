@@ -3,6 +3,8 @@ package adapting.mock;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.automod.AutoModRule;
+import net.dv8tion.jda.api.entities.automod.build.AutoModRuleData;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
@@ -17,10 +19,7 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.PrivilegeConfig;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege;
-import net.dv8tion.jda.api.managers.AudioManager;
-import net.dv8tion.jda.api.managers.GuildManager;
-import net.dv8tion.jda.api.managers.GuildStickerManager;
-import net.dv8tion.jda.api.managers.GuildWelcomeScreenManager;
+import net.dv8tion.jda.api.managers.*;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -217,6 +216,12 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
+    public ChannelAction<MediaChannel> createMediaChannel(@NotNull String s, @Nullable Category category) {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public ChannelAction<Category> createCategory(@NotNull String s) {
         return null;
     }
@@ -356,6 +361,36 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public RestAction<EnumSet<Region>> retrieveRegions(boolean b) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<List<AutoModRule>> retrieveAutoModRules() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<AutoModRule> retrieveAutoModRuleById(@NotNull String s) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<AutoModRule> createAutoModRule(@NotNull AutoModRuleData autoModRuleData) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AutoModRuleManager modifyAutoModRuleById(@NotNull String s) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<Void> deleteAutoModRuleById(@NotNull String s) {
         return null;
     }
 
@@ -566,6 +601,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public SortedSnowflakeCacheView<ForumChannel> getForumChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SnowflakeCacheView<MediaChannel> getMediaChannelCache() {
         return null;
     }
 

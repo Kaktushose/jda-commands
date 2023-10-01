@@ -322,6 +322,12 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public SnowflakeCacheView<MediaChannel> getMediaChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SnowflakeCacheView<PrivateChannel> getPrivateChannelCache() {
         return null;
     }

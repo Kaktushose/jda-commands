@@ -28,6 +28,12 @@ public class UserMock implements User {
         return name;
     }
 
+    @Nullable
+    @Override
+    public String getGlobalName() {
+        return null;
+    }
+
     @NotNull
     @Override
     public String getDiscriminator() {
