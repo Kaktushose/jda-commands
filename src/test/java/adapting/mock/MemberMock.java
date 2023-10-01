@@ -306,4 +306,10 @@ public class MemberMock implements Member {
     public OffsetDateTime getTimeCreated() {
         return Member.super.getTimeCreated();
     }
+
+    @NotNull
+    @Override
+    public String getDefaultAvatarId() {
+        return null;
+    }
 }

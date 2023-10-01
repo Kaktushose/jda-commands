@@ -165,19 +165,16 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Throwable exception) {
         String error;
-        if (context instanceof CommandContext) {
-            CommandContext commandContext = (CommandContext) context;
-            error = String.format("```The user \"%s\" attempted to execute the command \"%s\" at %s, " +
-                            "but a \"%s\" occurred. " +
-                            "Please refer to the logs for further information.```",
-                    commandContext.getEvent().getUser().toString(),
-                    commandContext.getEvent().getFullCommandName(),
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
-                    exception.getClass().getName()
-            );
-        } else {
-            error = exception.getClass().getName();
-        }
+
+        error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
+                        "but a \"%s\" occurred. " +
+                        "Please refer to the logs for further information.```",
+                context.getEvent().getUser().toString(),
+                context.getEvent().getInteraction().getType(),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
+                exception.getClass().getName()
+        );
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Command Execution Failed")
@@ -187,4 +184,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @Override
+    public MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context) {
+        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Unknown Interaction")
+                .setDescription("This interaction timed out and is no longer available!")
+                .build()
+        ).build();
+    }
 }

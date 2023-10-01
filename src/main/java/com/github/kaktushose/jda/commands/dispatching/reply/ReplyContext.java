@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -23,12 +25,12 @@ import java.util.function.Consumer;
 public class ReplyContext {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyContext.class);
-    private final SlashCommandInteractionEvent event;
+    private final GenericInteractionCreateEvent event;
     private final MessageCreateBuilder builder;
     private Consumer<Message> success;
     private Consumer<Throwable> failure;
     private boolean editReply;
-    private boolean clearComponents;
+    private boolean keepComponents;
     private boolean ephemeralReply;
 
     /**
@@ -36,7 +38,7 @@ public class ReplyContext {
      *
      * @param context the corresponding {@link CommandContext}
      */
-    public ReplyContext(CommandContext context) {
+    public ReplyContext(GenericContext<? extends GenericInteractionCreateEvent> context) {
         event = context.getEvent();
         builder = new MessageCreateBuilder();
         success = (message) -> {
@@ -45,7 +47,7 @@ public class ReplyContext {
             log.error("The response request encountered an exception at its execution point!", new InvocationTargetException(throwable));
         };
         editReply = true;
-        clearComponents = false;
+        keepComponents = true;
         ephemeralReply = context.isEphemeral();
     }
 
@@ -135,22 +137,22 @@ public class ReplyContext {
     }
 
     /**
-     * Whether this reply should clear all components of the original message.
+     * Whether this reply should keep all components of the original message.
      *
-     * @return {@code true} this reply should clear all components of the original message
+     * @return {@code true} this reply should keep all components of the original message
      */
-    public boolean isClearComponents() {
-        return clearComponents;
+    public boolean isKeepComponents() {
+        return keepComponents;
     }
 
     /**
-     * Whether this reply should clear all components of the original message.
+     * Whether this reply should keep all components of the original message.
      *
-     * @param clearComponents {@code true} this reply should clear all components of the original message
+     * @param keepComponents {@code true} this reply should keep all components of the original message
      * @return this instance
      */
-    public ReplyContext setClearComponents(boolean clearComponents) {
-        this.clearComponents = clearComponents;
+    public ReplyContext setKeepComponents(boolean keepComponents) {
+        this.keepComponents = keepComponents;
         return this;
     }
 
@@ -174,20 +176,51 @@ public class ReplyContext {
     }
 
     /**
+     * Removes all components from the last message that was sent. <b>This will only work with
+     * {@link #setEditReply(boolean)} set to true.</b>
+     */
+    public void removeComponents() {
+        IReplyCallback callback;
+        if (event instanceof IReplyCallback) {
+            callback = (IReplyCallback) event;
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
+            );
+        }
+        if (!event.isAcknowledged()) {
+            callback.deferReply(false).queue();
+        }
+        if (editReply) {
+            callback.getHook().editOriginalComponents().queue();
+        } else {
+            log.warn("Cannot remove components with 'editReply' set to 'false'!");
+        }
+    }
+
+    /**
      * Sends the reply to Discord, taking into account all the settings that were previously made to this context.
      *
      */
     public void queue() {
+        IReplyCallback callback;
+        if (event instanceof IReplyCallback) {
+            callback = (IReplyCallback) event;
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
+            );
+        }
         // The ReplyContext is also used for error messages and some appear even before acknowledging took place
         // In this case the event gets acknowledged with ephemeral set to false
         if (!event.isAcknowledged()) {
-            event.deferReply(false).queue();
+            callback.deferReply(false).queue();
         }
-        event.getHook().setEphemeral(ephemeralReply);
+        callback.getHook().setEphemeral(ephemeralReply);
         if (editReply) {
-            event.getHook().editOriginal(toMessageEditData()).queue(success, failure);
+            callback.getHook().editOriginal(toMessageEditData()).queue(success, failure);
             return;
         }
-        event.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
+        callback.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
     }
 }

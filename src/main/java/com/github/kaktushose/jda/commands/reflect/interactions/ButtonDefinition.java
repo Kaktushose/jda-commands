@@ -2,9 +2,11 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonEvent;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 
@@ -94,11 +96,11 @@ public class ButtonDefinition extends EphemeralInteraction {
     @NotNull
     public net.dv8tion.jda.api.interactions.components.buttons.Button toButton() {
         String label = getLabel().orElse("");
-        String id = getLink().orElse(this.id);
+        String idOrUrl = getLink().orElse(this.id);
         if (emoji == null) {
-            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label);
+            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, idOrUrl, label);
         } else {
-            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, id, label, emoji);
+            return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, idOrUrl, label, emoji);
         }
     }
 
@@ -150,7 +152,7 @@ public class ButtonDefinition extends EphemeralInteraction {
      * @return the runtime id
      */
     @NotNull
-    public String getRuntimeId(CommandContext context) {
+    public String getRuntimeId(GenericContext<? extends GenericInteractionCreateEvent> context) {
         return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 

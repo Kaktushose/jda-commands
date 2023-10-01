@@ -59,5 +59,10 @@
     "title": "Command Execution Failed",
     "description": "```exception```",
     "color": "#ff0000"
+  },
+  "unknownInteraction": {
+    "title": "Unknown Interaction",
+    "description": "This interaction timed out and is no longer available!",
+    "color": "#ff0000"
   }
 }

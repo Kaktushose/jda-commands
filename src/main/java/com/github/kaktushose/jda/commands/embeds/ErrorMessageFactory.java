@@ -91,4 +91,12 @@ public interface ErrorMessageFactory {
      */
     MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Throwable exception);
 
+    /**
+     * Gets a {@link MessageCreateData} to send when an incoming interaction already timed out.
+     *
+     * @param context the corresponding {@link GenericContext}
+     * @return a {@link MessageCreateData} to send when an incoming interaction already timed out
+     */
+    MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context);
+
 }

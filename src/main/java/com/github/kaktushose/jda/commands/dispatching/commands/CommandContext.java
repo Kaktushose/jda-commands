@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -27,7 +26,6 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     private List<OptionMapping> options;
     private CommandDefinition command;
     private List<Object> arguments;
-    private InteractionRuntime runtime;
 
     /**
      * Constructs a new CommandContext.
@@ -141,25 +139,6 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     @NotNull
     public CommandContext setArguments(@NotNull List<Object> arguments) {
         this.arguments = arguments;
-        return this;
-    }
-
-    /**
-     * Gets the {@link InteractionRuntime} used to execute this command event.
-     *
-     * @return the {@link InteractionRuntime}
-     */
-    public InteractionRuntime getRuntime() {
-        return runtime;
-    }
-
-    /**
-     * Sets the {@link InteractionRuntime} that will be used to execute this command event.
-     *
-     * @return the current CommandContext instance
-     */
-    public CommandContext setRuntime(InteractionRuntime runtime) {
-        this.runtime = runtime;
         return this;
     }
 }

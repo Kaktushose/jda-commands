@@ -4,7 +4,14 @@ import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 /**
@@ -16,6 +23,7 @@ import java.util.Optional;
  */
 public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
 
+    private static final Logger log = LoggerFactory.getLogger(ButtonDispatcher.class);
     private final RuntimeSupervisor runtimeSupervisor;
 
     /**
@@ -36,16 +44,60 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
      */
     @Override
     public void onEvent(ButtonContext context) {
-        context.getEvent().deferEdit().queue();
+        log.debug("Acknowledging event");
+        ButtonInteractionEvent event = context.getEvent();
+        event.deferEdit().queue();
 
-        Optional<InteractionRuntime> optional = runtimeSupervisor.getRuntime(context.getEvent());
+        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
-        if (optional.isEmpty()) {
-            context.getEvent().getHook().editOriginalComponents().queue();
-            context.getEvent().getHook().sendMessage("*this interaction timed out*").setEphemeral(true).queue();
+        Optional<InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
+        if (optionalRuntime.isEmpty()) {
+            event.getHook().editOriginalComponents().queue();
+            event.getHook().sendMessage(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
             return;
         }
+        InteractionRuntime runtime = optionalRuntime.get();
+        log.debug("Found corresponding runtime with id \"{}\"", runtime);
 
-        context.getEvent().getHook().sendMessage("button pressed").queue();
+        String[] splitId = event.getButton().getId().split("\\.");
+        String buttonId = String.format("%s.%s", splitId[0], splitId[1]);
+        Optional<ButtonDefinition> optionalButton = interactionRegistry.getButtons().stream()
+                .filter(it -> it.getId().equals(buttonId))
+                .findFirst();
+        if (optionalButton.isEmpty()) {
+            IllegalStateException exception = new IllegalStateException(
+                    "No button found! Please report this error the the devs of jda-commands."
+            );
+            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            checkCancelled(context);
+            throw exception;
+        }
+
+        ButtonDefinition button = optionalButton.get();
+        context.setButton(button).setEphemeral(button.isEphemeral());
+        log.debug("Input matches button: {}", button);
+
+        log.info("Executing button {} for user {}", button.getMethod().getName(), event.getMember());
+        try {
+            context.setRuntime(runtime);
+            button.getMethod().invoke(runtime.getInstance(), new ButtonEvent(button, context));
+        } catch (Exception exception) {
+            log.error("Button execution failed!", exception);
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            checkCancelled(context);
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private boolean checkCancelled(ButtonContext context) {
+        if (context.isCancelled()) {
+            ReplyContext replyContext = new ReplyContext(context);
+            replyContext.getBuilder().applyData(context.getErrorMessage());
+            replyContext.queue();
+            return true;
+        }
+        return false;
     }
 }

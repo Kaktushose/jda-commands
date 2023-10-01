@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.entities.Message;
@@ -28,6 +29,8 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
     protected JDACommands jdaCommands;
     protected boolean cancelled;
     protected boolean ephemeral;
+    protected InteractionRuntime runtime;
+
 
     /**
      * Constructs a new CommandContext.
@@ -140,4 +143,24 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
         this.ephemeral = ephemeral;
         return this;
     }
+
+    /**
+     * Gets the {@link InteractionRuntime} used to execute this command event.
+     *
+     * @return the {@link InteractionRuntime}
+     */
+    public InteractionRuntime getRuntime() {
+        return runtime;
+    }
+
+    /**
+     * Sets the {@link InteractionRuntime} that will be used to execute this command event.
+     *
+     * @return the current CommandContext instance
+     */
+    public GenericContext<? extends GenericInteractionCreateEvent> setRuntime(InteractionRuntime runtime) {
+        this.runtime = runtime;
+        return this;
+    }
+
 }

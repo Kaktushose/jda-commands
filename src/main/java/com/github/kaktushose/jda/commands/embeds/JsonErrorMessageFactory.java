@@ -149,4 +149,11 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @Override
+    public MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context) {
+        if (!embedCache.containsEmbed("unknownInteraction")) {
+            return super.getUnknownInteractionMessage(context);
+        }
+        return embedCache.getEmbed("unknownInteraction").toMessageCreateData();
+    }
 }

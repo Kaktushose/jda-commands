@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -83,8 +84,14 @@ public class CommandEvent extends GenericEvent implements Replyable {
                             .stream()
                             .filter(it -> it.getId().equals(id))
                             .findFirst()
-                            .map(it -> it.toButton().withDisabled(!button.isEnabled()).withId(it.getRuntimeId(context)))
-                            .ifPresent(items::add);
+                            .map(it -> {
+                                Button jdaButton = it.toButton().withDisabled(!button.isEnabled());
+                                //only assign ids to non-link buttons
+                                if (jdaButton.getUrl() == null) {
+                                    jdaButton = jdaButton.withId(it.getRuntimeId(context));
+                                }
+                                return jdaButton;
+                            }).ifPresent(items::add);
                 });
             }
         }
@@ -103,5 +110,6 @@ public class CommandEvent extends GenericEvent implements Replyable {
     @Override
     public void reply() {
         replyContext.queue();
+        context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
     }
 }

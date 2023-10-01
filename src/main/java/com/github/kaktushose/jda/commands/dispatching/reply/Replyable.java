@@ -4,12 +4,15 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
+import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Consumer;
 
@@ -22,15 +25,7 @@ import java.util.function.Consumer;
  */
 public interface Replyable {
 
-    /**
-     * A no-op consumer used as a placeholder.
-     */
-    Consumer<Message> EMPTY_SUCCESS = unused -> {};
-
-    /**
-     * A no-op consumer used as a placeholder.
-     */
-    Consumer<Throwable> EMPTY_FAILURE = unused -> {};
+    Logger log = LoggerFactory.getLogger(GenericEvent.class);
 
     /**
      * Sends a message to the TextChannel where the interaction was executed.
@@ -39,8 +34,6 @@ public interface Replyable {
      */
     default void reply(@NotNull String message) {
         getReplyContext().getBuilder().setContent(message);
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -57,8 +50,6 @@ public interface Replyable {
      */
     default void reply(@NotNull String format, @NotNull Object... args) {
         getReplyContext().getBuilder().setContent(String.format(format, args));
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -69,8 +60,6 @@ public interface Replyable {
      */
     default void reply(@NotNull MessageCreateData message) {
         getReplyContext().getBuilder().applyData(message);
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -81,8 +70,6 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedBuilder builder) {
         getReplyContext().getBuilder().setEmbeds(builder.build());
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -93,8 +80,6 @@ public interface Replyable {
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
         getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
-        setSuccessCallback(EMPTY_SUCCESS);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -109,7 +94,6 @@ public interface Replyable {
     default void reply(@NotNull String message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -124,7 +108,6 @@ public interface Replyable {
     default void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
         reply(message);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -139,7 +122,6 @@ public interface Replyable {
     default void reply(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
         reply(builder);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -154,7 +136,6 @@ public interface Replyable {
     default void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
         reply(embedDTO);
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -218,7 +199,8 @@ public interface Replyable {
     }
 
     /**
-     * Whether this reply should edit the existing message or send a new one
+     * Whether this reply should edit the existing message or send a new one. The default value is
+     * {@code true}.
      *
      * @param edit {@code true} if this reply should edit the existing message
      * @return the current instance for fluent interface
@@ -229,13 +211,14 @@ public interface Replyable {
     }
 
     /**
-     * Whether this reply should clear all components that are attached to the previous message
+     * Whether this reply should keep all components that are attached to the previous message. The default value is
+     * {@code true}.
      *
-     * @param clear {@code true} if this reply should clear all components
+     * @param keep {@code true} if this reply should keep all components
      * @return the current instance for fluent interface
      */
-    default Replyable clearComponents(boolean clear) {
-        getReplyContext().setClearComponents(clear);
+    default Replyable keepComponents(boolean keep) {
+        getReplyContext().setKeepComponents(keep);
         return this;
     }
 
@@ -248,7 +231,6 @@ public interface Replyable {
      */
     default void reply(Consumer<Message> success) {
         setSuccessCallback(success);
-        setFailureCallback(EMPTY_FAILURE);
         reply();
     }
 
@@ -264,6 +246,14 @@ public interface Replyable {
         setSuccessCallback(success);
         setFailureCallback(failure);
         reply();
+    }
+
+    /**
+     * Removes all components from the last message that was sent. <b>This will only work with
+     * {@link #editReply(boolean)} set to true.</b>
+     */
+    default void removeComponents() {
+        getReplyContext().removeComponents();
     }
 
     /**
