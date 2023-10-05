@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -29,11 +30,14 @@ public class ControllerDefinition {
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
     private final List<CommandDefinition> commands;
     private final List<ButtonDefinition> buttons;
+    private List<EntitySelectMenuDefinition> entitySelectMenus;
 
     private ControllerDefinition(List<CommandDefinition> commands,
-                                 List<ButtonDefinition> buttons) {
+                                 List<ButtonDefinition> buttons,
+                                 List<EntitySelectMenuDefinition> entitySelectMenus) {
         this.commands = commands;
         this.buttons = buttons;
+        this.entitySelectMenus = entitySelectMenus;
     }
 
     /**
@@ -81,6 +85,7 @@ public class ControllerDefinition {
         // index interactions
         List<CommandDefinition> commands = new ArrayList<>();
         List<ButtonDefinition> buttons = new ArrayList<>();
+        List<EntitySelectMenuDefinition> entitySelectMenus = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
@@ -104,11 +109,25 @@ public class ControllerDefinition {
             }
 
             if (method.isAnnotationPresent(Button.class)) {
-                ButtonDefinition.build(method).ifPresent(buttons::add);
+                ButtonDefinition.build(method).ifPresent(button -> {
+                    if (interaction.ephemeral()) {
+                        button.setEphemeral(true);
+                    }
+                    buttons.add(button);
+                });
+            }
+
+            if (method.isAnnotationPresent(EntitySelectMenu.class)) {
+                EntitySelectMenuDefinition.build(method).ifPresent(menu -> {
+                    if (interaction.ephemeral()) {
+                        menu.setEphemeral(true);
+                    }
+                    entitySelectMenus.add(menu);
+                });
             }
         }
 
-        return Optional.of(new ControllerDefinition(commands, buttons));
+        return Optional.of(new ControllerDefinition(commands, buttons, entitySelectMenus));
     }
 
     /**
@@ -129,11 +148,21 @@ public class ControllerDefinition {
         return buttons;
     }
 
+    /**
+     * Gets a possibly-empty list of all buttons.
+     *
+     * @return a possibly-empty list of all buttons
+     */
+    public List<EntitySelectMenuDefinition> getEntitySelectMenus() {
+        return entitySelectMenus;
+    }
+
     @Override
     public String toString() {
         return "ControllerDefinition{" +
                 "commands=" + commands +
                 ", buttons=" + buttons +
+                ", entitySelectMenus=" + entitySelectMenus +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
+import com.github.kaktushose.jda.commands.components.SelectMenus;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -162,6 +163,21 @@ public interface Replyable {
      */
     default Replyable withButtons(@NotNull String... buttons) {
         with(Buttons.enabled(buttons));
+        return this;
+    }
+
+    /**
+     * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
+     * The select menus must be defined in the same
+     * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} as the referring
+     * {@link SlashCommand Command}. This will enable all select menus. To add
+     * disabled select menus, use {@link #with(Component...)}.
+     *
+     * @param selectMenus the id of the selectMenus to add
+     * @return the current instance for fluent interface
+     */
+    default Replyable withSelectMenus(@NotNull String... selectMenus) {
+        with(SelectMenus.enabled(selectMenus));
         return this;
     }
 

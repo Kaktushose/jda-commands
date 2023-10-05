@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.commands;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
+import com.github.kaktushose.jda.commands.components.SelectMenus;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
@@ -92,6 +93,17 @@ public class CommandEvent extends GenericEvent implements Replyable {
                                 }
                                 return jdaButton;
                             }).ifPresent(items::add);
+                });
+            }
+            if (component instanceof SelectMenus) {
+                SelectMenus menus = (SelectMenus) component;
+                menus.getSelectMenus().forEach(menu -> {
+                    String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), menu.getId());
+                    getJdaCommands().getInteractionRegistry().getEntitySelectMenus()
+                            .stream()
+                            .filter(it -> it.getId().equals(id))
+                            .findFirst().map(it -> it.toEntitySelectMenu(it.getRuntimeId(context), menu.isEnabled()))
+                            .ifPresent(items::add);
                 });
             }
         }

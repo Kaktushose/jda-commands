@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
@@ -36,6 +37,7 @@ public class InteractionRegistry {
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
+    private final Set<EntitySelectMenuDefinition> entitySelectMenus;
 
     /**
      * Constructs a new CommandRegistry.
@@ -53,6 +55,7 @@ public class InteractionRegistry {
         controllers = new HashSet<>();
         commands = new HashSet<>();
         buttons = new HashSet<>();
+        entitySelectMenus = new HashSet<>();
     }
 
     /**
@@ -96,6 +99,7 @@ public class InteractionRegistry {
             controllers.add(controller);
             commands.addAll(controller.getCommands());
             buttons.addAll(controller.getButtons());
+            entitySelectMenus.addAll(controller.getEntitySelectMenus());
 
             log.debug("Registered controller {}", controller);
         }
@@ -130,6 +134,15 @@ public class InteractionRegistry {
      */
     public Set<ButtonDefinition> getButtons() {
         return Collections.unmodifiableSet(buttons);
+    }
+
+    /**
+     * Gets a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
+     */
+    public Set<EntitySelectMenuDefinition> getEntitySelectMenus() {
+        return Collections.unmodifiableSet(entitySelectMenus);
     }
 
 }
