@@ -5,6 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuContext;
+import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ public class DispatcherSupervisor {
         runtimeSupervisor = new RuntimeSupervisor(jdaCommands.getDependencyInjector());
         register(CommandContext.class, new CommandDispatcher(this, runtimeSupervisor));
         register(ButtonContext.class, new ButtonDispatcher(this, runtimeSupervisor));
+        register(SelectMenuContext.class, new SelectMenuDispatcher(this, runtimeSupervisor));
     }
 
     /**
