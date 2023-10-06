@@ -20,10 +20,10 @@ public class SelectMenus implements Component {
         return build(false, buttons);
     }
 
-    private static SelectMenus build(boolean enabled, String... buttons) {
+    private static SelectMenus build(boolean enabled, String... menus) {
         List<SelectMenus.SelectMenuContainer> result = new ArrayList<>();
-        for (String button : buttons) {
-            result.add(new SelectMenus.SelectMenuContainer(button, enabled));
+        for (String menu : menus) {
+            result.add(new SelectMenus.SelectMenuContainer(menu, enabled));
         }
         return new SelectMenus(result);
     }

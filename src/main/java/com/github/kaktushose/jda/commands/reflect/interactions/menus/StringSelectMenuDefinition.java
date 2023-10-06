@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -22,12 +21,9 @@ import java.util.stream.Collectors;
  * @see StringSelectMenu
  * @since 4.0.0
  */
-public class StringSelectMenuDefinition extends EphemeralInteraction {
+public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
     private final Set<SelectOptionDefinition> selectOptions;
-    private final String placeholder;
-    private final int minValue;
-    private final int maxValue;
 
     protected StringSelectMenuDefinition(Method method,
                                          boolean ephemeral,
@@ -35,11 +31,8 @@ public class StringSelectMenuDefinition extends EphemeralInteraction {
                                          String placeholder,
                                          int minValue,
                                          int maxValue) {
-        super(method, ephemeral);
+        super(method, ephemeral, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
-        this.placeholder = placeholder;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
     }
 
     /**
@@ -90,7 +83,7 @@ public class StringSelectMenuDefinition extends EphemeralInteraction {
         ));
     }
 
-    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toStringSelectMenu(String id, boolean enabled) {
+    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String id, boolean enabled) {
         return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(id)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
@@ -111,33 +104,6 @@ public class StringSelectMenuDefinition extends EphemeralInteraction {
      */
     public Set<SelectOptionDefinition> getSelectOptions() {
         return selectOptions;
-    }
-
-    /**
-     * Gets the placeholder string.
-     *
-     * @return the placeholder string
-     */
-    public String getPlaceholder() {
-        return placeholder;
-    }
-
-    /**
-     * Gets the minimum value.
-     *
-     * @return the minimum value
-     */
-    public int getMinValue() {
-        return minValue;
-    }
-
-    /**
-     * Gets the maximum value.
-     *
-     * @return the maximum value
-     */
-    public int getMaxValue() {
-        return maxValue;
     }
 
     @Override

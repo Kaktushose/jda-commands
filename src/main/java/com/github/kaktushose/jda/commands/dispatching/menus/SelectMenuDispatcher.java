@@ -7,7 +7,10 @@ import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.StringSelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +57,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
 
         String[] splitId = event.getComponentId().split("\\.");
         String menuId = String.format("%s.%s", splitId[0], splitId[1]);
-        Optional<EntitySelectMenuDefinition> optionalMenu = interactionRegistry.getEntitySelectMenus().stream()
+        Optional<GenericSelectMenuDefinition<? extends SelectMenu>> optionalMenu = interactionRegistry.getSelectMenus().stream()
                 .filter(it -> it.getId().equals(menuId))
                 .findFirst();
         if (optionalMenu.isEmpty()) {
@@ -66,14 +69,22 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
             throw exception;
         }
 
-        EntitySelectMenuDefinition menu = optionalMenu.get();
+        GenericSelectMenuDefinition<? extends SelectMenu> menu = optionalMenu.get();
         context.setSelectMenu(menu).setEphemeral(menu.isEphemeral());
         log.debug("Input matches button: {}", menu);
 
         log.info("Executing button {} for user {}", menu.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);
-            menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context));
+
+            if (EntitySelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
+                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context));
+            } else if (StringSelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
+                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), event.getValues());
+            } else {
+                throw new IllegalStateException("Unknown select menu type! Please report this error the the devs of jda-commands.");
+            }
+
         } catch (Exception exception) {
             log.error("Button execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class

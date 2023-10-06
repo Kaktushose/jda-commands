@@ -5,8 +5,9 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -37,7 +38,7 @@ public class InteractionRegistry {
     private final Set<ControllerDefinition> controllers;
     private final Set<CommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
-    private final Set<EntitySelectMenuDefinition> entitySelectMenus;
+    private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
 
     /**
      * Constructs a new CommandRegistry.
@@ -55,7 +56,7 @@ public class InteractionRegistry {
         controllers = new HashSet<>();
         commands = new HashSet<>();
         buttons = new HashSet<>();
-        entitySelectMenus = new HashSet<>();
+        selectMenus = new HashSet<>();
     }
 
     /**
@@ -90,7 +91,7 @@ public class InteractionRegistry {
                     localizationFunction
             );
 
-            if (!optional.isPresent()) {
+            if (optional.isEmpty()) {
                 log.warn("Unable to index the controller!");
                 continue;
             }
@@ -99,7 +100,7 @@ public class InteractionRegistry {
             controllers.add(controller);
             commands.addAll(controller.getCommands());
             buttons.addAll(controller.getButtons());
-            entitySelectMenus.addAll(controller.getEntitySelectMenus());
+            selectMenus.addAll(controller.getSelectMenus());
 
             log.debug("Registered controller {}", controller);
         }
@@ -141,8 +142,8 @@ public class InteractionRegistry {
      *
      * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
      */
-    public Set<EntitySelectMenuDefinition> getEntitySelectMenus() {
-        return Collections.unmodifiableSet(entitySelectMenus);
+    public Set<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
+        return Collections.unmodifiableSet(selectMenus);
     }
 
 }

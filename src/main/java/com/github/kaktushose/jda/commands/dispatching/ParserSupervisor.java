@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ public class ParserSupervisor extends ListenerAdapter {
         register(SlashCommandInteractionEvent.class, new CommandParser());
         register(ButtonInteractionEvent.class, new ButtonParser());
         register(EntitySelectInteractionEvent.class, new SelectMenuParser());
+        register(StringSelectInteractionEvent.class, new SelectMenuParser());
     }
 
     /**

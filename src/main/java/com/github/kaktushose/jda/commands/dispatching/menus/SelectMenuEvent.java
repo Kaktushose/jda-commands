@@ -10,9 +10,11 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +35,7 @@ import java.util.Optional;
  */
 public class SelectMenuEvent extends GenericEvent implements Replyable {
 
-    private final EntitySelectMenuDefinition selectMenu;
+    private final GenericSelectMenuDefinition<? extends SelectMenu> selectMenu;
     private final SelectMenuContext context;
     private final ReplyContext replyContext;
 
@@ -43,7 +45,7 @@ public class SelectMenuEvent extends GenericEvent implements Replyable {
      * @param selectMenu the underlying {@link ButtonDefinition} object
      * @param context the {@link ButtonContext}
      */
-    public SelectMenuEvent(@NotNull EntitySelectMenuDefinition selectMenu, @NotNull SelectMenuContext context) {
+    public SelectMenuEvent(@NotNull GenericSelectMenuDefinition<? extends SelectMenu> selectMenu, @NotNull SelectMenuContext context) {
         super(GenericEvent.fromEvent(context.getEvent()));
         this.selectMenu = selectMenu;
         this.context = context;
@@ -55,7 +57,7 @@ public class SelectMenuEvent extends GenericEvent implements Replyable {
      *
      * @return the underlying {@link EntitySelectMenuDefinition} object
      */
-    public EntitySelectMenuDefinition getSelectMenu() {
+    public GenericSelectMenuDefinition<? extends SelectMenu> getSelectMenu() {
         return selectMenu;
     }
 
@@ -103,10 +105,10 @@ public class SelectMenuEvent extends GenericEvent implements Replyable {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenus().forEach(menu -> {
                     String id = String.format("%s.%s", selectMenu.getMethod().getDeclaringClass().getSimpleName(), menu.getId());
-                    getJdaCommands().getInteractionRegistry().getEntitySelectMenus()
+                    getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getId().equals(id))
-                            .findFirst().map(it -> it.toEntitySelectMenu(it.getRuntimeId(context), menu.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(it.getRuntimeId(context), menu.isEnabled()))
                             .ifPresent(items::add);
                 });
             }

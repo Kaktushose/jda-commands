@@ -103,10 +103,10 @@ public class ButtonEvent extends GenericEvent implements Replyable {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenus().forEach(menu -> {
                     String id = String.format("%s.%s", definition.getMethod().getDeclaringClass().getSimpleName(), menu.getId());
-                    getJdaCommands().getInteractionRegistry().getEntitySelectMenus()
+                    getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getId().equals(id))
-                            .findFirst().map(it -> it.toEntitySelectMenu(it.getRuntimeId(context), menu.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(it.getRuntimeId(context), menu.isEnabled()))
                             .ifPresent(items::add);
                 });
             }

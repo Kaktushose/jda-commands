@@ -7,7 +7,10 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.StringSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +33,14 @@ public class ControllerDefinition {
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
     private final List<CommandDefinition> commands;
     private final List<ButtonDefinition> buttons;
-    private List<EntitySelectMenuDefinition> entitySelectMenus;
+    private List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
 
     private ControllerDefinition(List<CommandDefinition> commands,
                                  List<ButtonDefinition> buttons,
-                                 List<EntitySelectMenuDefinition> entitySelectMenus) {
+                                 List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus) {
         this.commands = commands;
         this.buttons = buttons;
-        this.entitySelectMenus = entitySelectMenus;
+        this.selectMenus = selectMenus;
     }
 
     /**
@@ -85,7 +88,7 @@ public class ControllerDefinition {
         // index interactions
         List<CommandDefinition> commands = new ArrayList<>();
         List<ButtonDefinition> buttons = new ArrayList<>();
-        List<EntitySelectMenuDefinition> entitySelectMenus = new ArrayList<>();
+        List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
@@ -122,12 +125,20 @@ public class ControllerDefinition {
                     if (interaction.ephemeral()) {
                         menu.setEphemeral(true);
                     }
-                    entitySelectMenus.add(menu);
+                    selectMenus.add(menu);
+                });
+            }
+            if (method.isAnnotationPresent(StringSelectMenu.class)) {
+                StringSelectMenuDefinition.build(method).ifPresent(menu -> {
+                    if (interaction.ephemeral()) {
+                        menu.setEphemeral(true);
+                    }
+                    selectMenus.add(menu);
                 });
             }
         }
 
-        return Optional.of(new ControllerDefinition(commands, buttons, entitySelectMenus));
+        return Optional.of(new ControllerDefinition(commands, buttons, selectMenus));
     }
 
     /**
@@ -149,12 +160,12 @@ public class ControllerDefinition {
     }
 
     /**
-     * Gets a possibly-empty list of all buttons.
+     * Gets a possibly-empty list of all select menus.
      *
-     * @return a possibly-empty list of all buttons
+     * @return a possibly-empty list of all select menus
      */
-    public List<EntitySelectMenuDefinition> getEntitySelectMenus() {
-        return entitySelectMenus;
+    public List<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
+        return selectMenus;
     }
 
     @Override
@@ -162,7 +173,7 @@ public class ControllerDefinition {
         return "ControllerDefinition{" +
                 "commands=" + commands +
                 ", buttons=" + buttons +
-                ", entitySelectMenus=" + entitySelectMenus +
+                ", entitySelectMenus=" + selectMenus +
                 '}';
     }
 }

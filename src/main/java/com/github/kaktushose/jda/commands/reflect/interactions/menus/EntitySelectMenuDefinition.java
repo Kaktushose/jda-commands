@@ -2,12 +2,8 @@ package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
 import org.jetbrains.annotations.NotNull;
@@ -25,14 +21,11 @@ import java.util.Set;
  * @see EntitySelectMenu
  * @since 4.0.0
  */
-public class EntitySelectMenuDefinition extends EphemeralInteraction {
+public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu> {
 
     private final Set<SelectTarget> selectTargets;
     private final Set<DefaultValue> defaultValues;
     private final Set<ChannelType> channelTypes;
-    private final String placeholder;
-    private final int minValue;
-    private final int maxValue;
 
     protected EntitySelectMenuDefinition(Method method,
                                          boolean ephemeral,
@@ -42,13 +35,10 @@ public class EntitySelectMenuDefinition extends EphemeralInteraction {
                                          String placeholder,
                                          int minValue,
                                          int maxValue) {
-        super(method, ephemeral);
+        super(method, ephemeral, placeholder, minValue, maxValue);
         this.selectTargets = selectTargets;
         this.defaultValues = defaultValues;
         this.channelTypes = channelTypes;
-        this.placeholder = placeholder;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
     }
 
     /**
@@ -106,7 +96,8 @@ public class EntitySelectMenuDefinition extends EphemeralInteraction {
         ));
     }
 
-    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toEntitySelectMenu(String id, boolean enabled) {
+    @Override
+    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String id, boolean enabled) {
         var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(id, selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
@@ -174,18 +165,6 @@ public class EntitySelectMenuDefinition extends EphemeralInteraction {
      */
     public int getMaxValue() {
         return maxValue;
-    }
-
-    /**
-     * Gets the runtime id. The runtime id is composed of the static interaction id and the
-     * snowflake id of the interaction event that created the runtime.
-     *
-     * @param context the {@link CommandContext} this button will be attached to
-     * @return the runtime id
-     */
-    @NotNull
-    public String getRuntimeId(GenericContext<? extends GenericInteractionCreateEvent> context) {
-        return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 
     @Override
