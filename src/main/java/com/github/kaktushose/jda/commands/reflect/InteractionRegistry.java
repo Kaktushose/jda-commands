@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;

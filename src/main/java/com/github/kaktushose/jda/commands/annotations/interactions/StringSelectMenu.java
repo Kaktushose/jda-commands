@@ -19,20 +19,19 @@ import java.lang.annotation.Target;
  * @author Kaktushose
  * @version 4.0.0
  * @see Interaction
- * @since 2.3.0
+ * @see SelectOption
+ * @since 4.0.0
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StringSelectMenu {
-
-
 
     /**
      * Configure the placeholder which is displayed when no selections have been made yet.
      *
      * @return the placeholder which is displayed when no selections have been made yet
      */
-    String placeholder() default "";
+    String value() default "";
 
     /**
      * The minimum amount of values a user has to select.

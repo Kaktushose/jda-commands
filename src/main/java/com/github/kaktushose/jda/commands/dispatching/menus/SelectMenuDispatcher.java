@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

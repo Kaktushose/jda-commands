@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.menus;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 
 /**

@@ -1,11 +1,11 @@
-package com.github.kaktushose.jda.commands.reflect.interactions;
+package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
@@ -22,17 +22,17 @@ import java.util.Set;
  *
  * @author Kaktushose
  * @version 4.0.0
- * @see Button
+ * @see EntitySelectMenu
  * @since 4.0.0
  */
 public class EntitySelectMenuDefinition extends EphemeralInteraction {
 
-    private Set<SelectTarget> selectTargets;
-    private Set<DefaultValue> defaultValues;
-    private Set<ChannelType> channelTypes;
-    private String placeholder;
-    private int minValue;
-    private int maxValue;
+    private final Set<SelectTarget> selectTargets;
+    private final Set<DefaultValue> defaultValues;
+    private final Set<ChannelType> channelTypes;
+    private final String placeholder;
+    private final int minValue;
+    private final int maxValue;
 
     protected EntitySelectMenuDefinition(Method method,
                                          boolean ephemeral,

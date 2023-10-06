@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;

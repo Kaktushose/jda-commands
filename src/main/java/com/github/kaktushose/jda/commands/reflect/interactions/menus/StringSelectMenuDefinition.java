@@ -1,0 +1,155 @@
+package com.github.kaktushose.jda.commands.reflect.interactions.menus;
+
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
+import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu StringSelectMenu}.
+ *
+ * @author Kaktushose
+ * @version 4.0.0
+ * @see StringSelectMenu
+ * @since 4.0.0
+ */
+public class StringSelectMenuDefinition extends EphemeralInteraction {
+
+    private final Set<SelectOptionDefinition> selectOptions;
+    private final String placeholder;
+    private final int minValue;
+    private final int maxValue;
+
+    protected StringSelectMenuDefinition(Method method,
+                                         boolean ephemeral,
+                                         Set<SelectOptionDefinition> selectOptions,
+                                         String placeholder,
+                                         int minValue,
+                                         int maxValue) {
+        super(method, ephemeral);
+        this.selectOptions = selectOptions;
+        this.placeholder = placeholder;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+    }
+
+    /**
+     * Builds a new StringSelectMenuDefinition.
+     *
+     * @param method the {@link Method} of the button
+     * @return an {@link Optional} holding the StringSelectMenuDefinition
+     */
+    public static Optional<StringSelectMenuDefinition> build(@NotNull Method method) {
+        if (!method.isAnnotationPresent(StringSelectMenu.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
+            return Optional.empty();
+        }
+
+        if (method.getParameters().length != 2) {
+            log.error("An error has occurred! Skipping Button {}.{}:",
+                    method.getDeclaringClass().getSimpleName(),
+                    method.getName(),
+                    new IllegalArgumentException("Invalid amount of parameters!"));
+            return Optional.empty();
+        }
+
+        if (!SelectMenuEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
+                !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
+            log.error("An error has occurred! Skipping Button {}.{}:",
+                    method.getDeclaringClass().getSimpleName(),
+                    method.getName(),
+                    new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
+                            SelectMenuEvent.class.getSimpleName(),
+                            List.class.getSimpleName()
+                    )));
+            return Optional.empty();
+        }
+
+        StringSelectMenu selectMenu = method.getAnnotation(StringSelectMenu.class);
+
+        Set<SelectOptionDefinition> selectOptions = new HashSet<>();
+        for (SelectOption option : method.getDeclaredAnnotationsByType(SelectOption.class)) {
+            selectOptions.add(SelectOptionDefinition.build(option));
+        }
+
+        return Optional.of(new StringSelectMenuDefinition(
+                method,
+                selectMenu.ephemeral(),
+                selectOptions,
+                selectMenu.value(),
+                selectMenu.minValue(),
+                selectMenu.maxValue()
+        ));
+    }
+
+    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toStringSelectMenu(String id, boolean enabled) {
+        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(id)
+                .setPlaceholder(placeholder)
+                .setRequiredRange(minValue, maxValue)
+                .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))
+                .setDefaultOptions(selectOptions.stream()
+                        .filter(SelectOptionDefinition::isDefault)
+                        .map(SelectOptionDefinition::toSelectOption)
+                        .collect(Collectors.toSet())
+                )
+                .setDisabled(!enabled)
+                .build();
+    }
+
+    /**
+     * Gets a set of all {@link SelectOptionDefinition SelectOptionDefinitions}.
+     *
+     * @return a set of all {@link SelectOptionDefinition SelectOptionDefinitions}
+     */
+    public Set<SelectOptionDefinition> getSelectOptions() {
+        return selectOptions;
+    }
+
+    /**
+     * Gets the placeholder string.
+     *
+     * @return the placeholder string
+     */
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    /**
+     * Gets the minimum value.
+     *
+     * @return the minimum value
+     */
+    public int getMinValue() {
+        return minValue;
+    }
+
+    /**
+     * Gets the maximum value.
+     *
+     * @return the maximum value
+     */
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    @Override
+    public String toString() {
+        return "StringSelectMenuDefinition{" +
+                "selectOptions=" + selectOptions +
+                ", placeholder='" + placeholder + '\'' +
+                ", minValue=" + minValue +
+                ", maxValue=" + maxValue +
+                ", ephemeral=" + ephemeral +
+                ", id='" + id + '\'' +
+                ", method=" + method +
+                '}';
+    }
+}
