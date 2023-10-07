@@ -43,6 +43,7 @@ public class ButtonContext extends GenericContext<ButtonInteractionEvent> {
      */
     public ButtonContext setButton(ButtonDefinition button) {
         this.button = button;
+        setInteraction(button);
         return this;
     }
 }

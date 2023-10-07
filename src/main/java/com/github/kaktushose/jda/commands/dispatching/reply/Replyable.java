@@ -5,16 +5,22 @@ import com.github.kaktushose.jda.commands.components.Buttons;
 import com.github.kaktushose.jda.commands.components.Component;
 import com.github.kaktushose.jda.commands.components.SelectMenus;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
+import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -149,7 +155,48 @@ public interface Replyable {
      * @param components the {@link Component Components} to add
      * @return the current instance for fluent interface
      */
-    Replyable with(@NotNull Component... components);
+    default Replyable with(@NotNull Component... components) {
+        List<ItemComponent> items = new ArrayList<>();
+        GenericContext<? extends GenericInteractionCreateEvent> context = getContext();
+        for (Component component : components) {
+            if (component instanceof Buttons) {
+                Buttons buttons = (Buttons) component;
+                buttons.getButtons().forEach(button -> {
+                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), button.getId());
+                    context.getJdaCommands().getInteractionRegistry().getButtons()
+                            .stream()
+                            .filter(it -> it.getId().equals(id))
+                            .findFirst()
+                            .map(it -> {
+                                Button jdaButton = it.toButton().withDisabled(!button.isEnabled());
+                                //only assign ids to non-link buttons
+                                if (jdaButton.getUrl() == null) {
+                                    jdaButton = jdaButton.withId(it.getRuntimeId(context));
+                                }
+                                return jdaButton;
+                            }).ifPresent(items::add);
+                });
+            }
+            if (component instanceof SelectMenus) {
+                SelectMenus menus = (SelectMenus) component;
+                menus.getSelectMenus().forEach(menu -> {
+                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
+                    context.getJdaCommands().getInteractionRegistry().getSelectMenus()
+                            .stream()
+                            .filter(it -> it.getId().equals(id))
+                            .findFirst().map(it -> it.toSelectMenu(it.getRuntimeId(context), menu.isEnabled()))
+                            .ifPresent(items::add);
+                });
+            }
+        }
+
+        if (items.size() > 0) {
+            getReplyContext().getBuilder().addComponents(ActionRow.of(items));
+        }
+        return this;
+    }
+
+    GenericContext<? extends GenericInteractionCreateEvent> getContext();
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.

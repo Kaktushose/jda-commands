@@ -1,21 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.components.Buttons;
-import com.github.kaktushose.jda.commands.components.Component;
-import com.github.kaktushose.jda.commands.components.SelectMenus;
 import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -71,51 +63,9 @@ public class ButtonEvent extends GenericEvent implements Replyable {
      *
      * @return the registered {@link ButtonContext} object
      */
-    public ButtonContext getButtonContext() {
-        return context;
-    }
-
-
     @Override
-    public Replyable with(@NotNull Component... components) {
-        List<ItemComponent> items = new ArrayList<>();
-        ButtonDefinition definition = button;
-        for (Component component : components) {
-            if (component instanceof Buttons) {
-                Buttons buttons = (Buttons) component;
-                buttons.getButtons().forEach(button -> {
-                    String id = String.format("%s.%s", definition.getMethod().getDeclaringClass().getSimpleName(), button.getId());
-                    getJdaCommands().getInteractionRegistry().getButtons()
-                            .stream()
-                            .filter(it -> it.getId().equals(id))
-                            .findFirst()
-                            .map(it -> {
-                                Button jdaButton = it.toButton().withDisabled(!button.isEnabled());
-                                //only assign ids to non-link buttons
-                                if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.getRuntimeId(context));
-                                }
-                                return jdaButton;
-                            }).ifPresent(items::add);
-                });
-            }
-            if (component instanceof SelectMenus) {
-                SelectMenus menus = (SelectMenus) component;
-                menus.getSelectMenus().forEach(menu -> {
-                    String id = String.format("%s.%s", definition.getMethod().getDeclaringClass().getSimpleName(), menu.getId());
-                    getJdaCommands().getInteractionRegistry().getSelectMenus()
-                            .stream()
-                            .filter(it -> it.getId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(it.getRuntimeId(context), menu.isEnabled()))
-                            .ifPresent(items::add);
-                });
-            }
-        }
-
-        if (items.size() > 0) {
-            getReplyContext().getBuilder().addComponents(ActionRow.of(items));
-        }
-        return this;
+    public ButtonContext getContext() {
+        return context;
     }
 
     @Override
@@ -136,5 +86,4 @@ public class ButtonEvent extends GenericEvent implements Replyable {
         replyContext.queue();
         context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
     }
-
 }

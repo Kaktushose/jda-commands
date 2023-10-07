@@ -45,6 +45,7 @@ public class SelectMenuContext extends GenericContext<GenericSelectMenuInteracti
      */
     public SelectMenuContext setSelectMenu(GenericSelectMenuDefinition<? extends SelectMenu> selectMenu) {
         this.selectMenu = selectMenu;
+        setInteraction(selectMenu);
         return this;
     }
 }

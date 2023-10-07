@@ -117,6 +117,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     @NotNull
     public CommandContext setCommand(@Nullable CommandDefinition command) {
         this.command = command;
+        setInteraction(command);
         return this;
     }
 
