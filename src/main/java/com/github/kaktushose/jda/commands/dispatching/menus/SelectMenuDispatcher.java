@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.menus;
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
@@ -34,9 +33,9 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
     }
 
     /**
-     * Dispatches a {@link ButtonContext}.
+     * Dispatches a {@link SelectMenuContext}.
      *
-     * @param context the {@link ButtonContext} to dispatch.
+     * @param context the {@link SelectMenuContext} to dispatch.
      */
     @Override
     public void onEvent(SelectMenuContext context) {
@@ -62,7 +61,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
                 .findFirst();
         if (optionalMenu.isEmpty()) {
             IllegalStateException exception = new IllegalStateException(
-                    "No button found! Please report this error the the devs of jda-commands."
+                    "No select menu found! Please report this error the the devs of jda-commands."
             );
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
@@ -71,14 +70,14 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
 
         GenericSelectMenuDefinition<? extends SelectMenu> menu = optionalMenu.get();
         context.setSelectMenu(menu).setEphemeral(menu.isEphemeral());
-        log.debug("Input matches button: {}", menu);
+        log.debug("Input matches select menu: {}", menu);
 
-        log.info("Executing button {} for user {}", menu.getMethod().getName(), event.getMember());
+        log.info("Executing select menu {} for user {}", menu.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);
 
             if (EntitySelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
-                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context));
+                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), event.getValues());
             } else if (StringSelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
                 menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), event.getValues());
             } else {
@@ -86,7 +85,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
             }
 
         } catch (Exception exception) {
-            log.error("Button execution failed!", exception);
+            log.error("Select menu execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));

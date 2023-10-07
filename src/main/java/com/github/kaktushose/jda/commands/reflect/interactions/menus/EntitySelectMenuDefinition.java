@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 1) {
+        if (method.getParameters().length != 2) {
             log.error("An error has occurred! Skipping Button {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
@@ -60,11 +61,15 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
             return Optional.empty();
         }
 
-        if (!SelectMenuEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
+        if (!SelectMenuEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
+                !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
             log.error("An error has occurred! Skipping Button {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s!", SelectMenuEvent.class.getSimpleName())));
+                    new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
+                            SelectMenuEvent.class.getSimpleName(),
+                            List.class.getSimpleName()
+                    )));
             return Optional.empty();
         }
 
