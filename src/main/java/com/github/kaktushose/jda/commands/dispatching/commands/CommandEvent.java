@@ -72,6 +72,7 @@ public class CommandEvent extends GenericEvent implements Replyable {
 
     @Override
     public void reply() {
-
+        replyContext.queue();
+        context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
     }
 }

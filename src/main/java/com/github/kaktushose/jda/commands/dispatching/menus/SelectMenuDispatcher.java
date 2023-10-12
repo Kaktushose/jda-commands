@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.StringSelectMenuDefinition;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.slf4j.Logger;
@@ -77,7 +78,8 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
             context.setRuntime(runtime);
 
             if (EntitySelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
-                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), event.getValues());
+                EntitySelectInteractionEvent entityEvent = (EntitySelectInteractionEvent) event;
+                menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), entityEvent.getMentions());
             } else if (StringSelectMenuDefinition.class.isAssignableFrom(menu.getClass())) {
                 menu.getMethod().invoke(runtime.getInstance(), new SelectMenuEvent(menu, context), event.getValues());
             } else {
