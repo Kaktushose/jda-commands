@@ -5,6 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.commands.autocomplete.AutoCompleteContext;
+import com.github.kaktushose.jda.commands.dispatching.commands.autocomplete.AutoCompleteDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuContext;
 import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -41,6 +43,7 @@ public class DispatcherSupervisor {
         register(CommandContext.class, new CommandDispatcher(this, runtimeSupervisor));
         register(ButtonContext.class, new ButtonDispatcher(this, runtimeSupervisor));
         register(SelectMenuContext.class, new SelectMenuDispatcher(this, runtimeSupervisor));
+        register(AutoCompleteContext.class, new AutoCompleteDispatcher(this, runtimeSupervisor));
     }
 
     /**

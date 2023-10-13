@@ -34,7 +34,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
     protected GenericInteraction interaction;
 
     /**
-     * Constructs a new CommandContext.
+     * Constructs a new GenericContext.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
      * @param event       the corresponding {@link GenericInteractionCreateEvent}

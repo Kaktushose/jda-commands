@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
@@ -33,14 +34,17 @@ public class ControllerDefinition {
     private static final Logger log = LoggerFactory.getLogger(ControllerDefinition.class);
     private final List<CommandDefinition> commands;
     private final List<ButtonDefinition> buttons;
-    private List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
+    private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
+    private final List<AutoCompleteDefinition> autoCompletes;
 
     private ControllerDefinition(List<CommandDefinition> commands,
                                  List<ButtonDefinition> buttons,
-                                 List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus) {
+                                 List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
+                                 List<AutoCompleteDefinition> autoCompletes) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
+        this.autoCompletes = autoCompletes;
     }
 
     /**
@@ -89,6 +93,7 @@ public class ControllerDefinition {
         List<CommandDefinition> commands = new ArrayList<>();
         List<ButtonDefinition> buttons = new ArrayList<>();
         List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
+        List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
@@ -136,9 +141,13 @@ public class ControllerDefinition {
                     selectMenus.add(menu);
                 });
             }
+
+            if (method.isAnnotationPresent(AutoComplete.class)) {
+                AutoCompleteDefinition.build(method).ifPresent(autoCompletes::add);
+            }
         }
 
-        return Optional.of(new ControllerDefinition(commands, buttons, selectMenus));
+        return Optional.of(new ControllerDefinition(commands, buttons, selectMenus, autoCompletes));
     }
 
     /**
@@ -168,12 +177,19 @@ public class ControllerDefinition {
         return selectMenus;
     }
 
+    public Collection<AutoCompleteDefinition> getAutoCompletes() {
+        return autoCompletes;
+    }
+
     @Override
     public String toString() {
         return "ControllerDefinition{" +
                 "commands=" + commands +
                 ", buttons=" + buttons +
-                ", entitySelectMenus=" + selectMenus +
+                ", selectMenus=" + selectMenus +
+                ", autoCompletes=" + autoCompletes +
                 '}';
     }
+
+
 }

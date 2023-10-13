@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 /**
- * Dispatches commands by taking a {@link ButtonContext} and passing it through the execution chain.
+ * Dispatches buttons by taking a {@link ButtonContext} and passing it through the execution chain.
  *
  * @author Kaktushose
  * @version 4.0.0
