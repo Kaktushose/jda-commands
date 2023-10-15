@@ -217,9 +217,10 @@ public class ParameterDefinition {
     /**
      * Transforms this parameter definition to a {@link OptionData}.
      *
+     * @param isAutoComplete whether this {@link OptionData} should support auto complete
      * @return the transformed {@link OptionData}
      */
-    public OptionData toOptionData() {
+    public OptionData toOptionData(boolean isAutoComplete) {
         String name = getName();
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
         OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
@@ -233,7 +234,7 @@ public class ParameterDefinition {
 
         optionData.addChoices(choices);
         if (optionType.canSupportChoices() && choices.isEmpty()) {
-            optionData.setAutoComplete(true);
+            optionData.setAutoComplete(isAutoComplete);
         }
 
         constraints.stream().filter(constraint ->

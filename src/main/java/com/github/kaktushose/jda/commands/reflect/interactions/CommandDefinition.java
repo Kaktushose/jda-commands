@@ -40,6 +40,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final boolean isNSFW;
     private final SlashCommand.CommandScope scope;
     private final LocalizationFunction localizationFunction;
+    private boolean isAutoComplete;
 
     protected CommandDefinition(Method method,
                                 boolean ephemeral,
@@ -63,6 +64,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
         this.isNSFW = isNSFW;
         this.scope = scope;
         this.localizationFunction = localizationFunction;
+        isAutoComplete = false;
     }
 
 
@@ -185,7 +187,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
             }
-            command.addOptions(parameter.toOptionData());
+            command.addOptions(parameter.toOptionData(isAutoComplete));
         });
         return command;
     }
@@ -206,7 +208,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
                 return;
             }
-            command.addOptions(parameter.toOptionData());
+            command.addOptions(parameter.toOptionData(isAutoComplete));
         });
         return command;
     }
@@ -313,6 +315,30 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     }
 
     /**
+     * Whether this command supports auto complete.
+     *
+     * @return {@code true} if this command supports auto complete
+     */
+    public boolean isAutoComplete() {
+        return isAutoComplete;
+    }
+
+    /**
+     * Whether this command supports auto complete.
+     *
+     * @param autoComplete whether this can command support auto complete
+     * @return this instance for fluent interface
+     */
+    public CommandDefinition setAutoComplete(boolean autoComplete) {
+        this.isAutoComplete = autoComplete;
+        return this;
+    }
+
+    public LocalizationFunction getLocalizationFunction() {
+        return localizationFunction;
+    }
+
+    /**
      * Gets the {@link Method} of the command.
      *
      * @return the {@link Method} of the command
@@ -323,13 +349,18 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
 
     @Override
     public String toString() {
-        return "SlashCommandDefinition{" +
+        return "CommandDefinition{" +
                 "name='" + name + '\'' +
-                ", description=" + description +
+                ", description='" + description + '\'' +
                 ", parameters=" + parameters +
                 ", permissions=" + permissions +
+                ", enabledPermissions=" + enabledPermissions +
                 ", cooldown=" + cooldown +
-                ", isDM=" + isGuildOnly +
+                ", isGuildOnly=" + isGuildOnly +
+                ", isNSFW=" + isNSFW +
+                ", scope=" + scope +
+                ", localizationFunction=" + localizationFunction +
+                ", isAutoComplete=" + isAutoComplete +
                 ", ephemeral=" + ephemeral +
                 ", id='" + id + '\'' +
                 ", method=" + method +

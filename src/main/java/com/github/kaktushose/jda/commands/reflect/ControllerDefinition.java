@@ -144,10 +144,16 @@ public class ControllerDefinition {
 
             if (method.isAnnotationPresent(AutoComplete.class)) {
                 AutoCompleteDefinition.build(
-                        method, autoCompletes.stream()
-                                .flatMap(it -> it.getCommandNames().stream())
-                                .collect(Collectors.toList())
-                ).ifPresent(autoCompletes::add);
+                        method,
+                        autoCompletes.stream().flatMap(it -> it.getCommandNames().stream()).collect(Collectors.toList())
+                ).ifPresent(autoComplete -> {
+                    autoCompletes.add(autoComplete);
+
+                    autoComplete.getCommandNames().forEach(name ->
+                            commands.stream().filter(it -> it.getName().equals(name))
+                                    .findFirst().ifPresent(it -> it.setAutoComplete(true))
+                    );
+                });
             }
         }
 
