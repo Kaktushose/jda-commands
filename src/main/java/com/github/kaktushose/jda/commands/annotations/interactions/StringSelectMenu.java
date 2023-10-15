@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,7 +15,7 @@ import java.lang.annotation.Target;
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type
- * {@link com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent SelectMenuEvent}</li>
+ * {@link SelectMenuEvent SelectMenuEvent}</li>
  * </ul>
  *
  * @author Kaktushose

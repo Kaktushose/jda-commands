@@ -1,9 +1,9 @@
-package com.github.kaktushose.jda.commands.dispatching.buttons;
+package com.github.kaktushose.jda.commands.dispatching.interactions.buttons;
 
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;

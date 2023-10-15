@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import org.jetbrains.annotations.NotNull;
 
 /**

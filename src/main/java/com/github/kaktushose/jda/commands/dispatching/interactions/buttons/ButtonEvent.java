@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.buttons;
+package com.github.kaktushose.jda.commands.dispatching.interactions.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
@@ -30,7 +30,7 @@ public class ButtonEvent extends GenericEvent implements Replyable {
     /**
      * Constructs a ButtonEvent.
      *
-     * @param button the underlying {@link ButtonDefinition} object
+     * @param button  the underlying {@link ButtonDefinition} object
      * @param context the {@link ButtonContext}
      */
     public ButtonEvent(@NotNull ButtonDefinition button, @NotNull ButtonContext context) {

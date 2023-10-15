@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
 
@@ -16,7 +17,7 @@ import java.lang.annotation.Target;
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type
- * {@link com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent SelectMenuEvent}</li>
+ * {@link SelectMenuEvent SelectMenuEvent}</li>
  * </ul>
  *
  * @author Kaktushose

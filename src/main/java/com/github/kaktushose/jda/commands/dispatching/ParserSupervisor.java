@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonParser;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandParser;
-import com.github.kaktushose.jda.commands.dispatching.commands.autocomplete.AutoCompleteParser;
-import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuParser;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;

@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.commands.autocomplete;
+package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 
 public class AutoCompleteContext extends GenericContext<CommandAutoCompleteInteractionEvent> {

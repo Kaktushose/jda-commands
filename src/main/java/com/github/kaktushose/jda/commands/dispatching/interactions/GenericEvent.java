@@ -1,5 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
@@ -26,8 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Kaktushose
  * @version 4.0.0
- * @see com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent CommandEvent
- * @see com.github.kaktushose.jda.commands.dispatching.buttons.ButtonEvent ButtonEvent
+ * @see CommandEvent CommandEvent
+ * @see ButtonEvent ButtonEvent
  * @since 4.0.0
  */
 public class GenericEvent extends Event {

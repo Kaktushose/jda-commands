@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;

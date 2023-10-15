@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.filter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

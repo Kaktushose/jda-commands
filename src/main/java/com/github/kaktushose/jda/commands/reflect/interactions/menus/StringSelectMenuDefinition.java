@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.dispatching.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

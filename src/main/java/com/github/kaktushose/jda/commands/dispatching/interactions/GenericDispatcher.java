@@ -1,8 +1,10 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -13,7 +15,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
  * @param <T> the subclass of {@link GenericContext} to dispatch
  * @author Kaktushose
  * @version 4.0.0
- * @see com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher CommandDispatcher
+ * @see CommandDispatcher CommandDispatcher
  * @since 4.0.0
  */
 public abstract class GenericDispatcher<T extends GenericContext<? extends GenericInteractionCreateEvent>> {

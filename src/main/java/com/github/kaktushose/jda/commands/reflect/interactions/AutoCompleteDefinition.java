@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.commands.autocomplete.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
 import net.dv8tion.jda.api.interactions.AutoCompleteQuery;
 import org.jetbrains.annotations.NotNull;
 

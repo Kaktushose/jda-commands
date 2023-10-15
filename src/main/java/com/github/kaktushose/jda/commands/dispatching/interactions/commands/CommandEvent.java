@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.commands;
+package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;

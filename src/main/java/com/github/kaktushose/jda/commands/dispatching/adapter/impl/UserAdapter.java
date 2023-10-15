@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;

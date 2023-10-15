@@ -1,8 +1,8 @@
-package com.github.kaktushose.jda.commands.dispatching.menus;
+package com.github.kaktushose.jda.commands.dispatching.interactions.menus;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
-import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
@@ -35,7 +35,7 @@ public class SelectMenuEvent extends GenericEvent implements Replyable {
      * Constructs a ButtonEvent.
      *
      * @param selectMenu the underlying {@link ButtonDefinition} object
-     * @param context the {@link ButtonContext}
+     * @param context    the {@link ButtonContext}
      */
     public SelectMenuEvent(@NotNull GenericSelectMenuDefinition<? extends SelectMenu> selectMenu, @NotNull SelectMenuContext context) {
         super(GenericEvent.fromEvent(context.getEvent()));

@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.data.EmbedCache;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;

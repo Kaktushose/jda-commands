@@ -1,8 +1,8 @@
-package com.github.kaktushose.jda.commands.dispatching.commands;
+package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.GenericParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericParser;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -34,7 +34,7 @@ public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends 
     /**
      * Transforms this definition to a select menu component.
      *
-     * @param id the id of the component
+     * @param id      the id of the component
      * @param enabled {@code true} if the component should be enabled
      * @return the select menu component
      */
