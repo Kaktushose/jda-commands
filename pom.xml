@@ -6,7 +6,7 @@
 
     <groupId>com.github.kaktushose</groupId>
     <artifactId>jda-commands</artifactId>
-    <version>4.0.0-alpha.3</version>
+    <version>4.0.0-alpha.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +21,9 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

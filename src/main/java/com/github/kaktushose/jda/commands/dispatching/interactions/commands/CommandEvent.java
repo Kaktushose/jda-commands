@@ -1,19 +1,11 @@
-package com.github.kaktushose.jda.commands.dispatching.commands;
+package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.components.Buttons;
-import com.github.kaktushose.jda.commands.components.Component;
-import com.github.kaktushose.jda.commands.dispatching.GenericEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is a subclass of {@link GenericEvent}.
@@ -68,38 +60,9 @@ public class CommandEvent extends GenericEvent implements Replyable {
      *
      * @return the registered {@link CommandContext} object
      */
-    public CommandContext getCommandContext() {
-        return context;
-    }
-
     @Override
-    public Replyable with(@NotNull Component... components) {
-        List<ItemComponent> items = new ArrayList<>();
-        for (Component component : components) {
-            if (component instanceof Buttons) {
-                Buttons buttons = (Buttons) component;
-                buttons.getButtons().forEach(button -> {
-                    String id = String.format("%s.%s", command.getMethod().getDeclaringClass().getSimpleName(), button.getId());
-                    getJdaCommands().getInteractionRegistry().getButtons()
-                            .stream()
-                            .filter(it -> it.getId().equals(id))
-                            .findFirst()
-                            .map(it -> {
-                                Button jdaButton = it.toButton().withDisabled(!button.isEnabled());
-                                //only assign ids to non-link buttons
-                                if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.getRuntimeId(context));
-                                }
-                                return jdaButton;
-                            }).ifPresent(items::add);
-                });
-            }
-        }
-
-        if (items.size() > 0) {
-            getReplyContext().getBuilder().addComponents(ActionRow.of(items));
-        }
-        return this;
+    public CommandContext getContext() {
+        return context;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 
 import java.lang.annotation.ElementType;

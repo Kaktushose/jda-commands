@@ -5,7 +5,7 @@ import adapting.mock.JDACommandsMock;
 import adapting.mock.JDAMock;
 import adapting.mock.SlashCommandInteractionEventMock;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

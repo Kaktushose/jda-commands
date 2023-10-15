@@ -1,9 +1,8 @@
-package com.github.kaktushose.jda.commands.dispatching.buttons;
+package com.github.kaktushose.jda.commands.dispatching.interactions.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.GenericParser;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericParser;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -19,11 +18,11 @@ import org.jetbrains.annotations.NotNull;
 public class ButtonParser extends GenericParser<ButtonInteractionEvent> {
 
     /**
-     * Takes a {@link SlashCommandInteractionEvent}, parses and transpiles it into a {@link CommandContext}.
+     * Takes a {@link ButtonInteractionEvent}, parses and transpiles it into a {@link ButtonContext}.
      *
      * @param event       the {@link SlashCommandInteractionEvent} to parse
      * @param jdaCommands the {@link JDACommands} instance
-     * @return a new {@link CommandContext}
+     * @return a new {@link ButtonContext}
      */
     @Override
     public @NotNull GenericContext<? extends GenericInteractionCreateEvent> parse(@NotNull ButtonInteractionEvent event, @NotNull JDACommands jdaCommands) {

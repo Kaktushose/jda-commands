@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class RuntimeSupervisor {
 
     private final Map<String, InteractionRuntime> runtimes;
+    private final Map<String, Object> staticInstances;
     private final ScheduledExecutorService executor;
     private final DependencyInjector injector;
 
@@ -35,6 +37,7 @@ public class RuntimeSupervisor {
     public RuntimeSupervisor(DependencyInjector injector) {
         this.injector = injector;
         runtimes = new HashMap<>();
+        staticInstances = new HashMap<>();
         executor = new ScheduledThreadPoolExecutor(4);
     }
 
@@ -51,7 +54,6 @@ public class RuntimeSupervisor {
      */
     public InteractionRuntime newRuntime(GenericCommandInteractionEvent event, GenericInteraction interaction)
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
-
         Object instance = interaction.newInstance();
 
         injector.inject(instance);
@@ -63,6 +65,30 @@ public class RuntimeSupervisor {
         executor.schedule(() -> runtimes.remove(id), 15, TimeUnit.MINUTES);
 
         return runtime;
+    }
+
+    /**
+     * Gets an instance of the given {@link GenericInteraction}. If no instance exists yet, creates, stores and then
+     * returns the instance.
+     *
+     * @param event       the {@link CommandAutoCompleteInteractionEvent} to  get the instance for
+     * @param interaction the {@link GenericInteraction} to create or get an instance from
+     * @return an instance of the provided {@link GenericInteraction}
+     * @throws InvocationTargetException if the underlying constructor throws an exception
+     * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
+     * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
+     *                                   the underlying constructor is inaccessible
+     */
+    public Object getOrCreateInstance(CommandAutoCompleteInteractionEvent event, GenericInteraction interaction)
+            throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        String name = event.getFullCommandName();
+        if (staticInstances.containsKey(name)) {
+            return staticInstances.get(name);
+        } else {
+            Object instance = interaction.newInstance();
+            staticInstances.put(name, instance);
+            return instance;
+        }
     }
 
     /**

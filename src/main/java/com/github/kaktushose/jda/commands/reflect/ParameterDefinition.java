@@ -40,7 +40,7 @@ import java.util.*;
  */
 public class ParameterDefinition {
 
-    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = new HashMap<Class<?>, Class<?>>() {
+    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = new HashMap<>() {
         {
             put(byte.class, Byte.class);
             put(short.class, Short.class);
@@ -53,7 +53,7 @@ public class ParameterDefinition {
         }
     };
 
-    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = new HashMap<Class<?>, OptionType>() {
+    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = new HashMap<>() {
         {
             put(Byte.class, OptionType.STRING);
             put(Short.class, OptionType.STRING);
@@ -79,7 +79,7 @@ public class ParameterDefinition {
         }
     };
 
-    private static final Map<Class<?>, List<ChannelType>> CHANNEL_TYPE_RESTRICTIONS = new HashMap<Class<?>, List<ChannelType>>() {
+    private static final Map<Class<?>, List<ChannelType>> CHANNEL_TYPE_RESTRICTIONS = new HashMap<>() {
         {
             put(GuildMessageChannel.class, Collections.singletonList(ChannelType.TEXT));
             put(ThreadChannel.class, Arrays.asList(
@@ -217,19 +217,25 @@ public class ParameterDefinition {
     /**
      * Transforms this parameter definition to a {@link OptionData}.
      *
+     * @param isAutoComplete whether this {@link OptionData} should support auto complete
      * @return the transformed {@link OptionData}
      */
-    public OptionData toOptionData() {
+    public OptionData toOptionData(boolean isAutoComplete) {
         String name = getName();
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
+        OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
+
         OptionData optionData = new OptionData(
-                OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING),
+                optionType,
                 name,
                 description,
                 !isOptional
         );
 
         optionData.addChoices(choices);
+        if (optionType.canSupportChoices() && choices.isEmpty()) {
+            optionData.setAutoComplete(isAutoComplete);
+        }
 
         constraints.stream().filter(constraint ->
                 constraint.getAnnotation().getClass().isAssignableFrom(Min.class)

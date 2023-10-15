@@ -1,9 +1,10 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -30,10 +31,10 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
     protected boolean cancelled;
     protected boolean ephemeral;
     protected InteractionRuntime runtime;
-
+    protected GenericInteraction interaction;
 
     /**
-     * Constructs a new CommandContext.
+     * Constructs a new GenericContext.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
      * @param event       the corresponding {@link GenericInteractionCreateEvent}
@@ -163,4 +164,12 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
         return this;
     }
 
+    public GenericInteraction getInteraction() {
+        return interaction;
+    }
+
+    public GenericContext<? extends GenericInteractionCreateEvent> setInteraction(GenericInteraction interaction) {
+        this.interaction = interaction;
+        return this;
+    }
 }

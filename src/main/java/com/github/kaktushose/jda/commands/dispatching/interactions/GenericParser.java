@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class GenericParser<T extends GenericEvent> {
 
-    GenericContext<? extends GenericInteractionCreateEvent> parseInternal(GenericEvent event, JDACommands jdaCommands) {
+    public GenericContext<? extends GenericInteractionCreateEvent> parseInternal(GenericEvent event, JDACommands jdaCommands) {
         return parse((T) event, jdaCommands);
     }
 

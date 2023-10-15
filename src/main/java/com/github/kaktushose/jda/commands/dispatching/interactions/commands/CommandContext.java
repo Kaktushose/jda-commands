@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.commands;
+package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -117,6 +117,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     @NotNull
     public CommandContext setCommand(@Nullable CommandDefinition command) {
         this.command = command;
+        setInteraction(command);
         return this;
     }
 

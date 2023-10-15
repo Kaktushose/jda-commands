@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;

@@ -1,11 +1,18 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.buttons.ButtonParser;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuParser;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -38,6 +45,9 @@ public class ParserSupervisor extends ListenerAdapter {
         this.dispatcher = dispatcher;
         register(SlashCommandInteractionEvent.class, new CommandParser());
         register(ButtonInteractionEvent.class, new ButtonParser());
+        register(EntitySelectInteractionEvent.class, new SelectMenuParser());
+        register(StringSelectInteractionEvent.class, new SelectMenuParser());
+        register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteParser());
     }
 
     /**

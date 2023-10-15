@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -168,7 +168,7 @@ public class ReplyContext {
     /**
      * Whether this reply should be ephemeral.
      *
-     * @return  {@code true} if this reply should be ephemeral
+     * @return {@code true} if this reply should be ephemeral
      */
     public ReplyContext setEphemeralReply(boolean ephemeralReply) {
         this.ephemeralReply = ephemeralReply;
@@ -200,7 +200,6 @@ public class ReplyContext {
 
     /**
      * Sends the reply to Discord, taking into account all the settings that were previously made to this context.
-     *
      */
     public void queue() {
         IReplyCallback callback;

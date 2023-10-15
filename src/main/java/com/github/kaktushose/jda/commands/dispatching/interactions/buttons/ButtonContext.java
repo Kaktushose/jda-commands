@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.buttons;
+package com.github.kaktushose.jda.commands.dispatching.interactions.buttons;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
@@ -43,6 +43,7 @@ public class ButtonContext extends GenericContext<ButtonInteractionEvent> {
      */
     public ButtonContext setButton(ButtonDefinition button) {
         this.button = button;
+        setInteraction(button);
         return this;
     }
 }
