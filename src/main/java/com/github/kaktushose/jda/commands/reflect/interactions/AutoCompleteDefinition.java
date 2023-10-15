@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
-import net.dv8tion.jda.api.interactions.AutoCompleteQuery;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -39,7 +38,7 @@ public class AutoCompleteDefinition extends GenericInteraction {
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 2) {
+        if (method.getParameters().length != 1) {
             log.error("An error has occurred! Skipping auto complete {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
@@ -47,15 +46,11 @@ public class AutoCompleteDefinition extends GenericInteraction {
             return Optional.empty();
         }
 
-        if (!AutoCompleteEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
-                !AutoCompleteQuery.class.isAssignableFrom(method.getParameters()[1].getType())) {
+        if (!AutoCompleteEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
             log.error("An error has occurred! Skipping auto complete {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
-                            AutoCompleteEvent.class.getSimpleName(),
-                            AutoCompleteQuery.class.getSimpleName()
-                    )));
+                    new IllegalArgumentException(String.format("First parameter must be of type %s", AutoCompleteEvent.class.getSimpleName())));
             return Optional.empty();
         }
 
