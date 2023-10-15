@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 /**
@@ -50,13 +49,9 @@ public class AutoCompleteDispatcher extends GenericDispatcher<AutoCompleteContex
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
         log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), event.getMember());
         try {
-            autoComplete.getMethod().invoke(
-                    runtimeSupervisor.getOrCreateInstance(event, autoComplete),
-                    new AutoCompleteEvent(context),
-                    event.getFocusedOption()
-            );
+            autoComplete.getMethod().invoke(runtimeSupervisor.getOrCreateInstance(event, autoComplete), new AutoCompleteEvent(context));
         } catch (Exception exception) {
-            throw new IllegalStateException("Auto complete execution failed!", new InvocationTargetException(exception));
+            throw new IllegalStateException("Auto complete execution failed!", exception);
         }
     }
 }
