@@ -1,5 +1,5 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.0.0--beta.15-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-4.0.0--alpha.3-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![Generic badge](https://img.shields.io/badge/Download-4.0.0--alpha.4-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
@@ -16,7 +16,7 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 | jda-commands | JDA | Text Commands | Interactions | Stable |
 |-----------------------------------------------------------------------------|-|--|---|---|
-| [4.0.0-alpha.3](https://github.com/Kaktushose/jda-commands/releases/latest) |5|❌|✅|❌|
+| [4.0.0-alpha.4](https://github.com/Kaktushose/jda-commands/releases/latest) |5|❌|✅|❌|
 | [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)     |5|✅|❌|✅|
 | [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)    |4|✅|❌|✅|
 
