@@ -143,7 +143,11 @@ public class ControllerDefinition {
             }
 
             if (method.isAnnotationPresent(AutoComplete.class)) {
-                AutoCompleteDefinition.build(method).ifPresent(autoCompletes::add);
+                AutoCompleteDefinition.build(
+                        method, autoCompletes.stream()
+                                .flatMap(it -> it.getCommandNames().stream())
+                                .collect(Collectors.toList())
+                ).ifPresent(autoCompletes::add);
             }
         }
 

@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.AutoCompleteQuery;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class AutoCompleteDefinition extends GenericInteraction {
      * @param method the {@link Method} of the AutoComplete
      * @return an {@link Optional} holding the AutoCompleteDefinition
      */
-    public static Optional<AutoCompleteDefinition> build(@NotNull Method method) {
+    public static Optional<AutoCompleteDefinition> build(@NotNull Method method, List<String> autoCompletes) {
         if (!method.isAnnotationPresent(AutoComplete.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -59,8 +60,18 @@ public class AutoCompleteDefinition extends GenericInteraction {
         }
 
         AutoComplete autoComplete = method.getAnnotation(AutoComplete.class);
+        Set<String> values = Set.of(autoComplete.value());
 
-        return Optional.of(new AutoCompleteDefinition(method, Set.of(autoComplete.value())));
+        if (autoCompletes.stream().anyMatch(values::contains)) {
+            log.error("An error has occurred! Skipping auto complete {}.{}:",
+                    method.getDeclaringClass().getSimpleName(),
+                    method.getName(),
+                    new IllegalStateException(String.format("There is already an auto complete handler registered " +
+                            "for at least one of the following commands: %s", values)));
+            return Optional.empty();
+        }
+
+        return Optional.of(new AutoCompleteDefinition(method, values));
     }
 
     /**
@@ -70,5 +81,14 @@ public class AutoCompleteDefinition extends GenericInteraction {
      */
     public Set<String> getCommandNames() {
         return commands;
+    }
+
+    @Override
+    public String toString() {
+        return "AutoCompleteDefinition{" +
+                "commands=" + commands +
+                ", id='" + id + "'" +
+                ", method=" + method +
+                '}';
     }
 }
