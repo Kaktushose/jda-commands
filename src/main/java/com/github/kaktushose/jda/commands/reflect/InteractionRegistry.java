@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -41,6 +42,7 @@ public class InteractionRegistry {
     private final Set<ButtonDefinition> buttons;
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
+    private final Set<ContextMenuDefinition> contextMenus;
 
     /**
      * Constructs a new CommandRegistry.
@@ -60,6 +62,7 @@ public class InteractionRegistry {
         buttons = new HashSet<>();
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
+        contextMenus = new HashSet<>();
     }
 
     /**
@@ -105,7 +108,7 @@ public class InteractionRegistry {
             buttons.addAll(controller.getButtons());
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
-
+            contextMenus.addAll(controller.getContextMenus());
             log.debug("Registered controller {}", controller);
         }
 
@@ -159,4 +162,7 @@ public class InteractionRegistry {
         return Collections.unmodifiableSet(selectMenus);
     }
 
+    public Set<ContextMenuDefinition> getContextMenus() {
+        return Collections.unmodifiableSet(contextMenus);
+    }
 }

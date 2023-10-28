@@ -5,11 +5,14 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericParser
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteParser;
 import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonParser;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.contextmenu.ContextMenuParser;
 import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuParser;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -48,6 +51,8 @@ public class ParserSupervisor extends ListenerAdapter {
         register(EntitySelectInteractionEvent.class, new SelectMenuParser());
         register(StringSelectInteractionEvent.class, new SelectMenuParser());
         register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteParser());
+        register(MessageContextInteractionEvent.class, new ContextMenuParser());
+        register(UserContextInteractionEvent.class, new ContextMenuParser());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.CommandTree;
 import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -28,15 +29,17 @@ public class SlashCommandUpdater {
     private final JDAContext jdaContext;
     private final Collection<CommandDefinition> commands;
     private final GuildScopeProvider guildScopeProvider;
+    private final Collection<ContextMenuDefinition> contextMenus;
 
     /**
      * Constructs a new SlashCommandUpdater.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public SlashCommandUpdater(JDACommands jdaCommands, Collection<CommandDefinition> commands) {
+    public SlashCommandUpdater(JDACommands jdaCommands, Collection<CommandDefinition> commands, Collection<ContextMenuDefinition> contextMenus) {
         this.jdaContext = jdaCommands.getJdaContext();
         this.commands = commands;
+        this.contextMenus = contextMenus;
         guildScopeProvider = jdaCommands.getImplementationRegistry().getGuildScopeProvider();
     }
 
@@ -77,6 +80,20 @@ public class SlashCommandUpdater {
             });
         }
 
+        for (ContextMenuDefinition command : contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD).collect(Collectors.toSet())) {
+            // create a copy so that a user doesn't modify the command data used for registration
+            Set<Long> guildIds = guildScopeProvider.getGuildsForCommand(CommandData.fromData(command.toCommandData().toData()));
+            if (guildIds.isEmpty()) {
+                log.debug("No guilds provided for command {}", command.getName());
+            } else {
+                log.debug("Using guilds {} for command {}", guildIds, command.getName());
+            }
+            guildIds.forEach(id -> {
+                guildMapping.putIfAbsent(id, new HashSet<>());
+                guildMapping.get(id).add(command.toCommandData());
+            });
+        }
+
         for (Guild guild : jdaContext.getGuildCache()) {
             Set<CommandData> commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
             guild.updateCommands().addCommands(commands).queue();
@@ -97,6 +114,7 @@ public class SlashCommandUpdater {
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
         jdaContext.performTask(jda -> jda.updateCommands().addCommands(tree.getCommands()).queue());
+        jdaContext.performTask(jda -> jda.updateCommands().addCommands(contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GLOBAL).map(ContextMenuDefinition::toCommandData).collect(Collectors.toSet())).queue());
         log.debug("Done!");
     }
 
