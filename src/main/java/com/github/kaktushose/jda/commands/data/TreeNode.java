@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;

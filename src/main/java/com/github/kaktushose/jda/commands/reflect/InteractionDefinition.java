@@ -4,10 +4,16 @@ import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.*;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.StringSelectMenuDefinition;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -30,24 +36,21 @@ import java.util.stream.Collectors;
 public class InteractionDefinition {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionDefinition.class);
-    private final List<SlashCommandDefinition> commands;
+    private final List<GenericCommandDefinition> commands;
     private final List<ButtonDefinition> buttons;
     private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final List<AutoCompleteDefinition> autoCompletes;
-    private final Collection<ContextCommandDefinition> contextMenus;
     private final List<ModalDefinition> modals;
 
-    private InteractionDefinition(List<SlashCommandDefinition> commands,
+    private InteractionDefinition(List<GenericCommandDefinition> commands,
                                   List<ButtonDefinition> buttons,
                                   List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
                                   List<AutoCompleteDefinition> autoCompletes,
-                                  Collection<ContextCommandDefinition> contextMenus,
                                   List<ModalDefinition> modals) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
         this.autoCompletes = autoCompletes;
-        this.contextMenus = contextMenus;
         this.modals = modals;
     }
 
@@ -94,34 +97,43 @@ public class InteractionDefinition {
         }
 
         // index interactions
-        List<SlashCommandDefinition> commands = new ArrayList<>();
+        List<GenericCommandDefinition> commands = new ArrayList<>();
         List<ButtonDefinition> buttons = new ArrayList<>();
         List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
-        List<ContextCommandDefinition> contextMenus = new ArrayList<>();
         List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
         List<ModalDefinition> modals = new ArrayList<>();
         for (Method method : interactionClass.getDeclaredMethods()) {
 
+            // index commands
             if (method.isAnnotationPresent(SlashCommand.class)) {
                 Optional<SlashCommandDefinition> optional = SlashCommandDefinition.build(method, validatorRegistry, localizationFunction);
                 if (optional.isEmpty()) {
                     continue;
                 }
                 SlashCommandDefinition commandDefinition = optional.get();
-
-                // add controller level permissions
                 commandDefinition.getPermissions().addAll(permissions);
                 if (commandDefinition.getCooldown().getDelay() == 0) {
                     commandDefinition.getCooldown().set(cooldown);
                 }
-
                 if (interaction.ephemeral()) {
                     commandDefinition.setEphemeral(true);
                 }
-
+                commands.add(commandDefinition);
+            }
+            if (method.isAnnotationPresent(ContextCommand.class)) {
+                Optional<ContextCommandDefinition> optional = ContextCommandDefinition.build(method, localizationFunction);
+                if (optional.isEmpty()) {
+                    continue;
+                }
+                ContextCommandDefinition commandDefinition = optional.get();
+                commandDefinition.getPermissions().addAll(permissions);
+                if (interaction.ephemeral()) {
+                    commandDefinition.setEphemeral(true);
+                }
                 commands.add(commandDefinition);
             }
 
+            // index components
             if (method.isAnnotationPresent(Button.class)) {
                 ButtonDefinition.build(method).ifPresent(button -> {
                     if (interaction.ephemeral()) {
@@ -146,14 +158,8 @@ public class InteractionDefinition {
                     selectMenus.add(menu);
                 });
             }
-            if (method.isAnnotationPresent(ContextMenu.class)) {
-                ContextCommandDefinition.build(method, localizationFunction).ifPresent(menu -> {
-                    if (interaction.ephemeral()) {
-                        menu.setEphemeral(true);
-                    }
-                    contextMenus.add(menu);
-                });
-            }
+
+            //index modals
             if (method.isAnnotationPresent(Modal.class)) {
                 ModalDefinition.build(method).ifPresent(modal -> {
                     if (interaction.ephemeral()) {
@@ -164,7 +170,7 @@ public class InteractionDefinition {
             }
         }
 
-        //loop again once all commands got indexed because we need all commands for autocomplete registration to work
+        //loop again and index auto complete
         for (Method method : interactionClass.getDeclaredMethods()) {
             if (method.isAnnotationPresent(AutoComplete.class)) {
                 AutoCompleteDefinition.build(
@@ -175,13 +181,10 @@ public class InteractionDefinition {
 
                     Set<String> commandNames = new HashSet<>();
                     autoComplete.getCommandNames().forEach(name -> commands.stream()
-                            .filter(command -> {
-                                System.out.println(command.getName());
-                                System.out.println(command.getName().startsWith(name));
-                                return command.getName().startsWith(name);
-                            })
+                            .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                            .filter(command -> command.getName().startsWith(name))
                             .forEach(command -> {
-                                command.setAutoComplete(true);
+                                ((SlashCommandDefinition) command).setAutoComplete(true);
                                 commandNames.add(command.getName());
                             })
                     );
@@ -190,15 +193,15 @@ public class InteractionDefinition {
             }
         }
 
-        return Optional.of(new InteractionDefinition(commands, buttons, selectMenus, autoCompletes, contextMenus, modals));
+        return Optional.of(new InteractionDefinition(commands, buttons, selectMenus, autoCompletes, modals));
     }
 
     /**
-     * Gets a possibly-empty list of all commands.
+     * Gets a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}.
      *
-     * @return a possibly-empty list of all commands
+     * @return a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}
      */
-    public List<SlashCommandDefinition> getCommands() {
+    public List<GenericCommandDefinition> getCommands() {
         return commands;
     }
 
@@ -220,14 +223,20 @@ public class InteractionDefinition {
         return selectMenus;
     }
 
+    /**
+     * Gets a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
+     */
     public Collection<AutoCompleteDefinition> getAutoCompletes() {
         return autoCompletes;
     }
 
-    public Collection<ContextCommandDefinition> getContextMenus() {
-        return contextMenus;
-    }
-
+    /**
+     * Gets a possibly-empty list of all {@link ModalDefinition ModalDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link ModalDefinition ModalDefinitions}
+     */
     public List<ModalDefinition> getModals() {
         return modals;
     }
@@ -239,7 +248,7 @@ public class InteractionDefinition {
                 ", buttons=" + buttons +
                 ", selectMenus=" + selectMenus +
                 ", autoCompletes=" + autoCompletes +
-                ", contextMenus=" + contextMenus +
+                ", modals=" + modals +
                 '}';
     }
 

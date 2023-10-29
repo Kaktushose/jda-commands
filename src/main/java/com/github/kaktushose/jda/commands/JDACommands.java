@@ -81,7 +81,7 @@ public class JDACommands {
 
         interactionRegistry.index(clazz, packages);
 
-        updater = new SlashCommandUpdater(this, interactionRegistry.getCommands(), interactionRegistry.getContextMenus());
+        updater = new SlashCommandUpdater(this);
         updater.updateAllCommands();
         jdaContext.performTask(it -> it.addEventListener(parserSupervisor));
 

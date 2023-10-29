@@ -3,8 +3,14 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.*;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +26,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
@@ -35,11 +42,10 @@ public class InteractionRegistry {
     private final DependencyInjector dependencyInjector;
     private final LocalizationFunction localizationFunction;
     private final Set<InteractionDefinition> controllers;
-    private final Set<SlashCommandDefinition> commands;
+    private final Set<GenericCommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
-    private final Set<ContextCommandDefinition> contextMenus;
     private final Set<ModalDefinition> modals;
 
     /**
@@ -60,7 +66,6 @@ public class InteractionRegistry {
         buttons = new HashSet<>();
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
-        contextMenus = new HashSet<>();
         modals = new HashSet<>();
     }
 
@@ -87,7 +92,7 @@ public class InteractionRegistry {
         Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(Interaction.class);
 
         for (Class<?> aClass : controllerSet) {
-            log.debug("Found controller {}", aClass.getName());
+            log.debug("Found interaction controller {}", aClass.getName());
 
             Optional<InteractionDefinition> optional = InteractionDefinition.build(
                     aClass,
@@ -97,7 +102,7 @@ public class InteractionRegistry {
             );
 
             if (optional.isEmpty()) {
-                log.warn("Unable to index the controller!");
+                log.warn("Unable to index the interaction controller!");
                 continue;
             }
 
@@ -107,12 +112,11 @@ public class InteractionRegistry {
             buttons.addAll(controller.getButtons());
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
-            contextMenus.addAll(controller.getContextMenus());
             modals.addAll(controller.getModals());
-            log.debug("Registered controller {}", controller);
+            log.debug("Registered interaction controller {}", controller);
         }
 
-        log.debug("Successfully registered {} controller(s) with a total of {} interaction(s)!",
+        log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 controllers.size(),
                 commands.size() + buttons.size());
     }
@@ -122,8 +126,17 @@ public class InteractionRegistry {
      *
      * @return a possibly-empty list of all {@link InteractionDefinition ControllerDefinitions}
      */
-    public Set<InteractionDefinition> getControllers() {
+    public Set<InteractionDefinition> getInteractionControllers() {
         return Collections.unmodifiableSet(controllers);
+    }
+
+    /**
+     * Gets a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}
+     */
+    public Set<GenericCommandDefinition> getCommands() {
+        return Collections.unmodifiableSet(commands);
     }
 
     /**
@@ -131,8 +144,22 @@ public class InteractionRegistry {
      *
      * @return a possibly-empty list of all {@link SlashCommandDefinition CommandDefinitions}
      */
-    public Set<SlashCommandDefinition> getCommands() {
-        return Collections.unmodifiableSet(commands);
+    public Set<SlashCommandDefinition> getSlashCommands() {
+        return commands.stream().filter(it -> (it.getCommandType() == Command.Type.SLASH))
+                .map(it -> (SlashCommandDefinition) it)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    /**
+     * Gets a possibly-empty list of all {@link ContextCommandDefinition CommandDefinitions}.
+     *
+     * @return a possibly-empty list of all {@link ContextCommandDefinition CommandDefinitions}
+     */
+    public Set<ContextCommandDefinition> getContextCommands() {
+        return commands.stream().filter(it ->
+                        (it.getCommandType() == Command.Type.USER) || it.getCommandType() == Command.Type.MESSAGE)
+                .map(it -> (ContextCommandDefinition) it)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -154,16 +181,12 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}.
+     * Gets a possibly-empty list of all {@link ModalDefinition ModalDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
+     * @return a possibly-empty list of all {@link ModalDefinition ModalDefinitions}
      */
     public Set<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
         return Collections.unmodifiableSet(selectMenus);
-    }
-
-    public Set<ContextCommandDefinition> getContextMenus() {
-        return Collections.unmodifiableSet(contextMenus);
     }
 
     public Set<ModalDefinition> getModals() {

@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContex
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 

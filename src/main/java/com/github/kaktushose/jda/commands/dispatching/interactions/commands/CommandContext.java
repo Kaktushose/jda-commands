@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;

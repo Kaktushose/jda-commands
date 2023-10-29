@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContex
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 

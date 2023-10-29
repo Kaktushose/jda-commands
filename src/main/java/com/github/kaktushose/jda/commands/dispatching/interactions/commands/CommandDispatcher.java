@@ -8,7 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.Filt
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
             }
         }
 
-        Optional<SlashCommandDefinition> optional = interactionRegistry.getCommands().stream()
+        Optional<SlashCommandDefinition> optional = interactionRegistry.getSlashCommands().stream()
                 .filter(it -> it.getName().equals(context.getEvent().getFullCommandName()))
                 .findFirst();
         if (optional.isEmpty()) {

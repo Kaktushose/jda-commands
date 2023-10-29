@@ -4,9 +4,10 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.InteractionDefinition;
 import commands.UnsupportedType;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,7 +45,11 @@ public class InteractionDefinitionTest {
 
         InteractionDefinition interactionDefinition = InteractionDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(interactionDefinition);
-        SlashCommandDefinition definition = interactionDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = interactionDefinition.getCommands().stream()
+                .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                .map(it -> (SlashCommandDefinition) it)
+                .filter(c -> c.getMethod().equals(method))
+                .findFirst().orElse(null);
         assertNotNull(definition);
 
 
@@ -64,7 +69,11 @@ public class InteractionDefinitionTest {
 
         InteractionDefinition interactionDefinition = InteractionDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(interactionDefinition);
-        SlashCommandDefinition definition = interactionDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = interactionDefinition.getCommands().stream()
+                .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                .map(it -> (SlashCommandDefinition) it)
+                .filter(c -> c.getMethod().equals(method))
+                .findFirst().orElse(null);
         assertNotNull(definition);
 
         assertEquals("super sub", definition.getName());

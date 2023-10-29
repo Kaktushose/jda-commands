@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;

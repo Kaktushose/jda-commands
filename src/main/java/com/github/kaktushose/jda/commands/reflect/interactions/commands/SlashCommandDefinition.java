@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.reflect.interactions;
+package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
@@ -8,6 +8,8 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -28,45 +30,33 @@ import java.util.stream.Collectors;
  * @see SlashCommand
  * @since 2.0.0
  */
-public class SlashCommandDefinition extends EphemeralInteraction implements Comparable<SlashCommandDefinition> {
+public class SlashCommandDefinition extends GenericCommandDefinition {
 
-    private final String name;
     private final String description;
     private final List<ParameterDefinition> parameters;
-    private final Set<String> permissions;
-    private final Set<net.dv8tion.jda.api.Permission> enabledPermissions;
     private final CooldownDefinition cooldown;
-    private final boolean isGuildOnly;
-    private final boolean isNSFW;
-    private final SlashCommand.CommandScope scope;
-    private final LocalizationFunction localizationFunction;
     private boolean isAutoComplete;
 
-    protected SlashCommandDefinition(Method method,
-                                     boolean ephemeral,
-                                     String name,
-                                     String description,
-                                     List<ParameterDefinition> parameters,
-                                     Set<String> permissions,
-                                     Set<net.dv8tion.jda.api.Permission> enabledPermissions,
-                                     CooldownDefinition cooldown,
-                                     boolean isGuildOnly,
-                                     boolean isNSFW,
-                                     SlashCommand.CommandScope scope, LocalizationFunction localizationFunction) {
-        super(method, ephemeral);
-        this.name = name;
+    public SlashCommandDefinition(Method method,
+                                  boolean ephemeral,
+                                  String name,
+                                  Set<String> permissions,
+                                  boolean isGuildOnly,
+                                  boolean isNSFW,
+                                  Command.Type commandType,
+                                  Set<Permission> enabledPermissions,
+                                  SlashCommand.CommandScope scope,
+                                  LocalizationFunction localizationFunction,
+                                  String description,
+                                  List<ParameterDefinition> parameters,
+                                  CooldownDefinition cooldown,
+                                  boolean isAutoComplete) {
+        super(method, ephemeral, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
         this.description = description;
         this.parameters = parameters;
-        this.permissions = permissions;
-        this.enabledPermissions = enabledPermissions;
         this.cooldown = cooldown;
-        this.isGuildOnly = isGuildOnly;
-        this.isNSFW = isNSFW;
-        this.scope = scope;
-        this.localizationFunction = localizationFunction;
-        isAutoComplete = false;
+        this.isAutoComplete = isAutoComplete;
     }
-
 
     /**
      * Builds a new CommandDefinition.
@@ -151,15 +141,18 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
                 method,
                 command.ephemeral(),
                 label,
-                command.desc(),
-                parameters,
                 permissions,
-                enabledFor,
-                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
                 command.isGuildOnly(),
                 command.isNSFW(),
+                Command.Type.SLASH,
+                enabledFor,
                 command.scope(),
-                localizationFunction));
+                localizationFunction,
+                command.desc(),
+                parameters,
+                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
+                false
+        ));
     }
 
     private static void logError(String message, Method commandMethod) {
@@ -174,6 +167,7 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
      *
      * @return the transformed {@link SlashCommandData}
      */
+    @Override
     public SlashCommandData toCommandData() {
         SlashCommandData command = Commands.slash(
                 name,
@@ -214,15 +208,6 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
     }
 
     /**
-     * Gets the command name.
-     *
-     * @return the command name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Returns the slash command description.
      *
      * @return the description
@@ -252,24 +237,6 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
     }
 
     /**
-     * Gets a set of permission Strings.
-     *
-     * @return set of permission Strings
-     */
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    /**
-     * Gets a set of Discord permission Strings this command will be enabled for by default.
-     *
-     * @return a set of Discord permission Strings this command will be enabled for by default
-     */
-    public Set<net.dv8tion.jda.api.Permission> getEnabledPermissions() {
-        return enabledPermissions;
-    }
-
-    /**
      * Gets the {@link CooldownDefinition}. This is never null, even if the command has no cooldown.
      *
      * @return the {@link CooldownDefinition}
@@ -285,24 +252,6 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
      */
     public boolean hasCooldown() {
         return getCooldown().getDelay() > 0;
-    }
-
-    /**
-     * Whether this command can be executed inside direct messages.
-     *
-     * @return {@code true} if this command can be executed inside direct messages
-     */
-    public boolean isGuildOnly() {
-        return isGuildOnly;
-    }
-
-    /**
-     * Whether this command can only be executed in NSFW channels.
-     *
-     * @return {@code true} if this command can only be executed in NSFW channels
-     */
-    public boolean isNSFW() {
-        return isNSFW;
     }
 
     /**
@@ -334,41 +283,24 @@ public class SlashCommandDefinition extends EphemeralInteraction implements Comp
         return this;
     }
 
-    public LocalizationFunction getLocalizationFunction() {
-        return localizationFunction;
-    }
-
-    /**
-     * Gets the {@link Method} of the command.
-     *
-     * @return the {@link Method} of the command
-     */
-    public Method getMethod() {
-        return method;
-    }
-
     @Override
     public String toString() {
-        return "CommandDefinition{" +
-                "name='" + name + '\'' +
+        return "SlashCommandDefinition{" +
+                "id='" + id + '\'' +
+                ", method=" + method +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", parameters=" + parameters +
-                ", permissions=" + permissions +
-                ", enabledPermissions=" + enabledPermissions +
                 ", cooldown=" + cooldown +
+                ", isAutoComplete=" + isAutoComplete +
+                ", permissions=" + permissions +
                 ", isGuildOnly=" + isGuildOnly +
                 ", isNSFW=" + isNSFW +
+                ", commandType=" + commandType +
+                ", enabledPermissions=" + enabledPermissions +
                 ", scope=" + scope +
                 ", localizationFunction=" + localizationFunction +
-                ", isAutoComplete=" + isAutoComplete +
                 ", ephemeral=" + ephemeral +
-                ", id='" + id + '\'' +
-                ", method=" + method +
                 '}';
-    }
-
-    @Override
-    public int compareTo(@NotNull SlashCommandDefinition command) {
-        return name.compareTo(command.name);
     }
 }
