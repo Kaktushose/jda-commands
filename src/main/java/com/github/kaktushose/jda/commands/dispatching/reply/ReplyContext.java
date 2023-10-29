@@ -210,10 +210,9 @@ public class ReplyContext {
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }
-        // The ReplyContext is also used for error messages and some appear even before acknowledging took place
-        // In this case the event gets acknowledged with ephemeral set to false
+
         if (!event.isAcknowledged()) {
-            callback.deferReply(false).queue();
+            callback.deferReply(ephemeralReply).queue();
         }
         callback.getHook().setEphemeral(ephemeralReply);
         if (editReply) {

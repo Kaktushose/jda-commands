@@ -75,8 +75,6 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
         context.setCommand(command).setEphemeral(command.isEphemeral());
         log.debug("Input matches command: {}", command);
 
-        log.debug("Acknowledging event");
-        context.getEvent().deferReply(context.isEphemeral()).queue();
 
         List<String> parameters = new ArrayList<>();
         Map<String, OptionMapping> options = context.getOptionsAsMap();

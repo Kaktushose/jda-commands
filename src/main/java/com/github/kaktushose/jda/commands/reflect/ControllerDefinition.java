@@ -4,10 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.*;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.StringSelectMenuDefinition;
@@ -38,16 +35,20 @@ public class ControllerDefinition {
     private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final List<AutoCompleteDefinition> autoCompletes;
     private final Collection<ContextMenuDefinition> contextMenus;
+    private final List<ModalDefinition> modals;
 
     private ControllerDefinition(List<CommandDefinition> commands,
                                  List<ButtonDefinition> buttons,
                                  List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
-                                 List<AutoCompleteDefinition> autoCompletes, Collection<ContextMenuDefinition> contextMenus) {
+                                 List<AutoCompleteDefinition> autoCompletes,
+                                 Collection<ContextMenuDefinition> contextMenus,
+                                 List<ModalDefinition> modals) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
         this.autoCompletes = autoCompletes;
         this.contextMenus = contextMenus;
+        this.modals = modals;
     }
 
     /**
@@ -98,6 +99,7 @@ public class ControllerDefinition {
         List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
         List<ContextMenuDefinition> contextMenus = new ArrayList<>();
         List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
+        List<ModalDefinition> modals = new ArrayList<>();
         for (Method method : controllerClass.getDeclaredMethods()) {
 
             if (method.isAnnotationPresent(SlashCommand.class)) {
@@ -168,9 +170,18 @@ public class ControllerDefinition {
                     contextMenus.add(menu);
                 });
             }
+
+            if (method.isAnnotationPresent(Modal.class)) {
+                ModalDefinition.build(method).ifPresent(modal -> {
+                    if (interaction.ephemeral()) {
+                        modal.setEphemeral(true);
+                    }
+                    modals.add(modal);
+                });
+            }
         }
 
-        return Optional.of(new ControllerDefinition(commands, buttons, selectMenus, autoCompletes, contextMenus));
+        return Optional.of(new ControllerDefinition(commands, buttons, selectMenus, autoCompletes, contextMenus, modals));
     }
 
     /**
@@ -206,6 +217,10 @@ public class ControllerDefinition {
 
     public Collection<ContextMenuDefinition> getContextMenus() {
         return contextMenus;
+    }
+
+    public List<ModalDefinition> getModals() {
+        return modals;
     }
 
     @Override

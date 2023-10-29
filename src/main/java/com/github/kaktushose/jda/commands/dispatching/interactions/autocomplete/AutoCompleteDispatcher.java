@@ -35,7 +35,6 @@ public class AutoCompleteDispatcher extends GenericDispatcher<AutoCompleteContex
 
     @Override
     public void onEvent(AutoCompleteContext context) {
-        log.debug("Acknowledging event");
         CommandAutoCompleteInteractionEvent event = context.getEvent();
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
                 .filter(it -> it.getCommandNames().contains(event.getFullCommandName()))
@@ -47,6 +46,8 @@ public class AutoCompleteDispatcher extends GenericDispatcher<AutoCompleteContex
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
+        log.debug("Input matches auto complete: {}", autoComplete);
+
         log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), event.getMember());
         try {
             autoComplete.getMethod().invoke(runtimeSupervisor.getOrCreateInstance(event, autoComplete), new AutoCompleteEvent(context));

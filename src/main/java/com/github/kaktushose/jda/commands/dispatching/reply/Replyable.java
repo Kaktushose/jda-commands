@@ -7,9 +7,11 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
+import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -196,6 +198,31 @@ public interface Replyable {
         return this;
     }
 
+    /**
+     * Replies to this Interaction with a Modal. This will open a popup on the target user's Discord client.
+     *
+     * @param modal the id of the modal to reply with
+     */
+    default void replyModal(String modal) {
+        IModalCallback callback;
+        GenericContext<?> context = getContext();
+        GenericInteractionCreateEvent event = context.getEvent();
+        if (event instanceof IModalCallback) {
+            callback = (IModalCallback) event;
+        } else {
+            throw new IllegalArgumentException(
+                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
+            );
+        }
+
+        String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), modal);
+
+        ModalDefinition modalDefinition = context.getJdaCommands().getInteractionRegistry().getModals().stream()
+                .filter(it -> it.getId().equals(id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
+
+        callback.replyModal(modalDefinition.toModal(modalDefinition.getRuntimeId(context))).queue();
+    }
+
     GenericContext<? extends GenericInteractionCreateEvent> getContext();
 
     /**
@@ -245,7 +272,7 @@ public interface Replyable {
      * @param success the callback consumer
      * @return the current instance for fluent interface
      */
-    private Replyable setSuccessCallback(Consumer<Message> success) {
+    default Replyable setSuccessCallback(Consumer<Message> success) {
         getReplyContext().setSuccessCallback(success);
         return this;
     }
@@ -256,7 +283,7 @@ public interface Replyable {
      * @param failure the callback consumer
      * @return the current instance for fluent interface
      */
-    private Replyable setFailureCallback(Consumer<Throwable> failure) {
+    default Replyable setFailureCallback(Consumer<Throwable> failure) {
         getReplyContext().setFailureCallback(failure);
         return this;
     }

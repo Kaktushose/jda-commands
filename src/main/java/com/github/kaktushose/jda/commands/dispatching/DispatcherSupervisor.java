@@ -13,6 +13,8 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.contextmenu.C
 import com.github.kaktushose.jda.commands.dispatching.interactions.contextmenu.ContextMenuDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -49,6 +51,7 @@ public class DispatcherSupervisor {
         register(SelectMenuContext.class, new SelectMenuDispatcher(this, runtimeSupervisor));
         register(AutoCompleteContext.class, new AutoCompleteDispatcher(this, runtimeSupervisor));
         register(ContextMenuContext.class, new ContextMenuDispatcher(this, runtimeSupervisor));
+        register(ModalContext.class, new ModalDispatcher(this, runtimeSupervisor));
     }
 
     /**

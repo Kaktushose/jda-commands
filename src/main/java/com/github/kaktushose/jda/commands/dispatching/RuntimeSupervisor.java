@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -102,6 +103,23 @@ public class RuntimeSupervisor {
      */
     public Optional<InteractionRuntime> getRuntime(GenericComponentInteractionCreateEvent event) {
         String[] split = event.getComponentId().split("\\.");
+        if (split.length != 3) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(runtimes.get(split[2]));
+    }
+
+    /**
+     * Gets an {@link Optional} holding the {@link InteractionRuntime}. Returns an empty {@link Optional} if no
+     * {@link InteractionRuntime} has been created yet by calling
+     * {@link #newRuntime(GenericCommandInteractionEvent, GenericInteraction)}, if the underlying component wasn't
+     * created by jda-commands or if the {@link InteractionRuntime} expired.
+     *
+     * @param event the {@link ModalInteractionEvent} to get the {@link InteractionRuntime} for
+     * @return an {@link Optional} holding the {@link InteractionRuntime}
+     */
+    public Optional<InteractionRuntime> getRuntime(ModalInteractionEvent event) {
+        String[] split = event.getModalId().split("\\.");
         if (split.length != 3) {
             return Optional.empty();
         }

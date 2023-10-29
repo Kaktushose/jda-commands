@@ -47,12 +47,8 @@ public class ContextMenuDispatcher extends GenericDispatcher<ContextMenuContext>
         }
 
         ContextMenuDefinition command = optional.get();
+        context.setEphemeral(command.isEphemeral());
         log.debug("Input matches command: {}", command);
-
-        log.debug("Acknowledging event");
-        context.getEvent().deferReply(context.isEphemeral()).queue();
-
-
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
             RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(context.getEvent(), command);

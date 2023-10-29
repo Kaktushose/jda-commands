@@ -7,8 +7,10 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.Butto
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandParser;
 import com.github.kaktushose.jda.commands.dispatching.interactions.contextmenu.ContextMenuParser;
 import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuParser;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalParser;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -53,6 +55,7 @@ public class ParserSupervisor extends ListenerAdapter {
         register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteParser());
         register(MessageContextInteractionEvent.class, new ContextMenuParser());
         register(UserContextInteractionEvent.class, new ContextMenuParser());
+        register(ModalInteractionEvent.class, new ModalParser());
     }
 
     /**

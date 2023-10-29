@@ -3,10 +3,7 @@ package com.github.kaktushose.jda.commands.reflect;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.*;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -43,6 +40,7 @@ public class InteractionRegistry {
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
     private final Set<ContextMenuDefinition> contextMenus;
+    private final Set<ModalDefinition> modals;
 
     /**
      * Constructs a new CommandRegistry.
@@ -63,6 +61,7 @@ public class InteractionRegistry {
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
         contextMenus = new HashSet<>();
+        modals = new HashSet<>();
     }
 
     /**
@@ -109,6 +108,7 @@ public class InteractionRegistry {
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
             contextMenus.addAll(controller.getContextMenus());
+            modals.addAll(controller.getModals());
             log.debug("Registered controller {}", controller);
         }
 
@@ -164,5 +164,9 @@ public class InteractionRegistry {
 
     public Set<ContextMenuDefinition> getContextMenus() {
         return Collections.unmodifiableSet(contextMenus);
+    }
+
+    public Set<ModalDefinition> getModals() {
+        return Collections.unmodifiableSet(modals);
     }
 }

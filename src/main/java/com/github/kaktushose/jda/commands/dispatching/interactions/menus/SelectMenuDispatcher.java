@@ -40,9 +40,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
      */
     @Override
     public void onEvent(SelectMenuContext context) {
-        log.debug("Acknowledging event");
         GenericSelectMenuInteractionEvent<?, ?> event = context.getEvent();
-        event.deferEdit().queue();
 
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
@@ -53,7 +51,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
             return;
         }
         RuntimeSupervisor.InteractionRuntime runtime = optionalRuntime.get();
-        log.debug("Found corresponding runtime with id \"{}\"", runtime);
+        log.debug("Found corresponding runtime with id \"{}\"", runtime.getInstanceId());
 
         String[] splitId = event.getComponentId().split("\\.");
         String menuId = String.format("%s.%s", splitId[0], splitId[1]);

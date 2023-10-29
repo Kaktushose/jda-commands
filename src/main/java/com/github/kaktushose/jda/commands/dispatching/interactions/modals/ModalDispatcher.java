@@ -1,27 +1,24 @@
-package com.github.kaktushose.jda.commands.dispatching.interactions.buttons;
+package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.ButtonDefinition;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-/**
- * Dispatches buttons by taking a {@link ButtonContext} and passing it through the execution chain.
- *
- * @author Kaktushose
- * @version 4.0.0
- * @since 4.0.0
- */
-public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
+public class ModalDispatcher extends GenericDispatcher<ModalContext> {
 
     private static final Logger log = LoggerFactory.getLogger(ButtonDispatcher.class);
     private final RuntimeSupervisor runtimeSupervisor;
@@ -32,53 +29,48 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
      * @param supervisor        the {@link DispatcherSupervisor} which supervises this dispatcher.
      * @param runtimeSupervisor the corresponding {@link RuntimeSupervisor}
      */
-    public ButtonDispatcher(DispatcherSupervisor supervisor, RuntimeSupervisor runtimeSupervisor) {
+    public ModalDispatcher(DispatcherSupervisor supervisor, RuntimeSupervisor runtimeSupervisor) {
         super(supervisor);
         this.runtimeSupervisor = runtimeSupervisor;
     }
-
-    /**
-     * Dispatches a {@link ButtonContext}.
-     *
-     * @param context the {@link ButtonContext} to dispatch.
-     */
     @Override
-    public void onEvent(ButtonContext context) {
-        ButtonInteractionEvent event = context.getEvent();
-
+    public void onEvent(ModalContext context) {
+        ModalInteractionEvent event = context.getEvent();
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
-        Optional<InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
+        Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
         if (optionalRuntime.isEmpty()) {
-            event.getHook().editOriginalComponents().queue();
             event.getHook().sendMessage(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
             return;
         }
-        InteractionRuntime runtime = optionalRuntime.get();
+        RuntimeSupervisor.InteractionRuntime runtime = optionalRuntime.get();
         log.debug("Found corresponding runtime with id \"{}\"", runtime.getInstanceId());
 
-        String[] splitId = event.getButton().getId().split("\\.");
-        String buttonId = String.format("%s.%s", splitId[0], splitId[1]);
-        Optional<ButtonDefinition> optionalButton = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getId().equals(buttonId))
+        String[] splitId = event.getModalId().split("\\.");
+        String modalId = String.format("%s.%s", splitId[0], splitId[1]);
+        Optional<ModalDefinition> optionalModal = interactionRegistry.getModals().stream()
+                .filter(it -> it.getId().equals(modalId))
                 .findFirst();
-        if (optionalButton.isEmpty()) {
+
+        if (optionalModal.isEmpty()) {
             IllegalStateException exception = new IllegalStateException(
-                    "No button found! Please report this error the the devs of jda-commands."
+                    "No Modal found! Please report this error the the devs of jda-commands."
             );
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
             throw exception;
         }
 
-        ButtonDefinition button = optionalButton.get();
-        context.setButton(button).setEphemeral(button.isEphemeral());
-        log.debug("Input matches button: {}", button);
-
-        log.info("Executing button {} for user {}", button.getMethod().getName(), event.getMember());
+        ModalDefinition modal = optionalModal.get();
+        context.setEphemeral(modal.isEphemeral());
+        log.debug("Input matches Modal: {}", modal);
+        log.info("Executing Modal {} for user {}", modal.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);
-            button.getMethod().invoke(runtime.getInstance(), new ButtonEvent(button, context));
+            List<Object> arguments = new ArrayList<>();
+            arguments.add(new ModalEvent(modal, context));
+            arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toSet()));
+            modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
             log.error("Button execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
@@ -89,11 +81,11 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private boolean checkCancelled(ButtonContext context) {
+    private boolean checkCancelled(ModalContext context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);
             replyContext.getBuilder().applyData(context.getErrorMessage());
-            replyContext.queue();
+            replyContext.setEditReply(false).queue();
             return true;
         }
         return false;
