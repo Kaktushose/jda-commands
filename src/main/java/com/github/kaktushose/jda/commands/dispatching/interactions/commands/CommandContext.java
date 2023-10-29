@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -24,7 +24,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
 
     private String[] input;
     private List<OptionMapping> options;
-    private CommandDefinition command;
+    private SlashCommandDefinition command;
     private List<Object> arguments;
 
     /**
@@ -99,23 +99,23 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
     }
 
     /**
-     * Gets the {@link CommandDefinition}. This will return null until the command got routed.
+     * Gets the {@link SlashCommandDefinition}. This will return null until the command got routed.
      *
-     * @return the {@link CommandDefinition}
+     * @return the {@link SlashCommandDefinition}
      */
     @Nullable
-    public CommandDefinition getCommand() {
+    public SlashCommandDefinition getCommand() {
         return command;
     }
 
     /**
-     * Set the {@link CommandDefinition}.
+     * Set the {@link SlashCommandDefinition}.
      *
-     * @param command the {@link CommandDefinition}
+     * @param command the {@link SlashCommandDefinition}
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setCommand(@Nullable CommandDefinition command) {
+    public CommandContext setCommand(@Nullable SlashCommandDefinition command) {
         this.command = command;
         setInteraction(command);
         return this;

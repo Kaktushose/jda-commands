@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @see SlashCommand
  * @since 2.0.0
  */
-public class CommandDefinition extends EphemeralInteraction implements Comparable<CommandDefinition> {
+public class SlashCommandDefinition extends EphemeralInteraction implements Comparable<SlashCommandDefinition> {
 
     private final String name;
     private final String description;
@@ -42,17 +42,17 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     private final LocalizationFunction localizationFunction;
     private boolean isAutoComplete;
 
-    protected CommandDefinition(Method method,
-                                boolean ephemeral,
-                                String name,
-                                String description,
-                                List<ParameterDefinition> parameters,
-                                Set<String> permissions,
-                                Set<net.dv8tion.jda.api.Permission> enabledPermissions,
-                                CooldownDefinition cooldown,
-                                boolean isGuildOnly,
-                                boolean isNSFW,
-                                SlashCommand.CommandScope scope, LocalizationFunction localizationFunction) {
+    protected SlashCommandDefinition(Method method,
+                                     boolean ephemeral,
+                                     String name,
+                                     String description,
+                                     List<ParameterDefinition> parameters,
+                                     Set<String> permissions,
+                                     Set<net.dv8tion.jda.api.Permission> enabledPermissions,
+                                     CooldownDefinition cooldown,
+                                     boolean isGuildOnly,
+                                     boolean isNSFW,
+                                     SlashCommand.CommandScope scope, LocalizationFunction localizationFunction) {
         super(method, ephemeral);
         this.name = name;
         this.description = description;
@@ -76,9 +76,9 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the CommandDefinition
      */
-    public static Optional<CommandDefinition> build(@NotNull Method method,
-                                                    @NotNull ValidatorRegistry validatorRegistry,
-                                                    @NotNull LocalizationFunction localizationFunction) {
+    public static Optional<SlashCommandDefinition> build(@NotNull Method method,
+                                                         @NotNull ValidatorRegistry validatorRegistry,
+                                                         @NotNull LocalizationFunction localizationFunction) {
 
         if (!method.isAnnotationPresent(SlashCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
@@ -147,7 +147,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
             enabledFor.clear();
         }
 
-        return Optional.of(new CommandDefinition(
+        return Optional.of(new SlashCommandDefinition(
                 method,
                 command.ephemeral(),
                 label,
@@ -329,7 +329,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
      * @param autoComplete whether this can command support auto complete
      * @return this instance for fluent interface
      */
-    public CommandDefinition setAutoComplete(boolean autoComplete) {
+    public SlashCommandDefinition setAutoComplete(boolean autoComplete) {
         this.isAutoComplete = autoComplete;
         return this;
     }
@@ -368,7 +368,7 @@ public class CommandDefinition extends EphemeralInteraction implements Comparabl
     }
 
     @Override
-    public int compareTo(@NotNull CommandDefinition command) {
+    public int compareTo(@NotNull SlashCommandDefinition command) {
         return name.compareTo(command.name);
     }
 }

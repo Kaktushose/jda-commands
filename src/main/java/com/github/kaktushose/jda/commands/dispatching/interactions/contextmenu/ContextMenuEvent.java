@@ -4,17 +4,17 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContex
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ContextCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class ContextMenuEvent extends GenericEvent implements Replyable {
 
-    private final ContextMenuDefinition command;
+    private final ContextCommandDefinition command;
     private final ContextMenuContext context;
     private final ReplyContext replyContext;
 
-    protected ContextMenuEvent(@NotNull ContextMenuDefinition command, @NotNull ContextMenuContext context) {
+    protected ContextMenuEvent(@NotNull ContextCommandDefinition command, @NotNull ContextMenuContext context) {
         super(GenericEvent.fromEvent(context.getEvent()));
         this.command = command;
         this.context = context;

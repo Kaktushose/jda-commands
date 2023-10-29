@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ContextMenuDefinition extends EphemeralInteraction {
+public class ContextCommandDefinition extends EphemeralInteraction {
 
     private final String name;
     private final Set<String> permissions;
@@ -30,16 +30,16 @@ public class ContextMenuDefinition extends EphemeralInteraction {
     private final SlashCommand.CommandScope scope;
     private final LocalizationFunction localizationFunction;
 
-    protected ContextMenuDefinition(Method method,
-                                    boolean ephemeral,
-                                    String name,
-                                    Set<String> permissions,
-                                    boolean isGuildOnly,
-                                    boolean isNSFW,
-                                    Command.Type commandType,
-                                    Set<Permission> enabledPermissions,
-                                    SlashCommand.CommandScope scope,
-                                    LocalizationFunction localizationFunction) {
+    protected ContextCommandDefinition(Method method,
+                                       boolean ephemeral,
+                                       String name,
+                                       Set<String> permissions,
+                                       boolean isGuildOnly,
+                                       boolean isNSFW,
+                                       Command.Type commandType,
+                                       Set<Permission> enabledPermissions,
+                                       SlashCommand.CommandScope scope,
+                                       LocalizationFunction localizationFunction) {
         super(method, ephemeral);
         this.name = name;
         this.permissions = permissions;
@@ -51,7 +51,7 @@ public class ContextMenuDefinition extends EphemeralInteraction {
         this.localizationFunction = localizationFunction;
     }
 
-    public static Optional<ContextMenuDefinition> build(@NotNull Method method, @NotNull LocalizationFunction localizationFunction) {
+    public static Optional<ContextCommandDefinition> build(@NotNull Method method, @NotNull LocalizationFunction localizationFunction) {
         if (!method.isAnnotationPresent(ContextMenu.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -75,7 +75,7 @@ public class ContextMenuDefinition extends EphemeralInteraction {
             enabledFor.clear();
         }
 
-        return Optional.of(new ContextMenuDefinition(
+        return Optional.of(new ContextCommandDefinition(
                 method,
                 command.ephemeral(),
                 command.value(),

@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContex
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +37,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         }
 
         StringBuilder sbExpected = new StringBuilder();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getParameters().forEach(parameter -> {
@@ -69,7 +69,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getInsufficientPermissionsMessage(context);
         }
 
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         StringBuilder sbPermissions = new StringBuilder();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);

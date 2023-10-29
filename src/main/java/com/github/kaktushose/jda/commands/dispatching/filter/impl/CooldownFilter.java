@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * A {@link Filter} implementation that contains the business logic behind command cooldowns.
  * If the command isn't annotated with {@link Cooldown Cooldown} or more
- * formally if the {@link CommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
+ * formally if the {@link SlashCommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
  * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
  *
  * @author Kaktushose
@@ -33,14 +33,14 @@ public class CooldownFilter implements Filter {
     }
 
     /**
-     * Checks if an active cooldown for the given {@link CommandDefinition} exists and will eventually cancel the
+     * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
      * @param context the {@link GenericContext} to filter
      */
     @Override
     public void apply(@NotNull GenericContext context) {
-        CommandDefinition command = ((CommandContext) context).getCommand();
+        SlashCommandDefinition command = ((CommandContext) context).getCommand();
 
         if (!command.hasCooldown()) {
             return;
@@ -73,17 +73,17 @@ public class CooldownFilter implements Filter {
     }
 
     private static class CooldownEntry {
-        private final CommandDefinition command;
+        private final SlashCommandDefinition command;
         private final long startTime;
         private final long duration;
 
-        public CooldownEntry(CommandDefinition command, long startTime, long duration) {
+        public CooldownEntry(SlashCommandDefinition command, long startTime, long duration) {
             this.command = command;
             this.startTime = startTime;
             this.duration = duration;
         }
 
-        public CommandDefinition getCommand() {
+        public SlashCommandDefinition getCommand() {
             return command;
         }
 

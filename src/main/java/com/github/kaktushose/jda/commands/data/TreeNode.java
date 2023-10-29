@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
@@ -24,7 +24,7 @@ public class TreeNode implements Iterable<TreeNode> {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final String name;
-    private final CommandDefinition command;
+    private final SlashCommandDefinition command;
     private final List<TreeNode> children;
 
     /**
@@ -38,9 +38,9 @@ public class TreeNode implements Iterable<TreeNode> {
      * Constructs a new TreeNode.
      *
      * @param name    the name of the command
-     * @param command the {@link CommandDefinition}
+     * @param command the {@link SlashCommandDefinition}
      */
-    public TreeNode(@NotNull String name, @Nullable CommandDefinition command) {
+    public TreeNode(@NotNull String name, @Nullable SlashCommandDefinition command) {
         this.name = name;
         this.command = command;
         children = new ArrayList<>();
@@ -57,9 +57,9 @@ public class TreeNode implements Iterable<TreeNode> {
      * <p>This guarantees to create a {@link CommandTree} that respects Subcommands and SubcommandGroups.
      *
      * @param labels  an Array of all labels, can be empty
-     * @param command the {@link CommandDefinition} to add
+     * @param command the {@link SlashCommandDefinition} to add
      */
-    public void addChild(@NotNull String[] labels, @NotNull CommandDefinition command) {
+    public void addChild(@NotNull String[] labels, @NotNull SlashCommandDefinition command) {
         if (labels.length < 1) {
             return;
         }
@@ -89,9 +89,9 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     /**
-     * Gets the label of the {@link CommandDefinition} of this {@link TreeNode}.
+     * Gets the label of the {@link SlashCommandDefinition} of this {@link TreeNode}.
      *
-     * @return the label of the {@link CommandDefinition}
+     * @return the label of the {@link SlashCommandDefinition}
      */
     public String getName() {
         return name;
@@ -116,12 +116,12 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     /**
-     * Gets the {@link CommandDefinition} of this {@link TreeNode}. Returns an empty {@link Optional} if one or more
-     * children exist or if the {@link CommandDefinition} is {@code null}.
+     * Gets the {@link SlashCommandDefinition} of this {@link TreeNode}. Returns an empty {@link Optional} if one or more
+     * children exist or if the {@link SlashCommandDefinition} is {@code null}.
      *
      * @return an {@link Optional} holding the result
      */
-    public Optional<CommandDefinition> getCommand() {
+    public Optional<SlashCommandDefinition> getCommand() {
         if (children.size() > 0) {
             return Optional.empty();
         }

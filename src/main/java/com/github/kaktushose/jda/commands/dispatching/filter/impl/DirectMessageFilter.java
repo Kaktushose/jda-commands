@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A {@link Filter} implementation that checks if a
- * {@link CommandDefinition} is available for execution in direct messages.
+ * {@link SlashCommandDefinition} is available for execution in direct messages.
  *
  * @author Kaktushose
  * @version 2.0.0
@@ -25,7 +25,7 @@ public class DirectMessageFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(DirectMessageFilter.class);
 
     /**
-     * Checks if a {@link CommandDefinition} is available for execution in
+     * Checks if a {@link SlashCommandDefinition} is available for execution in
      * direct messages and if not cancels the {@link GenericContext},
      *
      * @param context the {@link GenericContext} to filter

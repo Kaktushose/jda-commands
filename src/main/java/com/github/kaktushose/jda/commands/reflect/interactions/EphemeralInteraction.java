@@ -18,10 +18,20 @@ public abstract class EphemeralInteraction extends GenericInteraction {
         this.ephemeral = ephemeral;
     }
 
+    /**
+     * Gets whether replies should be ephemeral.
+     *
+     * @return {@code true} if replies should be ephemeral
+     */
     public boolean isEphemeral() {
         return ephemeral;
     }
 
+    /**
+     * Sets whether replies should be ephemeral.
+     *
+     * @param ephemeral {@code true} if replies should be ephemeral
+     */
     public void setEphemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
     }

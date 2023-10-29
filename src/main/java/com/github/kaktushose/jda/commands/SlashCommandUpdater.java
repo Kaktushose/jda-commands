@@ -2,8 +2,8 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.CommandTree;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class that sends the {@link SlashCommandData} to Discord. Uses a {@link CommandTree} to properly transpile all
- * {@link CommandDefinition CommandDefinitions} to {@link SlashCommandData}.
+ * {@link SlashCommandDefinition CommandDefinitions} to {@link SlashCommandData}.
  *
  * @author Kaktushose
  * @version 4.0.0
@@ -27,16 +27,16 @@ public class SlashCommandUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
-    private final Collection<CommandDefinition> commands;
+    private final Collection<SlashCommandDefinition> commands;
     private final GuildScopeProvider guildScopeProvider;
-    private final Collection<ContextMenuDefinition> contextMenus;
+    private final Collection<ContextCommandDefinition> contextMenus;
 
     /**
      * Constructs a new SlashCommandUpdater.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public SlashCommandUpdater(JDACommands jdaCommands, Collection<CommandDefinition> commands, Collection<ContextMenuDefinition> contextMenus) {
+    public SlashCommandUpdater(JDACommands jdaCommands, Collection<SlashCommandDefinition> commands, Collection<ContextCommandDefinition> contextMenus) {
         this.jdaContext = jdaCommands.getJdaContext();
         this.commands = commands;
         this.contextMenus = contextMenus;
@@ -57,7 +57,7 @@ public class SlashCommandUpdater {
      */
     public void updateGuildCommands() {
         log.debug("Updating guild slash commands...");
-        Set<CommandDefinition> globalCommands = commands.stream()
+        Set<SlashCommandDefinition> globalCommands = commands.stream()
                 .filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD)
                 .collect(Collectors.toSet());
         CommandTree tree = new CommandTree(globalCommands);
@@ -80,7 +80,7 @@ public class SlashCommandUpdater {
             });
         }
 
-        for (ContextMenuDefinition command : contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD).collect(Collectors.toSet())) {
+        for (ContextCommandDefinition command : contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD).collect(Collectors.toSet())) {
             // create a copy so that a user doesn't modify the command data used for registration
             Set<Long> guildIds = guildScopeProvider.getGuildsForCommand(CommandData.fromData(command.toCommandData().toData()));
             if (guildIds.isEmpty()) {
@@ -106,7 +106,7 @@ public class SlashCommandUpdater {
      */
     public void updateGlobalCommands() {
         log.debug("Updating global slash commands...");
-        Set<CommandDefinition> globalCommands = commands.stream()
+        Set<SlashCommandDefinition> globalCommands = commands.stream()
                 .filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GLOBAL)
                 .collect(Collectors.toSet());
         CommandTree tree = new CommandTree(globalCommands);
@@ -114,7 +114,7 @@ public class SlashCommandUpdater {
         Collection<String> labels = tree.getNames();
         log.debug("Using commands: " + labels);
         jdaContext.performTask(jda -> jda.updateCommands().addCommands(tree.getCommands()).queue());
-        jdaContext.performTask(jda -> jda.updateCommands().addCommands(contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GLOBAL).map(ContextMenuDefinition::toCommandData).collect(Collectors.toSet())).queue());
+        jdaContext.performTask(jda -> jda.updateCommands().addCommands(contextMenus.stream().filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GLOBAL).map(ContextCommandDefinition::toCommandData).collect(Collectors.toSet())).queue());
         log.debug("Done!");
     }
 

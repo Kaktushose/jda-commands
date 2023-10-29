@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Central registry for all {@link CommandDefinition CommandDefinitions}.
+ * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
  *
  * @author Kaktushose
  * @version 2.0.0
@@ -34,12 +34,12 @@ public class InteractionRegistry {
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
     private final LocalizationFunction localizationFunction;
-    private final Set<ControllerDefinition> controllers;
-    private final Set<CommandDefinition> commands;
+    private final Set<InteractionDefinition> controllers;
+    private final Set<SlashCommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
-    private final Set<ContextMenuDefinition> contextMenus;
+    private final Set<ContextCommandDefinition> contextMenus;
     private final Set<ModalDefinition> modals;
 
     /**
@@ -89,7 +89,7 @@ public class InteractionRegistry {
         for (Class<?> aClass : controllerSet) {
             log.debug("Found controller {}", aClass.getName());
 
-            Optional<ControllerDefinition> optional = ControllerDefinition.build(
+            Optional<InteractionDefinition> optional = InteractionDefinition.build(
                     aClass,
                     validatorRegistry,
                     dependencyInjector,
@@ -101,7 +101,7 @@ public class InteractionRegistry {
                 continue;
             }
 
-            ControllerDefinition controller = optional.get();
+            InteractionDefinition controller = optional.get();
             controllers.add(controller);
             commands.addAll(controller.getCommands());
             buttons.addAll(controller.getButtons());
@@ -118,20 +118,20 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ControllerDefinition ControllerDefinitions}.
+     * Gets a possibly-empty list of all {@link InteractionDefinition ControllerDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ControllerDefinition ControllerDefinitions}
+     * @return a possibly-empty list of all {@link InteractionDefinition ControllerDefinitions}
      */
-    public Set<ControllerDefinition> getControllers() {
+    public Set<InteractionDefinition> getControllers() {
         return Collections.unmodifiableSet(controllers);
     }
 
     /**
-     * Gets a possibly-empty list of all {@link CommandDefinition CommandDefinitions}.
+     * Gets a possibly-empty list of all {@link SlashCommandDefinition CommandDefinitions}.
      *
-     * @return a possibly-empty list of all {@link CommandDefinition CommandDefinitions}
+     * @return a possibly-empty list of all {@link SlashCommandDefinition CommandDefinitions}
      */
-    public Set<CommandDefinition> getCommands() {
+    public Set<SlashCommandDefinition> getCommands() {
         return Collections.unmodifiableSet(commands);
     }
 
@@ -162,7 +162,7 @@ public class InteractionRegistry {
         return Collections.unmodifiableSet(selectMenus);
     }
 
-    public Set<ContextMenuDefinition> getContextMenus() {
+    public Set<ContextCommandDefinition> getContextMenus() {
         return Collections.unmodifiableSet(contextMenus);
     }
 

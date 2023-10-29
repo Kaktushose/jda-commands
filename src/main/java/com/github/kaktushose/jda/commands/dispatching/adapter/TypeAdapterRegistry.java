@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -129,12 +129,12 @@ public class TypeAdapterRegistry {
 
     /**
      * Takes a {@link CommandContext} and attempts to type adapt the command input to the type specified by the
-     * {@link CommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
+     * {@link SlashCommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
      *
      * @param context the {@link CommandContext} to type adapt
      */
     public void adapt(@NotNull CommandContext context) {
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();

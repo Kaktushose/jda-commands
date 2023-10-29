@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispat
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.ContextMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ContextCommandDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class ContextMenuDispatcher extends GenericDispatcher<ContextMenuContext>
     public void onEvent(ContextMenuContext context) {
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
-        Optional<ContextMenuDefinition> optional = interactionRegistry.getContextMenus().stream()
+        Optional<ContextCommandDefinition> optional = interactionRegistry.getContextMenus().stream()
                 .filter(it -> it.getName().equals(context.getEvent().getFullCommandName()))
                 .findFirst();
 
@@ -46,7 +46,7 @@ public class ContextMenuDispatcher extends GenericDispatcher<ContextMenuContext>
             throw exception;
         }
 
-        ContextMenuDefinition command = optional.get();
+        ContextCommandDefinition command = optional.get();
         context.setEphemeral(command.isEphemeral());
         log.debug("Input matches command: {}", command);
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());

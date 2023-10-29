@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContex
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.SlashCommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -33,7 +33,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull CommandContext context) {
         StringBuilder sbExpected = new StringBuilder();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getParameters().forEach(parameter -> {
@@ -66,7 +66,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context) {
         StringBuilder sbPermissions = new StringBuilder();
-        CommandDefinition command = context.getCommand();
+        SlashCommandDefinition command = context.getCommand();
         command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()
