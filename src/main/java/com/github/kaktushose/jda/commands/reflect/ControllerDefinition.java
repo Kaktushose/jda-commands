@@ -130,7 +130,6 @@ public class ControllerDefinition {
                     buttons.add(button);
                 });
             }
-
             if (method.isAnnotationPresent(EntitySelectMenu.class)) {
                 EntitySelectMenuDefinition.build(method).ifPresent(menu -> {
                     if (interaction.ephemeral()) {
@@ -147,21 +146,6 @@ public class ControllerDefinition {
                     selectMenus.add(menu);
                 });
             }
-
-            if (method.isAnnotationPresent(AutoComplete.class)) {
-                AutoCompleteDefinition.build(
-                        method,
-                        autoCompletes.stream().flatMap(it -> it.getCommandNames().stream()).collect(Collectors.toList())
-                ).ifPresent(autoComplete -> {
-                    autoCompletes.add(autoComplete);
-
-                    autoComplete.getCommandNames().forEach(name ->
-                            commands.stream().filter(it -> it.getName().equals(name))
-                                    .findFirst().ifPresent(it -> it.setAutoComplete(true))
-                    );
-                });
-            }
-
             if (method.isAnnotationPresent(ContextMenu.class)) {
                 ContextMenuDefinition.build(method, localizationFunction).ifPresent(menu -> {
                     if (interaction.ephemeral()) {
@@ -170,13 +154,38 @@ public class ControllerDefinition {
                     contextMenus.add(menu);
                 });
             }
-
             if (method.isAnnotationPresent(Modal.class)) {
                 ModalDefinition.build(method).ifPresent(modal -> {
                     if (interaction.ephemeral()) {
                         modal.setEphemeral(true);
                     }
                     modals.add(modal);
+                });
+            }
+        }
+
+        //loop again once all commands got indexed because we need all commands for autocomplete registration to work
+        for (Method method : controllerClass.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(AutoComplete.class)) {
+                AutoCompleteDefinition.build(
+                        method,
+                        autoCompletes.stream().flatMap(it -> it.getCommandNames().stream()).collect(Collectors.toList())
+                ).ifPresent(autoComplete -> {
+                    autoCompletes.add(autoComplete);
+
+                    Set<String> commandNames = new HashSet<>();
+                    autoComplete.getCommandNames().forEach(name -> commands.stream()
+                            .filter(command -> {
+                                System.out.println(command.getName());
+                                System.out.println(command.getName().startsWith(name));
+                                return command.getName().startsWith(name);
+                            })
+                            .forEach(command -> {
+                                command.setAutoComplete(true);
+                                commandNames.add(command.getName());
+                            })
+                    );
+                    autoComplete.setCommandNames(commandNames);
                 });
             }
         }

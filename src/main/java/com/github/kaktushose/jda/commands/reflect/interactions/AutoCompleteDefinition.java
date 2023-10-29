@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class AutoCompleteDefinition extends GenericInteraction {
 
-    private final Set<String> commands;
+    private Set<String> commands;
 
     protected AutoCompleteDefinition(Method method, Set<String> commands) {
         super(method);
@@ -67,6 +67,15 @@ public class AutoCompleteDefinition extends GenericInteraction {
         }
 
         return Optional.of(new AutoCompleteDefinition(method, values));
+    }
+
+    /**
+     * Set the command names this AutoComplete can handle
+     *
+     * @param commands a set of command names
+     */
+    public void setCommandNames(Set<String> commands) {
+        this.commands = commands;
     }
 
     /**
