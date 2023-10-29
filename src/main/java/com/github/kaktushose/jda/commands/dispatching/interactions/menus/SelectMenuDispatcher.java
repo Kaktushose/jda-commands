@@ -68,7 +68,7 @@ public class SelectMenuDispatcher extends GenericDispatcher<SelectMenuContext> {
         }
 
         GenericSelectMenuDefinition<? extends SelectMenu> menu = optionalMenu.get();
-        context.setSelectMenu(menu).setEphemeral(menu.isEphemeral());
+        context.setInteraction(menu).setEphemeral(menu.isEphemeral());
         log.debug("Input matches select menu: {}", menu);
 
         log.info("Executing select menu {} for user {}", menu.getMethod().getName(), event.getMember());

@@ -62,7 +62,7 @@ public class ModalDispatcher extends GenericDispatcher<ModalContext> {
         }
 
         ModalDefinition modal = optionalModal.get();
-        context.setEphemeral(modal.isEphemeral());
+        context.setInteraction(modal).setEphemeral(modal.isEphemeral());
         log.debug("Input matches Modal: {}", modal);
         log.info("Executing Modal {} for user {}", modal.getMethod().getName(), event.getMember());
         try {
@@ -72,7 +72,7 @@ public class ModalDispatcher extends GenericDispatcher<ModalContext> {
             arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toSet()));
             modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
-            log.error("Button execution failed!", exception);
+            log.error("Modal execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));

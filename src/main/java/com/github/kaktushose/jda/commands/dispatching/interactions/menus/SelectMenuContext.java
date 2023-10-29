@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.menus;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -28,24 +27,4 @@ public class SelectMenuContext extends GenericContext<GenericSelectMenuInteracti
         super(event, jdaCommands);
     }
 
-    /**
-     * Gets the {@link EntitySelectMenuDefinition}.
-     *
-     * @return the {@link EntitySelectMenuDefinition}
-     */
-    public GenericSelectMenuDefinition<? extends SelectMenu> getSelectMenu() {
-        return selectMenu;
-    }
-
-    /**
-     * Set the {@link EntitySelectMenuDefinition}.
-     *
-     * @param selectMenu the {@link EntitySelectMenuDefinition}
-     * @return the current CommandContext instance
-     */
-    public SelectMenuContext setSelectMenu(GenericSelectMenuDefinition<? extends SelectMenu> selectMenu) {
-        this.selectMenu = selectMenu;
-        setInteraction(selectMenu);
-        return this;
-    }
 }

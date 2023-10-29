@@ -72,7 +72,7 @@ public class ButtonDispatcher extends GenericDispatcher<ButtonContext> {
         }
 
         ButtonDefinition button = optionalButton.get();
-        context.setButton(button).setEphemeral(button.isEphemeral());
+        context.setInteraction(button).setEphemeral(button.isEphemeral());
         log.debug("Input matches button: {}", button);
 
         log.info("Executing button {} for user {}", button.getMethod().getName(), event.getMember());

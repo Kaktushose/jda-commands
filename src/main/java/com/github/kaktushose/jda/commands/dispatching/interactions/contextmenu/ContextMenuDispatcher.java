@@ -47,7 +47,7 @@ public class ContextMenuDispatcher extends GenericDispatcher<ContextMenuContext>
         }
 
         ContextCommandDefinition command = optional.get();
-        context.setEphemeral(command.isEphemeral());
+        context.setInteraction(command).setEphemeral(command.isEphemeral());
         log.debug("Input matches command: {}", command);
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
