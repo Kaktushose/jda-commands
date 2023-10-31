@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -27,14 +27,14 @@ public class ConstraintFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(ConstraintFilter.class);
 
     /**
-     * Checks if all parameters fulfill their constraints. Will cancel the {@link GenericContext} if a parameter
+     * Checks if all parameters fulfill their constraints. Will cancel the {@link Context} if a parameter
      * constraint fails.
      *
-     * @param ctx the {@link GenericContext} to filter
+     * @param ctx the {@link Context} to filter
      */
     @Override
-    public void apply(@NotNull GenericContext ctx) {
-        CommandContext context = (CommandContext) ctx;
+    public void apply(@NotNull Context ctx) {
+        SlashCommandContext context = (SlashCommandContext) ctx;
         List<Object> arguments = context.getArguments();
         List<ParameterDefinition> parameters = Objects.requireNonNull(context.getCommand()).getParameters();
 

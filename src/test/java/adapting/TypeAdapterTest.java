@@ -5,7 +5,7 @@ import adapting.mock.JDACommandsMock;
 import adapting.mock.JDAMock;
 import adapting.mock.SlashCommandInteractionEventMock;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TypeAdapterTest {
 
-    private static CommandContext context;
+    private static SlashCommandContext context;
 
     @BeforeAll
     public static void setup() {
-        context = new CommandContext(new SlashCommandInteractionEventMock(), new JDACommandsMock());
+        context = new SlashCommandContext(new SlashCommandInteractionEventMock(), new JDACommandsMock());
     }
 
     @Test

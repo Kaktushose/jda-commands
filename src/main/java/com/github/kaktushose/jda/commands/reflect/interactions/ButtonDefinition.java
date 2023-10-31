@@ -2,11 +2,10 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,7 @@ import java.util.Optional;
  * @see Button
  * @since 2.3.0
  */
-public class ButtonDefinition extends EphemeralInteraction {
+public class ButtonDefinition extends EphemeralInteractionDefinition {
 
     private final String label;
     private final Emoji emoji;
@@ -60,11 +59,11 @@ public class ButtonDefinition extends EphemeralInteraction {
             return Optional.empty();
         }
 
-        if (!ButtonEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
+        if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
             log.error("An error has occurred! Skipping Button {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s!", ButtonEvent.class.getSimpleName())));
+                    new IllegalArgumentException(String.format("First parameter must be of type %s!", ComponentEvent.class.getSimpleName())));
             return Optional.empty();
         }
 
@@ -148,11 +147,11 @@ public class ButtonDefinition extends EphemeralInteraction {
      * Gets the runtime id. The runtime id is composed of the static interaction id and the
      * snowflake id of the interaction event that created the runtime.
      *
-     * @param context the {@link CommandContext} this button will be attached to
+     * @param context the {@link SlashCommandContext} this button will be attached to
      * @return the runtime id
      */
     @NotNull
-    public String getRuntimeId(GenericContext<? extends GenericInteractionCreateEvent> context) {
+    public String getRuntimeId(Context context) {
         return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 

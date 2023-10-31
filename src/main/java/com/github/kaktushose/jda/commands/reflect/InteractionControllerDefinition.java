@@ -33,20 +33,20 @@ import java.util.stream.Collectors;
  * @version 4.0.0
  * @since 2.0.0
  */
-public class InteractionDefinition {
+public class InteractionControllerDefinition {
 
-    private static final Logger log = LoggerFactory.getLogger(InteractionDefinition.class);
+    private static final Logger log = LoggerFactory.getLogger(InteractionControllerDefinition.class);
     private final List<GenericCommandDefinition> commands;
     private final List<ButtonDefinition> buttons;
     private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final List<AutoCompleteDefinition> autoCompletes;
     private final List<ModalDefinition> modals;
 
-    private InteractionDefinition(List<GenericCommandDefinition> commands,
-                                  List<ButtonDefinition> buttons,
-                                  List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
-                                  List<AutoCompleteDefinition> autoCompletes,
-                                  List<ModalDefinition> modals) {
+    private InteractionControllerDefinition(List<GenericCommandDefinition> commands,
+                                            List<ButtonDefinition> buttons,
+                                            List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
+                                            List<AutoCompleteDefinition> autoCompletes,
+                                            List<ModalDefinition> modals) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
@@ -57,16 +57,16 @@ public class InteractionDefinition {
     /**
      * Builds a new ControllerDefinition.
      *
-     * @param interactionClass      the {@link Class} of the controller
+     * @param interactionClass     the {@link Class} of the controller
      * @param validatorRegistry    the corresponding {@link ValidatorRegistry}
      * @param dependencyInjector   the corresponding {@link DependencyInjector}
      * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the ControllerDefinition
      */
-    public static Optional<InteractionDefinition> build(@NotNull Class<?> interactionClass,
-                                                        @NotNull ValidatorRegistry validatorRegistry,
-                                                        @NotNull DependencyInjector dependencyInjector,
-                                                        @NotNull LocalizationFunction localizationFunction) {
+    public static Optional<InteractionControllerDefinition> build(@NotNull Class<?> interactionClass,
+                                                                  @NotNull ValidatorRegistry validatorRegistry,
+                                                                  @NotNull DependencyInjector dependencyInjector,
+                                                                  @NotNull LocalizationFunction localizationFunction) {
         Interaction interaction = interactionClass.getAnnotation(Interaction.class);
 
         if (!interaction.isActive()) {
@@ -193,7 +193,7 @@ public class InteractionDefinition {
             }
         }
 
-        return Optional.of(new InteractionDefinition(commands, buttons, selectMenus, autoCompletes, modals));
+        return Optional.of(new InteractionControllerDefinition(commands, buttons, selectMenus, autoCompletes, modals));
     }
 
     /**

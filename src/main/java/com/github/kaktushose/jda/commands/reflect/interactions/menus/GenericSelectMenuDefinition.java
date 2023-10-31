@@ -1,9 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +17,7 @@ import java.lang.reflect.Method;
  * @see StringSelectMenuDefinition
  * @since 4.0.0
  */
-public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends EphemeralInteraction {
+public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends EphemeralInteractionDefinition {
 
     protected final String placeholder;
     protected final int minValue;
@@ -71,11 +70,11 @@ public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends 
      * Gets the runtime id. The runtime id is composed of the static interaction id and the
      * snowflake id of the interaction event that created the runtime.
      *
-     * @param context the {@link CommandContext} this button will be attached to
+     * @param context the {@link SlashCommandContext} this button will be attached to
      * @return the runtime id
      */
     @NotNull
-    public String getRuntimeId(GenericContext<? extends GenericInteractionCreateEvent> context) {
+    public String getRuntimeId(Context context) {
         return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 

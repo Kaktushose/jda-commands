@@ -1,14 +1,17 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
-import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
-import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,99 +23,80 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Dispatches commands by taking a {@link CommandContext} and passing it through the execution chain.
+ * Dispatches command events.
  *
  * @author Kaktushose
  * @version 4.0.0
- * @since 2.0.0
+ * @since 4.0.0
  */
-public class CommandDispatcher extends GenericDispatcher<CommandContext> {
+public class CommandDispatcher extends GenericDispatcher {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
-    private final RuntimeSupervisor runtimeSupervisor;
 
     /**
-     * Constructs a new ButtonDispatcher.
+     * Constructs a new GenericDispatcher.
      *
-     * @param supervisor        the {@link DispatcherSupervisor} which supervises this dispatcher.
-     * @param runtimeSupervisor the corresponding {@link RuntimeSupervisor}
+     * @param jdaCommands the corresponding {@link JDACommands} instance.
      */
-    public CommandDispatcher(DispatcherSupervisor supervisor, RuntimeSupervisor runtimeSupervisor) {
-        super(supervisor);
-        this.runtimeSupervisor = runtimeSupervisor;
+    public CommandDispatcher(JDACommands jdaCommands) {
+        super(jdaCommands);
     }
 
-    /**
-     * Dispatches a {@link CommandContext}. This will route the command, apply all filters and parse the arguments.
-     * Finally, the command will be executed.
-     *
-     * @param context the {@link CommandContext} to dispatch.
-     */
-    public void onEvent(CommandContext context) {
+    @Override
+    public void onEvent(Context context) {
+        GenericCommandInteractionEvent event = (GenericCommandInteractionEvent) context.getEvent();
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
-        log.debug("Applying filters in phase BEFORE_ROUTING...");
-        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ROUTING)) {
-            filter.apply(context);
-            if (checkCancelled(context)) {
-                return;
-            }
-        }
-
-        Optional<SlashCommandDefinition> optional = interactionRegistry.getSlashCommands().stream()
-                .filter(it -> it.getName().equals(context.getEvent().getFullCommandName()))
+        Optional<GenericCommandDefinition> optional = interactionRegistry.getCommands().stream()
+                .filter(it -> it.getName().equals(event.getFullCommandName()))
                 .findFirst();
+
         if (optional.isEmpty()) {
-            IllegalStateException exception = new IllegalStateException(
-                    "No slash command found! Please report this error the the devs of jda-commands."
-            );
+            IllegalStateException exception = new IllegalStateException("No command found! Please report this error the the devs of jda-commands.");
             context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
             throw exception;
         }
 
-        SlashCommandDefinition command = optional.get();
-        context.setCommand(command).setEphemeral(command.isEphemeral());
-        log.debug("Input matches command: {}", command);
+        GenericCommandDefinition command = optional.get();
+        context.setInteractionDefinition(command).setEphemeral(command.isEphemeral());
+        log.debug("Input matches command: {}", command.getId());
 
+        List<Object> arguments;
+        if (command.getCommandType() == Command.Type.SLASH) {
+            SlashCommandDefinition slashCommand = (SlashCommandDefinition) command;
+            SlashCommandContext slashContext = (SlashCommandContext) context;
+            slashContext.setCommand(slashCommand);
 
-        List<String> parameters = new ArrayList<>();
-        Map<String, OptionMapping> options = context.getOptionsAsMap();
-        command.getActualParameters().forEach(param -> {
-            if (!options.containsKey(param.getName())) {
+            Map<String, OptionMapping> options = slashContext.getOptionsAsMap();
+            List<String> parameters = new ArrayList<>();
+            slashCommand.getActualParameters().forEach(param -> {
+                if (!options.containsKey(param.getName())) {
+                    return;
+                }
+                parameters.add(options.get(param.getName()).getAsString());
+            });
+            slashContext.setInput(parameters.toArray(new String[]{}));
+
+            adapterRegistry.adapt(slashContext);
+            if (checkCancelled(slashContext)) {
                 return;
             }
-            parameters.add(options.get(param.getName()).getAsString());
-        });
-        context.setInput(parameters.toArray(new String[]{}));
 
-        log.debug("Applying filters in phase BEFORE_ADAPTING...");
-        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_ADAPTING)) {
-            filter.apply(context);
-            if (checkCancelled(context)) {
-                return;
-            }
-        }
-
-        adapterRegistry.adapt(context);
-        if (checkCancelled(context)) {
-            return;
-        }
-
-        log.debug("Applying filters in phase BEFORE_EXECUTION...");
-        for (Filter filter : filterRegistry.getAll(FilterPosition.BEFORE_EXECUTION)) {
-            filter.apply(context);
-            if (checkCancelled(context)) {
-                return;
-            }
+            arguments = slashContext.getArguments();
+        } else {
+            arguments = new ArrayList<>() {{
+                add(new CommandEvent<ContextCommandDefinition>(context));
+                add(((GenericContextInteractionEvent<?>) event).getTarget());
+            }};
         }
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
         try {
-            InteractionRuntime runtime = runtimeSupervisor.newRuntime(context.getEvent(), command);
+            RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(event, command);
             context.setRuntime(runtime);
-            log.debug("Invoking method with following arguments: {}", context.getArguments());
-            command.getMethod().invoke(runtime.getInstance(), context.getArguments().toArray());
+            log.debug("Invoking method with following arguments: {}", arguments);
+            command.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
             log.error("Command execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
@@ -123,7 +107,7 @@ public class CommandDispatcher extends GenericDispatcher<CommandContext> {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private boolean checkCancelled(CommandContext context) {
+    private boolean checkCancelled(Context context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);
             replyContext.getBuilder().applyData(context.getErrorMessage());

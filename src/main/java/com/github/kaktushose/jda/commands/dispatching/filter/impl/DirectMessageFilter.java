@@ -2,8 +2,8 @@ package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
@@ -26,13 +26,13 @@ public class DirectMessageFilter implements Filter {
 
     /**
      * Checks if a {@link SlashCommandDefinition} is available for execution in
-     * direct messages and if not cancels the {@link GenericContext},
+     * direct messages and if not cancels the {@link Context},
      *
-     * @param context the {@link GenericContext} to filter
+     * @param context the {@link Context} to filter
      */
     @Override
-    public void apply(@NotNull GenericContext context) {
-        CommandContext commandContext = (CommandContext) context;
+    public void apply(@NotNull Context context) {
+        SlashCommandContext commandContext = (SlashCommandContext) context;
         Channel channel = context.getEvent().getChannel();
         if (channel == null) {
             return;

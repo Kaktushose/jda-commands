@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -21,13 +23,13 @@ import java.util.stream.Collectors;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class AutoCompleteEvent extends GenericEvent {
+public class AutoCompleteEvent extends GenericEvent<AutoCompleteDefinition> {
 
     private final CommandAutoCompleteInteractionEvent event;
 
-    protected AutoCompleteEvent(AutoCompleteContext context) {
-        super(GenericEvent.fromEvent(context.getEvent()));
-        event = context.getEvent();
+    protected AutoCompleteEvent(Context context) {
+        super(context);
+        event = (CommandAutoCompleteInteractionEvent) context.getEvent();
     }
 
     /**
@@ -260,7 +262,7 @@ public class AutoCompleteEvent extends GenericEvent {
      * @return The option type expected from this auto-complete response
      */
     @Nonnull
-    public OptionType getType() {
+    public OptionType getOptionType() {
         return event.getFocusedOption().getType();
     }
 }

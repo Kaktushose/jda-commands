@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation of {@link GenericContext} for {@link SlashCommandInteractionEvent}.
+ * Implementation of {@link Context} for {@link SlashCommandInteractionEvent}.
  *
  * @author Kaktushose
  * @version 4.0.0
  * @since 4.0.0
  */
-public class CommandContext extends GenericContext<SlashCommandInteractionEvent> {
+public class SlashCommandContext extends Context {
 
     private String[] input;
     private List<OptionMapping> options;
@@ -33,8 +33,14 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
      * @param event       the corresponding {@link GenericInteractionCreateEvent}
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public CommandContext(SlashCommandInteractionEvent event, JDACommands jdaCommands) {
+    public SlashCommandContext(SlashCommandInteractionEvent event, JDACommands jdaCommands) {
         super(event, jdaCommands);
+        setOptions(event.getOptions());
+    }
+
+    @Override
+    public SlashCommandInteractionEvent getEvent() {
+        return (SlashCommandInteractionEvent) super.getEvent();
     }
 
     /**
@@ -57,7 +63,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setInput(@NotNull String[] input) {
+    public SlashCommandContext setInput(@NotNull String[] input) {
         this.input = input;
         return this;
     }
@@ -93,7 +99,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setOptions(@NotNull List<OptionMapping> options) {
+    public SlashCommandContext setOptions(@NotNull List<OptionMapping> options) {
         this.options = options;
         return this;
     }
@@ -115,9 +121,9 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setCommand(@Nullable SlashCommandDefinition command) {
+    public SlashCommandContext setCommand(@Nullable SlashCommandDefinition command) {
         this.command = command;
-        setInteraction(command);
+        setInteractionDefinition(command);
         return this;
     }
 
@@ -138,7 +144,7 @@ public class CommandContext extends GenericContext<SlashCommandInteractionEvent>
      * @return the current CommandContext instance
      */
     @NotNull
-    public CommandContext setArguments(@NotNull List<Object> arguments) {
+    public SlashCommandContext setArguments(@NotNull List<Object> arguments) {
         this.arguments = arguments;
         return this;
     }

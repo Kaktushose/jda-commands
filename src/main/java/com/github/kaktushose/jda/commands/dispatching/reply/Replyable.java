@@ -2,16 +2,13 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
-import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -159,12 +156,12 @@ public interface Replyable {
      */
     default Replyable with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        GenericContext<? extends GenericInteractionCreateEvent> context = getContext();
+        Context context = getContext();
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
                 buttons.getButtons().forEach(button -> {
-                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), button.getId());
+                    String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), button.getId());
                     context.getJdaCommands().getInteractionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getId().equals(id))
@@ -182,7 +179,7 @@ public interface Replyable {
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenus().forEach(menu -> {
-                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
+                    String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getId().equals(id))
@@ -198,32 +195,7 @@ public interface Replyable {
         return this;
     }
 
-    /**
-     * Replies to this Interaction with a Modal. This will open a popup on the target user's Discord client.
-     *
-     * @param modal the id of the modal to reply with
-     */
-    default void replyModal(String modal) {
-        IModalCallback callback;
-        GenericContext<?> context = getContext();
-        GenericInteractionCreateEvent event = context.getEvent();
-        if (event instanceof IModalCallback) {
-            callback = (IModalCallback) event;
-        } else {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
-            );
-        }
-
-        String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), modal);
-
-        ModalDefinition modalDefinition = context.getJdaCommands().getInteractionRegistry().getModals().stream()
-                .filter(it -> it.getId().equals(id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
-
-        callback.replyModal(modalDefinition.toModal(modalDefinition.getRuntimeId(context))).queue();
-    }
-
-    GenericContext<? extends GenericInteractionCreateEvent> getContext();
+    Context getContext();
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.

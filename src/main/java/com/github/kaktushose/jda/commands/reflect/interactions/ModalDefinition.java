@@ -2,11 +2,10 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +23,7 @@ import java.util.Optional;
  * @see Modal
  * @since 4.0.0
  */
-public class ModalDefinition extends EphemeralInteraction {
+public class ModalDefinition extends EphemeralInteractionDefinition {
 
     private final String title;
     private final List<TextInputDefinition> textInputs;
@@ -85,7 +84,7 @@ public class ModalDefinition extends EphemeralInteraction {
     /**
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
-     * @param id the id to use, see {@link #getRuntimeId(GenericContext)}
+     * @param id the id to use, see {@link #getRuntimeId(Context)}
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */
     public net.dv8tion.jda.api.interactions.modals.Modal toModal(String id) {
@@ -118,11 +117,11 @@ public class ModalDefinition extends EphemeralInteraction {
      * Gets the runtime id. The runtime id is composed of the static interaction id and the
      * snowflake id of the interaction event that created the runtime.
      *
-     * @param context the {@link CommandContext} this button will be attached to
+     * @param context the {@link SlashCommandContext} this button will be attached to
      * @return the runtime id
      */
     @NotNull
-    public String getRuntimeId(GenericContext<? extends GenericInteractionCreateEvent> context) {
+    public String getRuntimeId(Context context) {
         return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 

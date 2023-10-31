@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
-import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
@@ -18,24 +18,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ModalDispatcher extends GenericDispatcher<ModalContext> {
+public class ModalDispatcher extends GenericDispatcher {
 
-    private static final Logger log = LoggerFactory.getLogger(ButtonDispatcher.class);
-    private final RuntimeSupervisor runtimeSupervisor;
+    private static final Logger log = LoggerFactory.getLogger(ModalDispatcher.class);
 
     /**
      * Constructs a new ButtonDispatcher.
      *
-     * @param supervisor        the {@link DispatcherSupervisor} which supervises this dispatcher.
-     * @param runtimeSupervisor the corresponding {@link RuntimeSupervisor}
+     * @param jdaCommands the corresponding {@link JDACommands} instance.
      */
-    public ModalDispatcher(DispatcherSupervisor supervisor, RuntimeSupervisor runtimeSupervisor) {
-        super(supervisor);
-        this.runtimeSupervisor = runtimeSupervisor;
+    public ModalDispatcher(JDACommands jdaCommands) {
+        super(jdaCommands);
     }
+
     @Override
-    public void onEvent(ModalContext context) {
-        ModalInteractionEvent event = context.getEvent();
+    public void onEvent(Context context) {
+        ModalInteractionEvent event = (ModalInteractionEvent) context.getEvent();
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
@@ -62,13 +60,13 @@ public class ModalDispatcher extends GenericDispatcher<ModalContext> {
         }
 
         ModalDefinition modal = optionalModal.get();
-        context.setInteraction(modal).setEphemeral(modal.isEphemeral());
-        log.debug("Input matches Modal: {}", modal);
+        context.setInteractionDefinition(modal).setEphemeral(modal.isEphemeral());
+        log.debug("Input matches Modal: {}", modal.getId());
         log.info("Executing Modal {} for user {}", modal.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);
             List<Object> arguments = new ArrayList<>();
-            arguments.add(new ModalEvent(modal, context));
+            arguments.add(new ModalEvent(context));
             arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toSet()));
             modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
@@ -81,7 +79,7 @@ public class ModalDispatcher extends GenericDispatcher<ModalContext> {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private boolean checkCancelled(ModalContext context) {
+    private boolean checkCancelled(Context context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);
             replyContext.getBuilder().applyData(context.getErrorMessage());

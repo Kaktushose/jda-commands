@@ -18,7 +18,7 @@ import java.util.Set;
  * @see AutoComplete
  * @since 4.0.0
  */
-public class AutoCompleteDefinition extends GenericInteraction {
+public class AutoCompleteDefinition extends GenericInteractionDefinition {
 
     private Set<String> commands;
 

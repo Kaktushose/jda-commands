@@ -41,7 +41,7 @@ public class InteractionRegistry {
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
     private final LocalizationFunction localizationFunction;
-    private final Set<InteractionDefinition> controllers;
+    private final Set<InteractionControllerDefinition> controllers;
     private final Set<GenericCommandDefinition> commands;
     private final Set<ButtonDefinition> buttons;
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
@@ -94,7 +94,7 @@ public class InteractionRegistry {
         for (Class<?> aClass : controllerSet) {
             log.debug("Found interaction controller {}", aClass.getName());
 
-            Optional<InteractionDefinition> optional = InteractionDefinition.build(
+            Optional<InteractionControllerDefinition> optional = InteractionControllerDefinition.build(
                     aClass,
                     validatorRegistry,
                     dependencyInjector,
@@ -106,7 +106,7 @@ public class InteractionRegistry {
                 continue;
             }
 
-            InteractionDefinition controller = optional.get();
+            InteractionControllerDefinition controller = optional.get();
             controllers.add(controller);
             commands.addAll(controller.getCommands());
             buttons.addAll(controller.getButtons());
@@ -122,11 +122,11 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link InteractionDefinition ControllerDefinitions}.
+     * Gets a possibly-empty list of all {@link InteractionControllerDefinition ControllerDefinitions}.
      *
-     * @return a possibly-empty list of all {@link InteractionDefinition ControllerDefinitions}
+     * @return a possibly-empty list of all {@link InteractionControllerDefinition ControllerDefinitions}
      */
-    public Set<InteractionDefinition> getInteractionControllers() {
+    public Set<InteractionControllerDefinition> getInteractionControllers() {
         return Collections.unmodifiableSet(controllers);
     }
 

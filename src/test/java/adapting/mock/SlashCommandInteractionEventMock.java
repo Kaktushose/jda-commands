@@ -6,14 +6,24 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SlashCommandInteractionEventMock extends SlashCommandInteractionEvent {
 
 
     public SlashCommandInteractionEventMock() {
         super(new JDAMock(), 0, new SlashCommandInteractionMock());
+    }
+
+    @NotNull
+    @Override
+    public List<OptionMapping> getOptions() {
+        return new ArrayList<>();
     }
 
     @Nullable

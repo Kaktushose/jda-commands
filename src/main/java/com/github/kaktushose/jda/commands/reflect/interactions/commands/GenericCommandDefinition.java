@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteraction;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @see ContextCommandDefinition
  * @since 4.0.0
  */
-public abstract class GenericCommandDefinition extends EphemeralInteraction implements Comparable<GenericCommandDefinition> {
+public abstract class GenericCommandDefinition extends EphemeralInteractionDefinition implements Comparable<GenericCommandDefinition> {
 
     protected final String name;
     protected final Set<String> permissions;

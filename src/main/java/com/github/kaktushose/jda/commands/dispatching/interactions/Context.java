@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -22,16 +22,16 @@ import org.jetbrains.annotations.Nullable;
  * @see GenericEvent
  * @since 2.0.0
  */
-public class GenericContext<T extends GenericInteractionCreateEvent> {
+public class Context {
 
-    protected final T event;
+    protected final GenericInteractionCreateEvent event;
     protected MessageCreateData errorMessage;
     protected ImplementationRegistry registry;
     protected JDACommands jdaCommands;
     protected boolean cancelled;
     protected boolean ephemeral;
     protected InteractionRuntime runtime;
-    protected GenericInteraction interaction;
+    protected GenericInteractionDefinition interactionDefinition;
 
     /**
      * Constructs a new GenericContext.
@@ -39,13 +39,13 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @param jdaCommands the corresponding {@link JDACommands} instance
      * @param event       the corresponding {@link GenericInteractionCreateEvent}
      */
-    public GenericContext(T event, JDACommands jdaCommands) {
+    public Context(GenericInteractionCreateEvent event, JDACommands jdaCommands) {
         this.event = event;
         this.jdaCommands = jdaCommands;
         this.registry = jdaCommands.getImplementationRegistry();
     }
 
-    public T getEvent() {
+    public GenericInteractionCreateEvent getEvent() {
         return event;
     }
 
@@ -66,7 +66,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return the current CommandContext instance
      */
     @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setErrorMessage(@NotNull MessageCreateData message) {
+    public Context setErrorMessage(@NotNull MessageCreateData message) {
         this.errorMessage = message;
         return this;
     }
@@ -88,7 +88,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return the current CommandContext instance
      */
     @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setImplementationRegistry(@NotNull ImplementationRegistry registry) {
+    public Context setImplementationRegistry(@NotNull ImplementationRegistry registry) {
         this.registry = registry;
         return this;
     }
@@ -110,7 +110,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return the current CommandContext instance
      */
     @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setJdaCommands(@NotNull JDACommands jdaCommands) {
+    public Context setJdaCommands(@NotNull JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         return this;
     }
@@ -131,7 +131,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      * @return the current CommandContext instance
      */
     @NotNull
-    public GenericContext<? extends GenericInteractionCreateEvent> setCancelled(final boolean cancelled) {
+    public Context setCancelled(final boolean cancelled) {
         this.cancelled = cancelled;
         return this;
     }
@@ -140,7 +140,7 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
         return ephemeral;
     }
 
-    public GenericContext<? extends GenericInteractionCreateEvent> setEphemeral(boolean ephemeral) {
+    public Context setEphemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
         return this;
     }
@@ -159,17 +159,17 @@ public class GenericContext<T extends GenericInteractionCreateEvent> {
      *
      * @return the current CommandContext instance
      */
-    public GenericContext<? extends GenericInteractionCreateEvent> setRuntime(InteractionRuntime runtime) {
+    public Context setRuntime(InteractionRuntime runtime) {
         this.runtime = runtime;
         return this;
     }
 
-    public GenericInteraction getInteraction() {
-        return interaction;
+    public GenericInteractionDefinition getInteractionDefinition() {
+        return interactionDefinition;
     }
 
-    public GenericContext<? extends GenericInteractionCreateEvent> setInteraction(GenericInteraction interaction) {
-        this.interaction = interaction;
+    public Context setInteractionDefinition(GenericInteractionDefinition interactionDefinition) {
+        this.interactionDefinition = interactionDefinition;
         return this;
     }
 }

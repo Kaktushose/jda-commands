@@ -67,8 +67,7 @@ public @interface TextInput {
      * <br>If this is True, the user must populate this TextInput field before they can submit the Modal.
      *
      * @return True if this TextInput is required
-     *
-     * @see    net.dv8tion.jda.api.interactions.components.text.TextInput#isRequired()
+     * @see net.dv8tion.jda.api.interactions.components.text.TextInput#isRequired()
      */
     boolean required() default true;
 

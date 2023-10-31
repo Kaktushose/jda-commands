@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteraction;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -46,14 +46,14 @@ public class RuntimeSupervisor {
      * Creates a new {@link InteractionRuntime}.
      *
      * @param event       the {@link GenericCommandInteractionEvent} to create the {@link InteractionRuntime} for
-     * @param interaction the {@link GenericInteraction} to create the {@link InteractionRuntime} from
+     * @param interaction the {@link GenericInteractionDefinition} to create the {@link InteractionRuntime} from
      * @return a new {@link InteractionRuntime} with a TTL of 15 minutes
      * @throws InvocationTargetException if the underlying constructor throws an exception
      * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
      *                                   the underlying constructor is inaccessible
      */
-    public InteractionRuntime newRuntime(GenericCommandInteractionEvent event, GenericInteraction interaction)
+    public InteractionRuntime newRuntime(GenericCommandInteractionEvent event, GenericInteractionDefinition interaction)
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Object instance = interaction.newInstance();
 
@@ -69,18 +69,18 @@ public class RuntimeSupervisor {
     }
 
     /**
-     * Gets an instance of the given {@link GenericInteraction}. If no instance exists yet, creates, stores and then
+     * Gets an instance of the given {@link GenericInteractionDefinition}. If no instance exists yet, creates, stores and then
      * returns the instance.
      *
      * @param event       the {@link CommandAutoCompleteInteractionEvent} to  get the instance for
-     * @param interaction the {@link GenericInteraction} to create or get an instance from
-     * @return an instance of the provided {@link GenericInteraction}
+     * @param interaction the {@link GenericInteractionDefinition} to create or get an instance from
+     * @return an instance of the provided {@link GenericInteractionDefinition}
      * @throws InvocationTargetException if the underlying constructor throws an exception
      * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
      *                                   the underlying constructor is inaccessible
      */
-    public Object getOrCreateInstance(CommandAutoCompleteInteractionEvent event, GenericInteraction interaction)
+    public Object getOrCreateInstance(CommandAutoCompleteInteractionEvent event, GenericInteractionDefinition interaction)
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
         String name = event.getFullCommandName();
         if (staticInstances.containsKey(name)) {
@@ -95,7 +95,7 @@ public class RuntimeSupervisor {
     /**
      * Gets an {@link Optional} holding the {@link InteractionRuntime}. Returns an empty {@link Optional} if no
      * {@link InteractionRuntime} has been created yet by calling
-     * {@link #newRuntime(GenericCommandInteractionEvent, GenericInteraction)}, if the underlying component wasn't
+     * {@link #newRuntime(GenericCommandInteractionEvent, GenericInteractionDefinition)}, if the underlying component wasn't
      * created by jda-commands or if the {@link InteractionRuntime} expired.
      *
      * @param event the {@link GenericComponentInteractionCreateEvent} to get the {@link InteractionRuntime} for
@@ -112,7 +112,7 @@ public class RuntimeSupervisor {
     /**
      * Gets an {@link Optional} holding the {@link InteractionRuntime}. Returns an empty {@link Optional} if no
      * {@link InteractionRuntime} has been created yet by calling
-     * {@link #newRuntime(GenericCommandInteractionEvent, GenericInteraction)}, if the underlying component wasn't
+     * {@link #newRuntime(GenericCommandInteractionEvent, GenericInteractionDefinition)}, if the underlying component wasn't
      * created by jda-commands or if the {@link InteractionRuntime} expired.
      *
      * @param event the {@link ModalInteractionEvent} to get the {@link InteractionRuntime} for

@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.data.EmbedCache;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -31,7 +31,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull CommandContext context) {
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull SlashCommandContext context) {
         if (!embedCache.containsEmbed("typeAdaptingFailed")) {
             return super.getTypeAdaptingFailedMessage(context);
         }
@@ -64,7 +64,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull SlashCommandContext context) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
@@ -82,7 +82,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getGuildMutedMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getGuildMutedMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("guildMuted")) {
             return super.getGuildMutedMessage(context);
         }
@@ -90,7 +90,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getChannelMutedMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getChannelMutedMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("channelMuted")) {
             return super.getChannelMutedMessage(context);
         }
@@ -98,7 +98,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUserMutedMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getUserMutedMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("userMuted")) {
             return super.getUserMutedMessage(context);
         }
@@ -106,7 +106,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull GenericContext<?> context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull Context context, @NotNull ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }
@@ -116,7 +116,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull GenericContext<?> context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull Context context, long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
             return super.getCooldownMessage(context, ms);
         }
@@ -132,7 +132,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("wrongChannel")) {
             return super.getWrongChannelTypeMessage(context);
         }
@@ -140,7 +140,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull Context context, @NotNull Throwable exception) {
         if (!embedCache.containsEmbed("executionFailed")) {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
@@ -150,7 +150,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context) {
+    public MessageCreateData getUnknownInteractionMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("unknownInteraction")) {
             return super.getUnknownInteractionMessage(context);
         }

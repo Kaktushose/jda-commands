@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.InteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.InteractionControllerDefinition;
 import commands.UnsupportedType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InteractionDefinitionTest {
+public class InteractionControllerDefinitionTest {
 
     private static final LocalizationFunction LOCALIZATION_FUNCTION = ResourceBundleLocalizationFunction.empty().build();
     private static Class<?> controller;
@@ -43,9 +43,9 @@ public class InteractionDefinitionTest {
     public void command_NoValues_ShouldAdoptControllerValues() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("adopt", CommandEvent.class);
 
-        InteractionDefinition interactionDefinition = InteractionDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
-        assertNotNull(interactionDefinition);
-        SlashCommandDefinition definition = interactionDefinition.getCommands().stream()
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        assertNotNull(controllerDefinition);
+        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
                 .filter(it -> it.getCommandType() == Command.Type.SLASH)
                 .map(it -> (SlashCommandDefinition) it)
                 .filter(c -> c.getMethod().equals(method))
@@ -67,9 +67,9 @@ public class InteractionDefinitionTest {
     public void command_OwnValues_ShouldCombineOrOverride() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("combine", CommandEvent.class);
 
-        InteractionDefinition interactionDefinition = InteractionDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
-        assertNotNull(interactionDefinition);
-        SlashCommandDefinition definition = interactionDefinition.getCommands().stream()
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        assertNotNull(controllerDefinition);
+        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
                 .filter(it -> it.getCommandType() == Command.Type.SLASH)
                 .map(it -> (SlashCommandDefinition) it)
                 .filter(c -> c.getMethod().equals(method))

@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInput.Builder;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import org.jetbrains.annotations.NotNull;
-import net.dv8tion.jda.api.interactions.components.text.TextInput.Builder;
 
 import java.lang.reflect.Parameter;
 import java.util.Optional;
@@ -12,11 +12,11 @@ import java.util.Optional;
  * Representation of a {@link TextInput} of a
  * {@link com.github.kaktushose.jda.commands.annotations.interactions.Modal Modal}.
  *
+ * @author Kaktushose
+ * @version 4.0.0
  * @see TextInput
  * @see com.github.kaktushose.jda.commands.annotations.interactions.Modal Modal
- * @version 4.0.0
  * @since 4.0.0
- * @author Kaktushose
  */
 public class TextInputDefinition {
 

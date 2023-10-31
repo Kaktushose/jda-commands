@@ -2,8 +2,8 @@ package com.github.kaktushose.jda.commands.dispatching.filter.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
@@ -36,11 +36,11 @@ public class CooldownFilter implements Filter {
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param context the {@link GenericContext} to filter
+     * @param context the {@link Context} to filter
      */
     @Override
-    public void apply(@NotNull GenericContext context) {
-        SlashCommandDefinition command = ((CommandContext) context).getCommand();
+    public void apply(@NotNull Context context) {
+        SlashCommandDefinition command = ((SlashCommandContext) context).getCommand();
 
         if (!command.hasCooldown()) {
             return;

@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
@@ -61,13 +61,13 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
             return Optional.empty();
         }
 
-        if (!SelectMenuEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
+        if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
                 !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
             log.error("An error has occurred! Skipping Button {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
                     new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
-                            SelectMenuEvent.class.getSimpleName(),
+                            ComponentEvent.class.getSimpleName(),
                             List.class.getSimpleName()
                     )));
             return Optional.empty();
