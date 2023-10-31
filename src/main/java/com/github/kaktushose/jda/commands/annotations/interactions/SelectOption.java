@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.internal.SelectOptionContainer;
-import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.lang.annotation.*;
@@ -15,7 +15,7 @@ import java.lang.annotation.*;
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type
- * {@link SelectMenuEvent SelectMenuEvent}</li>
+ * {@link ComponentEvent SelectMenuEvent}</li>
  * </li>{@link StringSelectMenu} annotation must be present</li>
  * </ul>
  *

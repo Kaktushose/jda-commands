@@ -4,9 +4,10 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.ControllerDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.InteractionControllerDefinition;
 import commands.UnsupportedType;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ControllerDefinitionTest {
+public class InteractionControllerDefinitionTest {
 
     private static final LocalizationFunction LOCALIZATION_FUNCTION = ResourceBundleLocalizationFunction.empty().build();
     private static Class<?> controller;
@@ -42,9 +43,13 @@ public class ControllerDefinitionTest {
     public void command_NoValues_ShouldAdoptControllerValues() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("adopt", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
+                .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                .map(it -> (SlashCommandDefinition) it)
+                .filter(c -> c.getMethod().equals(method))
+                .findFirst().orElse(null);
         assertNotNull(definition);
 
 
@@ -62,9 +67,13 @@ public class ControllerDefinitionTest {
     public void command_OwnValues_ShouldCombineOrOverride() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("combine", CommandEvent.class);
 
-        ControllerDefinition controllerDefinition = ControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
         assertNotNull(controllerDefinition);
-        CommandDefinition definition = controllerDefinition.getCommands().stream().filter(c -> c.getMethod().equals(method)).findFirst().orElse(null);
+        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
+                .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                .map(it -> (SlashCommandDefinition) it)
+                .filter(c -> c.getMethod().equals(method))
+                .findFirst().orElse(null);
         assertNotNull(definition);
 
         assertEquals("super sub", definition.getName());

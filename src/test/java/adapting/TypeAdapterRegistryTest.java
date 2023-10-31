@@ -5,10 +5,10 @@ import adapting.mock.SlashCommandInteractionEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withStringArray_ShouldNotAdapt() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
+        SlashCommandContext context = buildContext(buildCommand("stringArray", CommandEvent.class, String[].class), "a", "b", "c");
 
         registry.adapt(context);
 
@@ -78,14 +78,14 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withLessInputThanParameters_ShouldThrow() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
+        SlashCommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class));
 
         assertThrows(IllegalStateException.class, () -> registry.adapt(context));
     }
 
     @Test
     public void adapt_withMoreInputThanParameters_ShouldNotCancel() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
+        SlashCommandContext context = buildContext(buildCommand("inputLength", CommandEvent.class, int.class), "1", "2");
 
         registry.adapt(context);
 
@@ -94,7 +94,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefaultNull_ShouldAddNull() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
+        SlashCommandContext context = buildContext(buildCommand("optionalNull", CommandEvent.class, int.class));
 
         registry.adapt(context);
 
@@ -103,7 +103,7 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withOptionalWithDefault_ShouldAddDefault() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
+        SlashCommandContext context = buildContext(buildCommand("optionalDefault", CommandEvent.class, String.class));
 
         registry.adapt(context);
 
@@ -113,7 +113,7 @@ public class TypeAdapterRegistryTest {
     @Test
     public void adapt_withMissingTypeAdapter_ShouldThrowIllegalArgumentException() throws NoSuchMethodException {
         adapter.register(CustomType.class, new CustomTypeAdapter());
-        CommandContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
+        SlashCommandContext context = buildContext(buildCommand("noAdapter", CommandEvent.class, CustomType.class), "string");
         adapter.unregister(CustomType.class);
 
         assertThrows(IllegalArgumentException.class, () -> registry.adapt(context));
@@ -121,21 +121,21 @@ public class TypeAdapterRegistryTest {
 
     @Test
     public void adapt_withWrongArgument_ShouldCancel() throws NoSuchMethodException {
-        CommandContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
+        SlashCommandContext context = buildContext(buildCommand("wrongArgument", CommandEvent.class, int.class), "string");
 
         registry.adapt(context);
         assertTrue(context.isCancelled());
     }
 
-    private CommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+    private SlashCommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        CommandDefinition command = CommandDefinition.build(method, validator, ResourceBundleLocalizationFunction.empty().build()).orElse(null);
+        SlashCommandDefinition command = SlashCommandDefinition.build(method, validator, ResourceBundleLocalizationFunction.empty().build()).orElse(null);
         assertNotNull(command);
         return command;
     }
 
-    private CommandContext buildContext(CommandDefinition command, String... input) {
-        CommandContext context = new CommandContext(
+    private SlashCommandContext buildContext(SlashCommandDefinition command, String... input) {
+        SlashCommandContext context = new SlashCommandContext(
                 new SlashCommandInteractionEventMock(),
                 new JDACommandsMock());
         context.setInput(input);

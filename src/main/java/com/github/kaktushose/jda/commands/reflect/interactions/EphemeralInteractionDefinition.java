@@ -9,19 +9,29 @@ import java.lang.reflect.Method;
  * @version 4.0.0
  * @since 4.0.0
  */
-public abstract class EphemeralInteraction extends GenericInteraction {
+public abstract class EphemeralInteractionDefinition extends GenericInteractionDefinition {
 
     protected boolean ephemeral;
 
-    protected EphemeralInteraction(Method method, boolean ephemeral) {
+    protected EphemeralInteractionDefinition(Method method, boolean ephemeral) {
         super(method);
         this.ephemeral = ephemeral;
     }
 
+    /**
+     * Gets whether replies should be ephemeral.
+     *
+     * @return {@code true} if replies should be ephemeral
+     */
     public boolean isEphemeral() {
         return ephemeral;
     }
 
+    /**
+     * Sets whether replies should be ephemeral.
+     *
+     * @param ephemeral {@code true} if replies should be ephemeral
+     */
     public void setEphemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
     }

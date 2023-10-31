@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.CommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -31,7 +31,7 @@ import java.util.*;
 public class TypeAdapterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
-    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = new HashMap<Class<?>, Object>() {
+    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = new HashMap<>() {
         {
             put(byte.class, (byte) 0);
             put(short.class, (short) 0);
@@ -128,19 +128,19 @@ public class TypeAdapterRegistry {
     }
 
     /**
-     * Takes a {@link CommandContext} and attempts to type adapt the command input to the type specified by the
-     * {@link CommandDefinition}. Cancels the {@link CommandContext} if the type adapting fails.
+     * Takes a {@link SlashCommandContext} and attempts to type adapt the command input to the type specified by the
+     * {@link SlashCommandDefinition}. Cancels the {@link SlashCommandContext} if the type adapting fails.
      *
-     * @param context the {@link CommandContext} to type adapt
+     * @param context the {@link SlashCommandContext} to type adapt
      */
-    public void adapt(@NotNull CommandContext context) {
-        CommandDefinition command = Objects.requireNonNull(context.getCommand());
+    public void adapt(@NotNull SlashCommandContext context) {
+        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
         List<Object> arguments = new ArrayList<>();
         String[] input = context.getInput();
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        arguments.add(new CommandEvent(command, context));
+        arguments.add(new CommandEvent<SlashCommandDefinition>(context));
         for (int i = 0; i < command.getActualParameters().size(); i++) {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 

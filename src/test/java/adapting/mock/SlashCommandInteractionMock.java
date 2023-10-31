@@ -58,6 +58,11 @@ public class SlashCommandInteractionMock implements SlashCommandInteraction {
     }
 
     @Override
+    public long getChannelIdLong() {
+        return 0;
+    }
+
+    @Override
     public DiscordLocale getUserLocale() {
         return null;
     }

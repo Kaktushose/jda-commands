@@ -2,14 +2,13 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -157,12 +156,12 @@ public interface Replyable {
      */
     default Replyable with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        GenericContext<? extends GenericInteractionCreateEvent> context = getContext();
+        Context context = getContext();
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
                 buttons.getButtons().forEach(button -> {
-                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), button.getId());
+                    String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), button.getId());
                     context.getJdaCommands().getInteractionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getId().equals(id))
@@ -180,7 +179,7 @@ public interface Replyable {
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenus().forEach(menu -> {
-                    String id = String.format("%s.%s", context.getInteraction().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
+                    String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getId().equals(id))
@@ -196,7 +195,7 @@ public interface Replyable {
         return this;
     }
 
-    GenericContext<? extends GenericInteractionCreateEvent> getContext();
+    Context getContext();
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
@@ -245,7 +244,7 @@ public interface Replyable {
      * @param success the callback consumer
      * @return the current instance for fluent interface
      */
-    private Replyable setSuccessCallback(Consumer<Message> success) {
+    default Replyable setSuccessCallback(Consumer<Message> success) {
         getReplyContext().setSuccessCallback(success);
         return this;
     }
@@ -256,7 +255,7 @@ public interface Replyable {
      * @param failure the callback consumer
      * @return the current instance for fluent interface
      */
-    private Replyable setFailureCallback(Consumer<Throwable> failure) {
+    default Replyable setFailureCallback(Consumer<Throwable> failure) {
         getReplyContext().setFailureCallback(failure);
         return this;
     }

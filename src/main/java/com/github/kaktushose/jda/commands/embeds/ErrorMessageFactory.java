@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -20,83 +20,83 @@ public interface ErrorMessageFactory {
     /**
      * Gets a {@link MessageCreateData} to send when type adapting of the user input failed.
      *
-     * @param context the corresponding {@link CommandContext}
+     * @param context the corresponding {@link SlashCommandContext}
      * @return a {@link MessageCreateData} to send when type adapting failed
      */
-    MessageCreateData getTypeAdaptingFailedMessage(@NotNull CommandContext context);
+    MessageCreateData getTypeAdaptingFailedMessage(@NotNull SlashCommandContext context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a user is missing permissions.
      *
-     * @param context the corresponding {@link CommandContext}
+     * @param context the corresponding {@link SlashCommandContext}
      * @return a {@link MessageCreateData} to send when a user is missing permissions
      */
-    MessageCreateData getInsufficientPermissionsMessage(@NotNull CommandContext context);
+    MessageCreateData getInsufficientPermissionsMessage(@NotNull SlashCommandContext context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted
      */
-    MessageCreateData getGuildMutedMessage(@NotNull GenericContext<?> context);
+    MessageCreateData getGuildMutedMessage(@NotNull Context context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel TextChannel} is muted.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel TextChannel} is muted
      */
-    MessageCreateData getChannelMutedMessage(@NotNull GenericContext<?> context);
+    MessageCreateData getChannelMutedMessage(@NotNull Context context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted
      */
-    MessageCreateData getUserMutedMessage(@NotNull GenericContext<?> context);
+    MessageCreateData getUserMutedMessage(@NotNull Context context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a parameter constraint fails.
      *
-     * @param context    the corresponding {@link GenericContext}
+     * @param context    the corresponding {@link Context}
      * @param constraint the corresponding {@link ConstraintDefinition} that failed
      * @return a {@link MessageCreateData} to send when a parameter constraint fails
      */
-    MessageCreateData getConstraintFailedMessage(@NotNull GenericContext<?> context, @NotNull ConstraintDefinition constraint);
+    MessageCreateData getConstraintFailedMessage(@NotNull Context context, @NotNull ConstraintDefinition constraint);
 
     /**
      * Gets a {@link Message} to send when a command still has a cooldown.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a command still has a cooldown
      */
-    MessageCreateData getCooldownMessage(@NotNull GenericContext<?> context, long ms);
+    MessageCreateData getCooldownMessage(@NotNull Context context, long ms);
 
     /**
      * Gets a {@link MessageCreateData} to send when the channel type isn't suitable for the command.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when the channel type isn't suitable for the command
      */
-    MessageCreateData getWrongChannelTypeMessage(@NotNull GenericContext<?> context);
+    MessageCreateData getWrongChannelTypeMessage(@NotNull Context context);
 
     /**
      * Gets a {@link MessageCreateData} to send when the command execution failed.
      *
-     * @param context   the corresponding {@link GenericContext}
+     * @param context   the corresponding {@link Context}
      * @param exception the Exception that made the command execution fail
      * @return a {@link MessageCreateData} to send when the command execution failed
      */
-    MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericContext<?> context, @NotNull Throwable exception);
+    MessageCreateData getCommandExecutionFailedMessage(@NotNull Context context, @NotNull Throwable exception);
 
     /**
      * Gets a {@link MessageCreateData} to send when an incoming interaction already timed out.
      *
-     * @param context the corresponding {@link GenericContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when an incoming interaction already timed out
      */
-    MessageCreateData getUnknownInteractionMessage(@NotNull GenericContext<?> context);
+    MessageCreateData getUnknownInteractionMessage(@NotNull Context context);
 
 }

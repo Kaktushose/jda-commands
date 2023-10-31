@@ -1,39 +1,41 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.menus.SelectMenuDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalDispatcher;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
- * Registry for {@link GenericDispatcher Dispatchers}. Delegates incoming {@link GenericContext} to the respective
+ * Registry for {@link GenericDispatcher Dispatchers}. Delegates incoming {@link Context} to the respective
  * {@link GenericDispatcher}.
  *
  * @author Kaktushose
  * @version 4.0.0
  * @since 4.0.0
  */
-public class DispatcherSupervisor {
+public class DispatcherSupervisor extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherSupervisor.class);
-    private final Map<Class<? extends GenericContext<? extends GenericInteractionCreateEvent>>,
-            GenericDispatcher<? extends GenericContext<? extends GenericInteractionCreateEvent>>> dispatchers;
+    private final Map<Class<? extends GenericInteractionCreateEvent>, GenericDispatcher> dispatchers;
     private final JDACommands jdaCommands;
-    private final RuntimeSupervisor runtimeSupervisor;
 
     /**
      * Constructs a new DispatcherSupervisor.
@@ -41,67 +43,58 @@ public class DispatcherSupervisor {
     public DispatcherSupervisor(JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
         dispatchers = new HashMap<>();
-        runtimeSupervisor = new RuntimeSupervisor(jdaCommands.getDependencyInjector());
-        register(CommandContext.class, new CommandDispatcher(this, runtimeSupervisor));
-        register(ButtonContext.class, new ButtonDispatcher(this, runtimeSupervisor));
-        register(SelectMenuContext.class, new SelectMenuDispatcher(this, runtimeSupervisor));
-        register(AutoCompleteContext.class, new AutoCompleteDispatcher(this, runtimeSupervisor));
+        register(GenericCommandInteractionEvent.class, new CommandDispatcher(jdaCommands));
+        register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteDispatcher(jdaCommands));
+        register(GenericComponentInteractionCreateEvent.class, new ComponentDispatcher(jdaCommands));
+        register(ModalInteractionEvent.class, new ModalDispatcher(jdaCommands));
     }
 
     /**
      * Registers a new {@link GenericDispatcher}.
      *
-     * @param context    a subtype of {@link GenericContext}
+     * @param event      a subtype of {@link GenericInteractionCreateEvent}
      * @param dispatcher the {@link GenericDispatcher} implementation for the event
      */
-    public void register(@NotNull Class<? extends GenericContext<? extends GenericInteractionCreateEvent>> context,
-                         @NotNull GenericDispatcher<? extends GenericContext<? extends GenericInteractionCreateEvent>> dispatcher) {
-        dispatchers.put(context, dispatcher);
-        log.debug("Registered dispatcher {} for event {}", dispatcher.getClass().getName(), context.getSimpleName());
+    public void register(@NotNull Class<? extends GenericInteractionCreateEvent> event, @NotNull GenericDispatcher dispatcher) {
+        dispatchers.put(event, dispatcher);
+        log.debug("Registered dispatcher {} for event {}", dispatcher.getClass().getName(), event.getSimpleName());
     }
 
     /**
      * Unregisters a {@link GenericDispatcher}
      *
-     * @param context the {@link GenericContext} to unregister any {@link GenericDispatcher} for
+     * @param event the {@link GenericInteractionCreateEvent} to unregister any {@link GenericDispatcher} for
      */
-    public void unregister(@NotNull Class<? extends GenericContext<? extends GenericInteractionCreateEvent>> context) {
-        dispatchers.remove(context);
-        log.debug("Unregistered dispatcher binding for event {}", context.getSimpleName());
+    public void unregister(@NotNull Class<? extends GenericInteractionCreateEvent> event) {
+        dispatchers.remove(event);
+        log.debug("Unregistered dispatcher binding for event {}", event.getSimpleName());
     }
 
-    /**
-     * Dispatches a {@link GenericContext} to its respective {@link GenericDispatcher}, e.g.
-     * <code>CommandContext -> CommandDispatcher</code>. Prints a warning if no {@link GenericDispatcher} was registered.
-     *
-     * @param context the {@link GenericContext} to dispatch
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public void onGenericEvent(@NotNull GenericContext<? extends GenericInteractionCreateEvent> context) {
-        Class<?> clazz = context.getClass();
-        if (!dispatchers.containsKey(clazz)) {
-            log.warn("No dispatcher found for {}", clazz.getSimpleName());
+    @Override
+    public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent event) {
+        Class<?> clazz = event.getClass();
+        Optional<Class<? extends GenericInteractionCreateEvent>> key = dispatchers.keySet().stream()
+                .filter(it -> it.isAssignableFrom(clazz))
+                .findFirst();
+        if (key.isEmpty()) {
+            log.debug("No dispatcher found for {}", clazz.getSimpleName());
             return;
         }
 
-        log.debug("Received {}", clazz.getSimpleName());
-        GenericDispatcher dispatcher = dispatchers.get(clazz);
-        log.debug("Calling {}", dispatcher.getClass().getName());
+        Context context;
+        if (SlashCommandInteractionEvent.class.isAssignableFrom(clazz)) {
+            context = new SlashCommandContext((SlashCommandInteractionEvent) event, jdaCommands);
+        } else {
+            context = new Context(event, jdaCommands);
+        }
 
+        GenericDispatcher dispatcher = dispatchers.get(key.get());
+        log.debug("Calling {}", dispatcher.getClass().getName());
         try {
             dispatcher.onEvent(context);
         } catch (Exception e) {
             //TODO send this as a reply
             log.error("Command execution failed!", e);
         }
-    }
-
-    /**
-     * Gets the {@link JDACommands} instance.
-     *
-     * @return the {@link JDACommands} instance
-     */
-    public JDACommands getJdaCommands() {
-        return jdaCommands;
     }
 }

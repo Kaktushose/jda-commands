@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.buttons.ButtonEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * {@link Interaction}.
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
- * <li>First parameter must be of type {@link ButtonEvent ButtonEvent}</li>
+ * <li>First parameter must be of type {@link ComponentEvent ButtonEvent}</li>
  * </ul>
  *
  * @author Kaktushose

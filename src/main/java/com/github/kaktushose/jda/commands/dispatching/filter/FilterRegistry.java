@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.filter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,13 +113,13 @@ public class FilterRegistry {
 
         /**
          * Filter will be executed before command routing. The command will not be present in the
-         * {@link CommandContext}.
+         * {@link SlashCommandContext}.
          */
         BEFORE_ROUTING,
 
         /**
          * Filter will be executed before type adapting. The command will be present in the
-         * {@link CommandContext} but not the type adapted input.
+         * {@link SlashCommandContext} but not the type adapted input.
          */
         BEFORE_ADAPTING,
 

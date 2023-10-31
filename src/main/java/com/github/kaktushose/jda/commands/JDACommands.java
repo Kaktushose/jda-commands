@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.ParserSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -30,19 +30,19 @@ public class JDACommands {
     private final JDAContext jdaContext;
     private final ImplementationRegistry implementationRegistry;
     private final DispatcherSupervisor dispatcherSupervisor;
-    private final ParserSupervisor parserSupervisor;
     private final FilterRegistry filterRegistry;
     private final TypeAdapterRegistry adapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
+    private final RuntimeSupervisor runtimeSupervisor;
 
     // this is needed for unit testing
     protected JDACommands() {
         jdaContext = null;
         implementationRegistry = null;
-        parserSupervisor = null;
+        runtimeSupervisor = null;
         filterRegistry = null;
         adapterRegistry = null;
         validatorRegistry = null;
@@ -74,16 +74,16 @@ public class JDACommands {
         );
         interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
+        runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
         dispatcherSupervisor = new DispatcherSupervisor(this);
-        parserSupervisor = new ParserSupervisor(dispatcherSupervisor);
 
         implementationRegistry.index(clazz, packages);
 
         interactionRegistry.index(clazz, packages);
 
-        updater = new SlashCommandUpdater(this, interactionRegistry.getCommands());
+        updater = new SlashCommandUpdater(this);
         updater.updateAllCommands();
-        jdaContext.performTask(it -> it.addEventListener(parserSupervisor));
+        jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
 
         isActive = true;
         log.info("Finished loading!");
@@ -153,7 +153,7 @@ public class JDACommands {
      * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(parserSupervisor));
+        jdaContext.performTask(jda -> jda.removeEventListener(dispatcherSupervisor));
         isActive = false;
     }
 
@@ -178,13 +178,14 @@ public class JDACommands {
         return implementationRegistry;
     }
 
+
     /**
-     * Gets the {@link ParserSupervisor}.
+     * Gets the {@link RuntimeSupervisor}
      *
-     * @return the {@link ParserSupervisor}
+     * @return the {@link RuntimeSupervisor}
      */
-    public ParserSupervisor getParserSupervisor() {
-        return parserSupervisor;
+    public RuntimeSupervisor getRuntimeSupervisor() {
+        return runtimeSupervisor;
     }
 
     /**

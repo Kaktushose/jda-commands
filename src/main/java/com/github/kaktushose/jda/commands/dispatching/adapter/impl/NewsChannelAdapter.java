@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
@@ -22,11 +22,11 @@ public class NewsChannelAdapter implements TypeAdapter<NewsChannel> {
      * Attempts to parse a String to a {@link NewsChannel}. Accepts both the channel id and name.
      *
      * @param raw     the String to parse
-     * @param context the {@link GenericContext}
+     * @param context the {@link Context}
      * @return the parsed {@link NewsChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<NewsChannel> parse(@NotNull String raw, @NotNull GenericContext context) {
+    public Optional<NewsChannel> parse(@NotNull String raw, @NotNull Context context) {
         Channel channel = context.getEvent().getChannel();
         if (channel == null) {
             return Optional.empty();

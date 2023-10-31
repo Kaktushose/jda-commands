@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericContext;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandContext;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -36,9 +36,9 @@ public class ReplyContext {
     /**
      * Constructs a new ReplyContext.
      *
-     * @param context the corresponding {@link CommandContext}
+     * @param context the corresponding {@link SlashCommandContext}
      */
-    public ReplyContext(GenericContext<? extends GenericInteractionCreateEvent> context) {
+    public ReplyContext(Context context) {
         event = context.getEvent();
         builder = new MessageCreateBuilder();
         success = (message) -> {
@@ -210,10 +210,9 @@ public class ReplyContext {
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }
-        // The ReplyContext is also used for error messages and some appear even before acknowledging took place
-        // In this case the event gets acknowledged with ephemeral set to false
+
         if (!event.isAcknowledged()) {
-            callback.deferReply(false).queue();
+            callback.deferReply(ephemeralReply).queue();
         }
         callback.getHook().setEphemeral(ephemeralReply);
         if (editReply) {
