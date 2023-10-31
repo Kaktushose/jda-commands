@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
  * Methods annotated with Produces will be used to get the instance of a dependency.
  *
  * <p>The instances provided by producer methods are used to inject values to the fields inside a
- * {@link CommandController} that are annotated with {@link Inject}. The access modifier of a producer method must be
+ * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction}
+ * that are annotated with {@link Inject}. The access modifier of a producer method must be
  * public.
  *
  * <p>Classes containing producer methods will be found automatically on startup. They can also be registered via

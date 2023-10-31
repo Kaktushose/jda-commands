@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 /**
- * Type adapter for JDAs {@link net.dv8tion.jda.api.entities.NewsChannel}.
+ * Type adapter for JDAs {@link NewsChannel}.
  *
  * @author Kaktushose
  * @version 2.3.0

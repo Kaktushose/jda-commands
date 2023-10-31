@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 /**
- * Type adapter for JDAs {@link net.dv8tion.jda.api.entities.ThreadChannel}.
+ * Type adapter for JDAs {@link ThreadChannel}.
  *
  * @author Kaktushose
  * @version 2.3.0

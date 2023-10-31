@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,14 +11,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This class models a command execution. The
- * {@link GenericParser Parser} constructs a new CommandContext for each
- * valid event received. The CommandContext is then passed through the execution chain until it is then transformed into
- * a {@link CommandEvent}.
+ * This class models an interaction execution. It gets constructed at the beginning of dispatching and gets passed
+ * through the execution chain.
  *
  * @author Kaktushose
- * @version 2.3.0
+ * @version 4.0.0
  * @see GenericEvent
+ * @see com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext SlashCommandContext
  * @since 2.0.0
  */
 public class Context {
