@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.reflect.interactions.menus;
+package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import net.dv8tion.jda.api.entities.emoji.Emoji;

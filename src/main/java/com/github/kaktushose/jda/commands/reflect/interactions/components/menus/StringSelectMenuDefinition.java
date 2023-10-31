@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.reflect.interactions.menus;
+package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;

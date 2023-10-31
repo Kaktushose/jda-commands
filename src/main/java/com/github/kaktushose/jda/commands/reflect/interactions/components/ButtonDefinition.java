@@ -1,9 +1,7 @@
-package com.github.kaktushose.jda.commands.reflect.interactions;
+package com.github.kaktushose.jda.commands.reflect.interactions.components;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
@@ -20,7 +18,7 @@ import java.util.Optional;
  * @see Button
  * @since 2.3.0
  */
-public class ButtonDefinition extends EphemeralInteractionDefinition {
+public class ButtonDefinition extends GenericComponentDefinition {
 
     private final String label;
     private final Emoji emoji;
@@ -141,18 +139,6 @@ public class ButtonDefinition extends EphemeralInteractionDefinition {
     @NotNull
     public ButtonStyle getStyle() {
         return style;
-    }
-
-    /**
-     * Gets the runtime id. The runtime id is composed of the static interaction id and the
-     * snowflake id of the interaction event that created the runtime.
-     *
-     * @param context the {@link SlashCommandContext} this button will be attached to
-     * @return the runtime id
-     */
-    @NotNull
-    public String getRuntimeId(Context context) {
-        return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 
     @Override
