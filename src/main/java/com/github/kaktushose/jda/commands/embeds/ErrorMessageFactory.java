@@ -50,14 +50,6 @@ public interface ErrorMessageFactory {
     MessageCreateData getChannelMutedMessage(@NotNull Context context);
 
     /**
-     * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.User User} is muted
-     */
-    MessageCreateData getUserMutedMessage(@NotNull Context context);
-
-    /**
      * Gets a {@link MessageCreateData} to send when a parameter constraint fails.
      *
      * @param context    the corresponding {@link Context}

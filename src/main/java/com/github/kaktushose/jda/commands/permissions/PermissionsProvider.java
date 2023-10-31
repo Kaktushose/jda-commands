@@ -22,17 +22,6 @@ import java.util.List;
 public interface PermissionsProvider {
 
     /**
-     * Checks if a {@link User} is muted. Useful for ban lists, where the {@link Context} should be cancelled even before
-     * routing, permission checks, etc.
-     *
-     * @param user    the {@link User} to perform the check against
-     * @param context the corresponding {@link Context}
-     * @return {@code true} if the user is muted
-     * @see com.github.kaktushose.jda.commands.dispatching.filter.impl.UserMuteFilter UserMuteFilter
-     */
-    boolean isMuted(@NotNull User user, @NotNull Context context);
-
-    /**
      * Checks if a {@link User} has permissions. Compared to {@link #hasPermission(Member, Context)} this method will be
      * called if the command gets executed in a non-guild context, where no member object is available.
      *

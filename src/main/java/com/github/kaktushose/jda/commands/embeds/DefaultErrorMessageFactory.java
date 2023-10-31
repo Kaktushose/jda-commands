@@ -102,16 +102,6 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUserMutedMessage(@NotNull Context context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription("You are muted!")
-                .build()
-        ).build();
-    }
-
-    @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull Context context, @NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
