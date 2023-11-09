@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCom
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -152,18 +153,19 @@ public class TreeNode implements Iterable<TreeNode> {
      *
      * @return a {@link List} of all {@link SlashCommandData of the leaf nodes.
      */
-    public List<SlashCommandData> getCommandData() {
+    public List<SlashCommandData> getCommandData(LocalizationFunction localizationFunction) {
         List<SlashCommandData> result = new ArrayList<>();
-        children.forEach(child -> child.toCommandData(result));
+        children.forEach(child -> child.toCommandData(result, localizationFunction));
         return result;
     }
 
-    private void toCommandData(Collection<SlashCommandData> commands) {
+    private void toCommandData(Collection<SlashCommandData> commands, LocalizationFunction localizationFunction) {
         if (command == null) {
             return;
         }
         if (hasChildren()) {
             SlashCommandData data = Commands.slash(name, "empty description");
+            data.setLocalizationFunction(localizationFunction);
             children.forEach(child -> child.toSubCommandData(data));
             commands.add(data);
             return;
