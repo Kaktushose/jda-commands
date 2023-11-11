@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -57,52 +58,27 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
         return embedCache.getEmbed("typeAdaptingFailed")
-                .injectValue("usage", String.format("%s%s", PREFIX, command.getName()))
+                .injectValue("usage", command.getDisplayName())
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
                 .toMessageCreateData();
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull SlashCommandContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull Context context) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
 
-        SlashCommandDefinition command = context.getCommand();
+        GenericInteractionDefinition interaction = context.getInteractionDefinition();
         StringBuilder sbPermissions = new StringBuilder();
-        command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
+        interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         return embedCache.getEmbed("insufficientPermissions")
-                .injectValue("prefix", PREFIX)
-                .injectValue("label", command.getName())
+                .injectValue("name", interaction.getDisplayName())
                 .injectValue("permissions", permissions)
                 .toMessageCreateData();
-    }
-
-    @Override
-    public MessageCreateData getGuildMutedMessage(@NotNull Context context) {
-        if (!embedCache.containsEmbed("guildMuted")) {
-            return super.getGuildMutedMessage(context);
-        }
-        return embedCache.getEmbed("guildMuted").toMessageCreateData();
-    }
-
-    @Override
-    public MessageCreateData getChannelMutedMessage(@NotNull Context context) {
-        if (!embedCache.containsEmbed("channelMuted")) {
-            return super.getChannelMutedMessage(context);
-        }
-        return embedCache.getEmbed("channelMuted").toMessageCreateData();
-    }
-
-    @Override
-    public MessageCreateData getUserMutedMessage(@NotNull Context context) {
-        if (!embedCache.containsEmbed("userMuted")) {
-            return super.getUserMutedMessage(context);
-        }
-        return embedCache.getEmbed("userMuted").toMessageCreateData();
     }
 
     @Override

@@ -140,7 +140,7 @@ public class TypeAdapterRegistry {
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        arguments.add(new CommandEvent<SlashCommandDefinition>(context));
+        arguments.add(new CommandEvent(context));
         for (int i = 0; i < command.getActualParameters().size(); i++) {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 
@@ -158,7 +158,7 @@ public class TypeAdapterRegistry {
                     IllegalStateException exception = new IllegalStateException(
                             "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
                     );
-                    context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+                    context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
                     throw exception;
                 }
 
@@ -184,7 +184,7 @@ public class TypeAdapterRegistry {
             Optional<?> parsed = adapter.get().parse(raw, context);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                context.setCancelled(true).setErrorMessage(messageFactory.getTypeAdaptingFailedMessage(context));
+                context.setCancelled(messageFactory.getTypeAdaptingFailedMessage(context));
                 break;
             }
 

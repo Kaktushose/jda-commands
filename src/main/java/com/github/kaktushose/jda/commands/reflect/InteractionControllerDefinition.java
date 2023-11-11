@@ -83,11 +83,11 @@ public class InteractionControllerDefinition {
         }
         dependencyInjector.registerDependencies(interactionClass, fields);
 
-        Set<String> permissions = new HashSet<>();
+        final Set<String> permissions = new HashSet<>();
         // index controller level permissions
         if (interactionClass.isAnnotationPresent(Permissions.class)) {
             Permissions permission = interactionClass.getAnnotation(Permissions.class);
-            permissions = Arrays.stream(permission.value()).collect(Collectors.toSet());
+            permissions.addAll(Arrays.stream(permission.value()).collect(Collectors.toSet()));
         }
 
         // get controller level cooldown and use it if no command level cooldown is present
@@ -139,6 +139,7 @@ public class InteractionControllerDefinition {
                     if (interaction.ephemeral()) {
                         button.setEphemeral(true);
                     }
+                    button.getPermissions().addAll(permissions);
                     buttons.add(button);
                 });
             }
@@ -147,6 +148,7 @@ public class InteractionControllerDefinition {
                     if (interaction.ephemeral()) {
                         menu.setEphemeral(true);
                     }
+                    menu.getPermissions().addAll(permissions);
                     selectMenus.add(menu);
                 });
             }
@@ -155,6 +157,7 @@ public class InteractionControllerDefinition {
                     if (interaction.ephemeral()) {
                         menu.setEphemeral(true);
                     }
+                    menu.getPermissions().addAll(permissions);
                     selectMenus.add(menu);
                 });
             }
@@ -165,6 +168,7 @@ public class InteractionControllerDefinition {
                     if (interaction.ephemeral()) {
                         modal.setEphemeral(true);
                     }
+                    modal.getPermissions().addAll(permissions);
                     modals.add(modal);
                 });
             }

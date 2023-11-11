@@ -23,7 +23,6 @@ import java.util.Set;
 public abstract class GenericCommandDefinition extends EphemeralInteractionDefinition implements Comparable<GenericCommandDefinition> {
 
     protected final String name;
-    protected final Set<String> permissions;
     protected final boolean isGuildOnly;
     protected final boolean isNSFW;
     protected final Command.Type commandType;
@@ -41,9 +40,8 @@ public abstract class GenericCommandDefinition extends EphemeralInteractionDefin
                                        Set<Permission> enabledPermissions,
                                        SlashCommand.CommandScope scope,
                                        LocalizationFunction localizationFunction) {
-        super(method, ephemeral);
+        super(method, permissions, ephemeral);
         this.name = name;
-        this.permissions = permissions;
         this.isGuildOnly = isGuildOnly;
         this.isNSFW = isNSFW;
         this.commandType = commandType;
@@ -69,12 +67,12 @@ public abstract class GenericCommandDefinition extends EphemeralInteractionDefin
     }
 
     /**
-     * Gets a set of permission Strings.
+     * Gets the command name.
      *
-     * @return set of permission Strings
+     * @return the command name
      */
-    public Set<String> getPermissions() {
-        return permissions;
+    public String getDisplayName() {
+        return String.format("/%s", name);
     }
 
     /**

@@ -67,33 +67,31 @@ public class ComponentDispatcher extends GenericDispatcher {
             IllegalStateException exception = new IllegalStateException(
                     "No select menu found! Please report this error the the devs of jda-commands."
             );
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
             throw exception;
         }
 
         EphemeralInteractionDefinition component = optionalComponent.get();
         context.setInteractionDefinition(component).setEphemeral(component.isEphemeral());
-        log.debug("Input matches component: {}", component.getId());
 
-        log.info("Executing select component {} for user {}", component.getMethod().getName(), event.getMember());
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
+        }
+
+        log.debug("Input matches component: {}", component.getId());
+        log.info("Executing component {} for user {}", component.getMethod().getName(), event.getMember());
         context.setRuntime(runtime);
         try {
             Class<?> clazz = component.getClass();
             if (EntitySelectMenuDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(
-                        runtime.getInstance(),
-                        new ComponentEvent<EntitySelectMenuDefinition>(context),
-                        ((EntitySelectInteractionEvent) event).getMentions()
-                );
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context), ((EntitySelectInteractionEvent) event).getMentions());
             } else if (StringSelectMenuDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(
-                        runtime.getInstance(),
-                        new ComponentEvent<EntitySelectMenuDefinition>(context),
-                        ((StringSelectInteractionEvent) event).getValues()
-                );
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context), ((StringSelectInteractionEvent) event).getValues());
             } else if (ButtonDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent<ButtonDefinition>(context));
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context));
             } else {
                 throw new IllegalStateException("Unknown component type! Please report this error the the devs of jda-commands.");
             }
@@ -102,7 +100,7 @@ public class ComponentDispatcher extends GenericDispatcher {
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
 
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, throwable));
             checkCancelled(context);
         }
     }

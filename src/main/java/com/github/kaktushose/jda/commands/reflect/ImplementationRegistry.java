@@ -1,13 +1,14 @@
 package com.github.kaktushose.jda.commands.reflect;
 
-import com.github.kaktushose.jda.commands.annotations.Component;
+import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.embeds.DefaultErrorMessageFactory;
@@ -45,7 +46,7 @@ import java.util.*;
  *
  * @author Kaktushose
  * @version 4.0.0
- * @see Component
+ * @see Implementation
  * @since 2.0.0
  */
 public class ImplementationRegistry {
@@ -53,7 +54,7 @@ public class ImplementationRegistry {
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);
     private static Reflections reflections;
     private final DependencyInjector dependencyInjector;
-    private final FilterRegistry filterRegistry;
+    private final MiddlewareRegistry middlewareRegistry;
     private final TypeAdapterRegistry typeAdapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private PermissionsProvider permissionsProvider;
@@ -64,12 +65,12 @@ public class ImplementationRegistry {
      * Constructs a new ImplementationRegistry.
      *
      * @param dependencyInjector  the corresponding {@link DependencyInjector}
-     * @param filterRegistry      the corresponding {@link FilterRegistry}
+     * @param middlewareRegistry  the corresponding {@link MiddlewareRegistry}
      * @param typeAdapterRegistry the corresponding {@link TypeAdapterRegistry}
      * @param validatorRegistry   the corresponding {@link ValidatorRegistry}
      */
     public ImplementationRegistry(DependencyInjector dependencyInjector,
-                                  FilterRegistry filterRegistry,
+                                  MiddlewareRegistry middlewareRegistry,
                                   TypeAdapterRegistry typeAdapterRegistry,
                                   ValidatorRegistry validatorRegistry) {
         permissionsProvider = new DefaultPermissionsProvider();
@@ -77,7 +78,7 @@ public class ImplementationRegistry {
         guildScopeProvider = new DefaultGuildScopeProvider();
 
         this.dependencyInjector = dependencyInjector;
-        this.filterRegistry = filterRegistry;
+        this.middlewareRegistry = middlewareRegistry;
         this.typeAdapterRegistry = typeAdapterRegistry;
         this.validatorRegistry = validatorRegistry;
     }
@@ -106,7 +107,7 @@ public class ImplementationRegistry {
         findImplementation(ErrorMessageFactory.class).ifPresent(this::setErrorMessageFactory);
         findImplementation(GuildScopeProvider.class).ifPresent(this::setGuildScopeProvider);
 
-        findFilters().forEach(filterRegistry::register);
+        findMiddlewares().forEach(middlewareRegistry::register);
         findAdapters().forEach(typeAdapterRegistry::register);
         findValidators().forEach(validatorRegistry::register);
     }
@@ -170,7 +171,7 @@ public class ImplementationRegistry {
     private <T> Optional<T> findImplementation(Class<T> type) {
         T instance = null;
         for (Class<?> clazz : reflections.getSubTypesOf(type)) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
+            if (!clazz.isAnnotationPresent(Implementation.class)) {
                 continue;
             }
 
@@ -196,16 +197,16 @@ public class ImplementationRegistry {
         return Optional.ofNullable(instance);
     }
 
-    private Map<Filter, FilterRegistry.FilterPosition> findFilters() {
-        Map<Filter, FilterRegistry.FilterPosition> result = new HashMap<>();
-        for (Class<? extends Filter> clazz : reflections.getSubTypesOf(Filter.class)) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
+    private Map<Priority, Collection<Middleware>> findMiddlewares() {
+        Map<Priority, Collection<Middleware>> result = new HashMap<>();
+        for (Class<? extends Middleware> clazz : reflections.getSubTypesOf(Middleware.class)) {
+            if (!clazz.isAnnotationPresent(Implementation.class)) {
                 continue;
             }
 
-            log.debug("Found {}", clazz.getName());
+            log.debug("Found middleware {}", clazz.getName());
 
-            Filter instance;
+            Middleware instance;
             try {
                 instance = clazz.getConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
@@ -214,13 +215,10 @@ public class ImplementationRegistry {
                 continue;
             }
 
-            FilterRegistry.FilterPosition position = clazz.getAnnotation(Component.class).position();
-            if (position == FilterRegistry.FilterPosition.UNKNOWN) {
-                log.error("Invalid filter position {}!", position);
-                continue;
-            }
+            Priority priority = clazz.getAnnotation(Implementation.class).priority();
 
-            result.put(instance, position);
+            result.putIfAbsent(priority, new HashSet<>());
+            result.get(priority).add(instance);
         }
         return result;
     }
@@ -229,7 +227,7 @@ public class ImplementationRegistry {
     private Map<Class<?>, TypeAdapter<?>> findAdapters() {
         Map<Class<?>, TypeAdapter<?>> result = new HashMap<>();
         for (Class<? extends TypeAdapter> clazz : reflections.getSubTypesOf(TypeAdapter.class)) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
+            if (!clazz.isAnnotationPresent(Implementation.class)) {
                 continue;
             }
 
@@ -272,7 +270,7 @@ public class ImplementationRegistry {
     private Map<Class<? extends Annotation>, Validator> findValidators() {
         Map<Class<? extends Annotation>, Validator> result = new HashMap<>();
         for (Class<? extends Validator> clazz : reflections.getSubTypesOf(Validator.class)) {
-            if (!clazz.isAnnotationPresent(Component.class)) {
+            if (!clazz.isAnnotationPresent(Implementation.class)) {
                 continue;
             }
 
@@ -287,7 +285,7 @@ public class ImplementationRegistry {
                 continue;
             }
 
-            Class<? extends Annotation> annotation = clazz.getAnnotation(Component.class).annotation();
+            Class<? extends Annotation> annotation = clazz.getAnnotation(Implementation.class).annotation();
             if (Constraint.class.isAssignableFrom(annotation)) {
                 log.error("Invalid annotation type {}!", Constraint.class);
                 continue;

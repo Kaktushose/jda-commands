@@ -1,7 +1,7 @@
 {
   "insufficientPermissions": {
     "title": "Insufficient Permissions",
-    "description": "`{prefix}{label}` requires specific permissions to be executed",
+    "description": "`{name}` requires specific permissions to be executed",
     "color": "#ff0000",
     "fields": [
       {
@@ -9,21 +9,6 @@
         "value": "`{permissions}`"
       }
     ]
-  },
-  "guildMuted": {
-    "title": "Insufficient Permissions",
-    "description": "This guild is muted!",
-    "color": "#ff0000"
-  },
-  "channelMuted": {
-    "title": "Insufficient Permissions",
-    "description": "This channel is muted!",
-    "color": "#ff0000"
-  },
-  "userMuted": {
-    "title": "Insufficient Permissions",
-    "description": "This channel is muted!",
-    "color": "#ff0000"
   },
   "typeAdaptingFailed": {
     "title": "Syntax Error",

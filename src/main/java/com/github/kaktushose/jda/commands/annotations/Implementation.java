@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 
 import java.lang.annotation.*;
@@ -16,16 +16,18 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Component {
+public @interface Implementation {
 
     /**
-     * Gets the {@link FilterPosition FilterPosition} to register the
-     * {@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter} at. If the component is not a subtype
-     * of {@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}, this field can be ignored.
+     * Gets the {@link Priority} to register the
+     * {@link com.github.kaktushose.jda.commands.dispatching.middleware.Middleware Middleware} with. If this
+     * implementation is not a subtype
+     * of {@link com.github.kaktushose.jda.commands.dispatching.middleware.Middleware Middleware}, this field can be
+     * ignored.
      *
-     * @return the {@link FilterPosition FilterPosition}
+     * @return the {@link Priority}
      */
-    FilterPosition position() default FilterPosition.UNKNOWN;
+    Priority priority() default Priority.NORMAL;
 
     /**
      * Gets the annotation the {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}

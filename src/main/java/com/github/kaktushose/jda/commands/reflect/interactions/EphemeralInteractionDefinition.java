@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * Represents interactions that can be replied to with an ephemeral text message.
@@ -13,8 +14,8 @@ public abstract class EphemeralInteractionDefinition extends GenericInteractionD
 
     protected boolean ephemeral;
 
-    protected EphemeralInteractionDefinition(Method method, boolean ephemeral) {
-        super(method);
+    protected EphemeralInteractionDefinition(Method method, Set<String> permissions, boolean ephemeral) {
+        super(method, permissions);
         this.ephemeral = ephemeral;
     }
 

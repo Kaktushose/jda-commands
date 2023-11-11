@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Kaktushose
  * @version 2.0.0
- * @see com.github.kaktushose.jda.commands.dispatching.filter.impl.CooldownFilter CooldownFilter
+ * @see CooldownMiddleware CooldownFilter
  * @since 1.0.0
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

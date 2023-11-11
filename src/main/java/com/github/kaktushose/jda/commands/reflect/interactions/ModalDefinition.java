@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
@@ -11,9 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Representation of a Modal.
@@ -28,8 +27,8 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
     private final String title;
     private final List<TextInputDefinition> textInputs;
 
-    protected ModalDefinition(Method method, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
-        super(method, ephemeral);
+    protected ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
+        super(method, permissions, ephemeral);
         this.title = title;
         this.textInputs = textInputs;
     }
@@ -76,9 +75,15 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
             return Optional.empty();
         }
 
+        Set<String> permissions = new HashSet<>();
+        if (method.isAnnotationPresent(Permissions.class)) {
+            Permissions permission = method.getAnnotation(Permissions.class);
+            permissions = new HashSet<>(Arrays.asList(permission.value()));
+        }
+
         Modal modal = method.getAnnotation(Modal.class);
 
-        return Optional.of(new ModalDefinition(method, modal.ephemeral(), modal.value(), textInputs));
+        return Optional.of(new ModalDefinition(method, permissions, modal.ephemeral(), modal.value(), textInputs));
     }
 
     /**
@@ -113,6 +118,11 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
         return textInputs;
     }
 
+    @Override
+    public String getDisplayName() {
+        return title;
+    }
+
     /**
      * Gets the runtime id. The runtime id is composed of the static interaction id and the
      * snowflake id of the interaction event that created the runtime.
@@ -125,4 +135,15 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
         return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
     }
 
+    @Override
+    public String toString() {
+        return "ModalDefinition{" +
+                "title='" + title + '\'' +
+                ", textInputs=" + textInputs +
+                ", ephemeral=" + ephemeral +
+                ", id='" + id + '\'' +
+                ", method=" + method +
+                ", permissions=" + permissions +
+                '}';
+    }
 }

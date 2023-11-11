@@ -58,18 +58,6 @@ public class Context {
     }
 
     /**
-     * Set the {@link Message} to send if an error occurred.
-     *
-     * @param message the {@link Message} to send
-     * @return the current CommandContext instance
-     */
-    @NotNull
-    public Context setErrorMessage(@NotNull MessageCreateData message) {
-        this.errorMessage = message;
-        return this;
-    }
-
-    /**
      * Gets the corresponding {@link ImplementationRegistry} instance.
      *
      * @return the corresponding {@link ImplementationRegistry} instance
@@ -105,7 +93,7 @@ public class Context {
      * Set the {@link JDACommands} instance.
      *
      * @param jdaCommands the {@link JDACommands} instance
-     * @return the current CommandContext instance
+     * @return the current Context instance
      */
     @NotNull
     public Context setJdaCommands(@NotNull JDACommands jdaCommands) {
@@ -123,21 +111,43 @@ public class Context {
     }
 
     /**
-     * Set whether the context should be cancelled.
+     * Sets this context as cancelled and uses the provided {@link MessageCreateData} as an error message.
      *
-     * @param cancelled whether the context should be cancelled
-     * @return the current CommandContext instance
+     * @param errorMessage the error message as {@link MessageCreateData}
+     * @return the current Context instance
      */
-    @NotNull
-    public Context setCancelled(final boolean cancelled) {
-        this.cancelled = cancelled;
+    public Context setCancelled(MessageCreateData errorMessage) {
+        this.cancelled = true;
+        this.errorMessage = errorMessage;
         return this;
     }
 
+    /**
+     * Undoes {@link #setCancelled(MessageCreateData)} and.
+     *
+     * @return the current Context instance
+     */
+    public Context setUncancelled() {
+        this.cancelled = false;
+        return this;
+    }
+
+    /**
+     * Whether this context should send ephemeral replies.
+     *
+     * @return {@code true} if this context should send ephemeral replies
+     */
     public boolean isEphemeral() {
         return ephemeral;
     }
 
+
+    /**
+     * Sets whether this context should send ephemeral replies.
+     *
+     * @param ephemeral {@code true} if this context should send ephemeral replies
+     * @return the current Context instance
+     */
     public Context setEphemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
         return this;
@@ -162,10 +172,21 @@ public class Context {
         return this;
     }
 
+    /**
+     * Gets the {@link GenericInteractionDefinition} this context got created from.
+     *
+     * @return the {@link GenericInteractionDefinition}
+     */
     public GenericInteractionDefinition getInteractionDefinition() {
         return interactionDefinition;
     }
 
+    /**
+     * Sets the {@link GenericInteractionDefinition}
+     *
+     * @param interactionDefinition the {@link GenericInteractionDefinition} of this context
+     * @return the current Context instance
+     */
     public Context setInteractionDefinition(GenericInteractionDefinition interactionDefinition) {
         this.interactionDefinition = interactionDefinition;
         return this;

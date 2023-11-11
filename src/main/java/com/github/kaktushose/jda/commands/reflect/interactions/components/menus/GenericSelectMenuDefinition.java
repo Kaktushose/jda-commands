@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.components.Generi
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * Abstract base class for select menus.
@@ -20,8 +21,8 @@ public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends 
     protected final int minValue;
     protected final int maxValue;
 
-    protected GenericSelectMenuDefinition(Method method, boolean ephemeral, String placeholder, int minValue, int maxValue) {
-        super(method, ephemeral);
+    protected GenericSelectMenuDefinition(Method method, Set<String> permissions, boolean ephemeral, String placeholder, int minValue, int maxValue) {
+        super(method, permissions, ephemeral);
         this.placeholder = placeholder;
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -61,5 +62,10 @@ public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends 
      */
     public int getMaxValue() {
         return maxValue;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return placeholder.isEmpty() ? "Select Menu" : placeholder;
     }
 }

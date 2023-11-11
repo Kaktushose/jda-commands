@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.*;
-import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -27,7 +26,7 @@ public class ValidatorRegistry {
     private final Map<Class<? extends Annotation>, Validator> validators;
 
     /**
-     * Constructs a new ValidatorRegistry. This will register the following {@link Filter Filters} by default:
+     * Constructs a new ValidatorRegistry. This will register the following {@link Validator Validators} by default:
      * <ul>
      *     <li>{@link MinimumValidator}</li>
      *     <li>{@link MaximumValidator}</li>

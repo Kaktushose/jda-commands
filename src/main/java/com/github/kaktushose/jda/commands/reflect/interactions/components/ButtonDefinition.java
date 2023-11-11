@@ -2,13 +2,17 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.buttons.Button Button}.
@@ -26,12 +30,13 @@ public class ButtonDefinition extends GenericComponentDefinition {
     private final ButtonStyle style;
 
     protected ButtonDefinition(Method method,
+                               Set<String> permissions,
                                boolean ephemeral,
                                String label,
                                Emoji emoji,
                                String link,
                                ButtonStyle style) {
-        super(method, ephemeral);
+        super(method, permissions, ephemeral);
         this.label = label;
         this.emoji = emoji;
         this.link = link;
@@ -67,6 +72,12 @@ public class ButtonDefinition extends GenericComponentDefinition {
 
         Button button = method.getAnnotation(Button.class);
 
+        Set<String> permissions = new HashSet<>();
+        if (method.isAnnotationPresent(Permissions.class)) {
+            Permissions permission = method.getAnnotation(Permissions.class);
+            permissions = new HashSet<>(Arrays.asList(permission.value()));
+        }
+
         Emoji emoji;
         String emojiString = button.emoji();
         if (emojiString.isEmpty()) {
@@ -77,6 +88,7 @@ public class ButtonDefinition extends GenericComponentDefinition {
 
         return Optional.of(new ButtonDefinition(
                 method,
+                permissions,
                 button.ephemeral(),
                 button.value(),
                 emoji,
@@ -142,6 +154,11 @@ public class ButtonDefinition extends GenericComponentDefinition {
     }
 
     @Override
+    public String getDisplayName() {
+        return getLabel().orElse(id);
+    }
+
+    @Override
     public String toString() {
         return "ButtonDefinition{" +
                 "label='" + label + '\'' +
@@ -149,6 +166,7 @@ public class ButtonDefinition extends GenericComponentDefinition {
                 ", link='" + link + '\'' +
                 ", style=" + style +
                 ", ephemeral=" + ephemeral +
+                ", permissions=" + permissions +
                 ", id='" + id + '\'' +
                 ", method=" + method +
                 '}';

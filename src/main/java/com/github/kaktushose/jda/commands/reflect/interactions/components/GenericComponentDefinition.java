@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteract
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * Marker class for component definitions.
@@ -18,8 +19,8 @@ import java.lang.reflect.Method;
  */
 public abstract class GenericComponentDefinition extends EphemeralInteractionDefinition {
 
-    protected GenericComponentDefinition(Method method, boolean ephemeral) {
-        super(method, ephemeral);
+    protected GenericComponentDefinition(Method method, Set<String> permissions, boolean ephemeral) {
+        super(method, permissions, ephemeral);
     }
 
     /**

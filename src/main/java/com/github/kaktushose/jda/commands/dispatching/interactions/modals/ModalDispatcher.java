@@ -54,13 +54,20 @@ public class ModalDispatcher extends GenericDispatcher {
             IllegalStateException exception = new IllegalStateException(
                     "No Modal found! Please report this error the the devs of jda-commands."
             );
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
             throw exception;
         }
 
         ModalDefinition modal = optionalModal.get();
         context.setInteractionDefinition(modal).setEphemeral(modal.isEphemeral());
+
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
+        }
+
         log.debug("Input matches Modal: {}", modal.getId());
         log.info("Executing Modal {} for user {}", modal.getMethod().getName(), event.getMember());
         try {
@@ -73,7 +80,7 @@ public class ModalDispatcher extends GenericDispatcher {
             log.error("Modal execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, throwable));
             checkCancelled(context);
         }
     }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * Abstract base class for all interaction definitions.
@@ -20,10 +21,12 @@ public abstract class GenericInteractionDefinition {
 
     protected final String id;
     protected final Method method;
+    protected Set<String> permissions;
 
-    protected GenericInteractionDefinition(Method method) {
+    protected GenericInteractionDefinition(Method method, Set<String> permissions) {
         this.id = String.format("%s.%s", method.getDeclaringClass().getSimpleName(), method.getName());
         this.method = method;
+        this.permissions = permissions;
     }
 
     /**
@@ -44,6 +47,24 @@ public abstract class GenericInteractionDefinition {
     @NotNull
     public Method getMethod() {
         return method;
+    }
+
+    /**
+     * Gets a set of permission Strings.
+     *
+     * @return set of permission Strings
+     */
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+
+    /**
+     * Returns the display name of this interaction. By default, returns the method name
+     *
+     * @return the name of this interaction
+     */
+    public String getDisplayName() {
+        return method.getName();
     }
 
     /**

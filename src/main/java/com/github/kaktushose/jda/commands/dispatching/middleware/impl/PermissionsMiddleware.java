@@ -1,9 +1,8 @@
-package com.github.kaktushose.jda.commands.dispatching.filter.impl;
+package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -13,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A {@link Filter} implementation that will check permissions.
+ * A {@link Middleware} implementation that will check permissions.
  * The default implementation can only handle discord permissions. However, the {@link PermissionsProvider} can be
  * used for own implementations.
  * This filter will first check against {@link PermissionsProvider#hasPermission(User, Context)} with a
@@ -27,9 +26,9 @@ import org.slf4j.LoggerFactory;
  * @see PermissionsProvider
  * @since 2.0.0
  */
-public class PermissionsFilter implements Filter {
+public class PermissionsMiddleware implements Middleware {
 
-    private static final Logger log = LoggerFactory.getLogger(PermissionsFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(PermissionsMiddleware.class);
 
     /**
      * Checks if the {@link User} and respectively the {@link Member} has the permission to execute the command.
@@ -37,22 +36,19 @@ public class PermissionsFilter implements Filter {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void apply(@NotNull Context context) {
+    public void execute(@NotNull Context context) {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
-
         GenericInteractionCreateEvent event = context.getEvent();
 
         boolean hasPerms;
-        if (event.isFromGuild()) {
+        if (event.getMember() != null) {
             hasPerms = provider.hasPermission(event.getMember(), context);
         } else {
             hasPerms = provider.hasPermission(event.getUser(), context);
         }
         if (!hasPerms) {
-            context.setCancelled(true).setErrorMessage(
-                    context.getImplementationRegistry().getErrorMessageFactory().getInsufficientPermissionsMessage((SlashCommandContext) context)
-            );
+            context.setCancelled(context.getImplementationRegistry().getErrorMessageFactory().getInsufficientPermissionsMessage(context));
             log.debug("Insufficient permissions!");
             return;
         }

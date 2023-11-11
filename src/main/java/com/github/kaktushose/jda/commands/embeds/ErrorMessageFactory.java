@@ -28,26 +28,10 @@ public interface ErrorMessageFactory {
     /**
      * Gets a {@link MessageCreateData} to send when a user is missing permissions.
      *
-     * @param context the corresponding {@link SlashCommandContext}
+     * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a user is missing permissions
      */
-    MessageCreateData getInsufficientPermissionsMessage(@NotNull SlashCommandContext context);
-
-    /**
-     * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.Guild Guild} is muted
-     */
-    MessageCreateData getGuildMutedMessage(@NotNull Context context);
-
-    /**
-     * Gets a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel TextChannel} is muted.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when a {@link net.dv8tion.jda.api.entities.channel.concrete.TextChannel TextChannel} is muted
-     */
-    MessageCreateData getChannelMutedMessage(@NotNull Context context);
+    MessageCreateData getInsufficientPermissionsMessage(@NotNull Context context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a parameter constraint fails.

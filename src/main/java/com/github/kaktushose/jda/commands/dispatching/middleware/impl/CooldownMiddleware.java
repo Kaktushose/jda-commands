@@ -1,11 +1,12 @@
-package com.github.kaktushose.jda.commands.dispatching.filter.impl;
+package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.dispatching.filter.Filter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * A {@link Filter} implementation that contains the business logic behind command cooldowns.
+ * A {@link Middleware} implementation that contains the business logic behind command cooldowns.
  * If the command isn't annotated with {@link Cooldown Cooldown} or more
  * formally if the {@link SlashCommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
  * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
@@ -23,12 +24,12 @@ import java.util.*;
  * @see Cooldown
  * @since 2.0.0
  */
-public class CooldownFilter implements Filter {
+public class CooldownMiddleware implements Middleware {
 
-    private static final Logger log = LoggerFactory.getLogger(CooldownFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
     private final Map<Long, Set<CooldownEntry>> activeCooldowns;
 
-    public CooldownFilter() {
+    public CooldownMiddleware() {
         activeCooldowns = new HashMap<>();
     }
 
@@ -39,7 +40,10 @@ public class CooldownFilter implements Filter {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void apply(@NotNull Context context) {
+    public void execute(@NotNull Context context) {
+        if (!SlashCommandInteractionEvent.class.isAssignableFrom(context.getEvent().getClass())) {
+            return;
+        }
         SlashCommandDefinition command = ((SlashCommandContext) context).getCommand();
 
         if (!command.hasCooldown()) {
@@ -58,8 +62,7 @@ public class CooldownFilter implements Filter {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.setCancelled(true);
-                context.setErrorMessage(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.setCancelled(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

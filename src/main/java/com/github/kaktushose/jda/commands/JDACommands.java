@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -30,7 +30,7 @@ public class JDACommands {
     private final JDAContext jdaContext;
     private final ImplementationRegistry implementationRegistry;
     private final DispatcherSupervisor dispatcherSupervisor;
-    private final FilterRegistry filterRegistry;
+    private final MiddlewareRegistry middlewareRegistry;
     private final TypeAdapterRegistry adapterRegistry;
     private final ValidatorRegistry validatorRegistry;
     private final DependencyInjector dependencyInjector;
@@ -43,7 +43,7 @@ public class JDACommands {
         jdaContext = null;
         implementationRegistry = null;
         runtimeSupervisor = null;
-        filterRegistry = null;
+        middlewareRegistry = null;
         adapterRegistry = null;
         validatorRegistry = null;
         dependencyInjector = null;
@@ -63,12 +63,12 @@ public class JDACommands {
         dependencyInjector = new DependencyInjector();
         dependencyInjector.index(clazz, packages);
 
-        filterRegistry = new FilterRegistry();
+        middlewareRegistry = new MiddlewareRegistry();
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
         implementationRegistry = new ImplementationRegistry(
                 dependencyInjector,
-                filterRegistry,
+                middlewareRegistry,
                 adapterRegistry,
                 validatorRegistry
         );
@@ -81,7 +81,7 @@ public class JDACommands {
 
         interactionRegistry.index(clazz, packages);
 
-        updater = new SlashCommandUpdater(this);
+        updater = new SlashCommandUpdater(this, function);
         updater.updateAllCommands();
         jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
 
@@ -225,12 +225,12 @@ public class JDACommands {
     }
 
     /**
-     * Gets the {@link FilterRegistry}.
+     * Gets the {@link MiddlewareRegistry}.
      *
-     * @return the {@link FilterRegistry}
+     * @return the {@link MiddlewareRegistry}
      */
-    public FilterRegistry getFilterRegistry() {
-        return filterRegistry;
+    public MiddlewareRegistry getMiddlewareRegistry() {
+        return middlewareRegistry;
     }
 
     /**

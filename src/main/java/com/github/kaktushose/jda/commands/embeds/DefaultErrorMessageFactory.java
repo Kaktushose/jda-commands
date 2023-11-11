@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -16,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 
 /**
  * Implementation of {@link ErrorMessageFactory} with default embeds.
@@ -27,8 +27,6 @@ import java.util.regex.Matcher;
  * @since 2.0.0
  */
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
-
-    protected static final String PREFIX = Matcher.quoteReplacement("/");
 
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull SlashCommandContext context) {
@@ -55,7 +53,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
-                .setDescription(String.format("%s%s", PREFIX, command.getName()))
+                .setDescription(command.getDisplayName())
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
@@ -64,41 +62,20 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull SlashCommandContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull Context context) {
         StringBuilder sbPermissions = new StringBuilder();
-        SlashCommandDefinition command = context.getCommand();
-        command.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
+        GenericInteractionDefinition interaction = context.getInteractionDefinition();
+        interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
-                .setDescription(String.format("`%s%s` requires specific permissions to be executed",
-                        PREFIX,
-                        command.getName()))
+                .setDescription(String.format("`%s` requires specific permissions to be executed",
+                        interaction.getDisplayName()))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
         return new MessageCreateBuilder().setEmbeds(embed).build();
-    }
-
-    @Override
-    public MessageCreateData getGuildMutedMessage(@NotNull Context context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription("This guild is muted!")
-                .build()
-        ).build();
-    }
-
-    @Override
-    public MessageCreateData getChannelMutedMessage(@NotNull Context context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription("This channel is muted!")
-                .build()
-        ).build();
     }
 
     @Override

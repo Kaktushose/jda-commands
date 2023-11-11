@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import org.slf4j.Logger;
@@ -43,8 +44,15 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
-        log.debug("Input matches auto complete: {}", autoComplete.getId());
+        context.setInteractionDefinition(autoComplete);
 
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
+        }
+
+        log.debug("Input matches auto complete: {}", autoComplete.getId());
         log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), event.getMember());
         try {
             autoComplete.getMethod().invoke(runtimeSupervisor.getOrCreateInstance(event, autoComplete), new AutoCompleteEvent(context));
@@ -52,4 +60,16 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
             throw new IllegalStateException("Auto complete execution failed!", exception);
         }
     }
+
+    @SuppressWarnings("ConstantConditions")
+    private boolean checkCancelled(Context context) {
+        if (context.isCancelled()) {
+            ReplyContext replyContext = new ReplyContext(context);
+            replyContext.getBuilder().applyData(context.getErrorMessage());
+            replyContext.queue();
+            return true;
+        }
+        return false;
+    }
+
 }

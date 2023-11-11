@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -53,7 +52,7 @@ public class CommandDispatcher extends GenericDispatcher {
 
         if (optional.isEmpty()) {
             IllegalStateException exception = new IllegalStateException("No command found! Please report this error the the devs of jda-commands.");
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);
             throw exception;
         }
@@ -86,9 +85,15 @@ public class CommandDispatcher extends GenericDispatcher {
             arguments = slashContext.getArguments();
         } else {
             arguments = new ArrayList<>() {{
-                add(new CommandEvent<ContextCommandDefinition>(context));
+                add(new CommandEvent(context));
                 add(((GenericContextInteractionEvent<?>) event).getTarget());
             }};
+        }
+
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
         }
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
@@ -101,7 +106,7 @@ public class CommandDispatcher extends GenericDispatcher {
             log.error("Command execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            context.setCancelled(true).setErrorMessage(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, throwable));
             checkCancelled(context);
         }
     }

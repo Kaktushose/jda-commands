@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
     private Set<String> commands;
 
     protected AutoCompleteDefinition(Method method, Set<String> commands) {
-        super(method);
+        super(method, new HashSet<>());
         this.commands = commands;
     }
 
