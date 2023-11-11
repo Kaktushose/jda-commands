@@ -40,7 +40,7 @@ public class SlashCommandUpdater {
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
     public SlashCommandUpdater(JDACommands jdaCommands, LocalizationFunction localizationFunction) {
-        this.jdaContext = jdaCommands.getJdaContext();
+        this.jdaContext = jdaCommands.getJDAContext();
         this.localizationFunction = localizationFunction;
         guildScopeProvider = jdaCommands.getImplementationRegistry().getGuildScopeProvider();
         interactionRegistry = jdaCommands.getInteractionRegistry();

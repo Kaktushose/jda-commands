@@ -158,6 +158,15 @@ public class JDACommands {
     }
 
     /**
+     * Gets the {@link DispatcherSupervisor}.
+     *
+     * @return the {@link DispatcherSupervisor}
+     */
+    public DispatcherSupervisor getDispatcherSupervisor() {
+        return dispatcherSupervisor;
+    }
+
+    /**
      * Updates all slash commands that are registered with
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
      * CommandScope#Guild}
@@ -220,7 +229,7 @@ public class JDACommands {
      *
      * @return the JDAContext.
      */
-    public JDAContext getJdaContext() {
+    public JDAContext getJDAContext() {
         return jdaContext;
     }
 
