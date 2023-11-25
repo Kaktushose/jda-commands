@@ -46,7 +46,7 @@ public class ComponentDispatcher extends GenericDispatcher {
 
         Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
         if (optionalRuntime.isEmpty()) {
-            event.getHook().editOriginalComponents().queue();
+            event.deferEdit().setComponents().queue();
             event.getHook().sendMessage(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
             return;
         }

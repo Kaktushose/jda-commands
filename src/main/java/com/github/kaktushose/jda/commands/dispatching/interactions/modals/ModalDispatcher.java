@@ -43,7 +43,7 @@ public class ModalDispatcher extends GenericDispatcher {
 
         Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
         if (optionalRuntime.isEmpty()) {
-            event.getHook().sendMessage(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
+            event.reply(messageFactory.getUnknownInteractionMessage(context)).setEphemeral(true).queue();
             return;
         }
         RuntimeSupervisor.InteractionRuntime runtime = optionalRuntime.get();
