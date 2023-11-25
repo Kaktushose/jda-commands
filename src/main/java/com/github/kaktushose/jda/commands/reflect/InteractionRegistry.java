@@ -4,11 +4,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -31,8 +31,6 @@ import java.util.stream.Collectors;
 /**
  * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class InteractionRegistry {

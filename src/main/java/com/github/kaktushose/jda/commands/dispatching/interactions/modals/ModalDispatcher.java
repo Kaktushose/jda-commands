@@ -18,12 +18,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Dispatches {@link ModalInteractionEvent ModalInteractionEvents}.
+ *
+ * @since 4.0.0
+ */
 public class ModalDispatcher extends GenericDispatcher {
 
     private static final Logger log = LoggerFactory.getLogger(ModalDispatcher.class);
 
     /**
-     * Constructs a new ButtonDispatcher.
+     * Constructs a new ModalDispatcher.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance.
      */
@@ -85,7 +90,7 @@ public class ModalDispatcher extends GenericDispatcher {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     private boolean checkCancelled(Context context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);

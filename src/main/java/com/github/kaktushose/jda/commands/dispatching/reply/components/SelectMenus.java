@@ -1,9 +1,20 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
+import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * {@link Component} implementation for select menus. This class can be used to add
+ * {@link com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu StringSelectMenus} or
+ * {@link com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu EntitySelectMenus}
+ * to messages while defining their state (enabled or disabled).
+ *
+ * @see Replyable#with(Component...)
+ * @since 2.3.0
+ */
 public class SelectMenus implements Component {
 
     private final Collection<SelectMenus.SelectMenuContainer> selectMenus;
@@ -12,12 +23,26 @@ public class SelectMenus implements Component {
         this.selectMenus = selectMenus;
     }
 
-    public static SelectMenus enabled(String... buttons) {
-        return build(true, buttons);
+    /**
+     * Add the select menus with the given ids to the reply message as enabled.
+     *
+     * @param menus the id of the select menus to add
+     * @return instance of this class used inside the
+     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     */
+    public static SelectMenus enabled(String... menus) {
+        return build(true, menus);
     }
 
-    public static SelectMenus disabled(String... buttons) {
-        return build(false, buttons);
+    /**
+     * Add the  select menus with the given ids to the reply message as disabled.
+     *
+     * @param menus the id of the select menus to add
+     * @return instance of this class used inside the
+     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     */
+    public static SelectMenus disabled(String... menus) {
+        return build(false, menus);
     }
 
     private static SelectMenus build(boolean enabled, String... menus) {
@@ -28,12 +53,17 @@ public class SelectMenus implements Component {
         return new SelectMenus(result);
     }
 
-    public Collection<SelectMenus.SelectMenuContainer> getSelectMenus() {
+    /**
+     * Gets the {@link SelectMenuContainer}.
+     *
+     * @return the {@link SelectMenuContainer}
+     */
+    public Collection<SelectMenus.SelectMenuContainer> getSelectMenuContainer() {
         return selectMenus;
     }
 
     /**
-     * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Button}.
+     * Contains information about a single select menu (either StringSelectMenu or EntitySelectMenu).
      */
     public static class SelectMenuContainer {
         private final String id;
@@ -62,5 +92,4 @@ public class SelectMenus implements Component {
             return enabled;
         }
     }
-
 }

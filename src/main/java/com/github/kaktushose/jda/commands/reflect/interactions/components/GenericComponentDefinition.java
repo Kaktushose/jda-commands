@@ -11,8 +11,6 @@ import java.util.Set;
 /**
  * Marker class for component definitions.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see ButtonDefinition
  * @see com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition GenericSelectMenuDefinition
  * @since 4.0.0

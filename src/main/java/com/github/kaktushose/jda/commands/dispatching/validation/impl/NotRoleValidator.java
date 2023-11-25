@@ -13,8 +13,6 @@ import java.util.Optional;
 /**
  * A {@link Validator} implementation that checks the {@link NotRole} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see NotRole
  * @since 2.0.0
  */
@@ -35,6 +33,6 @@ public class NotRoleValidator implements Validator {
         Optional<Role> optional = new RoleAdapter().parse(roleAnnotation.value(), context);
         Member member = (Member) argument;
 
-        return !optional.filter(role -> member.getRoles().contains(role)).isPresent();
+        return optional.filter(role -> member.getRoles().contains(role)).isEmpty();
     }
 }

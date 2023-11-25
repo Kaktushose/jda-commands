@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,10 +8,8 @@ import java.lang.annotation.Target;
 
 /**
  * Methods annotated with AutoComplete will be registered as a handler for
- * {@link AutoCompleteEvent AutoCompleteEvents}.
+ * {@link com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent AutoCompleteEvents}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see SlashCommand
  * @since 4.0.0
  */

@@ -17,8 +17,6 @@ import java.lang.annotation.Target;
  * will try to parse it. If the parsing fails the command will still be executed but with empty or
  * possible {@code null} values.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 1.0.0
  */
 @Target(ElementType.PARAMETER)

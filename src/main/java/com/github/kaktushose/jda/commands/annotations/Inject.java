@@ -7,10 +7,9 @@ import java.lang.annotation.Target;
 
 /**
  * Fields annotated with Inject will be assigned a value that is provided by a {@link Produces} method.
- * If no Producer for the field type is available then the field will be assigned {@code null}.
+ * If no Producer for the field type is available then the field will be assigned {@code null}. Please note, that each
+ * field type can only have one producer.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Produces
  * @since 1.0.0
  */

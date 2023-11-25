@@ -6,8 +6,8 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.StringSelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
@@ -24,8 +24,6 @@ import java.util.Optional;
 /**
  * Dispatches component events.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public class ComponentDispatcher extends GenericDispatcher {
@@ -105,7 +103,7 @@ public class ComponentDispatcher extends GenericDispatcher {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     private boolean checkCancelled(Context context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);

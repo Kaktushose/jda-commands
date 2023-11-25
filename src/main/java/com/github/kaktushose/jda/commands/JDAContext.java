@@ -12,8 +12,6 @@ import java.util.function.Consumer;
  * Wrapper class for {@link JDA} and {@link ShardManager}. Use {@link #performTask(Consumer)} when you need to do
  * work with an {@link JDA} object.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 2.3.0
  */
 public class JDAContext {

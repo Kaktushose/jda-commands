@@ -14,8 +14,6 @@ import java.util.Set;
 /**
  * Representation of an AutoComplete.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see AutoComplete
  * @since 4.0.0
  */
@@ -71,21 +69,21 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
     }
 
     /**
-     * Set the command names this AutoComplete can handle
-     *
-     * @param commands a set of command names
-     */
-    public void setCommandNames(Set<String> commands) {
-        this.commands = commands;
-    }
-
-    /**
      * Gets a set of names of all the commands this AutoComplete can handle
      *
      * @return a set of command names
      */
     public Set<String> getCommandNames() {
         return commands;
+    }
+
+    /**
+     * Set the command names this AutoComplete can handle
+     *
+     * @param commands a set of command names
+     */
+    public void setCommandNames(Set<String> commands) {
+        this.commands = commands;
     }
 
     @Override

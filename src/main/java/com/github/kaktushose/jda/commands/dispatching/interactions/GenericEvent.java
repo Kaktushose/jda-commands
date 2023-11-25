@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 /**
  * Extension of JDAs {@link GenericInteractionCreateEvent} class. This is the base class for the different event classes.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent CommandEvent
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent ComponentEvent
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent AutoCompleteEvent
@@ -17,8 +15,8 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
  */
 public abstract class GenericEvent<T extends GenericInteractionDefinition> extends GenericInteractionCreateEvent {
 
-    private final T definition;
     protected final Context context;
+    private final T definition;
 
     /**
      * Constructs a new GenericEvent.

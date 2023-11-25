@@ -43,7 +43,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class GuildMock implements Guild {
 
     public static final Member MEMBER = new MemberMock("member", 1);

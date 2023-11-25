@@ -10,8 +10,6 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to add TextInputs to {@link Modal Modals}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 @Target(ElementType.PARAMETER)

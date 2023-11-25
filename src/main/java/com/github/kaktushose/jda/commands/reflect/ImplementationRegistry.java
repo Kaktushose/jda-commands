@@ -40,12 +40,10 @@ import java.util.*;
  *     <li>{@link ErrorMessageFactory}</li>
  *     <li>{@link GuildScopeProvider}</li>
  *     <li>{@link TypeAdapter}</li>
- *     <li>{@link com.github.kaktushose.jda.commands.dispatching.filter.Filter Filter}</li>
- *     <li>{@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}</li>
+ *     <li>{@link Middleware}</li>
+ *     <li>{@link Validator}</li>
  * </ul>
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Implementation
  * @since 2.0.0
  */
@@ -235,9 +233,7 @@ public class ImplementationRegistry {
 
             Class<?> generic;
             try {
-                generic = Class.forName(
-                        ((ParameterizedType) clazz.getGenericInterfaces()[0]).getActualTypeArguments()[0].getTypeName()
-                );
+                generic = Class.forName(((ParameterizedType) clazz.getGenericInterfaces()[0]).getActualTypeArguments()[0].getTypeName());
             } catch (ClassNotFoundException e) {
                 log.error("Unable to find class of type adapter!", e);
                 continue;

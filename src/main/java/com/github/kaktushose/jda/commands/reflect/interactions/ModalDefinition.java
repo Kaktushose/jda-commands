@@ -17,8 +17,6 @@ import java.util.*;
 /**
  * Representation of a Modal.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Modal
  * @since 4.0.0
  */

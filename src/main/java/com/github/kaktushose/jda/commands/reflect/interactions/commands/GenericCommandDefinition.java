@@ -14,8 +14,6 @@ import java.util.Set;
 /**
  * Generic base class of different command types.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see SlashCommandDefinition
  * @see ContextCommandDefinition
  * @since 4.0.0

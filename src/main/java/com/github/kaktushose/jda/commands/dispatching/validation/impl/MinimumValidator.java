@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A {@link Validator} implementation that checks the {@link Min} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Min
  * @since 2.0.0
  */

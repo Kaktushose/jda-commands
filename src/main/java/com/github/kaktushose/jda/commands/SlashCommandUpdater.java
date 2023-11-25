@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
  * Class that sends the {@link SlashCommandData} to Discord. Uses a {@link CommandTree} to properly transpile all
  * {@link SlashCommandDefinition CommandDefinitions} to {@link SlashCommandData}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see CommandTree
  * @since 2.3.0
  */

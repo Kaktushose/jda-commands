@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class TextChannelMock implements TextChannel {
 
     private final String name;

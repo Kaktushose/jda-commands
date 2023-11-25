@@ -15,8 +15,6 @@ import java.util.Optional;
 /**
  * Central registry for all {@link Validator Validators}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Validator
  * @since 2.0.0
  */

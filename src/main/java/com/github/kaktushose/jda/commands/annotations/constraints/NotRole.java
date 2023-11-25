@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
  * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry TypeAdapterRegistry} to determine
  * the role.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Constraint
  * @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter RoleAdapter
  * @since 2.0.0

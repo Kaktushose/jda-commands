@@ -13,8 +13,6 @@ import java.util.Optional;
  * A {@link Validator} implementation that checks the
  * {@link com.github.kaktushose.jda.commands.annotations.constraints.Role Role} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Role Role
  * @since 2.0.0
  */

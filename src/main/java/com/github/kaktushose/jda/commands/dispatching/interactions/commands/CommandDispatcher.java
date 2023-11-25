@@ -24,8 +24,6 @@ import java.util.Optional;
 /**
  * Dispatches command events.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public class CommandDispatcher extends GenericDispatcher {
@@ -111,7 +109,7 @@ public class CommandDispatcher extends GenericDispatcher {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     private boolean checkCancelled(Context context) {
         if (context.isCancelled()) {
             ReplyContext replyContext = new ReplyContext(context);

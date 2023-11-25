@@ -2,16 +2,19 @@ package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 
 import java.lang.annotation.*;
 
 /**
  * Indicates that the annotated class is a custom implementation that should replace the default implementation.
  *
- * @author Kaktushose
- * @version 2.2.0
- * @see ImplementationRegistry ImplementationRegistry
+ * @see com.github.kaktushose.jda.commands.reflect.ImplementationRegistry ImplementationRegistry
+ * @see com.github.kaktushose.jda.commands.dispatching.middleware.Middleware Middleware
+ * @see com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator
+ * @see com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter TypeAdapter
+ * @see com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider
+ * @see com.github.kaktushose.jda.commands.scope.GuildScopeProvider GuildScopeProvider
+ * @see com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory ErrorMessageFactory
  * @since 2.0.0
  */
 @Target(ElementType.TYPE)

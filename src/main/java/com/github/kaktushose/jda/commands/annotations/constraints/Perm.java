@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
 /**
  * The annotated element must be a user or member that have the specified discord permission.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Constraint
  * @since 2.0.0
  */

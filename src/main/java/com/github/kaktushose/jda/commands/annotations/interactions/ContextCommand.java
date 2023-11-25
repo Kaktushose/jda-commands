@@ -13,15 +13,13 @@ import java.lang.annotation.Target;
  * Methods annotated with ContextMenu will be registered as a context menu command.
  *
  * <p>Therefore the method must be declared inside a class that is annotated with
- * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction}.
+ * {@link Interaction}.
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type {@link CommandEvent}</li>
  * </ul>
  *
- * @author Kaktushose
- * @version 4.0.0
- * @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
+ * @see Interaction
  * @since 4.0.0
  */
 @Target(ElementType.METHOD)
@@ -69,7 +67,7 @@ public @interface ContextCommand {
      * Returns an array of {@link net.dv8tion.jda.api.Permission Permissions} this command
      * should be enabled for by default. Note that guild admins can modify this at any time.
      *
-     * @return a set of permissions this command will be enabled for by default
+     * @return an array of permissions this command will be enabled for by default
      * @see Permissions Permission
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED

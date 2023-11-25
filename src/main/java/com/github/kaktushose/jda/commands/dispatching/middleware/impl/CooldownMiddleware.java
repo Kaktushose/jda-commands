@@ -19,8 +19,6 @@ import java.util.*;
  * formally if the {@link SlashCommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
  * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Cooldown
  * @since 2.0.0
  */

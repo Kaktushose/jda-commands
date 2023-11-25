@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link GuildChannel}.
  *
- * @author Kaktushose
- * @version 2.3.0
  * @since 2.3.0
  */
 public class GuildChannelAdapter implements TypeAdapter<GuildChannel> {

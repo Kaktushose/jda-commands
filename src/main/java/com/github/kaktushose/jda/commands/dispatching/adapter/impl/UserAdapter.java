@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link User}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class UserAdapter implements TypeAdapter<User> {

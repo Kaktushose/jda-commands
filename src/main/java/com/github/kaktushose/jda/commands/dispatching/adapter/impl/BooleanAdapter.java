@@ -9,8 +9,6 @@ import java.util.Optional;
 /**
  * Type adapter for boolean values.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class BooleanAdapter implements TypeAdapter<Boolean> {
@@ -33,4 +31,5 @@ public class BooleanAdapter implements TypeAdapter<Boolean> {
         }
         return Optional.empty();
     }
+
 }

@@ -11,8 +11,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link TextChannel}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class TextChannelAdapter implements TypeAdapter<TextChannel> {

@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Representation of parameter constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @see Validator
  * @since 2.0.0

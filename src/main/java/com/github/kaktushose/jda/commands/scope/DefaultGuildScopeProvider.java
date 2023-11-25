@@ -8,8 +8,6 @@ import java.util.Set;
 /**
  * Default implementation of {@link GuildScopeProvider}. <b>This will always return an empty Set!</b>
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see GuildScopeProvider
  * @since 4.0.0
  */

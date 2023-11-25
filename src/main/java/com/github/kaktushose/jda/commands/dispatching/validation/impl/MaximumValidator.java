@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A {@link Validator} implementation that checks the {@link Max} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Max
  * @since 2.0.0
  */

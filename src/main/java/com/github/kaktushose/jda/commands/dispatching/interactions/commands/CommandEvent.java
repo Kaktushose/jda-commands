@@ -12,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * It provides additional features for replying to a
  * {@link net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent GenericCommandInteractionEvent}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see GenericEvent
  * @since 4.0.0
  */

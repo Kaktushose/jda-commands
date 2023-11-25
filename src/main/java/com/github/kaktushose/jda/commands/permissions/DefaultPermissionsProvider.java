@@ -21,8 +21,6 @@ import java.util.Arrays;
  *     </li>
  * </ul>
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see PermissionsProvider
  * @since 2.0.0
  */

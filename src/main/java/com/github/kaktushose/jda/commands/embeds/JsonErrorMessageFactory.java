@@ -17,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Subtype of {@link DefaultErrorMessageFactory} that can load the embeds from an {@link EmbedCache}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see DefaultErrorMessageFactory
  * @see EmbedCache
  * @since 2.0.0

@@ -21,8 +21,6 @@ import java.util.concurrent.TimeUnit;
  * Supervisor that creates and stores {@link InteractionRuntime InteractionRuntimes}. This supervisor will create a
  * new {@link InteractionRuntime} for every command execution with a TTL of 15 minutes.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public class RuntimeSupervisor {
@@ -131,8 +129,6 @@ public class RuntimeSupervisor {
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} where commands,
      * buttons, etc. live in.
      *
-     * @author Kaktushose
-     * @version 4.0.0
      * @since 4.0.0
      */
     public static class InteractionRuntime {

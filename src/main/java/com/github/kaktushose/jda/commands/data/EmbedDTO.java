@@ -20,8 +20,6 @@ import java.util.regex.Pattern;
  * {@link #injectValue(String, Object)} or {@link #injectValues(Map)}. Alternatively you can use
  * {@link #injectFields(Object...)} to inject the fields of objects.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see <a href="https://discord.com/developers/docs/resources/channel#embed-object">Discord Embed Documentation</a>
  * @see EmbedCache
  * @since 1.1.0
@@ -254,7 +252,7 @@ public class EmbedDTO implements Serializable {
                     field.setAccessible(true);
                     injectValue(field.getName(), field.get(object));
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    throw new IllegalArgumentException(e);
                 }
             }
         }

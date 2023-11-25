@@ -18,8 +18,6 @@ import java.lang.annotation.Target;
  * {@link ComponentEvent SelectMenuEvent}</li>
  * </ul>
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Interaction
  * @see SelectOption
  * @since 4.0.0

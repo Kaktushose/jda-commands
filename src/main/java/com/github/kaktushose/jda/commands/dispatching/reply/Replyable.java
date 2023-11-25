@@ -25,8 +25,6 @@ import java.util.function.Consumer;
 /**
  * Generic interface holding reply methods.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 2.3.0
  */
 public interface Replyable {
@@ -160,7 +158,7 @@ public interface Replyable {
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
-                buttons.getButtons().forEach(button -> {
+                buttons.getButtonContainer().forEach(button -> {
                     String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), button.getId());
                     context.getJdaCommands().getInteractionRegistry().getButtons()
                             .stream()
@@ -178,7 +176,7 @@ public interface Replyable {
             }
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
-                menus.getSelectMenus().forEach(menu -> {
+                menus.getSelectMenuContainer().forEach(menu -> {
                     String id = String.format("%s.%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), menu.getId());
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
@@ -189,7 +187,7 @@ public interface Replyable {
             }
         }
 
-        if (items.size() > 0) {
+        if (!items.isEmpty()) {
             getReplyContext().getBuilder().addComponents(ActionRow.of(items));
         }
         return this;
@@ -329,6 +327,6 @@ public interface Replyable {
      *
      * @return the {@link ReplyContext}
      */
-    @NotNull ReplyContext getReplyContext();
+    ReplyContext getReplyContext();
 
 }

@@ -12,8 +12,6 @@ import java.util.Optional;
  * Representation of a {@link TextInput} of a
  * {@link com.github.kaktushose.jda.commands.annotations.interactions.Modal Modal}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see TextInput
  * @see com.github.kaktushose.jda.commands.annotations.interactions.Modal Modal
  * @since 4.0.0
@@ -149,5 +147,18 @@ public class TextInputDefinition {
      */
     public boolean isRequired() {
         return required;
+    }
+
+    @Override
+    public String toString() {
+        return "TextInputDefinition{" +
+                "label='" + label + '\'' +
+                ", placeholder='" + placeholder + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", minValue=" + minValue +
+                ", maxValue=" + maxValue +
+                ", style=" + style +
+                ", required=" + required +
+                '}';
     }
 }

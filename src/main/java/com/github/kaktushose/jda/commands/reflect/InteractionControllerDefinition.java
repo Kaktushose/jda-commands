@@ -5,11 +5,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.StringSelectMenuDefinition;
@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 /**
  * Representation of an interaction controller.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 2.0.0
  */
 public class InteractionControllerDefinition {

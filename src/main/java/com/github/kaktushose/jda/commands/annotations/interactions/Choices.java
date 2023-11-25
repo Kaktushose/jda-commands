@@ -8,8 +8,6 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to add choices to parameters.
  *
- * @author Kaktushose
- * @version 2.3.0
  * @since 2.3.0
  */
 @Target(ElementType.PARAMETER)

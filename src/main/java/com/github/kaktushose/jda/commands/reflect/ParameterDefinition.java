@@ -31,8 +31,6 @@ import java.util.*;
 /**
  * Representation of a command parameter.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Constraint
  * @see Choices
  * @see Param

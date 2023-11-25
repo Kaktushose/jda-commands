@@ -8,11 +8,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A tree data structure representing Commands sorted into Subcommands and SubcommandGroups. Each {@link TreeNode} can
- * have <em>n</em> children, however the maximum level is <em>3</em> due to Discords limitations on SubcommandGroups.
+ * A tree data structure representing slash commands sorted into Subcommands and SubcommandGroups. Each {@link TreeNode}
+ * can have <em>n</em> children, however the maximum level is <em>3</em> due to Discords limitations on SubcommandGroups.
  *
- * @author Kaktushose
- * @version 2.3.0
  * @see TreeNode
  * @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
  * @since 2.3.0
@@ -86,7 +84,7 @@ public class CommandTree {
     }
 
     /**
-     * Gets the sanitized labels of all {@link SlashCommandData} returned by {@link #getCommands(LocalizationFunction)} ()}.
+     * Gets the sanitized labels of all {@link SlashCommandData} returned by {@link #getCommands(LocalizationFunction)}.
      * The labels will match the regex {@code ^[\w-]+$}. Furthermore, if the label consists of more than three spaces
      * any additional space will be replaced with {@code _} due to Discords limitations on SubcommandGroups.
      *

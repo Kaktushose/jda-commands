@@ -11,8 +11,6 @@ import java.util.List;
  * {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Buttons} to messages while defining their
  * state (enabled or disabled).
  *
- * @author Kaktushose
- * @version 2.3.0
  * @see Replyable#with(Component...)
  * @since 2.3.0
  */
@@ -24,10 +22,24 @@ public class Buttons implements Component {
         this.buttons = buttons;
     }
 
+    /**
+     * Add the buttons with the given ids to the reply message as enabled.
+     *
+     * @param buttons the id of the buttons to add
+     * @return instance of this class used inside the
+     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     */
     public static Buttons enabled(String... buttons) {
         return build(true, buttons);
     }
 
+    /**
+     * Add the buttons with the given ids to the reply message as disabled.
+     *
+     * @param buttons the id of the buttons to add
+     * @return instance of this class used inside the
+     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     */
     public static Buttons disabled(String... buttons) {
         return build(false, buttons);
     }
@@ -40,7 +52,12 @@ public class Buttons implements Component {
         return new Buttons(result);
     }
 
-    public Collection<ButtonContainer> getButtons() {
+    /**
+     * Gets the {@link ButtonContainer}.
+     *
+     * @return the {@link ButtonContainer}
+     */
+    public Collection<ButtonContainer> getButtonContainer() {
         return buttons;
     }
 

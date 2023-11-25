@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class RestActionMock<T> implements RestAction<T> {
 
     private final T member;

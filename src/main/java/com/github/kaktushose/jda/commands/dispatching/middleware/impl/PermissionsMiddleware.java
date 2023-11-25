@@ -16,12 +16,10 @@ import org.slf4j.LoggerFactory;
  * The default implementation can only handle discord permissions. However, the {@link PermissionsProvider} can be
  * used for own implementations.
  * This filter will first check against {@link PermissionsProvider#hasPermission(User, Context)} with a
- * {@link User} object. This can be used for global permissions. Afterwards
+ * {@link User} object. This can be used for global permissions. Afterward
  * {@link PermissionsProvider#hasPermission(Member, Context)} will be called. Since the {@link Member} is
  * available this might be used for guild related permissions.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Permissions
  * @see PermissionsProvider
  * @since 2.0.0

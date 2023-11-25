@@ -16,8 +16,6 @@ import java.util.*;
 /**
  * Single node inside the {@link CommandTree}.
  *
- * @author Kaktushose
- * @version 2.3.0
  * @see CommandTree
  * @since 2.3.0
  */
@@ -123,7 +121,7 @@ public class TreeNode implements Iterable<TreeNode> {
      * @return an {@link Optional} holding the result
      */
     public Optional<SlashCommandDefinition> getCommand() {
-        if (children.size() > 0) {
+        if (!children.isEmpty()) {
             return Optional.empty();
         }
         return Optional.ofNullable(command);

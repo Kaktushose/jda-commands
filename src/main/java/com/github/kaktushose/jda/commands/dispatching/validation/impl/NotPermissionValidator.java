@@ -13,8 +13,6 @@ import java.util.Set;
 /**
  * A {@link Validator} implementation that checks the {@link NotPerm} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see NotPerm
  * @since 2.0.0
  */

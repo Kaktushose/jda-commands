@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +15,6 @@ import java.util.Map;
 /**
  * Implementation of {@link Context} for {@link SlashCommandInteractionEvent}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public class SlashCommandContext extends Context {
@@ -30,7 +27,7 @@ public class SlashCommandContext extends Context {
     /**
      * Constructs a new CommandContext.
      *
-     * @param event       the corresponding {@link GenericInteractionCreateEvent}
+     * @param event       the corresponding {@link SlashCommandInteractionEvent}
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
     public SlashCommandContext(SlashCommandInteractionEvent event, JDACommands jdaCommands) {
@@ -44,9 +41,7 @@ public class SlashCommandContext extends Context {
     }
 
     /**
-     * Gets the raw user input. Will be empty in phase
-     * {@link com.github.kaktushose.jda.commands.dispatching.filter.FilterRegistry.FilterPosition#BEFORE_ROUTING
-     * FilterPosition.BEFORE_ROUTING}.
+     * Gets the raw user input.
      *
      * @return the raw user input
      * @see #getOptions()
@@ -80,6 +75,18 @@ public class SlashCommandContext extends Context {
     }
 
     /**
+     * Set the {@link OptionMapping OptionMappings}.
+     *
+     * @param options the {@link OptionMapping OptionMappings}
+     * @return the current CommandContext instance
+     */
+    @NotNull
+    public SlashCommandContext setOptions(@NotNull List<OptionMapping> options) {
+        this.options = options;
+        return this;
+    }
+
+    /**
      * Gets the {@link OptionMapping OptionMappings} inserted in a {@code Map<Name, Mapping>}.
      *
      * @return the {@link OptionMapping OptionMappings}
@@ -90,18 +97,6 @@ public class SlashCommandContext extends Context {
         Map<String, OptionMapping> result = new HashMap<>();
         options.forEach(option -> result.put(option.getName(), option));
         return result;
-    }
-
-    /**
-     * Set the {@link OptionMapping OptionMappings}.
-     *
-     * @param options the {@link OptionMapping OptionMappings}
-     * @return the current CommandContext instance
-     */
-    @NotNull
-    public SlashCommandContext setOptions(@NotNull List<OptionMapping> options) {
-        this.options = options;
-        return this;
     }
 
     /**

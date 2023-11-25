@@ -9,10 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Methods annotated with SlashCommand will be registered as a command at startup.
+ * Methods annotated with SlashCommand will be registered as a slash command at startup.
  *
- * <p>Therefore the method must be declared inside a class that is annotated with
- * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction}.
+ * <p>Therefore the method must be declared inside a class that is annotated with {@link Interaction}.
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>First parameter must be of type {@link CommandEvent}</li>
@@ -22,8 +21,7 @@ import java.lang.annotation.Target;
  * <li>Parameter constraints must be valid</li>
  * </ul>
  *
- * @author Kaktushose
- * @version 4.0.0
+ * @see Interaction
  * @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @since 1.0.0
@@ -80,7 +78,7 @@ public @interface SlashCommand {
      * Returns an array of {@link net.dv8tion.jda.api.Permission Permissions} this command
      * should be enabled for by default. Note that guild admins can modify this at any time.
      *
-     * @return a set of permissions this command will be enabled for by default
+     * @return an array of permissions this command will be enabled for by default
      * @see Permissions Permission
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
      * @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
@@ -98,8 +96,6 @@ public @interface SlashCommand {
     /**
      * Enum describing the two possible scopes a command can be registered for.
      *
-     * @author Kaktushose
-     * @version 4.0.0
      * @see SlashCommand#scope()
      * @since 4.0.0
      */

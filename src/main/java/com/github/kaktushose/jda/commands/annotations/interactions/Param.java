@@ -6,10 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used to add a name and description to parameters.
+ * Annotation used to add a name and description to slash command parameters.
  *
- * @author Kaktushose
- * @version 2.3.0
+ * @see SlashCommand
  * @since 2.3.0
  */
 @Target(ElementType.PARAMETER)

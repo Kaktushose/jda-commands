@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu StringSelectMenu}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see StringSelectMenu
  * @since 4.0.0
  */

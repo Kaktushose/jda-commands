@@ -9,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Representation of a command cooldown.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Cooldown
  * @since 2.0.0
  */
@@ -90,9 +88,6 @@ public class CooldownDefinition {
 
     @Override
     public String toString() {
-        return "{" +
-                "delay=" + delay +
-                ", timeUnit=" + timeUnit +
-                '}';
+        return "{" + "delay=" + delay + ", timeUnit=" + timeUnit + '}';
     }
 }

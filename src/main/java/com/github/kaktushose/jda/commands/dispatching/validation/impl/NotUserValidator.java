@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * A {@link Validator} implementation that checks the {@link NotUser} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see NotUser
  * @since 2.0.0
  */
@@ -32,6 +30,6 @@ public class NotUserValidator implements Validator {
         Member member = (Member) argument;
         NotUser user = (NotUser) annotation;
         Optional<Member> optional = new MemberAdapter().parse(user.value(), context);
-        return !optional.filter(member::equals).isPresent();
+        return optional.filter(member::equals).isEmpty();
     }
 }

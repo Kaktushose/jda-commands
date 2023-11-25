@@ -9,8 +9,6 @@ import java.util.Optional;
 /**
  * Type adapter for long values.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class LongAdapter implements TypeAdapter<Long> {
@@ -30,4 +28,5 @@ public class LongAdapter implements TypeAdapter<Long> {
             return Optional.empty();
         }
     }
+
 }

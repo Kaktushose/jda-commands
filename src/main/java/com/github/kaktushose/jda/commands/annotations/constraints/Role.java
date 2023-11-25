@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
  * The annotated element must be member that have the specified guild role. This constraint will use the
  * {@link com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry} to determine the role.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Constraint
  * @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter RoleAdapter
  * @since 2.0.0

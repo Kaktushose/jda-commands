@@ -19,7 +19,7 @@ import java.util.EnumSet;
 import java.util.Formatter;
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class MemberMock implements Member {
 
     private final String name;

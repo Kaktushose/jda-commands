@@ -10,8 +10,6 @@ import java.lang.annotation.Target;
 /**
  * Internal wrapper for repeating {@link SelectOption SelectOptions}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see SelectOption
  * @since 4.0.0
  */

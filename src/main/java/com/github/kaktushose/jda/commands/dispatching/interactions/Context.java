@@ -14,8 +14,6 @@ import org.jetbrains.annotations.Nullable;
  * This class models an interaction execution. It gets constructed at the beginning of dispatching and gets passed
  * through the execution chain.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see GenericEvent
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext SlashCommandContext
  * @since 2.0.0

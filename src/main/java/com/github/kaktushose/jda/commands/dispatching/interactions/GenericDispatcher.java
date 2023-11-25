@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Abstract base class for event dispatchers.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public abstract class GenericDispatcher {

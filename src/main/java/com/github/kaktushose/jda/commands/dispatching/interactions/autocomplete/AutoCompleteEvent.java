@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
  * This class is a subclass of {@link GenericEvent}.
  * It provides additional features for replying to a {@link CommandAutoCompleteInteractionEvent}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see GenericEvent
  * @since 4.0.0
  */

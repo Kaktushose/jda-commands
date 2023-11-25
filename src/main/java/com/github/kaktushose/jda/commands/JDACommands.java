@@ -19,8 +19,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents an active instance of this framework and provides access to all underlying classes.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 1.0.0
  */
 public class JDACommands {
@@ -66,12 +64,7 @@ public class JDACommands {
         middlewareRegistry = new MiddlewareRegistry();
         adapterRegistry = new TypeAdapterRegistry();
         validatorRegistry = new ValidatorRegistry();
-        implementationRegistry = new ImplementationRegistry(
-                dependencyInjector,
-                middlewareRegistry,
-                adapterRegistry,
-                validatorRegistry
-        );
+        implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
         interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
         runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);

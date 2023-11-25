@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 /**
  * Representation of a ContextMenu command.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see ContextCommand
  * @since 4.0.0
  */

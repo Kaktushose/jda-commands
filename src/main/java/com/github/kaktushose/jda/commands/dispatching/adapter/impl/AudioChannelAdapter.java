@@ -13,8 +13,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link AudioChannel}.
  *
- * @author Kaktushose
- * @version 2.3.0
  * @since 2.3.0
  */
 public class AudioChannelAdapter implements TypeAdapter<AudioChannel> {

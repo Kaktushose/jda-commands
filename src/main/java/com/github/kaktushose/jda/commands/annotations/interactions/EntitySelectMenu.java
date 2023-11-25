@@ -20,8 +20,6 @@ import java.lang.annotation.Target;
  * {@link ComponentEvent SelectMenuEvent}</li>
  * </ul>
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Interaction
  * @since 2.3.0
  */
@@ -32,7 +30,7 @@ public @interface EntitySelectMenu {
     /**
      * Supported {@link SelectTarget SelectTargets}.
      *
-     * @return a set of supported {@link SelectTarget SelectTargets}
+     * @return an array of supported {@link SelectTarget SelectTargets}
      */
     SelectTarget[] value();
 
@@ -101,4 +99,5 @@ public @interface EntitySelectMenu {
      * @return {@code true} if to send ephemeral replies
      */
     boolean ephemeral() default false;
+
 }

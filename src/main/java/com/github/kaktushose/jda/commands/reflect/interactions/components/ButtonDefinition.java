@@ -17,8 +17,6 @@ import java.util.Set;
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.buttons.Button Button}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Button
  * @since 2.3.0
  */

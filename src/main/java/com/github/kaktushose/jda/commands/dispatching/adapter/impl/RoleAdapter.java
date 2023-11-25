@@ -11,8 +11,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link Role}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class RoleAdapter implements TypeAdapter<Role> {
@@ -44,4 +42,5 @@ public class RoleAdapter implements TypeAdapter<Role> {
         }
         return Optional.of(role);
     }
+
 }

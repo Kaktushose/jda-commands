@@ -11,8 +11,6 @@ import java.util.Set;
 /**
  * Abstract base class for all interaction definitions.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public abstract class GenericInteractionDefinition {
@@ -21,7 +19,7 @@ public abstract class GenericInteractionDefinition {
 
     protected final String id;
     protected final Method method;
-    protected Set<String> permissions;
+    protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
         this.id = String.format("%s.%s", method.getDeclaringClass().getSimpleName(), method.getName());

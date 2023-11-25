@@ -3,8 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 /**
  * Enum to define with witch priority a {@link Middleware} should be executed.
  *
- * @author Kaktushose
- * @version 4.0.0
+ * @see MiddlewareRegistry
  * @since 4.0.0
  */
 public enum Priority {

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"DataFlowIssue", "NullableProblems"})
 public class SlashCommandInteractionMock implements SlashCommandInteraction {
     @Override
     public int getTypeRaw() {

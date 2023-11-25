@@ -8,9 +8,8 @@ import java.util.Optional;
 /**
  * Generic top level interface for type adapting.
  *
+ * @see com.github.kaktushose.jda.commands.annotations.Implementation
  * @param <T> the type the adapter parses
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public interface TypeAdapter<T> {

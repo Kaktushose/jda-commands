@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * Type adapter for JDAs {@link Member}.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class MemberAdapter implements TypeAdapter<Member> {

@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * A {@link Validator} implementation that checks the {@link User} constraint.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see User
  * @since 2.0.0
  */

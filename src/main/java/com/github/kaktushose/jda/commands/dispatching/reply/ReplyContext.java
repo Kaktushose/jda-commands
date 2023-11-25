@@ -18,8 +18,6 @@ import java.util.function.Consumer;
  * This class models a reply to an interaction. It is mainly used by the {@link Replyable} interface to construct a
  * reply but can also be accessed directly.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public class ReplyContext {

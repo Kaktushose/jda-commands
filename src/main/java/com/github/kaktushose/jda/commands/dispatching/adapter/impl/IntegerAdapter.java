@@ -9,8 +9,6 @@ import java.util.Optional;
 /**
  * Type adapter for integer values.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class IntegerAdapter implements TypeAdapter<Integer> {
@@ -30,4 +28,5 @@ public class IntegerAdapter implements TypeAdapter<Integer> {
             return Optional.empty();
         }
     }
+
 }

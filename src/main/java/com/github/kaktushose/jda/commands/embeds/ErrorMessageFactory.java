@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Generic interface for factory classes that generate error messages.
  *
- * @author Kaktushose
- * @version 4.0.0
+ * @see com.github.kaktushose.jda.commands.annotations.Implementation
  * @see DefaultErrorMessageFactory
  * @since 2.0.0
  */

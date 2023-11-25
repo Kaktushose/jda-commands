@@ -15,8 +15,6 @@ import java.util.*;
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu EntitySelectMenu}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see EntitySelectMenu
  * @since 4.0.0
  */
@@ -149,33 +147,6 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
      */
     public Set<ChannelType> getChannelTypes() {
         return channelTypes;
-    }
-
-    /**
-     * Gets the placeholder string.
-     *
-     * @return the placeholder string
-     */
-    public String getPlaceholder() {
-        return placeholder;
-    }
-
-    /**
-     * Gets the minimum value.
-     *
-     * @return the minimum value
-     */
-    public int getMinValue() {
-        return minValue;
-    }
-
-    /**
-     * Gets the maximum value.
-     *
-     * @return the maximum value
-     */
-    public int getMaxValue() {
-        return maxValue;
     }
 
     @Override

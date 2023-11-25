@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.internal.SelectOptionContainer;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.lang.annotation.*;
@@ -10,17 +9,6 @@ import java.lang.annotation.*;
  * Used to define {@link net.dv8tion.jda.api.interactions.components.selections.SelectOption SelectOptions}
  * for {@link StringSelectMenu StringSelectMenus}.
  *
- * <p>Therefore the method must be declared inside a class that is annotated with
- * {@link Interaction}.
- * Furthermore, the method signature has to meet the following conditions:
- * <ul>
- * <li>First parameter must be of type
- * {@link ComponentEvent SelectMenuEvent}</li>
- * </li>{@link StringSelectMenu} annotation must be present</li>
- * </ul>
- *
- * @author Kaktushose
- * @version 4.0.0
  * @see Interaction
  * @see StringSelectMenu
  * @since 4.0.0

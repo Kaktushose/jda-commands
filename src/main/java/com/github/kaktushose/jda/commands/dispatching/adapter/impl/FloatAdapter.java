@@ -9,8 +9,6 @@ import java.util.Optional;
 /**
  * Type adapter for float values.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @since 2.0.0
  */
 public class FloatAdapter implements TypeAdapter<Float> {
@@ -30,4 +28,5 @@ public class FloatAdapter implements TypeAdapter<Float> {
             return Optional.empty();
         }
     }
+
 }

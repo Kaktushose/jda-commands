@@ -8,8 +8,6 @@ import java.lang.annotation.Target;
 /**
  * The annotated element must be a number whose value must be lower or equal to the specified maximum.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Constraint
  * @since 2.0.0
  */

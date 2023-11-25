@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
  * <p>Therefore the method must be declared inside a class that is annotated with
  * {@link Interaction}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see Interaction
  * @see TextInput
  * @since 4.0.0

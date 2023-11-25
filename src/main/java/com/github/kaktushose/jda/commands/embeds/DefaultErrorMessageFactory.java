@@ -21,8 +21,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Implementation of {@link ErrorMessageFactory} with default embeds.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see JsonErrorMessageFactory
  * @since 2.0.0
  */

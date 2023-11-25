@@ -18,8 +18,6 @@ import java.util.Objects;
  * A {@link Middleware} implementation that will check the parameter constraints a
  * {@link SlashCommandDefinition} might have.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
  * @since 2.0.0
  */

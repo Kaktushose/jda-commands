@@ -17,11 +17,10 @@ import java.lang.annotation.Target;
  * {@link com.github.kaktushose.jda.commands.dependency.DependencyInjector#registerProvider(Object)
  * DependencyInjector.registerProvider(Object)}
  *
- * <p>Please note that this is only a very basic implementation of dependency injection and should only be used inside
- * actual command classes.
+ * <p>Please note that this is only a very basic implementation of dependency injection and can only be used inside
+ * interaction controller classes or custom {@link Implementation implementations}. Furthermore, each type can only
+ * have one producer. In other words you cannot register different instances of the same dependency.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see Inject
  * @see com.github.kaktushose.jda.commands.dependency.DependencyInjector DependencyInjector
  * @since 1.0.0
@@ -29,4 +28,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Produces {
+
 }

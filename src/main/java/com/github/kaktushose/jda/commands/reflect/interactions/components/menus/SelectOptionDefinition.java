@@ -8,8 +8,6 @@ import java.util.Optional;
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.SelectOption SelectOption}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see SelectOption
  * @since 4.0.0
  */

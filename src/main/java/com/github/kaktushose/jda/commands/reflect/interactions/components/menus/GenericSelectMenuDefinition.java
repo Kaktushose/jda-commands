@@ -9,8 +9,6 @@ import java.util.Set;
 /**
  * Abstract base class for select menus.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see EntitySelectMenuDefinition
  * @see StringSelectMenuDefinition
  * @since 4.0.0

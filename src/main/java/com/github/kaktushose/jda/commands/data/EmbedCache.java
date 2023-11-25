@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * This class loads and caches embeds from a json file.
  *
- * @author Kaktushose
- * @version 2.0.0
+ * @see EmbedDTO
  * @since 1.1.0
  */
 public class EmbedCache {
@@ -146,7 +143,7 @@ public class EmbedCache {
      * @return an unmodifiable List containing all {@link EmbedDTO} of this cache.
      */
     public List<EmbedDTO> values() {
-        return Collections.unmodifiableList(new ArrayList<>(embedMap.values()));
+        return List.copyOf(embedMap.values());
     }
 
 }

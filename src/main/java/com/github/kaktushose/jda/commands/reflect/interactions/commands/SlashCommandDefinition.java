@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 /**
  * Representation of a slash command.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see SlashCommand
  * @since 2.0.0
  */
@@ -105,7 +103,7 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
             parameters.add(ParameterDefinition.build(parameter, validatorRegistry));
         }
 
-        if (parameters.size() < 1) {
+        if (parameters.isEmpty()) {
             logError(String.format("First parameter must be of type %s!", CommandEvent.class.getSimpleName()), method);
             return Optional.empty();
         }
@@ -252,15 +250,6 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
      */
     public boolean hasCooldown() {
         return getCooldown().getDelay() > 0;
-    }
-
-    /**
-     * Gets the {@link SlashCommand.CommandScope CommandScope} of this command.
-     *
-     * @return the {@link SlashCommand.CommandScope CommandScope} of this command
-     */
-    public SlashCommand.CommandScope getCommandScope() {
-        return scope;
     }
 
     /**

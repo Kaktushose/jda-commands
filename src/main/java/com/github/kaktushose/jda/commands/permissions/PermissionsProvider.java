@@ -13,8 +13,7 @@ import java.util.List;
 /**
  * Interface for performing permission checks.
  *
- * @author Kaktushose
- * @version 2.3.0
+ * @see com.github.kaktushose.jda.commands.annotations.Implementation
  * @see DefaultPermissionsProvider
  * @see Permissions Permission
  * @since 2.0.0

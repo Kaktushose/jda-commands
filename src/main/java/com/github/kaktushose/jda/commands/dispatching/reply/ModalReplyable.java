@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 /**
  * Generic interface holding reply methods for modal replies.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @since 4.0.0
  */
 public interface ModalReplyable extends Replyable {
@@ -38,5 +36,4 @@ public interface ModalReplyable extends Replyable {
 
         callback.replyModal(modalDefinition.toModal(modalDefinition.getRuntimeId(context))).queue();
     }
-
 }

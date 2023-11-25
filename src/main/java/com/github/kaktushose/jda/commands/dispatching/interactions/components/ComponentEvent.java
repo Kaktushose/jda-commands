@@ -15,8 +15,6 @@ import java.util.Optional;
  * It provides additional features for replying to a
  * {@link net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent GenericComponentInteractionCreateEvent}.
  *
- * @author Kaktushose
- * @version 4.0.0
  * @see GenericEvent
  * @since 4.0.0
  */
@@ -34,6 +32,7 @@ public class ComponentEvent extends GenericEvent<GenericComponentDefinition> imp
         replyContext = new ReplyContext(context);
     }
 
+    @NotNull
     public ReplyContext getReplyContext() {
         return replyContext;
     }

@@ -23,8 +23,6 @@ import java.util.*;
 /**
  * Central registry for all type adapters.
  *
- * @author Kaktushose
- * @version 2.0.0
  * @see TypeAdapter
  * @since 2.0.0
  */

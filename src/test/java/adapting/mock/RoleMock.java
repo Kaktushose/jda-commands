@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.EnumSet;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class RoleMock implements Role {
 
     private final String name;

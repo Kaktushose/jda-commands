@@ -7,8 +7,7 @@ import java.util.Set;
 /**
  * Interface for declaring on which Guilds a guild scoped command should be registered.
  *
- * @author Kaktushose
- * @version 4.0.0
+ * @see com.github.kaktushose.jda.commands.annotations.Implementation
  * @see DefaultGuildScopeProvider
  * @since 4.0.0
  */

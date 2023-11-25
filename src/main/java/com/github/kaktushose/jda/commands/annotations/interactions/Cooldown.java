@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,9 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Commands annotated with Cooldown will have a per-user cooldown.
  *
- * @author Kaktushose
- * @version 2.0.0
- * @see CooldownMiddleware CooldownFilter
+ * @see com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware CooldownMiddleware
  * @since 1.0.0
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
