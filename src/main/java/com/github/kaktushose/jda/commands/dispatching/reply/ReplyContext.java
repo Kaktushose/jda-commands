@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -200,6 +201,28 @@ public class ReplyContext {
      * Sends the reply to Discord, taking into account all the settings that were previously made to this context.
      */
     public void queue() {
+        if (editReply) {
+            queueEdit();
+        } else {
+            queueReply();
+        }
+    }
+
+    private void queueEdit() {
+        IMessageEditCallback callback;
+        if (event instanceof IMessageEditCallback) {
+            callback = (IMessageEditCallback) event;
+        } else {
+            queueReply();
+            return;
+        }
+        if (!event.isAcknowledged()) {
+            callback.deferEdit().queue();
+        }
+        callback.getHook().editOriginal(toMessageEditData()).queue(success, failure);
+    }
+
+    private void queueReply() {
         IReplyCallback callback;
         if (event instanceof IReplyCallback) {
             callback = (IReplyCallback) event;
@@ -208,14 +231,8 @@ public class ReplyContext {
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }
-
         if (!event.isAcknowledged()) {
             callback.deferReply(ephemeralReply).queue();
-        }
-        callback.getHook().setEphemeral(ephemeralReply);
-        if (editReply) {
-            callback.getHook().editOriginal(toMessageEditData()).queue(success, failure);
-            return;
         }
         callback.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
     }
