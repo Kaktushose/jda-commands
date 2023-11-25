@@ -1,5 +1,5 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.0.0--beta.17-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-4.0.0--alpha.5-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.0.0--beta.18-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.1-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
@@ -13,11 +13,11 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 ### Version Overview
 
-| jda-commands | JDA | Text Commands | Interactions | Stable |
-|-----------------------------------------------------------------------------|-|--|---|---|
-| [4.0.0-alpha.5](https://github.com/Kaktushose/jda-commands/releases/latest) |5|❌|✅|❌|
-| [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)     |5|✅|❌|✅|
-| [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)    |4|✅|❌|✅|
+| jda-commands                                                               | JDA | Text Commands | Interactions | Stable |
+|----------------------------------------------------------------------------|-----|---------------|--------------|--------|
+| [4.0.0-beta.1](https://github.com/Kaktushose/jda-commands/releases/latest) | 5   | ❌             | ✅            | ✅      |
+| [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)    | 5   | ✅             | ❌            | ✅      |
+| [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)   | 4   | ✅             | ❌            | ✅      |
 
 ## Features
 
@@ -33,20 +33,32 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 ---
 
-The following example will demonstrate how easy it is to write commands:
-
-Let's rebuild the official slash commands example from
-the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) using jda-commands:
+The following example will demonstrate how easy it is not only to write commands, but also to integrate components with them:
 
 ```java
 @Interaction
-public class SlashCommandExample {
+public class CookieClicker {
 
-    @SlashCommand(value = "ping", desc = "Calculate ping of the bot")
-    public void onPing(CommandEvent event) {
-        long time = System.currentTimeMillis();
-        event.reply("Pong!", success -> event.reply("Pong: %d ms", System.currentTimeMillis() - time));
+    private int count;
+
+    @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
+    public void onCommand(CommandEvent event) {
+        event.withButtons("onClick").reply("You have %d cookies(s)!", count);
     }
+
+    @Button(value = "Click me!", emoji = "🍪")
+    public void onClick(ComponentEvent event) {
+        count++;
+        event.reply("You have %d cookies(s)!", count);
+    }
+}
+```
+
+Additionally, let's rebuild the official slash commands example from the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) as a more complex example:
+
+```java
+@Interaction
+public class BanCommand {
 
     @Permissions("BAN_MEMBERS")
     @SlashCommand(value = "ban", enabledFor = Permission.BAN_MEMBERS, desc = "Bans a user", ephemeral = true)
@@ -62,7 +74,7 @@ public class SlashCommandExample {
 Finally, start the framework by calling:
 
 ```java
-JDACommands.start(jda,Main.class,"com.package");
+JDACommands.start(jda,Main.class, "com.package");
 ```
 
 ---
