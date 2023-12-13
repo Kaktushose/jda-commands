@@ -63,6 +63,13 @@ public class DependencyInjector {
         Set<Method> methods = reflections.getMethodsAnnotatedWith(Produces.class);
         for (Method method : methods) {
             log.debug("Found producer {}", method.getName());
+
+            Produces produces = method.getAnnotation(Produces.class);
+            if (produces.skipIndexing()) {
+                log.debug("Method is marked as indexIgnore. Skipping Producer {}", method);
+                return;
+            }
+
             if (method.getParameterTypes().length != 0) {
                 log.error("An error has occurred! Skipping Producer {}", method,
                         new IllegalArgumentException("Producer method must not have parameters!"));

@@ -29,4 +29,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Produces {
 
+    /**
+     * Whether jda-commands should ignore this method at indexing during startup. Useful if you wish to register your
+     * dependency providers manually by calling
+     * {@link com.github.kaktushose.jda.commands.dependency.DependencyInjector#registerProvider(Object)
+     * DependencyInjector#registerProvider(Object)}
+     *
+     * @return Whether jda-commands should ignore this method, default {@code true}
+     */
+    boolean skipIndexing() default false;
+
 }
