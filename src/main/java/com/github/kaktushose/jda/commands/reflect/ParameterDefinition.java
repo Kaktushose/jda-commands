@@ -236,11 +236,11 @@ public class ParameterDefinition {
         }
 
         constraints.stream().filter(constraint ->
-                constraint.getAnnotation().getClass().isAssignableFrom(Min.class)
+                constraint.getAnnotation() instanceof Min
         ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.getAnnotation()).value()));
 
         constraints.stream().filter(constraint ->
-                constraint.getAnnotation().getClass().isAssignableFrom(Max.class)
+                constraint.getAnnotation() instanceof Max
         ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.getAnnotation()).value()));
 
         java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(type)).ifPresent(optionData::setChannelTypes);
