@@ -83,7 +83,7 @@ public interface Replyable {
      * @param embedDTO the {@link EmbedDTO} to send
      */
     default void reply(@NotNull EmbedDTO embedDTO) {
-        getReplyContext().getBuilder().applyData(embedDTO.toMessageCreateData());
+        getReplyContext().getBuilder().setEmbeds(embedDTO.toMessageEmbed());
         reply();
     }
 
