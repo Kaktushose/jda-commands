@@ -179,6 +179,7 @@ public class ParameterDefinition {
             name = param.name().isEmpty() ? name : param.name();
             description = param.value();
         }
+        name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
 
         List<Choice> choices = new ArrayList<>();
         // Options
@@ -219,8 +220,6 @@ public class ParameterDefinition {
      * @return the transformed {@link OptionData}
      */
     public OptionData toOptionData(boolean isAutoComplete) {
-        String name = getName();
-        name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
         OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
 
         OptionData optionData = new OptionData(
