@@ -74,7 +74,7 @@ public class JDACommands {
 
         interactionRegistry.index(clazz, packages);
 
-        updater = new SlashCommandUpdater(this, function);
+        updater = new SlashCommandUpdater(this);
         updater.updateAllCommands();
         jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
 

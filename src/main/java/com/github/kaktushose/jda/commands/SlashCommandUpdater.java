@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,16 +29,14 @@ public class SlashCommandUpdater {
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;
-    private final LocalizationFunction localizationFunction;
 
     /**
      * Constructs a new SlashCommandUpdater.
      *
      * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public SlashCommandUpdater(JDACommands jdaCommands, LocalizationFunction localizationFunction) {
+    public SlashCommandUpdater(JDACommands jdaCommands) {
         this.jdaContext = jdaCommands.getJDAContext();
-        this.localizationFunction = localizationFunction;
         guildScopeProvider = jdaCommands.getImplementationRegistry().getGuildScopeProvider();
         interactionRegistry = jdaCommands.getInteractionRegistry();
     }
@@ -73,7 +70,7 @@ public class SlashCommandUpdater {
         log.debug("Generated slash command tree:\n" + tree);
 
         Set<CommandData> result = new HashSet<>();
-        result.addAll(tree.getCommands(localizationFunction));
+        result.addAll(tree.getCommands());
         result.addAll(guildCommands.stream().
                 filter(it -> (it.getCommandType() == Command.Type.USER || it.getCommandType() == Command.Type.MESSAGE))
                 .map(GenericCommandDefinition::toCommandData)
@@ -123,7 +120,7 @@ public class SlashCommandUpdater {
         log.debug("Generated slash command tree:\n" + tree);
 
         Set<CommandData> result = new HashSet<>();
-        result.addAll(tree.getCommands(localizationFunction));
+        result.addAll(tree.getCommands());
         result.addAll(globalCommands.stream().
                 filter(it -> (it.getCommandType() == Command.Type.USER || it.getCommandType() == Command.Type.MESSAGE))
                 .map(GenericCommandDefinition::toCommandData)

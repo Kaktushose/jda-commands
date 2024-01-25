@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 
 import java.util.Collection;
 import java.util.List;
@@ -79,12 +78,12 @@ public class CommandTree {
      *
      * @return a {@link List} of {@link SlashCommandData}
      */
-    public List<SlashCommandData> getCommands(LocalizationFunction localizationFunction) {
-        return root.getCommandData(localizationFunction);
+    public List<SlashCommandData> getCommands() {
+        return root.getCommandData();
     }
 
     /**
-     * Gets the sanitized labels of all {@link SlashCommandData} returned by {@link #getCommands(LocalizationFunction)}.
+     * Gets the sanitized labels of all {@link SlashCommandData} returned by {@link #getCommands()}.
      * The labels will match the regex {@code ^[\w-]+$}. Furthermore, if the label consists of more than three spaces
      * any additional space will be replaced with {@code _} due to Discords limitations on SubcommandGroups.
      *

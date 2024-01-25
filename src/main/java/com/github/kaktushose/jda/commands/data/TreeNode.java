@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.data;
 
 import com.github.kaktushose.jda.commands.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
@@ -151,19 +153,18 @@ public class TreeNode implements Iterable<TreeNode> {
      *
      * @return a {@link List} of all {@link SlashCommandData of the leaf nodes.
      */
-    public List<SlashCommandData> getCommandData(LocalizationFunction localizationFunction) {
+    public List<SlashCommandData> getCommandData() {
         List<SlashCommandData> result = new ArrayList<>();
-        children.forEach(child -> child.toCommandData(result, localizationFunction));
+        children.forEach(child -> child.toCommandData(result));
         return result;
     }
 
-    private void toCommandData(Collection<SlashCommandData> commands, LocalizationFunction localizationFunction) {
+    private void toCommandData(Collection<SlashCommandData> commands) {
         if (command == null) {
             return;
         }
         if (hasChildren()) {
-            SlashCommandData data = Commands.slash(name, "empty description");
-            data.setLocalizationFunction(localizationFunction);
+            SlashCommandData data = createRootCommand(name, children);
             children.forEach(child -> child.toSubCommandData(data));
             commands.add(data);
             return;
@@ -176,6 +177,38 @@ public class TreeNode implements Iterable<TreeNode> {
                     command.getMethod().getName()), e
             );
         }
+    }
+
+    private SlashCommandData createRootCommand(String name, List<TreeNode> children) {
+        SlashCommandData result = Commands.slash(name, "empty description");
+        List<SlashCommandDefinition> subCommands = unwrapDefinitions(children);
+        LocalizationFunction function = subCommands.get(0).getLocalizationFunction();
+
+        boolean isNSFW = false;
+        boolean isGuildOnly = false;
+        Set<Permission> enabledPermissions = new HashSet<>();
+        for (SlashCommandDefinition command : subCommands) {
+            isNSFW = isNSFW || command.isNSFW();
+            isGuildOnly = isGuildOnly || command.isGuildOnly();
+            enabledPermissions.addAll(command.getEnabledPermissions());
+        }
+
+        return result.setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions))
+                .setNSFW(isNSFW)
+                .setGuildOnly(isGuildOnly)
+                .setLocalizationFunction(function);
+    }
+
+    private List<SlashCommandDefinition> unwrapDefinitions(List<TreeNode> children) {
+        List<SlashCommandDefinition> result = new ArrayList<>();
+        for (TreeNode child : children) {
+            if (child.getCommand().isPresent()) {
+                result.add(child.getCommand().get());
+            } else {
+                result.addAll(unwrapDefinitions(child.getChildren()));
+            }
+        }
+        return result;
     }
 
     private void toSubCommandData(SlashCommandData commandData) {
