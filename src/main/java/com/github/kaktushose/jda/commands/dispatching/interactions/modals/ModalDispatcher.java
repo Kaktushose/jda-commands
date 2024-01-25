@@ -79,7 +79,7 @@ public class ModalDispatcher extends GenericDispatcher {
             context.setRuntime(runtime);
             List<Object> arguments = new ArrayList<>();
             arguments.add(new ModalEvent(context));
-            arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toSet()));
+            arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList()));
             modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
             log.error("Modal execution failed!", exception);

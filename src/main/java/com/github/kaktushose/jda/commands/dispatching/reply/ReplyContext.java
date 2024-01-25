@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -215,6 +216,12 @@ public class ReplyContext {
         } else {
             queueReply();
             return;
+        }
+        if (event instanceof ModalInteractionEvent) {
+            if (((ModalInteractionEvent) event).getMessage() == null) {
+                queueReply();
+                return;
+            }
         }
         if (!event.isAcknowledged()) {
             callback.deferEdit().queue();
