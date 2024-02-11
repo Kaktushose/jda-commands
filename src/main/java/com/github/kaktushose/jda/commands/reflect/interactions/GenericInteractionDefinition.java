@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public abstract class GenericInteractionDefinition {
 
+    public static final String ID_PREFIX = "jdac-";
     protected static final Logger log = LoggerFactory.getLogger(GenericInteractionDefinition.class);
 
     protected final String id;
@@ -22,7 +23,7 @@ public abstract class GenericInteractionDefinition {
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.id = String.format("%s.%s", method.getDeclaringClass().getSimpleName(), method.getName());
+        this.id = String.format("%s%s.%s", ID_PREFIX, method.getDeclaringClass().getSimpleName(), method.getName());
         this.method = method;
         this.permissions = permissions;
     }

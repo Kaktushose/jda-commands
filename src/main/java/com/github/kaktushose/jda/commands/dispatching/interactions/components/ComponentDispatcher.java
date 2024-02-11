@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
+
 /**
  * Dispatches component events.
  *
@@ -41,8 +43,13 @@ public class ComponentDispatcher extends GenericDispatcher {
 
     @Override
     public void onEvent(Context context) {
-        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
         GenericComponentInteractionCreateEvent event = (GenericComponentInteractionCreateEvent) context.getEvent();
+        if (!event.getComponentId().startsWith(ID_PREFIX)) {
+            log.debug("Ignoring non jda-commands event {}", event.getComponentId());
+            return;
+        }
+
+        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
         if (optionalRuntime.isEmpty()) {
@@ -63,7 +70,7 @@ public class ComponentDispatcher extends GenericDispatcher {
         Optional<EphemeralInteractionDefinition> optionalComponent = components.stream().filter(it -> it.getId().equals(componentId)).findFirst();
         if (optionalComponent.isEmpty()) {
             IllegalStateException exception = new IllegalStateException(
-                    "No select menu found! Please report this error the the devs of jda-commands."
+                    "No component found! Please report this error the the devs of jda-commands."
             );
             context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
             checkCancelled(context);

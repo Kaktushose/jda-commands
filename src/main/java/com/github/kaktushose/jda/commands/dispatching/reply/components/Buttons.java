@@ -65,11 +65,11 @@ public class Buttons implements Component {
      * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Button}.
      */
     public static class ButtonContainer {
-        private final String id;
+        private final String name;
         private final boolean enabled;
 
         private ButtonContainer(String name, boolean enabled) {
-            this.id = name;
+            this.name = name;
             this.enabled = enabled;
         }
 
@@ -78,8 +78,8 @@ public class Buttons implements Component {
          *
          * @return the button id
          */
-        public String getId() {
-            return id;
+        public String getName() {
+            return name;
         }
 
         /**

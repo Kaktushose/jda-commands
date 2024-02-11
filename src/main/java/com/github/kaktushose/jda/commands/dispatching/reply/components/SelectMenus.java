@@ -66,11 +66,11 @@ public class SelectMenus implements Component {
      * Contains information about a single select menu (either StringSelectMenu or EntitySelectMenu).
      */
     public static class SelectMenuContainer {
-        private final String id;
+        private final String name;
         private final boolean enabled;
 
         private SelectMenuContainer(String name, boolean enabled) {
-            this.id = name;
+            this.name = name;
             this.enabled = enabled;
         }
 
@@ -79,8 +79,8 @@ public class SelectMenus implements Component {
          *
          * @return the button id
          */
-        public String getId() {
-            return id;
+        public String getName() {
+            return name;
         }
 
         /**

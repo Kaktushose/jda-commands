@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
+
 /**
  * Dispatches {@link ModalInteractionEvent ModalInteractionEvents}.
  *
@@ -39,6 +41,11 @@ public class ModalDispatcher extends GenericDispatcher {
     @Override
     public void onEvent(Context context) {
         ModalInteractionEvent event = (ModalInteractionEvent) context.getEvent();
+        if (!event.getModalId().startsWith(ID_PREFIX)) {
+            log.debug("Ignoring non jda-commands event {}", event.getModalId());
+            return;
+        }
+
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         Optional<RuntimeSupervisor.InteractionRuntime> optionalRuntime = runtimeSupervisor.getRuntime(event);
