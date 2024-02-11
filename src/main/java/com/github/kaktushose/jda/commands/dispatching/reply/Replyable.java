@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
+import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
@@ -195,7 +196,21 @@ public interface Replyable {
         return this;
     }
 
+    /**
+     * Get the {@link Context} object.
+     *
+     * @return the registered {@link Context} object
+     */
     Context getContext();
+
+    /**
+     * Gets the {@link KeyValueStore} that is bound to this execution.
+     *
+     * @return the {@link KeyValueStore} bound to this execution
+     */
+    default KeyValueStore kv() {
+        return getContext().getKeyValueStore();
+    }
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.

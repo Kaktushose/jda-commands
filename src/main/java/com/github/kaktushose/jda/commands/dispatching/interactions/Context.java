@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -187,6 +188,26 @@ public class Context {
      */
     public Context setInteractionDefinition(GenericInteractionDefinition interactionDefinition) {
         this.interactionDefinition = interactionDefinition;
+        return this;
+    }
+
+    /**
+     * Gets the {@link KeyValueStore} that is bound to this runtime.
+     *
+     * @return the {@link KeyValueStore} bound to this runtime
+     */
+    public KeyValueStore getKeyValueStore() {
+        return runtime.getKeyValueStore();
+    }
+
+    /**
+     * Sets the {@link KeyValueStore} that is bound to this runtime.
+     *
+     * @param keyValueStore the {@link KeyValueStore} bound to this runtime
+     * @return the current Context instance
+     */
+    public Context setKeyValueStore(KeyValueStore keyValueStore) {
+        runtime.setKeyValueStore(keyValueStore);
         return this;
     }
 }

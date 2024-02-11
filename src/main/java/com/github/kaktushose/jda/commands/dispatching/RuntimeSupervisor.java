@@ -135,6 +135,7 @@ public class RuntimeSupervisor {
         private final String instanceId;
         private final Object instance;
         private MessageCreateData messageCreateData;
+        private KeyValueStore keyValueStore;
 
         /**
          * Constructs a new InteractionRuntime.
@@ -146,6 +147,7 @@ public class RuntimeSupervisor {
         public InteractionRuntime(String instanceId, Object instance) {
             this.instanceId = instanceId;
             this.instance = instance;
+            keyValueStore = new KeyValueStore();
         }
 
         /**
@@ -182,6 +184,24 @@ public class RuntimeSupervisor {
          */
         public void setLatestReply(@Nullable MessageCreateData messageCreateData) {
             this.messageCreateData = messageCreateData;
+        }
+
+        /**
+         * Gets the {@link KeyValueStore} that is bound to this runtime.
+         *
+         * @return the {@link KeyValueStore} bound to this runtime
+         */
+        public KeyValueStore getKeyValueStore() {
+            return keyValueStore;
+        }
+
+        /**
+         * Sets the {@link KeyValueStore} that is bound to this runtime.
+         *
+         * @param keyValueStore the {@link KeyValueStore} bound to this runtime
+         */
+        public void setKeyValueStore(KeyValueStore keyValueStore) {
+            this.keyValueStore = keyValueStore;
         }
     }
 }
