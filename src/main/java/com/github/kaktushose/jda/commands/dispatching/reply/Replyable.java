@@ -169,9 +169,8 @@ public interface Replyable {
                                 Button jdaButton = it.toButton().withDisabled(!container.isEnabled());
                                 //only assign ids to non-link buttons
                                 if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.createCustomId(context));
+                                    jdaButton = jdaButton.withId(it.createCustomId(context.getRuntime().getRuntimeId()));
                                 }
-                                System.out.println(it.createCustomId(context));
                                 return jdaButton;
                             }).ifPresent(items::add);
                 });
@@ -183,7 +182,7 @@ public interface Replyable {
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(context, container.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(context.getRuntime().getRuntimeId(), container.isEnabled()))
                             .ifPresent(items::add);
                 });
             }

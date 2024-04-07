@@ -3,8 +3,6 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
@@ -87,11 +85,13 @@ public class ModalDefinition extends EphemeralInteractionDefinition implements C
     /**
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
-     * @param context the {@link Context} of this interaction execution
+     * @param runtimeId the runtimeId of the
+     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     *                  of this interaction execution
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */
-    public net.dv8tion.jda.api.interactions.modals.Modal toModal(Context context) {
-        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(createCustomId(context), title);
+    public net.dv8tion.jda.api.interactions.modals.Modal toModal(String runtimeId) {
+        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(createCustomId(runtimeId), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toTextInput()));
 
@@ -122,13 +122,12 @@ public class ModalDefinition extends EphemeralInteractionDefinition implements C
     }
 
     @Override
-    public String createCustomId(Context context) {
-        RuntimeSupervisor.InteractionRuntime runtime = context.getRuntime();
+    public String createCustomId(String runtimeId) {
         return String.format("%s.%s%s.%s",
                 PREFIX,
                 method.getDeclaringClass().getSimpleName(),
                 method.getName(),
-                runtime.getRuntimeId()
+                runtimeId
         );
     }
 

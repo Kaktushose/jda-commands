@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components;
 
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 
@@ -22,13 +20,12 @@ public abstract class GenericComponentDefinition extends EphemeralInteractionDef
     }
 
     @Override
-    public String createCustomId(Context context) {
-        RuntimeSupervisor.InteractionRuntime runtime = context.getRuntime();
+    public String createCustomId(String runtimeId) {
         return String.format("%s.%s%s.%s",
                 PREFIX,
                 method.getDeclaringClass().getSimpleName(),
                 method.getName(),
-                runtime.getRuntimeId()
+                runtimeId
         );
     }
 }

@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.StaticInstanc
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -107,6 +108,33 @@ public class RuntimeSupervisor {
 
         InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
         runtimes.put(runtimeId, runtime);
+        return runtime;
+    }
+
+    /**
+     * Creates a new runtime for the given {@link GenericComponentDefinition}. This runtime will always be static.
+     *
+     * @param componentDefinition the {@link GenericComponentDefinition} to create the runtime for
+     */
+    public InteractionRuntime newRuntime(GenericComponentDefinition componentDefinition) {
+        Class<?> interactionClass = componentDefinition.getMethod().getDeclaringClass();
+        String runtimeId = String.format("s%s", interactionClass.getName().hashCode());
+        if (runtimes.containsKey(runtimeId)) {
+            return runtimes.get(runtimeId);
+        }
+
+        Object instance;
+        try {
+            instance = componentDefinition.newInstance();
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        injector.inject(instance);
+
+        InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+        runtimes.put(runtimeId, runtime);
+
         return runtime;
     }
 

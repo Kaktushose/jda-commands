@@ -34,6 +34,6 @@ public interface ModalReplyable extends Replyable {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
 
-        callback.replyModal(modalDefinition.toModal(context)).queue();
+        callback.replyModal(modalDefinition.toModal(context.getRuntime().getRuntimeId())).queue();
     }
 }

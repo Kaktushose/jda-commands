@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
@@ -107,8 +106,8 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
     }
 
     @Override
-    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(Context context, boolean enabled) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(createCustomId(context), selectTargets)
+    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String runtimeId, boolean enabled) {
+        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(createCustomId(runtimeId), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
