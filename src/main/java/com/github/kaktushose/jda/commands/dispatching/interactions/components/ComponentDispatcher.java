@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
@@ -20,8 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
 
 /**
  * Dispatches component events.
@@ -44,7 +43,7 @@ public class ComponentDispatcher extends GenericDispatcher {
     @Override
     public void onEvent(Context context) {
         GenericComponentInteractionCreateEvent event = (GenericComponentInteractionCreateEvent) context.getEvent();
-        if (!event.getComponentId().startsWith(ID_PREFIX)) {
+        if (!event.getComponentId().matches(CustomId.CUSTOM_ID_REGEX)) {
             log.debug("Ignoring non jda-commands event {}", event.getComponentId());
             return;
         }
@@ -58,16 +57,15 @@ public class ComponentDispatcher extends GenericDispatcher {
             return;
         }
         RuntimeSupervisor.InteractionRuntime runtime = optionalRuntime.get();
-        log.debug("Found corresponding runtime with id \"{}\"", runtime.getInstanceId());
+        log.debug("Found corresponding runtime with id \"{}\"", runtime.getRuntimeId());
 
-        String[] splitId = event.getComponentId().split("\\.");
-        String componentId = String.format("%s.%s", splitId[0], splitId[1]);
+        String componentId = event.getComponentId().split("\\.")[1];
 
         List<EphemeralInteractionDefinition> components = new ArrayList<>();
         components.addAll(interactionRegistry.getButtons());
         components.addAll(interactionRegistry.getSelectMenus());
 
-        Optional<EphemeralInteractionDefinition> optionalComponent = components.stream().filter(it -> it.getId().equals(componentId)).findFirst();
+        Optional<EphemeralInteractionDefinition> optionalComponent = components.stream().filter(it -> it.getDefinitionId().equals(componentId)).findFirst();
         if (optionalComponent.isEmpty()) {
             IllegalStateException exception = new IllegalStateException(
                     "No component found! Please report this error the the devs of jda-commands."
@@ -86,7 +84,7 @@ public class ComponentDispatcher extends GenericDispatcher {
             return;
         }
 
-        log.debug("Input matches component: {}", component.getId());
+        log.debug("Input matches component: {}", component.getDefinitionId());
         log.info("Executing component {} for user {}", component.getMethod().getName(), event.getMember());
         context.setRuntime(runtime);
         try {

@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
 
 /**
  * Dispatches {@link ModalInteractionEvent ModalInteractionEvents}.
@@ -41,7 +40,7 @@ public class ModalDispatcher extends GenericDispatcher {
     @Override
     public void onEvent(Context context) {
         ModalInteractionEvent event = (ModalInteractionEvent) context.getEvent();
-        if (!event.getModalId().startsWith(ID_PREFIX)) {
+        if (!event.getModalId().matches(CustomId.CUSTOM_ID_REGEX)) {
             log.debug("Ignoring non jda-commands event {}", event.getModalId());
             return;
         }
@@ -54,12 +53,11 @@ public class ModalDispatcher extends GenericDispatcher {
             return;
         }
         RuntimeSupervisor.InteractionRuntime runtime = optionalRuntime.get();
-        log.debug("Found corresponding runtime with id \"{}\"", runtime.getInstanceId());
+        log.debug("Found corresponding runtime with id \"{}\"", runtime.getRuntimeId());
 
-        String[] splitId = event.getModalId().split("\\.");
-        String modalId = String.format("%s.%s", splitId[0], splitId[1]);
+        String modalId = event.getModalId().split("\\.")[1];
         Optional<ModalDefinition> optionalModal = interactionRegistry.getModals().stream()
-                .filter(it -> it.getId().equals(modalId))
+                .filter(it -> it.getDefinitionId().equals(modalId))
                 .findFirst();
 
         if (optionalModal.isEmpty()) {
@@ -80,7 +78,7 @@ public class ModalDispatcher extends GenericDispatcher {
             return;
         }
 
-        log.debug("Input matches Modal: {}", modal.getId());
+        log.debug("Input matches Modal: {}", modal.getDefinitionId());
         log.info("Executing Modal {} for user {}", modal.getMethod().getName(), event.getMember());
         try {
             context.setRuntime(runtime);

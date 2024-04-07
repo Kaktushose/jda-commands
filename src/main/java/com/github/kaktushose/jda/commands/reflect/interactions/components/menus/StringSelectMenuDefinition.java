@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -87,8 +88,8 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
         ));
     }
 
-    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String id, boolean enabled) {
-        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(id)
+    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(Context context, boolean enabled) {
+        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(context))
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))
@@ -113,14 +114,14 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     @Override
     public String toString() {
         return "StringSelectMenuDefinition{" +
-                "selectOptions=" + selectOptions +
-                ", placeholder='" + placeholder + '\'' +
-                ", minValue=" + minValue +
-                ", maxValue=" + maxValue +
-                ", ephemeral=" + ephemeral +
-                ", permissions=" + permissions +
-                ", id='" + id + '\'' +
-                ", method=" + method +
-                '}';
+               "selectOptions=" + selectOptions +
+               ", placeholder='" + placeholder + '\'' +
+               ", minValue=" + minValue +
+               ", maxValue=" + maxValue +
+               ", ephemeral=" + ephemeral +
+               ", permissions=" + permissions +
+               ", id='" + definitionId + '\'' +
+               ", method=" + method +
+               '}';
     }
 }

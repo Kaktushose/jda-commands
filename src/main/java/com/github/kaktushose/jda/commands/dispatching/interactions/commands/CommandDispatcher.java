@@ -57,7 +57,7 @@ public class CommandDispatcher extends GenericDispatcher {
 
         GenericCommandDefinition command = optional.get();
         context.setInteractionDefinition(command).setEphemeral(command.isEphemeral());
-        log.debug("Input matches command: {}", command.getId());
+        log.debug("Input matches command: {}", command.getDefinitionId());
 
         List<Object> arguments;
         if (command.getCommandType() == Command.Type.SLASH) {

@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.StaticInstance;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -17,6 +19,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.github.kaktushose.jda.commands.reflect.interactions.CustomId.CUSTOM_ID_REGEX;
+
 /**
  * Supervisor that creates and stores {@link InteractionRuntime InteractionRuntimes}. This supervisor will create a
  * new {@link InteractionRuntime} for every command execution with a TTL of 15 minutes.
@@ -26,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 public class RuntimeSupervisor {
 
     private final Map<String, InteractionRuntime> runtimes;
-    private final Map<String, Object> staticInstances;
     private final ScheduledExecutorService executor;
     private final DependencyInjector injector;
 
@@ -36,12 +39,12 @@ public class RuntimeSupervisor {
     public RuntimeSupervisor(DependencyInjector injector) {
         this.injector = injector;
         runtimes = new HashMap<>();
-        staticInstances = new HashMap<>();
         executor = new ScheduledThreadPoolExecutor(4);
     }
 
     /**
-     * Creates a new {@link InteractionRuntime}.
+     * Creates a new {@link InteractionRuntime}, which will expire after 15 minutes. If the interaction class is instead
+     * marked with {@link StaticInstance} will instead return the static instance.
      *
      * @param event       the {@link GenericCommandInteractionEvent} to create the {@link InteractionRuntime} for
      * @param interaction the {@link GenericInteractionDefinition} to create the {@link InteractionRuntime} from
@@ -53,8 +56,23 @@ public class RuntimeSupervisor {
      */
     public InteractionRuntime newRuntime(GenericCommandInteractionEvent event, GenericInteractionDefinition interaction)
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        Object instance = interaction.newInstance();
 
+        Class<?> interactionClass = interaction.getMethod().getDeclaringClass();
+        if (interactionClass.isAnnotationPresent(StaticInstance.class)) {
+            String runtimeId = String.format("s%s", interactionClass.getName().hashCode());
+            if (runtimes.containsKey(runtimeId)) {
+                return runtimes.get(runtimeId);
+            }
+
+            Object instance = interaction.newInstance();
+            injector.inject(instance);
+
+            InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+            runtimes.put(runtimeId, runtime);
+            return runtime;
+        }
+
+        Object instance = interaction.newInstance();
         injector.inject(instance);
 
         String id = event.getId();
@@ -67,27 +85,29 @@ public class RuntimeSupervisor {
     }
 
     /**
-     * Gets an instance of the given {@link GenericInteractionDefinition}. If no instance exists yet, creates, stores and then
+     * Gets the static runtime for the given {@link AutoCompleteDefinition}. If no instance exists yet, creates, stores and then
      * returns the instance.
      *
-     * @param event       the {@link CommandAutoCompleteInteractionEvent} to  get the instance for
-     * @param interaction the {@link GenericInteractionDefinition} to create or get an instance from
+     * @param autoComplete the {@link GenericInteractionDefinition} to create or get an instance from
      * @return an instance of the provided {@link GenericInteractionDefinition}
      * @throws InvocationTargetException if the underlying constructor throws an exception
      * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
      *                                   the underlying constructor is inaccessible
      */
-    public Object getOrCreateInstance(CommandAutoCompleteInteractionEvent event, GenericInteractionDefinition interaction)
+    public InteractionRuntime newRuntime(AutoCompleteDefinition autoComplete)
             throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        String name = event.getFullCommandName();
-        if (staticInstances.containsKey(name)) {
-            return staticInstances.get(name);
-        } else {
-            Object instance = interaction.newInstance();
-            staticInstances.put(name, instance);
-            return instance;
+        String runtimeId = String.format("s%s", autoComplete.getMethod().getDeclaringClass().getName().hashCode());
+        if (runtimes.containsKey(runtimeId)) {
+            return runtimes.get(runtimeId);
         }
+
+        Object instance = autoComplete.newInstance();
+        injector.inject(instance);
+
+        InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+        runtimes.put(runtimeId, runtime);
+        return runtime;
     }
 
     /**
@@ -100,11 +120,7 @@ public class RuntimeSupervisor {
      * @return an {@link Optional} holding the {@link InteractionRuntime}
      */
     public Optional<InteractionRuntime> getRuntime(GenericComponentInteractionCreateEvent event) {
-        String[] split = event.getComponentId().split("\\.");
-        if (split.length != 3) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(runtimes.get(split[2]));
+        return getRuntime(event.getComponentId());
     }
 
     /**
@@ -117,22 +133,26 @@ public class RuntimeSupervisor {
      * @return an {@link Optional} holding the {@link InteractionRuntime}
      */
     public Optional<InteractionRuntime> getRuntime(ModalInteractionEvent event) {
-        String[] split = event.getModalId().split("\\.");
-        if (split.length != 3) {
+        return getRuntime(event.getModalId());
+    }
+
+    private Optional<InteractionRuntime> getRuntime(String interactionId) {
+        if (!interactionId.matches(CUSTOM_ID_REGEX)) {
             return Optional.empty();
         }
-        return Optional.ofNullable(runtimes.get(split[2]));
+        String runtimeId = interactionId.split("\\.")[2];
+        return Optional.ofNullable(runtimes.get(runtimeId));
     }
 
     /**
      * A runtime used for executing interactions. This class holds the instance of the class annotated with
-     * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} where commands,
-     * buttons, etc. live in.
+     * {@link Interaction Interaction} where commands, buttons, etc. live in. This runtime can only be used once per
+     * command execution.
      *
      * @since 4.0.0
      */
     public static class InteractionRuntime {
-        private final String instanceId;
+        private final String runtimeId;
         private final Object instance;
         private MessageCreateData messageCreateData;
         private KeyValueStore keyValueStore;
@@ -140,12 +160,11 @@ public class RuntimeSupervisor {
         /**
          * Constructs a new InteractionRuntime.
          *
-         * @param instanceId the id of this instance, i.e. the snowflake id of the event creating this runtime
-         * @param instance   the instance of the
-         *                   {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} class
+         * @param runtimeId the id of this instance, i.e. the snowflake id of the event creating this runtime
+         * @param instance  the instance of the {@link Interaction Interaction} class
          */
-        public InteractionRuntime(String instanceId, Object instance) {
-            this.instanceId = instanceId;
+        public InteractionRuntime(String runtimeId, Object instance) {
+            this.runtimeId = runtimeId;
             this.instance = instance;
             keyValueStore = new KeyValueStore();
         }
@@ -155,8 +174,8 @@ public class RuntimeSupervisor {
          *
          * @return the instance id
          */
-        public String getInstanceId() {
-            return instanceId;
+        public String getRuntimeId() {
+            return runtimeId;
         }
 
         /**
@@ -204,4 +223,28 @@ public class RuntimeSupervisor {
             this.keyValueStore = keyValueStore;
         }
     }
+
+    /**
+     * A runtime used for executing interactions. This class holds the instance of the class annotated with
+     * {@link Interaction Interaction} where commands, buttons, etc. live in. This runtime is reusable.
+     *
+     * @since 4.0.0
+     */
+    public static class StaticInteractionRuntime extends InteractionRuntime {
+
+        /**
+         * Constructs a new StaticInteractionRuntime.
+         *
+         * @param instance the instance of the {@link Interaction Interaction} class
+         */
+        public StaticInteractionRuntime(String id, Object instance) {
+            super(id, instance);
+        }
+
+        @Override
+        public KeyValueStore getKeyValueStore() {
+            return new KeyValueStore();
+        }
+    }
+
 }

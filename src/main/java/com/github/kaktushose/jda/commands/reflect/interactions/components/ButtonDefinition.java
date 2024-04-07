@@ -103,7 +103,7 @@ public class ButtonDefinition extends GenericComponentDefinition {
     @NotNull
     public net.dv8tion.jda.api.interactions.components.buttons.Button toButton() {
         String label = getLabel().orElse("");
-        String idOrUrl = getLink().orElse(this.id);
+        String idOrUrl = getLink().orElse(this.definitionId);
         if (emoji == null) {
             return net.dv8tion.jda.api.interactions.components.buttons.Button.of(style, idOrUrl, label);
         } else {
@@ -153,20 +153,20 @@ public class ButtonDefinition extends GenericComponentDefinition {
 
     @Override
     public String getDisplayName() {
-        return getLabel().orElse(id);
+        return getLabel().orElse(definitionId);
     }
 
     @Override
     public String toString() {
         return "ButtonDefinition{" +
-                "label='" + label + '\'' +
-                ", emoji=" + emoji +
-                ", link='" + link + '\'' +
-                ", style=" + style +
-                ", ephemeral=" + ephemeral +
-                ", permissions=" + permissions +
-                ", id='" + id + '\'' +
-                ", method=" + method +
-                '}';
+               "label='" + label + '\'' +
+               ", emoji=" + emoji +
+               ", link='" + link + '\'' +
+               ", style=" + style +
+               ", ephemeral=" + ephemeral +
+               ", permissions=" + permissions +
+               ", id='" + definitionId + '\'' +
+               ", method=" + method +
+               '}';
     }
 }

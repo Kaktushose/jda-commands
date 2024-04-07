@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
@@ -20,7 +20,7 @@ import java.util.*;
  * @see Modal
  * @since 4.0.0
  */
-public class ModalDefinition extends EphemeralInteractionDefinition {
+public class ModalDefinition extends EphemeralInteractionDefinition implements CustomId {
 
     private final String title;
     private final List<TextInputDefinition> textInputs;
@@ -87,11 +87,11 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
     /**
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
-     * @param id the id to use, see {@link #getRuntimeId(Context)}
+     * @param context the {@link Context} of this interaction execution
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */
-    public net.dv8tion.jda.api.interactions.modals.Modal toModal(String id) {
-        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(id, title);
+    public net.dv8tion.jda.api.interactions.modals.Modal toModal(Context context) {
+        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(createCustomId(context), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toTextInput()));
 
@@ -121,27 +121,26 @@ public class ModalDefinition extends EphemeralInteractionDefinition {
         return title;
     }
 
-    /**
-     * Gets the runtime id. The runtime id is composed of the static interaction id and the
-     * snowflake id of the interaction event that created the runtime.
-     *
-     * @param context the {@link SlashCommandContext} this button will be attached to
-     * @return the runtime id
-     */
-    @NotNull
-    public String getRuntimeId(Context context) {
-        return String.format("%s.%s", getId(), context.getRuntime().getInstanceId());
+    @Override
+    public String createCustomId(Context context) {
+        RuntimeSupervisor.InteractionRuntime runtime = context.getRuntime();
+        return String.format("%s.%s%s.%s",
+                PREFIX,
+                method.getDeclaringClass().getSimpleName(),
+                method.getName(),
+                runtime.getRuntimeId()
+        );
     }
 
     @Override
     public String toString() {
         return "ModalDefinition{" +
-                "title='" + title + '\'' +
-                ", textInputs=" + textInputs +
-                ", ephemeral=" + ephemeral +
-                ", id='" + id + '\'' +
-                ", method=" + method +
-                ", permissions=" + permissions +
-                '}';
+               "title='" + title + '\'' +
+               ", textInputs=" + textInputs +
+               ", ephemeral=" + ephemeral +
+               ", id='" + definitionId + '\'' +
+               ", method=" + method +
+               ", permissions=" + permissions +
+               '}';
     }
 }

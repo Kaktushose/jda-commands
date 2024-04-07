@@ -5,8 +5,6 @@ import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 
-import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
-
 /**
  * Generic interface holding reply methods for modal replies.
  *
@@ -31,11 +29,11 @@ public interface ModalReplyable extends Replyable {
             );
         }
 
-        String id = String.format("%s%s.%s", ID_PREFIX, context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal);
-
         ModalDefinition modalDefinition = context.getJdaCommands().getInteractionRegistry().getModals().stream()
-                .filter(it -> it.getId().equals(id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
+                .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
 
-        callback.replyModal(modalDefinition.toModal(modalDefinition.getRuntimeId(context))).queue();
+        callback.replyModal(modalDefinition.toModal(context)).queue();
     }
 }

@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition.ID_PREFIX;
-
 /**
  * Generic interface holding reply methods.
  *
@@ -162,17 +160,18 @@ public interface Replyable {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
                 buttons.getButtonContainer().forEach(container -> {
-                    String id = String.format("%s%s.%s", ID_PREFIX, context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
+                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
                     context.getJdaCommands().getInteractionRegistry().getButtons()
                             .stream()
-                            .filter(it -> it.getId().equals(id))
+                            .filter(it -> it.getDefinitionId().equals(id))
                             .findFirst()
                             .map(it -> {
                                 Button jdaButton = it.toButton().withDisabled(!container.isEnabled());
                                 //only assign ids to non-link buttons
                                 if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.getRuntimeId(context));
+                                    jdaButton = jdaButton.withId(it.createCustomId(context));
                                 }
+                                System.out.println(it.createCustomId(context));
                                 return jdaButton;
                             }).ifPresent(items::add);
                 });
@@ -180,11 +179,11 @@ public interface Replyable {
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenuContainer().forEach(container -> {
-                    String id = String.format("%s%s.%s", ID_PREFIX, context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
+                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
-                            .filter(it -> it.getId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(it.getRuntimeId(context), container.isEnabled()))
+                            .filter(it -> it.getDefinitionId().equals(id))
+                            .findFirst().map(it -> it.toSelectMenu(context, container.isEnabled()))
                             .ifPresent(items::add);
                 });
             }

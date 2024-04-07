@@ -120,18 +120,18 @@ public abstract class GenericCommandDefinition extends EphemeralInteractionDefin
     @Override
     public String toString() {
         return "GenericCommandDefinition{" +
-                "id='" + id + '\'' +
-                ", method=" + method +
-                ", name='" + name + '\'' +
-                ", permissions=" + permissions +
-                ", isGuildOnly=" + isGuildOnly +
-                ", isNSFW=" + isNSFW +
-                ", commandType=" + commandType +
-                ", enabledPermissions=" + enabledPermissions +
-                ", scope=" + scope +
-                ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
-                '}';
+               "id='" + definitionId + '\'' +
+               ", method=" + method +
+               ", name='" + name + '\'' +
+               ", permissions=" + permissions +
+               ", isGuildOnly=" + isGuildOnly +
+               ", isNSFW=" + isNSFW +
+               ", commandType=" + commandType +
+               ", enabledPermissions=" + enabledPermissions +
+               ", scope=" + scope +
+               ", localizationFunction=" + localizationFunction +
+               ", ephemeral=" + ephemeral +
+               '}';
     }
 
     @Override

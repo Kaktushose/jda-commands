@@ -15,27 +15,26 @@ import java.util.Set;
  */
 public abstract class GenericInteractionDefinition {
 
-    public static final String ID_PREFIX = "jdac-";
     protected static final Logger log = LoggerFactory.getLogger(GenericInteractionDefinition.class);
 
-    protected final String id;
+    protected final String definitionId;
     protected final Method method;
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.id = String.format("%s%s.%s", ID_PREFIX, method.getDeclaringClass().getSimpleName(), method.getName());
+        this.definitionId = String.format("%s%s", method.getDeclaringClass().getSimpleName(), method.getName());
         this.method = method;
         this.permissions = permissions;
     }
 
     /**
-     * Returns the id of the interaction.
+     * Returns the id of the interaction definition.
      *
-     * @return the id of the interaction
+     * @return the id of the interaction definition
      */
     @NotNull
-    public String getId() {
-        return id;
+    public String getDefinitionId() {
+        return definitionId;
     }
 
     /**

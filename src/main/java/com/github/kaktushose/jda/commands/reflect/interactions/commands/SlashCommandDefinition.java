@@ -275,21 +275,21 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
     @Override
     public String toString() {
         return "SlashCommandDefinition{" +
-                "id='" + id + '\'' +
-                ", method=" + method +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", parameters=" + parameters +
-                ", cooldown=" + cooldown +
-                ", isAutoComplete=" + isAutoComplete +
-                ", permissions=" + permissions +
-                ", isGuildOnly=" + isGuildOnly +
-                ", isNSFW=" + isNSFW +
-                ", commandType=" + commandType +
-                ", enabledPermissions=" + enabledPermissions +
-                ", scope=" + scope +
-                ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
-                '}';
+               "id='" + definitionId + '\'' +
+               ", method=" + method +
+               ", name='" + name + '\'' +
+               ", description='" + description + '\'' +
+               ", parameters=" + parameters +
+               ", cooldown=" + cooldown +
+               ", isAutoComplete=" + isAutoComplete +
+               ", permissions=" + permissions +
+               ", isGuildOnly=" + isGuildOnly +
+               ", isNSFW=" + isNSFW +
+               ", commandType=" + commandType +
+               ", enabledPermissions=" + enabledPermissions +
+               ", scope=" + scope +
+               ", localizationFunction=" + localizationFunction +
+               ", ephemeral=" + ephemeral +
+               '}';
     }
 }

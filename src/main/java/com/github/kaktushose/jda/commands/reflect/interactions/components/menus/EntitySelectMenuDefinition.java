@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
@@ -106,8 +107,8 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
     }
 
     @Override
-    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String id, boolean enabled) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(id, selectTargets)
+    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(Context context, boolean enabled) {
+        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(createCustomId(context), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
@@ -152,16 +153,16 @@ public class EntitySelectMenuDefinition extends GenericSelectMenuDefinition<net.
     @Override
     public String toString() {
         return "EntitySelectMenuDefinition{" +
-                "selectTargets=" + selectTargets +
-                ", defaultValues=" + defaultValues +
-                ", channelTypes=" + channelTypes +
-                ", placeholder='" + placeholder + '\'' +
-                ", minValue=" + minValue +
-                ", maxValue=" + maxValue +
-                ", permissions=" + permissions +
-                ", ephemeral=" + ephemeral +
-                ", id='" + id + '\'' +
-                ", method=" + method +
-                '}';
+               "selectTargets=" + selectTargets +
+               ", defaultValues=" + defaultValues +
+               ", channelTypes=" + channelTypes +
+               ", placeholder='" + placeholder + '\'' +
+               ", minValue=" + minValue +
+               ", maxValue=" + maxValue +
+               ", permissions=" + permissions +
+               ", ephemeral=" + ephemeral +
+               ", id='" + definitionId + '\'' +
+               ", method=" + method +
+               '}';
     }
 }

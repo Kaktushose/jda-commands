@@ -89,9 +89,9 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
     @Override
     public String toString() {
         return "AutoCompleteDefinition{" +
-                "commands=" + commands +
-                ", id='" + id + "'" +
-                ", method=" + method +
-                '}';
+               "commands=" + commands +
+               ", id='" + definitionId + "'" +
+               ", method=" + method +
+               '}';
     }
 }

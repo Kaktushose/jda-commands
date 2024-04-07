@@ -90,17 +90,17 @@ public class ContextCommandDefinition extends GenericCommandDefinition {
     @Override
     public String toString() {
         return "ContextCommandDefinition{" +
-                "id='" + id + '\'' +
-                ", method=" + method +
-                ", name='" + name + '\'' +
-                ", permissions=" + permissions +
-                ", isGuildOnly=" + isGuildOnly +
-                ", isNSFW=" + isNSFW +
-                ", commandType=" + commandType +
-                ", enabledPermissions=" + enabledPermissions +
-                ", scope=" + scope +
-                ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
-                '}';
+               "id='" + definitionId + '\'' +
+               ", method=" + method +
+               ", name='" + name + '\'' +
+               ", permissions=" + permissions +
+               ", isGuildOnly=" + isGuildOnly +
+               ", isNSFW=" + isNSFW +
+               ", commandType=" + commandType +
+               ", enabledPermissions=" + enabledPermissions +
+               ", scope=" + scope +
+               ", localizationFunction=" + localizationFunction +
+               ", ephemeral=" + ephemeral +
+               '}';
     }
 }
