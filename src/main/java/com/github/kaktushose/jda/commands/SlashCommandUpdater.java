@@ -7,9 +7,12 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +26,13 @@ import java.util.stream.Collectors;
  * @see CommandTree
  * @since 2.3.0
  */
-public class SlashCommandUpdater {
+public class SlashCommandUpdater extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;
+    private Map<Long, Set<CommandData>> guildMapping;
 
     /**
      * Constructs a new SlashCommandUpdater.
@@ -39,23 +43,10 @@ public class SlashCommandUpdater {
         this.jdaContext = jdaCommands.getJDAContext();
         guildScopeProvider = jdaCommands.getImplementationRegistry().getGuildScopeProvider();
         interactionRegistry = jdaCommands.getInteractionRegistry();
+        guildMapping = getGuildMapping();
     }
 
-    /**
-     * Sends the {@link SlashCommandData} to Discord. This is equivalent to calling {@link #updateGlobalCommands()} and
-     * {@link #updateGuildCommands()} each.
-     */
-    public void updateAllCommands() {
-        updateGuildCommands();
-        updateGlobalCommands();
-    }
-
-    /**
-     * Sends the guild scope {@link SlashCommandData} to Discord.
-     */
-    public void updateGuildCommands() {
-        log.debug("Updating guild commands...");
-
+    private Map<Long, Set<CommandData>> getGuildMapping() {
         Set<GenericCommandDefinition> guildCommands = interactionRegistry.getCommands()
                 .stream()
                 .filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD)
@@ -92,12 +83,29 @@ public class SlashCommandUpdater {
                 guildMapping.get(id).add(command);
             });
         }
+        return guildMapping;
+    }
 
+    /**
+     * Sends the {@link SlashCommandData} to Discord. This is equivalent to calling {@link #updateGlobalCommands()} and
+     * {@link #updateGuildCommands()} each.
+     */
+    public void updateAllCommands() {
+        updateGuildCommands();
+        updateGlobalCommands();
+    }
+
+    /**
+     * Sends the guild scope {@link SlashCommandData} to Discord.
+     */
+    public void updateGuildCommands() {
+        log.debug("Updating guild commands...");
+        guildMapping = getGuildMapping();
         for (Guild guild : jdaContext.getGuildCache()) {
             Set<CommandData> commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
             guild.updateCommands().addCommands(commands).queue();
-            log.debug("Done!");
         }
+        log.debug("Done!");
     }
 
     /**
@@ -130,5 +138,12 @@ public class SlashCommandUpdater {
 
         jdaContext.performTask(jda -> jda.updateCommands().addCommands(result).queue());
         log.debug("Done!");
+    }
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        Guild guild = event.getGuild();
+        Set<CommandData> commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
+        guild.updateCommands().addCommands(commands).queue();
     }
 }
