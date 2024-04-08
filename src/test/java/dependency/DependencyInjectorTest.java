@@ -1,6 +1,6 @@
 package dependency;
 
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DependencyInjectorTest {
 
-    private static DependencyInjector dependencyInjector;
+    private static DefaultDependencyInjector dependencyInjector;
     private static InjectableClass instance;
     private static List<Field> fields;
 
@@ -26,7 +26,7 @@ public class DependencyInjectorTest {
 
     @BeforeEach
     public void cleanup() {
-        dependencyInjector = new DependencyInjector();
+        dependencyInjector = new DefaultDependencyInjector();
 
     }
 

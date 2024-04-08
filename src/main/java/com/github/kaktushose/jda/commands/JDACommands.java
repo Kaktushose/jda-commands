@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
@@ -54,7 +55,7 @@ public class JDACommands {
         updater = null;
     }
 
-    private JDACommands(Object jda, Class<?> clazz, LocalizationFunction function, String... packages) {
+    private JDACommands(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector injector, String... packages) {
         log.info("Starting JDA-Commands...");
 
         if (isActive) {
@@ -62,7 +63,7 @@ public class JDACommands {
         }
 
         jdaContext = new JDAContext(jda);
-        dependencyInjector = new DependencyInjector();
+        dependencyInjector = injector;
         dependencyInjector.index(clazz, packages);
 
         middlewareRegistry = new MiddlewareRegistry();
@@ -95,7 +96,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), packages);
+        return new JDACommands(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -107,7 +108,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), packages);
+        return new JDACommands(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -120,7 +121,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, function, packages);
+        return new JDACommands(jda, clazz, function, new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -133,7 +134,35 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, function, packages);
+        return new JDACommands(shardManager, clazz, function, new DefaultDependencyInjector(), packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param jda      the corresponding {@link JDA} instance
+     * @param clazz    a class of the classpath to scan
+     * @param function the {@link LocalizationFunction} to use
+     * @param injector the {@link DependencyInjector} implementation to use
+     * @param packages package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
+        return new JDACommands(jda, clazz, function, injector, packages);
+    }
+
+    /**
+     * Creates a new JDACommands instance and starts the frameworks.
+     *
+     * @param shardManager the corresponding {@link ShardManager} instance
+     * @param clazz        a class of the classpath to scan
+     * @param function     the {@link LocalizationFunction} to use
+     * @param injector     the {@link DependencyInjector} implementation to use
+     * @param packages     package(s) to exclusively scan
+     * @return a new JDACommands instance
+     */
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
+        return new JDACommands(shardManager, clazz, function, injector, packages);
     }
 
     /**

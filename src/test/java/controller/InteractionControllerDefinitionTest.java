@@ -1,6 +1,6 @@
 package controller;
 
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
@@ -23,7 +23,7 @@ public class InteractionControllerDefinitionTest {
     private static final LocalizationFunction LOCALIZATION_FUNCTION = ResourceBundleLocalizationFunction.empty().build();
     private static Class<?> controller;
     private static ValidatorRegistry validators;
-    private static DependencyInjector dependencyInjector;
+    private static DefaultDependencyInjector dependencyInjector;
 
     @BeforeAll
     public static void setup() {
@@ -36,7 +36,7 @@ public class InteractionControllerDefinitionTest {
         TypeAdapterRegistry adapters = new TypeAdapterRegistry();
         adapters.unregister(UnsupportedType.class);
 
-        dependencyInjector = new DependencyInjector();
+        dependencyInjector = new DefaultDependencyInjector();
     }
 
     @Test
