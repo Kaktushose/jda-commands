@@ -1,6 +1,7 @@
 package adapting.mock;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
+import net.dv8tion.jda.api.requests.restaction.interactions.PremiumRequiredCallbackAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,6 +66,12 @@ public class SlashCommandInteractionMock implements SlashCommandInteraction {
 
     @Override
     public DiscordLocale getUserLocale() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Entitlement> getEntitlements() {
         return null;
     }
 
@@ -127,5 +135,11 @@ public class SlashCommandInteractionMock implements SlashCommandInteraction {
     @Override
     public long getIdLong() {
         return 0;
+    }
+
+    @NotNull
+    @Override
+    public PremiumRequiredCallbackAction replyWithPremiumRequired() {
+        return null;
     }
 }

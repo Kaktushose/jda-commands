@@ -3,6 +3,7 @@ package adapting.mock;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.entities.sticker.StickerPack;
@@ -20,9 +21,11 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.Response;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.*;
+import net.dv8tion.jda.api.requests.restaction.pagination.EntitlementPaginationAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.utils.cache.CacheView;
+import net.dv8tion.jda.api.utils.cache.ChannelCacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
@@ -280,6 +283,12 @@ public class JDAMock implements JDA {
 
     @NotNull
     @Override
+    public ChannelCacheView<Channel> getChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
     public SnowflakeCacheView<StageChannel> getStageChannelCache() {
         return null;
     }
@@ -434,6 +443,12 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public RestAction<ApplicationInfo> retrieveApplicationInfo() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public EntitlementPaginationAction retrieveEntitlements() {
         return null;
     }
 

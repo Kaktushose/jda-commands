@@ -32,11 +32,13 @@ import net.dv8tion.jda.api.requests.restaction.pagination.BanPaginationAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.cache.MemberCacheView;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
+import net.dv8tion.jda.api.utils.cache.SortedChannelCacheView;
 import net.dv8tion.jda.api.utils.cache.SortedSnowflakeCacheView;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
@@ -121,6 +123,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public AuditableRestAction<Void> ban(@NotNull UserSnowflake user, int deletionTimeframe, @NotNull TimeUnit unit) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public AuditableRestAction<BulkBanResponse> ban(@NotNull Collection<UserSnowflake> collection, @Nullable Duration duration) {
         return null;
     }
 
@@ -601,6 +609,12 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public SortedSnowflakeCacheView<ForumChannel> getForumChannelCache() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public SortedChannelCacheView<GuildChannel> getChannelCache() {
         return null;
     }
 
