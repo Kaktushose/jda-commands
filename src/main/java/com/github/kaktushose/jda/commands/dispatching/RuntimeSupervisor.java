@@ -68,7 +68,7 @@ public class RuntimeSupervisor {
             Object instance = interaction.newInstance();
             injector.inject(instance);
 
-            InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+            InteractionRuntime runtime = new InteractionRuntime(runtimeId, instance);
             runtimes.put(runtimeId, runtime);
             return runtime;
         }
@@ -106,7 +106,7 @@ public class RuntimeSupervisor {
         Object instance = autoComplete.newInstance();
         injector.inject(instance);
 
-        InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+        InteractionRuntime runtime = new InteractionRuntime(runtimeId, instance);
         runtimes.put(runtimeId, runtime);
         return runtime;
     }
@@ -132,7 +132,7 @@ public class RuntimeSupervisor {
 
         injector.inject(instance);
 
-        InteractionRuntime runtime = new StaticInteractionRuntime(runtimeId, instance);
+        InteractionRuntime runtime = new InteractionRuntime(runtimeId, instance);
         runtimes.put(runtimeId, runtime);
 
         return runtime;
@@ -251,28 +251,4 @@ public class RuntimeSupervisor {
             this.keyValueStore = keyValueStore;
         }
     }
-
-    /**
-     * A runtime used for executing interactions. This class holds the instance of the class annotated with
-     * {@link Interaction Interaction} where commands, buttons, etc. live in. This runtime is reusable.
-     *
-     * @since 4.0.0
-     */
-    public static class StaticInteractionRuntime extends InteractionRuntime {
-
-        /**
-         * Constructs a new StaticInteractionRuntime.
-         *
-         * @param instance the instance of the {@link Interaction Interaction} class
-         */
-        public StaticInteractionRuntime(String id, Object instance) {
-            super(id, instance);
-        }
-
-        @Override
-        public KeyValueStore getKeyValueStore() {
-            return new KeyValueStore();
-        }
-    }
-
 }
