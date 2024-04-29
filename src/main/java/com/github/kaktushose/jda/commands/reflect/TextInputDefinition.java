@@ -88,7 +88,7 @@ public class TextInputDefinition {
         if (!placeholder.isBlank()) {
             textInput.setPlaceholder(placeholder);
         }
-        if (!placeholder.isBlank()) {
+        if (!defaultValue.isBlank()) {
             textInput.setValue(defaultValue);
         }
 
