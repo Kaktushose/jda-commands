@@ -242,9 +242,9 @@ public class JDACommands {
      * {@code ExampleButton.onButton}.
      * </p>
      *
-     * @param button the id of the button
-     * @param runtimeId  the id of the
-     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     * @param button    the id of the button
+     * @param runtimeId the id of the
+     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
      * @return a JDA {@link Button}
      */
     public Button getButton(String button, String runtimeId) {
@@ -287,6 +287,23 @@ public class JDACommands {
     }
 
     /**
+     * Gets a JDA {@link SelectMenu} to use it for message builders based on the jda-commands id.
+     *
+     * <p>
+     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
+     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
+     * {@code ExampleMenu.onSelectMenu}.
+     * </p>
+     *
+     * @param selectMenu the id of the selectMenu
+     * @param clazz      the subtype of {@link SelectMenu}
+     * @return a JDA {@link SelectMenu}
+     */
+    public <T extends SelectMenu> T getSelectMenu(String selectMenu, Class<T> clazz) {
+        return (T) getSelectMenu(selectMenu);
+    }
+
+    /**
      * Gets a JDA {@link SelectMenu} to use it for message builders based on the jda-commands id and links it an
      * existing
      * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
@@ -313,6 +330,28 @@ public class JDACommands {
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
         return selectMenuDefinition.toSelectMenu(runtimeId, true);
+    }
+
+    /**
+     * Gets a JDA {@link SelectMenu} subtype to use it for message builders based on the jda-commands id and links it an
+     * existing
+     * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
+     *
+     * <p>
+     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
+     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
+     * {@code ExampleMenu.onSelectMenu}.
+     * </p>
+     *
+     * @param selectMenu the id of the selectMenu
+     * @param runtimeId  the id of the
+     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime
+     *                   InteractionRuntime}
+     * @param clazz      the subtype of {@link SelectMenu}
+     * @return a JDA {@link SelectMenu}
+     */
+    public <T extends SelectMenu> T getSelectMenu(String selectMenu, String runtimeId, Class<T> clazz) {
+        return (T) getSelectMenu(selectMenu, runtimeId);
     }
 
     /**
