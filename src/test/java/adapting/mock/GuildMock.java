@@ -128,7 +128,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<BulkBanResponse> ban(@NotNull Collection<UserSnowflake> collection, @Nullable Duration duration) {
+    public AuditableRestAction<BulkBanResponse> ban(@NotNull Collection<? extends UserSnowflake> users, @Nullable Duration deletionTime) {
         return null;
     }
 

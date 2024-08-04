@@ -257,12 +257,6 @@ public class MemberMock implements Member {
 
     @NotNull
     @Override
-    public AuditableRestAction<Void> kick(@Nullable String reason) {
-        return Member.super.kick(reason);
-    }
-
-    @NotNull
-    @Override
     public AuditableRestAction<Void> mute(boolean mute) {
         return Member.super.mute(mute);
     }
