@@ -97,7 +97,7 @@ public interface Replyable {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     default void reply(@NotNull String message, @Nullable Consumer<Message> success) {
-        reply(message);
+        getReplyContext().getBuilder().setContent(message);
         setSuccessCallback(success);
         reply();
     }
@@ -111,7 +111,7 @@ public interface Replyable {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     default void reply(@NotNull MessageCreateData message, @Nullable Consumer<Message> success) {
-        reply(message);
+        getReplyContext().getBuilder().applyData(message);
         setSuccessCallback(success);
         reply();
     }
@@ -125,7 +125,7 @@ public interface Replyable {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     default void reply(@NotNull EmbedBuilder builder, @Nullable Consumer<Message> success) {
-        reply(builder);
+        getReplyContext().getBuilder().setEmbeds(builder.build());
         setSuccessCallback(success);
         reply();
     }
@@ -139,7 +139,7 @@ public interface Replyable {
      * @see <a href="https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/requests/RestAction.html">JDA RestAction Documentation</a>
      */
     default void reply(@NotNull EmbedDTO embedDTO, @Nullable Consumer<Message> success) {
-        reply(embedDTO);
+        getReplyContext().getBuilder().setEmbeds(embedDTO.toMessageEmbed());
         setSuccessCallback(success);
         reply();
     }
