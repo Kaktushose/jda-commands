@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCom
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -118,8 +119,16 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         if (!embedCache.containsEmbed("executionFailed")) {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
+        String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
+                              "but a \"%s\" occurred. " +
+                              "Please refer to the logs for further information.```",
+                context.getEvent().getUser().toString(),
+                context.getEvent().getInteraction().getType(),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
+                exception.getClass().getName()
+        );
         return embedCache.getEmbed("executionFailed")
-                .injectValue("exception", exception.toString())
+                .injectValue("error", error)
                 .toMessageCreateData();
     }
 
