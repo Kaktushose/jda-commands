@@ -1,14 +1,12 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
-import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -20,16 +18,18 @@ import java.util.stream.Collectors;
 public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
     private final Set<SelectOptionDefinition> selectOptions;
+    private final String selectOptionProvider;
 
     protected StringSelectMenuDefinition(Method method,
                                          Set<String> permissions,
                                          boolean ephemeral,
                                          Set<SelectOptionDefinition> selectOptions,
-                                         String placeholder,
+                                         String selectOptionProvider, String placeholder,
                                          int minValue,
                                          int maxValue) {
         super(method, permissions, ephemeral, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
+        this.selectOptionProvider = selectOptionProvider;
     }
 
     /**
@@ -44,7 +44,7 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
         }
 
         if (method.getParameters().length != 2) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
+            log.error("An error has occurred! Skipping Select Menu {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
                     new IllegalArgumentException("Invalid amount of parameters!"));
@@ -53,7 +53,7 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
 
         if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
                 !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
+            log.error("An error has occurred! Skipping Select Menu {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
                     new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
@@ -76,11 +76,28 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
             selectOptions.add(SelectOptionDefinition.build(option));
         }
 
+        String selectOptionProvider = null;
+        if (selectOptions.isEmpty() && method.isAnnotationPresent(DynamicOptions.class)) {
+            DynamicOptions dynamicOptions = method.getAnnotation(DynamicOptions.class);
+            if (!dynamicOptions.value().isBlank()) {
+                selectOptionProvider = dynamicOptions.value();
+            }
+        }
+
+        if (selectOptions.isEmpty() && selectOptionProvider == null) {
+            log.error("An error has occurred! Skipping Select Menu {}.{}:",
+                    method.getDeclaringClass().getSimpleName(),
+                    method.getName(),
+                    new IllegalArgumentException("Cannot build select menu without options! Either use SelectOption or DynamicOptions"));
+            return Optional.empty();
+        }
+
         return Optional.of(new StringSelectMenuDefinition(
                 method,
                 permissions,
                 selectMenu.ephemeral(),
                 selectOptions,
+                selectOptionProvider,
                 selectMenu.value(),
                 selectMenu.minValue(),
                 selectMenu.maxValue()
@@ -88,17 +105,23 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     }
 
     public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String runtimeId, boolean enabled) {
-        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtimeId))
+        var menu = net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtimeId))
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
-                .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))
                 .setDefaultOptions(selectOptions.stream()
                         .filter(SelectOptionDefinition::isDefault)
                         .map(SelectOptionDefinition::toSelectOption)
                         .collect(Collectors.toSet())
                 )
-                .setDisabled(!enabled)
-                .build();
+                .setDisabled(!enabled);
+
+                        .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))
+
+        if (selectOptionProvider != null) {
+            // somehow call provider and add to existing list of options, this allows the combination of static and dynamic options
+        }
+
+        return menu.build();
     }
 
     /**
@@ -110,10 +133,15 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
         return selectOptions;
     }
 
+    public String getSelectOptionProvider() {
+        return selectOptionProvider;
+    }
+
     @Override
     public String toString() {
         return "StringSelectMenuDefinition{" +
                "selectOptions=" + selectOptions +
+               ", selectOptionProvider='" + selectOptionProvider + '\'' +
                ", placeholder='" + placeholder + '\'' +
                ", minValue=" + minValue +
                ", maxValue=" + maxValue +

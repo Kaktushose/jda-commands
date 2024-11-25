@@ -11,6 +11,7 @@ import java.lang.annotation.*;
  *
  * @see Interaction
  * @see StringSelectMenu
+ * @see DynamicOptions
  * @since 4.0.0
  */
 @Repeatable(SelectOptionContainer.class)
