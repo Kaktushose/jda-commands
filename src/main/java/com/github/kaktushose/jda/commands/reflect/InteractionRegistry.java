@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.SelectOptionProviderDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -45,6 +46,7 @@ public class InteractionRegistry {
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
     private final Set<ModalDefinition> modals;
+    private final Set<SelectOptionProviderDefinition> optionProviders;
 
     /**
      * Constructs a new CommandRegistry.
@@ -65,6 +67,7 @@ public class InteractionRegistry {
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
         modals = new HashSet<>();
+        optionProviders = new HashSet<>();
     }
 
     /**
@@ -111,6 +114,7 @@ public class InteractionRegistry {
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
             modals.addAll(controller.getModals());
+            optionProviders.addAll(controller.getSelectOptionProviders());
             log.debug("Registered interaction controller {}", controller);
         }
 
@@ -189,5 +193,9 @@ public class InteractionRegistry {
 
     public Set<ModalDefinition> getModals() {
         return Collections.unmodifiableSet(modals);
+    }
+
+    public Set<SelectOptionProviderDefinition> getSelectOptionProviders() {
+        return optionProviders;
     }
 }

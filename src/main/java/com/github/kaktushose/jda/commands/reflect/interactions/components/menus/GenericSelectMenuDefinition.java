@@ -1,5 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 
@@ -29,13 +32,13 @@ public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends 
     /**
      * Transforms this definition to a select menu component.
      *
-     * @param runtimeId the runtimeId of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
-     *                  of this interaction execution
-     * @param enabled   {@code true} if the component should be enabled
+     * @param runtime             the {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     *                               of this interaction execution
+     * @param enabled                {@code true} if the component should be enabled
+     * @param interactionRegistry the corresponding {@link ImplementationRegistry}
      * @return the select menu component
      */
-    public abstract T toSelectMenu(String runtimeId, boolean enabled);
+    public abstract T toSelectMenu(RuntimeSupervisor.InteractionRuntime runtime, boolean enabled, InteractionRegistry interactionRegistry);
 
     /**
      * Gets the placeholder string.

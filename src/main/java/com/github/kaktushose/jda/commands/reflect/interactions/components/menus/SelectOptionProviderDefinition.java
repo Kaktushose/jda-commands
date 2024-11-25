@@ -9,18 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 public class SelectOptionProviderDefinition extends GenericInteractionDefinition {
 
-    private Set<String> selectMenus;
-
-    protected SelectOptionProviderDefinition(Method method, Set<String> selectMenus) {
+    protected SelectOptionProviderDefinition(Method method) {
         super(method, new HashSet<>());
-        this.selectMenus = selectMenus;
     }
 
-    public static Optional<SelectOptionProviderDefinition> build(@NotNull Method method, Set<String> selectMenus) {
+    public static Optional<SelectOptionProviderDefinition> build(@NotNull Method method) {
         if (!method.isAnnotationPresent(SelectOptionProvider.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -40,6 +36,6 @@ public class SelectOptionProviderDefinition extends GenericInteractionDefinition
                     new IllegalArgumentException(String.format("First parameter must be of type %s", SelectOptionEvent.class.getSimpleName())));
             return Optional.empty();
         }
-        return Optional.of(new SelectOptionProviderDefinition(method, selectMenus));
+        return Optional.of(new SelectOptionProviderDefinition(method));
     }
 }

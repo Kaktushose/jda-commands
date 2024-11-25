@@ -164,6 +164,16 @@ public class RuntimeSupervisor {
         return getRuntime(event.getModalId());
     }
 
+    /**
+     * Gets an {@link InteractionRuntime} by its id.
+     *
+     * @param runtimeId the id of the runtime
+     * @return an {@link InteractionRuntime}
+     */
+    public InteractionRuntime getRuntimeById(String runtimeId) {
+        return runtimes.get(runtimeId);
+    }
+
     private Optional<InteractionRuntime> getRuntime(String interactionId) {
         if (!interactionId.matches(CUSTOM_ID_REGEX)) {
             return Optional.empty();

@@ -1,12 +1,15 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.SelectOptionEvent;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.util.*;
 import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,7 +55,7 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
         }
 
         if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
-                !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
+            !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
             log.error("An error has occurred! Skipping Select Menu {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
@@ -104,8 +107,8 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
         ));
     }
 
-    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String runtimeId, boolean enabled) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtimeId))
+    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(RuntimeSupervisor.InteractionRuntime runtime, boolean enabled, InteractionRegistry interactionRegistry) {
+        var menu = net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtime.getRuntimeId()))
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .setDefaultOptions(selectOptions.stream()
@@ -115,10 +118,31 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
                 )
                 .setDisabled(!enabled);
 
-                        .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))
+        menu.addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()));
 
         if (selectOptionProvider != null) {
-            // somehow call provider and add to existing list of options, this allows the combination of static and dynamic options
+            Optional<SelectOptionProviderDefinition> optionalProvider = interactionRegistry
+                    .getSelectOptionProviders()
+                    .stream()
+                    .filter(it -> String.format("%s%s", it.getMethod().getDeclaringClass().getSimpleName(), selectOptionProvider).equals(it.getDefinitionId()))
+                    .findFirst();
+
+            if (optionalProvider.isEmpty()) {
+                log.warn("Select option provider {} not found!", selectOptionProvider);
+                return menu.build();
+            }
+
+            SelectOptionProviderDefinition provider = optionalProvider.get();
+
+            log.info("Executing select option provider {}", provider.getMethod().getName());
+            SelectOptionEvent event = new SelectOptionEvent(provider);
+            try {
+                provider.getMethod().invoke(runtime.getInstance(), event);
+            } catch (Exception exception) {
+                throw new IllegalStateException("Auto complete execution failed!", exception);
+            }
+
+            menu.addOptions(event.getSelectOptions());
         }
 
         return menu.build();
