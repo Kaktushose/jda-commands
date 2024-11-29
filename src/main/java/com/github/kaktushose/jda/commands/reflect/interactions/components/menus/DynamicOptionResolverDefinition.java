@@ -6,9 +6,9 @@ import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractio
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 public class DynamicOptionResolverDefinition extends GenericInteractionDefinition {
 
@@ -29,11 +29,11 @@ public class DynamicOptionResolverDefinition extends GenericInteractionDefinitio
             return Optional.empty();
         }
 
-        if (!Set.class.isAssignableFrom(method.getReturnType())) {
+        if (!Collection.class.isAssignableFrom(method.getReturnType())) {
             log.error("An error has occurred! Skipping select option provider {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException("Return type must be of type 'Set<SelectOption>'"));
+                    new IllegalArgumentException("Return type must be of type 'Collection<SelectOption>'"));
             return Optional.empty();
         }
         return Optional.of(new DynamicOptionResolverDefinition(method));

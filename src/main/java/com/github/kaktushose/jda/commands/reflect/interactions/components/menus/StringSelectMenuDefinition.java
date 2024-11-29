@@ -143,11 +143,10 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
             log.info("Executing DynamicOptionResolver {}", resolver.getMethod().getName());
             try {
                 Object selectOptions = resolver.getMethod().invoke(runtime.getInstance());
-                System.out.println(selectOptions);
-                if (Set.class.isAssignableFrom(selectOptions.getClass())) {
-                    menu.addOptions((Set<SelectOption>) selectOptions);
+                if (Collection.class.isAssignableFrom(selectOptions.getClass())) {
+                    menu.addOptions((Collection<SelectOption>) selectOptions);
                 } else {
-                    log.error("Method '{}' has wrong return type. Return type must be Set<SelectOption>!", resolver.getMethod().getName());
+                    log.error("Method '{}' has wrong return type. Return type must be Collection<SelectOption>!", resolver.getMethod().getName());
                 }
             } catch (Exception exception) {
                 throw new IllegalStateException("Resolving menu options failed", exception);

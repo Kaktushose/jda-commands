@@ -15,14 +15,14 @@ import java.lang.annotation.Target;
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
  * <li>Method must be public</li>
- * <li>Method must have a return type of Set<SelectOption></li>
+ * <li>Method must have a return type of Collection<SelectOption></li>
  * <li>Method must not have parameters</li>
  * </ul>
  * <br>Example:
  * <pre>
  * {@code
  * @DynamicOptionResolver
- * public Set<SelectOption> onResolveOptions() {
+ * public Collection<SelectOption> onResolveOptions() {
  *      return Set.of(SelectOption.of("Pizza", "option-1"), SelectOption.of("Hamburger", "option-2"));
  * }
  * }
