@@ -12,7 +12,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCom
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.SelectOptionProviderDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.MenuOptionProviderDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.StringSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -40,14 +40,14 @@ public class InteractionControllerDefinition {
     private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final List<AutoCompleteDefinition> autoCompletes;
     private final List<ModalDefinition> modals;
-    private final List<SelectOptionProviderDefinition> optionProviders;
+    private final List<MenuOptionProviderDefinition> optionProviders;
 
     private InteractionControllerDefinition(List<GenericCommandDefinition> commands,
                                             List<ButtonDefinition> buttons,
                                             List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
                                             List<AutoCompleteDefinition> autoCompletes,
                                             List<ModalDefinition> modals,
-                                            List<SelectOptionProviderDefinition> optionProviders) {
+                                            List<MenuOptionProviderDefinition> optionProviders) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
@@ -104,7 +104,7 @@ public class InteractionControllerDefinition {
         List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
         List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
         List<ModalDefinition> modals = new ArrayList<>();
-        List<SelectOptionProviderDefinition> optionProviders = new ArrayList<>();
+        List<MenuOptionProviderDefinition> optionProviders = new ArrayList<>();
         for (Method method : interactionClass.getDeclaredMethods()) {
 
             // index commands
@@ -200,9 +200,9 @@ public class InteractionControllerDefinition {
                 });
             }
 
-            // index select option providers
-            if (method.isAnnotationPresent(SelectOptionProvider.class)) {
-                SelectOptionProviderDefinition.build(method).ifPresent(optionProviders::add);
+            // index menu option providers
+            if (method.isAnnotationPresent(MenuOptionProvider.class)) {
+                MenuOptionProviderDefinition.build(method).ifPresent(optionProviders::add);
             }
         }
 
@@ -255,11 +255,11 @@ public class InteractionControllerDefinition {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link SelectOptionProviderDefinition SelectOptionProviderDefinitions}.
+     * Gets a possibly-empty list of all {@link MenuOptionProviderDefinition SelectOptionProviderDefinitions}.
      *
-     * @return a possibly-empty list of all {@link SelectOptionProviderDefinition SelectOptionProviderDefinitions}
+     * @return a possibly-empty list of all {@link MenuOptionProviderDefinition SelectOptionProviderDefinitions}
      */
-    public List<SelectOptionProviderDefinition> getSelectOptionProviders() {
+    public List<MenuOptionProviderDefinition> getMenuOptionProviders() {
         return optionProviders;
     }
 

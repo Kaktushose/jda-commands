@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
  */
 public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
-    private final Set<SelectOptionDefinition> selectOptions;
+    private final Set<MenuOptionDefinition> selectOptions;
     private final String selectOptionProvider;
 
     protected StringSelectMenuDefinition(Method method,
                                          Set<String> permissions,
                                          boolean ephemeral,
-                                         Set<SelectOptionDefinition> selectOptions,
+                                         Set<MenuOptionDefinition> selectOptions,
                                          String selectOptionProvider, String placeholder,
                                          int minValue,
                                          int maxValue) {
@@ -74,9 +74,9 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
 
         StringSelectMenu selectMenu = method.getAnnotation(StringSelectMenu.class);
 
-        Set<SelectOptionDefinition> selectOptions = new HashSet<>();
-        for (SelectOption option : method.getDeclaredAnnotationsByType(SelectOption.class)) {
-            selectOptions.add(SelectOptionDefinition.build(option));
+        Set<MenuOptionDefinition> selectOptions = new HashSet<>();
+        for (MenuOption option : method.getDeclaredAnnotationsByType(MenuOption.class)) {
+            selectOptions.add(MenuOptionDefinition.build(option));
         }
 
         String selectOptionProvider = null;
@@ -112,17 +112,17 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .setDefaultOptions(selectOptions.stream()
-                        .filter(SelectOptionDefinition::isDefault)
-                        .map(SelectOptionDefinition::toSelectOption)
+                        .filter(MenuOptionDefinition::isDefault)
+                        .map(MenuOptionDefinition::toSelectOption)
                         .collect(Collectors.toSet())
                 )
                 .setDisabled(!enabled);
 
-        menu.addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()));
+        menu.addOptions(selectOptions.stream().map(MenuOptionDefinition::toSelectOption).collect(Collectors.toSet()));
 
         if (selectOptionProvider != null) {
-            Optional<SelectOptionProviderDefinition> optionalProvider = interactionRegistry
-                    .getSelectOptionProviders()
+            Optional<MenuOptionProviderDefinition> optionalProvider = interactionRegistry
+                    .getMenuOptionProviders()
                     .stream()
                     .filter(it -> String.format("%s%s", it.getMethod().getDeclaringClass().getSimpleName(), selectOptionProvider).equals(it.getDefinitionId()))
                     .findFirst();
@@ -132,7 +132,7 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
                 return menu.build();
             }
 
-            SelectOptionProviderDefinition provider = optionalProvider.get();
+            MenuOptionProviderDefinition provider = optionalProvider.get();
 
             log.info("Executing select option provider {}", provider.getMethod().getName());
             SelectOptionEvent event = new SelectOptionEvent(provider);
@@ -149,11 +149,11 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     }
 
     /**
-     * Gets a set of all {@link SelectOptionDefinition SelectOptionDefinitions}.
+     * Gets a set of all {@link MenuOptionDefinition SelectOptionDefinitions}.
      *
-     * @return a set of all {@link SelectOptionDefinition SelectOptionDefinitions}
+     * @return a set of all {@link MenuOptionDefinition SelectOptionDefinitions}
      */
-    public Set<SelectOptionDefinition> getSelectOptions() {
+    public Set<MenuOptionDefinition> getSelectOptions() {
         return selectOptions;
     }
 

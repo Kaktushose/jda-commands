@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that the annotated select menu doesn't have static {@link SelectOption SelectOptions}, but instead the
- * options are provided by a {@link SelectOptionProvider}
+ * Indicates that the annotated select menu doesn't have static {@link MenuOption SelectOptions}, but instead the
+ * options are provided by a {@link MenuOptionProvider}
  *
  * @see Interaction
  * @see StringSelectMenu
- * @see SelectOption
+ * @see MenuOption
  * @since 4.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,9 +19,9 @@ import java.lang.annotation.Target;
 public @interface DynamicOptions {
 
     /**
-     * Gets the name of the {@link SelectOptionProvider} that should be used
+     * Gets the name of the {@link MenuOptionProvider} that should be used
      *
-     * @return the name of the {@link SelectOptionProvider}
+     * @return the name of the {@link MenuOptionProvider}
      */
     String value();
 
