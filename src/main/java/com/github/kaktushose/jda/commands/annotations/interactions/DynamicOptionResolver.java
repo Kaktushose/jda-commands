@@ -14,28 +14,25 @@ import java.lang.annotation.Target;
  * {@link Interaction}.
  * Furthermore, the method signature has to meet the following conditions:
  * <ul>
- * <li>First parameter must be of type
- * {@link com.github.kaktushose.jda.commands.dispatching.interactions.components.OptionResolver OptionResolver}</li>
  * <li>Method must be public</li>
- * <li>Method must not have a return type</li>
+ * <li>Method must have a return type of Set<SelectOption></li>
+ * <li>Method must not have parameters</li>
  * </ul>
  * <br>Example:
  * <pre>
  * {@code
- * @MenuOptionProvider
- * public void onResolveOptions(OptionResolver resolver) {
- *      resolver.add(SelectOption.of("Option 1", "option-1").withDefault(true))
- *              .add("Option 2", "option-2");
+ * @DynamicOptionResolver
+ * public Set<SelectOption> onResolveOptions() {
+ *      return Set.of(SelectOption.of("Pizza", "option-1"), SelectOption.of("Hamburger", "option-2"));
  * }
  * }
  * </pre>
  * </p>
  *
- * @see com.github.kaktushose.jda.commands.dispatching.interactions.components.OptionResolver OptionResolver
  * @see DynamicOptions
  * @since 4.0.0
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MenuOptionProvider {
+public @interface DynamicOptionResolver {
 }

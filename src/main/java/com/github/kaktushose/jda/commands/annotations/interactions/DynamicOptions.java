@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that the annotated select menu doesn't have static {@link MenuOption SelectOptions}, but instead the
- * options are provided by a {@link MenuOptionProvider}
+ * options are provided by a {@link DynamicOptionResolver}
  *
  * @see Interaction
  * @see StringSelectMenu
@@ -19,9 +19,9 @@ import java.lang.annotation.Target;
 public @interface DynamicOptions {
 
     /**
-     * Gets the name of the {@link MenuOptionProvider} that should be used
+     * Gets the name of the {@link DynamicOptionResolver} that should be used
      *
-     * @return the name of the {@link MenuOptionProvider}
+     * @return the name of the {@link DynamicOptionResolver}
      */
     String value();
 

@@ -12,7 +12,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCom
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.MenuOptionProviderDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.DynamicOptionResolverDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.StringSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -40,20 +40,20 @@ public class InteractionControllerDefinition {
     private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final List<AutoCompleteDefinition> autoCompletes;
     private final List<ModalDefinition> modals;
-    private final List<MenuOptionProviderDefinition> optionProviders;
+    private final List<DynamicOptionResolverDefinition> optionResolvers;
 
     private InteractionControllerDefinition(List<GenericCommandDefinition> commands,
                                             List<ButtonDefinition> buttons,
                                             List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
                                             List<AutoCompleteDefinition> autoCompletes,
                                             List<ModalDefinition> modals,
-                                            List<MenuOptionProviderDefinition> optionProviders) {
+                                            List<DynamicOptionResolverDefinition> optionResolvers) {
         this.commands = commands;
         this.buttons = buttons;
         this.selectMenus = selectMenus;
         this.autoCompletes = autoCompletes;
         this.modals = modals;
-        this.optionProviders = optionProviders;
+        this.optionResolvers = optionResolvers;
     }
 
     /**
@@ -104,7 +104,7 @@ public class InteractionControllerDefinition {
         List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
         List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
         List<ModalDefinition> modals = new ArrayList<>();
-        List<MenuOptionProviderDefinition> optionProviders = new ArrayList<>();
+        List<DynamicOptionResolverDefinition> optionResolvers = new ArrayList<>();
         for (Method method : interactionClass.getDeclaredMethods()) {
 
             // index commands
@@ -201,12 +201,12 @@ public class InteractionControllerDefinition {
             }
 
             // index menu option providers
-            if (method.isAnnotationPresent(MenuOptionProvider.class)) {
-                MenuOptionProviderDefinition.build(method).ifPresent(optionProviders::add);
+            if (method.isAnnotationPresent(DynamicOptionResolver.class)) {
+                DynamicOptionResolverDefinition.build(method).ifPresent(optionResolvers::add);
             }
         }
 
-        return Optional.of(new InteractionControllerDefinition(commands, buttons, selectMenus, autoCompletes, modals, optionProviders));
+        return Optional.of(new InteractionControllerDefinition(commands, buttons, selectMenus, autoCompletes, modals, optionResolvers));
     }
 
     /**
@@ -255,12 +255,12 @@ public class InteractionControllerDefinition {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link MenuOptionProviderDefinition SelectOptionProviderDefinitions}.
+     * Gets a possibly-empty list of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}.
      *
-     * @return a possibly-empty list of all {@link MenuOptionProviderDefinition SelectOptionProviderDefinitions}
+     * @return a possibly-empty list of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}
      */
-    public List<MenuOptionProviderDefinition> getMenuOptionProviders() {
-        return optionProviders;
+    public List<DynamicOptionResolverDefinition> getDynamicOptionResolvers() {
+        return optionResolvers;
     }
 
     @Override
@@ -271,7 +271,7 @@ public class InteractionControllerDefinition {
                ", selectMenus=" + selectMenus +
                ", autoCompletes=" + autoCompletes +
                ", modals=" + modals +
-               ", selectOptionProviders=" + optionProviders +
+               ", dynamicOptionResolvers=" + optionResolvers +
                '}';
     }
 

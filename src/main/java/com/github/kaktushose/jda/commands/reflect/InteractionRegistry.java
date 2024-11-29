@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.MenuOptionProviderDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.DynamicOptionResolverDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -46,7 +46,7 @@ public class InteractionRegistry {
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
     private final Set<ModalDefinition> modals;
-    private final Set<MenuOptionProviderDefinition> optionProviders;
+    private final Set<DynamicOptionResolverDefinition> optionResolvers;
 
     /**
      * Constructs a new CommandRegistry.
@@ -67,7 +67,7 @@ public class InteractionRegistry {
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
         modals = new HashSet<>();
-        optionProviders = new HashSet<>();
+        optionResolvers = new HashSet<>();
     }
 
     /**
@@ -114,7 +114,7 @@ public class InteractionRegistry {
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
             modals.addAll(controller.getModals());
-            optionProviders.addAll(controller.getMenuOptionProviders());
+            optionResolvers.addAll(controller.getDynamicOptionResolvers());
             log.debug("Registered interaction controller {}", controller);
         }
 
@@ -201,11 +201,11 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty Set of all {@link MenuOptionProviderDefinition MenuOptionProviderDefinitions}.
+     * Gets a possibly-empty Set of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}.
      *
-     * @return a possibly-empty Set of all {@link MenuOptionProviderDefinition MenuOptionProviderDefinitions}
+     * @return a possibly-empty Set of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}
      */
-    public Set<MenuOptionProviderDefinition> getMenuOptionProviders() {
-        return optionProviders;
+    public Set<DynamicOptionResolverDefinition> getDynamicOptionResolvers() {
+        return optionResolvers;
     }
 }

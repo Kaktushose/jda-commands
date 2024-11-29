@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.OptionResolver;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,18 +22,19 @@ import java.util.stream.Collectors;
 public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
     private final Set<MenuOptionDefinition> selectOptions;
-    private final String menuOptionProvider;
+    private final String dynamicOptionResolver;
 
     protected StringSelectMenuDefinition(Method method,
                                          Set<String> permissions,
                                          boolean ephemeral,
                                          Set<MenuOptionDefinition> selectOptions,
-                                         String menuOptionProvider, String placeholder,
+                                         String dynamicOptionResolver,
+                                         String placeholder,
                                          int minValue,
                                          int maxValue) {
         super(method, permissions, ephemeral, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
-        this.menuOptionProvider = menuOptionProvider;
+        this.dynamicOptionResolver = dynamicOptionResolver;
     }
 
     /**
@@ -80,15 +81,15 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
             selectOptions.add(MenuOptionDefinition.build(option));
         }
 
-        String menuOptionProvider = null;
-        if (selectOptions.isEmpty() && method.isAnnotationPresent(DynamicOptions.class)) {
+        String optionResolver = null;
+        if (method.isAnnotationPresent(DynamicOptions.class)) {
             DynamicOptions dynamicOptions = method.getAnnotation(DynamicOptions.class);
             if (!dynamicOptions.value().isBlank()) {
-                menuOptionProvider = dynamicOptions.value();
+                optionResolver = dynamicOptions.value();
             }
         }
 
-        if (selectOptions.isEmpty() && menuOptionProvider == null) {
+        if (selectOptions.isEmpty() && optionResolver == null) {
             log.error("An error has occurred! Skipping Select Menu {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
@@ -104,13 +105,14 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
                 permissions,
                 selectMenu.ephemeral(),
                 selectOptions,
-                menuOptionProvider,
+                optionResolver,
                 selectMenu.value(),
                 selectMenu.minValue(),
                 selectMenu.maxValue()
         ));
     }
 
+    @SuppressWarnings("unchecked")
     public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(RuntimeSupervisor.InteractionRuntime runtime, boolean enabled, InteractionRegistry interactionRegistry) {
         var menu = net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtime.getRuntimeId()))
                 .setPlaceholder(placeholder)
@@ -124,29 +126,32 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
 
         menu.addOptions(selectOptions.stream().map(MenuOptionDefinition::toSelectOption).collect(Collectors.toSet()));
 
-        if (menuOptionProvider != null) {
-            Optional<MenuOptionProviderDefinition> optionalProvider = interactionRegistry
-                    .getMenuOptionProviders()
+        if (dynamicOptionResolver != null) {
+            Optional<DynamicOptionResolverDefinition> optionalResolver = interactionRegistry
+                    .getDynamicOptionResolvers()
                     .stream()
-                    .filter(it -> String.format("%s%s", it.getMethod().getDeclaringClass().getSimpleName(), menuOptionProvider).equals(it.getDefinitionId()))
+                    .filter(it -> String.format("%s%s", it.getMethod().getDeclaringClass().getSimpleName(), dynamicOptionResolver).equals(it.getDefinitionId()))
                     .findFirst();
 
-            if (optionalProvider.isEmpty()) {
-                log.warn("Select option provider {} not found!", menuOptionProvider);
+            if (optionalResolver.isEmpty()) {
+                log.warn("DynamicOptionResolver {} not found!", dynamicOptionResolver);
                 return menu.build();
             }
 
-            MenuOptionProviderDefinition provider = optionalProvider.get();
+            DynamicOptionResolverDefinition resolver = optionalResolver.get();
 
-            log.info("Executing select option provider {}", provider.getMethod().getName());
-            OptionResolver event = new OptionResolver(provider);
+            log.info("Executing DynamicOptionResolver {}", resolver.getMethod().getName());
             try {
-                provider.getMethod().invoke(runtime.getInstance(), event);
+                Object selectOptions = resolver.getMethod().invoke(runtime.getInstance());
+                System.out.println(selectOptions);
+                if (Set.class.isAssignableFrom(selectOptions.getClass())) {
+                    menu.addOptions((Set<SelectOption>) selectOptions);
+                } else {
+                    log.error("Method '{}' has wrong return type. Return type must be Set<SelectOption>!", resolver.getMethod().getName());
+                }
             } catch (Exception exception) {
-                throw new IllegalStateException("Auto complete execution failed!", exception);
+                throw new IllegalStateException("Resolving menu options failed", exception);
             }
-
-            menu.addOptions(event.getSelectOptions());
         }
 
         return menu.build();
@@ -162,20 +167,20 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     }
 
     /**
-     * Gets the name of the {@link MenuOptionProvider} bound to this definition. Returns {@code null} if no
-     * {@link MenuOptionProvider} was defined.
+     * Gets the name of the {@link DynamicOptionResolver} bound to this definition. Returns {@code null} if no
+     * {@link DynamicOptionResolver} was defined.
      *
-     * @return the name of the {@link MenuOptionProvider}
+     * @return the name of the {@link DynamicOptionResolver}
      */
-    public @Nullable String getMenuOptionProvider() {
-        return menuOptionProvider;
+    public @Nullable String getDynamicOptionResolverName() {
+        return dynamicOptionResolver;
     }
 
     @Override
     public String toString() {
         return "StringSelectMenuDefinition{" +
                "selectOptions=" + selectOptions +
-               ", selectOptionProvider='" + menuOptionProvider + '\'' +
+               ", dynamicOptionResolver='" + dynamicOptionResolver + '\'' +
                ", placeholder='" + placeholder + '\'' +
                ", minValue=" + minValue +
                ", maxValue=" + maxValue +
