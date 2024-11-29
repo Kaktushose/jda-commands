@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @see Interaction
- * @see SelectOption
+ * @see MenuOption
  * @since 4.0.0
  */
 @Target(ElementType.METHOD)

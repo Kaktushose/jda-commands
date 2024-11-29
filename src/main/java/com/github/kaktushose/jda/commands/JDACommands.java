@@ -283,7 +283,7 @@ public class JDACommands {
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
         RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(selectMenuDefinition);
-        return selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
+        return selectMenuDefinition.toSelectMenu(runtime, true, interactionRegistry);
     }
 
     /**
@@ -329,7 +329,7 @@ public class JDACommands {
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        return selectMenuDefinition.toSelectMenu(runtimeId, true);
+        return selectMenuDefinition.toSelectMenu(runtimeSupervisor.getRuntimeById(runtimeId), true, interactionRegistry);
     }
 
     /**

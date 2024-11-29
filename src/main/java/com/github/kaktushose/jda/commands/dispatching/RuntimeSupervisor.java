@@ -24,7 +24,7 @@ import static com.github.kaktushose.jda.commands.reflect.interactions.CustomId.C
 
 /**
  * Supervisor that creates and stores {@link InteractionRuntime InteractionRuntimes}. This supervisor will create a
- * new {@link InteractionRuntime} for every command execution with a TTL of 15 minutes.
+ * new {@link InteractionRuntime InteractionRuntime} for every command execution with a TTL of 15 minutes.
  *
  * @since 4.0.0
  */
@@ -162,6 +162,16 @@ public class RuntimeSupervisor {
      */
     public Optional<InteractionRuntime> getRuntime(ModalInteractionEvent event) {
         return getRuntime(event.getModalId());
+    }
+
+    /**
+     * Gets an {@link InteractionRuntime} by its id.
+     *
+     * @param runtimeId the id of the runtime
+     * @return an {@link InteractionRuntime}
+     */
+    public InteractionRuntime getRuntimeById(String runtimeId) {
+        return runtimes.get(runtimeId);
     }
 
     private Optional<InteractionRuntime> getRuntime(String interactionId) {

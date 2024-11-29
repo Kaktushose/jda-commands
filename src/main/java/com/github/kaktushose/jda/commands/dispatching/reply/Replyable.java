@@ -182,7 +182,7 @@ public interface Replyable {
                     context.getJdaCommands().getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(context.getRuntime().getRuntimeId(), container.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(context.getRuntime(), container.isEnabled(), context.getJdaCommands().getInteractionRegistry()))
                             .ifPresent(items::add);
                 });
             }

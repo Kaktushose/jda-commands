@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.DynamicOptionResolverDefinition;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -45,6 +46,7 @@ public class InteractionRegistry {
     private final Set<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
     private final Set<AutoCompleteDefinition> autoCompletes;
     private final Set<ModalDefinition> modals;
+    private final Set<DynamicOptionResolverDefinition> optionResolvers;
 
     /**
      * Constructs a new CommandRegistry.
@@ -65,6 +67,7 @@ public class InteractionRegistry {
         selectMenus = new HashSet<>();
         autoCompletes = new HashSet<>();
         modals = new HashSet<>();
+        optionResolvers = new HashSet<>();
     }
 
     /**
@@ -111,6 +114,7 @@ public class InteractionRegistry {
             selectMenus.addAll(controller.getSelectMenus());
             autoCompletes.addAll(controller.getAutoCompletes());
             modals.addAll(controller.getModals());
+            optionResolvers.addAll(controller.getDynamicOptionResolvers());
             log.debug("Registered interaction controller {}", controller);
         }
 
@@ -162,33 +166,47 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}.
+     * Gets a possibly-empty Set of all {@link ButtonDefinition ButtonDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
+     * @return a possibly-empty Set of all {@link ButtonDefinition ButtonDefinitions}
      */
     public Set<ButtonDefinition> getButtons() {
         return Collections.unmodifiableSet(buttons);
     }
 
     /**
-     * Gets a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
+     * Gets a possibly-empty Set of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
      *
-     * @return a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
+     * @return a possibly-empty Set of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
      */
     public Set<AutoCompleteDefinition> getAutoCompletes() {
         return Collections.unmodifiableSet(autoCompletes);
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ModalDefinition ModalDefinitions}.
+     * Gets a possibly-empty Set of all {@link GenericSelectMenuDefinition SelectMenuDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ModalDefinition ModalDefinitions}
+     * @return a possibly-empty Set of all {@link GenericSelectMenuDefinition SelectMenuDefinitions}
      */
     public Set<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
         return Collections.unmodifiableSet(selectMenus);
     }
 
+    /**
+     * Gets a possibly-empty Set of all {@link ModalDefinition ModalDefinitions}.
+     *
+     * @return a possibly-empty Set of all {@link ModalDefinition ModalDefinitions}
+     */
     public Set<ModalDefinition> getModals() {
         return Collections.unmodifiableSet(modals);
+    }
+
+    /**
+     * Gets a possibly-empty Set of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}.
+     *
+     * @return a possibly-empty Set of all {@link DynamicOptionResolverDefinition DynamicOptionResolverDefinitions}
+     */
+    public Set<DynamicOptionResolverDefinition> getDynamicOptionResolvers() {
+        return optionResolvers;
     }
 }

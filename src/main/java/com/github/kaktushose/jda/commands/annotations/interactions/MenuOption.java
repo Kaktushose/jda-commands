@@ -11,12 +11,13 @@ import java.lang.annotation.*;
  *
  * @see Interaction
  * @see StringSelectMenu
+ * @see DynamicOptions
  * @since 4.0.0
  */
 @Repeatable(SelectOptionContainer.class)
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SelectOption {
+public @interface MenuOption {
 
     /**
      * Gets the label of an option.

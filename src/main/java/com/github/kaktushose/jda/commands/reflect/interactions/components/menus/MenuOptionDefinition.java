@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
+import com.github.kaktushose.jda.commands.annotations.interactions.MenuOption;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.util.Optional;
@@ -8,10 +8,10 @@ import java.util.Optional;
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.SelectOption SelectOption}.
  *
- * @see SelectOption
+ * @see MenuOption
  * @since 4.0.0
  */
-public class SelectOptionDefinition {
+public class MenuOptionDefinition {
 
     private final String value;
     private final String label;
@@ -19,7 +19,7 @@ public class SelectOptionDefinition {
     private final Emoji emoji;
     private final boolean isDefault;
 
-    protected SelectOptionDefinition(String value, String label, String description, Emoji emoji, boolean isDefault) {
+    protected MenuOptionDefinition(String value, String label, String description, Emoji emoji, boolean isDefault) {
         this.value = value;
         this.label = label;
         this.description = description;
@@ -30,10 +30,10 @@ public class SelectOptionDefinition {
     /**
      * Builds a new SelectOptionDefinition.
      *
-     * @param option the {@link SelectOption} to build the SelectOptionDefinition from
+     * @param option the {@link MenuOption} to build the SelectOptionDefinition from
      * @return the SelectOptionDefinition
      */
-    public static SelectOptionDefinition build(SelectOption option) {
+    public static MenuOptionDefinition build(MenuOption option) {
         Emoji emoji;
         String emojiString = option.emoji();
         if (emojiString.isEmpty()) {
@@ -41,7 +41,7 @@ public class SelectOptionDefinition {
         } else {
             emoji = Emoji.fromFormatted(emojiString);
         }
-        return new SelectOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
+        return new MenuOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
     }
 
     public net.dv8tion.jda.api.interactions.components.selections.SelectOption toSelectOption() {

@@ -1,10 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -13,38 +11,14 @@ import java.util.Set;
  *
  * @since 4.0.0
  */
-public abstract class GenericInteractionDefinition {
+public abstract class GenericInteractionDefinition extends InteractionRuntimeExecutable {
 
     protected static final Logger log = LoggerFactory.getLogger(GenericInteractionDefinition.class);
-
-    protected final String definitionId;
-    protected final Method method;
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.definitionId = String.format("%s%s", method.getDeclaringClass().getSimpleName(), method.getName());
-        this.method = method;
+        super(method);
         this.permissions = permissions;
-    }
-
-    /**
-     * Returns the id of the interaction definition.
-     *
-     * @return the id of the interaction definition
-     */
-    @NotNull
-    public String getDefinitionId() {
-        return definitionId;
-    }
-
-    /**
-     * Gets the {@link Method} of the interaction.
-     *
-     * @return the {@link Method} of the interaction
-     */
-    @NotNull
-    public Method getMethod() {
-        return method;
     }
 
     /**
@@ -63,19 +37,5 @@ public abstract class GenericInteractionDefinition {
      */
     public String getDisplayName() {
         return method.getName();
-    }
-
-    /**
-     * Gets a new instance of the method defining class
-     *
-     * @return a new instance of the method defining class
-     * @throws InvocationTargetException if the underlying constructor throws an exception
-     * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
-     * @throws IllegalAccessException    if this Constructor object is enforcing Java language access control and
-     *                                   the underlying constructor is inaccessible
-     */
-    @NotNull
-    public Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        return method.getDeclaringClass().getConstructors()[0].newInstance();
     }
 }
