@@ -165,36 +165,46 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}.
+     * Gets a possibly-empty Set of all {@link ButtonDefinition ButtonDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ButtonDefinition ButtonDefinitions}
+     * @return a possibly-empty Set of all {@link ButtonDefinition ButtonDefinitions}
      */
     public Set<ButtonDefinition> getButtons() {
         return Collections.unmodifiableSet(buttons);
     }
 
     /**
-     * Gets a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
+     * Gets a possibly-empty Set of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
      *
-     * @return a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
+     * @return a possibly-empty Set of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
      */
     public Set<AutoCompleteDefinition> getAutoCompletes() {
         return Collections.unmodifiableSet(autoCompletes);
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ModalDefinition ModalDefinitions}.
+     * Gets a possibly-empty Set of all {@link GenericSelectMenuDefinition SelectMenuDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ModalDefinition ModalDefinitions}
+     * @return a possibly-empty Set of all {@link GenericSelectMenuDefinition SelectMenuDefinitions}
      */
     public Set<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
         return Collections.unmodifiableSet(selectMenus);
     }
 
+    /**
+     * Gets a possibly-empty Set of all {@link ModalDefinition ModalDefinitions}.
+     *
+     * @return a possibly-empty Set of all {@link ModalDefinition ModalDefinitions}
+     */
     public Set<ModalDefinition> getModals() {
         return Collections.unmodifiableSet(modals);
     }
 
+    /**
+     * Gets a possibly-empty Set of all {@link MenuOptionProviderDefinition MenuOptionProviderDefinitions}.
+     *
+     * @return a possibly-empty Set of all {@link MenuOptionProviderDefinition MenuOptionProviderDefinitions}
+     */
     public Set<MenuOptionProviderDefinition> getMenuOptionProviders() {
         return optionProviders;
     }

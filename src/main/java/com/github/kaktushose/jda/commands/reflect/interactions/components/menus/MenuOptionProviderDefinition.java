@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.MenuOptionProvider;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.SelectOptionEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.OptionResolver;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,11 +29,11 @@ public class MenuOptionProviderDefinition extends GenericInteractionDefinition {
             return Optional.empty();
         }
 
-        if (!SelectOptionEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
+        if (!OptionResolver.class.isAssignableFrom(method.getParameters()[0].getType())) {
             log.error("An error has occurred! Skipping select option provider {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s", SelectOptionEvent.class.getSimpleName())));
+                    new IllegalArgumentException(String.format("First parameter must be of type %s", OptionResolver.class.getSimpleName())));
             return Optional.empty();
         }
         return Optional.of(new MenuOptionProviderDefinition(method));
