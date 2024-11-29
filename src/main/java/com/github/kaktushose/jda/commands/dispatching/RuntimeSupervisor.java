@@ -24,7 +24,7 @@ import static com.github.kaktushose.jda.commands.reflect.interactions.CustomId.C
 
 /**
  * Supervisor that creates and stores {@link InteractionRuntime InteractionRuntimes}. This supervisor will create a
- * new {@link InteractionRuntime} for every command execution with a TTL of 15 minutes.
+ * new {@link InteractionRuntime InteractionRuntime} for every command execution with a TTL of 15 minutes.
  *
  * @since 4.0.0
  */
