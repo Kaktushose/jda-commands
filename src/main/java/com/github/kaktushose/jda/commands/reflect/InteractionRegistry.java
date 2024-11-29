@@ -129,7 +129,8 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}.
+     * Gets a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}, this includes both
+     * {@link SlashCommandDefinition} and {@link ContextCommandDefinition}.
      *
      * @return a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}
      */
@@ -138,9 +139,9 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link SlashCommandDefinition CommandDefinitions}.
+     * Gets a possibly-empty list of all {@link SlashCommandDefinition SlashCommandDefinitions}.
      *
-     * @return a possibly-empty list of all {@link SlashCommandDefinition CommandDefinitions}
+     * @return a possibly-empty list of all {@link SlashCommandDefinition SlashCommandDefinitions}
      */
     public Set<SlashCommandDefinition> getSlashCommands() {
         return commands.stream().filter(it -> (it.getCommandType() == Command.Type.SLASH))
@@ -149,9 +150,9 @@ public class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all {@link ContextCommandDefinition CommandDefinitions}.
+     * Gets a possibly-empty list of all {@link ContextCommandDefinition ContextCommandDefinitions}.
      *
-     * @return a possibly-empty list of all {@link ContextCommandDefinition CommandDefinitions}
+     * @return a possibly-empty list of all {@link ContextCommandDefinition ContextCommandDefinitions}
      */
     public Set<ContextCommandDefinition> getContextCommands() {
         return commands.stream().filter(it ->
