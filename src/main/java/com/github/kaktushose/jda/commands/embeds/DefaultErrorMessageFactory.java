@@ -33,10 +33,10 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getParameters().forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
-            String typeName = parameter.getType().getTypeName();
+            String typeName = parameter.type().getTypeName();
             if (typeName.contains(".")) {
                 typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
             }
@@ -81,7 +81,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
-                .setDescription(String.format("```%s```", constraint.getMessage()))
+                .setDescription(String.format("```%s```", constraint.message()))
                 .build()
         ).build();
     }

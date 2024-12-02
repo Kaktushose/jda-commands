@@ -13,7 +13,7 @@ import java.util.Set;
  * @see com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition GenericSelectMenuDefinition
  * @since 4.0.0
  */
-public abstract class GenericComponentDefinition extends EphemeralInteractionDefinition implements CustomId {
+public abstract sealed class GenericComponentDefinition extends EphemeralInteractionDefinition implements CustomId permits ButtonDefinition, com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition {
 
     protected GenericComponentDefinition(Method method, Set<String> permissions, boolean ephemeral) {
         super(method, permissions, ephemeral);

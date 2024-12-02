@@ -18,12 +18,12 @@ import java.util.*;
  * @see Modal
  * @since 4.0.0
  */
-public class ModalDefinition extends EphemeralInteractionDefinition implements CustomId {
+public final class ModalDefinition extends EphemeralInteractionDefinition implements CustomId {
 
     private final String title;
     private final List<TextInputDefinition> textInputs;
 
-    protected ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
+    private ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
         super(method, permissions, ephemeral);
         this.title = title;
         this.textInputs = textInputs;

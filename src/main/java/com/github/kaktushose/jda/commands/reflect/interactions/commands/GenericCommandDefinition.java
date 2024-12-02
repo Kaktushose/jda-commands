@@ -18,7 +18,7 @@ import java.util.Set;
  * @see ContextCommandDefinition
  * @since 4.0.0
  */
-public abstract class GenericCommandDefinition extends EphemeralInteractionDefinition implements Comparable<GenericCommandDefinition> {
+public abstract sealed class GenericCommandDefinition extends EphemeralInteractionDefinition implements Comparable<GenericCommandDefinition> permits ContextCommandDefinition, SlashCommandDefinition {
 
     protected final String name;
     protected final boolean isGuildOnly;

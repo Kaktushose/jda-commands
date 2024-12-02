@@ -28,10 +28,9 @@ public class SlashCommandContext extends Context {
      * Constructs a new CommandContext.
      *
      * @param event       the corresponding {@link SlashCommandInteractionEvent}
-     * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public SlashCommandContext(SlashCommandInteractionEvent event, JDACommands jdaCommands) {
-        super(event, jdaCommands);
+    public SlashCommandContext(SlashCommandInteractionEvent event) {
+        super(event);
         setOptions(event.getOptions());
     }
 

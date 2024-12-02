@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteDispatcher;
@@ -8,6 +9,9 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -33,18 +37,16 @@ public class DispatcherSupervisor extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherSupervisor.class);
     private final Map<Class<? extends GenericInteractionCreateEvent>, GenericDispatcher> dispatchers;
-    private final JDACommands jdaCommands;
 
     /**
      * Constructs a new DispatcherSupervisor.
      */
-    public DispatcherSupervisor(JDACommands jdaCommands) {
-        this.jdaCommands = jdaCommands;
+    public DispatcherSupervisor(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
         dispatchers = new HashMap<>();
-        register(GenericCommandInteractionEvent.class, new CommandDispatcher(jdaCommands));
-        register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteDispatcher(jdaCommands));
-        register(GenericComponentInteractionCreateEvent.class, new ComponentDispatcher(jdaCommands));
-        register(ModalInteractionEvent.class, new ModalDispatcher(jdaCommands));
+        register(GenericCommandInteractionEvent.class, new CommandDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        register(GenericComponentInteractionCreateEvent.class, new ComponentDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        register(ModalInteractionEvent.class, new ModalDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
     }
 
     /**
@@ -81,9 +83,9 @@ public class DispatcherSupervisor extends ListenerAdapter {
 
         Context context;
         if (SlashCommandInteractionEvent.class.isAssignableFrom(clazz)) {
-            context = new SlashCommandContext((SlashCommandInteractionEvent) event, jdaCommands);
+            context = new SlashCommandContext((SlashCommandInteractionEvent) event);
         } else {
-            context = new Context(event, jdaCommands);
+            context = new Context(event);
         }
 
         GenericDispatcher dispatcher = dispatchers.get(key.get());

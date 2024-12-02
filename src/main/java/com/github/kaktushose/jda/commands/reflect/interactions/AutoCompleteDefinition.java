@@ -17,11 +17,11 @@ import java.util.Set;
  * @see AutoComplete
  * @since 4.0.0
  */
-public class AutoCompleteDefinition extends GenericInteractionDefinition {
+public final class AutoCompleteDefinition extends GenericInteractionDefinition {
 
     private Set<String> commands;
 
-    protected AutoCompleteDefinition(Method method, Set<String> commands) {
+    private AutoCompleteDefinition(Method method, Set<String> commands) {
         super(method, new HashSet<>());
         this.commands = commands;
     }
@@ -32,7 +32,7 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
      * @param method the {@link Method} of the AutoComplete
      * @return an {@link Optional} holding the AutoCompleteDefinition
      */
-    public static Optional<AutoCompleteDefinition> build(@NotNull Method method, List<String> autoCompletes) {
+    public static Optional<AutoCompleteDefinition> build(@NotNull Method method) {
         if (!method.isAnnotationPresent(AutoComplete.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -55,15 +55,6 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
 
         AutoComplete autoComplete = method.getAnnotation(AutoComplete.class);
         Set<String> values = Set.of(autoComplete.value());
-
-        if (autoCompletes.stream().anyMatch(values::contains)) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalStateException(String.format("There is already an auto complete handler registered " +
-                            "for at least one of the following commands: %s", values)));
-            return Optional.empty();
-        }
 
         return Optional.of(new AutoCompleteDefinition(method, values));
     }

@@ -5,6 +5,8 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -17,17 +19,17 @@ import java.util.stream.Collectors;
  * @see StringSelectMenu
  * @since 4.0.0
  */
-public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
+public final class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
     private final Set<SelectOptionDefinition> selectOptions;
 
-    protected StringSelectMenuDefinition(Method method,
-                                         Set<String> permissions,
-                                         boolean ephemeral,
-                                         Set<SelectOptionDefinition> selectOptions,
-                                         String placeholder,
-                                         int minValue,
-                                         int maxValue) {
+    private StringSelectMenuDefinition(Method method,
+                                       Set<String> permissions,
+                                       boolean ephemeral,
+                                       Set<SelectOptionDefinition> selectOptions,
+                                       String placeholder,
+                                       int minValue,
+                                       int maxValue) {
         super(method, permissions, ephemeral, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
     }
@@ -35,10 +37,10 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     /**
      * Builds a new StringSelectMenuDefinition.
      *
-     * @param method the {@link Method} of the button
      * @return an {@link Optional} holding the StringSelectMenuDefinition
      */
-    public static Optional<StringSelectMenuDefinition> build(@NotNull Method method) {
+    public static Optional<StringSelectMenuDefinition> build(MethodBuildContext context) {
+        Method method = context.method();
         if (!method.isAnnotationPresent(StringSelectMenu.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -78,8 +80,8 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
 
         return Optional.of(new StringSelectMenuDefinition(
                 method,
-                permissions,
-                selectMenu.ephemeral(),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, selectMenu.ephemeral()),
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),

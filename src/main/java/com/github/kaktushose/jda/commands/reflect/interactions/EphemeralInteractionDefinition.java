@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * @since 4.0.0
  */
-public abstract class EphemeralInteractionDefinition extends GenericInteractionDefinition {
+public abstract sealed class EphemeralInteractionDefinition extends GenericInteractionDefinition permits ModalDefinition, com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition, com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition {
 
     protected boolean ephemeral;
 

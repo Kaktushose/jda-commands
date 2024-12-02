@@ -5,17 +5,14 @@ import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.EntitySelectMenuDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.StringSelectMenuDefinition;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,26 +28,11 @@ import java.util.stream.Collectors;
  *
  * @since 2.0.0
  */
-public class InteractionControllerDefinition {
+public record InteractionControllerDefinition(
+        Set<GenericInteractionDefinition> definitions
+) {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionControllerDefinition.class);
-    private final List<GenericCommandDefinition> commands;
-    private final List<ButtonDefinition> buttons;
-    private final List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus;
-    private final List<AutoCompleteDefinition> autoCompletes;
-    private final List<ModalDefinition> modals;
-
-    private InteractionControllerDefinition(List<GenericCommandDefinition> commands,
-                                            List<ButtonDefinition> buttons,
-                                            List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus,
-                                            List<AutoCompleteDefinition> autoCompletes,
-                                            List<ModalDefinition> modals) {
-        this.commands = commands;
-        this.buttons = buttons;
-        this.selectMenus = selectMenus;
-        this.autoCompletes = autoCompletes;
-        this.modals = modals;
-    }
 
     /**
      * Builds a new ControllerDefinition.
@@ -72,186 +54,84 @@ public class InteractionControllerDefinition {
             return Optional.empty();
         }
 
-        List<Field> fields = new ArrayList<>();
-        for (Field field : interactionClass.getDeclaredFields()) {
-            if (!field.isAnnotationPresent(Inject.class)) {
-                continue;
-            }
-            fields.add(field);
-        }
+        List<Field> fields = Arrays.stream(interactionClass.getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(Inject.class))
+                .toList();
         dependencyInjector.registerDependencies(interactionClass, fields);
 
-        final Set<String> permissions = new HashSet<>();
-        // index controller level permissions
-        if (interactionClass.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = interactionClass.getAnnotation(Permissions.class);
-            permissions.addAll(Arrays.stream(permission.value()).collect(Collectors.toSet()));
-        }
+        Permissions permission = interactionClass.getAnnotation(Permissions.class);
+        final Set<String> permissions = permission != null
+                ? Set.of(permission.value())
+                : Set.of();
 
         // get controller level cooldown and use it if no command level cooldown is present
-        CooldownDefinition cooldown = null;
-        if (interactionClass.isAnnotationPresent(Cooldown.class)) {
-            cooldown = CooldownDefinition.build(interactionClass.getAnnotation(Cooldown.class));
-        }
+        Cooldown cooldownAnn = interactionClass.getAnnotation(Cooldown.class);
+        CooldownDefinition cooldown = cooldownAnn != null
+                ? CooldownDefinition.build(cooldownAnn)
+                : null;
 
         // index interactions
-        List<GenericCommandDefinition> commands = new ArrayList<>();
-        List<ButtonDefinition> buttons = new ArrayList<>();
-        List<GenericSelectMenuDefinition<? extends SelectMenu>> selectMenus = new ArrayList<>();
-        List<AutoCompleteDefinition> autoCompletes = new ArrayList<>();
-        List<ModalDefinition> modals = new ArrayList<>();
+        Set<GenericInteractionDefinition> definitions = new HashSet<>();
         for (Method method : interactionClass.getDeclaredMethods()) {
+            final MethodBuildContext context = new MethodBuildContext(
+                    validatorRegistry,
+                    localizationFunction,
+                    interaction,
+                    permissions,
+                    cooldown,
+                    method
+            );
 
+            Optional<? extends GenericInteractionDefinition> definition = Optional.empty();
             // index commands
             if (method.isAnnotationPresent(SlashCommand.class)) {
-                Optional<SlashCommandDefinition> optional = SlashCommandDefinition.build(method, validatorRegistry, localizationFunction);
-                if (optional.isEmpty()) {
-                    continue;
-                }
-                SlashCommandDefinition commandDefinition = optional.get();
-                commandDefinition.getPermissions().addAll(permissions);
-                if (commandDefinition.getCooldown().getDelay() == 0) {
-                    commandDefinition.getCooldown().set(cooldown);
-                }
-                if (interaction.ephemeral()) {
-                    commandDefinition.setEphemeral(true);
-                }
-                commands.add(commandDefinition);
+                definition = SlashCommandDefinition.build(context);
             }
             if (method.isAnnotationPresent(ContextCommand.class)) {
-                Optional<ContextCommandDefinition> optional = ContextCommandDefinition.build(method, localizationFunction);
-                if (optional.isEmpty()) {
-                    continue;
-                }
-                ContextCommandDefinition commandDefinition = optional.get();
-                commandDefinition.getPermissions().addAll(permissions);
-                if (interaction.ephemeral()) {
-                    commandDefinition.setEphemeral(true);
-                }
-                commands.add(commandDefinition);
+                definition = ContextCommandDefinition.build(context);
             }
 
             // index components
             if (method.isAnnotationPresent(Button.class)) {
-                ButtonDefinition.build(method).ifPresent(button -> {
-                    if (interaction.ephemeral()) {
-                        button.setEphemeral(true);
-                    }
-                    button.getPermissions().addAll(permissions);
-                    buttons.add(button);
-                });
+                definition = ButtonDefinition.build(context);
             }
             if (method.isAnnotationPresent(EntitySelectMenu.class)) {
-                EntitySelectMenuDefinition.build(method).ifPresent(menu -> {
-                    if (interaction.ephemeral()) {
-                        menu.setEphemeral(true);
-                    }
-                    menu.getPermissions().addAll(permissions);
-                    selectMenus.add(menu);
-                });
+                definition = EntitySelectMenuDefinition.build(context);
             }
             if (method.isAnnotationPresent(StringSelectMenu.class)) {
-                StringSelectMenuDefinition.build(method).ifPresent(menu -> {
-                    if (interaction.ephemeral()) {
-                        menu.setEphemeral(true);
-                    }
-                    menu.getPermissions().addAll(permissions);
-                    selectMenus.add(menu);
-                });
+                definition = StringSelectMenuDefinition.build(context);
             }
 
             //index modals
             if (method.isAnnotationPresent(Modal.class)) {
-                ModalDefinition.build(method).ifPresent(modal -> {
-                    if (interaction.ephemeral()) {
-                        modal.setEphemeral(true);
-                    }
-                    modal.getPermissions().addAll(permissions);
-                    modals.add(modal);
-                });
+                definition = ModalDefinition.build(method);
             }
+
+            definition.ifPresent(definitions::add);
         }
 
-        //loop again and index auto complete
-        for (Method method : interactionClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AutoComplete.class)) {
-                AutoCompleteDefinition.build(
-                        method,
-                        autoCompletes.stream().flatMap(it -> it.getCommandNames().stream()).collect(Collectors.toList())
-                ).ifPresent(autoComplete -> {
-                    autoCompletes.add(autoComplete);
 
-                    Set<String> commandNames = new HashSet<>();
-                    autoComplete.getCommandNames().forEach(name -> commands.stream()
-                            .filter(it -> it.getCommandType() == Command.Type.SLASH)
-                            .filter(command -> command.getName().startsWith(name))
-                            .forEach(command -> {
-                                ((SlashCommandDefinition) command).setAutoComplete(true);
-                                commandNames.add(command.getName());
-                            })
-                    );
+        List<SlashCommandDefinition> commandDefinitions = definitions.stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
+                .toList();
+
+        Arrays.stream(interactionClass.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(AutoComplete.class))
+                .map(AutoCompleteDefinition::build)
+                .flatMap(Optional::stream)
+                .peek(autoComplete -> {
+                    Set<String> commandNames = autoComplete.getCommandNames()
+                            .stream()
+                            .filter(name -> commandDefinitions.stream().filter(command -> command.getName().startsWith(name)).findAny()
+                                    .map(command -> command.setAutoComplete(true))
+                                    .isPresent()
+                            )
+                            .collect(Collectors.toSet());
                     autoComplete.setCommandNames(commandNames);
-                });
-            }
-        }
+                })
+                .forEach(definitions::add);
 
-        return Optional.of(new InteractionControllerDefinition(commands, buttons, selectMenus, autoCompletes, modals));
+        return Optional.of(new InteractionControllerDefinition(definitions));
     }
-
-    /**
-     * Gets a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}.
-     *
-     * @return a possibly-empty list of all {@link GenericCommandDefinition CommandDefinitions}
-     */
-    public List<GenericCommandDefinition> getCommands() {
-        return commands;
-    }
-
-    /**
-     * Gets a possibly-empty list of all buttons.
-     *
-     * @return a possibly-empty list of all buttons
-     */
-    public List<ButtonDefinition> getButtons() {
-        return buttons;
-    }
-
-    /**
-     * Gets a possibly-empty list of all select menus.
-     *
-     * @return a possibly-empty list of all select menus
-     */
-    public List<GenericSelectMenuDefinition<? extends SelectMenu>> getSelectMenus() {
-        return selectMenus;
-    }
-
-    /**
-     * Gets a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}.
-     *
-     * @return a possibly-empty list of all {@link AutoCompleteDefinition AutoCompleteDefinitions}
-     */
-    public Collection<AutoCompleteDefinition> getAutoCompletes() {
-        return autoCompletes;
-    }
-
-    /**
-     * Gets a possibly-empty list of all {@link ModalDefinition ModalDefinitions}.
-     *
-     * @return a possibly-empty list of all {@link ModalDefinition ModalDefinitions}
-     */
-    public List<ModalDefinition> getModals() {
-        return modals;
-    }
-
-    @Override
-    public String toString() {
-        return "ControllerDefinition{" +
-                "commands=" + commands +
-                ", buttons=" + buttons +
-                ", selectMenus=" + selectMenus +
-                ", autoCompletes=" + autoCompletes +
-                ", modals=" + modals +
-                '}';
-    }
-
 }

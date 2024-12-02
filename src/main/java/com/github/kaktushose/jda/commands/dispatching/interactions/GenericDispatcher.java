@@ -20,7 +20,6 @@ public abstract class GenericDispatcher {
 
     private final static Logger log = LoggerFactory.getLogger(GenericDispatcher.class);
 
-    protected final JDACommands jdaCommands;
     protected final MiddlewareRegistry middlewareRegistry;
     protected final ImplementationRegistry implementationRegistry;
     protected final InteractionRegistry interactionRegistry;
@@ -30,15 +29,13 @@ public abstract class GenericDispatcher {
     /**
      * Constructs a new GenericDispatcher.
      *
-     * @param jdaCommands the corresponding {@link JDACommands} instance.
      */
-    public GenericDispatcher(JDACommands jdaCommands) {
-        this.jdaCommands = jdaCommands;
-        middlewareRegistry = jdaCommands.getMiddlewareRegistry();
-        implementationRegistry = jdaCommands.getImplementationRegistry();
-        interactionRegistry = jdaCommands.getInteractionRegistry();
-        adapterRegistry = jdaCommands.getAdapterRegistry();
-        runtimeSupervisor = jdaCommands.getRuntimeSupervisor();
+    public GenericDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
+        this.middlewareRegistry = middlewareRegistry;
+        this.implementationRegistry = implementationRegistry;
+        this.interactionRegistry = interactionRegistry;
+        this.adapterRegistry = adapterRegistry;
+        this.runtimeSupervisor = runtimeSupervisor;
     }
 
     protected void executeMiddlewares(Context context) {

@@ -2,12 +2,12 @@ package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -15,12 +15,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Representation of a slash command.
@@ -28,7 +25,7 @@ import java.util.stream.Collectors;
  * @see SlashCommand
  * @since 2.0.0
  */
-public class SlashCommandDefinition extends GenericCommandDefinition {
+public final class SlashCommandDefinition extends GenericCommandDefinition {
 
     private final String description;
     private final List<ParameterDefinition> parameters;
@@ -59,15 +56,10 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
     /**
      * Builds a new CommandDefinition.
      *
-     * @param method               the {@link Method} of the command
-     * @param validatorRegistry    the corresponding {@link ValidatorRegistry}
-     * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the CommandDefinition
      */
-    public static Optional<SlashCommandDefinition> build(@NotNull Method method,
-                                                         @NotNull ValidatorRegistry validatorRegistry,
-                                                         @NotNull LocalizationFunction localizationFunction) {
-
+    public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
+        Method method = context.method();
         if (!method.isAnnotationPresent(SlashCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
@@ -80,17 +72,10 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
             return Optional.empty();
         }
 
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
-        }
 
-        String label = interaction.value() + " " + command.value();
-        while (label.contains("  ")) {
-            label = label.replaceAll(" {2}", " ");
-        }
-        label = label.trim();
+        String label = String.join(interaction.value(), command.value(), " ")
+                .replaceAll(" +", " ")
+                .trim();
 
         if (label.isEmpty()) {
             logError("Labels must not be empty!", method);
@@ -98,10 +83,9 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
         }
 
         // build parameter definitions
-        List<ParameterDefinition> parameters = new ArrayList<>();
-        for (Parameter parameter : method.getParameters()) {
-            parameters.add(ParameterDefinition.build(parameter, validatorRegistry));
-        }
+        List<ParameterDefinition> parameters = Arrays.stream(method.getParameters())
+                .map(parameter -> ParameterDefinition.build(parameter, context.validatorRegistry()))
+                .toList();
 
         if (parameters.isEmpty()) {
             logError(String.format("First parameter must be of type %s!", CommandEvent.class.getSimpleName()), method);
@@ -109,12 +93,11 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
         }
 
         // validate parameter definitions
-        for (int i = 0; i < parameters.size(); i++) {
-            ParameterDefinition parameter = parameters.get(i);
-            Class<?> type = parameter.getType();
+        for (ParameterDefinition parameter : parameters) {
+            Class<?> type = parameter.type();
 
             // first argument must be a CommandEvent
-            if (i == 0) {
+            if (parameter == parameters.getFirst()) {
                 if (!CommandEvent.class.isAssignableFrom(type)) {
                     logError(String.format("First parameter must be of type %s!", CommandEvent.class.getSimpleName()), method);
                     return Optional.empty();
@@ -130,25 +113,30 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
             }
         }
 
-        Set<net.dv8tion.jda.api.Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
+        Set<net.dv8tion.jda.api.Permission> enabledFor = Set.of(command.enabledFor());
         if (enabledFor.size() == 1 && enabledFor.contains(net.dv8tion.jda.api.Permission.UNKNOWN)) {
-            enabledFor.clear();
+            enabledFor = Set.of();
+        }
+
+        CooldownDefinition cooldownDefinition = CooldownDefinition.build(method.getAnnotation(Cooldown.class));
+        if (cooldownDefinition.delay() == 0 && context.cooldownDefinition() != null) {
+            cooldownDefinition = context.cooldownDefinition();
         }
 
         return Optional.of(new SlashCommandDefinition(
                 method,
-                command.ephemeral(),
+                Helpers.ephemeral(context, command.ephemeral()),
                 label,
-                permissions,
+                Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 Command.Type.SLASH,
                 enabledFor,
                 command.scope(),
-                localizationFunction,
+                context.localizationFunction(),
                 command.desc(),
                 parameters,
-                CooldownDefinition.build(method.getAnnotation(Cooldown.class)),
+                cooldownDefinition,
                 false
         ));
     }
@@ -176,7 +164,7 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         parameters.forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
             command.addOptions(parameter.toOptionData(isAutoComplete));
@@ -197,7 +185,7 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
 
         );
         parameters.forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
             command.addOptions(parameter.toOptionData(isAutoComplete));
@@ -244,12 +232,12 @@ public class SlashCommandDefinition extends GenericCommandDefinition {
     }
 
     /**
-     * Whether this command has a cooldown. More formally, checks if {@link CooldownDefinition#getDelay()} > 0.
+     * Whether this command has a cooldown. More formally, checks if {@link CooldownDefinition#delay()} > 0.
      *
      * @return {@code true} if this command has a cooldown.
      */
     public boolean hasCooldown() {
-        return getCooldown().getDelay() > 0;
+        return getCooldown().delay() > 0;
     }
 
     /**

@@ -16,31 +16,15 @@ import java.util.Optional;
  * @see com.github.kaktushose.jda.commands.annotations.interactions.Modal Modal
  * @since 4.0.0
  */
-public class TextInputDefinition {
-
-    private final String label;
-    private final String placeholder;
-    private final String defaultValue;
-    private final int minValue;
-    private final int maxValue;
-    private final TextInputStyle style;
-    private final boolean required;
-
-    private TextInputDefinition(String label,
-                                String placeholder,
-                                String defaultValue,
-                                int minValue,
-                                int maxValue,
-                                TextInputStyle style,
-                                boolean required) {
-        this.label = label;
-        this.placeholder = placeholder;
-        this.defaultValue = defaultValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.style = style;
-        this.required = required;
-    }
+public record TextInputDefinition(
+        String label,
+        String placeholder,
+        String defaultValue,
+        int minValue,
+        int maxValue,
+        TextInputStyle style,
+        boolean required
+) {
 
     /**
      * Builds a new TextInputDefinition.
@@ -93,72 +77,5 @@ public class TextInputDefinition {
         }
 
         return textInput.build();
-    }
-
-    /**
-     * Gets the label of the TextInput.
-     *
-     * @return the label of the TextInput
-     */
-    public String getLabel() {
-        return label;
-    }
-
-    /**
-     * Gets the placeholder of the TextInput.
-     *
-     * @return the placeholder of the TextInput
-     */
-    public String getPlaceholder() {
-        return placeholder;
-    }
-
-    /**
-     * Gets the minimum value of the TextInput.
-     *
-     * @return the minimum value of the TextInput
-     */
-    public int getMinValue() {
-        return minValue;
-    }
-
-    /**
-     * Gets the maximum value of the TextInput.
-     *
-     * @return the maximum value of the TextInput
-     */
-    public int getMaxValue() {
-        return maxValue;
-    }
-
-    /**
-     * Gets the {@link TextInputStyle} of the TextInput.
-     *
-     * @return the {@link TextInputStyle} of the TextInput
-     */
-    public TextInputStyle getStyle() {
-        return style;
-    }
-
-    /**
-     * Whether this TextInput is required.
-     *
-     * @return {@code true} if this TextInput is required
-     */
-    public boolean isRequired() {
-        return required;
-    }
-
-    @Override
-    public String toString() {
-        return "TextInputDefinition{" +
-                "label='" + label + '\'' +
-                ", placeholder='" + placeholder + '\'' +
-                ", defaultValue='" + defaultValue + '\'' +
-                ", minValue=" + minValue +
-                ", maxValue=" + maxValue +
-                ", style=" + style +
-                ", required=" + required +
-                '}';
     }
 }

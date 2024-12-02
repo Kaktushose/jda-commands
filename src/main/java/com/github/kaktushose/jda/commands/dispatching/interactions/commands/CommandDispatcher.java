@@ -2,10 +2,14 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -31,12 +35,16 @@ public class CommandDispatcher extends GenericDispatcher {
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
 
     /**
-     * Constructs a new GenericDispatcher.
+     * Constructs a new CommandDispatcher.
      *
-     * @param jdaCommands the corresponding {@link JDACommands} instance.
+     * @param middlewareRegistry
+     * @param implementationRegistry
+     * @param interactionRegistry
+     * @param adapterRegistry
+     * @param runtimeSupervisor
      */
-    public CommandDispatcher(JDACommands jdaCommands) {
-        super(jdaCommands);
+    public CommandDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
+        super(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
     }
 
     @Override
@@ -68,10 +76,10 @@ public class CommandDispatcher extends GenericDispatcher {
             Map<String, OptionMapping> options = slashContext.getOptionsAsMap();
             List<String> parameters = new ArrayList<>();
             slashCommand.getActualParameters().forEach(param -> {
-                if (!options.containsKey(param.getName())) {
+                if (!options.containsKey(param.name())) {
                     return;
                 }
-                parameters.add(options.get(param.getName()).getAsString());
+                parameters.add(options.get(param.name()).getAsString());
             });
             slashContext.setInput(parameters.toArray(new String[]{}));
 

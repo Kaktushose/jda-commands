@@ -21,70 +21,63 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Represents an active instance of this framework and provides access to all underlying classes.
- *
- * @since 1.0.0
- */
-public class JDACommands {
 
+public record JDACommands(
+        JDAContext jdaContext,
+        DispatcherSupervisor dispatcherSupervisor,
+        MiddlewareRegistry middlewareRegistry,
+        TypeAdapterRegistry adapterRegistry,
+        ValidatorRegistry validatorRegistry,
+        DependencyInjector dependencyInjector,
+        InteractionRegistry interactionRegistry,
+        SlashCommandUpdater updater,
+        RuntimeSupervisor runtimeSupervisor
+) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
-    private static boolean isActive;
-    private final JDAContext jdaContext;
-    private final ImplementationRegistry implementationRegistry;
-    private final DispatcherSupervisor dispatcherSupervisor;
-    private final MiddlewareRegistry middlewareRegistry;
-    private final TypeAdapterRegistry adapterRegistry;
-    private final ValidatorRegistry validatorRegistry;
-    private final DependencyInjector dependencyInjector;
-    private final InteractionRegistry interactionRegistry;
-    private final SlashCommandUpdater updater;
-    private final RuntimeSupervisor runtimeSupervisor;
 
     // this is needed for unit testing
-    protected JDACommands() {
-        jdaContext = null;
-        implementationRegistry = null;
-        runtimeSupervisor = null;
-        middlewareRegistry = null;
-        adapterRegistry = null;
-        validatorRegistry = null;
-        dependencyInjector = null;
-        dispatcherSupervisor = null;
-        interactionRegistry = null;
-        updater = null;
+    JDACommands() {
+        this(null, null, null, null, null,
+                null, null, null, null);
     }
 
-    private JDACommands(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector injector, String... packages) {
+    private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, String... packages) {
         log.info("Starting JDA-Commands...");
 
-        if (isActive) {
-            throw new IllegalStateException("An instance of the command framework is already running!");
-        }
-
-        jdaContext = new JDAContext(jda);
-        dependencyInjector = injector;
+        var jdaContext = new JDAContext(jda);
         dependencyInjector.index(clazz, packages);
 
-        middlewareRegistry = new MiddlewareRegistry();
-        adapterRegistry = new TypeAdapterRegistry();
-        validatorRegistry = new ValidatorRegistry();
-        implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
-        interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
+        var middlewareRegistry = new MiddlewareRegistry();
+        var adapterRegistry = new TypeAdapterRegistry();
+        var validatorRegistry = new ValidatorRegistry();
+        var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
+        var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
-        runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
-        dispatcherSupervisor = new DispatcherSupervisor(this);
+        var runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
+        var dispatcherSupervisor = new DispatcherSupervisor(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
 
         implementationRegistry.index(clazz, packages);
 
         interactionRegistry.index(clazz, packages);
 
-        updater = new SlashCommandUpdater(this);
+        var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
+
         jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
 
-        isActive = true;
         log.info("Finished loading!");
+
+        return new JDACommands(
+                jdaContext,
+                dispatcherSupervisor,
+                middlewareRegistry,
+                adapterRegistry,
+                validatorRegistry,
+                dependencyInjector,
+                interactionRegistry,
+                updater,
+                runtimeSupervisor
+        );
     }
 
     /**
@@ -96,7 +89,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+         return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -108,7 +101,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -121,7 +114,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, function, new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -134,7 +127,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, function, new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -148,7 +141,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return new JDACommands(jda, clazz, function, injector, packages);
+        return startInternal(jda, clazz, function, injector, packages);
     }
 
     /**
@@ -162,16 +155,7 @@ public class JDACommands {
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return new JDACommands(shardManager, clazz, function, injector, packages);
-    }
-
-    /**
-     * Whether this JDACommands instance is active.
-     *
-     * @return {@code true} if the JDACommands instance is active
-     */
-    public static boolean isActive() {
-        return isActive;
+        return startInternal(shardManager, clazz, function, injector, packages);
     }
 
     /**
@@ -180,16 +164,6 @@ public class JDACommands {
      */
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(dispatcherSupervisor));
-        isActive = false;
-    }
-
-    /**
-     * Gets the {@link DispatcherSupervisor}.
-     *
-     * @return the {@link DispatcherSupervisor}
-     */
-    public DispatcherSupervisor getDispatcherSupervisor() {
-        return dispatcherSupervisor;
     }
 
     /**
@@ -197,11 +171,9 @@ public class JDACommands {
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
      * CommandScope#Guild}
      *
-     * @return this instance
      */
-    public JDACommands updateGuildCommands() {
+    public void updateGuildCommands() {
         updater.updateGuildCommands();
-        return this;
     }
 
     /**
@@ -354,76 +326,5 @@ public class JDACommands {
         return (T) getSelectMenu(selectMenu, runtimeId);
     }
 
-    /**
-     * Gets the {@link ImplementationRegistry}.
-     *
-     * @return the {@link ImplementationRegistry}
-     */
-    public ImplementationRegistry getImplementationRegistry() {
-        return implementationRegistry;
-    }
 
-
-    /**
-     * Gets the {@link RuntimeSupervisor}
-     *
-     * @return the {@link RuntimeSupervisor}
-     */
-    public RuntimeSupervisor getRuntimeSupervisor() {
-        return runtimeSupervisor;
-    }
-
-    /**
-     * Gets the {@link TypeAdapterRegistry}.
-     *
-     * @return the {@link TypeAdapterRegistry}
-     */
-    public TypeAdapterRegistry getAdapterRegistry() {
-        return adapterRegistry;
-    }
-
-    /**
-     * Gets the {@link ValidatorRegistry}.
-     *
-     * @return the {@link ValidatorRegistry}
-     */
-    public ValidatorRegistry getValidatorRegistry() {
-        return validatorRegistry;
-    }
-
-    /**
-     * Gets the {@link InteractionRegistry}.
-     *
-     * @return the {@link InteractionRegistry}
-     */
-    public InteractionRegistry getInteractionRegistry() {
-        return interactionRegistry;
-    }
-
-    /**
-     * Gets the {@link JDAContext}.
-     *
-     * @return the JDAContext.
-     */
-    public JDAContext getJDAContext() {
-        return jdaContext;
-    }
-
-    /**
-     * Gets the {@link MiddlewareRegistry}.
-     *
-     * @return the {@link MiddlewareRegistry}
-     */
-    public MiddlewareRegistry getMiddlewareRegistry() {
-        return middlewareRegistry;
-    }
-
-    /**
-     * Gets the {@link DependencyInjector}.
-     *
-     * @return the {@link DependencyInjector}
-     */
-    public DependencyInjector getDependencyInjector() {
-        return dependencyInjector;
-    }
 }

@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @since 4.0.0
  */
-public abstract class GenericInteractionDefinition {
+public sealed abstract class GenericInteractionDefinition permits AutoCompleteDefinition, EphemeralInteractionDefinition {
 
     protected static final Logger log = LoggerFactory.getLogger(GenericInteractionDefinition.class);
 
