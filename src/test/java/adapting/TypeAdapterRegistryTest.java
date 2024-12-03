@@ -142,7 +142,8 @@ public class TypeAdapterRegistryTest {
                 controller.getAnnotation(Interaction.class),
                 Set.of(),
                 CooldownDefinition.build(null),
-                method
+                method,
+                Set.of()
         )).orElse(null);
         assertNotNull(command);
         return command;

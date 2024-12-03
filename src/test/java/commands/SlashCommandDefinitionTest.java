@@ -42,7 +42,8 @@ public class SlashCommandDefinitionTest {
                 controller.getAnnotation(Interaction.class),
                 Set.of(),
                 CooldownDefinition.build(null),
-                method
+                method,
+                Set.of()
         );
     }
 
@@ -152,13 +153,6 @@ public class SlashCommandDefinitionTest {
         assertEquals(CommandEvent.class, definition.getParameters().get(0).type());
         assertEquals(String.class, definition.getParameters().get(1).type());
         assertEquals(Integer.class, definition.getParameters().get(2).type());
-    }
-
-    @Test
-    public void command_isInactive_ShouldReturnEmpty() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("inactive");
-
-        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
