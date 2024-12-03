@@ -4,6 +4,6 @@ module jda.commands {
     requires net.dv8tion.jda;
     requires org.jetbrains.annotations;
     requires org.reflections;
-    requires org.slf4j;
     requires java.desktop;
+    requires org.slf4j;
 }

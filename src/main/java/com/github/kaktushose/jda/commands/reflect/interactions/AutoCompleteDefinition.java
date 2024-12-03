@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,19 +36,11 @@ public final class AutoCompleteDefinition extends GenericInteractionDefinition {
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 1) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+        if (Helpers.isIncorrectParameterAmount(method, 1)) {
             return Optional.empty();
         }
 
-        if (!AutoCompleteEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s", AutoCompleteEvent.class.getSimpleName())));
+        if (Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
             return Optional.empty();
         }
 

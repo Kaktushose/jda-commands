@@ -2,17 +2,18 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu EntitySelectMenu}.
@@ -52,30 +53,13 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 2) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+        if (Helpers.isIncorrectParameterAmount(method, 2)) {
             return Optional.empty();
         }
 
-        if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
-                !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
-                            ComponentEvent.class.getSimpleName(),
-                            List.class.getSimpleName()
-                    )));
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
+                Helpers.isIncorrectParameterType(method, 1, List.class) ) {
             return Optional.empty();
-        }
-
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
         EntitySelectMenu selectMenu = method.getAnnotation(EntitySelectMenu.class);

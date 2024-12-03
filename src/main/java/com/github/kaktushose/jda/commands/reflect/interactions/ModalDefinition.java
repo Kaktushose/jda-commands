@@ -45,15 +45,11 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
             log.error("An error has occurred! Skipping Modal {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+                    new IllegalArgumentException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
             return Optional.empty();
         }
 
-        if (!ModalEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s!", ModalEvent.class.getSimpleName())));
+        if (Helpers.isIncorrectParameterType(method, 0, ModalEvent.class)) {
             return Optional.empty();
         }
 
