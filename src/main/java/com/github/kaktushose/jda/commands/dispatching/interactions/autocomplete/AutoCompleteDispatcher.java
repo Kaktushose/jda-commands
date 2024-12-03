@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
@@ -42,7 +41,7 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
     public void onEvent(Context context) {
         CommandAutoCompleteInteractionEvent event = (CommandAutoCompleteInteractionEvent) context.getEvent();
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
-                .filter(it -> it.getCommandNames().contains(event.getFullCommandName()))
+                .filter(it -> it.getCommandNames().stream().anyMatch(name -> event.getFullCommandName().startsWith(name)))
                 .findFirst();
 
         if (optionalAutoComplete.isEmpty()) {
