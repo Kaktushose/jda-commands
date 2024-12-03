@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Representation of an interaction controller.
@@ -44,9 +43,9 @@ public record InteractionControllerDefinition(
      * @return an {@link Optional} holding the ControllerDefinition
      */
     public static InteractionControllerDefinition build(@NotNull Class<?> interactionClass,
-                                                                  @NotNull ValidatorRegistry validatorRegistry,
-                                                                  @NotNull DependencyInjector dependencyInjector,
-                                                                  @NotNull LocalizationFunction localizationFunction) {
+                                                        @NotNull ValidatorRegistry validatorRegistry,
+                                                        @NotNull DependencyInjector dependencyInjector,
+                                                        @NotNull LocalizationFunction localizationFunction) {
         Interaction interaction = interactionClass.getAnnotation(Interaction.class);
 
         List<Field> fields = Arrays.stream(interactionClass.getDeclaredFields())
@@ -65,16 +64,60 @@ public record InteractionControllerDefinition(
                 ? CooldownDefinition.build(cooldownAnn)
                 : null;
 
+
+        Collection<AutoCompleteDefinition> autoCompleteDefinitions = autoCompleteDefinitions(interactionClass);
+
         // index interactions
-        Set<GenericInteractionDefinition> definitions = new HashSet<>();
-        for (Method method : interactionClass.getDeclaredMethods()) {
+        Set<GenericInteractionDefinition> interactionDefinitions = interactionDefinitions(
+                interactionClass,
+                validatorRegistry,
+                localizationFunction,
+                interaction,
+                permissions,
+                cooldown,
+                autoCompleteDefinitions
+        );
+
+        // validate auto completes
+        List<SlashCommandDefinition> commandDefinitions = interactionDefinitions.stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
+                .toList();
+
+        autoCompleteDefinitions.stream()
+                .map(AutoCompleteDefinition::getCommandNames)
+                .flatMap(Collection::stream)
+                .filter(name -> commandDefinitions.stream().noneMatch(command -> command.getName().startsWith(name)))
+                .forEach(s -> log.warn("No Command found for auto complete {}", s));
+
+        return new InteractionControllerDefinition(interactionDefinitions);
+    }
+
+    private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(Class<?> interactionClass) {
+        return Arrays.stream(interactionClass.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(AutoComplete.class))
+                .map(AutoCompleteDefinition::build)
+                .flatMap(Optional::stream)
+                .toList();
+    }
+
+    private static Set<GenericInteractionDefinition> interactionDefinitions(Class<?> clazz,
+                                                                            ValidatorRegistry validatorRegistry,
+                                                                            LocalizationFunction localizationFunction,
+                                                                            Interaction interaction,
+                                                                            Set<String> permissions,
+                                                                            CooldownDefinition cooldown,
+                                                                            Collection<AutoCompleteDefinition> autocompletes) {
+        Set<GenericInteractionDefinition> definitions = new HashSet<>(autocompletes);
+        for (Method method : clazz.getDeclaredMethods()) {
             final MethodBuildContext context = new MethodBuildContext(
                     validatorRegistry,
                     localizationFunction,
                     interaction,
                     permissions,
                     cooldown,
-                    method
+                    method,
+                    autocompletes
             );
 
             Optional<? extends GenericInteractionDefinition> definition = Optional.empty();
@@ -104,29 +147,6 @@ public record InteractionControllerDefinition(
 
             definition.ifPresent(definitions::add);
         }
-
-
-        List<SlashCommandDefinition> commandDefinitions = definitions.stream()
-                .filter(SlashCommandDefinition.class::isInstance)
-                .map(SlashCommandDefinition.class::cast)
-                .toList();
-
-        Arrays.stream(interactionClass.getDeclaredMethods())
-                .filter(method -> method.isAnnotationPresent(AutoComplete.class))
-                .map(AutoCompleteDefinition::build)
-                .flatMap(Optional::stream)
-                .peek(autoComplete -> {
-                    Set<String> commandNames = autoComplete.getCommandNames()
-                            .stream()
-                            .filter(name -> commandDefinitions.stream().filter(command -> command.getName().startsWith(name)).findAny()
-                                    .map(command -> command.setAutoComplete(true))
-                                    .isPresent()
-                            )
-                            .collect(Collectors.toSet());
-                    autoComplete.setCommandNames(commandNames);
-                })
-                .forEach(definitions::add);
-
-        return new InteractionControllerDefinition(definitions);
+        return definitions;
     }
 }

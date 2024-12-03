@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.commands.Comm
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -30,7 +31,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
     private final String description;
     private final List<ParameterDefinition> parameters;
     private final CooldownDefinition cooldown;
-    private boolean isAutoComplete;
+    private final boolean isAutoComplete;
 
     public SlashCommandDefinition(Method method,
                                   boolean ephemeral,
@@ -67,11 +68,11 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
         SlashCommand command = method.getAnnotation(SlashCommand.class);
         Interaction interaction = method.getDeclaringClass().getAnnotation(Interaction.class);
 
-        String label = String.join(" ", interaction.value(), command.value())
+        String name = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
                 .trim();
 
-        if (label.isEmpty()) {
+        if (name.isEmpty()) {
             logError("Labels must not be empty!", method);
             return Optional.empty();
         }
@@ -120,7 +121,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
         return Optional.of(new SlashCommandDefinition(
                 method,
                 Helpers.ephemeral(context, command.ephemeral()),
-                label,
+                name,
                 Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
@@ -131,7 +132,10 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
                 command.desc(),
                 parameters,
                 cooldownDefinition,
-                false
+                context.autoCompleteDefinitions().stream()
+                        .map(AutoCompleteDefinition::getCommandNames)
+                        .flatMap(Collection::stream)
+                        .anyMatch(name::startsWith)
         ));
     }
 
@@ -241,17 +245,6 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
      */
     public boolean isAutoComplete() {
         return isAutoComplete;
-    }
-
-    /**
-     * Whether this command supports auto complete.
-     *
-     * @param autoComplete whether this can command support auto complete
-     * @return this instance for fluent interface
-     */
-    public SlashCommandDefinition setAutoComplete(boolean autoComplete) {
-        this.isAutoComplete = autoComplete;
-        return this;
     }
 
     @Override

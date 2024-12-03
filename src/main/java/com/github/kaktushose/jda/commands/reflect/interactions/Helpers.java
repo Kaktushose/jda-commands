@@ -34,7 +34,7 @@ public final class Helpers {
             log.error("An error has occurred! Skipping Interaction {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index, type.getSimpleName())));
+                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index+1, type.getSimpleName())));
             return true;
         }
         return false;
