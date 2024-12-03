@@ -23,13 +23,6 @@ public @interface Interaction {
     String value() default "";
 
     /**
-     * Returns whether this interaction is active and thus can be executed or not
-     *
-     * @return {@code true} if this interaction is active
-     */
-    boolean isActive() default true;
-
-    /**
      * Returns whether this interaction should send ephemeral replies by default.
      *
      * @return {@code true} if this interaction should send ephemeral replies by default

@@ -6,12 +6,10 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +21,9 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
@@ -79,19 +78,13 @@ public final class InteractionRegistry {
         for (Class<?> aClass : controllerSet) {
             log.debug("Found interaction controller {}", aClass.getName());
 
-            Optional<InteractionControllerDefinition> optional = InteractionControllerDefinition.build(
+            InteractionControllerDefinition controller = InteractionControllerDefinition.build(
                     aClass,
                     validatorRegistry,
                     dependencyInjector,
                     localizationFunction
             );
 
-            if (optional.isEmpty()) {
-                log.warn("Unable to index the interaction controller!");
-                continue;
-            }
-
-            InteractionControllerDefinition controller = optional.get();
             definitions.addAll(controller.definitions());
             log.debug("Registered interaction controller {}", controller);
         }

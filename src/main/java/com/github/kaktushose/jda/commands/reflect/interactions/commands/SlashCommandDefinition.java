@@ -67,12 +67,6 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
         SlashCommand command = method.getAnnotation(SlashCommand.class);
         Interaction interaction = method.getDeclaringClass().getAnnotation(Interaction.class);
 
-        if (!command.isActive()) {
-            log.debug("Command {} is set inactive. Skipping this command!", method.getName());
-            return Optional.empty();
-        }
-
-
         String label = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
                 .trim();

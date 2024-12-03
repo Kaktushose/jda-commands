@@ -47,7 +47,7 @@ public class InteractionControllerDefinitionTest {
                 validators,
                 dependencyInjector,
                 LOCALIZATION_FUNCTION
-        ).orElse(null);
+        );
 
         assertNotNull(controllerDefinition);
         SlashCommandDefinition definition = controllerDefinition.definitions().stream()
@@ -77,7 +77,7 @@ public class InteractionControllerDefinitionTest {
                 validators,
                 dependencyInjector,
                 LOCALIZATION_FUNCTION
-        ).orElse(null);
+        );
 
         assertNotNull(controllerDefinition);
         SlashCommandDefinition definition = controllerDefinition.definitions().stream()

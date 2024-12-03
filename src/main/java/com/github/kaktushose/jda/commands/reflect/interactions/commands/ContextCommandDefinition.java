@@ -48,11 +48,6 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
 
         ContextCommand command = method.getAnnotation(ContextCommand.class);
 
-        if (!command.isActive()) {
-            log.debug("Command {} is set inactive. Skipping this command!", method.getName());
-            return Optional.empty();
-        }
-
         Set<net.dv8tion.jda.api.Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
         if (enabledFor.size() == 1 && enabledFor.contains(net.dv8tion.jda.api.Permission.UNKNOWN)) {
             enabledFor.clear();

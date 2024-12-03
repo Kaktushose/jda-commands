@@ -43,16 +43,11 @@ public record InteractionControllerDefinition(
      * @param localizationFunction the {@link LocalizationFunction} to use
      * @return an {@link Optional} holding the ControllerDefinition
      */
-    public static Optional<InteractionControllerDefinition> build(@NotNull Class<?> interactionClass,
+    public static InteractionControllerDefinition build(@NotNull Class<?> interactionClass,
                                                                   @NotNull ValidatorRegistry validatorRegistry,
                                                                   @NotNull DependencyInjector dependencyInjector,
                                                                   @NotNull LocalizationFunction localizationFunction) {
         Interaction interaction = interactionClass.getAnnotation(Interaction.class);
-
-        if (!interaction.isActive()) {
-            log.warn("Interaction class {} is set inactive. Skipping the controller and its commands", interactionClass.getName());
-            return Optional.empty();
-        }
 
         List<Field> fields = Arrays.stream(interactionClass.getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(Inject.class))
@@ -132,6 +127,6 @@ public record InteractionControllerDefinition(
                 })
                 .forEach(definitions::add);
 
-        return Optional.of(new InteractionControllerDefinition(definitions));
+        return new InteractionControllerDefinition(definitions);
     }
 }
