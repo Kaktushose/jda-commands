@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class ModalEvent extends GenericEvent<ModalDefinition> implements Replyable {
+public class ModalEvent extends GenericEvent implements Replyable {
 
     private final ReplyContext replyContext;
 

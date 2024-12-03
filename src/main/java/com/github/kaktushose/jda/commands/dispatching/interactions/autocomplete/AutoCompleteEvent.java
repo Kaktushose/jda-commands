@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class AutoCompleteEvent extends GenericEvent<AutoCompleteDefinition> {
+public class AutoCompleteEvent extends GenericEvent {
 
     private final CommandAutoCompleteInteractionEvent event;
 

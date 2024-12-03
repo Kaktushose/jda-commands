@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ModalReplyable;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +18,7 @@ import java.util.Optional;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class ComponentEvent extends GenericEvent<GenericComponentDefinition> implements ModalReplyable {
+public class ComponentEvent extends GenericEvent implements ModalReplyable {
 
     private final ReplyContext replyContext;
 

@@ -237,6 +237,7 @@ public record JDACommands(
      * @param selectMenu the id of the selectMenu
      * @return a JDA {@link SelectMenu}
      */
+    @SuppressWarnings("unchecked")
     public <T extends SelectMenu> T getSelectMenu(String selectMenu) {
         if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
@@ -268,6 +269,7 @@ public record JDACommands(
      *                   InteractionRuntime}
      * @return a JDA {@link SelectMenu}
      */
+    @SuppressWarnings("unchecked")
     public <T extends SelectMenu> T getSelectMenu(String selectMenu, String runtimeId) {
         if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");

@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -17,32 +16,20 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent ModalEvent
  * @since 4.0.0
  */
-public abstract class GenericEvent<T extends GenericInteractionDefinition> extends GenericInteractionCreateEvent {
+public abstract class GenericEvent extends GenericInteractionCreateEvent {
 
     protected final Context context;
     private final InteractionRegistry interactionRegistry;
-    private final T definition;
 
     /**
      * Constructs a new GenericEvent.
      *
      * @param context the underlying {@link Context}
      */
-    @SuppressWarnings("unchecked")
     protected GenericEvent(Context context, InteractionRegistry interactionRegistry) {
         super(context.getEvent().getJDA(), context.getEvent().getResponseNumber(), context.getEvent().getInteraction());
-        definition = (T) context.getInteractionDefinition();
         this.context = context;
         this.interactionRegistry = interactionRegistry;
-    }
-
-    /**
-     * Get the interaction object which describes the component that is executed.
-     *
-     * @return the underlying interaction object
-     */
-    public T getInteractionDefinition() {
-        return definition;
     }
 
     /**
@@ -90,10 +77,11 @@ public abstract class GenericEvent<T extends GenericInteractionDefinition> exten
      * {@code ExampleMenu.onSelectMenu}.
      * </p>
      *
-     * @param menu  the id of the selectMenu
+     * @param menu the id of the selectMenu
      * @return a JDA {@link SelectMenu}
      */
-    public <S extends SelectMenu> S getSelectMenu(String menu) {
+    @SuppressWarnings("unchecked")
+    public <T extends SelectMenu> T getSelectMenu(String menu) {
         if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
         }
@@ -103,6 +91,6 @@ public abstract class GenericEvent<T extends GenericInteractionDefinition> exten
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        return (S) selectMenuDefinition.toSelectMenu(context.getRuntime().getRuntimeId(), true);
+        return (T) selectMenuDefinition.toSelectMenu(context.getRuntime().getRuntimeId(), true);
     }
 }
