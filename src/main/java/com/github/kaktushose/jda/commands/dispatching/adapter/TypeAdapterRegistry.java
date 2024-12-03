@@ -138,7 +138,6 @@ public class TypeAdapterRegistry {
         ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        arguments.add(new CommandEvent(context));
         for (int i = 0; i < command.getActualParameters().size(); i++) {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 

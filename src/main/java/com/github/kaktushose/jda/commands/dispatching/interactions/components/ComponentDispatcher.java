@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.components;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
@@ -98,11 +97,11 @@ public class ComponentDispatcher extends GenericDispatcher {
         try {
             Class<?> clazz = component.getClass();
             if (EntitySelectMenuDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context), ((EntitySelectInteractionEvent) event).getMentions());
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context, interactionRegistry), ((EntitySelectInteractionEvent) event).getMentions());
             } else if (StringSelectMenuDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context), ((StringSelectInteractionEvent) event).getValues());
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context, interactionRegistry), ((StringSelectInteractionEvent) event).getValues());
             } else if (ButtonDefinition.class.isAssignableFrom(clazz)) {
-                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context));
+                component.getMethod().invoke(runtime.getInstance(), new ComponentEvent(context, interactionRegistry));
             } else {
                 throw new IllegalStateException("Unknown component type! Please report this error the the devs of jda-commands.");
             }

@@ -35,12 +35,6 @@ public record JDACommands(
 ) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
-    // this is needed for unit testing
-    JDACommands() {
-        this(null, null, null, null, null,
-                null, null, null, null);
-    }
-
     private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, String... packages) {
         log.info("Starting JDA-Commands...");
 
@@ -89,7 +83,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-         return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
     }
 
     /**
@@ -170,7 +164,6 @@ public record JDACommands(
      * Updates all slash commands that are registered with
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
      * CommandScope#Guild}
-     *
      */
     public void updateGuildCommands() {
         updater.updateGuildCommands();
@@ -244,7 +237,7 @@ public record JDACommands(
      * @param selectMenu the id of the selectMenu
      * @return a JDA {@link SelectMenu}
      */
-    public SelectMenu getSelectMenu(String selectMenu) {
+    public <T extends SelectMenu> T getSelectMenu(String selectMenu) {
         if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
         }
@@ -255,43 +248,27 @@ public record JDACommands(
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
         RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(selectMenuDefinition);
-        return selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
+        return (T) selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
     }
 
     /**
-     * Gets a JDA {@link SelectMenu} to use it for message builders based on the jda-commands id.
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
-     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
-     * {@code ExampleMenu.onSelectMenu}.
-     * </p>
-     *
-     * @param selectMenu the id of the selectMenu
-     * @param clazz      the subtype of {@link SelectMenu}
-     * @return a JDA {@link SelectMenu}
-     */
-    public <T extends SelectMenu> T getSelectMenu(String selectMenu, Class<T> clazz) {
-        return (T) getSelectMenu(selectMenu);
-    }
-
-    /**
-     * Gets a JDA {@link SelectMenu} to use it for message builders based on the jda-commands id and links it an
+     * Gets a JDA {@link SelectMenu} subtype to use it for message builders based on the jda-commands id and links it an
      * existing
      * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
      *
      * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
+     * The id is made up of the simple class name and the method name. E.g. the id of a select menu defined by a
      * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
      * {@code ExampleMenu.onSelectMenu}.
      * </p>
      *
      * @param selectMenu the id of the selectMenu
      * @param runtimeId  the id of the
-     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime
+     *                   InteractionRuntime}
      * @return a JDA {@link SelectMenu}
      */
-    public SelectMenu getSelectMenu(String selectMenu, String runtimeId) {
+    public <T extends SelectMenu> T getSelectMenu(String selectMenu, String runtimeId) {
         if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
         }
@@ -301,30 +278,6 @@ public record JDACommands(
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        return selectMenuDefinition.toSelectMenu(runtimeId, true);
+        return (T) selectMenuDefinition.toSelectMenu(runtimeId, true);
     }
-
-    /**
-     * Gets a JDA {@link SelectMenu} subtype to use it for message builders based on the jda-commands id and links it an
-     * existing
-     * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
-     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
-     * {@code ExampleMenu.onSelectMenu}.
-     * </p>
-     *
-     * @param selectMenu the id of the selectMenu
-     * @param runtimeId  the id of the
-     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime
-     *                   InteractionRuntime}
-     * @param clazz      the subtype of {@link SelectMenu}
-     * @return a JDA {@link SelectMenu}
-     */
-    public <T extends SelectMenu> T getSelectMenu(String selectMenu, String runtimeId, Class<T> clazz) {
-        return (T) getSelectMenu(selectMenu, runtimeId);
-    }
-
-
 }

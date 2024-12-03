@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
@@ -89,9 +88,10 @@ public class CommandDispatcher extends GenericDispatcher {
             }
 
             arguments = slashContext.getArguments();
+            arguments.addFirst(new CommandEvent(context, interactionRegistry));
         } else {
             arguments = new ArrayList<>() {{
-                add(new CommandEvent(context));
+                add(new CommandEvent(context, interactionRegistry));
                 add(((GenericContextInteractionEvent<?>) event).getTarget());
             }};
         }

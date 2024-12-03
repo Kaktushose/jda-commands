@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ModalReplyable;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +28,8 @@ public class ComponentEvent extends GenericEvent<GenericComponentDefinition> imp
      *
      * @param context the underlying {@link Context}
      */
-    public ComponentEvent(@NotNull Context context) {
-        super(context);
+    public ComponentEvent(@NotNull Context context, InteractionRegistry interactionRegistry) {
+        super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }
 

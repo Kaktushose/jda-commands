@@ -61,7 +61,7 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
         log.debug("Input matches auto complete: {}", autoComplete.getDefinitionId());
         log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), event.getMember());
         try {
-            autoComplete.getMethod().invoke(runtimeSupervisor.newRuntime(autoComplete).getInstance(), new AutoCompleteEvent(context));
+            autoComplete.getMethod().invoke(runtimeSupervisor.newRuntime(autoComplete).getInstance(), new AutoCompleteEvent(context, interactionRegistry));
         } catch (Exception exception) {
             throw new IllegalStateException("Auto complete execution failed!", exception);
         }

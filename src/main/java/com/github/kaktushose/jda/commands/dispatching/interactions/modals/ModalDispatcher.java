@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
@@ -91,7 +90,7 @@ public class ModalDispatcher extends GenericDispatcher {
         try {
             context.setRuntime(runtime);
             List<Object> arguments = new ArrayList<>();
-            arguments.add(new ModalEvent(context));
+            arguments.add(new ModalEvent(context, interactionRegistry));
             arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList()));
             modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {
