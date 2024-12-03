@@ -14,22 +14,22 @@ import java.util.List;
  * @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
  * @since 2.3.0
  */
-public class CommandTree {
-
-    private final TreeNode root;
+public record CommandTree(
+        TreeNode root
+) {
 
     /**
      * Constructs an empty CommandTree.
      */
     public CommandTree() {
-        root = new TreeNode();
+        this(new TreeNode());
     }
 
     /**
      * Constructs a new CommandTree.
      */
     public CommandTree(Collection<SlashCommandDefinition> commands) {
-        root = new TreeNode();
+        this(new TreeNode());
         addAll(commands);
     }
 
@@ -91,10 +91,5 @@ public class CommandTree {
      */
     public List<String> getNames() {
         return root.getNames();
-    }
-
-    @Override
-    public String toString() {
-        return root.toString();
     }
 }

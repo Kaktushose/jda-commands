@@ -84,12 +84,9 @@ public class DispatcherSupervisor extends ListenerAdapter {
             return;
         }
 
-        Context context;
-        if (SlashCommandInteractionEvent.class.isAssignableFrom(clazz)) {
-            context = new SlashCommandContext((SlashCommandInteractionEvent) event, interactionRegistry, implementationRegistry);
-        } else {
-            context = new Context(event, interactionRegistry, implementationRegistry);
-        }
+        Context context = SlashCommandInteractionEvent.class.isAssignableFrom(clazz)
+                ? new SlashCommandContext((SlashCommandInteractionEvent) event, interactionRegistry, implementationRegistry)
+                : new Context(event, interactionRegistry, implementationRegistry);
 
         GenericDispatcher dispatcher = dispatchers.get(key.get());
         log.debug("Calling {}", dispatcher.getClass().getName());

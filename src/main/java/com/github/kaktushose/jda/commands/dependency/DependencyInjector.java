@@ -47,5 +47,5 @@ public interface DependencyInjector {
      * Injects all registered dependencies with the corresponding value. If no value is present {@code null} gets injected.
      */
     void inject(Object instance);
-
 }
+

@@ -27,7 +27,7 @@ public class EmbedCache {
     private static final Gson gson = new Gson();
     private final File file;
     private final InputStream stream;
-    private Map<String, EmbedDTO> embedMap;
+    private final Map<String, EmbedDTO> embedMap;
 
     /**
      * Constructs a new EmbedCache object.
@@ -93,7 +93,8 @@ public class EmbedCache {
             JsonReader jsonReader = new JsonReader(reader);
             Type type = new TypeToken<Map<String, EmbedDTO>>() {
             }.getType();
-            embedMap = gson.fromJson(jsonReader, type);
+            embedMap.clear();
+            embedMap.putAll(gson.fromJson(jsonReader, type));
         } catch (FileNotFoundException | JsonIOException | JsonSyntaxException e) {
             log.error("An error has occurred while loading the file!", e);
         }

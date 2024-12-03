@@ -21,12 +21,13 @@ import java.util.*;
  * @see CommandTree
  * @since 2.3.0
  */
-public class TreeNode implements Iterable<TreeNode> {
+public record TreeNode(
+        String name,
+        SlashCommandDefinition command,
+        List<TreeNode> children
+) implements Iterable<TreeNode> {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
-    private final String name;
-    private final SlashCommandDefinition command;
-    private final List<TreeNode> children;
 
     /**
      * Constructs an empty TreeNode. Should only be used for root nodes.
@@ -42,9 +43,7 @@ public class TreeNode implements Iterable<TreeNode> {
      * @param command the {@link SlashCommandDefinition}
      */
     public TreeNode(@NotNull String name, @Nullable SlashCommandDefinition command) {
-        this.name = name;
-        this.command = command;
-        children = new ArrayList<>();
+        this(name, command, new ArrayList<>());
     }
 
     /**
