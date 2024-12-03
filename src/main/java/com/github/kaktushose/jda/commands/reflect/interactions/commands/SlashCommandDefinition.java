@@ -73,7 +73,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
         }
 
 
-        String label = String.join(interaction.value(), command.value(), " ")
+        String label = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
                 .trim();
 

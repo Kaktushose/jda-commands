@@ -161,7 +161,7 @@ public interface Replyable {
                 Buttons buttons = (Buttons) component;
                 buttons.getButtonContainer().forEach(container -> {
                     String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
-                    context.getJdaCommands().getInteractionRegistry().getButtons()
+                    context.getInteractionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
                             .findFirst()
@@ -179,7 +179,7 @@ public interface Replyable {
                 SelectMenus menus = (SelectMenus) component;
                 menus.getSelectMenuContainer().forEach(container -> {
                     String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
-                    context.getJdaCommands().getInteractionRegistry().getSelectMenus()
+                    context.getInteractionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
                             .findFirst().map(it -> it.toSelectMenu(context.getRuntime().getRuntimeId(), container.isEnabled()))

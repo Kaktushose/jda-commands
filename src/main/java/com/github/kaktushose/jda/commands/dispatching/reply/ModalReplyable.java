@@ -29,7 +29,7 @@ public interface ModalReplyable extends Replyable {
             );
         }
 
-        ModalDefinition modalDefinition = context.getJdaCommands().getInteractionRegistry().getModals().stream()
+        ModalDefinition modalDefinition = context.getInteractionRegistry().getModals().stream()
                 .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));

@@ -1,13 +1,12 @@
 package controller;
 
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.InteractionControllerDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import commands.UnsupportedType;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,11 +42,17 @@ public class InteractionControllerDefinitionTest {
     public void command_NoValues_ShouldAdoptControllerValues() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("adopt", CommandEvent.class);
 
-        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(
+                controller,
+                validators,
+                dependencyInjector,
+                LOCALIZATION_FUNCTION
+        ).orElse(null);
+
         assertNotNull(controllerDefinition);
-        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
-                .filter(it -> it.getCommandType() == Command.Type.SLASH)
-                .map(it -> (SlashCommandDefinition) it)
+        SlashCommandDefinition definition = controllerDefinition.definitions().stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
                 .filter(c -> c.getMethod().equals(method))
                 .findFirst().orElse(null);
         assertNotNull(definition);
@@ -56,8 +61,8 @@ public class InteractionControllerDefinitionTest {
         assertTrue(definition.getName().contains("super"));
 
         assertTrue(definition.hasCooldown());
-        assertEquals(10, definition.getCooldown().getDelay());
-        assertEquals(TimeUnit.MILLISECONDS, definition.getCooldown().getTimeUnit());
+        assertEquals(10, definition.getCooldown().delay());
+        assertEquals(TimeUnit.MILLISECONDS, definition.getCooldown().timeUnit());
 
         assertEquals(1, definition.getPermissions().size());
         assertTrue(definition.getPermissions().contains("superPermission"));
@@ -67,11 +72,17 @@ public class InteractionControllerDefinitionTest {
     public void command_OwnValues_ShouldCombineOrOverride() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("combine", CommandEvent.class);
 
-        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(controller, validators, dependencyInjector, LOCALIZATION_FUNCTION).orElse(null);
+        InteractionControllerDefinition controllerDefinition = InteractionControllerDefinition.build(
+                controller,
+                validators,
+                dependencyInjector,
+                LOCALIZATION_FUNCTION
+        ).orElse(null);
+
         assertNotNull(controllerDefinition);
-        SlashCommandDefinition definition = controllerDefinition.getCommands().stream()
-                .filter(it -> it.getCommandType() == Command.Type.SLASH)
-                .map(it -> (SlashCommandDefinition) it)
+        SlashCommandDefinition definition = controllerDefinition.definitions().stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
                 .filter(c -> c.getMethod().equals(method))
                 .findFirst().orElse(null);
         assertNotNull(definition);
@@ -79,8 +90,8 @@ public class InteractionControllerDefinitionTest {
         assertEquals("super sub", definition.getName());
 
         assertTrue(definition.hasCooldown());
-        assertEquals(5, definition.getCooldown().getDelay());
-        assertEquals(TimeUnit.DAYS, definition.getCooldown().getTimeUnit());
+        assertEquals(5, definition.getCooldown().delay());
+        assertEquals(TimeUnit.DAYS, definition.getCooldown().timeUnit());
 
         assertEquals(2, definition.getPermissions().size());
         assertTrue(definition.getPermissions().contains("superPermission"));

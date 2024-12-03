@@ -2,7 +2,7 @@ name: Java CI
 
 on:
   push:
-    branches: [ main, development, release/* ]
+    branches: [ main, development, release/*, feature/*, bump-to-java-23 ]
   pull_request:
     branches: [ main, development, release/* ]
 

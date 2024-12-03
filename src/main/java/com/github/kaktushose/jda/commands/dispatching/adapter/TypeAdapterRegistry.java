@@ -143,7 +143,7 @@ public class TypeAdapterRegistry {
             ParameterDefinition parameter = command.getActualParameters().get(i);
 
             // if parameter is array don't parse
-            if (String[].class.isAssignableFrom(parameter.getType())) {
+            if (String[].class.isAssignableFrom(parameter.type())) {
                 log.debug("First parameter is String array. Not adapting arguments");
                 arguments.add(input);
                 break;
@@ -162,19 +162,19 @@ public class TypeAdapterRegistry {
 
                 // if the default value is an empty String (thus not present) add a null value to the argument list
                 // else try to type adapt the default value
-                if (parameter.getDefaultValue() == null) {
-                    arguments.add(DEFAULT_MAPPINGS.getOrDefault(parameter.getType(), null));
+                if (parameter.defaultValue() == null) {
+                    arguments.add(DEFAULT_MAPPINGS.getOrDefault(parameter.type(), null));
                     continue;
                 } else {
-                    raw = parameter.getDefaultValue();
+                    raw = parameter.defaultValue();
                 }
             } else {
                 raw = input[i];
             }
 
-            log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.getType().getName());
+            log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.type().getName());
 
-            Optional<TypeAdapter<?>> adapter = get(parameter.getType());
+            Optional<TypeAdapter<?>> adapter = get(parameter.type());
             if (adapter.isEmpty()) {
                 throw new IllegalArgumentException("No type adapter found!");
             }

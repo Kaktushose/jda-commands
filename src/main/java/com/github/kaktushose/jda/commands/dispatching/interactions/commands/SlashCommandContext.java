@@ -1,7 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -29,8 +30,8 @@ public class SlashCommandContext extends Context {
      *
      * @param event       the corresponding {@link SlashCommandInteractionEvent}
      */
-    public SlashCommandContext(SlashCommandInteractionEvent event) {
-        super(event);
+    public SlashCommandContext(SlashCommandInteractionEvent event, InteractionRegistry interactionRegistry, ImplementationRegistry implementationRegistry) {
+        super(event, interactionRegistry, implementationRegistry);
         setOptions(event.getOptions());
     }
 

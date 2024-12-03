@@ -68,7 +68,7 @@ public class CooldownMiddleware implements Middleware {
 
         CooldownDefinition cooldown = command.getCooldown();
         long startTime = System.currentTimeMillis();
-        long duration = cooldown.getTimeUnit().toMillis(cooldown.getDelay());
+        long duration = cooldown.timeUnit().toMillis(cooldown.delay());
         activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
         log.debug("Added new cooldown entry for this user");
     }

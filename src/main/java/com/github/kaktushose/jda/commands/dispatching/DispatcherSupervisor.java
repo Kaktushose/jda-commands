@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
@@ -37,6 +36,8 @@ public class DispatcherSupervisor extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherSupervisor.class);
     private final Map<Class<? extends GenericInteractionCreateEvent>, GenericDispatcher> dispatchers;
+    private final InteractionRegistry interactionRegistry;
+    private final ImplementationRegistry implementationRegistry;
 
     /**
      * Constructs a new DispatcherSupervisor.
@@ -47,6 +48,8 @@ public class DispatcherSupervisor extends ListenerAdapter {
         register(CommandAutoCompleteInteractionEvent.class, new AutoCompleteDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
         register(GenericComponentInteractionCreateEvent.class, new ComponentDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
         register(ModalInteractionEvent.class, new ModalDispatcher(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        this.interactionRegistry = interactionRegistry;
+        this.implementationRegistry = implementationRegistry;
     }
 
     /**
@@ -83,9 +86,9 @@ public class DispatcherSupervisor extends ListenerAdapter {
 
         Context context;
         if (SlashCommandInteractionEvent.class.isAssignableFrom(clazz)) {
-            context = new SlashCommandContext((SlashCommandInteractionEvent) event);
+            context = new SlashCommandContext((SlashCommandInteractionEvent) event, interactionRegistry, implementationRegistry);
         } else {
-            context = new Context(event);
+            context = new Context(event, interactionRegistry, implementationRegistry);
         }
 
         GenericDispatcher dispatcher = dispatchers.get(key.get());

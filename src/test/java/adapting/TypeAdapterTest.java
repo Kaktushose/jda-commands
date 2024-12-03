@@ -1,9 +1,7 @@
 package adapting;
 
 import adapting.mock.GuildMock;
-import adapting.mock.JDACommandsMock;
 import adapting.mock.JDAMock;
-import adapting.mock.SlashCommandInteractionEventMock;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,7 +15,7 @@ public class TypeAdapterTest {
 
     @BeforeAll
     public static void setup() {
-        context = new SlashCommandContext(new SlashCommandInteractionEventMock(), new JDACommandsMock());
+        context = TypeAdapterRegistryTest.buildContext(null, "");
     }
 
     @Test

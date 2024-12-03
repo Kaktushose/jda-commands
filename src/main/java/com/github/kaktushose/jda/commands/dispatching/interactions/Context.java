@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -29,16 +28,18 @@ public class Context {
     protected boolean ephemeral;
     protected InteractionRuntime runtime;
     protected GenericInteractionDefinition interactionDefinition;
-    protected InteractionRegistry interactionRegistry;
-    protected ImplementationRegistry implementationRegistry;
+    protected final InteractionRegistry interactionRegistry;
+    protected final ImplementationRegistry implementationRegistry;
 
     /**
      * Constructs a new GenericContext.
      *
-     * @param event       the corresponding {@link GenericInteractionCreateEvent}
+     * @param event the corresponding {@link GenericInteractionCreateEvent}
      */
-    public Context(GenericInteractionCreateEvent event) {
+    public Context(GenericInteractionCreateEvent event, InteractionRegistry interactionRegistry, ImplementationRegistry implementationRegistry) {
         this.event = event;
+        this.interactionRegistry = interactionRegistry;
+        this.implementationRegistry = implementationRegistry;
     }
 
     public GenericInteractionCreateEvent getEvent() {
@@ -176,5 +177,13 @@ public class Context {
     public Context setKeyValueStore(KeyValueStore keyValueStore) {
         runtime.setKeyValueStore(keyValueStore);
         return this;
+    }
+
+    public ImplementationRegistry getImplementationRegistry() {
+        return implementationRegistry;
+    }
+
+    public InteractionRegistry getInteractionRegistry() {
+        return interactionRegistry;
     }
 }
