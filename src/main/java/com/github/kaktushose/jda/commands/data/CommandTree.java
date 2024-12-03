@@ -92,4 +92,9 @@ public record CommandTree(
     public List<String> getNames() {
         return root.getNames();
     }
+
+    @Override
+    public String toString() {
+        return root.toString();
+    }
 }
