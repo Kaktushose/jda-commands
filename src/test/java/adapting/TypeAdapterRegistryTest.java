@@ -80,7 +80,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertArrayEquals(new String[]{"a", "b", "c"}, (String[]) context.getArguments().get(1));
+        assertArrayEquals(new String[]{"a", "b", "c"}, (String[]) context.getArguments().getFirst());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertNull(context.getArguments().get(1));
+        assertNull(context.getArguments().getFirst());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertEquals(TypeAdapterRegistryTestController.OPTIONAL_DEFAULT, context.getArguments().get(1));
+        assertEquals(TypeAdapterRegistryTestController.OPTIONAL_DEFAULT, context.getArguments().getFirst());
     }
 
     @Test

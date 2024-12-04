@@ -90,10 +90,10 @@ public class CommandDispatcher extends GenericDispatcher {
             arguments = slashContext.getArguments();
             arguments.addFirst(new CommandEvent(context, interactionRegistry));
         } else {
-            arguments = new ArrayList<>() {{
-                add(new CommandEvent(context, interactionRegistry));
-                add(((GenericContextInteractionEvent<?>) event).getTarget());
-            }};
+            arguments = List.of(
+                    new CommandEvent(context, interactionRegistry),
+                    ((GenericContextInteractionEvent<?>) event).getTarget()
+            );
         }
 
         executeMiddlewares(context);
