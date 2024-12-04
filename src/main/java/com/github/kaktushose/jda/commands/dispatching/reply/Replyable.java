@@ -146,7 +146,7 @@ public interface Replyable {
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
-     * For buttons, they must be defined in the same
+     * For buttonContainers, they must be defined in the same
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} as the referring
      * {@link SlashCommand Command}.
      *
@@ -159,15 +159,15 @@ public interface Replyable {
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
-                buttons.getButtonContainer().forEach(container -> {
-                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
+                buttons.buttonContainers().forEach(container -> {
+                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.name());
                     context.getInteractionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
                             .findFirst()
                             .map(it -> {
-                                Button jdaButton = it.toButton().withDisabled(!container.isEnabled());
-                                //only assign ids to non-link buttons
+                                Button jdaButton = it.toButton().withDisabled(!container.enabled());
+                                //only assign ids to non-link buttonContainers
                                 if (jdaButton.getUrl() == null) {
                                     jdaButton = jdaButton.withId(it.createCustomId(context.getRuntime().getRuntimeId()));
                                 }
@@ -177,7 +177,7 @@ public interface Replyable {
             }
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
-                menus.getSelectMenuContainer().forEach(container -> {
+                menus.selectMenuContainers().forEach(container -> {
                     String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
                     context.getInteractionRegistry().getSelectMenus()
                             .stream()
@@ -212,12 +212,12 @@ public interface Replyable {
 
     /**
      * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
-     * The buttons must be defined in the same
+     * The buttonContainers must be defined in the same
      * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} as the referring
-     * {@link SlashCommand Command}. This will enable all buttons. To add
-     * disabled buttons, use {@link #with(Component...)}.
+     * {@link SlashCommand Command}. This will enable all buttonContainers. To add
+     * disabled buttonContainers, use {@link #with(Component...)}.
      *
-     * @param buttons the id of the buttons to add
+     * @param buttons the id of the buttonContainers to add
      * @return the current instance for fluent interface
      */
     default Replyable withButtons(@NotNull String... buttons) {

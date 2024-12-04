@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Classes annotated with Interaction will be scanned at startup and are eligible for defining interactions such as
- * slash commands, buttons, modals or context menus.
+ * slash commands, buttonContainers, modals or context menus.
  *
  * @since 4.0.0
  */

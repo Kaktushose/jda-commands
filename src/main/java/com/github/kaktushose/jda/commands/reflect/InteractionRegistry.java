@@ -107,9 +107,9 @@ public final class InteractionRegistry {
     }
 
     /**
-     * Gets a possibly-empty list of all buttons.
+     * Gets a possibly-empty list of all buttonContainers.
      *
-     * @return a possibly-empty list of all buttons
+     * @return a possibly-empty list of all buttonContainers
      */
     public Collection<ButtonDefinition> getButtons() {
         return definitions.stream()
