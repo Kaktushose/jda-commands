@@ -21,7 +21,7 @@ public class CharacterAdapter implements TypeAdapter<Character> {
      * @return the parsed Char or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Character> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Character> apply(@NotNull String raw, @NotNull Context context) {
         if (raw.length() == 1) {
             return Optional.of(raw.charAt(0));
         }

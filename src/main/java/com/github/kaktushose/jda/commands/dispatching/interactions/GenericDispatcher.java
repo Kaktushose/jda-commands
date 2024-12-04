@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
@@ -28,9 +27,12 @@ public abstract class GenericDispatcher {
 
     /**
      * Constructs a new GenericDispatcher.
-     *
      */
-    public GenericDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
+    public GenericDispatcher(MiddlewareRegistry middlewareRegistry,
+                             ImplementationRegistry implementationRegistry,
+                             InteractionRegistry interactionRegistry,
+                             TypeAdapterRegistry adapterRegistry,
+                             RuntimeSupervisor runtimeSupervisor) {
         this.middlewareRegistry = middlewareRegistry;
         this.implementationRegistry = implementationRegistry;
         this.interactionRegistry = interactionRegistry;
@@ -42,33 +44,23 @@ public abstract class GenericDispatcher {
         log.debug("Executing middlewares...");
 
         for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.PERMISSIONS)) {
-            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-            middleware.execute(context);
-            if (context.isCancelled()) {
-                return;
-            }
+            if (executeMiddleware(context, middleware)) return;
         }
         for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.HIGH)) {
-            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-            middleware.execute(context);
-            if (context.isCancelled()) {
-                return;
-            }
+            if (executeMiddleware(context, middleware)) return;
         }
         for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.NORMAL)) {
-            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-            middleware.execute(context);
-            if (context.isCancelled()) {
-                return;
-            }
+            if (executeMiddleware(context, middleware)) return;
         }
         for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.LOW)) {
-            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-            middleware.execute(context);
-            if (context.isCancelled()) {
-                return;
-            }
+            if (executeMiddleware(context, middleware)) return;
         }
+    }
+
+    private boolean executeMiddleware(Context context, Middleware middleware) {
+        log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
+        middleware.accept(context);
+        return context.isCancelled();
     }
 
     /**

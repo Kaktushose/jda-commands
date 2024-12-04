@@ -21,7 +21,7 @@ public class ShortAdapter implements TypeAdapter<Short> {
      * @return the parsed Short or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Short> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Short> apply(@NotNull String raw, @NotNull Context context) {
         try {
             return Optional.of(Short.valueOf(raw));
         } catch (NumberFormatException ignored) {

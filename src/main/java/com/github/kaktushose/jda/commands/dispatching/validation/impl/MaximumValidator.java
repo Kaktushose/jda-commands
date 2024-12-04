@@ -22,7 +22,7 @@ public class MaximumValidator implements Validator {
      * @return {@code true} if the argument is a number whose value is lower or equal to the specified maximum
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
         Max max = (Max) annotation;
         return ((Number) argument).longValue() <= max.value();
     }

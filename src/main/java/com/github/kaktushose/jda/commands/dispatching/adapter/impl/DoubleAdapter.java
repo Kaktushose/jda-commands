@@ -21,7 +21,7 @@ public class DoubleAdapter implements TypeAdapter<Double> {
      * @return the parsed Double or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Double> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Double> apply(@NotNull String raw, @NotNull Context context) {
         try {
             return Optional.of(Double.valueOf(raw));
         } catch (NumberFormatException ignored) {

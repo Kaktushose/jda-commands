@@ -22,7 +22,7 @@ public class BooleanAdapter implements TypeAdapter<Boolean> {
      * @return the parsed boolean or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Boolean> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Boolean> apply(@NotNull String raw, @NotNull Context context) {
         if ("true".equalsIgnoreCase(raw) || "1".equals(raw)) {
             return Optional.of(true);
         }

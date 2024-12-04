@@ -23,13 +23,13 @@ public class RoleAdapter implements TypeAdapter<Role> {
      * @return the parsed {@link Role} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Role> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Role> apply(@NotNull String raw, @NotNull Context context) {
         if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 
         Role role;
-        raw = sanitizeMention(raw);
+        raw = Helpers.sanitizeMention(raw);
 
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {

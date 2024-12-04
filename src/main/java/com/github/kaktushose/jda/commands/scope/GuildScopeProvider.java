@@ -12,6 +12,7 @@ import java.util.function.Function;
  * @see DefaultGuildScopeProvider
  * @since 4.0.0
  */
+@FunctionalInterface
 public interface GuildScopeProvider extends Function<CommandData, Set<Long>> {
 
     /**

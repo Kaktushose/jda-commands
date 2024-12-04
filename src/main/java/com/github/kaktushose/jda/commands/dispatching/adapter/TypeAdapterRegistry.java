@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
@@ -178,7 +177,7 @@ public class TypeAdapterRegistry {
                 throw new IllegalArgumentException("No type adapter found!");
             }
 
-            Optional<?> parsed = adapter.get().parse(raw, context);
+            Optional<?> parsed = adapter.get().apply(raw, context);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
                 context.setCancelled(messageFactory.getTypeAdaptingFailedMessage(context));

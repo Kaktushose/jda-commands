@@ -21,7 +21,7 @@ public class FloatAdapter implements TypeAdapter<Float> {
      * @return the parsed Float or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Float> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Float> apply(@NotNull String raw, @NotNull Context context) {
         try {
             return Optional.of(Float.valueOf(raw));
         } catch (NumberFormatException ignored) {

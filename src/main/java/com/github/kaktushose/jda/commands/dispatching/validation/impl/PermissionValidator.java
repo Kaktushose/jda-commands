@@ -29,7 +29,7 @@ public class PermissionValidator implements Validator {
      * permission
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
         Set<Permission> permissions = new HashSet<>();
         Perm perm = (Perm) annotation;
         try {

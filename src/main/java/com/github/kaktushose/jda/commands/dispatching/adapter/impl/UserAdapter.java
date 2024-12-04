@@ -24,9 +24,9 @@ public class UserAdapter implements TypeAdapter<User> {
      * @return the parsed {@link User} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<User> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<User> apply(@NotNull String raw, @NotNull Context context) {
         User user;
-        raw = sanitizeMention(raw);
+        raw = Helpers.sanitizeMention(raw);
         JDA jda = context.getEvent().getJDA();
         if (raw.matches("\\d+")) {
             try {

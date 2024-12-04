@@ -9,7 +9,7 @@ import java.util.Optional;
 public class CustomTypeAdapter implements TypeAdapter<CustomType> {
 
     @Override
-    public Optional<CustomType> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<CustomType> apply(@NotNull String raw, @NotNull Context context) {
         return Optional.of(new CustomType());
     }
 }

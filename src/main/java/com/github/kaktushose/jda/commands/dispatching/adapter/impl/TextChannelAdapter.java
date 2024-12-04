@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,23 +22,11 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
      * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<TextChannel> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<TextChannel> apply(@NotNull String raw, @NotNull Context context) {
         if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 
-        TextChannel textChannel;
-        raw = sanitizeMention(raw);
-
-        Guild guild = context.getEvent().getGuild();
-        if (raw.matches("\\d+")) {
-            textChannel = guild.getTextChannelById(raw);
-        } else {
-            textChannel = guild.getTextChannelsByName(raw, true).stream().findFirst().orElse(null);
-        }
-        if (textChannel == null) {
-            return Optional.empty();
-        }
-        return Optional.of(textChannel);
+        return Helpers.resolveGuildChannel(context, raw).filter(TextChannel.class::isInstance).map(TextChannel.class::cast);
     }
 }

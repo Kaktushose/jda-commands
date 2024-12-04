@@ -24,13 +24,13 @@ public class MemberAdapter implements TypeAdapter<Member> {
      * @return the parsed {@link Member} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Member> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Member> apply(@NotNull String raw, @NotNull Context context) {
         if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 
         Member member;
-        raw = sanitizeMention(raw);
+        raw = Helpers.sanitizeMention(raw);
 
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {

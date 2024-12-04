@@ -38,7 +38,7 @@ public class CooldownMiddleware implements Middleware {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void execute(@NotNull Context context) {
+    public void accept(@NotNull Context context) {
         if (!SlashCommandInteractionEvent.class.isAssignableFrom(context.getEvent().getClass())) {
             return;
         }
