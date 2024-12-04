@@ -21,7 +21,7 @@ public class IntegerAdapter implements TypeAdapter<Integer> {
      * @return the parsed Integer or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Integer> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Integer> apply(@NotNull String raw, @NotNull Context context) {
         try {
             return Optional.of((int) Double.parseDouble(raw));
         } catch (NumberFormatException ignored) {

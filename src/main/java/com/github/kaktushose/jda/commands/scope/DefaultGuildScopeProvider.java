@@ -14,8 +14,7 @@ import java.util.Set;
 public class DefaultGuildScopeProvider implements GuildScopeProvider {
 
     @Override
-    public Set<Long> getGuildsForCommand(CommandData commandData) {
+    public Set<Long> apply(CommandData commandData) {
         return Collections.emptySet();
     }
-
 }

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import net.dv8tion.jda.api.entities.Guild;
@@ -23,13 +24,13 @@ public class RoleAdapter implements TypeAdapter<Role> {
      * @return the parsed {@link Role} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Role> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Role> apply(@NotNull String raw, @NotNull Context context) {
         if (context.getEvent().getGuild() == null) {
             return Optional.empty();
         }
 
         Role role;
-        raw = sanitizeMention(raw);
+        raw = Helpers.sanitizeMention(raw);
 
         Guild guild = context.getEvent().getGuild();
         if (raw.matches("\\d+")) {

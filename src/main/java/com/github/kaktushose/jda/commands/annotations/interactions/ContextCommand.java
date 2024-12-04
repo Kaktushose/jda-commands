@@ -42,13 +42,6 @@ public @interface ContextCommand {
     boolean isGuildOnly() default false;
 
     /**
-     * Returns whether this command is active and thus can be executed or not.
-     *
-     * @return {@code true} if this command is active
-     */
-    boolean isActive() default true;
-
-    /**
      * Returns whether this command can only be executed in NSFW channels.
      *
      * @return {@code true} if this command can only be executed in NSFW channels

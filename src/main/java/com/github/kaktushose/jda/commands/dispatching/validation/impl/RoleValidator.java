@@ -27,11 +27,11 @@ public class RoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that has the specified guild role
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
         com.github.kaktushose.jda.commands.annotations.constraints.Role roleAnnotation =
                 (com.github.kaktushose.jda.commands.annotations.constraints.Role) annotation;
 
-        Optional<Role> optional = new RoleAdapter().parse(roleAnnotation.value(), context);
+        Optional<Role> optional = new RoleAdapter().apply(roleAnnotation.value(), context);
         Member member = (Member) argument;
 
         return optional.filter(role -> member.getRoles().contains(role)).isPresent();

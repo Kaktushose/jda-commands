@@ -32,13 +32,11 @@ public class SlashCommandUpdater {
 
     /**
      * Constructs a new SlashCommandUpdater.
-     *
-     * @param jdaCommands the corresponding {@link JDACommands} instance
      */
-    public SlashCommandUpdater(JDACommands jdaCommands) {
-        this.jdaContext = jdaCommands.getJDAContext();
-        guildScopeProvider = jdaCommands.getImplementationRegistry().getGuildScopeProvider();
-        interactionRegistry = jdaCommands.getInteractionRegistry();
+    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry interactionRegistry) {
+        this.jdaContext = jdaContext;
+        this.guildScopeProvider = guildScopeProvider;
+        this.interactionRegistry = interactionRegistry;
     }
 
     /**
@@ -120,7 +118,7 @@ public class SlashCommandUpdater {
         Map<Long, Set<CommandData>> guildMapping = new HashMap<>();
         for (CommandData command : result) {
             // create a copy so that a user doesn't modify the command data used for registration
-            Set<Long> guildIds = guildScopeProvider.getGuildsForCommand(CommandData.fromData(command.toData()));
+            Set<Long> guildIds = guildScopeProvider.apply(CommandData.fromData(command.toData()));
             if (guildIds.isEmpty()) {
                 log.debug("No guilds provided for command \"{}\"", command.getName());
             } else {

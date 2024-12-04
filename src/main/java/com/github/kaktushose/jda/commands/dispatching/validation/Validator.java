@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
  * @since 2.0.0
  */
+@FunctionalInterface
 public interface Validator {
 
     /**
@@ -20,6 +21,6 @@ public interface Validator {
      * @param context    the corresponding {@link Context}
      * @return {@code true} if the argument passes the constraints
      */
-    boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context);
+    boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context);
 
 }

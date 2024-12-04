@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -24,22 +24,22 @@ public class Context {
     protected final GenericInteractionCreateEvent event;
     protected MessageCreateData errorMessage;
     protected ImplementationRegistry registry;
-    protected JDACommands jdaCommands;
     protected boolean cancelled;
     protected boolean ephemeral;
     protected InteractionRuntime runtime;
     protected GenericInteractionDefinition interactionDefinition;
+    protected final InteractionRegistry interactionRegistry;
+    protected final ImplementationRegistry implementationRegistry;
 
     /**
      * Constructs a new GenericContext.
      *
-     * @param jdaCommands the corresponding {@link JDACommands} instance
-     * @param event       the corresponding {@link GenericInteractionCreateEvent}
+     * @param event the corresponding {@link GenericInteractionCreateEvent}
      */
-    public Context(GenericInteractionCreateEvent event, JDACommands jdaCommands) {
+    public Context(GenericInteractionCreateEvent event, InteractionRegistry interactionRegistry, ImplementationRegistry implementationRegistry) {
         this.event = event;
-        this.jdaCommands = jdaCommands;
-        this.registry = jdaCommands.getImplementationRegistry();
+        this.interactionRegistry = interactionRegistry;
+        this.implementationRegistry = implementationRegistry;
     }
 
     public GenericInteractionCreateEvent getEvent() {
@@ -57,16 +57,6 @@ public class Context {
     }
 
     /**
-     * Gets the corresponding {@link ImplementationRegistry} instance.
-     *
-     * @return the corresponding {@link ImplementationRegistry} instance
-     */
-    @NotNull
-    public ImplementationRegistry getImplementationRegistry() {
-        return registry;
-    }
-
-    /**
      * Set the {@link ImplementationRegistry} instance.
      *
      * @param registry the {@link ImplementationRegistry} instance
@@ -75,28 +65,6 @@ public class Context {
     @NotNull
     public Context setImplementationRegistry(@NotNull ImplementationRegistry registry) {
         this.registry = registry;
-        return this;
-    }
-
-    /**
-     * Gets the corresponding {@link JDACommands} instance.
-     *
-     * @return the corresponding {@link JDACommands} instance
-     */
-    @NotNull
-    public JDACommands getJdaCommands() {
-        return jdaCommands;
-    }
-
-    /**
-     * Set the {@link JDACommands} instance.
-     *
-     * @param jdaCommands the {@link JDACommands} instance
-     * @return the current Context instance
-     */
-    @NotNull
-    public Context setJdaCommands(@NotNull JDACommands jdaCommands) {
-        this.jdaCommands = jdaCommands;
         return this;
     }
 
@@ -209,5 +177,13 @@ public class Context {
     public Context setKeyValueStore(KeyValueStore keyValueStore) {
         runtime.setKeyValueStore(keyValueStore);
         return this;
+    }
+
+    public ImplementationRegistry getImplementationRegistry() {
+        return implementationRegistry;
+    }
+
+    public InteractionRegistry getInteractionRegistry() {
+        return interactionRegistry;
     }
 }

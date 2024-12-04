@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,12 +16,10 @@ import java.util.List;
  * @see Replyable#with(Component...)
  * @since 2.3.0
  */
-public class SelectMenus implements Component {
+public record SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenuContainers) implements Component {
 
-    private final Collection<SelectMenus.SelectMenuContainer> selectMenus;
-
-    private SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenus) {
-        this.selectMenus = selectMenus;
+    public SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenuContainers) {
+        this.selectMenuContainers = Collections.unmodifiableCollection(selectMenuContainers);
     }
 
     /**
@@ -51,15 +50,6 @@ public class SelectMenus implements Component {
             result.add(new SelectMenus.SelectMenuContainer(menu, enabled));
         }
         return new SelectMenus(result);
-    }
-
-    /**
-     * Gets the {@link SelectMenuContainer}.
-     *
-     * @return the {@link SelectMenuContainer}
-     */
-    public Collection<SelectMenus.SelectMenuContainer> getSelectMenuContainer() {
-        return selectMenus;
     }
 
     /**

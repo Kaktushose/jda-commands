@@ -1,14 +1,17 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
-import org.jetbrains.annotations.NotNull;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -17,17 +20,17 @@ import java.util.stream.Collectors;
  * @see StringSelectMenu
  * @since 4.0.0
  */
-public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
+public final class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu> {
 
     private final Set<SelectOptionDefinition> selectOptions;
 
-    protected StringSelectMenuDefinition(Method method,
-                                         Set<String> permissions,
-                                         boolean ephemeral,
-                                         Set<SelectOptionDefinition> selectOptions,
-                                         String placeholder,
-                                         int minValue,
-                                         int maxValue) {
+    private StringSelectMenuDefinition(Method method,
+                                       Set<String> permissions,
+                                       boolean ephemeral,
+                                       Set<SelectOptionDefinition> selectOptions,
+                                       String placeholder,
+                                       int minValue,
+                                       int maxValue) {
         super(method, permissions, ephemeral, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
     }
@@ -35,38 +38,21 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     /**
      * Builds a new StringSelectMenuDefinition.
      *
-     * @param method the {@link Method} of the button
      * @return an {@link Optional} holding the StringSelectMenuDefinition
      */
-    public static Optional<StringSelectMenuDefinition> build(@NotNull Method method) {
+    public static Optional<StringSelectMenuDefinition> build(MethodBuildContext context) {
+        Method method = context.method();
         if (!method.isAnnotationPresent(StringSelectMenu.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 2) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+        if (Helpers.isIncorrectParameterAmount(method, 2)) {
             return Optional.empty();
         }
 
-        if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType()) &&
-                !List.class.isAssignableFrom(method.getParameters()[1].getType())) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s, second parameter of type %s!",
-                            ComponentEvent.class.getSimpleName(),
-                            List.class.getSimpleName()
-                    )));
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
+                Helpers.isIncorrectParameterType(method, 1, List.class)) {
             return Optional.empty();
-        }
-
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
         }
 
         StringSelectMenu selectMenu = method.getAnnotation(StringSelectMenu.class);
@@ -78,8 +64,8 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
 
         return Optional.of(new StringSelectMenuDefinition(
                 method,
-                permissions,
-                selectMenu.ephemeral(),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, selectMenu.ephemeral()),
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),
@@ -113,14 +99,14 @@ public class StringSelectMenuDefinition extends GenericSelectMenuDefinition<net.
     @Override
     public String toString() {
         return "StringSelectMenuDefinition{" +
-               "selectOptions=" + selectOptions +
-               ", placeholder='" + placeholder + '\'' +
-               ", minValue=" + minValue +
-               ", maxValue=" + maxValue +
-               ", ephemeral=" + ephemeral +
-               ", permissions=" + permissions +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               '}';
+                "selectOptions=" + selectOptions +
+                ", placeholder='" + placeholder + '\'' +
+                ", minValue=" + minValue +
+                ", maxValue=" + maxValue +
+                ", ephemeral=" + ephemeral +
+                ", permissions=" + permissions +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                '}';
     }
 }

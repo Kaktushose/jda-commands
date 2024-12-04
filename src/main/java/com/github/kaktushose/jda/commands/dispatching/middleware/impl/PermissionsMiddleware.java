@@ -34,7 +34,7 @@ public class PermissionsMiddleware implements Middleware {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void execute(@NotNull Context context) {
+    public void accept(@NotNull Context context) {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.getImplementationRegistry().getPermissionsProvider();
         GenericInteractionCreateEvent event = context.getEvent();

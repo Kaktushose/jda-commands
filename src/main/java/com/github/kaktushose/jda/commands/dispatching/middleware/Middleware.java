@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
+import java.util.function.Consumer;
+
 /**
  * Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
  * more info the {@link Context}. Either register them at the {@link MiddlewareRegistry} or use the
@@ -13,7 +15,8 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
  * @see MiddlewareRegistry
  * @since 4.0.0
  */
-public interface Middleware {
+@FunctionalInterface
+public interface Middleware extends Consumer<Context> {
 
     /**
      * Executes this middleware with the given {@link Context}. Use {@link Context#setCancelled(MessageCreateData)}
@@ -21,6 +24,6 @@ public interface Middleware {
      *
      * @param context the {@link Context} of the current interaction event
      */
-    void execute(Context context);
+    void accept(Context context);
 
 }

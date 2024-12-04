@@ -51,11 +51,6 @@ public class CommandDefinitionTestController {
 
     }
 
-    @SlashCommand(value = "k", isActive = false)
-    public void inactive() {
-
-    }
-
     @SlashCommand("m")
     @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
     public void zeroCooldown(CommandEvent event) {

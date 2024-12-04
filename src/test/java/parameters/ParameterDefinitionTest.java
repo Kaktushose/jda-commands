@@ -34,7 +34,7 @@ public class ParameterDefinitionTest {
         Method method = controller.getDeclaredMethod("primitives", int.class);
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
-        assertEquals(Integer.class, parameter.getType());
+        assertEquals(Integer.class, parameter.type());
         assertTrue(parameter.isPrimitive());
     }
 
@@ -44,7 +44,7 @@ public class ParameterDefinitionTest {
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
         assertTrue(parameter.isOptional());
-        assertNull(parameter.getDefaultValue());
+        assertNull(parameter.defaultValue());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ParameterDefinitionTest {
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
         assertTrue(parameter.isOptional());
-        assertEquals("default", parameter.getDefaultValue());
+        assertEquals("default", parameter.defaultValue());
     }
 
     @Test
@@ -61,10 +61,10 @@ public class ParameterDefinitionTest {
         Method method = controller.getDeclaredMethod("constraint", int.class);
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
-        assertEquals(1, parameter.getConstraints().size());
-        assertEquals(10, ((Min) parameter.getConstraints().get(0).getAnnotation()).value());
-        assertEquals(MinimumValidator.class, parameter.getConstraints().get(0).getValidator().getClass());
-        assertFalse(parameter.getConstraints().get(0).getMessage().isEmpty());
+        assertEquals(1, parameter.constraints().size());
+        assertEquals(10, ((Min) parameter.constraints().get(0).annotation()).value());
+        assertEquals(MinimumValidator.class, parameter.constraints().get(0).validator().getClass());
+        assertFalse(parameter.constraints().get(0).message().isEmpty());
     }
 
     @Test
@@ -72,6 +72,6 @@ public class ParameterDefinitionTest {
         Method method = controller.getDeclaredMethod("constraintWithMessage", int.class);
         ParameterDefinition parameter = ParameterDefinition.build(method.getParameters()[0], validatorRegistry);
 
-        assertEquals("error message", parameter.getConstraints().get(0).getMessage());
+        assertEquals("error message", parameter.constraints().get(0).message());
     }
 }

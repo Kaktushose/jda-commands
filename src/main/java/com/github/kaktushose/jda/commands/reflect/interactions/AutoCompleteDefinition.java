@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
@@ -7,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,11 +17,11 @@ import java.util.Set;
  * @see AutoComplete
  * @since 4.0.0
  */
-public class AutoCompleteDefinition extends GenericInteractionDefinition {
+public final class AutoCompleteDefinition extends GenericInteractionDefinition {
 
-    private Set<String> commands;
+    private final Set<String> commands;
 
-    protected AutoCompleteDefinition(Method method, Set<String> commands) {
+    private AutoCompleteDefinition(Method method, Set<String> commands) {
         super(method, new HashSet<>());
         this.commands = commands;
     }
@@ -32,38 +32,21 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
      * @param method the {@link Method} of the AutoComplete
      * @return an {@link Optional} holding the AutoCompleteDefinition
      */
-    public static Optional<AutoCompleteDefinition> build(@NotNull Method method, List<String> autoCompletes) {
+    public static Optional<AutoCompleteDefinition> build(@NotNull Method method) {
         if (!method.isAnnotationPresent(AutoComplete.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 1) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+        if (Helpers.isIncorrectParameterAmount(method, 1)) {
             return Optional.empty();
         }
 
-        if (!AutoCompleteEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s", AutoCompleteEvent.class.getSimpleName())));
+        if (Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
             return Optional.empty();
         }
 
         AutoComplete autoComplete = method.getAnnotation(AutoComplete.class);
         Set<String> values = Set.of(autoComplete.value());
-
-        if (autoCompletes.stream().anyMatch(values::contains)) {
-            log.error("An error has occurred! Skipping auto complete {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalStateException(String.format("There is already an auto complete handler registered " +
-                            "for at least one of the following commands: %s", values)));
-            return Optional.empty();
-        }
 
         return Optional.of(new AutoCompleteDefinition(method, values));
     }
@@ -77,21 +60,12 @@ public class AutoCompleteDefinition extends GenericInteractionDefinition {
         return commands;
     }
 
-    /**
-     * Set the command names this AutoComplete can handle
-     *
-     * @param commands a set of command names
-     */
-    public void setCommandNames(Set<String> commands) {
-        this.commands = commands;
-    }
-
     @Override
     public String toString() {
         return "AutoCompleteDefinition{" +
-               "commands=" + commands +
-               ", id='" + definitionId + "'" +
-               ", method=" + method +
-               '}';
+                "commands=" + commands +
+                ", id='" + definitionId + "'" +
+                ", method=" + method +
+                '}';
     }
 }

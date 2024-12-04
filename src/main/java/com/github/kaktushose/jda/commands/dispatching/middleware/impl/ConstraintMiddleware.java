@@ -32,7 +32,7 @@ public class ConstraintMiddleware implements Middleware {
      * @param ctx the {@link Context} to filter
      */
     @Override
-    public void execute(@NotNull Context ctx) {
+    public void accept(@NotNull Context ctx) {
         if (!SlashCommandInteractionEvent.class.isAssignableFrom(ctx.getEvent().getClass())) {
             return;
         }
@@ -44,10 +44,10 @@ public class ConstraintMiddleware implements Middleware {
         for (int i = 1; i < arguments.size(); i++) {
             Object argument = arguments.get(i);
             ParameterDefinition parameter = parameters.get(i);
-            for (ConstraintDefinition constraint : parameter.getConstraints()) {
-                log.debug("Found constraint {} for parameter {}", constraint, parameter.getType().getName());
+            for (ConstraintDefinition constraint : parameter.constraints()) {
+                log.debug("Found constraint {} for parameter {}", constraint, parameter.type().getName());
 
-                boolean validated = constraint.getValidator().validate(argument, constraint.getAnnotation(), context);
+                boolean validated = constraint.validator().apply(argument, constraint.annotation(), context);
 
                 if (!validated) {
                     context.setCancelled(

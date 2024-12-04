@@ -10,5 +10,5 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
  * @see SelectMenus
  * @since 2.3.0
  */
-public interface Component {
+public sealed interface Component permits Buttons, SelectMenus {
 }

@@ -1,16 +1,15 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,20 +19,20 @@ import java.util.Set;
  * @see Button
  * @since 2.3.0
  */
-public class ButtonDefinition extends GenericComponentDefinition {
+public final class ButtonDefinition extends GenericComponentDefinition {
 
     private final String label;
     private final Emoji emoji;
     private final String link;
     private final ButtonStyle style;
 
-    protected ButtonDefinition(Method method,
-                               Set<String> permissions,
-                               boolean ephemeral,
-                               String label,
-                               Emoji emoji,
-                               String link,
-                               ButtonStyle style) {
+    private ButtonDefinition(Method method,
+                             Set<String> permissions,
+                             boolean ephemeral,
+                             String label,
+                             Emoji emoji,
+                             String link,
+                             ButtonStyle style) {
         super(method, permissions, ephemeral);
         this.label = label;
         this.emoji = emoji;
@@ -44,38 +43,23 @@ public class ButtonDefinition extends GenericComponentDefinition {
     /**
      * Builds a new ButtonDefinition.
      *
-     * @param method the {@link Method} of the button
      * @return an {@link Optional} holding the ButtonDefinition
      */
-    public static Optional<ButtonDefinition> build(@NotNull Method method) {
+    public static Optional<ButtonDefinition> build(MethodBuildContext context) {
+        Method method = context.method();
         if (!method.isAnnotationPresent(Button.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
-        if (method.getParameters().length != 1) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+        if (Helpers.isIncorrectParameterAmount(method, 1)) {
             return Optional.empty();
         }
 
-        if (!ComponentEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
-            log.error("An error has occurred! Skipping Button {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s!", ComponentEvent.class.getSimpleName())));
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class)) {
             return Optional.empty();
         }
 
         Button button = method.getAnnotation(Button.class);
-
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
-        }
-
         Emoji emoji;
         String emojiString = button.emoji();
         if (emojiString.isEmpty()) {
@@ -86,8 +70,8 @@ public class ButtonDefinition extends GenericComponentDefinition {
 
         return Optional.of(new ButtonDefinition(
                 method,
-                permissions,
-                button.ephemeral(),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, button.ephemeral()),
                 button.value(),
                 emoji,
                 button.link(),
@@ -159,14 +143,14 @@ public class ButtonDefinition extends GenericComponentDefinition {
     @Override
     public String toString() {
         return "ButtonDefinition{" +
-               "label='" + label + '\'' +
-               ", emoji=" + emoji +
-               ", link='" + link + '\'' +
-               ", style=" + style +
-               ", ephemeral=" + ephemeral +
-               ", permissions=" + permissions +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               '}';
+                "label='" + label + '\'' +
+                ", emoji=" + emoji +
+                ", link='" + link + '\'' +
+                ", style=" + style +
+                ", ephemeral=" + ephemeral +
+                ", permissions=" + permissions +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                '}';
     }
 }

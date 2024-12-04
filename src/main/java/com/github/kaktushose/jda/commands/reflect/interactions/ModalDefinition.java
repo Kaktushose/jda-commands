@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
@@ -18,12 +19,12 @@ import java.util.*;
  * @see Modal
  * @since 4.0.0
  */
-public class ModalDefinition extends EphemeralInteractionDefinition implements CustomId {
+public final class ModalDefinition extends EphemeralInteractionDefinition implements CustomId {
 
     private final String title;
     private final List<TextInputDefinition> textInputs;
 
-    protected ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
+    private ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
         super(method, permissions, ephemeral);
         this.title = title;
         this.textInputs = textInputs;
@@ -45,15 +46,11 @@ public class ModalDefinition extends EphemeralInteractionDefinition implements C
             log.error("An error has occurred! Skipping Modal {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters!"));
+                    new IllegalArgumentException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
             return Optional.empty();
         }
 
-        if (!ModalEvent.class.isAssignableFrom(method.getParameters()[0].getType())) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format("First parameter must be of type %s!", ModalEvent.class.getSimpleName())));
+        if (Helpers.isIncorrectParameterType(method, 0, ModalEvent.class)) {
             return Optional.empty();
         }
 
@@ -134,12 +131,12 @@ public class ModalDefinition extends EphemeralInteractionDefinition implements C
     @Override
     public String toString() {
         return "ModalDefinition{" +
-               "title='" + title + '\'' +
-               ", textInputs=" + textInputs +
-               ", ephemeral=" + ephemeral +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               ", permissions=" + permissions +
-               '}';
+                "title='" + title + '\'' +
+                ", textInputs=" + textInputs +
+                ", ephemeral=" + ephemeral +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                ", permissions=" + permissions +
+                '}';
     }
 }

@@ -1,9 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
-import com.github.kaktushose.jda.commands.JDACommands;
+import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import org.slf4j.Logger;
@@ -23,17 +27,21 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
     /**
      * Constructs a new AutoCompleteDispatcher.
      *
-     * @param jdaCommands the corresponding {@link JDACommands} instance.
+     * @param middlewareRegistry
+     * @param implementationRegistry
+     * @param interactionRegistry
+     * @param adapterRegistry
+     * @param runtimeSupervisor
      */
-    public AutoCompleteDispatcher(JDACommands jdaCommands) {
-        super(jdaCommands);
+    public AutoCompleteDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
+        super(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
     }
 
     @Override
     public void onEvent(Context context) {
         CommandAutoCompleteInteractionEvent event = (CommandAutoCompleteInteractionEvent) context.getEvent();
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
-                .filter(it -> it.getCommandNames().contains(event.getFullCommandName()))
+                .filter(it -> it.getCommandNames().stream().anyMatch(name -> event.getFullCommandName().startsWith(name)))
                 .findFirst();
 
         if (optionalAutoComplete.isEmpty()) {
@@ -53,7 +61,7 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
         log.debug("Input matches auto complete: {}", autoComplete.getDefinitionId());
         log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), event.getMember());
         try {
-            autoComplete.getMethod().invoke(runtimeSupervisor.newRuntime(autoComplete).getInstance(), new AutoCompleteEvent(context));
+            autoComplete.getMethod().invoke(runtimeSupervisor.newRuntime(autoComplete).getInstance(), new AutoCompleteEvent(context, interactionRegistry));
         } catch (Exception exception) {
             throw new IllegalStateException("Auto complete execution failed!", exception);
         }

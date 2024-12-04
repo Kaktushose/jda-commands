@@ -23,7 +23,7 @@ public class MinimumValidator implements Validator {
      * @return {@code true} if the argument is a number whose value is greater or equal to the specified minimum
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
         Min min = (Min) annotation;
         return ((Number) argument).longValue() >= min.value();
     }

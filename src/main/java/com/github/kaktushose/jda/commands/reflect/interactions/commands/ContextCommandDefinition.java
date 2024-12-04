@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -14,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @see ContextCommand
  * @since 4.0.0
  */
-public class ContextCommandDefinition extends GenericCommandDefinition {
+public final class ContextCommandDefinition extends GenericCommandDefinition {
 
     public ContextCommandDefinition(Method method,
                                     boolean ephemeral,
@@ -40,23 +40,13 @@ public class ContextCommandDefinition extends GenericCommandDefinition {
         super(method, ephemeral, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
     }
 
-    public static Optional<ContextCommandDefinition> build(@NotNull Method method, @NotNull LocalizationFunction localizationFunction) {
+    public static Optional<ContextCommandDefinition> build(@NotNull MethodBuildContext context) {
+        Method method = context.method();
         if (!method.isAnnotationPresent(ContextCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
 
         ContextCommand command = method.getAnnotation(ContextCommand.class);
-
-        if (!command.isActive()) {
-            log.debug("Command {} is set inactive. Skipping this command!", method.getName());
-            return Optional.empty();
-        }
-
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
-        }
 
         Set<net.dv8tion.jda.api.Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
         if (enabledFor.size() == 1 && enabledFor.contains(net.dv8tion.jda.api.Permission.UNKNOWN)) {
@@ -65,15 +55,15 @@ public class ContextCommandDefinition extends GenericCommandDefinition {
 
         return Optional.of(new ContextCommandDefinition(
                 method,
-                command.ephemeral(),
+                Helpers.ephemeral(context, command.ephemeral()),
                 command.value(),
-                permissions,
+                Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 command.type(),
                 enabledFor,
                 command.scope(),
-                localizationFunction
+                context.localizationFunction()
         ));
     }
 
@@ -90,17 +80,17 @@ public class ContextCommandDefinition extends GenericCommandDefinition {
     @Override
     public String toString() {
         return "ContextCommandDefinition{" +
-               "id='" + definitionId + '\'' +
-               ", method=" + method +
-               ", name='" + name + '\'' +
-               ", permissions=" + permissions +
-               ", isGuildOnly=" + isGuildOnly +
-               ", isNSFW=" + isNSFW +
-               ", commandType=" + commandType +
-               ", enabledPermissions=" + enabledPermissions +
-               ", scope=" + scope +
-               ", localizationFunction=" + localizationFunction +
-               ", ephemeral=" + ephemeral +
-               '}';
+                "id='" + definitionId + '\'' +
+                ", method=" + method +
+                ", name='" + name + '\'' +
+                ", permissions=" + permissions +
+                ", isGuildOnly=" + isGuildOnly +
+                ", isNSFW=" + isNSFW +
+                ", commandType=" + commandType +
+                ", enabledPermissions=" + enabledPermissions +
+                ", scope=" + scope +
+                ", localizationFunction=" + localizationFunction +
+                ", ephemeral=" + ephemeral +
+                '}';
     }
 }

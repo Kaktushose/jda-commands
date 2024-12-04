@@ -1,11 +1,14 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -31,10 +34,14 @@ public class ModalDispatcher extends GenericDispatcher {
     /**
      * Constructs a new ModalDispatcher.
      *
-     * @param jdaCommands the corresponding {@link JDACommands} instance.
+     * @param middlewareRegistry
+     * @param implementationRegistry
+     * @param interactionRegistry
+     * @param adapterRegistry
+     * @param runtimeSupervisor
      */
-    public ModalDispatcher(JDACommands jdaCommands) {
-        super(jdaCommands);
+    public ModalDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
+        super(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
     }
 
     @Override
@@ -83,7 +90,7 @@ public class ModalDispatcher extends GenericDispatcher {
         try {
             context.setRuntime(runtime);
             List<Object> arguments = new ArrayList<>();
-            arguments.add(new ModalEvent(context));
+            arguments.add(new ModalEvent(context, interactionRegistry));
             arguments.addAll(event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList()));
             modal.getMethod().invoke(runtime.getInstance(), arguments.toArray());
         } catch (Exception exception) {

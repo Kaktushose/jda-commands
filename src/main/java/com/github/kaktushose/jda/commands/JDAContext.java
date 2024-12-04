@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -14,17 +15,18 @@ import java.util.function.Consumer;
  *
  * @since 2.3.0
  */
-public class JDAContext {
+@ApiStatus.Internal
+public final class JDAContext {
 
-    private final Object jda;
+    private final Object context;
 
     /**
      * Constructs a new JDAContext.
      *
-     * @param jda the {@link JDA} or {@link ShardManager} object
+     * @param context the {@link JDA} or {@link ShardManager} object
      */
-    public JDAContext(Object jda) {
-        this.jda = jda;
+    public JDAContext(Object context) {
+        this.context = context;
     }
 
     /**
@@ -33,33 +35,12 @@ public class JDAContext {
      * @param consumer the operation to perform
      */
     public void performTask(Consumer<JDA> consumer) {
-        if (jda instanceof ShardManager) {
-            ((ShardManager) jda).getShardCache().forEach(consumer);
-        } else if (jda instanceof JDA) {
-            consumer.accept((JDA) jda);
-        } else {
-            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
+        switch (context) {
+            case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
+            case JDA jda -> consumer.accept(jda);
+            default ->
+                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
         }
-    }
-
-    /**
-     * Gets the JDA instance as an Object. This can either be {@link JDA} or a {@link ShardManager}.
-     * Use {@link #isShardManager()} to distinguish.
-     *
-     * @return the JDA instance.
-     */
-    public Object getJDAObject() {
-        return jda;
-    }
-
-    /**
-     * Whether the JDA instance is a {@link ShardManager}.
-     *
-     * @return {@code true} if the JDA instance is a {@link ShardManager}
-     * @deprecated
-     */
-    public boolean isShardManager() {
-        return jda instanceof ShardManager;
     }
 
     /**
@@ -72,13 +53,12 @@ public class JDAContext {
      * @return Possibly-empty list of all the {@link Guild Guilds} that this account is connected to.
      */
     public List<Guild> getGuilds() {
-        if (jda instanceof ShardManager) {
-            return ((ShardManager) jda).getGuilds();
-        } else if (jda instanceof JDA) {
-            return ((JDA) jda).getGuilds();
-        } else {
-            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
-        }
+        return switch (context) {
+            case ShardManager shardManager -> shardManager.getGuilds();
+            case JDA jda -> jda.getGuilds();
+            default ->
+                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+        };
     }
 
     /**
@@ -87,30 +67,11 @@ public class JDAContext {
      * @return {@link SnowflakeCacheView}
      */
     public SnowflakeCacheView<Guild> getGuildCache() {
-        if (jda instanceof ShardManager) {
-            return ((ShardManager) jda).getGuildCache();
-        } else if (jda instanceof JDA) {
-            return ((JDA) jda).getGuildCache();
-        } else {
-            throw new IllegalArgumentException(String.format("Cannot cast %s", jda.getClass().getSimpleName()));
-        }
-    }
-
-    /**
-     * Gets the JDA instance as {@link JDA}.
-     *
-     * @return the JDA instance as {@link JDA}
-     */
-    public JDA getAsJDA() {
-        return (JDA) jda;
-    }
-
-    /**
-     * Gets the JDA instance as {@link ShardManager}.
-     *
-     * @return the JDA instance as {@link ShardManager}
-     */
-    public ShardManager getAsShardManager() {
-        return (ShardManager) jda;
+        return switch (context) {
+            case ShardManager shardManager -> shardManager.getGuildCache();
+            case JDA jda -> jda.getGuildCache();
+            default ->
+                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+        };
     }
 }

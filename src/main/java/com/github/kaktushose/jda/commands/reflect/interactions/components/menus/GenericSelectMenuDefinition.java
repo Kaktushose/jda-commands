@@ -13,7 +13,7 @@ import java.util.Set;
  * @see StringSelectMenuDefinition
  * @since 4.0.0
  */
-public abstract class GenericSelectMenuDefinition<T extends SelectMenu> extends GenericComponentDefinition {
+public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> extends GenericComponentDefinition permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
 
     protected final String placeholder;
     protected final int minValue;

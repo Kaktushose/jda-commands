@@ -41,10 +41,10 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         List<String> arguments = Arrays.asList(context.getInput());
 
         command.getParameters().forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.getType())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
-            String typeName = parameter.getType().getTypeName();
+            String typeName = parameter.type().getTypeName();
             if (typeName.contains(".")) {
                 typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
             }
@@ -86,7 +86,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getConstraintFailedMessage(context, constraint);
         }
         return embedCache.getEmbed("constraintFailed")
-                .injectValue("message", constraint.getMessage())
+                .injectValue("message", constraint.message())
                 .toMessageCreateData();
     }
 
@@ -120,8 +120,8 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
-                              "but a \"%s\" occurred. " +
-                              "Please refer to the logs for further information.```",
+                        "but a \"%s\" occurred. " +
+                        "Please refer to the logs for further information.```",
                 context.getEvent().getUser().toString(),
                 context.getEvent().getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),

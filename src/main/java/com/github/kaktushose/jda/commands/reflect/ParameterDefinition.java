@@ -20,13 +20,14 @@ import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+
+import static java.util.Map.entry;
 
 /**
  * Representation of a command parameter.
@@ -36,89 +37,65 @@ import java.util.*;
  * @see Param
  * @since 2.0.0
  */
-public class ParameterDefinition {
+public record ParameterDefinition(
+        Class<?> type,
+        boolean isOptional,
+        String defaultValue,
+        boolean isPrimitive,
+        String name,
+        String description,
+        List<Choice> choices,
+        List<ConstraintDefinition> constraints
+) {
 
-    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = new HashMap<>() {
-        {
-            put(byte.class, Byte.class);
-            put(short.class, Short.class);
-            put(int.class, Integer.class);
-            put(long.class, Long.class);
-            put(double.class, Double.class);
-            put(float.class, Float.class);
-            put(boolean.class, Boolean.class);
-            put(char.class, Character.class);
-        }
-    };
+    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
+            entry(byte.class, Byte.class),
+            entry(short.class, Short.class),
+            entry(int.class, Integer.class),
+            entry(long.class, Long.class),
+            entry(double.class, Double.class),
+            entry(float.class, Float.class),
+            entry(boolean.class, Boolean.class),
+            entry(char.class, Character.class)
+    );
 
-    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = new HashMap<>() {
-        {
-            put(Byte.class, OptionType.STRING);
-            put(Short.class, OptionType.STRING);
-            put(Integer.class, OptionType.INTEGER);
-            put(Long.class, OptionType.NUMBER);
-            put(Double.class, OptionType.NUMBER);
-            put(Float.class, OptionType.NUMBER);
-            put(Boolean.class, OptionType.BOOLEAN);
-            put(Character.class, OptionType.STRING);
-            put(String.class, OptionType.STRING);
-            put(String[].class, OptionType.STRING);
-            put(User.class, OptionType.USER);
-            put(Member.class, OptionType.USER);
-            put(GuildChannel.class, OptionType.CHANNEL);
-            put(GuildMessageChannel.class, OptionType.CHANNEL);
-            put(ThreadChannel.class, OptionType.CHANNEL);
-            put(TextChannel.class, OptionType.CHANNEL);
-            put(NewsChannel.class, OptionType.CHANNEL);
-            put(AudioChannel.class, OptionType.CHANNEL);
-            put(VoiceChannel.class, OptionType.CHANNEL);
-            put(StageChannel.class, OptionType.CHANNEL);
-            put(Role.class, OptionType.ROLE);
-        }
-    };
+    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
+            entry(Byte.class, OptionType.STRING),
+            entry(Short.class, OptionType.STRING),
+            entry(Integer.class, OptionType.INTEGER),
+            entry(Long.class, OptionType.NUMBER),
+            entry(Double.class, OptionType.NUMBER),
+            entry(Float.class, OptionType.NUMBER),
+            entry(Boolean.class, OptionType.BOOLEAN),
+            entry(Character.class, OptionType.STRING),
+            entry(String.class, OptionType.STRING),
+            entry(String[].class, OptionType.STRING),
+            entry(User.class, OptionType.USER),
+            entry(Member.class, OptionType.USER),
+            entry(GuildChannel.class, OptionType.CHANNEL),
+            entry(GuildMessageChannel.class, OptionType.CHANNEL),
+            entry(ThreadChannel.class, OptionType.CHANNEL),
+            entry(TextChannel.class, OptionType.CHANNEL),
+            entry(NewsChannel.class, OptionType.CHANNEL),
+            entry(AudioChannel.class, OptionType.CHANNEL),
+            entry(VoiceChannel.class, OptionType.CHANNEL),
+            entry(StageChannel.class, OptionType.CHANNEL),
+            entry(Role.class, OptionType.ROLE)
+    );
 
-    private static final Map<Class<?>, List<ChannelType>> CHANNEL_TYPE_RESTRICTIONS = new HashMap<>() {
-        {
-            put(GuildMessageChannel.class, Collections.singletonList(ChannelType.TEXT));
-            put(ThreadChannel.class, Arrays.asList(
+    private static final Map<Class<?>, List<ChannelType>> CHANNEL_TYPE_RESTRICTIONS = Map.ofEntries(
+            entry(GuildMessageChannel.class, Collections.singletonList(ChannelType.TEXT)),
+            entry(TextChannel.class, Collections.singletonList(ChannelType.TEXT)),
+            entry(NewsChannel.class, Collections.singletonList(ChannelType.NEWS)),
+            entry(AudioChannel.class, Collections.singletonList(ChannelType.VOICE)),
+            entry(VoiceChannel.class, Collections.singletonList(ChannelType.VOICE)),
+            entry(StageChannel.class, Collections.singletonList(ChannelType.STAGE)),
+            entry(ThreadChannel.class, Arrays.asList(
                     ChannelType.GUILD_NEWS_THREAD,
                     ChannelType.GUILD_PUBLIC_THREAD,
                     ChannelType.GUILD_PRIVATE_THREAD
-            ));
-            put(TextChannel.class, Collections.singletonList(ChannelType.TEXT));
-            put(NewsChannel.class, Collections.singletonList(ChannelType.NEWS));
-            put(AudioChannel.class, Collections.singletonList(ChannelType.VOICE));
-            put(VoiceChannel.class, Collections.singletonList(ChannelType.VOICE));
-            put(StageChannel.class, Collections.singletonList(ChannelType.STAGE));
-        }
-    };
-
-    private final Class<?> type;
-    private final boolean isOptional;
-    private final String defaultValue;
-    private final boolean isPrimitive;
-    private final String name;
-    private final String description;
-    private final List<Choice> choices;
-    private final List<ConstraintDefinition> constraints;
-
-    private ParameterDefinition(@NotNull Class<?> type,
-                                boolean isOptional,
-                                @Nullable String defaultValue,
-                                boolean isPrimitive,
-                                @NotNull String name,
-                                @NotNull String description,
-                                @NotNull List<Choice> choices,
-                                @NotNull List<ConstraintDefinition> constraints) {
-        this.type = type;
-        this.isOptional = isOptional;
-        this.defaultValue = defaultValue;
-        this.isPrimitive = isPrimitive;
-        this.name = name;
-        this.description = description;
-        this.choices = choices;
-        this.constraints = constraints;
-    }
+            ))
+    );
 
     /**
      * Builds a new ParameterDefinition.
@@ -235,104 +212,15 @@ public class ParameterDefinition {
         }
 
         constraints.stream().filter(constraint ->
-                constraint.getAnnotation() instanceof Min
-        ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.getAnnotation()).value()));
+                constraint.annotation() instanceof Min
+        ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.annotation()).value()));
 
         constraints.stream().filter(constraint ->
-                constraint.getAnnotation() instanceof Max
-        ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.getAnnotation()).value()));
+                constraint.annotation() instanceof Max
+        ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation()).value()));
 
         java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(type)).ifPresent(optionData::setChannelTypes);
 
         return optionData;
-    }
-
-    /**
-     * Gets the type of the parameter.
-     *
-     * @return the type of the parameter
-     */
-    @NotNull
-    public Class<?> getType() {
-        return type;
-    }
-
-    /**
-     * Whether the parameter is optional.
-     *
-     * @return {@code true} if the parameter is optional
-     */
-    public boolean isOptional() {
-        return isOptional;
-    }
-
-    /**
-     * Gets a possibly-null default value to use if the parameter is optional.
-     *
-     * @return a possibly-null default value
-     */
-    @Nullable
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    /**
-     * Whether the type of the parameter is a primitive.
-     *
-     * @return {@code true} if the type of the parameter is a primitive
-     */
-    public boolean isPrimitive() {
-        return isPrimitive;
-    }
-
-    /**
-     * Gets a possibly-empty list of {@link ConstraintDefinition ConstraintDefinitions}.
-     *
-     * @return a possibly-empty list of {@link ConstraintDefinition ConstraintDefinitions}
-     */
-    @NotNull
-    public List<ConstraintDefinition> getConstraints() {
-        return constraints;
-    }
-
-    /**
-     * Gets the parameter name.
-     *
-     * @return the parameter name
-     */
-    @NotNull
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Gets the parameter description. Only used for slash commands.
-     *
-     * @return the parameter description
-     */
-    @NotNull
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Gets the parameter choices. Only used for slash commands.
-     *
-     * @return the parameter choices
-     */
-    public List<Choice> getChoices() {
-        return choices;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                type.getName() +
-                ", isOptional=" + isOptional +
-                ", defaultValue='" + defaultValue + '\'' +
-                ", isPrimitive=" + isPrimitive +
-                ", name='" + name + '\'' +
-                ", constraints=" + constraints +
-                '}';
     }
 }

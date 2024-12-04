@@ -22,7 +22,6 @@ public class MiddlewareRegistry {
 
     /**
      * Constructs a new MiddlewareRegistry.
-     *
      */
     public MiddlewareRegistry() {
         middlewares = new HashMap<>();
@@ -37,8 +36,8 @@ public class MiddlewareRegistry {
     /**
      * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
      *
-     * @param priority the {@link Priority} to register the {@link Middleware Middleware(s)} with
-     * @param first the first {@link Middleware} to register
+     * @param priority    the {@link Priority} to register the {@link Middleware Middleware(s)} with
+     * @param first       the first {@link Middleware} to register
      * @param middlewares additional {@link Middleware Middlewares} to register
      * @return this instance for fluent interface
      */
@@ -50,7 +49,7 @@ public class MiddlewareRegistry {
     /**
      * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
      *
-     * @param priority the {@link Priority} to register the {@link Middleware Middleware(s)} with
+     * @param priority    the {@link Priority} to register the {@link Middleware Middleware(s)} with
      * @param middlewares the {@link Middleware Middleware(s)} to register
      * @return this instance for fluent interface
      */
@@ -63,8 +62,8 @@ public class MiddlewareRegistry {
     /**
      * Unregister {@link Middleware Middleware(s)} with the given {@link Priority}.
      *
-     * @param priority the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
-     * @param first the first {@link Middleware} to unregister
+     * @param priority    the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
+     * @param first       the first {@link Middleware} to unregister
      * @param middlewares additional {@link Middleware Middlewares} to unregister
      * @return this instance for fluent interface
      */
@@ -76,7 +75,7 @@ public class MiddlewareRegistry {
     /**
      * Unregister {@link Middleware Middleware(s)} with the given {@link Priority}.
      *
-     * @param priority the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
+     * @param priority    the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
      * @param middlewares the {@link Middleware Middleware(s)} to unregister
      * @return this instance for fluent interface
      */

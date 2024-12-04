@@ -174,7 +174,7 @@ public class RuntimeSupervisor {
 
     /**
      * A runtime used for executing interactions. This class holds the instance of the class annotated with
-     * {@link Interaction Interaction} where commands, buttons, etc. live in. This runtime can only be used once per
+     * {@link Interaction Interaction} where commands, buttonContainers, etc. live in. This runtime can only be used once per
      * command execution.
      *
      * @since 4.0.0

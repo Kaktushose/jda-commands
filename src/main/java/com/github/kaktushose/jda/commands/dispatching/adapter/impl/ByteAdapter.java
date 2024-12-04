@@ -21,7 +21,7 @@ public class ByteAdapter implements TypeAdapter<Byte> {
      * @return the parsed Byte or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Byte> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<Byte> apply(@NotNull String raw, @NotNull Context context) {
         try {
             return Optional.of(Byte.valueOf(raw));
         } catch (NumberFormatException ignored) {

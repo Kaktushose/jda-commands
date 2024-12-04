@@ -26,10 +26,10 @@ public class NotUserValidator implements Validator {
      * @return {@code true} if the argument <b>isn't</b> the specified user or member
      */
     @Override
-    public boolean validate(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
         Member member = (Member) argument;
         NotUser user = (NotUser) annotation;
-        Optional<Member> optional = new MemberAdapter().parse(user.value(), context);
+        Optional<Member> optional = new MemberAdapter().apply(user.value(), context);
         return optional.filter(member::equals).isEmpty();
     }
 }

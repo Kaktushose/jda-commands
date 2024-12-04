@@ -1,13 +1,19 @@
 package adapting;
 
-import adapting.mock.JDACommandsMock;
 import adapting.mock.SlashCommandInteractionEventMock;
 import adapting.mock.TypeAdapterRegistryTestController;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,7 +80,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertArrayEquals(new String[]{"a", "b", "c"}, (String[]) context.getArguments().get(1));
+        assertArrayEquals(new String[]{"a", "b", "c"}, (String[]) context.getArguments().getFirst());
     }
 
     @Test
@@ -98,7 +105,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertNull(context.getArguments().get(1));
+        assertNull(context.getArguments().getFirst());
     }
 
     @Test
@@ -107,7 +114,7 @@ public class TypeAdapterRegistryTest {
 
         registry.adapt(context);
 
-        assertEquals(TypeAdapterRegistryTestController.OPTIONAL_DEFAULT, context.getArguments().get(1));
+        assertEquals(TypeAdapterRegistryTestController.OPTIONAL_DEFAULT, context.getArguments().getFirst());
     }
 
     @Test
@@ -129,15 +136,34 @@ public class TypeAdapterRegistryTest {
 
     private SlashCommandDefinition buildCommand(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         Method method = controller.getMethod(name, parameterTypes);
-        SlashCommandDefinition command = SlashCommandDefinition.build(method, validator, ResourceBundleLocalizationFunction.empty().build()).orElse(null);
+        SlashCommandDefinition command = SlashCommandDefinition.build(new MethodBuildContext(
+                validator,
+                ResourceBundleLocalizationFunction.empty().build(),
+                controller.getAnnotation(Interaction.class),
+                Set.of(),
+                CooldownDefinition.build(null),
+                method,
+                Set.of()
+        )).orElse(null);
         assertNotNull(command);
         return command;
     }
 
-    private SlashCommandContext buildContext(SlashCommandDefinition command, String... input) {
+    public static SlashCommandContext buildContext(SlashCommandDefinition command, String... input) {
         SlashCommandContext context = new SlashCommandContext(
                 new SlashCommandInteractionEventMock(),
-                new JDACommandsMock());
+                new InteractionRegistry(
+                        new ValidatorRegistry(),
+                        new DefaultDependencyInjector(),
+                        ResourceBundleLocalizationFunction.empty().build()
+                ),
+                new ImplementationRegistry(
+                        new DefaultDependencyInjector(),
+                        new MiddlewareRegistry(),
+                        new TypeAdapterRegistry(),
+                        new ValidatorRegistry()
+                )
+        );
         context.setInput(input);
         context.setCommand(command);
         return context;

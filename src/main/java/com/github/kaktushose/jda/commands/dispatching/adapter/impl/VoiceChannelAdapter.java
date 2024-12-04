@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import org.jetbrains.annotations.NotNull;
@@ -24,24 +24,12 @@ public class VoiceChannelAdapter implements TypeAdapter<VoiceChannel> {
      * @return the parsed {@link VoiceChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<VoiceChannel> parse(@NotNull String raw, @NotNull Context context) {
+    public Optional<VoiceChannel> apply(@NotNull String raw, @NotNull Context context) {
         Channel channel = context.getEvent().getChannel();
         if (channel == null) {
             return Optional.empty();
         }
 
-        VoiceChannel voiceChannel;
-        raw = sanitizeMention(raw);
-
-        Guild guild = context.getEvent().getGuild();
-        if (raw.matches("\\d+")) {
-            voiceChannel = guild.getVoiceChannelById(raw);
-        } else {
-            voiceChannel = guild.getVoiceChannelsByName(raw, true).stream().findFirst().orElse(null);
-        }
-        if (voiceChannel == null) {
-            return Optional.empty();
-        }
-        return Optional.of(voiceChannel);
+        return Helpers.resolveGuildChannel(context, raw).filter(VoiceChannel.class::isInstance).map(VoiceChannel.class::cast);
     }
 }

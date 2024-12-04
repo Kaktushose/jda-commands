@@ -1,5 +1,8 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
+
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -8,7 +11,7 @@ import java.util.Set;
  *
  * @since 4.0.0
  */
-public abstract class EphemeralInteractionDefinition extends GenericInteractionDefinition {
+public abstract sealed class EphemeralInteractionDefinition extends GenericInteractionDefinition permits ModalDefinition, GenericCommandDefinition, GenericComponentDefinition {
 
     protected boolean ephemeral;
 
