@@ -108,8 +108,8 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
             }
         }
 
-        Set<net.dv8tion.jda.api.Permission> enabledFor = Set.of(command.enabledFor());
-        if (enabledFor.size() == 1 && enabledFor.contains(net.dv8tion.jda.api.Permission.UNKNOWN)) {
+        Set<Permission> enabledFor = Set.of(command.enabledFor());
+        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
             enabledFor = Set.of();
         }
 
