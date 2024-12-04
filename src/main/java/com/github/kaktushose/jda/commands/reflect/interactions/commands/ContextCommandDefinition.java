@@ -57,7 +57,7 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
                 method,
                 Helpers.ephemeral(context, command.ephemeral()),
                 command.value(),
-                com.github.kaktushose.jda.commands.Helpers.permissions(context),
+                Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 command.type(),
@@ -80,17 +80,17 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
     @Override
     public String toString() {
         return "ContextCommandDefinition{" +
-               "id='" + definitionId + '\'' +
-               ", method=" + method +
-               ", name='" + name + '\'' +
-               ", permissions=" + permissions +
-               ", isGuildOnly=" + isGuildOnly +
-               ", isNSFW=" + isNSFW +
-               ", commandType=" + commandType +
-               ", enabledPermissions=" + enabledPermissions +
-               ", scope=" + scope +
-               ", localizationFunction=" + localizationFunction +
-               ", ephemeral=" + ephemeral +
-               '}';
+                "id='" + definitionId + '\'' +
+                ", method=" + method +
+                ", name='" + name + '\'' +
+                ", permissions=" + permissions +
+                ", isGuildOnly=" + isGuildOnly +
+                ", isNSFW=" + isNSFW +
+                ", commandType=" + commandType +
+                ", enabledPermissions=" + enabledPermissions +
+                ", scope=" + scope +
+                ", localizationFunction=" + localizationFunction +
+                ", ephemeral=" + ephemeral +
+                '}';
     }
 }

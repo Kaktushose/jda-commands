@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 /**
  * Representation of a {@link net.dv8tion.jda.api.interactions.components.selections.SelectOption SelectOption}.
@@ -12,7 +11,7 @@ import java.util.Optional;
  * @see SelectOption
  * @since 4.0.0
  */
-record SelectOptionDefinition(
+public record SelectOptionDefinition(
         String value,
         String label,
         String description,

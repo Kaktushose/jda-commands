@@ -50,8 +50,8 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
             return Optional.empty();
         }
 
-        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
-                com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 1, List.class) ) {
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
+                Helpers.isIncorrectParameterType(method, 1, List.class)) {
             return Optional.empty();
         }
 
@@ -64,8 +64,8 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
 
         return Optional.of(new StringSelectMenuDefinition(
                 method,
-                com.github.kaktushose.jda.commands.Helpers.permissions(context),
-                com.github.kaktushose.jda.commands.Helpers.ephemeral(context, selectMenu.ephemeral()),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, selectMenu.ephemeral()),
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),
@@ -99,14 +99,14 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
     @Override
     public String toString() {
         return "StringSelectMenuDefinition{" +
-               "selectOptions=" + selectOptions +
-               ", placeholder='" + placeholder + '\'' +
-               ", minValue=" + minValue +
-               ", maxValue=" + maxValue +
-               ", ephemeral=" + ephemeral +
-               ", permissions=" + permissions +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               '}';
+                "selectOptions=" + selectOptions +
+                ", placeholder='" + placeholder + '\'' +
+                ", minValue=" + minValue +
+                ", maxValue=" + maxValue +
+                ", ephemeral=" + ephemeral +
+                ", permissions=" + permissions +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                '}';
     }
 }

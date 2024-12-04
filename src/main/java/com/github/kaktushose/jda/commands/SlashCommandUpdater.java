@@ -32,7 +32,6 @@ public class SlashCommandUpdater {
 
     /**
      * Constructs a new SlashCommandUpdater.
-     *
      */
     public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry interactionRegistry) {
         this.jdaContext = jdaContext;

@@ -17,7 +17,7 @@ import java.util.Set;
 
 public final class Helpers {
 
-    private static final Logger log = LoggerFactory.getLogger(com.github.kaktushose.jda.commands.Helpers.class);
+    private static final Logger log = LoggerFactory.getLogger(Helpers.class);
 
     /**
      * Sanitizes a String containing a raw mention. This will remove all markdown characters namely <em>< @ # & ! ></em>
@@ -68,7 +68,7 @@ public final class Helpers {
             log.error("An error has occurred! Skipping Interaction {}.{}:",
                     method.getDeclaringClass().getSimpleName(),
                     method.getName(),
-                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index+1, type.getSimpleName())));
+                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index + 1, type.getSimpleName())));
             return true;
         }
         return false;

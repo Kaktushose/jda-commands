@@ -55,7 +55,7 @@ public final class ButtonDefinition extends GenericComponentDefinition {
             return Optional.empty();
         }
 
-        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class)) {
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class)) {
             return Optional.empty();
         }
 
@@ -70,8 +70,8 @@ public final class ButtonDefinition extends GenericComponentDefinition {
 
         return Optional.of(new ButtonDefinition(
                 method,
-                com.github.kaktushose.jda.commands.Helpers.permissions(context),
-                com.github.kaktushose.jda.commands.Helpers.ephemeral(context, button.ephemeral()),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, button.ephemeral()),
                 button.value(),
                 emoji,
                 button.link(),
@@ -143,14 +143,14 @@ public final class ButtonDefinition extends GenericComponentDefinition {
     @Override
     public String toString() {
         return "ButtonDefinition{" +
-               "label='" + label + '\'' +
-               ", emoji=" + emoji +
-               ", link='" + link + '\'' +
-               ", style=" + style +
-               ", ephemeral=" + ephemeral +
-               ", permissions=" + permissions +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               '}';
+                "label='" + label + '\'' +
+                ", emoji=" + emoji +
+                ", link='" + link + '\'' +
+                ", style=" + style +
+                ", ephemeral=" + ephemeral +
+                ", permissions=" + permissions +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                '}';
     }
 }

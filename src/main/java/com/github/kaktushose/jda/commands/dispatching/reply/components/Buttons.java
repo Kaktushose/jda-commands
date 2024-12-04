@@ -15,7 +15,7 @@ import java.util.List;
  * @see Replyable#with(Component...)
  * @since 2.3.0
  */
-public record Buttons(Collection<ButtonContainer> buttonContainers) implements Component  {
+public record Buttons(Collection<ButtonContainer> buttonContainers) implements Component {
 
     public Buttons(Collection<ButtonContainer> buttonContainers) {
         this.buttonContainers = Collections.unmodifiableCollection(buttonContainers);
@@ -54,5 +54,6 @@ public record Buttons(Collection<ButtonContainer> buttonContainers) implements C
     /**
      * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Button}.
      */
-    public record ButtonContainer(String name, boolean enabled) { }
+    public record ButtonContainer(String name, boolean enabled) {
+    }
 }

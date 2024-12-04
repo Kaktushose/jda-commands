@@ -57,8 +57,8 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
             return Optional.empty();
         }
 
-        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
-                com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 1, List.class) ) {
+        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
+                Helpers.isIncorrectParameterType(method, 1, List.class)) {
             return Optional.empty();
         }
 
@@ -80,8 +80,8 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
 
         return Optional.of(new EntitySelectMenuDefinition(
                 method,
-                com.github.kaktushose.jda.commands.Helpers.permissions(context),
-                com.github.kaktushose.jda.commands.Helpers.ephemeral(context, selectMenu.ephemeral()),
+                Helpers.permissions(context),
+                Helpers.ephemeral(context, selectMenu.ephemeral()),
                 Set.of(selectMenu.value()),
                 defaultValueSet,
                 new HashSet<>(Set.of(selectMenu.channelTypes())),
@@ -138,16 +138,16 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
     @Override
     public String toString() {
         return "EntitySelectMenuDefinition{" +
-               "selectTargets=" + selectTargets +
-               ", defaultValues=" + defaultValues +
-               ", channelTypes=" + channelTypes +
-               ", placeholder='" + placeholder + '\'' +
-               ", minValue=" + minValue +
-               ", maxValue=" + maxValue +
-               ", permissions=" + permissions +
-               ", ephemeral=" + ephemeral +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               '}';
+                "selectTargets=" + selectTargets +
+                ", defaultValues=" + defaultValues +
+                ", channelTypes=" + channelTypes +
+                ", placeholder='" + placeholder + '\'' +
+                ", minValue=" + minValue +
+                ", maxValue=" + maxValue +
+                ", permissions=" + permissions +
+                ", ephemeral=" + ephemeral +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                '}';
     }
 }

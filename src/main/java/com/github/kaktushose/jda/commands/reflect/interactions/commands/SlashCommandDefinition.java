@@ -122,7 +122,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
                 method,
                 Helpers.ephemeral(context, command.ephemeral()),
                 name,
-                com.github.kaktushose.jda.commands.Helpers.permissions(context),
+                Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 Command.Type.SLASH,
@@ -250,21 +250,21 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
     @Override
     public String toString() {
         return "SlashCommandDefinition{" +
-               "id='" + definitionId + '\'' +
-               ", method=" + method +
-               ", name='" + name + '\'' +
-               ", description='" + description + '\'' +
-               ", parameters=" + parameters +
-               ", cooldown=" + cooldown +
-               ", isAutoComplete=" + isAutoComplete +
-               ", permissions=" + permissions +
-               ", isGuildOnly=" + isGuildOnly +
-               ", isNSFW=" + isNSFW +
-               ", commandType=" + commandType +
-               ", enabledPermissions=" + enabledPermissions +
-               ", scope=" + scope +
-               ", localizationFunction=" + localizationFunction +
-               ", ephemeral=" + ephemeral +
-               '}';
+                "id='" + definitionId + '\'' +
+                ", method=" + method +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", parameters=" + parameters +
+                ", cooldown=" + cooldown +
+                ", isAutoComplete=" + isAutoComplete +
+                ", permissions=" + permissions +
+                ", isGuildOnly=" + isGuildOnly +
+                ", isNSFW=" + isNSFW +
+                ", commandType=" + commandType +
+                ", enabledPermissions=" + enabledPermissions +
+                ", scope=" + scope +
+                ", localizationFunction=" + localizationFunction +
+                ", ephemeral=" + ephemeral +
+                '}';
     }
 }

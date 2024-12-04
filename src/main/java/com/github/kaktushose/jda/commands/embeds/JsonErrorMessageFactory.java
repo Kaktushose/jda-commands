@@ -120,8 +120,8 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
-                              "but a \"%s\" occurred. " +
-                              "Please refer to the logs for further information.```",
+                        "but a \"%s\" occurred. " +
+                        "Please refer to the logs for further information.```",
                 context.getEvent().getUser().toString(),
                 context.getEvent().getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),

@@ -18,4 +18,5 @@ public record MethodBuildContext(
         CooldownDefinition cooldownDefinition,
         Method method,
         Collection<AutoCompleteDefinition> autoCompleteDefinitions
-) {}
+) {
+}

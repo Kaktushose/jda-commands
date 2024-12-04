@@ -41,7 +41,7 @@ public final class AutoCompleteDefinition extends GenericInteractionDefinition {
             return Optional.empty();
         }
 
-        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
+        if (Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
             return Optional.empty();
         }
 
@@ -63,9 +63,9 @@ public final class AutoCompleteDefinition extends GenericInteractionDefinition {
     @Override
     public String toString() {
         return "AutoCompleteDefinition{" +
-               "commands=" + commands +
-               ", id='" + definitionId + "'" +
-               ", method=" + method +
-               '}';
+                "commands=" + commands +
+                ", id='" + definitionId + "'" +
+                ", method=" + method +
+                '}';
     }
 }

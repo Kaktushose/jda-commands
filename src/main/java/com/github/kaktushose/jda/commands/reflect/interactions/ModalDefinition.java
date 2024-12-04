@@ -131,12 +131,12 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
     @Override
     public String toString() {
         return "ModalDefinition{" +
-               "title='" + title + '\'' +
-               ", textInputs=" + textInputs +
-               ", ephemeral=" + ephemeral +
-               ", id='" + definitionId + '\'' +
-               ", method=" + method +
-               ", permissions=" + permissions +
-               '}';
+                "title='" + title + '\'' +
+                ", textInputs=" + textInputs +
+                ", ephemeral=" + ephemeral +
+                ", id='" + definitionId + '\'' +
+                ", method=" + method +
+                ", permissions=" + permissions +
+                '}';
     }
 }

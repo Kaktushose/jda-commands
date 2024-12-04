@@ -28,7 +28,7 @@ public class SlashCommandContext extends Context {
     /**
      * Constructs a new CommandContext.
      *
-     * @param event       the corresponding {@link SlashCommandInteractionEvent}
+     * @param event the corresponding {@link SlashCommandInteractionEvent}
      */
     public SlashCommandContext(SlashCommandInteractionEvent event, InteractionRegistry interactionRegistry, ImplementationRegistry implementationRegistry) {
         super(event, interactionRegistry, implementationRegistry);

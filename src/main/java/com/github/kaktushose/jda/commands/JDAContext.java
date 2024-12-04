@@ -56,7 +56,8 @@ public final class JDAContext {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuilds();
             case JDA jda -> jda.getGuilds();
-            default -> throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+            default ->
+                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
         };
     }
 
@@ -69,7 +70,8 @@ public final class JDAContext {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();
             case JDA jda -> jda.getGuildCache();
-            default -> throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+            default ->
+                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
         };
     }
 }

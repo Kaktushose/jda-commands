@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public record CooldownDefinition(
         long delay,
         TimeUnit timeUnit
-){
+) {
     /**
      * Builds a new CooldownDefinition.
      *
