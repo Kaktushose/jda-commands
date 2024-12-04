@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;

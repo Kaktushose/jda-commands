@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
@@ -8,7 +9,6 @@ import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -122,7 +122,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
                 method,
                 Helpers.ephemeral(context, command.ephemeral()),
                 name,
-                Helpers.permissions(context),
+                com.github.kaktushose.jda.commands.Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 Command.Type.SLASH,

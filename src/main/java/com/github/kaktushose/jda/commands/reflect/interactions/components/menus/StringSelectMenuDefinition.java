@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -50,8 +50,8 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
             return Optional.empty();
         }
 
-        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
-                Helpers.isIncorrectParameterType(method, 1, List.class) ) {
+        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
+                com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 1, List.class) ) {
             return Optional.empty();
         }
 
@@ -64,8 +64,8 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
 
         return Optional.of(new StringSelectMenuDefinition(
                 method,
-                Helpers.permissions(context),
-                Helpers.ephemeral(context, selectMenu.ephemeral()),
+                com.github.kaktushose.jda.commands.Helpers.permissions(context),
+                com.github.kaktushose.jda.commands.Helpers.ephemeral(context, selectMenu.ephemeral()),
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),

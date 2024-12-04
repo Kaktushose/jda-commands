@@ -2,6 +2,7 @@ package adapting;
 
 import adapting.mock.GuildMock;
 import adapting.mock.JDAMock;
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import org.junit.jupiter.api.BeforeAll;
@@ -300,25 +301,23 @@ public class TypeAdapterTest {
 
     @Test
     public void sanitizeMention__() {
-        MemberAdapter memberAdapter = new MemberAdapter();
+        assertEquals("1234", Helpers.sanitizeMention("<@1234>"));
+        assertEquals("1234", Helpers.sanitizeMention("<@!1234>"));
+        assertEquals("1234", Helpers.sanitizeMention("<#1234>"));
+        assertEquals("1234", Helpers.sanitizeMention("<@&1234>"));
 
-        assertEquals("1234", memberAdapter.sanitizeMention("<@1234>"));
-        assertEquals("1234", memberAdapter.sanitizeMention("<@!1234>"));
-        assertEquals("1234", memberAdapter.sanitizeMention("<#1234>"));
-        assertEquals("1234", memberAdapter.sanitizeMention("<@&1234>"));
+        assertEquals("<@1234", Helpers.sanitizeMention("<@1234"));
+        assertEquals("<@!1234", Helpers.sanitizeMention("<@!1234"));
+        assertEquals("<#1234", Helpers.sanitizeMention("<#1234"));
+        assertEquals("<@&1234", Helpers.sanitizeMention("<@&1234"));
 
-        assertEquals("<@1234", memberAdapter.sanitizeMention("<@1234"));
-        assertEquals("<@!1234", memberAdapter.sanitizeMention("<@!1234"));
-        assertEquals("<#1234", memberAdapter.sanitizeMention("<#1234"));
-        assertEquals("<@&1234", memberAdapter.sanitizeMention("<@&1234"));
+        assertEquals("<@text>", Helpers.sanitizeMention("<@text>"));
+        assertEquals("<@!text>", Helpers.sanitizeMention("<@!text>"));
+        assertEquals("<#text>", Helpers.sanitizeMention("<#text>"));
+        assertEquals("<@&text>", Helpers.sanitizeMention("<@&text>"));
 
-        assertEquals("<@text>", memberAdapter.sanitizeMention("<@text>"));
-        assertEquals("<@!text>", memberAdapter.sanitizeMention("<@!text>"));
-        assertEquals("<#text>", memberAdapter.sanitizeMention("<#text>"));
-        assertEquals("<@&text>", memberAdapter.sanitizeMention("<@&text>"));
-
-        assertEquals("<1234>", memberAdapter.sanitizeMention("<1234>"));
-        assertEquals("<1234", memberAdapter.sanitizeMention("<1234"));
-        assertEquals("1234>", memberAdapter.sanitizeMention("1234>"));
+        assertEquals("<1234>", Helpers.sanitizeMention("<1234>"));
+        assertEquals("<1234", Helpers.sanitizeMention("<1234"));
+        assertEquals("1234>", Helpers.sanitizeMention("1234>"));
     }
 }

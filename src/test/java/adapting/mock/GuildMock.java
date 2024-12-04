@@ -624,10 +624,18 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @Nullable GuildChannel getGuildChannelById(long id) {
+        if (id == TEXT_CHANNEL.getIdLong()) {
+            return TEXT_CHANNEL;
+        }
+        return null;
+    }
+
     @NotNull
     @Override
     public List<GuildChannel> getChannels(boolean b) {
-        return null;
+        return List.of(TEXT_CHANNEL);
     }
 
     @Nullable

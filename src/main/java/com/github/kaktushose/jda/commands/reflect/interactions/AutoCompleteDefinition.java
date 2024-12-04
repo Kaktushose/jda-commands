@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
@@ -40,7 +41,7 @@ public final class AutoCompleteDefinition extends GenericInteractionDefinition {
             return Optional.empty();
         }
 
-        if (Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
+        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, AutoCompleteEvent.class)) {
             return Optional.empty();
         }
 

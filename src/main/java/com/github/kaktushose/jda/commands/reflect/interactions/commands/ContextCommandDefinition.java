@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -57,7 +57,7 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
                 method,
                 Helpers.ephemeral(context, command.ephemeral()),
                 command.value(),
-                Helpers.permissions(context),
+                com.github.kaktushose.jda.commands.Helpers.permissions(context),
                 command.isGuildOnly(),
                 command.isNSFW(),
                 command.type(),

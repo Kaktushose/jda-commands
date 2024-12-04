@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components;
 
+import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +55,7 @@ public final class ButtonDefinition extends GenericComponentDefinition {
             return Optional.empty();
         }
 
-        if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class)) {
+        if (com.github.kaktushose.jda.commands.Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class)) {
             return Optional.empty();
         }
 
@@ -70,8 +70,8 @@ public final class ButtonDefinition extends GenericComponentDefinition {
 
         return Optional.of(new ButtonDefinition(
                 method,
-                Helpers.permissions(context),
-                Helpers.ephemeral(context, button.ephemeral()),
+                com.github.kaktushose.jda.commands.Helpers.permissions(context),
+                com.github.kaktushose.jda.commands.Helpers.ephemeral(context, button.ephemeral()),
                 button.value(),
                 emoji,
                 button.link(),
