@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class CommandEvent extends GenericEvent implements ModalReplyable {
+public final class CommandEvent extends GenericEvent implements ModalReplyable {
 
     private final ReplyContext replyContext;
 
@@ -37,6 +37,7 @@ public class CommandEvent extends GenericEvent implements ModalReplyable {
     @Override
     public void reply() {
         replyContext.queue();
-        context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
+        // TODO reimplement:
+        // context.getRuntime().setLatestReply(replyContext.toMessageCreateData());
     }
 }

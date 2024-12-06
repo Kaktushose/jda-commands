@@ -6,6 +6,8 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -13,6 +15,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.slf4j.Logger;
@@ -44,6 +47,86 @@ public class CommandDispatcher extends GenericDispatcher {
      */
     public CommandDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
         super(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
+    }
+
+    public CommandDispatcher(DispatcherContext dispatcherContext) {
+        this(dispatcherContext.middlewareRegistry(),
+                dispatcherContext.implementationRegistry(),
+                dispatcherContext.interactionRegistry(),
+                dispatcherContext.adapterRegistry(),
+                dispatcherContext.runtimeSupervisor()
+        );
+    }
+
+    public void onEvent(GenericCommandInteractionEvent event, Runtime runtime) {
+        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
+
+        var context = event instanceof SlashCommandInteractionEvent
+                ? new SlashCommandContext((SlashCommandInteractionEvent) event, interactionRegistry, implementationRegistry)
+                : new Context(event, interactionRegistry, implementationRegistry);
+
+        Optional<GenericCommandDefinition> optional = interactionRegistry.getCommands().stream()
+                .filter(it -> it.getName().equals(event.getFullCommandName()))
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            IllegalStateException exception = new IllegalStateException("No command found! Please report this error the the devs of jda-commands.");
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
+            checkCancelled(context);
+            throw exception;
+        }
+
+        GenericCommandDefinition command = optional.get();
+        context.setInteractionDefinition(command).setEphemeral(command.isEphemeral());
+        log.debug("Input matches command: {}", command.getDefinitionId());
+
+        List<Object> arguments;
+        if (command.getCommandType() == Command.Type.SLASH) {
+            SlashCommandDefinition slashCommand = (SlashCommandDefinition) command;
+            SlashCommandContext slashContext = (SlashCommandContext) context;
+            slashContext.setCommand(slashCommand);
+
+            Map<String, OptionMapping> options = slashContext.getOptionsAsMap();
+            List<String> parameters = new ArrayList<>();
+            slashCommand.getActualParameters().forEach(param -> {
+                if (!options.containsKey(param.name())) {
+                    return;
+                }
+                parameters.add(options.get(param.name()).getAsString());
+            });
+            slashContext.setInput(parameters.toArray(new String[]{}));
+
+            adapterRegistry.adapt(slashContext);
+            if (checkCancelled(slashContext)) {
+                return;
+            }
+
+            arguments = slashContext.getArguments();
+            arguments.addFirst(new CommandEvent(context, interactionRegistry));
+        } else {
+            arguments = List.of(
+                    new CommandEvent(context, interactionRegistry),
+                    ((GenericContextInteractionEvent<?>) event).getTarget()
+            );
+        }
+
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
+        }
+
+        log.info("Executing command {} for user {}", command.getMethod().getName(), context.getEvent().getMember());
+        try {
+            log.debug("Invoking method with following arguments: {}", arguments);
+            command.getMethod().invoke(runtime.instance(command), arguments.toArray());
+        } catch (Exception exception) {
+            log.error("Command execution failed!", exception);
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, throwable));
+            checkCancelled(context);
+        }
     }
 
     @Override

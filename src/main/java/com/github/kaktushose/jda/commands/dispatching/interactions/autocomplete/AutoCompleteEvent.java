@@ -21,11 +21,11 @@ import java.util.stream.Collectors;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class AutoCompleteEvent extends GenericEvent {
+public final class AutoCompleteEvent extends GenericEvent {
 
     private final CommandAutoCompleteInteractionEvent event;
 
-    protected AutoCompleteEvent(Context context, InteractionRegistry interactionRegistry) {
+   public AutoCompleteEvent(Context context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         event = (CommandAutoCompleteInteractionEvent) context.getEvent();
     }

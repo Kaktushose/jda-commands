@@ -1,5 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
@@ -16,7 +20,8 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent ModalEvent
  * @since 4.0.0
  */
-public abstract class GenericEvent extends GenericInteractionCreateEvent {
+public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
+        permits AutoCompleteEvent, CommandEvent, ComponentEvent, ModalEvent {
 
     protected final Context context;
     private final InteractionRegistry interactionRegistry;

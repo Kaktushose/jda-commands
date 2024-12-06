@@ -18,7 +18,7 @@ import java.util.Optional;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class ComponentEvent extends GenericEvent implements ModalReplyable {
+public final class ComponentEvent extends GenericEvent implements ModalReplyable {
 
     private final ReplyContext replyContext;
 

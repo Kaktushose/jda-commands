@@ -2,7 +2,8 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
@@ -24,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public record JDACommands(
         JDAContext jdaContext,
-        DispatcherSupervisor dispatcherSupervisor,
+        JDAEventListener JDAEventListener,
         MiddlewareRegistry middlewareRegistry,
         TypeAdapterRegistry adapterRegistry,
         ValidatorRegistry validatorRegistry,
@@ -48,7 +49,7 @@ public record JDACommands(
         var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
         var runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
-        var dispatcherSupervisor = new DispatcherSupervisor(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
+        var eventListener = new JDAEventListener(new DispatcherContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
 
         implementationRegistry.index(clazz, packages);
 
@@ -57,13 +58,13 @@ public record JDACommands(
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
 
-        jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
+        jdaContext.performTask(it -> it.addEventListener(eventListener));
 
         log.info("Finished loading!");
 
         return new JDACommands(
                 jdaContext,
-                dispatcherSupervisor,
+                eventListener,
                 middlewareRegistry,
                 adapterRegistry,
                 validatorRegistry,
@@ -157,7 +158,7 @@ public record JDACommands(
      * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(dispatcherSupervisor));
+        jdaContext.performTask(jda -> jda.removeEventListener(JDAEventListener));
     }
 
     /**

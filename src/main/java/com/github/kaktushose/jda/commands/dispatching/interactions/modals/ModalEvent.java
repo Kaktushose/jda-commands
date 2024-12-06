@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
  * @see GenericEvent
  * @since 4.0.0
  */
-public class ModalEvent extends GenericEvent implements Replyable {
+public final class ModalEvent extends GenericEvent implements Replyable {
 
     private final ReplyContext replyContext;
 
-    protected ModalEvent(Context context, InteractionRegistry interactionRegistry) {
+   public ModalEvent(Context context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }
