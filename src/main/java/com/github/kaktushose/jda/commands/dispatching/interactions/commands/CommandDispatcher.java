@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @since 4.0.0
  */
-public final class CommandDispatcher extends GenericDispatcher {
+public final class CommandDispatcher extends GenericDispatcher<GenericCommandInteractionEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
 

@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor;
 
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
@@ -21,6 +23,7 @@ public final class Runtime {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
     private final CommandDispatcher commandDispatcher;
+    private final AutoCompleteDispatcher autoCompleteDispatcher;
     private final UUID id;
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
@@ -32,6 +35,7 @@ public final class Runtime {
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
         commandDispatcher = new CommandDispatcher(dispatcherContext);
+        autoCompleteDispatcher = new AutoCompleteDispatcher(dispatcherContext);
     }
 
     public static Runtime create(UUID id, DispatcherContext dispatcherContext) {
@@ -50,6 +54,7 @@ public final class Runtime {
                             var genericEvent = blockingQueue.take();
                             switch (genericEvent) {
                                 case GenericCommandInteractionEvent event -> commandDispatcher.onEvent(event, this);
+                                case CommandAutoCompleteInteractionEvent event -> autoCompleteDispatcher.onEvent(event, this);
                                 default -> throw new IllegalStateException("Unexpected value: " + genericEvent);
                             }
                         }

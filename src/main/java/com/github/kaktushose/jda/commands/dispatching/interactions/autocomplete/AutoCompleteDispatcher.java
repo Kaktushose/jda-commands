@@ -1,13 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import org.slf4j.Logger;
@@ -20,26 +17,18 @@ import java.util.Optional;
  *
  * @since 4.0.0
  */
-public class AutoCompleteDispatcher extends GenericDispatcher {
+public final class AutoCompleteDispatcher extends GenericDispatcher<CommandAutoCompleteInteractionEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(AutoCompleteDispatcher.class);
 
-    /**
-     * Constructs a new AutoCompleteDispatcher.
-     *
-     * @param middlewareRegistry
-     * @param implementationRegistry
-     * @param interactionRegistry
-     * @param adapterRegistry
-     * @param runtimeSupervisor
-     */
-    public AutoCompleteDispatcher(MiddlewareRegistry middlewareRegistry, ImplementationRegistry implementationRegistry, InteractionRegistry interactionRegistry, TypeAdapterRegistry adapterRegistry, RuntimeSupervisor runtimeSupervisor) {
-        super(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
+    public AutoCompleteDispatcher(DispatcherContext dispatcherContext) {
+        super(dispatcherContext);
     }
 
     @Override
-    public void onEvent(Context context) {
-        CommandAutoCompleteInteractionEvent event = (CommandAutoCompleteInteractionEvent) context.getEvent();
+    public void onEvent(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+        var context = new Context(event, interactionRegistry, implementationRegistry);
+
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
                 .filter(it -> it.getCommandNames().stream().anyMatch(name -> event.getFullCommandName().startsWith(name)))
                 .findFirst();
@@ -77,5 +66,4 @@ public class AutoCompleteDispatcher extends GenericDispatcher {
         }
         return false;
     }
-
 }

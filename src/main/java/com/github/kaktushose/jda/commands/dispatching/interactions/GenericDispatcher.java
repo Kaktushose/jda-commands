@@ -13,7 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,8 @@ import org.slf4j.LoggerFactory;
  *
  * @since 4.0.0
  */
-public abstract sealed class GenericDispatcher permits AutoCompleteDispatcher, CommandDispatcher, ComponentDispatcher, ModalDispatcher {
+public abstract sealed class GenericDispatcher<T extends GenericInteractionCreateEvent>
+        permits AutoCompleteDispatcher, CommandDispatcher, ComponentDispatcher, ModalDispatcher {
 
     private final static Logger log = LoggerFactory.getLogger(GenericDispatcher.class);
 
@@ -62,6 +63,6 @@ public abstract sealed class GenericDispatcher permits AutoCompleteDispatcher, C
         return context.isCancelled();
     }
 
-    public abstract void onEvent(GenericCommandInteractionEvent event, Runtime runtime);
+    public abstract void onEvent(T event, Runtime runtime);
 
 }
