@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -92,6 +93,16 @@ public final class InteractionRegistry {
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 controllerSet.size(),
                 definitions.size());
+    }
+
+    public <T extends GenericCommandDefinition> T getCommandDefinition(GenericCommandInteractionEvent event, Class<T> type) {
+        return definitions.stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .filter(it -> it.getName().equals(event.getFullCommandName()))
+                .findFirst().orElseThrow(() ->
+                        new IllegalStateException("No command found! Please report this error the the devs of jda-commands.")
+                );
     }
 
     /**

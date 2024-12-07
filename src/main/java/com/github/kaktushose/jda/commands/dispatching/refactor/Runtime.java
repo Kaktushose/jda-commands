@@ -27,11 +27,20 @@ public final class Runtime {
     private MessageCreateData latestReply;
 
 
-    public Runtime(UUID id, DispatcherContext dispatcherContext) {
+    private Runtime(UUID id, DispatcherContext dispatcherContext) {
         this.id = id;
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
         commandDispatcher = new CommandDispatcher(dispatcherContext);
+    }
+
+    public static Runtime create(UUID id, DispatcherContext dispatcherContext) {
+        var runtime = new Runtime(id, dispatcherContext);
+        runtime.start();
+        return runtime;
+    }
+
+    private void start() {
         Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread")
                 .uncaughtExceptionHandler((t, e) -> log.error("Error in JDA-Commands Runtime:", new InvocationTargetException(e)))

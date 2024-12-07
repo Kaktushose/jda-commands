@@ -29,7 +29,7 @@ public final class JDAEventListener extends ListenerAdapter {
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent event) {
         switch (event) {
             case GenericCommandInteractionEvent _, CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID(), (id, _) -> new Runtime(id, context)).queueEvent(event);
+                    runtimes.compute(UUID.randomUUID(), (id, _) -> Runtime.create(id, context)).queueEvent(event);
             case GenericComponentInteractionCreateEvent _, ModalInteractionEvent _ -> {
                 // TODO implement component handling
             }

@@ -2,11 +2,18 @@ package com.github.kaktushose.jda.commands.dispatching.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalDispatcher;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +22,7 @@ import org.slf4j.LoggerFactory;
  *
  * @since 4.0.0
  */
-public abstract class GenericDispatcher {
+public abstract sealed class GenericDispatcher permits AutoCompleteDispatcher, CommandDispatcher, ComponentDispatcher, ModalDispatcher {
 
     private final static Logger log = LoggerFactory.getLogger(GenericDispatcher.class);
 
@@ -25,24 +32,16 @@ public abstract class GenericDispatcher {
     protected final TypeAdapterRegistry adapterRegistry;
     protected final RuntimeSupervisor runtimeSupervisor;
 
-    /**
-     * Constructs a new GenericDispatcher.
-     */
-    public GenericDispatcher(MiddlewareRegistry middlewareRegistry,
-                             ImplementationRegistry implementationRegistry,
-                             InteractionRegistry interactionRegistry,
-                             TypeAdapterRegistry adapterRegistry,
-                             RuntimeSupervisor runtimeSupervisor) {
-        this.middlewareRegistry = middlewareRegistry;
-        this.implementationRegistry = implementationRegistry;
-        this.interactionRegistry = interactionRegistry;
-        this.adapterRegistry = adapterRegistry;
-        this.runtimeSupervisor = runtimeSupervisor;
+    public GenericDispatcher(DispatcherContext dispatcherContext) {
+        this.middlewareRegistry = dispatcherContext.middlewareRegistry();
+        this.implementationRegistry = dispatcherContext.implementationRegistry();
+        this.interactionRegistry = dispatcherContext.interactionRegistry();
+        this.adapterRegistry = dispatcherContext.adapterRegistry();
+        this.runtimeSupervisor = dispatcherContext.runtimeSupervisor();
     }
 
     protected void executeMiddlewares(Context context) {
         log.debug("Executing middlewares...");
-
         for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.PERMISSIONS)) {
             if (executeMiddleware(context, middleware)) return;
         }
@@ -63,11 +62,6 @@ public abstract class GenericDispatcher {
         return context.isCancelled();
     }
 
-    /**
-     * Dispatches a {@link Context}.
-     *
-     * @param context the {@link Context} to dispatch.
-     */
-    public abstract void onEvent(Context context);
+    public abstract void onEvent(GenericCommandInteractionEvent event, Runtime runtime);
 
 }
