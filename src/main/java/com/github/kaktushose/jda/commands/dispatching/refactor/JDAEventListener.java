@@ -1,10 +1,12 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor;
 
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.Event;
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -26,16 +28,26 @@ public final class JDAEventListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent event) {
-        switch (event) {
-            case GenericCommandInteractionEvent _, CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID(), (id, _) -> Runtime.startNew(id, context)).queueEvent(event);
-            case GenericComponentInteractionCreateEvent _, ModalInteractionEvent _ -> {
-                // TODO implement component handling
-            }
-            default -> {
-            }
-        }
+    public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
+        Event event = mapJdaEvent(jdaEvent);
 
+        Runtime runtime = switch (event) {
+            case CommandEvent _, AutoCompleteEvent _ ->
+                    runtimes.compute(UUID.randomUUID(), (id, _) -> Runtime.startNew(id, context));
+//            case GenericComponentInteractionCreateEvent _, ModalInteractionEvent _ -> {
+//                // TODO implement component handling
+//            }
+        };
+        runtime.queueEvent(event);
+    }
+
+    private Event mapJdaEvent(GenericInteractionCreateEvent jdaEvent) {
+        return switch (jdaEvent) {
+            case SlashCommandInteractionEvent event -> new CommandEvent.SlashCommandEvent(event);
+            case GenericContextInteractionEvent<?> event -> new CommandEvent.ContextCommandEvent<>(event);
+
+            case CommandAutoCompleteInteractionEvent event -> new AutoCompleteEvent(event);
+            default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
+        };
     }
 }

@@ -1,11 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandDispatcher;
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.Event;
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.AutoCompleteHandler;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.CommandHandler;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -23,11 +23,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
-    private final CommandDispatcher commandDispatcher;
-    private final AutoCompleteDispatcher autoCompleteDispatcher;
+    private final CommandHandler commandHandler;
+    private final AutoCompleteHandler autoCompleteHandler;
     private final UUID id;
     private final Map<Class<?>, Object> instances;
-    private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
+    private final BlockingQueue<Event> blockingQueue;
     private final Thread executionThread;
     private MessageCreateData latestReply;
 
@@ -36,8 +36,8 @@ public final class Runtime implements Closeable {
         this.id = id;
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
-        commandDispatcher = new CommandDispatcher(dispatcherContext);
-        autoCompleteDispatcher = new AutoCompleteDispatcher(dispatcherContext);
+        commandHandler = new CommandHandler(dispatcherContext);
+        autoCompleteHandler = new AutoCompleteHandler(dispatcherContext);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread")
@@ -45,11 +45,9 @@ public final class Runtime implements Closeable {
                 .unstarted(() -> {
                     try {
                         while (!Thread.interrupted()) {
-                            var genericEvent = blockingQueue.take();
-                            switch (genericEvent) {
-                                case GenericCommandInteractionEvent event -> commandDispatcher.onEvent(event, this);
-                                case CommandAutoCompleteInteractionEvent event -> autoCompleteDispatcher.onEvent(event, this);
-                                default -> throw new IllegalStateException("Unexpected value: " + genericEvent);
+                            switch (blockingQueue.take()) {
+                                case CommandEvent event -> commandHandler.accept(event, this);
+                                case AutoCompleteEvent event -> autoCompleteHandler.accept(event, this);
                             }
                         }
                     } catch (InterruptedException ignored) {
@@ -67,7 +65,7 @@ public final class Runtime implements Closeable {
         return id;
     }
 
-    public void queueEvent(GenericInteractionCreateEvent event) {
+    public void queueEvent(Event event) {
         System.out.println(event);
         blockingQueue.add(event);
     }
