@@ -11,6 +11,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @ApiStatus.Internal
-public final class Runtime {
+public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
     private final CommandDispatcher commandDispatcher;
@@ -27,6 +28,7 @@ public final class Runtime {
     private final UUID id;
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
+    private final Thread executionThread;
     private MessageCreateData latestReply;
 
 
@@ -36,21 +38,13 @@ public final class Runtime {
         blockingQueue = new LinkedBlockingQueue<>();
         commandDispatcher = new CommandDispatcher(dispatcherContext);
         autoCompleteDispatcher = new AutoCompleteDispatcher(dispatcherContext);
-    }
 
-    public static Runtime create(UUID id, DispatcherContext dispatcherContext) {
-        var runtime = new Runtime(id, dispatcherContext);
-        runtime.start();
-        return runtime;
-    }
-
-    private void start() {
-        Thread.ofVirtual()
+        this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread")
                 .uncaughtExceptionHandler((t, e) -> log.error("Error in JDA-Commands Runtime:", new InvocationTargetException(e)))
-                .start(() -> {
+                .unstarted(() -> {
                     try {
-                        while (true) {
+                        while (!Thread.interrupted()) {
                             var genericEvent = blockingQueue.take();
                             switch (genericEvent) {
                                 case GenericCommandInteractionEvent event -> commandDispatcher.onEvent(event, this);
@@ -61,6 +55,12 @@ public final class Runtime {
                     } catch (InterruptedException ignored) {
                     }
                 });
+    }
+
+    public static Runtime startNew(UUID id, DispatcherContext dispatcherContext) {
+        var runtime = new Runtime(id, dispatcherContext);
+        runtime.executionThread.start();
+        return runtime;
     }
 
     public UUID id() {
@@ -88,5 +88,10 @@ public final class Runtime {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @Override
+    public void close()  {
+        executionThread.interrupt();
     }
 }
