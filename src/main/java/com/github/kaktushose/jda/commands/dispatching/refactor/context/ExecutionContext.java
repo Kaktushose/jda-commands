@@ -13,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
 public sealed class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> permits CommandExecutionContext{
     private final T event;
     private final U definition;
-    private final com.github.kaktushose.jda.commands.dispatching.refactor.Runtime runtime;
+    private final Runtime runtime;
     private final HandlerContext handlerContext;
     private boolean cancelled;
     private MessageCreateData errorMessage;
     private final boolean ephemeral;
 
-    public ExecutionContext(T event, U definition, com.github.kaktushose.jda.commands.dispatching.refactor.Runtime runtime, HandlerContext handlerContext) {
+    public ExecutionContext(T event, U definition, Runtime runtime, HandlerContext handlerContext) {
         this.event = event;
         this.definition = definition;
         this.runtime = runtime;

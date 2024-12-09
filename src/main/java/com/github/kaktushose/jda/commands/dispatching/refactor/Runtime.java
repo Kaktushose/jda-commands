@@ -1,12 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.JDAEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.AutoCompleteHandler;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -48,8 +45,8 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(handlerContext);
 
         this.executionThread = Thread.ofVirtual()
-                .name("JDA-Commands Runtime-Thread")
-                .uncaughtExceptionHandler((t, e) -> log.error("Error in JDA-Commands Runtime:", new InvocationTargetException(e)))
+                .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
+                .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", new InvocationTargetException(e)))
                 .unstarted(() -> {
                     try {
                         while (!Thread.interrupted()) {
@@ -57,6 +54,8 @@ public final class Runtime implements Closeable {
                                 case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
                                 case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
                                 case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
+
+                                default -> throw new IllegalStateException("Should not occur. Please inform the JDACommands devs!");
                             }
                         }
                     } catch (InterruptedException ignored) {
