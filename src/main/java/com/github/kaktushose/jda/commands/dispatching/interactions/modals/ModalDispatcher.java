@@ -1,10 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,14 +83,14 @@ public final class ModalDispatcher extends GenericDispatcher<ModalInteractionEve
 //        }
 //    }
 
-    @SuppressWarnings("DataFlowIssue")
-    private boolean checkCancelled(Context context) {
-        if (context.isCancelled()) {
-            ReplyContext replyContext = new ReplyContext(context);
-            replyContext.getBuilder().applyData(context.getErrorMessage());
-            replyContext.setEditReply(false).queue();
-            return true;
-        }
-        return false;
-    }
+//    @SuppressWarnings("DataFlowIssue")
+//    private boolean checkCancelled(Context context) {
+//        if (context.isCancelled()) {
+//            ReplyContext replyContext = new ReplyContext(context);
+//            replyContext.getBuilder().applyData(context.getErrorMessage());
+//            replyContext.setEditReply(false).queue();
+//            return true;
+//        }
+//        return false;
+//    }
 }

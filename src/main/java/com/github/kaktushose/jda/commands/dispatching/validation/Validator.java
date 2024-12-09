@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -21,6 +22,6 @@ public interface Validator {
      * @param context    the corresponding {@link Context}
      * @return {@code true} if the argument passes the constraints
      */
-    boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context);
+    boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context);
 
 }

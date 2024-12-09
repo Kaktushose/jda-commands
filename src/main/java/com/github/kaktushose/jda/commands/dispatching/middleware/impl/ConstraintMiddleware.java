@@ -1,18 +1,17 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.CommandExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A {@link Middleware} implementation that will check the parameter constraints a
@@ -32,13 +31,12 @@ public class ConstraintMiddleware implements Middleware {
      * @param ctx the {@link Context} to filter
      */
     @Override
-    public void accept(@NotNull Context ctx) {
-        if (!SlashCommandInteractionEvent.class.isAssignableFrom(ctx.getEvent().getClass())) {
+    public void accept(@NotNull ExecutionContext<?, ?> ctx) {
+        if (!(ctx instanceof CommandExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command))
             return;
-        }
-        SlashCommandContext context = (SlashCommandContext) ctx;
-        List<Object> arguments = context.getArguments();
-        List<ParameterDefinition> parameters = Objects.requireNonNull(context.getCommand()).getParameters();
+
+        List<Object> arguments = context.arguments();
+        List<ParameterDefinition> parameters = command.getParameters();
 
         log.debug("Applying parameter constraints...");
         for (int i = 1; i < arguments.size(); i++) {
@@ -50,8 +48,8 @@ public class ConstraintMiddleware implements Middleware {
                 boolean validated = constraint.validator().apply(argument, constraint.annotation(), context);
 
                 if (!validated) {
-                    context.setCancelled(
-                            context.getImplementationRegistry()
+                    context.cancel(
+                            context.implementationRegistry()
                                     .getErrorMessageFactory()
                                     .getConstraintFailedMessage(context, constraint)
                     );

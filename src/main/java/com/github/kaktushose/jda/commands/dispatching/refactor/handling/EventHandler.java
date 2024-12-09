@@ -5,9 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.Event;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.BiConsumer;
 
-public abstract class EventHandler<T extends Event> implements BiConsumer<T, Runtime> {
+public abstract class EventHandler<T extends GenericInteractionCreateEvent, E extends ExecutionContext<T, ?>> implements BiConsumer<T, Runtime> {
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
@@ -35,6 +34,27 @@ public abstract class EventHandler<T extends Event> implements BiConsumer<T, Run
         this.interactionRegistry = handlerContext.interactionRegistry();
         this.adapterRegistry = handlerContext.adapterRegistry();
         this.runtimeSupervisor = handlerContext.runtimeSupervisor();
+    }
+
+    protected abstract E prepare(T event, Runtime runtime);
+    protected abstract void execute(E context, Runtime runtime);
+
+    @Override
+    final public void accept(T e, Runtime runtime) {
+        E context = prepare(e, runtime);
+
+        if (context == null || context.cancelled()) {
+            log.debug("Interaction execution cancelled by preparation task");
+            return;
+        }
+
+        executeMiddlewares(context);
+        if (checkCancelled(context)) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
+        }
+
+        execute(context, runtime);
     }
 
     protected void executeMiddlewares(ExecutionContext<? extends GenericInteractionCreateEvent, ? extends GenericInteractionDefinition> context) {

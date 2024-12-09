@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -25,10 +26,10 @@ public class UserAdapter implements TypeAdapter<User> {
      * @return the parsed {@link User} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<User> apply(@NotNull String raw, @NotNull Context context) {
+    public Optional<User> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context) {
         User user;
         raw = Helpers.sanitizeMention(raw);
-        JDA jda = context.getEvent().getJDA();
+        JDA jda = context.event().getJDA();
         if (raw.matches("\\d+")) {
             try {
                 user = jda.retrieveUserById(raw).complete();

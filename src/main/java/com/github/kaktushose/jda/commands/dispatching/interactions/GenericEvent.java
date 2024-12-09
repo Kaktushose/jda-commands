@@ -4,9 +4,9 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -20,10 +20,10 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
  * @see com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent ModalEvent
  * @since 4.0.0
  */
-public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
+public abstract sealed class GenericEvent<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> extends GenericInteractionCreateEvent
         permits AutoCompleteEvent, CommandEvent, ComponentEvent, ModalEvent {
 
-    protected final Context context;
+    protected final ExecutionContext<T, U> context;
     private final InteractionRegistry interactionRegistry;
 
     /**
@@ -31,8 +31,8 @@ public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
      *
      * @param context the underlying {@link Context}
      */
-    protected GenericEvent(Context context, InteractionRegistry interactionRegistry) {
-        super(context.getEvent().getJDA(), context.getEvent().getResponseNumber(), context.getEvent().getInteraction());
+    protected GenericEvent(ExecutionContext<T, U> context, InteractionRegistry interactionRegistry) {
+        super(context.event().getJDA(), context.event().getResponseNumber(), context.event().getInteraction());
         this.context = context;
         this.interactionRegistry = interactionRegistry;
     }
@@ -42,7 +42,7 @@ public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
      *
      * @return the registered {@link Context} object
      */
-    public Context getContext() {
+    public ExecutionContext<T, U> getContext() {
         return context;
     }
 
@@ -60,16 +60,18 @@ public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
      * @return a JDA {@link Button}
      */
     public Button getButton(String button) {
-        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Button");
-        }
-
-        String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
-
-        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(context.getRuntime().getRuntimeId()));
+        // TODO implement buttons
+        throw new UnsupportedOperationException("not supported currently");
+//        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
+//            throw new IllegalArgumentException("Unknown Button");
+//        }
+//
+//        String sanitizedId = button.replaceAll("\\.", "");
+//        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
+//                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+//                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
+//
+//        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(context.getRuntime().getRuntimeId()));
     }
 
     /**
@@ -87,15 +89,17 @@ public abstract sealed class GenericEvent extends GenericInteractionCreateEvent
      */
     @SuppressWarnings("unchecked")
     public <T extends SelectMenu> T getSelectMenu(String menu) {
-        if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Select Menu");
-        }
-
-        String sanitizedId = menu.replaceAll("\\.", "");
-        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
-
-        return (T) selectMenuDefinition.toSelectMenu(context.getRuntime().getRuntimeId(), true);
+        // TODO implement select menus
+        throw new UnsupportedOperationException("not supported currently");
+//        if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
+//            throw new IllegalArgumentException("Unknown Select Menu");
+//        }
+//
+//        String sanitizedId = menu.replaceAll("\\.", "");
+//        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
+//                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+//                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
+//
+//        return (T) selectMenuDefinition.toSelectMenu(context.getRuntime().getRuntimeId(), true);
     }
 }

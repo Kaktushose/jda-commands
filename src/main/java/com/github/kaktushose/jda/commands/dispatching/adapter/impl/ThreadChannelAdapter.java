@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +25,8 @@ public class ThreadChannelAdapter implements TypeAdapter<ThreadChannel> {
      * @return the parsed {@link ThreadChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<ThreadChannel> apply(@NotNull String raw, @NotNull Context context) {
-        Channel channel = context.getEvent().getChannel();
+    public Optional<ThreadChannel> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context) {
+        Channel channel = context.event().getChannel();
         if (channel == null) {
             return Optional.empty();
         }

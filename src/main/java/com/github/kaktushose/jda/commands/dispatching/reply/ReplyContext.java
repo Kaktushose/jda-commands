@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -38,8 +38,8 @@ public class ReplyContext {
      *
      * @param context the corresponding {@link SlashCommandContext}
      */
-    public ReplyContext(Context context) {
-        event = context.getEvent();
+    public ReplyContext(ExecutionContext<?, ?> context) {
+        event = context.event();
         builder = new MessageCreateBuilder();
         success = (message) -> {
         };
@@ -48,7 +48,7 @@ public class ReplyContext {
         };
         editReply = true;
         keepComponents = true;
-        ephemeralReply = context.isEphemeral();
+        ephemeralReply = context.ephemeral();
     }
 
     /**

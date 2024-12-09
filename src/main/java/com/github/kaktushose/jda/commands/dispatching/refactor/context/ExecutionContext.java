@@ -1,28 +1,30 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor;
+package com.github.kaktushose.jda.commands.dispatching.refactor.context;
 
+import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.Nullable;
 
-public final class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> {
-
+public sealed class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> permits CommandExecutionContext{
     private final T event;
     private final U definition;
-    private final Runtime runtime;
+    private final com.github.kaktushose.jda.commands.dispatching.refactor.Runtime runtime;
     private final HandlerContext handlerContext;
     private boolean cancelled;
     private MessageCreateData errorMessage;
-    private boolean ephemeral;
+    private final boolean ephemeral;
 
-    public ExecutionContext(T event, U definition, Runtime runtime, HandlerContext handlerContext) {
+    public ExecutionContext(T event, U definition, com.github.kaktushose.jda.commands.dispatching.refactor.Runtime runtime, HandlerContext handlerContext) {
         this.event = event;
         this.definition = definition;
         this.runtime = runtime;
         this.handlerContext = handlerContext;
+        this.ephemeral = definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
     }
 
     public T event() {
@@ -49,10 +51,6 @@ public final class ExecutionContext<T extends GenericInteractionCreateEvent, U e
 
     public boolean ephemeral() {
         return ephemeral;
-    }
-
-    public void ephemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
     }
 
     public Runtime runtime() {

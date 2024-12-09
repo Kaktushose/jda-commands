@@ -1,8 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.Event;
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -30,25 +27,12 @@ public final class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
-        Event event = mapJdaEvent(jdaEvent);
-
-        Runtime runtime = switch (event) {
-            case CommandEvent _, AutoCompleteEvent _ ->
+        Runtime runtime = switch (jdaEvent) {
+            case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _, CommandAutoCompleteInteractionEvent _ ->
                     runtimes.compute(UUID.randomUUID(), (id, _) -> Runtime.startNew(id, context));
-//            case GenericComponentInteractionCreateEvent _, ModalInteractionEvent _ -> {
-//                // TODO implement component handling
-//            }
-        };
-        runtime.queueEvent(event);
-    }
 
-    private Event mapJdaEvent(GenericInteractionCreateEvent jdaEvent) {
-        return switch (jdaEvent) {
-            case SlashCommandInteractionEvent event -> new CommandEvent.SlashCommandEvent(event);
-            case GenericContextInteractionEvent<?> event -> new CommandEvent.ContextCommandEvent<>(event);
-
-            case CommandAutoCompleteInteractionEvent event -> new AutoCompleteEvent(event);
             default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
         };
+        runtime.queueEvent(jdaEvent);
     }
 }

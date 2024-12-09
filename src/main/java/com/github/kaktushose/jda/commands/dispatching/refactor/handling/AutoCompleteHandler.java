@@ -1,23 +1,23 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 
 import java.util.Optional;
 
-public class AutoCompleteHandler extends EventHandler<com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent> {
+public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent, ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition>> {
 
     public AutoCompleteHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    public void accept(com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent event, Runtime runtime) {
-        CommandAutoCompleteInteraction interaction = event.event().getInteraction();
+    protected ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+        CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
                 .filter(it -> it.getCommandNames().stream().anyMatch(name -> interaction.getFullCommandName().startsWith(name)))
@@ -25,20 +25,18 @@ public class AutoCompleteHandler extends EventHandler<com.github.kaktushose.jda.
 
         if (optionalAutoComplete.isEmpty()) {
             log.debug("No auto complete handler found for {}", interaction.getFullCommandName());
-            return;
+            return null;
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
-        var context = new ExecutionContext<>(event.event(), autoComplete, runtime, handlerContext);
+        return new ExecutionContext<>(event, autoComplete, runtime, handlerContext);
+    }
 
-        executeMiddlewares(context);
-        if (checkCancelled(context)) {
-            log.debug("Interaction execution cancelled by middleware");
-            return;
-        }
-
+    @Override
+    protected void execute(ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> context, Runtime runtime) {
+        AutoCompleteDefinition autoComplete = context.interactionDefinition();
         log.debug("Input matches auto complete: {}", autoComplete.getDefinitionId());
-        log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), interaction.getMember());
+        log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), context.event().getMember());
         try {
             autoComplete.getMethod().invoke(runtimeSupervisor.newRuntime(autoComplete).getInstance(), new AutoCompleteEvent(context, interactionRegistry));
         } catch (Exception exception) {

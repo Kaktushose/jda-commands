@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class DoubleAdapter implements TypeAdapter<Double> {
      * @return the parsed Double or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Double> apply(@NotNull String raw, @NotNull Context context) {
+    public Optional<Double> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context) {
         try {
             return Optional.of(Double.valueOf(raw));
         } catch (NumberFormatException ignored) {

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,8 +24,8 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
      * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<TextChannel> apply(@NotNull String raw, @NotNull Context context) {
-        if (context.getEvent().getGuild() == null) {
+    public Optional<TextChannel> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context) {
+        if (context.event().getGuild() == null) {
             return Optional.empty();
         }
 

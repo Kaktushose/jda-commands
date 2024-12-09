@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -14,7 +15,7 @@ import java.util.function.BiFunction;
  * @since 2.0.0
  */
 @FunctionalInterface
-public interface TypeAdapter<T> extends BiFunction<String, Context, Optional<T>> {
+public interface TypeAdapter<T> extends BiFunction<String, ExecutionContext<?, ?>, Optional<T>> {
 
     /**
      * Attempts to parse a String to the given type.
@@ -23,6 +24,6 @@ public interface TypeAdapter<T> extends BiFunction<String, Context, Optional<T>>
      * @param context the {@link Context}
      * @return the parsed type or an empty Optional if the parsing fails
      */
-    Optional<T> apply(@NotNull String raw, @NotNull Context context);
+    Optional<T> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context);
 
 }

@@ -1,12 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.CommandExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +34,17 @@ public class CooldownMiddleware implements Middleware {
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param context the {@link Context} to filter
+     * @param ctx the {@link ExecutionContext} to filter
      */
     @Override
-    public void accept(@NotNull Context context) {
-        if (!SlashCommandInteractionEvent.class.isAssignableFrom(context.getEvent().getClass())) {
-            return;
-        }
-        SlashCommandDefinition command = ((SlashCommandContext) context).getCommand();
+    public void accept(@NotNull ExecutionContext<?, ?> ctx) {
+        if (!(ctx instanceof CommandExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command)) return;
 
         if (!command.hasCooldown()) {
             return;
         }
 
-        long id = context.getEvent().getUser().getIdLong();
+        long id = context.event().getUser().getIdLong();
 
         activeCooldowns.putIfAbsent(id, new HashSet<>());
 
@@ -60,7 +56,7 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.setCancelled(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.cancel(context.implementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

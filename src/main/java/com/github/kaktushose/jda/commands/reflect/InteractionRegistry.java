@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericC
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
@@ -95,13 +95,24 @@ public final class InteractionRegistry {
                 definitions.size());
     }
 
-    public <T extends GenericCommandDefinition> T getCommandDefinition(GenericCommandInteractionEvent event, Class<T> type) {
+//    public GenericCommandDefinition getCommandDefinition(CommandEvent event) {
+//        return definitions.stream()
+//                .filter(type::isInstance)
+//                .map(type::cast)
+//                .filter(it -> it.getName().equals(event.event().getFullCommandName()))
+//                .findFirst().orElseThrow(() ->
+//                        new IllegalStateException("No command found! Please report this error the the devs of jda-commands.")
+//                );
+//    }
+
+    public <T extends GenericInteractionDefinition> T find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
                 .map(type::cast)
-                .filter(it -> it.getName().equals(event.getFullCommandName()))
-                .findFirst().orElseThrow(() ->
-                        new IllegalStateException("No command found! Please report this error the the devs of jda-commands.")
+                .filter(predicate)
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException("No interaction found! Please report this error the the devs of jda-commands.")
                 );
     }
 

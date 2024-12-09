@@ -1,8 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -21,13 +22,13 @@ import java.util.stream.Collectors;
  * @see GenericEvent
  * @since 4.0.0
  */
-public final class AutoCompleteEvent extends GenericEvent {
+public final class AutoCompleteEvent extends GenericEvent<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> {
 
     private final CommandAutoCompleteInteractionEvent event;
 
-   public AutoCompleteEvent(Context context, InteractionRegistry interactionRegistry) {
+   public AutoCompleteEvent(ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
-        event = (CommandAutoCompleteInteractionEvent) context.getEvent();
+        event = context.event();
     }
 
     /**
