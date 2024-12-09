@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalD
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -33,12 +33,12 @@ public abstract sealed class GenericDispatcher<T extends GenericInteractionCreat
     protected final TypeAdapterRegistry adapterRegistry;
     protected final RuntimeSupervisor runtimeSupervisor;
 
-    public GenericDispatcher(DispatcherContext dispatcherContext) {
-        this.middlewareRegistry = dispatcherContext.middlewareRegistry();
-        this.implementationRegistry = dispatcherContext.implementationRegistry();
-        this.interactionRegistry = dispatcherContext.interactionRegistry();
-        this.adapterRegistry = dispatcherContext.adapterRegistry();
-        this.runtimeSupervisor = dispatcherContext.runtimeSupervisor();
+    public GenericDispatcher(HandlerContext handlerContext) {
+        this.middlewareRegistry = handlerContext.middlewareRegistry();
+        this.implementationRegistry = handlerContext.implementationRegistry();
+        this.interactionRegistry = handlerContext.interactionRegistry();
+        this.adapterRegistry = handlerContext.adapterRegistry();
+        this.runtimeSupervisor = handlerContext.runtimeSupervisor();
     }
 
     protected void executeMiddlewares(Context context) {

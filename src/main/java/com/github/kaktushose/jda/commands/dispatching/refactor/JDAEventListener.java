@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.refactor;
 import com.github.kaktushose.jda.commands.dispatching.refactor.event.Event;
 import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -20,9 +21,9 @@ public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);
     private final Map<UUID, Runtime> runtimes;
-    private final DispatcherContext context;
+    private final HandlerContext context;
 
-    public JDAEventListener(DispatcherContext context) {
+    public JDAEventListener(HandlerContext context) {
         this.context = context;
         runtimes = new HashMap<>();
     }

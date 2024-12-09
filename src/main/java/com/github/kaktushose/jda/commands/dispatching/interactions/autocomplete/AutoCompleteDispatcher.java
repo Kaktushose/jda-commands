@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
@@ -21,8 +21,8 @@ public final class AutoCompleteDispatcher extends GenericDispatcher<CommandAutoC
 
     private static final Logger log = LoggerFactory.getLogger(AutoCompleteDispatcher.class);
 
-    public AutoCompleteDispatcher(DispatcherContext dispatcherContext) {
-        super(dispatcherContext);
+    public AutoCompleteDispatcher(HandlerContext handlerContext) {
+        super(handlerContext);
     }
 
     @Override

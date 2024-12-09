@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
@@ -49,7 +49,7 @@ public record JDACommands(
         var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
         var runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
-        var eventListener = new JDAEventListener(new DispatcherContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        var eventListener = new JDAEventListener(new HandlerContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
 
         implementationRegistry.index(clazz, packages);
 

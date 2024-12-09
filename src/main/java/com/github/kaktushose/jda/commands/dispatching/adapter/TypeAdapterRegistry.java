@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -130,11 +132,15 @@ public class TypeAdapterRegistry {
      *
      * @param context the {@link SlashCommandContext} to type adapt
      */
-    public void adapt(@NotNull SlashCommandContext context) {
-        SlashCommandDefinition command = Objects.requireNonNull(context.getCommand());
+    public List<Object> adapt(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context) {
+        SlashCommandDefinition command = context.interactionDefinition();
+
+        var input = command.getActualParameters().stream()
+                .map(it -> context.event().getOption(it.name()).getAsString())
+                .toArray(String[]::new);
+
         List<Object> arguments = new ArrayList<>();
-        String[] input = context.getInput();
-        ErrorMessageFactory messageFactory = context.getImplementationRegistry().getErrorMessageFactory();
+        ErrorMessageFactory messageFactory = context.implementationRegistry().getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
         for (int i = 0; i < command.getActualParameters().size(); i++) {
@@ -154,7 +160,7 @@ public class TypeAdapterRegistry {
                     IllegalStateException exception = new IllegalStateException(
                             "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
                     );
-                    context.setCancelled(messageFactory.getCommandExecutionFailedMessage(context, exception));
+                    context.cancel(messageFactory.getCommandExecutionFailedMessage(context, exception));
                     throw exception;
                 }
 
@@ -180,13 +186,13 @@ public class TypeAdapterRegistry {
             Optional<?> parsed = adapter.get().apply(raw, context);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                context.setCancelled(messageFactory.getTypeAdaptingFailedMessage(context));
+                context.cancel(messageFactory.getTypeAdaptingFailedMessage(context));
                 break;
             }
 
             arguments.add(parsed.get());
             log.debug("Added \"{}\" to the argument list", parsed.get());
         }
-        context.setArguments(arguments);
+        return arguments;
     }
 }

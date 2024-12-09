@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -18,8 +18,8 @@ public final class ModalDispatcher extends GenericDispatcher<ModalInteractionEve
 
     private static final Logger log = LoggerFactory.getLogger(ModalDispatcher.class);
 
-    public ModalDispatcher(DispatcherContext dispatcherContext) {
-        super(dispatcherContext);
+    public ModalDispatcher(HandlerContext handlerContext) {
+        super(handlerContext);
     }
 
     @Override

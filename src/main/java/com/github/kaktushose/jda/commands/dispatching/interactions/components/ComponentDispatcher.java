@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.components;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -18,8 +18,8 @@ public final class ComponentDispatcher extends GenericDispatcher<GenericComponen
 
     private static final Logger log = LoggerFactory.getLogger(ComponentDispatcher.class);
 
-    public ComponentDispatcher(DispatcherContext dispatcherContext) {
-        super(dispatcherContext);
+    public ComponentDispatcher(HandlerContext handlerContext) {
+        super(handlerContext);
     }
 
     @Override

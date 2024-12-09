@@ -2,9 +2,8 @@ package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 
@@ -12,14 +11,13 @@ import java.util.Optional;
 
 public class AutoCompleteHandler extends EventHandler<com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent> {
 
-    public AutoCompleteHandler(DispatcherContext dispatcherContext) {
-        super(dispatcherContext);
+    public AutoCompleteHandler(HandlerContext handlerContext) {
+        super(handlerContext);
     }
 
     @Override
     public void accept(com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCompleteEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.event().getInteraction();
-        var context = new Context(event.event(), interactionRegistry, implementationRegistry);
 
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
                 .filter(it -> it.getCommandNames().stream().anyMatch(name -> interaction.getFullCommandName().startsWith(name)))
@@ -31,7 +29,7 @@ public class AutoCompleteHandler extends EventHandler<com.github.kaktushose.jda.
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
-        context.setInteractionDefinition(autoComplete);
+        var context = new ExecutionContext<>(event.event(), autoComplete, runtime, handlerContext);
 
         executeMiddlewares(context);
         if (checkCancelled(context)) {
@@ -46,16 +44,5 @@ public class AutoCompleteHandler extends EventHandler<com.github.kaktushose.jda.
         } catch (Exception exception) {
             throw new IllegalStateException("Auto complete execution failed!", exception);
         }
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    private boolean checkCancelled(Context context) {
-        if (context.isCancelled()) {
-            ReplyContext replyContext = new ReplyContext(context);
-            replyContext.getBuilder().applyData(context.getErrorMessage());
-            replyContext.queue();
-            return true;
-        }
-        return false;
     }
 }

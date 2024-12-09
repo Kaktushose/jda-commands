@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.interactions.commands;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericDispatcher;
-import com.github.kaktushose.jda.commands.dispatching.refactor.DispatcherContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
@@ -28,8 +28,8 @@ public final class CommandDispatcher extends GenericDispatcher<GenericCommandInt
 
     private static final Logger log = LoggerFactory.getLogger(CommandDispatcher.class);
 
-    public CommandDispatcher(DispatcherContext dispatcherContext) {
-        super(dispatcherContext);
+    public CommandDispatcher(HandlerContext handlerContext) {
+        super(handlerContext);
     }
 
     @Override

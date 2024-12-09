@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.AutoCom
 import com.github.kaktushose.jda.commands.dispatching.refactor.event.jda.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.AutoCompleteHandler;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.CommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,12 +33,12 @@ public final class Runtime implements Closeable {
     private MessageCreateData latestReply;
 
 
-    private Runtime(UUID id, DispatcherContext dispatcherContext) {
+    private Runtime(UUID id, HandlerContext handlerContext) {
         this.id = id;
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
-        commandHandler = new CommandHandler(dispatcherContext);
-        autoCompleteHandler = new AutoCompleteHandler(dispatcherContext);
+        commandHandler = new CommandHandler(handlerContext);
+        autoCompleteHandler = new AutoCompleteHandler(handlerContext);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread")
@@ -55,8 +56,8 @@ public final class Runtime implements Closeable {
                 });
     }
 
-    public static Runtime startNew(UUID id, DispatcherContext dispatcherContext) {
-        var runtime = new Runtime(id, dispatcherContext);
+    public static Runtime startNew(UUID id, HandlerContext handlerContext) {
+        var runtime = new Runtime(id, handlerContext);
         runtime.executionThread.start();
         return runtime;
     }
@@ -66,7 +67,6 @@ public final class Runtime implements Closeable {
     }
 
     public void queueEvent(Event event) {
-        System.out.println(event);
         blockingQueue.add(event);
     }
 
