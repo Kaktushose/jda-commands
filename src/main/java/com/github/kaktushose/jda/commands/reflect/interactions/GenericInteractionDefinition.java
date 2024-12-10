@@ -29,7 +29,7 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.permissions = permissions;
     }
 
-    public final void invoke(ExecutionContext<?, ?> context) {
+    public final void invoke(ExecutionContext<?> context) {
         SequencedCollection<Object> arguments = context.arguments();
 
         log.info("Executing interaction {} for user {}", method.getName(), context.event().getMember());

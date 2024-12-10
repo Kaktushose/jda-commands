@@ -27,7 +27,7 @@ public class RoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that has the specified guild role
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
         com.github.kaktushose.jda.commands.annotations.constraints.Role roleAnnotation =
                 (com.github.kaktushose.jda.commands.annotations.constraints.Role) annotation;
 

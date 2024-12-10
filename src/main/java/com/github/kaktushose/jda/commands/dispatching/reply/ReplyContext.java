@@ -37,7 +37,7 @@ public class ReplyContext {
      *
      * @param context the corresponding {@link ExecutionContext}
      */
-    public ReplyContext(ExecutionContext<?, ?> context) {
+    public ReplyContext(ExecutionContext<?> context) {
         this(context.event(), context.ephemeral());
     }
 

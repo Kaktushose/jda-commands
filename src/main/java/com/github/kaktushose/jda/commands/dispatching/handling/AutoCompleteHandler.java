@@ -10,14 +10,14 @@ import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import java.util.List;
 import java.util.Optional;
 
-public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent, ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition>> {
+public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
 
     public AutoCompleteHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    protected ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+    protected ExecutionContext<CommandAutoCompleteInteractionEvent> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()

@@ -26,11 +26,11 @@ public class ConstraintMiddleware implements Middleware {
      * Checks if all parameters fulfill their constraints. Will cancel the {@link Context} if a parameter
      * constraint fails.
      *
-     * @param ctx the {@link Context} to filter
+     * @param context the {@link Context} to filter
      */
     @Override
-    public void accept(@NotNull ExecutionContext<?, ?> ctx) {
-        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.definition() instanceof SlashCommandDefinition command))
+    public void accept(@NotNull ExecutionContext<?> context) {
+        if (!(context.definition() instanceof SlashCommandDefinition command))
             return;
 
         var arguments = List.of(context.arguments());

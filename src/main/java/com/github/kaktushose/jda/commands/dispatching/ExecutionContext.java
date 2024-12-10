@@ -15,13 +15,13 @@ import java.util.Collections;
 import java.util.SequencedCollection;
 import java.util.function.Function;
 
-public record ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition>(
+public record ExecutionContext<T extends GenericInteractionCreateEvent>(
         T event,
-        U definition,
+        GenericInteractionDefinition definition,
         Runtime runtime,
         HandlerContext handlerContext,
         SequencedCollection<Object> arguments,
-        Function<ExecutionContext<T, U>, GenericEvent<T, U>> eventSupplier
+        Function<ExecutionContext<T>, GenericEvent<T>> eventSupplier
 ) {
 
     public void cancel(MessageCreateData errorMessage) {

@@ -19,7 +19,7 @@ public interface ModalReplyable extends Replyable {
      */
     default void replyModal(String modal) {
         IModalCallback callback;
-        ExecutionContext<?, ?> context = getContext();
+        ExecutionContext<?> context = getContext();
         GenericInteractionCreateEvent event = context.event();
         if (event instanceof IModalCallback) {
             callback = (IModalCallback) event;

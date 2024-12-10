@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -16,10 +15,10 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
  * @see ModalEvent ModalEvent
  * @since 4.0.0
  */
-public abstract sealed class GenericEvent<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> extends GenericInteractionCreateEvent
+public abstract sealed class GenericEvent<T extends GenericInteractionCreateEvent> extends GenericInteractionCreateEvent
         permits AutoCompleteEvent, CommandEvent, ComponentEvent, ModalEvent {
 
-    protected final ExecutionContext<T, U> context;
+    protected final ExecutionContext<T> context;
     private final InteractionRegistry interactionRegistry;
 
     /**
@@ -27,7 +26,7 @@ public abstract sealed class GenericEvent<T extends GenericInteractionCreateEven
      *
      * @param context the underlying {@link Context}
      */
-    protected GenericEvent(ExecutionContext<T, U> context, InteractionRegistry interactionRegistry) {
+    protected GenericEvent(ExecutionContext<T> context, InteractionRegistry interactionRegistry) {
         super(context.event().getJDA(), context.event().getResponseNumber(), context.event().getInteraction());
         this.context = context;
         this.interactionRegistry = interactionRegistry;
@@ -38,7 +37,7 @@ public abstract sealed class GenericEvent<T extends GenericInteractionCreateEven
      *
      * @return the registered {@link Context} object
      */
-    public ExecutionContext<T, U> getContext() {
+    public ExecutionContext<T> getContext() {
         return context;
     }
 

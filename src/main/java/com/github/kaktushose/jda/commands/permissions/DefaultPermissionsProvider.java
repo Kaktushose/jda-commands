@@ -13,9 +13,9 @@ import java.util.Arrays;
 /**
  * Default implementation of {@link PermissionsProvider} with the following behaviour:
  * <ul>
- *     <li>{@link PermissionsProvider#hasPermission(User, ExecutionContext<?, ?>)} will always return {@code true}</li>
+ *     <li>{@link PermissionsProvider#hasPermission(User, ExecutionContext<?>)} will always return {@code true}</li>
  *     <li>
- *         {@link PermissionsProvider#hasPermission(Member, ExecutionContext<?, ?>)} will check against the default Discord permissions. More
+ *         {@link PermissionsProvider#hasPermission(Member, ExecutionContext<?>)} will check against the default Discord permissions. More
  *         formally, this method will work with any permission provided by {@link Permission#values()}, ignoring the
  *         case. Any other permission String will be ignored.
  *     </li>
@@ -29,12 +29,12 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
 
     @Override
-    public boolean hasPermission(@NotNull User user, @NotNull ExecutionContext<?, ?> context) {
+    public boolean hasPermission(@NotNull User user, @NotNull ExecutionContext<?> context) {
         return true;
     }
 
     @Override
-    public boolean hasPermission(@NotNull Member member, @NotNull ExecutionContext<?, ?> context) {
+    public boolean hasPermission(@NotNull Member member, @NotNull ExecutionContext<?> context) {
         for (String s : context.definition().getPermissions()) {
             // not a discord perm, continue
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {

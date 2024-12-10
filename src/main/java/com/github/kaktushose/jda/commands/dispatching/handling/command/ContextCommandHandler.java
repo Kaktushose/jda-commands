@@ -10,20 +10,18 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 
 import java.util.List;
 
-public class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>, ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition>> {
+public class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
     public ContextCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    protected ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
+    protected ExecutionContext<GenericContextInteractionEvent<?>> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
         ContextCommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 
-        ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context = new ExecutionContext<>(
+        return new ExecutionContext<>(
                 event, command, runtime, handlerContext, List.of(event.getTarget()), ctx -> new CommandEvent<>(ctx, interactionRegistry));
-
-        return context;
     }
 }

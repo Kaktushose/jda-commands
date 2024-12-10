@@ -19,14 +19,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent, ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition>> {
+public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
     public SlashCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    protected ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected ExecutionContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 

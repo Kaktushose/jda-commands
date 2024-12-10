@@ -155,7 +155,7 @@ public interface Replyable {
      */
     default Replyable with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        ExecutionContext<?, ?> context = getContext();
+        ExecutionContext<?> context = getContext();
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
@@ -199,7 +199,7 @@ public interface Replyable {
      *
      * @return the registered {@link Context} object
      */
-    ExecutionContext<?, ?> getContext();
+    ExecutionContext<?> getContext();
 
     /**
      * Gets the {@link KeyValueStore} that is bound to this execution.

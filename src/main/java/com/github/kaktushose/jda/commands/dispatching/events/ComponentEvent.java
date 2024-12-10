@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ModalReplyable;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @see GenericEvent
  * @since 4.0.0
  */
-public final class ComponentEvent extends GenericEvent<GenericComponentInteractionCreateEvent, EphemeralInteractionDefinition> implements ModalReplyable {
+public final class ComponentEvent extends GenericEvent<GenericComponentInteractionCreateEvent> implements ModalReplyable {
 
     private final ReplyContext replyContext;
 
@@ -25,7 +24,7 @@ public final class ComponentEvent extends GenericEvent<GenericComponentInteracti
      *
      * @param context the underlying {@link Context}
      */
-    public ComponentEvent(@NotNull ExecutionContext<GenericComponentInteractionCreateEvent, EphemeralInteractionDefinition> context, InteractionRegistry interactionRegistry) {
+    public ComponentEvent(@NotNull ExecutionContext<GenericComponentInteractionCreateEvent> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }

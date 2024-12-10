@@ -27,7 +27,7 @@ public class NotRoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that <b>doesn't</b> have the specified guild role
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
         NotRole roleAnnotation = (NotRole) annotation;
 
         Optional<Role> optional = new RoleAdapter().apply(roleAnnotation.value(), context.event());

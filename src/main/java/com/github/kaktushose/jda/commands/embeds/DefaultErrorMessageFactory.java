@@ -60,7 +60,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?, ?> context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?> context) {
         StringBuilder sbPermissions = new StringBuilder();
         GenericInteractionDefinition interaction = context.definition();
         interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
@@ -77,7 +77,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ExecutionContext<?, ?> context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ExecutionContext<?> context, @NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -87,7 +87,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull ExecutionContext<?, ?> context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull ExecutionContext<?> context, long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
         long seconds = secs % 60;
         long minutes = (secs / 60) % 60;
@@ -118,7 +118,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ExecutionContext<?, ?> context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull ExecutionContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -128,7 +128,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ExecutionContext<?, ?> context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ExecutionContext<?> context, @NotNull Throwable exception) {
         String error;
 
         error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
@@ -150,7 +150,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUnknownInteractionMessage(@NotNull ExecutionContext<?, ?> context) {
+    public MessageCreateData getUnknownInteractionMessage(@NotNull ExecutionContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")

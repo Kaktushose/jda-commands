@@ -26,7 +26,7 @@ public class UserValidator implements Validator {
      * @return {@code true} if the argument is the specified user or member
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
         Member member = (Member) argument;
         User user = (User) annotation;
         Optional<Member> optional = new MemberAdapter().apply(user.value(), context.event());

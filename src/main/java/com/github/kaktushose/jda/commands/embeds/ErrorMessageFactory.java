@@ -35,7 +35,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a user is missing permissions
      */
-    MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?, ?> context);
+    MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?> context);
 
     /**
      * Gets a {@link MessageCreateData} to send when a parameter constraint fails.
@@ -44,7 +44,7 @@ public interface ErrorMessageFactory {
      * @param constraint the corresponding {@link ConstraintDefinition} that failed
      * @return a {@link MessageCreateData} to send when a parameter constraint fails
      */
-    MessageCreateData getConstraintFailedMessage(@NotNull ExecutionContext<?, ?> context, @NotNull ConstraintDefinition constraint);
+    MessageCreateData getConstraintFailedMessage(@NotNull ExecutionContext<?> context, @NotNull ConstraintDefinition constraint);
 
     /**
      * Gets a {@link Message} to send when a command still has a cooldown.
@@ -52,7 +52,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when a command still has a cooldown
      */
-    MessageCreateData getCooldownMessage(@NotNull ExecutionContext<?, ?> context, long ms);
+    MessageCreateData getCooldownMessage(@NotNull ExecutionContext<?> context, long ms);
 
     /**
      * Gets a {@link MessageCreateData} to send when the channel type isn't suitable for the command.
@@ -60,7 +60,7 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when the channel type isn't suitable for the command
      */
-    MessageCreateData getWrongChannelTypeMessage(@NotNull ExecutionContext<?, ?> context);
+    MessageCreateData getWrongChannelTypeMessage(@NotNull ExecutionContext<?> context);
 
     /**
      * Gets a {@link MessageCreateData} to send when the command execution failed.
@@ -69,7 +69,7 @@ public interface ErrorMessageFactory {
      * @param exception the Exception that made the command execution fail
      * @return a {@link MessageCreateData} to send when the command execution failed
      */
-    MessageCreateData getCommandExecutionFailedMessage(@NotNull ExecutionContext<?, ?> context, @NotNull Throwable exception);
+    MessageCreateData getCommandExecutionFailedMessage(@NotNull ExecutionContext<?> context, @NotNull Throwable exception);
 
     /**
      * Gets a {@link MessageCreateData} to send when an incoming interaction already timed out.
@@ -77,6 +77,6 @@ public interface ErrorMessageFactory {
      * @param context the corresponding {@link Context}
      * @return a {@link MessageCreateData} to send when an incoming interaction already timed out
      */
-    MessageCreateData getUnknownInteractionMessage(@NotNull ExecutionContext<?, ?> context);
+    MessageCreateData getUnknownInteractionMessage(@NotNull ExecutionContext<?> context);
 
 }

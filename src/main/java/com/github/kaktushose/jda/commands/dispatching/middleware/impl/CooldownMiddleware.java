@@ -36,8 +36,8 @@ public class CooldownMiddleware implements Middleware {
      * @param ctx the {@link ExecutionContext} to filter
      */
     @Override
-    public void accept(@NotNull ExecutionContext<?, ?> ctx) {
-        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.definition() instanceof SlashCommandDefinition command)) return;
+    public void accept(@NotNull ExecutionContext<?> context) {
+        if (!(context.definition() instanceof SlashCommandDefinition command)) return;
 
         if (!command.hasCooldown()) {
             return;
