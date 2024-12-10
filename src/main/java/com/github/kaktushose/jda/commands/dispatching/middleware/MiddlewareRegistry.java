@@ -91,7 +91,7 @@ public class MiddlewareRegistry {
      * @return a set of all registered middlewares {@link Middleware Middlewares}
      */
     public Set<Middleware> getMiddlewares() {
-        return middlewares.values().stream().flatMap(Collection::stream).collect(Collectors.toUnmodifiableSet());
+        return middlewares.sequencedValues().stream().flatMap(Collection::stream).collect(Collectors.toUnmodifiableSet());
     }
 
     /**
