@@ -27,11 +27,3 @@ public class ReportCommand {
     }
 
 }
-
-public class BUttons {
-
-    public void onOkayButton(ComponentEvent event) {
-
-    }
-
-}
