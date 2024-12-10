@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;

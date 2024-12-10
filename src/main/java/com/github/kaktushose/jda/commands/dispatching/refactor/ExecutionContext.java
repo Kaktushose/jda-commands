@@ -1,6 +1,5 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.context;
+package com.github.kaktushose.jda.commands.dispatching.refactor;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -10,21 +9,25 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.Nullable;
 
-public sealed class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> permits CommandExecutionContext{
+import java.util.List;
+
+public class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> {
     private final T event;
     private final U definition;
     private final Runtime runtime;
     private final HandlerContext handlerContext;
+    private final boolean ephemeral;
+    private final List<Object> arguments;
     private boolean cancelled;
     private MessageCreateData errorMessage;
-    private final boolean ephemeral;
 
-    public ExecutionContext(T event, U definition, Runtime runtime, HandlerContext handlerContext) {
+    public ExecutionContext(T event, U definition, Runtime runtime, HandlerContext handlerContext, List<Object> arguments) {
         this.event = event;
         this.definition = definition;
         this.runtime = runtime;
         this.handlerContext = handlerContext;
         this.ephemeral = definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
+        this.arguments = arguments;
     }
 
     public T event() {
@@ -67,5 +70,9 @@ public sealed class ExecutionContext<T extends GenericInteractionCreateEvent, U 
 
     public InteractionRegistry interactionRegistry() {
         return handlerContext.interactionRegistry();
+    }
+
+    public List<Object> arguments() {
+        return arguments;
     }
 }

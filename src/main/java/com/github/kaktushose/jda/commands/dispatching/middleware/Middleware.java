@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.function.Consumer;

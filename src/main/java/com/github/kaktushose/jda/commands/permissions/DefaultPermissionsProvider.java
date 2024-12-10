@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.permissions;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;

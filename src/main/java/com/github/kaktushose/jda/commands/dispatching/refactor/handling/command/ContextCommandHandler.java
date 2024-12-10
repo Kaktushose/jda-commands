@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor.handling.command;
 
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.CommandExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -11,17 +11,18 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>, CommandExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition>> {
+public class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>, ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition>> {
 
     public ContextCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    protected CommandExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
+    protected ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
         ContextCommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
-        CommandExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context = new CommandExecutionContext<>(event, command, runtime, handlerContext);
+        ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context = new ExecutionContext<>(
+                event, command, runtime, handlerContext, List.of());
 
         context.arguments().addAll(List.of(
                 event.getTarget(),
@@ -32,7 +33,7 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
     }
 
     @Override
-    protected void execute(CommandExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context, Runtime runtime) {
+    protected void execute(ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context, Runtime runtime) {
         GenericInteractionDefinition command = context.interactionDefinition();
         List<Object> arguments = context.arguments();
 

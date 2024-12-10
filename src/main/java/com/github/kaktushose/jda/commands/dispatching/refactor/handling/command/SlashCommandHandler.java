@@ -2,43 +2,52 @@ package com.github.kaktushose.jda.commands.dispatching.refactor.handling.command
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.CommandExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent, CommandExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition>> {
+public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent, ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition>> {
 
     public SlashCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);
     }
 
     @Override
-    protected CommandExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 
-        CommandExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context = new CommandExecutionContext<>(event, command, runtime, handlerContext);
+        var result = adapt(event, command);
 
-        List<Object> arguments = adapt(context);
-        arguments.addFirst(new com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent<>(context, interactionRegistry));
-        context.arguments().addAll(arguments);
-
-        return context;
+        return switch (result) {
+            case Result.Error(MessageCreateData error) -> {
+                var context = new ExecutionContext<>(event, command, runtime, handlerContext, List.of());
+                context.cancel(error);
+                yield context;
+            }
+            case Result.Ok(List<Object> arguments) -> {
+                var context = new ExecutionContext<>(event, command, runtime, handlerContext, arguments);
+                arguments.addFirst(new com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent<>(context, interactionRegistry));
+                context.arguments().addAll(arguments);
+                yield context;
+            }
+        };
     }
 
     @Override
-    protected void execute(CommandExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context, Runtime runtime) {
+    protected void execute(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context, Runtime runtime) {
         SlashCommandDefinition command = context.interactionDefinition();
         List<Object> arguments = context.arguments();
 
@@ -55,17 +64,17 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
         }
     }
 
-    /**
-     * Takes a {@link SlashCommandContext} and attempts to type adapt the command input to the type specified by the
-     * {@link SlashCommandDefinition}. Cancels the {@link SlashCommandContext} if the type adapting fails.
-     *
-     * @param context the {@link SlashCommandContext} to type adapt
-     */
-    private List<Object> adapt(CommandExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context) {
-        SlashCommandDefinition command = context.interactionDefinition();
+    private sealed interface Result {
+        record Ok(List<Object> objects) implements Result {
+        }
 
+        record Error(MessageCreateData error) implements Result {
+        }
+    }
+
+    private Result adapt(SlashCommandInteractionEvent event, SlashCommandDefinition command) {
         var input = command.getActualParameters().stream()
-                .map(it -> context.event().getOption(it.name()).getAsString())
+                .map(it -> event.getOption(it.name()).getAsString())
                 .toArray(String[]::new);
 
         List<Object> arguments = new ArrayList<>();
@@ -86,11 +95,9 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
             // current parameter index == total amount of input, check if it's optional else cancel context
             if (i >= input.length) {
                 if (!parameter.isOptional()) {
-                    IllegalStateException exception = new IllegalStateException(
+                    throw new IllegalStateException(
                             "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
                     );
-                    context.cancel(messageFactory.getCommandExecutionFailedMessage(context, exception));
-                    throw exception;
                 }
 
                 // if the default value is an empty String (thus not present) add a null value to the argument list
@@ -107,21 +114,22 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
 
             log.debug("Trying to adapt input \"{}\" to type {}", raw, parameter.type().getName());
 
-            Optional<TypeAdapter<?>> adapter = adapterRegistry.get(parameter.type());
-            if (adapter.isEmpty()) {
-                throw new IllegalArgumentException("No type adapter found!");
-            }
+            TypeAdapter<?> adapter = adapterRegistry.get(parameter.type()).orElseThrow(() ->
+                    new IllegalArgumentException(
+                            "No type adapter implementation found for %s. Consider implementing one or change the required type"
+                                    .formatted(parameter.type())
+                    )
+            );
 
-            Optional<?> parsed = adapter.get().apply(raw, context);
+            Optional<?> parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                context.cancel(messageFactory.getTypeAdaptingFailedMessage(context));
-                break;
+                return new Result.Error(messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input)));
             }
 
             arguments.add(parsed.get());
             log.debug("Added \"{}\" to the argument list", parsed.get());
         }
-        return arguments;
+        return new Result.Ok(arguments);
     }
 }

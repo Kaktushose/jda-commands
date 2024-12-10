@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -15,15 +14,15 @@ import java.util.function.BiFunction;
  * @since 2.0.0
  */
 @FunctionalInterface
-public interface TypeAdapter<T> extends BiFunction<String, ExecutionContext<?, ?>, Optional<T>> {
+public interface TypeAdapter<T> extends BiFunction<String, GenericInteractionCreateEvent, Optional<T>> {
 
     /**
      * Attempts to parse a String to the given type.
      *
-     * @param raw     the String to parse
-     * @param context the {@link Context}
+     * @param raw   the String to parse
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed type or an empty Optional if the parsing fails
      */
-    Optional<T> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context);
+    Optional<T> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event);
 
 }

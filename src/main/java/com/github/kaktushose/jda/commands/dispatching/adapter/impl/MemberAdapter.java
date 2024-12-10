@@ -3,9 +3,9 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,20 +21,20 @@ public class MemberAdapter implements TypeAdapter<Member> {
     /**
      * Attempts to parse a String to a {@link Member}. Accepts both the member id and name.
      *
-     * @param raw     the String to parse
-     * @param context the {@link Context}
+     * @param raw   the String to parse
+     * @param event the {@link Context}
      * @return the parsed {@link Member} or an empty Optional if the parsing fails
      */
     @Override
-    public Optional<Member> apply(@NotNull String raw, @NotNull ExecutionContext<?, ?> context) {
-        if (context.event().getGuild() == null) {
+    public Optional<Member> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+        if (event.getGuild() == null) {
             return Optional.empty();
         }
 
         Member member;
         raw = Helpers.sanitizeMention(raw);
 
-        Guild guild = context.event().getGuild();
+        Guild guild = event.getGuild();
         if (raw.matches("\\d+")) {
             try {
                 member = guild.retrieveMemberById(raw).complete();

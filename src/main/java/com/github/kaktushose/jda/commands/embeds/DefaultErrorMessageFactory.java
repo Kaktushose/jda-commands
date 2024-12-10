@@ -1,20 +1,19 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +26,11 @@ import java.util.concurrent.TimeUnit;
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull SlashCommandContext context) {
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
+                                                          @NotNull GenericInteractionDefinition definition,
+                                                          @NotNull List<String> userInput) {
         StringBuilder sbExpected = new StringBuilder();
-        SlashCommandDefinition command = context.getCommand();
-        List<String> arguments = Arrays.asList(context.getInput());
+        SlashCommandDefinition command = (SlashCommandDefinition) definition;
 
         command.getParameters().forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
@@ -45,7 +45,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
 
         StringBuilder sbActual = new StringBuilder();
-        arguments.forEach(argument -> sbActual.append(argument).append(", "));
+        userInput.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
         MessageEmbed embed = new EmbedBuilder()

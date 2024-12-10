@@ -1,13 +1,15 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.CommandExecutionContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Generic interface for factory classes that generate error messages.
@@ -21,10 +23,12 @@ public interface ErrorMessageFactory {
     /**
      * Gets a {@link MessageCreateData} to send when type adapting of the user input failed.
      *
-     * @param context the corresponding {@link SlashCommandContext}
+     * @param event the {@link GenericInteractionCreateEvent} that was attempted to type adapt
      * @return a {@link MessageCreateData} to send when type adapting failed
      */
-    MessageCreateData getTypeAdaptingFailedMessage(@NotNull CommandExecutionContext<?, ?> context);
+    MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
+                                                   @NotNull GenericInteractionDefinition definition,
+                                                   @NotNull List<String> userInput);
 
     /**
      * Gets a {@link MessageCreateData} to send when a user is missing permissions.

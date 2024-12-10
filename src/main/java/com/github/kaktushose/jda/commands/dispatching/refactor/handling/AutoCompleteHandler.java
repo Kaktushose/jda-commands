@@ -1,12 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent, ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition>> {
@@ -29,7 +30,7 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
-        return new ExecutionContext<>(event, autoComplete, runtime, handlerContext);
+        return new ExecutionContext<>(event, autoComplete, runtime, handlerContext, List.of());
     }
 
     @Override

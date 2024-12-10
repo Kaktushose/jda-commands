@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +33,14 @@ public final class Helpers {
         return mention;
     }
 
-    public static Optional<GuildChannel> resolveGuildChannel(ExecutionContext<?, ?> context, String raw) {
+    public static Optional<GuildChannel> resolveGuildChannel(GenericInteractionCreateEvent event, String raw) {
         GuildChannel guildChannel;
         raw = sanitizeMention(raw);
 
-        Guild guild = context.event().getGuild();
+        Guild guild = event.getGuild();
+        if (guild == null) {
+            return Optional.empty();
+        }
         if (raw.matches("\\d+")) {
             guildChannel = guild.getGuildChannelById(raw);
         } else {

@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete;
 
 import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.context.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
