@@ -1,6 +1,5 @@
-package com.github.kaktushose.jda.commands.dispatching.interactions.modals;
+package com.github.kaktushose.jda.commands.dispatching.refactor.events;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;

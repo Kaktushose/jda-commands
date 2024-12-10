@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.ComponentEvent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

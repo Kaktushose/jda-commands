@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components.menus
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;

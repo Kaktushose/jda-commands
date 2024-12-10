@@ -4,7 +4,7 @@ import adapting.CustomType;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
 
 @Interaction
 public class TypeAdapterRegistryTestController {

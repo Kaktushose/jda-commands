@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.AutoCompleteEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

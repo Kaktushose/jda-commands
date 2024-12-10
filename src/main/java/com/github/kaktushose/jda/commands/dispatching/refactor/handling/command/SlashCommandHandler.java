@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
@@ -39,7 +40,7 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
             }
             case Result.Ok(List<Object> arguments) -> {
                 var context = new ExecutionContext<>(event, command, runtime, handlerContext, arguments);
-                arguments.addFirst(new com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent<>(context, interactionRegistry));
+                arguments.addFirst(new CommandEvent<>(context, interactionRegistry));
                 context.arguments().addAll(arguments);
                 yield context;
             }
@@ -47,14 +48,14 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
     }
 
     @Override
-    protected void execute(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context, Runtime runtime) {
+    protected void execute(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context) {
         SlashCommandDefinition command = context.interactionDefinition();
         List<Object> arguments = context.arguments();
 
         log.info("Executing command {} for user {}", command.getMethod().getName(), context.event().getMember());
         try {
             log.debug("Invoking method with following arguments: {}", arguments);
-            command.getMethod().invoke(runtime.instance(command), arguments.toArray());
+            command.getMethod().invoke(context.runtime().instance(command), arguments.toArray());
         } catch (Exception exception) {
             log.error("Command execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class

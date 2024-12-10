@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

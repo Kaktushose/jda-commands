@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
@@ -37,7 +36,7 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
     }
 
     protected abstract E prepare(T event, Runtime runtime);
-    protected abstract void execute(E context, Runtime runtime);
+    protected abstract void execute(E context);
 
     @Override
     final public void accept(T e, Runtime runtime) {

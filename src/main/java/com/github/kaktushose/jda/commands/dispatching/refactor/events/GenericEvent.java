@@ -1,9 +1,5 @@
-package com.github.kaktushose.jda.commands.dispatching.interactions;
+package com.github.kaktushose.jda.commands.dispatching.refactor.events;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -14,10 +10,10 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 /**
  * Extension of JDAs {@link GenericInteractionCreateEvent} class. This is the base class for the different event classes.
  *
- * @see com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent CommandEvent
- * @see com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent ComponentEvent
- * @see com.github.kaktushose.jda.commands.dispatching.interactions.autocomplete.AutoCompleteEvent AutoCompleteEvent
- * @see com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent ModalEvent
+ * @see CommandEvent CommandEvent
+ * @see ComponentEvent ComponentEvent
+ * @see AutoCompleteEvent AutoCompleteEvent
+ * @see ModalEvent ModalEvent
  * @since 4.0.0
  */
 public abstract sealed class GenericEvent<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> extends GenericInteractionCreateEvent

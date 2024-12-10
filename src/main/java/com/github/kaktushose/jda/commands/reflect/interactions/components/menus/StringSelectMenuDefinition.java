@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 
 import java.lang.reflect.Method;

@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;

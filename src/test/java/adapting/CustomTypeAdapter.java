@@ -1,6 +1,5 @@
 package adapting;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import org.jetbrains.annotations.NotNull;
 

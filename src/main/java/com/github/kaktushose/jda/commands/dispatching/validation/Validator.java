@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
 import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import org.jetbrains.annotations.NotNull;
 

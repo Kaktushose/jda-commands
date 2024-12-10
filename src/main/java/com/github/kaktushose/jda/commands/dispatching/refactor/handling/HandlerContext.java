@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;

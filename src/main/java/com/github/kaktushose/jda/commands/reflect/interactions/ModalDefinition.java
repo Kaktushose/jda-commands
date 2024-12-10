@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.refactor.events.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
 import org.jetbrains.annotations.NotNull;
