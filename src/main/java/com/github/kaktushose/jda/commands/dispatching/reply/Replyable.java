@@ -155,13 +155,13 @@ public interface Replyable {
      */
     default Replyable with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        Context context = getContext();
+        ExecutionContext<?, ?> context = getContext();
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
                 buttons.buttonContainers().forEach(container -> {
-                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.name());
-                    context.getInteractionRegistry().getButtons()
+                    String id = String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.name());
+                    context.interactionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
                             .findFirst()
@@ -169,7 +169,7 @@ public interface Replyable {
                                 Button jdaButton = it.toButton().withDisabled(!container.enabled());
                                 //only assign ids to non-link buttonContainers
                                 if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.createCustomId(context.getRuntime().getRuntimeId()));
+                                    jdaButton = jdaButton.withId(it.createCustomId(context.runtime().id().toString()));
                                 }
                                 return jdaButton;
                             }).ifPresent(items::add);
@@ -178,11 +178,11 @@ public interface Replyable {
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
                 menus.selectMenuContainers().forEach(container -> {
-                    String id = String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
-                    context.getInteractionRegistry().getSelectMenus()
+                    String id = String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
+                    context.interactionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(context.getRuntime().getRuntimeId(), container.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(context.runtime().id().toString(), container.isEnabled()))
                             .ifPresent(items::add);
                 });
             }
@@ -207,7 +207,8 @@ public interface Replyable {
      * @return the {@link KeyValueStore} bound to this execution
      */
     default KeyValueStore kv() {
-        return getContext().getKeyValueStore();
+        //return getContext().getKeyValueStore();
+        return null;
     }
 
     /**

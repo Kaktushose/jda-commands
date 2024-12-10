@@ -30,7 +30,7 @@ public class ConstraintMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull ExecutionContext<?, ?> ctx) {
-        if (!(ctx instanceof CommandExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command))
+        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command))
             return;
 
         List<Object> arguments = context.arguments();

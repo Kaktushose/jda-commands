@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +23,7 @@ public class MinimumValidator implements Validator {
      * @return {@code true} if the argument is a number whose value is greater or equal to the specified minimum
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
         Min min = (Min) annotation;
         return ((Number) argument).longValue() >= min.value();
     }

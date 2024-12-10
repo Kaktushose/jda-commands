@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -28,7 +29,7 @@ public class NotPermissionValidator implements Validator {
      * permission
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
         Set<Permission> permissions = new HashSet<>();
         NotPerm perm = (NotPerm) annotation;
 

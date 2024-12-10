@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotRole;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -26,10 +27,10 @@ public class NotRoleValidator implements Validator {
      * @return {@code true} if the argument is a user or member that <b>doesn't</b> have the specified guild role
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull Context context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?, ?> context) {
         NotRole roleAnnotation = (NotRole) annotation;
 
-        Optional<Role> optional = new RoleAdapter().apply(roleAnnotation.value(), context);
+        Optional<Role> optional = new RoleAdapter().apply(roleAnnotation.value(), context.event());
         Member member = (Member) argument;
 
         return optional.filter(role -> member.getRoles().contains(role)).isEmpty();

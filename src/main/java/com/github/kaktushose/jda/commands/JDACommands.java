@@ -30,9 +30,7 @@ public record JDACommands(
         ValidatorRegistry validatorRegistry,
         DependencyInjector dependencyInjector,
         InteractionRegistry interactionRegistry,
-        SlashCommandUpdater updater,
-        RuntimeSupervisor runtimeSupervisor
-) {
+        SlashCommandUpdater updater) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
     private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, String... packages) {
@@ -47,8 +45,7 @@ public record JDACommands(
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
         var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
-        var runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
-        var eventListener = new JDAEventListener(new HandlerContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor));
+        var eventListener = new JDAEventListener(new HandlerContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry));
 
         implementationRegistry.index(clazz, packages);
 
@@ -69,8 +66,7 @@ public record JDACommands(
                 validatorRegistry,
                 dependencyInjector,
                 interactionRegistry,
-                updater,
-                runtimeSupervisor
+                updater
         );
     }
 
@@ -182,17 +178,18 @@ public record JDACommands(
      * @return a JDA {@link Button}
      */
     public Button getButton(String button) {
-        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Button");
-        }
-
-        String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
-
-        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(buttonDefinition);
-        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(runtime.getRuntimeId()));
+//        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
+//            throw new IllegalArgumentException("Unknown Button");
+//        }
+//
+//        String sanitizedId = button.replaceAll("\\.", "");
+//        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
+//                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+//                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
+//
+//        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(buttonDefinition);
+//        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(runtime.getRuntimeId()));
+        return null;
     }
 
     /**
@@ -239,17 +236,18 @@ public record JDACommands(
      */
     @SuppressWarnings("unchecked")
     public <T extends SelectMenu> T getSelectMenu(String selectMenu) {
-        if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Select Menu");
-        }
-
-        String sanitizedId = selectMenu.replaceAll("\\.", "");
-        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
-
-        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(selectMenuDefinition);
-        return (T) selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
+//        if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
+//            throw new IllegalArgumentException("Unknown Select Menu");
+//        }
+//
+//        String sanitizedId = selectMenu.replaceAll("\\.", "");
+//        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
+//                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+//                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
+//
+//        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(selectMenuDefinition);
+//        return (T) selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
+        return null;
     }
 
     /**

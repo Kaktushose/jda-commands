@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
@@ -18,8 +19,8 @@ public interface ModalReplyable extends Replyable {
      */
     default void replyModal(String modal) {
         IModalCallback callback;
-        Context context = getContext();
-        GenericInteractionCreateEvent event = context.getEvent();
+        ExecutionContext<?, ?> context = getContext();
+        GenericInteractionCreateEvent event = context.event();
         if (event instanceof IModalCallback) {
             callback = (IModalCallback) event;
         } else {
@@ -28,11 +29,11 @@ public interface ModalReplyable extends Replyable {
             );
         }
 
-        ModalDefinition modalDefinition = context.getInteractionRegistry().getModals().stream()
-                .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.getInteractionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal)))
+        ModalDefinition modalDefinition = context.interactionRegistry().getModals().stream()
+                .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
 
-        callback.replyModal(modalDefinition.toModal(context.getRuntime().getRuntimeId())).queue();
+        callback.replyModal(modalDefinition.toModal(context.runtime().id().toString())).queue();
     }
 }

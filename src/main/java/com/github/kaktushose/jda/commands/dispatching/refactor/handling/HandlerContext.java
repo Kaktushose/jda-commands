@@ -10,6 +10,5 @@ import org.jetbrains.annotations.ApiStatus;
 public record HandlerContext(MiddlewareRegistry middlewareRegistry,
                              ImplementationRegistry implementationRegistry,
                              InteractionRegistry interactionRegistry,
-                             TypeAdapterRegistry adapterRegistry,
-                             RuntimeSupervisor runtimeSupervisor) {
+                             TypeAdapterRegistry adapterRegistry) {
 }

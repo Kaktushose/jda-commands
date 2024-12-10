@@ -37,7 +37,7 @@ public class CooldownMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull ExecutionContext<?, ?> ctx) {
-        if (!(ctx instanceof CommandExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command)) return;
+        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command)) return;
 
         if (!command.hasCooldown()) {
             return;

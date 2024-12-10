@@ -24,7 +24,6 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
     protected final ImplementationRegistry implementationRegistry;
     protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapterRegistry adapterRegistry;
-    protected final RuntimeSupervisor runtimeSupervisor;
 
     public EventHandler(HandlerContext handlerContext) {
         this.handlerContext = handlerContext;
@@ -32,7 +31,6 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
         this.implementationRegistry = handlerContext.implementationRegistry();
         this.interactionRegistry = handlerContext.interactionRegistry();
         this.adapterRegistry = handlerContext.adapterRegistry();
-        this.runtimeSupervisor = handlerContext.runtimeSupervisor();
     }
 
     protected abstract E prepare(T event, Runtime runtime);
@@ -53,7 +51,7 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
             return;
         }
 
-        execute(context, runtime);
+        execute(context);
     }
 
     protected void executeMiddlewares(ExecutionContext<? extends GenericInteractionCreateEvent, ? extends GenericInteractionDefinition> context) {
