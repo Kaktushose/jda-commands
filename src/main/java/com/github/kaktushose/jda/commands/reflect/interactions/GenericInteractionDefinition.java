@@ -1,11 +1,13 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,6 +27,21 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.definitionId = String.format("%s%s", method.getDeclaringClass().getSimpleName(), method.getName());
         this.method = method;
         this.permissions = permissions;
+    }
+
+    public void invoke(ExecutionContext<?, ?> context) {
+        List<Object> arguments = context.arguments();
+
+        log.info("Executing interaction {} for user {}", method.getName(), context.event().getMember());
+        try {
+            log.debug("Invoking method with following arguments: {}", arguments);
+            method.invoke(context.runtime().instance(this), arguments.toArray());
+        } catch (Exception exception) {
+            log.error("Interaction execution failed!", exception);
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            context.cancel(context.implementationRegistry().getErrorMessageFactory().getCommandExecutionFailedMessage(context, throwable));
+        }
     }
 
     /**

@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
 
 import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -35,13 +34,7 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
 
     @Override
     protected void execute(ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> context) {
-        AutoCompleteDefinition autoComplete = context.interactionDefinition();
-        log.debug("Input matches auto complete: {}", autoComplete.getDefinitionId());
-        log.info("Executing auto complete {} for user {}", autoComplete.getMethod().getName(), context.event().getMember());
-        try {
-            autoComplete.getMethod().invoke(context.runtime().instance(autoComplete), new AutoCompleteEvent(context, interactionRegistry));
-        } catch (Exception exception) {
-            throw new IllegalStateException("Auto complete execution failed!", exception);
-        }
+        context.interactionDefinition().invoke(context);
+        checkCancelled(context);
     }
 }

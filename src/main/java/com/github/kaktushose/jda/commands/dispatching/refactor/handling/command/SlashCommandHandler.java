@@ -13,7 +13,6 @@ import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCom
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,20 +48,8 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
 
     @Override
     protected void execute(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context) {
-        SlashCommandDefinition command = context.interactionDefinition();
-        List<Object> arguments = context.arguments();
-
-        log.info("Executing command {} for user {}", command.getMethod().getName(), context.event().getMember());
-        try {
-            log.debug("Invoking method with following arguments: {}", arguments);
-            command.getMethod().invoke(context.runtime().instance(command), arguments.toArray());
-        } catch (Exception exception) {
-            log.error("Command execution failed!", exception);
-            // this unwraps the underlying error in case of an exception inside the command class
-            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            context.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(context, throwable));
-            checkCancelled(context);
-        }
+        context.interactionDefinition().invoke(context);
+        checkCancelled(context);
     }
 
     private sealed interface Result {
