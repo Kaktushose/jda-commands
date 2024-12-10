@@ -44,6 +44,10 @@ public record ExecutionContext<T extends GenericInteractionCreateEvent, U extend
         return handlerContext.interactionRegistry();
     }
 
+    public KeyValueStore keyValueStore() {
+        return runtime.keyValueStore();
+    }
+
     public SequencedCollection<Object> arguments() {
         ArrayList<Object> actualArguments = new ArrayList<>(arguments);
         actualArguments.addFirst(eventSupplier.apply(this));

@@ -33,6 +33,7 @@ public final class Runtime implements Closeable {
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
+    private final KeyValueStore keyValueStore = new KeyValueStore();
     private MessageCreateData latestReply;
 
 
@@ -46,17 +47,19 @@ public final class Runtime implements Closeable {
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
-                .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", new InvocationTargetException(e)))
-                .unstarted(() -> {
-                    try {
-                        while (!Thread.interrupted()) {
-                            GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
+                .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
+                .unstarted(this::checkForEvents);
+    }
 
-                            Thread.ofVirtual().start(() -> executeHandler(incomingEvent)).join();
-                        }
-                    } catch (InterruptedException ignored) {
-                    }
-                });
+    private void checkForEvents() {
+        try {
+            while (!Thread.interrupted()) {
+                GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
+
+                Thread.ofVirtual().start(() -> executeHandler(incomingEvent)).join();
+            }
+        } catch (InterruptedException ignored) {
+        }
     }
 
     private void executeHandler(GenericInteractionCreateEvent incomingEvent) {
@@ -89,6 +92,10 @@ public final class Runtime implements Closeable {
 
     public void latestReply(MessageCreateData latestReply) {
         this.latestReply = latestReply;
+    }
+
+    public KeyValueStore keyValueStore() {
+        return keyValueStore;
     }
 
     public Object instance(GenericInteractionDefinition definition) {

@@ -13,11 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class KeyValueStore {
 
-    private final Map<String, Object> values;
-
-    public KeyValueStore() {
-        values = new ConcurrentHashMap<>();
-    }
+    private final Map<String, Object> values = new ConcurrentHashMap<>();
 
     /**
      * Gets a value.

@@ -207,8 +207,7 @@ public interface Replyable {
      * @return the {@link KeyValueStore} bound to this execution
      */
     default KeyValueStore kv() {
-        //return getContext().getKeyValueStore();
-        return null;
+        return getContext().keyValueStore();
     }
 
     /**
