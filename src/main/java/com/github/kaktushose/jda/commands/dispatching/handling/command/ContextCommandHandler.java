@@ -22,12 +22,7 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
                 it -> it.getName().equals(event.getFullCommandName()));
 
         ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context = new ExecutionContext<>(
-                event, command, runtime, handlerContext, List.of(), ctx -> new CommandEvent<>(ctx, interactionRegistry));
-
-        context.arguments().addAll(List.of(
-                event.getTarget(),
-                new CommandEvent<>(context, interactionRegistry)
-        ));
+                event, command, runtime, handlerContext, List.of(event.getTarget()), ctx -> new CommandEvent<>(ctx, interactionRegistry));
 
         return context;
     }
