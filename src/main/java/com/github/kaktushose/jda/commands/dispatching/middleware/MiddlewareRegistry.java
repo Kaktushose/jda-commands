@@ -18,20 +18,12 @@ import java.util.stream.Stream;
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
-    private final SortedMap<Priority, Set<Middleware>> middlewares;
-
-    /**
-     * Constructs a new MiddlewareRegistry.
-     */
-    public MiddlewareRegistry() {
-        middlewares = new TreeMap<>();
-        middlewares.put(Priority.LOW, new HashSet<>());
-        middlewares.put(Priority.NORMAL, new HashSet<>());
-        middlewares.put(Priority.HIGH, new HashSet<>());
-        middlewares.put(Priority.PERMISSIONS, new HashSet<>());
-        register(Priority.PERMISSIONS, new PermissionsMiddleware());
-        register(Priority.NORMAL, new ConstraintMiddleware(), new CooldownMiddleware());
-    }
+    private final SortedMap<Priority, Set<Middleware>> middlewares = new TreeMap<>(Map.of(
+            Priority.LOW, new HashSet<>(),
+            Priority.NORMAL, new HashSet<>(Set.of(new ConstraintMiddleware(), new CooldownMiddleware())),
+            Priority.HIGH, new HashSet<>(),
+            Priority.PERMISSIONS, new HashSet<>(Set.of(new PermissionsMiddleware()))
+    ));
 
     /**
      * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
