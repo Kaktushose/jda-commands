@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.AutoCompleteEvent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

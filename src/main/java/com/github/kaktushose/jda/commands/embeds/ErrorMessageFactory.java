@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;

@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;

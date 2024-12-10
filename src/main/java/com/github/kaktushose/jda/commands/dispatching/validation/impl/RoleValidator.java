@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;

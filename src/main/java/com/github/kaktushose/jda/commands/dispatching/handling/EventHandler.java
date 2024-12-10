@@ -1,11 +1,11 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
+package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -34,7 +34,12 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
     }
 
     protected abstract E prepare(T event, Runtime runtime);
-    protected abstract void execute(E context);
+
+
+    protected void execute(E context) {
+        context.interactionDefinition().invoke(context);
+        checkCancelled(context);
+    }
 
     @Override
     final public void accept(T e, Runtime runtime) {

@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.components;
 import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;

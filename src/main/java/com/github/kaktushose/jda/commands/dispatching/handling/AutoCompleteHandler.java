@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
+package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -30,11 +30,5 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
         return new ExecutionContext<>(event, autoComplete, runtime, handlerContext, List.of());
-    }
-
-    @Override
-    protected void execute(ExecutionContext<CommandAutoCompleteInteractionEvent, AutoCompleteDefinition> context) {
-        context.interactionDefinition().invoke(context);
-        checkCancelled(context);
     }
 }

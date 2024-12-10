@@ -1,6 +1,6 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor;
+package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);
-    private final Map<UUID, Runtime> runtimes;
+    private final Map<UUID, com.github.kaktushose.jda.commands.dispatching.Runtime> runtimes;
     private final HandlerContext context;
 
     public JDAEventListener(HandlerContext context) {
@@ -27,7 +27,7 @@ public final class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
-        Runtime runtime = switch (jdaEvent) {
+        com.github.kaktushose.jda.commands.dispatching.Runtime runtime = switch (jdaEvent) {
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _, CommandAutoCompleteInteractionEvent _ ->
                     runtimes.compute(UUID.randomUUID(), (id, _) -> Runtime.startNew(id, context));
 

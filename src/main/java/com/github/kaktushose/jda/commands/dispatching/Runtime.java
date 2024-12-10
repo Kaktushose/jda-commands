@@ -1,9 +1,9 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor;
+package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.AutoCompleteHandler;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.command.ContextCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.command.SlashCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;

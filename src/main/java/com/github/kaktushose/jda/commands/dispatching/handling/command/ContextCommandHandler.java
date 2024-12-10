@@ -1,10 +1,10 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.handling.command;
+package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 
@@ -29,11 +29,5 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
         ));
 
         return context;
-    }
-
-    @Override
-    protected void execute(ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context) {
-        context.interactionDefinition().invoke(context);
-        checkCancelled(context);
     }
 }

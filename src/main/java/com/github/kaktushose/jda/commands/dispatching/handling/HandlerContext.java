@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.handling;
+package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;

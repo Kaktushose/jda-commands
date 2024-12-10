@@ -1,12 +1,12 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor.handling.command;
+package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.refactor.ExecutionContext;
-import com.github.kaktushose.jda.commands.dispatching.refactor.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.refactor.events.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -29,9 +29,7 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 
-        var result = adapt(event, command);
-
-        return switch (result) {
+        return switch (adapt(event, command)) {
             case Result.Error(MessageCreateData error) -> {
                 var context = new ExecutionContext<>(event, command, runtime, handlerContext, List.of());
                 context.cancel(error);
@@ -40,24 +38,15 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
             case Result.Ok(List<Object> arguments) -> {
                 var context = new ExecutionContext<>(event, command, runtime, handlerContext, arguments);
                 arguments.addFirst(new CommandEvent<>(context, interactionRegistry));
-                context.arguments().addAll(arguments);
                 yield context;
             }
         };
     }
 
-    @Override
-    protected void execute(ExecutionContext<SlashCommandInteractionEvent, SlashCommandDefinition> context) {
-        context.interactionDefinition().invoke(context);
-        checkCancelled(context);
-    }
-
     private sealed interface Result {
-        record Ok(List<Object> objects) implements Result {
-        }
+        record Ok(List<Object> objects) implements Result {}
 
-        record Error(MessageCreateData error) implements Result {
-        }
+        record Error(MessageCreateData error) implements Result {}
     }
 
     private Result adapt(SlashCommandInteractionEvent event, SlashCommandDefinition command) {

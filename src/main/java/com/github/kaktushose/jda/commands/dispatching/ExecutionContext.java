@@ -1,6 +1,6 @@
-package com.github.kaktushose.jda.commands.dispatching.refactor;
+package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.refactor.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
