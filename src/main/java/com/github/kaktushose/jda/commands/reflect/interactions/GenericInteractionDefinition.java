@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.SequencedCollection;
 import java.util.Set;
 
 /**
@@ -29,8 +29,8 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.permissions = permissions;
     }
 
-    public void invoke(ExecutionContext<?, ?> context) {
-        List<Object> arguments = context.arguments();
+    public final void invoke(ExecutionContext<?, ?> context) {
+        SequencedCollection<Object> arguments = context.arguments();
 
         log.info("Executing interaction {} for user {}", method.getName(), context.event().getMember());
         try {

@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -31,15 +32,12 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
 
         return switch (adapt(event, command)) {
             case Result.Error(MessageCreateData error) -> {
-                var context = new ExecutionContext<>(event, command, runtime, handlerContext, List.of());
-                context.cancel(error);
-                yield context;
+                ReplyContext.reply(event, command.isEphemeral(), error);
+                yield null;
             }
-            case Result.Ok(List<Object> arguments) -> {
-                var context = new ExecutionContext<>(event, command, runtime, handlerContext, arguments);
-                arguments.addFirst(new CommandEvent<>(context, interactionRegistry));
-                yield context;
-            }
+            case Result.Ok(List<Object> arguments) ->
+                    new ExecutionContext<>(event, command, runtime, handlerContext, arguments,
+                            ctx -> new CommandEvent<>(ctx, interactionRegistry));
         };
     }
 

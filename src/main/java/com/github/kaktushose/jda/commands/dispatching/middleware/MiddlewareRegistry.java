@@ -18,13 +18,13 @@ import java.util.stream.Stream;
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
-    private final Map<Priority, Set<Middleware>> middlewares;
+    private final SortedMap<Priority, Set<Middleware>> middlewares;
 
     /**
      * Constructs a new MiddlewareRegistry.
      */
     public MiddlewareRegistry() {
-        middlewares = new HashMap<>();
+        middlewares = new TreeMap<>();
         middlewares.put(Priority.LOW, new HashSet<>());
         middlewares.put(Priority.NORMAL, new HashSet<>());
         middlewares.put(Priority.HIGH, new HashSet<>());

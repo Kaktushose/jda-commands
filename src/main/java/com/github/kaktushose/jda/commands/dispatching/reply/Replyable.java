@@ -160,7 +160,7 @@ public interface Replyable {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
                 buttons.buttonContainers().forEach(container -> {
-                    String id = String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.name());
+                    String id = String.format("%s%s", context.definition().getMethod().getDeclaringClass().getSimpleName(), container.name());
                     context.interactionRegistry().getButtons()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
@@ -178,7 +178,7 @@ public interface Replyable {
             if (component instanceof SelectMenus) {
                 SelectMenus menus = (SelectMenus) component;
                 menus.selectMenuContainers().forEach(container -> {
-                    String id = String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
+                    String id = String.format("%s%s", context.definition().getMethod().getDeclaringClass().getSimpleName(), container.getName());
                     context.interactionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))

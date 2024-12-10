@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
+import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
@@ -37,21 +36,20 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
 
 
     protected void execute(E context) {
-        context.interactionDefinition().invoke(context);
-        checkCancelled(context);
+        context.definition().invoke(context);
     }
 
     @Override
     final public void accept(T e, Runtime runtime) {
         E context = prepare(e, runtime);
 
-        if (context == null || context.cancelled()) {
+        if (context == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
             return;
         }
 
         executeMiddlewares(context);
-        if (checkCancelled(context)) {
+        if (Thread.interrupted()) {
             log.debug("Interaction execution cancelled by middleware");
             return;
         }
@@ -61,34 +59,11 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent, E ex
 
     protected void executeMiddlewares(ExecutionContext<? extends GenericInteractionCreateEvent, ? extends GenericInteractionDefinition> context) {
         log.debug("Executing middlewares...");
-        for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.PERMISSIONS)) {
-            if (executeMiddleware(context, middleware)) return;
-        }
-        for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.HIGH)) {
-            if (executeMiddleware(context, middleware)) return;
-        }
-        for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.NORMAL)) {
-            if (executeMiddleware(context, middleware)) return;
-        }
-        for (Middleware middleware : middlewareRegistry.getMiddlewares(Priority.LOW)) {
-            if (executeMiddleware(context, middleware)) return;
-        }
-    }
+        for (Middleware middleware : middlewareRegistry.getMiddlewares()) {
+            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
+            middleware.accept(context);
 
-    @SuppressWarnings("DataFlowIssue")
-    protected boolean checkCancelled(ExecutionContext<? extends GenericInteractionCreateEvent, ? extends GenericInteractionDefinition> context) {
-        if (context.cancelled()) {
-            // ReplyContext replyContext = new ReplyContext(context);
-            // replyContext.getBuilder().applyData(context.errorMessage());
-            // replyContext.queue();
-            return true;
+            if (Thread.currentThread().isInterrupted()) return;
         }
-        return false;
-    }
-
-    private boolean executeMiddleware(ExecutionContext<? extends GenericInteractionCreateEvent, ? extends GenericInteractionDefinition> context, Middleware middleware) {
-        log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-        // middleware.accept(context);
-        return context.cancelled();
     }
 }

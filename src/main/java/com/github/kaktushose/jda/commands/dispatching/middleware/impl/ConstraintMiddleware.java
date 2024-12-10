@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -30,10 +30,10 @@ public class ConstraintMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull ExecutionContext<?, ?> ctx) {
-        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.interactionDefinition() instanceof SlashCommandDefinition command))
+        if (!(ctx instanceof ExecutionContext<?,?> context) || !(context.definition() instanceof SlashCommandDefinition command))
             return;
 
-        List<Object> arguments = context.arguments();
+        var arguments = List.of(context.arguments());
         List<ParameterDefinition> parameters = command.getParameters();
 
         log.debug("Applying parameter constraints...");

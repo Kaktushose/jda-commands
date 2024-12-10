@@ -35,10 +35,14 @@ public class ReplyContext {
     /**
      * Constructs a new ReplyContext.
      *
-     * @param context the corresponding {@link SlashCommandContext}
+     * @param context the corresponding {@link ExecutionContext}
      */
     public ReplyContext(ExecutionContext<?, ?> context) {
-        event = context.event();
+        this(context.event(), context.ephemeral());
+    }
+
+    public ReplyContext(GenericInteractionCreateEvent event, boolean ephemeral) {
+        this.event = event;
         builder = new MessageCreateBuilder();
         success = (message) -> {
         };
@@ -47,7 +51,13 @@ public class ReplyContext {
         };
         editReply = true;
         keepComponents = true;
-        ephemeralReply = context.ephemeral();
+        ephemeralReply = ephemeral;
+    }
+
+    public static void reply(GenericInteractionCreateEvent event, boolean ephemeral, MessageCreateData messageCreateData) {
+        ReplyContext replyContext = new ReplyContext(event, ephemeral);
+        replyContext.getBuilder().applyData(messageCreateData);
+        replyContext.queue();
     }
 
     /**

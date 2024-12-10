@@ -69,7 +69,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
             return super.getInsufficientPermissionsMessage(context);
         }
 
-        GenericInteractionDefinition interaction = context.interactionDefinition();
+        GenericInteractionDefinition interaction = context.definition();
         StringBuilder sbPermissions = new StringBuilder();
         interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);

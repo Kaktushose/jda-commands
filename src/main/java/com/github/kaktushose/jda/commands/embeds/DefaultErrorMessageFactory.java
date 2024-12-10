@@ -62,7 +62,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?, ?> context) {
         StringBuilder sbPermissions = new StringBuilder();
-        GenericInteractionDefinition interaction = context.interactionDefinition();
+        GenericInteractionDefinition interaction = context.definition();
         interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()

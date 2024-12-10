@@ -20,8 +20,9 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
     protected ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
         ContextCommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
+
         ExecutionContext<GenericContextInteractionEvent<?>, ContextCommandDefinition> context = new ExecutionContext<>(
-                event, command, runtime, handlerContext, List.of());
+                event, command, runtime, handlerContext, List.of(), ctx -> new CommandEvent<>(ctx, interactionRegistry));
 
         context.arguments().addAll(List.of(
                 event.getTarget(),

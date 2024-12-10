@@ -1,67 +1,39 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.dispatching.events.GenericEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.SequencedCollection;
+import java.util.function.Function;
 
-public class ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition> {
-    private final T event;
-    private final U definition;
-    private final Runtime runtime;
-    private final HandlerContext handlerContext;
-    private final boolean ephemeral;
-    private final List<Object> arguments;
-    private boolean cancelled;
-    private MessageCreateData errorMessage;
-
-    public ExecutionContext(T event, U definition, Runtime runtime, HandlerContext handlerContext, List<Object> arguments) {
-        this.event = event;
-        this.definition = definition;
-        this.runtime = runtime;
-        this.handlerContext = handlerContext;
-        this.ephemeral = definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
-        this.arguments = arguments;
-    }
-
-    public T event() {
-        return event;
-    }
-
-    @Nullable
-    public MessageCreateData errorMessage() {
-        return errorMessage;
-    }
-
-    public boolean cancelled() {
-        return cancelled;
-    }
+public record ExecutionContext<T extends GenericInteractionCreateEvent, U extends GenericInteractionDefinition>(
+        T event,
+        U definition,
+        Runtime runtime,
+        HandlerContext handlerContext,
+        SequencedCollection<Object> arguments,
+        Function<ExecutionContext<T, U>, GenericEvent<T, U>> eventSupplier
+) {
 
     public void cancel(MessageCreateData errorMessage) {
-        this.cancelled = true;
-        this.errorMessage = errorMessage;
-    }
+         ReplyContext replyContext = new ReplyContext(this);
+         replyContext.getBuilder().applyData(errorMessage);
+         replyContext.queue();
 
-    public void uncancel() {
-        this.cancelled = false;
+        Thread.currentThread().interrupt();
     }
 
     public boolean ephemeral() {
-        return ephemeral;
-    }
-
-    public Runtime runtime() {
-        return runtime;
-    }
-
-    public U interactionDefinition() {
-        return definition;
+        return definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
     }
 
     public ImplementationRegistry implementationRegistry() {
@@ -72,7 +44,9 @@ public class ExecutionContext<T extends GenericInteractionCreateEvent, U extends
         return handlerContext.interactionRegistry();
     }
 
-    public List<Object> arguments() {
-        return arguments;
+    public SequencedCollection<Object> arguments() {
+        ArrayList<Object> actualArguments = new ArrayList<>(arguments);
+        actualArguments.addFirst(eventSupplier.apply(this));
+        return Collections.unmodifiableList(actualArguments);
     }
 }

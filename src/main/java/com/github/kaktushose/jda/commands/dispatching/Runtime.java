@@ -50,17 +50,23 @@ public final class Runtime implements Closeable {
                 .unstarted(() -> {
                     try {
                         while (!Thread.interrupted()) {
-                            switch (blockingQueue.take()) {
-                                case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
-                                case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
-                                case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
+                            GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
 
-                                default -> throw new IllegalStateException("Should not occur. Please inform the JDACommands devs!");
-                            }
+                            Thread.ofVirtual().start(() -> executeHandler(incomingEvent)).join();
                         }
                     } catch (InterruptedException ignored) {
                     }
                 });
+    }
+
+    private void executeHandler(GenericInteractionCreateEvent incomingEvent) {
+        switch (incomingEvent) {
+            case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
+            case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
+            case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
+
+            default -> throw new IllegalStateException("Should not occur. Please inform the JDACommands devs!");
+        }
     }
 
     public static Runtime startNew(UUID id, HandlerContext handlerContext) {

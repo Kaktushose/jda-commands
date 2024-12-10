@@ -35,7 +35,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
 
     @Override
     public boolean hasPermission(@NotNull Member member, @NotNull ExecutionContext<?, ?> context) {
-        for (String s : context.interactionDefinition().getPermissions()) {
+        for (String s : context.definition().getPermissions()) {
             // not a discord perm, continue
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;

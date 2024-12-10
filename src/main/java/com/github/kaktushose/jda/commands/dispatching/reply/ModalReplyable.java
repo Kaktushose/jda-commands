@@ -30,7 +30,7 @@ public interface ModalReplyable extends Replyable {
         }
 
         ModalDefinition modalDefinition = context.interactionRegistry().getModals().stream()
-                .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.interactionDefinition().getMethod().getDeclaringClass().getSimpleName(), modal)))
+                .filter(it -> it.getDefinitionId().equals(String.format("%s%s", context.definition().getMethod().getDeclaringClass().getSimpleName(), modal)))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
 
