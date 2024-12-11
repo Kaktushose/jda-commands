@@ -1,18 +1,16 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
-import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,28 +24,18 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
     }
 
     @Override
-    protected ExecutionContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected Invocation<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 
-        return switch (adapt(event, command)) {
-            case Result.Error(MessageCreateData error) -> {
-                ReplyContext.reply(event, command.isEphemeral(), error);
-                yield null;
-            }
-            case Result.Ok(List<Object> arguments) ->
-                    new ExecutionContext<>(event, command, runtime, handlerContext, arguments,
-                            ctx -> new CommandEvent<>(ctx, interactionRegistry));
-        };
+        InvocationContext<SlashCommandInteractionEvent> context = new InvocationContext<>(event, runtime.keyValueStore(), command, handlerContext, runtime.id().toString());
+
+        return new Invocation<>(context, runtime.instanceSupplier(), parseArguments(context));
     }
 
-    private sealed interface Result {
-        record Ok(List<Object> objects) implements Result {}
-
-        record Error(MessageCreateData error) implements Result {}
-    }
-
-    private Result adapt(SlashCommandInteractionEvent event, SlashCommandDefinition command) {
+    private List<Object> parseArguments(InvocationContext<SlashCommandInteractionEvent> context) {
+        SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
+        SlashCommandInteractionEvent event = context.event();
         var input = command.getActualParameters().stream()
                 .map(it -> event.getOption(it.name()).getAsString())
                 .toArray(String[]::new);
@@ -99,12 +87,13 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
             Optional<?> parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                return new Result.Error(messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input)));
+                context.cancel(messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input)));
+                return null;
             }
 
             arguments.add(parsed.get());
             log.debug("Added \"{}\" to the argument list", parsed.get());
         }
-        return new Result.Ok(arguments);
+        return arguments;
     }
 }

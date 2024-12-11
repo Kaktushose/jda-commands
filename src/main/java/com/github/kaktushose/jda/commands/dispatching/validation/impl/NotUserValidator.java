@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotUser;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class NotUserValidator implements Validator {
      * @return {@code true} if the argument <b>isn't</b> the specified user or member
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Member member = (Member) argument;
         NotUser user = (NotUser) annotation;
         Optional<Member> optional = new MemberAdapter().apply(user.value(), context.event());

@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -60,7 +60,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ExecutionContext<?> context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull InvocationContext<?> context) {
         StringBuilder sbPermissions = new StringBuilder();
         GenericInteractionDefinition interaction = context.definition();
         interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
@@ -77,7 +77,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ExecutionContext<?> context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull InvocationContext<?> context, @NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -87,7 +87,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull ExecutionContext<?> context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull InvocationContext<?> context, long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
         long seconds = secs % 60;
         long minutes = (secs / 60) % 60;
@@ -118,7 +118,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ExecutionContext<?> context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull InvocationContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -128,7 +128,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ExecutionContext<?> context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull InvocationContext<?> context, @NotNull Throwable exception) {
         String error;
 
         error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
@@ -150,7 +150,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUnknownInteractionMessage(@NotNull ExecutionContext<?> context) {
+    public MessageCreateData getUnknownInteractionMessage(@NotNull InvocationContext<?> context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")

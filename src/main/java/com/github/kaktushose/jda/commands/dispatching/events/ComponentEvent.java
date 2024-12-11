@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ModalReplyable;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -24,7 +24,7 @@ public final class ComponentEvent extends GenericEvent<GenericComponentInteracti
      *
      * @param context the underlying {@link Context}
      */
-    public ComponentEvent(@NotNull ExecutionContext<GenericComponentInteractionCreateEvent> context, InteractionRegistry interactionRegistry) {
+    public ComponentEvent(@NotNull InvocationContext<GenericComponentInteractionCreateEvent> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }

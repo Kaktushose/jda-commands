@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
@@ -31,16 +31,16 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent> impl
         this.adapterRegistry = handlerContext.adapterRegistry();
     }
 
-    protected abstract ExecutionContext<T> prepare(T event, Runtime runtime);
+    protected abstract Invocation<T> prepare(T event, Runtime runtime);
 
 
-    protected void execute(ExecutionContext<T> context) {
-        context.definition().invoke(context);
+    protected void execute(Invocation<T> invocation) {
+        invocation.context().definition().invoke(invocation);
     }
 
     @Override
     final public void accept(T e, Runtime runtime) {
-        ExecutionContext<T> context = prepare(e, runtime);
+        Invocation<T> context = prepare(e, runtime);
 
         if (context == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
@@ -56,7 +56,7 @@ public abstract class EventHandler<T extends GenericInteractionCreateEvent> impl
         execute(context);
     }
 
-    protected void executeMiddlewares(ExecutionContext<T> context) {
+    protected void executeMiddlewares(Invocation<T> context) {
         log.debug("Executing middlewares...");
         for (Middleware middleware : middlewareRegistry.getMiddlewares()) {
             log.debug("Executing middleware {}", middleware.getClass().getSimpleName());

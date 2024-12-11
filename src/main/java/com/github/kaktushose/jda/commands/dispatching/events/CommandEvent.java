@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ModalReplyable;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -25,7 +25,7 @@ public final class CommandEvent<T extends GenericCommandInteractionEvent> extend
      *
      * @param context the underlying {@link Context}
      */
-    public CommandEvent(@NotNull ExecutionContext<T> context, InteractionRegistry interactionRegistry) {
+    public CommandEvent(@NotNull InvocationContext<T> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }

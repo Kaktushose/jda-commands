@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
@@ -17,11 +18,12 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
     }
 
     @Override
-    protected ExecutionContext<GenericContextInteractionEvent<?>> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
+    protected Invocation<GenericContextInteractionEvent<?>> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
         ContextCommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class,
                 it -> it.getName().equals(event.getFullCommandName()));
 
-        return new ExecutionContext<>(
-                event, command, runtime, handlerContext, List.of(event.getTarget()), ctx -> new CommandEvent<>(ctx, interactionRegistry));
+        InvocationContext<GenericContextInteractionEvent<?>> context = new InvocationContext<>(event, runtime.keyValueStore(), command, handlerContext, runtime.id().toString());
+
+        return new Invocation<>(context, runtime.instanceSupplier(), List.of(new CommandEvent<>(context, interactionRegistry), event.getTarget()));
     }
 }

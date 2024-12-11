@@ -1,8 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
@@ -33,10 +34,11 @@ public class CooldownMiddleware implements Middleware {
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param ctx the {@link ExecutionContext} to filter
+     * @param ctx the {@link InvocationContext} to filter
      */
     @Override
-    public void accept(@NotNull ExecutionContext<?> context) {
+    public void accept(@NotNull Invocation<?> invocation) {
+        InvocationContext<?> context = invocation.context();
         if (!(context.definition() instanceof SlashCommandDefinition command)) return;
 
         if (!command.hasCooldown()) {

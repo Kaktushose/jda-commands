@@ -1,8 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -15,9 +16,9 @@ import org.slf4j.LoggerFactory;
  * A {@link Middleware} implementation that will check permissions.
  * The default implementation can only handle discord permissions. However, the {@link PermissionsProvider} can be
  * used for own implementations.
- * This filter will first check against {@link PermissionsProvider#hasPermission(User, ExecutionContext)} with a
+ * This filter will first check against {@link PermissionsProvider#hasPermission(User, InvocationContext)} with a
  * {@link User} object. This can be used for global permissions. Afterward
- * {@link PermissionsProvider#hasPermission(User, ExecutionContext)} will be called. Since the {@link Member} is
+ * {@link PermissionsProvider#hasPermission(User, InvocationContext)} will be called. Since the {@link Member} is
  * available this might be used for guild related permissions.
  *
  * @see Permissions
@@ -34,7 +35,8 @@ public class PermissionsMiddleware implements Middleware {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void accept(@NotNull ExecutionContext<?> context) {
+    public void accept(@NotNull Invocation<?> invocation) {
+        InvocationContext<?> context = invocation.context();
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.implementationRegistry().getPermissionsProvider();
         GenericInteractionCreateEvent event = context.event();

@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -35,9 +35,9 @@ public class ReplyContext {
     /**
      * Constructs a new ReplyContext.
      *
-     * @param context the corresponding {@link ExecutionContext}
+     * @param context the corresponding {@link InvocationContext}
      */
-    public ReplyContext(ExecutionContext<?> context) {
+    public ReplyContext(InvocationContext<?> context) {
         this(context.event(), context.ephemeral());
     }
 

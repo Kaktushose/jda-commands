@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -19,7 +19,7 @@ public final class ModalEvent extends GenericEvent<ModalInteractionEvent> implem
 
     private final ReplyContext replyContext;
 
-   public ModalEvent(ExecutionContext<ModalInteractionEvent> context, InteractionRegistry interactionRegistry) {
+   public ModalEvent(InvocationContext<ModalInteractionEvent> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         replyContext = new ReplyContext(context);
     }

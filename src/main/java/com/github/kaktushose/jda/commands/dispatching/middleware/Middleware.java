@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.function.Consumer;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * @since 4.0.0
  */
 @FunctionalInterface
-public interface Middleware extends Consumer<ExecutionContext<?>> {
+public interface Middleware extends Consumer<Invocation<?>> {
 
     /**
      * Executes this middleware with the given {@link Context}. Use {@link Context#setCancelled(MessageCreateData)}
@@ -24,6 +24,6 @@ public interface Middleware extends Consumer<ExecutionContext<?>> {
      *
      * @param context the {@link Context} of the current interaction event
      */
-    void accept(ExecutionContext<?> context);
+    void accept(Invocation<?> context);
 
 }

@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -24,7 +24,7 @@ public final class AutoCompleteEvent extends GenericEvent<CommandAutoCompleteInt
 
     private final CommandAutoCompleteInteractionEvent event;
 
-   public AutoCompleteEvent(ExecutionContext<CommandAutoCompleteInteractionEvent> context, InteractionRegistry interactionRegistry) {
+   public AutoCompleteEvent(InvocationContext<CommandAutoCompleteInteractionEvent> context, InteractionRegistry interactionRegistry) {
         super(context, interactionRegistry);
         event = context.event();
     }

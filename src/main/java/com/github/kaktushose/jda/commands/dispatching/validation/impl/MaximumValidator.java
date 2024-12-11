@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,7 @@ public class MaximumValidator implements Validator {
      * @return {@code true} if the argument is a number whose value is lower or equal to the specified maximum
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Max max = (Max) annotation;
         return ((Number) argument).longValue() <= max.value();
     }

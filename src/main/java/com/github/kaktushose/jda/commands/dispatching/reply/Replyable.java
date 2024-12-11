@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.events.GenericEvent;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
@@ -155,7 +155,7 @@ public interface Replyable {
      */
     default Replyable with(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        ExecutionContext<?> context = getContext();
+        InvocationContext<?> context = getContext();
         for (Component component : components) {
             if (component instanceof Buttons) {
                 Buttons buttons = (Buttons) component;
@@ -169,7 +169,7 @@ public interface Replyable {
                                 Button jdaButton = it.toButton().withDisabled(!container.enabled());
                                 //only assign ids to non-link buttonContainers
                                 if (jdaButton.getUrl() == null) {
-                                    jdaButton = jdaButton.withId(it.createCustomId(context.runtime().id().toString()));
+                                    jdaButton = jdaButton.withId(it.createCustomId(context.runtimeId()));
                                 }
                                 return jdaButton;
                             }).ifPresent(items::add);
@@ -182,7 +182,7 @@ public interface Replyable {
                     context.interactionRegistry().getSelectMenus()
                             .stream()
                             .filter(it -> it.getDefinitionId().equals(id))
-                            .findFirst().map(it -> it.toSelectMenu(context.runtime().id().toString(), container.isEnabled()))
+                            .findFirst().map(it -> it.toSelectMenu(context.runtimeId(), container.isEnabled()))
                             .ifPresent(items::add);
                 });
             }
@@ -199,7 +199,7 @@ public interface Replyable {
      *
      * @return the registered {@link Context} object
      */
-    ExecutionContext<?> getContext();
+    InvocationContext<?> getContext();
 
     /**
      * Gets the {@link KeyValueStore} that is bound to this execution.

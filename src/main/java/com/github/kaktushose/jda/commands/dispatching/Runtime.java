@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Function;
 
 @ApiStatus.Internal
 public final class Runtime implements Closeable {
@@ -96,6 +97,10 @@ public final class Runtime implements Closeable {
 
     public KeyValueStore keyValueStore() {
         return keyValueStore;
+    }
+
+    public Function<GenericInteractionDefinition, Object> instanceSupplier() {
+        return this::instance;
     }
 
     public Object instance(GenericInteractionDefinition definition) {

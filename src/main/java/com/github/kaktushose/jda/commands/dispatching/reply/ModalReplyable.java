@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
@@ -19,7 +19,7 @@ public interface ModalReplyable extends Replyable {
      */
     default void replyModal(String modal) {
         IModalCallback callback;
-        ExecutionContext<?> context = getContext();
+        InvocationContext<?> context = getContext();
         GenericInteractionCreateEvent event = context.event();
         if (event instanceof IModalCallback) {
             callback = (IModalCallback) event;
@@ -34,6 +34,6 @@ public interface ModalReplyable extends Replyable {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Modal"));
 
-        callback.replyModal(modalDefinition.toModal(context.runtime().id().toString())).queue();
+        callback.replyModal(modalDefinition.toModal(context.runtimeId())).queue();
     }
 }

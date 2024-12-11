@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.Invocation;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
@@ -17,7 +18,7 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
     }
 
     @Override
-    protected ExecutionContext<CommandAutoCompleteInteractionEvent> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+    protected Invocation<CommandAutoCompleteInteractionEvent> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         Optional<AutoCompleteDefinition> optionalAutoComplete = interactionRegistry.getAutoCompletes().stream()
@@ -30,6 +31,12 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
         }
 
         AutoCompleteDefinition autoComplete = optionalAutoComplete.get();
-        return new ExecutionContext<>(event, autoComplete, runtime, handlerContext, List.of(), context -> new AutoCompleteEvent(context, interactionRegistry));
+
+        InvocationContext<CommandAutoCompleteInteractionEvent> context = new InvocationContext<>(event, runtime.keyValueStore(), autoComplete, handlerContext, runtime.id().toString());
+        return new Invocation<>(
+                context,
+                runtime.instanceSupplier(),
+                List.of(new AutoCompleteEvent(context, interactionRegistry))
+        );
     }
 }

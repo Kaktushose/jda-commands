@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
-import com.github.kaktushose.jda.commands.dispatching.ExecutionContext;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -29,7 +29,7 @@ public class PermissionValidator implements Validator {
      * permission
      */
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull ExecutionContext<?> context) {
+    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Set<Permission> permissions = new HashSet<>();
         Perm perm = (Perm) annotation;
         try {
