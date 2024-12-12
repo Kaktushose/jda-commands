@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
-import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
-
 /**
  * Marker interface for components that can be added to messages.
  *

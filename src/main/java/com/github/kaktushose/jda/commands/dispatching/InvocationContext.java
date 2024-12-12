@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
-import com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
@@ -22,9 +22,9 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 
 ) {
     public void cancel(MessageCreateData errorMessage) {
-        ReplyContext replyContext = new ReplyContext(this);
-        replyContext.getBuilder().applyData(errorMessage);
-        replyContext.queue();
+        ReplyBuilder replyBuilder = new ReplyBuilder(event, ephemeral());
+        replyBuilder.messageCreateBuilder().applyData(errorMessage);
+        replyBuilder.queue();
 
         Thread.currentThread().interrupt();
     }

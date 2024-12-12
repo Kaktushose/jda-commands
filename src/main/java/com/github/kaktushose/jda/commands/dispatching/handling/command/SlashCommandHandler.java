@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
@@ -30,7 +31,11 @@ public class SlashCommandHandler extends EventHandler<SlashCommandInteractionEve
 
         InvocationContext<SlashCommandInteractionEvent> context = new InvocationContext<>(event, runtime.keyValueStore(), command, handlerContext, runtime.id().toString());
 
-        return new Invocation<>(context, runtime.instanceSupplier(), parseArguments(context));
+        var arguments = parseArguments(context);
+        if (arguments != null) {
+            arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, context.ephemeral()));
+        }
+        return new Invocation<>(context, runtime.instanceSupplier(), arguments);
     }
 
     private List<Object> parseArguments(InvocationContext<SlashCommandInteractionEvent> context) {

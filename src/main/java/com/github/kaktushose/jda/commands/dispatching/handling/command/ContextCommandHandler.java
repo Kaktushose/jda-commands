@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling.command;
 import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
@@ -24,6 +24,6 @@ public class ContextCommandHandler extends EventHandler<GenericContextInteractio
 
         InvocationContext<GenericContextInteractionEvent<?>> context = new InvocationContext<>(event, runtime.keyValueStore(), command, handlerContext, runtime.id().toString());
 
-        return new Invocation<>(context, runtime.instanceSupplier(), List.of(new CommandEvent<>(context, interactionRegistry), event.getTarget()));
+        return new Invocation<>(context, runtime.instanceSupplier(), List.of(new CommandEvent(event, interactionRegistry, runtime, context.ephemeral()), event.getTarget()));
     }
 }

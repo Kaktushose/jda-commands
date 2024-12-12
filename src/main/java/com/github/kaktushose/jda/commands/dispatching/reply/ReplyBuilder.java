@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -16,48 +15,40 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 /**
- * This class models a reply to an interaction. It is mainly used by the {@link Replyable} interface to construct a
+ * This class models a reply to an interaction. It is mainly used by the
+ * {@link com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent ReplyableEvent} class to construct a
  * reply but can also be accessed directly.
  *
  * @since 4.0.0
  */
-public class ReplyContext {
+public final class ReplyBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(ReplyContext.class);
+    private static final Logger log = LoggerFactory.getLogger(ReplyBuilder.class);
     private final GenericInteractionCreateEvent event;
     private final MessageCreateBuilder builder;
     private Consumer<Message> success;
     private Consumer<Throwable> failure;
     private boolean editReply;
     private boolean keepComponents;
-    private boolean ephemeralReply;
+    private boolean ephemeral;
 
-    /**
-     * Constructs a new ReplyContext.
-     *
-     * @param context the corresponding {@link InvocationContext}
-     */
-    public ReplyContext(InvocationContext<?> context) {
-        this(context.event(), context.ephemeral());
-    }
-
-    public ReplyContext(GenericInteractionCreateEvent event, boolean ephemeral) {
+    public ReplyBuilder(GenericInteractionCreateEvent event, boolean ephemeral) {
         this.event = event;
         builder = new MessageCreateBuilder();
-        success = (message) -> {
+        success = (_) -> {
         };
         failure = (throwable) -> {
             log.error("The response request encountered an exception at its execution point!", new InvocationTargetException(throwable));
         };
         editReply = true;
         keepComponents = true;
-        ephemeralReply = ephemeral;
+        this.ephemeral = ephemeral;
     }
 
     public static void reply(GenericInteractionCreateEvent event, boolean ephemeral, MessageCreateData messageCreateData) {
-        ReplyContext replyContext = new ReplyContext(event, ephemeral);
-        replyContext.getBuilder().applyData(messageCreateData);
-        replyContext.queue();
+        var builder = new ReplyBuilder(event, ephemeral);
+        builder.messageCreateBuilder().applyData(messageCreateData);
+        builder.queue();
     }
 
     /**
@@ -83,17 +74,8 @@ public class ReplyContext {
      *
      * @return the underlying {@link MessageCreateBuilder}
      */
-    public MessageCreateBuilder getBuilder() {
+    public MessageCreateBuilder messageCreateBuilder() {
         return builder;
-    }
-
-    /**
-     * Returns the success callback.
-     *
-     * @return the success callback
-     */
-    public Consumer<Message> getSuccessCallback() {
-        return success;
     }
 
     /**
@@ -101,7 +83,7 @@ public class ReplyContext {
      *
      * @return this instance
      */
-    public ReplyContext setSuccessCallback(Consumer<Message> consumer) {
+    public ReplyBuilder onSuccess(Consumer<Message> consumer) {
         this.success = consumer;
         return this;
     }
@@ -109,18 +91,9 @@ public class ReplyContext {
     /**
      * Returns the failure callback.
      *
-     * @return the failure callback
-     */
-    public Consumer<Throwable> getFailureCallback() {
-        return failure;
-    }
-
-    /**
-     * Returns the failure callback.
-     *
      * @return this instance
      */
-    public ReplyContext setFailureCallback(Consumer<Throwable> consumer) {
+    public ReplyBuilder onFailure(Consumer<Throwable> consumer) {
         this.failure = consumer;
         return this;
     }
@@ -130,7 +103,7 @@ public class ReplyContext {
      *
      * @return {@code true} if this reply should edit the original message
      */
-    public boolean isEditReply() {
+    public boolean editReply() {
         return editReply;
     }
 
@@ -140,7 +113,7 @@ public class ReplyContext {
      * @param editReply {@code true} if this reply should edit the original message
      * @return this instance
      */
-    public ReplyContext setEditReply(boolean editReply) {
+    public ReplyBuilder editReply(boolean editReply) {
         this.editReply = editReply;
         return this;
     }
@@ -150,7 +123,7 @@ public class ReplyContext {
      *
      * @return {@code true} this reply should keep all components of the original message
      */
-    public boolean isKeepComponents() {
+    public boolean keepComponents() {
         return keepComponents;
     }
 
@@ -160,7 +133,7 @@ public class ReplyContext {
      * @param keepComponents {@code true} this reply should keep all components of the original message
      * @return this instance
      */
-    public ReplyContext setKeepComponents(boolean keepComponents) {
+    public ReplyBuilder keepComponents(boolean keepComponents) {
         this.keepComponents = keepComponents;
         return this;
     }
@@ -168,10 +141,10 @@ public class ReplyContext {
     /**
      * Whether this reply should be ephemeral.
      *
-     * @return this instance
+     * @return {@code true} of this reply should be ephemeral
      */
-    public boolean isEphemeralReply() {
-        return ephemeralReply;
+    public boolean ephemeral() {
+        return ephemeral;
     }
 
     /**
@@ -179,31 +152,20 @@ public class ReplyContext {
      *
      * @return {@code true} if this reply should be ephemeral
      */
-    public ReplyContext setEphemeralReply(boolean ephemeralReply) {
-        this.ephemeralReply = ephemeralReply;
+    public ReplyBuilder ephemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
         return this;
     }
 
     /**
-     * Removes all components from the last message that was sent. <b>This will only work with
-     * {@link #setEditReply(boolean)} set to true.</b>
+     * Removes all components from the last message that was sent.
      */
     public void removeComponents() {
-        IReplyCallback callback;
-        if (event instanceof IReplyCallback) {
-            callback = (IReplyCallback) event;
-        } else {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
-            );
-        }
-        if (!event.isAcknowledged()) {
-            callback.deferReply(false).queue();
-        }
-        if (editReply) {
+        if (event instanceof IReplyCallback callback) {
+            if (!event.isAcknowledged()) {
+                callback.deferReply(false).queue();
+            }
             callback.getHook().editOriginalComponents().queue();
-        } else {
-            log.warn("Cannot remove components with 'editReply' set to 'false'!");
         }
     }
 
@@ -211,27 +173,15 @@ public class ReplyContext {
      * Sends the reply to Discord, taking into account all the settings that were previously made to this context.
      */
     public void queue() {
-        if (editReply) {
-            queueEdit();
-        } else {
-            queueReply();
+        switch (event) {
+            case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
+                    queueEdit((IMessageEditCallback) event);
+            case IMessageEditCallback callback when editReply -> queueEdit(callback);
+            default -> queueReply();
         }
     }
 
-    private void queueEdit() {
-        IMessageEditCallback callback;
-        if (event instanceof IMessageEditCallback) {
-            callback = (IMessageEditCallback) event;
-        } else {
-            queueReply();
-            return;
-        }
-        if (event instanceof ModalInteractionEvent) {
-            if (((ModalInteractionEvent) event).getMessage() == null) {
-                queueReply();
-                return;
-            }
-        }
+    private void queueEdit(IMessageEditCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferEdit().queue();
         }
@@ -239,17 +189,15 @@ public class ReplyContext {
     }
 
     private void queueReply() {
-        IReplyCallback callback;
-        if (event instanceof IReplyCallback) {
-            callback = (IReplyCallback) event;
+        if (event instanceof IReplyCallback callback) {
+            if (!event.isAcknowledged()) {
+                callback.deferReply(ephemeral).queue();
+            }
+            callback.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
         } else {
             throw new IllegalArgumentException(
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }
-        if (!event.isAcknowledged()) {
-            callback.deferReply(ephemeralReply).queue();
-        }
-        callback.getHook().sendMessage(toMessageCreateData()).queue(success, failure);
     }
 }

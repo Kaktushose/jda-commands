@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
-import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ public record Buttons(Collection<ButtonContainer> buttonContainers) implements C
      *
      * @param buttons the id of the buttonContainers to add
      * @return instance of this class used inside the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     * {@link ReplyBuilder}
      */
     public static Buttons enabled(String... buttons) {
         return build(true, buttons);
@@ -37,7 +37,7 @@ public record Buttons(Collection<ButtonContainer> buttonContainers) implements C
      *
      * @param buttons the id of the buttonContainers to add
      * @return instance of this class used inside the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     * {@link ReplyBuilder}
      */
     public static Buttons disabled(String... buttons) {
         return build(false, buttons);

@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
-import com.github.kaktushose.jda.commands.dispatching.reply.Replyable;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +27,7 @@ public record SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenu
      *
      * @param menus the id of the select menus to add
      * @return instance of this class used inside the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     * {@link ReplyBuilder}
      */
     public static SelectMenus enabled(String... menus) {
         return build(true, menus);
@@ -38,7 +38,7 @@ public record SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenu
      *
      * @param menus the id of the select menus to add
      * @return instance of this class used inside the
-     * {@link com.github.kaktushose.jda.commands.dispatching.reply.ReplyContext}
+     * {@link ReplyBuilder}
      */
     public static SelectMenus disabled(String... menus) {
         return build(false, menus);

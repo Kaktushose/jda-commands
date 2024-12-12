@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.events.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
@@ -36,7 +36,7 @@ public class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInterac
         return new Invocation<>(
                 context,
                 runtime.instanceSupplier(),
-                List.of(new AutoCompleteEvent(context, interactionRegistry))
+                List.of(new AutoCompleteEvent(event, interactionRegistry, runtime))
         );
     }
 }

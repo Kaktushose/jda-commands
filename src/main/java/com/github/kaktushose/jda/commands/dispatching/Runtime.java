@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -87,11 +89,11 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
-    public MessageCreateData latestReply() {
-        return latestReply;
+    public Optional<MessageCreateData> latestReply() {
+        return Optional.ofNullable(latestReply);
     }
 
-    public void latestReply(MessageCreateData latestReply) {
+    public void latestReply(@Nullable MessageCreateData latestReply) {
         this.latestReply = latestReply;
     }
 

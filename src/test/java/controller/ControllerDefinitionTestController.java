@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.events.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
