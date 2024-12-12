@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public non-sealed class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
+public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
     public SlashCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);

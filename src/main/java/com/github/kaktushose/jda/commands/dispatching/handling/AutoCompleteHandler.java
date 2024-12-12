@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import java.util.List;
 import java.util.Optional;
 
-public non-sealed class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
+public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
 
     public AutoCompleteHandler(HandlerContext handlerContext) {
         super(handlerContext);
