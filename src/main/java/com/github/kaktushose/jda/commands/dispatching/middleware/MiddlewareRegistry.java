@@ -18,11 +18,12 @@ import java.util.stream.Stream;
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
+    // !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
     private final SortedMap<Priority, Set<Middleware>> middlewares = new TreeMap<>(Map.of(
-            Priority.LOW, new HashSet<>(),
-            Priority.NORMAL, new HashSet<>(Set.of(new ConstraintMiddleware(), new CooldownMiddleware())),
+            Priority.PERMISSIONS, new HashSet<>(Set.of(new PermissionsMiddleware())),
             Priority.HIGH, new HashSet<>(),
-            Priority.PERMISSIONS, new HashSet<>(Set.of(new PermissionsMiddleware()))
+            Priority.NORMAL, new HashSet<>(Set.of(new ConstraintMiddleware(), new CooldownMiddleware())),
+            Priority.LOW, new HashSet<>()
     ));
 
     /**
