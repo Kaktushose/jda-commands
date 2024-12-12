@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.ButtonHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Function;
@@ -32,7 +33,8 @@ public final class Runtime implements Closeable {
     private final SlashCommandHandler slashCommandHandler;
     private final AutoCompleteHandler autoCompleteHandler;
     private final ContextCommandHandler contextCommandHandler;
-    private final UUID id;
+    private final ButtonHandler buttonHandler;
+    private final String id;
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
@@ -40,13 +42,14 @@ public final class Runtime implements Closeable {
     private MessageCreateData latestReply;
 
 
-    private Runtime(UUID id, HandlerContext handlerContext) {
+    private Runtime(String id, HandlerContext handlerContext) {
         this.id = id;
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
         slashCommandHandler = new SlashCommandHandler(handlerContext);
         autoCompleteHandler = new AutoCompleteHandler(handlerContext);
         contextCommandHandler = new ContextCommandHandler(handlerContext);
+        buttonHandler = new ButtonHandler(handlerContext);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
@@ -59,7 +62,7 @@ public final class Runtime implements Closeable {
             while (!Thread.interrupted()) {
                 GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
 
-                Thread.ofVirtual().name("JDA-Commands Handler Thread").start(() -> executeHandler(incomingEvent)).join();
+                Thread.ofVirtual().name("JDA-Commands EventHandler Thread").start(() -> executeHandler(incomingEvent)).join();
             }
         } catch (InterruptedException ignored) {
         }
@@ -70,18 +73,18 @@ public final class Runtime implements Closeable {
             case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
-
+            case ButtonInteractionEvent event -> buttonHandler.accept(event, this);
             default -> throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
     }
 
-    public static Runtime startNew(UUID id, HandlerContext handlerContext) {
+    public static Runtime startNew(String id, HandlerContext handlerContext) {
         var runtime = new Runtime(id, handlerContext);
         runtime.executionThread.start();
         return runtime;
     }
 
-    public UUID id() {
+    public String id() {
         return id;
     }
 

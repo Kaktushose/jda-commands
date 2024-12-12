@@ -153,7 +153,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent>
     }
 
     public String runtimeId() {
-        return runtime.id().toString();
+        return runtime.id();
     }
 
     public KeyValueStore kv() {
