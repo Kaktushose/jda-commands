@@ -59,7 +59,7 @@ public final class Runtime implements Closeable {
             while (!Thread.interrupted()) {
                 GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
 
-                Thread.ofVirtual().start(() -> executeHandler(incomingEvent)).join();
+                Thread.ofVirtual().name("JDA-Commands Handler Thread").start(() -> executeHandler(incomingEvent)).join();
             }
         } catch (InterruptedException ignored) {
         }
@@ -71,7 +71,7 @@ public final class Runtime implements Closeable {
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
 
-            default -> throw new IllegalStateException("Should not occur. Please inform the JDACommands devs!");
+            default -> throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
     }
 

@@ -95,16 +95,6 @@ public final class InteractionRegistry {
                 definitions.size());
     }
 
-//    public GenericCommandDefinition getCommandDefinition(CommandEvent event) {
-//        return definitions.stream()
-//                .filter(type::isInstance)
-//                .map(type::cast)
-//                .filter(it -> it.getName().equals(event.event().getFullCommandName()))
-//                .findFirst().orElseThrow(() ->
-//                        new IllegalStateException("No command found! Please report this error the the devs of jda-commands.")
-//                );
-//    }
-
     public <T extends GenericInteractionDefinition> T find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
