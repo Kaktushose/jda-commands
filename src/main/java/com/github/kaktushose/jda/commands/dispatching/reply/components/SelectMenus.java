@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,31 +56,7 @@ public record SelectMenus(Collection<SelectMenus.SelectMenuContainer> selectMenu
     /**
      * Contains information about a single select menu (either StringSelectMenu or EntitySelectMenu).
      */
-    public static class SelectMenuContainer {
-        private final String name;
-        private final boolean enabled;
-
-        private SelectMenuContainer(String name, boolean enabled) {
-            this.name = name;
-            this.enabled = enabled;
-        }
-
-        /**
-         * Gets the button id.
-         *
-         * @return the button id
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Whether the button is enabled or not.
-         *
-         * @return {@code true} if the button is enabled
-         */
-        public boolean isEnabled() {
-            return enabled;
-        }
+    @ApiStatus.Internal
+    public record SelectMenuContainer(String name, boolean enabled) {
     }
 }

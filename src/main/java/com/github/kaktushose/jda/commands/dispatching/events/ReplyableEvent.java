@@ -9,16 +9,21 @@ import com.github.kaktushose.jda.commands.dispatching.reply.components.Buttons;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T>
@@ -30,6 +35,11 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     protected ReplyableEvent(T event, InteractionRegistry interactionRegistry, Runtime runtime, boolean ephemeral) {
         super(event, interactionRegistry, runtime);
         replyBuilder = new ReplyBuilder(event, ephemeral);
+    }
+
+    protected ReplyableEvent(T event, InteractionRegistry interactionRegistry, Runtime runtime, ReplyBuilder replyBuilder) {
+        super(event, interactionRegistry, runtime);
+        this.replyBuilder = replyBuilder;
     }
 
 
@@ -47,7 +57,31 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
      * @return the current instance for fluent interface
      */
     public ComponentReplyableEvent<T> with(@NotNull Component... components) {
-        return new ComponentReplyableEvent<>(event, interactionRegistry, runtime, replyBuilder.ephemeral());
+        List<ItemComponent> items = new ArrayList<>();
+        for (Component component : components) {
+            switch (component) {
+                case Buttons buttons -> buttons.buttonContainers().forEach(container -> {
+                    var definition = interactionRegistry.find(ButtonDefinition.class,
+                            it -> it.getMethod().getName().equals(container.name())
+                    );
+                    var button = definition.toButton().withDisabled(!container.enabled());
+                    //only assign ids to non-link buttons
+                    items.add(button.getUrl() == null ? button.withId(definition.createCustomId(runtimeId())) : button);
+                });
+
+                case SelectMenus selectMenus -> selectMenus.selectMenuContainers().stream().map(container ->
+                        interactionRegistry.find(GenericSelectMenuDefinition.class,
+                                it -> it.getMethod().getName().startsWith(container.name())
+                        ).toSelectMenu(runtimeId(), container.enabled())
+                ).forEach(items::add);
+            }
+
+        }
+        if (!items.isEmpty()) {
+            replyBuilder().messageCreateBuilder().addComponents(ActionRow.of(items));
+        }
+
+        return ComponentReplyableEvent.fromReplyableEvent(this);
     }
 
     /**

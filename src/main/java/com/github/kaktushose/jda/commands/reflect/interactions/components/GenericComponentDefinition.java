@@ -22,11 +22,6 @@ public abstract sealed class GenericComponentDefinition extends EphemeralInterac
 
     @Override
     public String createCustomId(String runtimeId) {
-        return String.format("%s.%s%s.%s",
-                PREFIX,
-                method.getDeclaringClass().getSimpleName(),
-                method.getName(),
-                runtimeId
-        );
+        return "%s%s".formatted(runtimeId, definitionId);
     }
 }

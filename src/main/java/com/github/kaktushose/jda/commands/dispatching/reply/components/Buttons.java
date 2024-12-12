@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.components;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +55,7 @@ public record Buttons(Collection<ButtonContainer> buttonContainers) implements C
     /**
      * Contains information about a single {@link com.github.kaktushose.jda.commands.annotations.interactions.Button Button}.
      */
+    @ApiStatus.Internal
     public record ButtonContainer(String name, boolean enabled) {
     }
 }

@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -9,8 +10,19 @@ import java.util.function.Consumer;
 
 public final class ComponentReplyableEvent<T extends GenericInteractionCreateEvent> extends ReplyableEvent<T> {
 
-    public ComponentReplyableEvent(T event, InteractionRegistry interactionRegistry, Runtime runtime, boolean ephemeral) {
-        super(event, interactionRegistry, runtime, ephemeral);
+    private ComponentReplyableEvent(T event,
+                                    InteractionRegistry interactionRegistry,
+                                    Runtime runtime,
+                                    ReplyBuilder replyBuilder) {
+        super(event, interactionRegistry, runtime, replyBuilder);
+    }
+
+    public static <E extends GenericInteractionCreateEvent> ComponentReplyableEvent<E> fromReplyableEvent(ReplyableEvent<E> replyableEvent) {
+        return new ComponentReplyableEvent<>(replyableEvent.event,
+                replyableEvent.interactionRegistry,
+                replyableEvent.runtime,
+                replyableEvent.replyBuilder
+        );
     }
 
     /**
@@ -19,7 +31,7 @@ public final class ComponentReplyableEvent<T extends GenericInteractionCreateEve
      */
     public void reply() {
         queue();
-    };
+    }
 
     /**
      * Sends the reply to Discord. Used if you only want to edit components or if you have constructed the reply
