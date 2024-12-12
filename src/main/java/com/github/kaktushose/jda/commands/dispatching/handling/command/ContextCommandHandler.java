@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 
 import java.util.List;
 
-public class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
+public non-sealed class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
     public ContextCommandHandler(HandlerContext handlerContext) {
         super(handlerContext);

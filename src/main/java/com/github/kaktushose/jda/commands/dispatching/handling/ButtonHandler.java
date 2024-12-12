@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 import java.util.List;
 
-public class ButtonHandler extends EventHandler<ButtonInteractionEvent> {
+public non-sealed class ButtonHandler extends EventHandler<ButtonInteractionEvent> {
 
     public ButtonHandler(HandlerContext handlerContext) {
         super(handlerContext);

@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
@@ -13,7 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.BiConsumer;
 
-public abstract class EventHandler<T extends GenericInteractionCreateEvent> implements BiConsumer<T, Runtime> {
+public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent> implements BiConsumer<T, Runtime>
+        permits AutoCompleteHandler, ContextCommandHandler, SlashCommandHandler, ButtonHandler {
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
