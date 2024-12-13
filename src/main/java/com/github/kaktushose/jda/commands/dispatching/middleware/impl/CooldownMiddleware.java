@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
@@ -37,8 +36,7 @@ public class CooldownMiddleware implements Middleware {
      * @param ctx the {@link InvocationContext} to filter
      */
     @Override
-    public void accept(@NotNull Invocation<?> invocation) {
-        InvocationContext<?> context = invocation.context();
+    public void accept(@NotNull InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command)) return;
 
         if (!command.hasCooldown()) {

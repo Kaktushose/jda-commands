@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.Invocation;
+import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +30,10 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.permissions = permissions;
     }
 
-    public final void invoke(Invocation<?> invocation) {
+    public final void invoke(InvocationContext<?> invocation) {
         SequencedCollection<Object> arguments = invocation.arguments();
 
-        log.info("Executing interaction {} for user {}", method.getName(), invocation.context().event().getMember());
+        log.info("Executing interaction {} for user {}", method.getName(), invocation.event().getMember());
         try {
             log.debug("Invoking method with following arguments: {}", arguments);
             method.invoke(invocation.instanceSupplier().apply(this), arguments.toArray());
@@ -41,7 +41,7 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            invocation.context().cancel(invocation.context().implementationRegistry().getErrorMessageFactory().getCommandExecutionFailedMessage(invocation.context(), throwable));
+            invocation.cancel(invocation.implementationRegistry().getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
         }
     }
 

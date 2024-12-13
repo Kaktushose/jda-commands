@@ -1,9 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.Invocation;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -35,8 +34,7 @@ public class PermissionsMiddleware implements Middleware {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void accept(@NotNull Invocation<?> invocation) {
-        InvocationContext<?> context = invocation.context();
+    public void accept(@NotNull InvocationContext<?> context) {
         log.debug("Checking permissions...");
         PermissionsProvider provider = context.implementationRegistry().getPermissionsProvider();
         GenericInteractionCreateEvent event = context.event();

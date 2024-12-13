@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.Invocation;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
@@ -30,12 +29,11 @@ public class ConstraintMiddleware implements Middleware {
      * @param context the {@link Context} to filter
      */
     @Override
-    public void accept(@NotNull Invocation<?> invocation) {
-        InvocationContext<?> context = invocation.context();
+    public void accept(@NotNull InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command))
             return;
 
-        var arguments = List.of(invocation.arguments());
+        var arguments = List.of(context.arguments());
         List<ParameterDefinition> parameters = command.getParameters();
 
         log.debug("Applying parameter constraints...");

@@ -6,4 +6,5 @@ module jda.commands {
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
+    requires kotlin.stdlib;
 }

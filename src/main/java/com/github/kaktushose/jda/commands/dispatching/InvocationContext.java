@@ -9,16 +9,18 @@ import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractio
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
+import java.util.SequencedCollection;
+import java.util.function.Function;
+
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         T event,
         KeyValueStore keyValueStore,
-
-        // todo: move out of here
         GenericInteractionDefinition definition,
-        HandlerContext handlerContext,
+        SequencedCollection<Object> arguments,
+        Function<GenericInteractionDefinition, Object> instanceSupplier,
 
-        // todo: idk what to do about that
-        String runtimeId
+        // todo move out of here
+        HandlerContext handlerContext
 
 ) {
     public void cancel(MessageCreateData errorMessage) {
@@ -31,6 +33,10 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 
     // todo: move out of here
     public boolean ephemeral() {
+        return ephemeral(definition);
+    }
+
+    public static boolean ephemeral(GenericInteractionDefinition definition) {
         return definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
     }
 
