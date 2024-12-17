@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
-import com.github.kaktushose.jda.commands.dispatching.reply.ReplyBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -89,7 +89,9 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional<?> parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                ReplyBuilder.reply(event, InvocationContext.ephemeral(command), messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input)));
+                new MessageReply(event, InvocationContext.ephemeral(command)).reply(
+                        messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input))
+                );
                 return Optional.empty();
             }
 

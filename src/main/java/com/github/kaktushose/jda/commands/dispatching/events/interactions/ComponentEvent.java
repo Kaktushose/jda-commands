@@ -26,14 +26,4 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
         return type.cast(event);
     }
-
-    @Override
-    protected void queue() {
-        runtime.latestReply().filter(_ ->
-                replyBuilder.keepComponents() && replyBuilder.messageCreateBuilder().getComponents().isEmpty()
-        ).ifPresent(it -> replyBuilder.messageCreateBuilder().setComponents(it.getComponents()));
-
-        replyBuilder.queue();
-        runtime.latestReply(replyBuilder.toMessageCreateData());
-    }
 }

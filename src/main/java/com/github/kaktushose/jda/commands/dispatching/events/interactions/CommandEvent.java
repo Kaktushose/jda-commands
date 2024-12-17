@@ -28,9 +28,4 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
         return type.cast(event);
     }
 
-    @Override
-    protected void queue() {
-        replyBuilder.queue();
-        runtime.latestReply(replyBuilder.toMessageCreateData());
-    }
 }

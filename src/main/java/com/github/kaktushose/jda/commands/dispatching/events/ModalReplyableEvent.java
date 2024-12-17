@@ -11,7 +11,10 @@ import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCreateEvent> extends ReplyableEvent<T>
         permits CommandEvent, ComponentEvent {
 
-    protected ModalReplyableEvent(T event, InteractionRegistry interactionRegistry, Runtime runtime, boolean ephemeral) {
+    protected ModalReplyableEvent(T event,
+                                  InteractionRegistry interactionRegistry,
+                                  Runtime runtime,
+                                  boolean ephemeral) {
         super(event, interactionRegistry, runtime, ephemeral);
     }
 

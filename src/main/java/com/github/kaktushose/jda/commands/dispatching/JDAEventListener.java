@@ -35,6 +35,11 @@ public final class JDAEventListener extends ListenerAdapter {
             default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
         };
 
+        if (runtime == null) {
+            // TODO send unknown interaction message
+            return;
+        }
+
         runtime.queueEvent(jdaEvent);
     }
 }
