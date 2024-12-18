@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegis
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 import java.util.function.BiConsumer;
 
+@ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
