@@ -59,7 +59,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply -> deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
-            case IMessageEditCallback _, IReplyCallback _ -> deferReply((IReplyCallback) event);
+            case IReplyCallback callback -> deferReply(callback);
             default -> throw new IllegalArgumentException(
                     "Cannot reply to '%s'! Please report this error to the devs of jda-commands!".formatted(event.getClass().getName())
             );
