@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.KeyValueStore;
+import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;

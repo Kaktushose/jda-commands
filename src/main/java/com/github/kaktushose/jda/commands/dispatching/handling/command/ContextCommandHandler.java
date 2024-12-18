@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;

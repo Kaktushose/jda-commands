@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import org.jetbrains.annotations.NotNull;
 
 /**

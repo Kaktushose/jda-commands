@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;

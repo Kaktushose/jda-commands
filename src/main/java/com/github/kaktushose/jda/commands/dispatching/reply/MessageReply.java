@@ -64,6 +64,10 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
                     "Cannot reply to '%s'! Please report this error to the devs of jda-commands!".formatted(event.getClass().getName())
             );
         }
+        if (event instanceof ModalInteractionEvent modalEvent) {
+            editReply = modalEvent.getMessage() != null;
+        }
+
         var hook = ((IDeferrableCallback) event).getHook();
         if (editReply) {
             if (keepComponents) {

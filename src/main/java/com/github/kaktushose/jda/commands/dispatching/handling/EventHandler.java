@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
@@ -16,8 +16,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 import java.util.function.BiConsumer;
 
-public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent> implements BiConsumer<T, Runtime>
-        permits AutoCompleteHandler, ContextCommandHandler, SlashCommandHandler, ButtonHandler {
+public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
+        implements BiConsumer<T, Runtime>
+        permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 

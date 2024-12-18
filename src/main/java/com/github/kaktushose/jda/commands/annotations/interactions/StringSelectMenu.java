@@ -31,7 +31,7 @@ public @interface StringSelectMenu {
      *
      * @return the placeholder which is displayed when no selections have been made yet
      */
-    String value() default "";
+    String value();
 
     /**
      * The minimum amount of values a user has to select.

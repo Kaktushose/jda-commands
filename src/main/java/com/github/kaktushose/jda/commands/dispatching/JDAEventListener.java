@@ -3,10 +3,11 @@ package com.github.kaktushose.jda.commands.dispatching;
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -31,7 +32,8 @@ public final class JDAEventListener extends ListenerAdapter {
         Runtime runtime = switch (jdaEvent) {
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _, CommandAutoCompleteInteractionEvent _ ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
-            case ButtonInteractionEvent event -> runtimes.get(CustomId.getRuntimeId(event.getComponentId()));
+            case GenericComponentInteractionCreateEvent event -> runtimes.get(CustomId.getRuntimeId(event.getComponentId()));
+            case ModalInteractionEvent event -> runtimes.get(CustomId.getRuntimeId(event.getModalId()));
             default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
         };
 

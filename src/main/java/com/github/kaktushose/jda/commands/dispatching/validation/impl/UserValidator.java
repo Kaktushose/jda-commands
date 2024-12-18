@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.User;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.context;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;

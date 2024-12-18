@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.function.Consumer;

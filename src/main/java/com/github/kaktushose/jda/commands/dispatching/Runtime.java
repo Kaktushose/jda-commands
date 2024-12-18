@@ -1,16 +1,16 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.ButtonHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
+import com.github.kaktushose.jda.commands.dispatching.handling.*;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,13 @@ public final class Runtime implements Closeable {
     private final SlashCommandHandler slashCommandHandler;
     private final AutoCompleteHandler autoCompleteHandler;
     private final ContextCommandHandler contextCommandHandler;
-    private final ButtonHandler buttonHandler;
+    private final ComponentHandler componentHandler;
     private final String id;
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
+    private final ModalHandler modalHandler;
 
     private Runtime(String id, HandlerContext handlerContext) {
         this.id = id;
@@ -43,7 +44,8 @@ public final class Runtime implements Closeable {
         slashCommandHandler = new SlashCommandHandler(handlerContext);
         autoCompleteHandler = new AutoCompleteHandler(handlerContext);
         contextCommandHandler = new ContextCommandHandler(handlerContext);
-        buttonHandler = new ButtonHandler(handlerContext);
+        componentHandler = new ComponentHandler(handlerContext);
+        modalHandler = new ModalHandler(handlerContext);
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
@@ -66,7 +68,8 @@ public final class Runtime implements Closeable {
             case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
-            case ButtonInteractionEvent event -> buttonHandler.accept(event, this);
+            case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
+            case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
