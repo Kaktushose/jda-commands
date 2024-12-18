@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -84,7 +85,16 @@ public class MiddlewareRegistry {
      * @return a set of all registered middlewares {@link Middleware Middlewares}
      */
     public Set<Middleware> getMiddlewares() {
-        return middlewares.sequencedValues().stream().flatMap(Collection::stream).collect(Collectors.toUnmodifiableSet());
+        return middlewares.sequencedValues()
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public void forAllOrdered(Consumer<Middleware> task) {
+        for (Set<Middleware> value : middlewares.values()) {
+            value.forEach(task);
+        }
     }
 
     /**

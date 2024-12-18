@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A {@link Middleware} implementation that contains the business logic behind command cooldowns.
@@ -23,11 +24,7 @@ import java.util.*;
 public class CooldownMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
-    private final Map<Long, Set<CooldownEntry>> activeCooldowns;
-
-    public CooldownMiddleware() {
-        activeCooldowns = new HashMap<>();
-    }
+    private final Map<Long, Set<CooldownEntry>> activeCooldowns = new ConcurrentHashMap<>();
 
     /**
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
@@ -37,11 +34,7 @@ public class CooldownMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command)) return;
-
-        if (!command.hasCooldown()) {
-            return;
-        }
+        if (!(context.definition() instanceof SlashCommandDefinition command) || !command.hasCooldown()) return;
 
         long id = context.event().getUser().getIdLong();
 

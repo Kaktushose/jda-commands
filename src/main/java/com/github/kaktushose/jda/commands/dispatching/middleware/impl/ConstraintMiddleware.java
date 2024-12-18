@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class ConstraintMiddleware implements Middleware {
         if (!(context.definition() instanceof SlashCommandDefinition command))
             return;
 
-        var arguments = List.of(context.arguments());
+        var arguments = new ArrayList<>(context.arguments());
         List<ParameterDefinition> parameters = command.getParameters();
 
         log.debug("Applying parameter constraints...");

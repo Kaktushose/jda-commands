@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -48,14 +47,14 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
 
         log.debug("Executing middlewares...");
-        for (Middleware middleware : middlewareRegistry.getMiddlewares()) {
+        middlewareRegistry.forAllOrdered(middleware -> {
             log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
             middleware.accept(context);
+        });
 
-            if (Thread.interrupted()) {
-                log.debug("Interaction execution cancelled by middleware");
-                return;
-            }
+        if (Thread.interrupted()) {
+            log.debug("Interaction execution cancelled by middleware");
+            return;
         }
 
         context.definition().invoke(context);
