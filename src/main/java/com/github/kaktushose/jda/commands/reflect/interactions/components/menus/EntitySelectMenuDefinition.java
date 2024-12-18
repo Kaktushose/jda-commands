@@ -6,13 +6,13 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
+import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,7 +59,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
         }
 
         if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
-                Helpers.isIncorrectParameterType(method, 1, List.class)) {
+                Helpers.isIncorrectParameterType(method, 1, Mentions.class)) {
             return Optional.empty();
         }
 
