@@ -48,6 +48,11 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent>
     }
 
     @NotNull
+    public T jdaEvent() {
+        return this.event;
+    }
+
+    @NotNull
     public Interaction getInteraction()
     {
         return event.getInteraction();

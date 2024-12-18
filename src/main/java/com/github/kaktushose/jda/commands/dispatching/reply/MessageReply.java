@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 public sealed class MessageReply implements Reply permits ConfigurableReply {
