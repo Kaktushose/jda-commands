@@ -1,20 +1,19 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.function.Consumer;
 
 public sealed class MessageReply implements Reply permits ConfigurableReply {
 
@@ -24,72 +23,66 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
-    protected Consumer<Message> success;
-    protected Consumer<? super Throwable> failure;
 
-    public MessageReply(GenericInteractionCreateEvent event,
-                        boolean ephemeral) {
+    public MessageReply(GenericInteractionCreateEvent event, ReplyConfig replyConfig) {
         this.event = event;
-        this.ephemeral = ephemeral;
+        this.ephemeral = replyConfig.ephemeral();
+        this.editReply = replyConfig.editReply();
+        this.keepComponents = replyConfig.keepComponents();
         this.builder = new MessageCreateBuilder();
-        success = (_) -> {
-        };
-        failure = RestAction.getDefaultFailure();
-        editReply = true;
-        keepComponents = true;
     }
 
     public MessageReply(MessageReply reply) {
         this.event = reply.event;
         this.builder = reply.builder;
         this.ephemeral = reply.ephemeral;
-        this.editReply = true;
-        this.keepComponents = true;
-        this.success = reply.success;
-        this.failure = reply.failure;
+        this.editReply = reply.editReply;
+        this.keepComponents = reply.keepComponents;
     }
 
-    public void reply(@NotNull String message) {
+    public Message reply(@NotNull String message) {
         builder.setContent(message);
-        queue();
+        return complete();
     }
 
-    public void reply(@NotNull MessageCreateData message) {
+    public Message reply(@NotNull MessageCreateData message) {
         builder.applyData(message);
-        queue();
+        return complete();
     }
 
-    public void reply(@NotNull EmbedBuilder builder) {
+    public Message reply(@NotNull EmbedBuilder builder) {
         this.builder.setEmbeds(builder.build());
-        queue();
+        return complete();
     }
 
-    protected void queue() {
+    protected Message complete() {
         switch (event) {
-            case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
-                    queueEdit((IMessageEditCallback) event);
-            case IMessageEditCallback callback when editReply -> queueEdit(callback);
-            default -> queueReply();
-        }
-    }
-
-    protected void queueReply() {
-        if (event instanceof IReplyCallback callback) {
-            if (!event.isAcknowledged()) {
-                callback.deferReply(ephemeral).queue();
-            }
-            callback.getHook().sendMessage(builder.build()).queue(success, failure);
-        } else {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reply to '%s'! Please report this error to the devs of jda-commands!", event.getClass().getName())
+            case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply -> deferEdit(modalEvent);
+            case IMessageEditCallback callback when editReply -> deferEdit(callback);
+            case IReplyCallback callback -> deferReply(callback);
+            default -> throw new IllegalArgumentException(
+                    "Cannot reply to '%s'! Please report this error to the devs of jda-commands!".formatted(event.getClass().getName())
             );
         }
+        var hook = ((IDeferrableCallback) event).getHook();
+        if (editReply) {
+            if (keepComponents) {
+                builder.addComponents(hook.retrieveOriginal().complete().getComponents());
+            }
+            return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
+        }
+        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
-    protected void queueEdit(IMessageEditCallback callback) {
+    protected void deferReply(IReplyCallback callback) {
+        if (!event.isAcknowledged()) {
+            callback.deferReply(ephemeral).queue();
+        }
+    }
+
+    protected void deferEdit(IMessageEditCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferEdit().queue();
         }
-        callback.getHook().editOriginal(MessageEditData.fromCreateData(builder.build())).queue(success, failure);
     }
 }

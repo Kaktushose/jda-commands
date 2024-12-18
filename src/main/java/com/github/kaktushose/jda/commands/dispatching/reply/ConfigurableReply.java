@@ -8,14 +8,12 @@ import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMen
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
@@ -33,16 +31,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         super(reply);
         this.interactionRegistry = reply.interactionRegistry;
         this.runtime = reply.runtime;
-    }
-
-    public ConfigurableReply success(Consumer<Message> success) {
-        this.success = success;
-        return this;
-    }
-
-    public ConfigurableReply failure(Consumer<? super Throwable> failure) {
-        this.failure = failure;
-        return this;
     }
 
     /**
@@ -94,8 +82,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         for (Component component : components) {
             switch (component) {
                 case Buttons buttons -> buttons.buttonContainers().forEach(container -> {
-                    var definition = interactionRegistry.find(ButtonDefinition.class,
-                            it -> it.getMethod().getName().equals(container.name())
+                    var definition = interactionRegistry.find(ButtonDefinition.class, false, it ->
+                            it.getMethod().getName().equals(container.name())
                     );
                     var button = definition.toButton().withDisabled(!container.enabled());
                     //only assign ids to non-link buttons
@@ -103,8 +91,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                 });
 
                 case SelectMenus selectMenus -> selectMenus.selectMenuContainers().stream().map(container ->
-                        interactionRegistry.find(GenericSelectMenuDefinition.class,
-                                it -> it.getMethod().getName().startsWith(container.name())
+                        interactionRegistry.find(GenericSelectMenuDefinition.class, false, it ->
+                                it.getMethod().getName().startsWith(container.name())
                         ).toSelectMenu(runtime.id(), container.enabled())
                 ).forEach(items::add);
             }

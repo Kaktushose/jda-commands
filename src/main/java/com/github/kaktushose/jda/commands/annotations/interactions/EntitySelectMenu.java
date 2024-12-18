@@ -93,11 +93,4 @@ public @interface EntitySelectMenu {
      */
     int maxValue() default 1;
 
-    /**
-     * Whether this button should send ephemeral replies by default.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    boolean ephemeral() default false;
-
 }

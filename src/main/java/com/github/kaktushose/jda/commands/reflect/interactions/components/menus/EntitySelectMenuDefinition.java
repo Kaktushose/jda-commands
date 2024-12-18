@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectM
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
@@ -29,14 +30,14 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
 
     private EntitySelectMenuDefinition(Method method,
                                        Set<String> permissions,
-                                       boolean ephemeral,
+                                       ReplyConfig replyConfig,
                                        Set<SelectTarget> selectTargets,
                                        Set<DefaultValue> defaultValues,
                                        Set<ChannelType> channelTypes,
                                        String placeholder,
                                        int minValue,
                                        int maxValue) {
-        super(method, permissions, ephemeral, placeholder, minValue, maxValue);
+        super(method, permissions, replyConfig, placeholder, minValue, maxValue);
         this.selectTargets = selectTargets;
         this.defaultValues = defaultValues;
         this.channelTypes = channelTypes;
@@ -81,7 +82,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
         return Optional.of(new EntitySelectMenuDefinition(
                 method,
                 Helpers.permissions(context),
-                Helpers.ephemeral(context, selectMenu.ephemeral()),
+                Helpers.replyConfig(method),
                 Set.of(selectMenu.value()),
                 defaultValueSet,
                 new HashSet<>(Set.of(selectMenu.channelTypes())),
@@ -145,7 +146,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
                 ", minValue=" + minValue +
                 ", maxValue=" + maxValue +
                 ", permissions=" + permissions +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +
                 '}';

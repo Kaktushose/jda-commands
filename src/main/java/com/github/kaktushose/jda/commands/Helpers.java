@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
@@ -62,8 +63,16 @@ public final class Helpers {
         return context.permissions();
     }
 
-    public static boolean ephemeral(MethodBuildContext context, boolean localEphemeral) {
-        return context.interaction().ephemeral() || localEphemeral;
+    public static com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig replyConfig(Method method) {
+        var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
+        var local = method.getAnnotation(ReplyConfig.class);
+
+        if (global == null && local == null)
+            return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig();
+        if (local == null)
+            return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig(global);
+
+        return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig(local);
     }
 
     public static boolean isIncorrectParameterType(Method method, int index, Class<?> type) {

@@ -18,7 +18,5 @@ public record JDACommandsMock(
         ValidatorRegistry validatorRegistry,
         DependencyInjector dependencyInjector,
         InteractionRegistry interactionRegistry,
-        SlashCommandUpdater updater,
-        RuntimeSupervisor runtimeSupervisor
-) {
+        SlashCommandUpdater updater) {
 }

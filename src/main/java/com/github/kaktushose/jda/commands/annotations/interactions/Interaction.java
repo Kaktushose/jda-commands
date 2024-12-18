@@ -22,11 +22,4 @@ public @interface Interaction {
      */
     String value() default "";
 
-    /**
-     * Returns whether this interaction should send ephemeral replies by default.
-     *
-     * @return {@code true} if this interaction should send ephemeral replies by default
-     */
-    boolean ephemeral() default false;
-
 }

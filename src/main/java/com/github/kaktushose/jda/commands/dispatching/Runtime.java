@@ -11,9 +11,7 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,6 @@ import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Function;
@@ -39,8 +36,6 @@ public final class Runtime implements Closeable {
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
-    private MessageCreateData latestReply;
-
 
     private Runtime(String id, HandlerContext handlerContext) {
         this.id = id;
@@ -50,7 +45,6 @@ public final class Runtime implements Closeable {
         autoCompleteHandler = new AutoCompleteHandler(handlerContext);
         contextCommandHandler = new ContextCommandHandler(handlerContext);
         buttonHandler = new ButtonHandler(handlerContext);
-
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
@@ -74,7 +68,8 @@ public final class Runtime implements Closeable {
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
             case ButtonInteractionEvent event -> buttonHandler.accept(event, this);
-            default -> throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+            default ->
+                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
     }
 
@@ -90,14 +85,6 @@ public final class Runtime implements Closeable {
 
     public void queueEvent(GenericInteractionCreateEvent event) {
         blockingQueue.add(event);
-    }
-
-    public Optional<MessageCreateData> latestReply() {
-        return Optional.ofNullable(latestReply);
-    }
-
-    public void latestReply(@Nullable MessageCreateData latestReply) {
-        this.latestReply = latestReply;
     }
 
     public KeyValueStore keyValueStore() {
@@ -119,7 +106,7 @@ public final class Runtime implements Closeable {
     }
 
     @Override
-    public void close()  {
+    public void close() {
         executionThread.interrupt();
     }
 }

@@ -22,7 +22,7 @@ public final class ButtonHandler extends EventHandler<ButtonInteractionEvent> {
             return null;
         }
 
-        var button = interactionRegistry.find(ButtonDefinition.class, it ->
+        var button = interactionRegistry.find(ButtonDefinition.class, true, it ->
                 it.getDefinitionId().equals(CustomId.getDefinitionId(event.getComponentId()))
         );
 
@@ -30,7 +30,7 @@ public final class ButtonHandler extends EventHandler<ButtonInteractionEvent> {
                 event,
                 runtime,
                 button,
-                List.of(new ComponentEvent(event, interactionRegistry, runtime, InvocationContext.ephemeral(button)))
+                List.of(new ComponentEvent(event, interactionRegistry, runtime, button.replyConfig()))
         );
     }
 }

@@ -24,8 +24,8 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
     private final String title;
     private final List<TextInputDefinition> textInputs;
 
-    private ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
-        super(method, permissions, ephemeral);
+    private ModalDefinition(Method method, Set<String> permissions, ReplyConfig replyConfig, String title, List<TextInputDefinition> textInputs) {
+        super(method, permissions, replyConfig);
         this.title = title;
         this.textInputs = textInputs;
     }
@@ -76,7 +76,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
 
         Modal modal = method.getAnnotation(Modal.class);
 
-        return Optional.of(new ModalDefinition(method, permissions, modal.ephemeral(), modal.value(), textInputs));
+        return Optional.of(new ModalDefinition(method, permissions, Helpers.replyConfig(method), modal.value(), textInputs));
     }
 
     /**
@@ -128,7 +128,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
         return "ModalDefinition{" +
                 "title='" + title + '\'' +
                 ", textInputs=" + textInputs +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +
                 ", permissions=" + permissions +

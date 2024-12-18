@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.ContextComman
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 public final class ContextCommandDefinition extends GenericCommandDefinition {
 
     public ContextCommandDefinition(Method method,
-                                    boolean ephemeral,
+                                    ReplyConfig replyConfig,
                                     String name,
                                     Set<String> permissions,
                                     boolean isGuildOnly,
@@ -37,7 +38,7 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
                                     Set<Permission> enabledPermissions,
                                     SlashCommand.CommandScope scope,
                                     LocalizationFunction localizationFunction) {
-        super(method, ephemeral, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
+        super(method, replyConfig, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
     }
 
     public static Optional<ContextCommandDefinition> build(@NotNull MethodBuildContext context) {
@@ -55,7 +56,7 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
 
         return Optional.of(new ContextCommandDefinition(
                 method,
-                Helpers.ephemeral(context, command.ephemeral()),
+                Helpers.replyConfig(method),
                 command.value(),
                 Helpers.permissions(context),
                 command.isGuildOnly(),
@@ -90,7 +91,7 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
                 ", enabledPermissions=" + enabledPermissions +
                 ", scope=" + scope +
                 ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import net.dv8tion.jda.api.entities.Message;
+
 public final class ComponentReply extends ConfigurableReply {
 
     public ComponentReply(ConfigurableReply reply) {
@@ -9,8 +11,8 @@ public final class ComponentReply extends ConfigurableReply {
     /**
      * Sends the reply to Discord.
      */
-    public void reply() {
-        queue();
+    public Message reply() {
+        return complete();
     }
 
 }

@@ -60,14 +60,6 @@ public @interface SlashCommand {
     boolean isNSFW() default false;
 
     /**
-     * Returns whether this command should send ephemeral replies by default. Note that {@link Interaction#ephemeral()}
-     * set to {@code true} will override this value.
-     *
-     * @return {@code true} if this command should send ephemeral replies
-     */
-    boolean ephemeral() default false;
-
-    /**
      * Returns an array of {@link net.dv8tion.jda.api.Permission Permissions} this command
      * should be enabled for by default. Note that guild admins can modify this at any time.
      *

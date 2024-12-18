@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 
 /**
@@ -19,8 +20,8 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     public ComponentEvent(GenericComponentInteractionCreateEvent event,
                           InteractionRegistry interactionRegistry,
                           Runtime runtime,
-                          boolean ephemeral) {
-        super(event, interactionRegistry, runtime, ephemeral);
+                          ReplyConfig replyConfig) {
+        super(event, interactionRegistry, runtime, replyConfig);
     }
 
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
