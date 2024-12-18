@@ -23,7 +23,12 @@ public abstract sealed class GenericComponentDefinition extends EphemeralInterac
     }
 
     @Override
-    public String createCustomId(String runtimeId) {
+    public String scopedCustomId(String runtimeId) {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
+    }
+
+    @Override
+    public String staticCustomId() {
+        return "%s.static.%s".formatted(PREFIX, definitionId);
     }
 }

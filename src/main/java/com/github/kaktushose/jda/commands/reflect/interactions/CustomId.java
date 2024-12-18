@@ -11,7 +11,8 @@ import org.jetbrains.annotations.Nullable;
 public interface CustomId {
 
     String PREFIX = "jdac";
-    String CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.[0-9a-fA-F-]{36}$";
+    String SCOPED_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.[0-9a-fA-F-]{36}$";
+    String STATIC_CUSTOM_ID_REGEX = "^jdac\\.static\\.[0-9a-fA-F-]{36}$";
 
     /**
      * Gets the custom id for this component.
@@ -19,20 +20,30 @@ public interface CustomId {
      * @param runtimeId the runtimeId of this component execution
      * @return the runtime id
      */
-    String createCustomId(String runtimeId);
+    String scopedCustomId(String runtimeId);
+
+    String staticCustomId();
 
     @NotNull
-    static String getRuntimeId(@Nullable String customId) {
+    static String runtimeId(@Nullable String customId) {
         return getId(customId, 1);
     }
 
     @NotNull
-    static String getDefinitionId(@Nullable String customId) {
+    static String definitionId(@Nullable String customId) {
         return getId(customId, 2);
     }
 
+    static boolean isStatic(@Nullable String customId) {
+        return customId == null || !customId.matches(STATIC_CUSTOM_ID_REGEX);
+    }
+
+    static boolean isScoped(@Nullable String customId) {
+        return customId == null || !customId.matches(SCOPED_CUSTOM_ID_REGEX);
+    }
+
     static boolean isInvalid(@Nullable String customId) {
-        return customId == null || !customId.matches(CUSTOM_ID_REGEX);
+        return !(isStatic(customId) || isScoped(customId));
     }
 
     private static String getId(String customId, int index) {

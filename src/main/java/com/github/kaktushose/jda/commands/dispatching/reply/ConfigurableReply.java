@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.components.Component
 import com.github.kaktushose.jda.commands.dispatching.reply.components.SelectMenus;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
@@ -20,17 +21,20 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     protected final InteractionRegistry interactionRegistry;
     protected final Runtime runtime;
+    protected boolean staticComponents;
 
     public ConfigurableReply(MessageReply reply, InteractionRegistry registry, Runtime runtime) {
         super(reply);
         this.interactionRegistry = registry;
         this.runtime = runtime;
+        this.staticComponents = false;
     }
 
     public ConfigurableReply(ConfigurableReply reply) {
         super(reply);
         this.interactionRegistry = reply.interactionRegistry;
         this.runtime = reply.runtime;
+        this.staticComponents = reply.staticComponents;
     }
 
     /**
@@ -87,22 +91,28 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                     );
                     var button = definition.toButton().withDisabled(!container.enabled());
                     //only assign ids to non-link buttons
-                    items.add(button.getUrl() == null ? button.withId(definition.createCustomId(runtime.id())) : button);
+                    items.add(button.getUrl() == null ? button.withId(createId(definition)) : button);
                 });
 
-                case SelectMenus selectMenus -> selectMenus.selectMenuContainers().stream().map(container ->
-                        interactionRegistry.find(GenericSelectMenuDefinition.class, false, it ->
-                                it.getMethod().getName().startsWith(container.name())
-                        ).toSelectMenu(runtime.id(), container.enabled())
-                ).forEach(items::add);
+                case SelectMenus selectMenus -> selectMenus.selectMenuContainers().forEach(container -> {
+                    var definition = interactionRegistry.find(GenericSelectMenuDefinition.class, false, it ->
+                            it.getMethod().getName().startsWith(container.name())
+                    );
+                    items.add(definition.toSelectMenu(createId(definition), container.enabled()));
+                });
             }
-
         }
         if (!items.isEmpty()) {
             builder.addComponents(ActionRow.of(items));
         }
 
         return new ComponentReply(this);
+    }
+
+    private String createId(GenericComponentDefinition definition) {
+        return staticComponents
+                ? definition.staticCustomId()
+                : definition.scopedCustomId(runtime.id());
     }
 
     /**

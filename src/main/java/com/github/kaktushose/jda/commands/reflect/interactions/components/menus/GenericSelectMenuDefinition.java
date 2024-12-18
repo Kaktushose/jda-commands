@@ -36,13 +36,13 @@ public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> e
     /**
      * Transforms this definition to a select menu component.
      *
-     * @param runtimeId the runtimeId of the
+     * @param customId the runtimeId of the
      *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
      *                  of this interaction execution
      * @param enabled   {@code true} if the component should be enabled
      * @return the select menu component
      */
-    public abstract T toSelectMenu(String runtimeId, boolean enabled);
+    public abstract T toSelectMenu(String customId, boolean enabled);
 
     /**
      * Gets the placeholder string.

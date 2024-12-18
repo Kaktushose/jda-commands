@@ -93,8 +93,8 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
     }
 
     @Override
-    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String runtimeId, boolean enabled) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(createCustomId(runtimeId), selectTargets)
+    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String customId, boolean enabled) {
+        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(customId, selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)

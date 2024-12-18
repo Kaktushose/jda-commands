@@ -74,8 +74,8 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
         ));
     }
 
-    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String runtimeId, boolean enabled) {
-        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(createCustomId(runtimeId))
+    public net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu toSelectMenu(String customId, boolean enabled) {
+        return net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu.create(customId)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .addOptions(selectOptions.stream().map(SelectOptionDefinition::toSelectOption).collect(Collectors.toSet()))

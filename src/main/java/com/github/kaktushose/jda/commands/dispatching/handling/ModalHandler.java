@@ -26,7 +26,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         }
 
         var modal = interactionRegistry.find(ModalDefinition.class, true, it ->
-                it.getDefinitionId().equals(CustomId.getDefinitionId(event.getModalId()))
+                it.getDefinitionId().equals(CustomId.definitionId(event.getModalId()))
         );
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());

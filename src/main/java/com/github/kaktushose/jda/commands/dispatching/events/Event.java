@@ -123,7 +123,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent>
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
 
-        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(runtimeId()));
+        return buttonDefinition.toButton().withId(buttonDefinition.scopedCustomId(runtimeId()));
     }
 
     /**

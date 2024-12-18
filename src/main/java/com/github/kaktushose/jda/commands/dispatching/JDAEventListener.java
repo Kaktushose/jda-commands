@@ -1,7 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -30,15 +32,26 @@ public final class JDAEventListener extends ListenerAdapter {
     @Override
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
         Runtime runtime = switch (jdaEvent) {
-            case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _, CommandAutoCompleteInteractionEvent _ ->
+            case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
+                 CommandAutoCompleteInteractionEvent _ ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
-            case GenericComponentInteractionCreateEvent event -> runtimes.get(CustomId.getRuntimeId(event.getComponentId()));
-            case ModalInteractionEvent event -> runtimes.get(CustomId.getRuntimeId(event.getModalId()));
+            case GenericComponentInteractionCreateEvent event when CustomId.isScoped(event.getComponentId()) ->
+                    runtimes.get(CustomId.runtimeId(event.getComponentId()));
+            case ModalInteractionEvent event when CustomId.isScoped(event.getModalId()) ->
+                    runtimes.get(CustomId.runtimeId(event.getModalId()));
+            case GenericComponentInteractionCreateEvent event when CustomId.isStatic(event.getComponentId()) ->
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
+            case ModalInteractionEvent event when CustomId.isStatic(event.getModalId()) ->
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
             default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
         };
 
         if (runtime == null) {
-            // TODO send unknown interaction message
+            new MessageReply(jdaEvent, new ReplyConfig()).reply(
+                    context.implementationRegistry()
+                            .getErrorMessageFactory()
+                            .getUnknownInteractionMessage()
+            );
             return;
         }
 

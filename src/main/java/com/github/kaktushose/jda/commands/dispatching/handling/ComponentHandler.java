@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -28,12 +29,13 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
         }
 
         var component = interactionRegistry.find(GenericComponentDefinition.class, true, it ->
-                it.getDefinitionId().equals(CustomId.getDefinitionId(genericEvent.getComponentId()))
+                it.getDefinitionId().equals(CustomId.definitionId(genericEvent.getComponentId()))
         );
 
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
+            case ButtonInteractionEvent event -> new ArrayList<>();
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         };
