@@ -1,9 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
@@ -18,10 +15,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         KeyValueStore keyValueStore,
         GenericInteractionDefinition definition,
         SequencedCollection<Object> arguments,
-        Function<GenericInteractionDefinition, Object> instanceSupplier,
-
-        // todo move out of here
-        HandlerContext handlerContext
+        Function<GenericInteractionDefinition, Object> instanceSupplier
 
 ) {
     public void cancel(MessageCreateData errorMessage) {
@@ -34,15 +28,5 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         return definition instanceof EphemeralInteractionDefinition ephemeral
                 ? ephemeral.replyConfig()
                 : new ReplyConfig();
-    }
-
-    // todo: move out of here
-    public ImplementationRegistry implementationRegistry() {
-        return handlerContext.implementationRegistry();
-    }
-
-    // todo: move out of here
-    public InteractionRegistry interactionRegistry() {
-        return handlerContext.interactionRegistry();
     }
 }

@@ -30,19 +30,10 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.permissions = permissions;
     }
 
-    public final void invoke(InvocationContext<?> invocation) {
+    public final void invoke(InvocationContext<?> invocation) throws InvocationTargetException, IllegalAccessException {
         SequencedCollection<Object> arguments = invocation.arguments();
 
-        log.info("Executing interaction {} for user {}", method.getName(), invocation.event().getMember());
-        try {
-            log.debug("Invoking method with following arguments: {}", arguments);
-            method.invoke(invocation.instanceSupplier().apply(this), arguments.toArray());
-        } catch (Exception exception) {
-            log.error("Interaction execution failed!", exception);
-            // this unwraps the underlying error in case of an exception inside the command class
-            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            invocation.cancel(invocation.implementationRegistry().getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
-        }
+        method.invoke(invocation.instanceSupplier().apply(this), arguments.toArray());
     }
 
     /**

@@ -1,8 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +16,10 @@ import java.util.stream.Stream;
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
-    // !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
     private final SortedMap<Priority, Set<Middleware>> middlewares = new TreeMap<>(Map.of(
-            Priority.PERMISSIONS, new HashSet<>(Set.of(new PermissionsMiddleware())),
+            Priority.PERMISSIONS, new HashSet<>(),
             Priority.HIGH, new HashSet<>(),
-            Priority.NORMAL, new HashSet<>(Set.of(new ConstraintMiddleware(), new CooldownMiddleware())),
+            Priority.NORMAL, new HashSet<>(),
             Priority.LOW, new HashSet<>()
     ));
 

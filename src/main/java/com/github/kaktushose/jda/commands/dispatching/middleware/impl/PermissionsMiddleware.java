@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -28,6 +29,12 @@ public class PermissionsMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(PermissionsMiddleware.class);
 
+    private final ImplementationRegistry implementationRegistry;
+
+    public PermissionsMiddleware(ImplementationRegistry implementationRegistry) {
+        this.implementationRegistry = implementationRegistry;
+    }
+
     /**
      * Checks if the {@link User} and respectively the {@link Member} has the permission to execute the command.
      *
@@ -36,7 +43,7 @@ public class PermissionsMiddleware implements Middleware {
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
         log.debug("Checking permissions...");
-        PermissionsProvider provider = context.implementationRegistry().getPermissionsProvider();
+        PermissionsProvider provider = implementationRegistry.getPermissionsProvider();
         GenericInteractionCreateEvent event = context.event();
 
         boolean hasPerms;
@@ -46,7 +53,7 @@ public class PermissionsMiddleware implements Middleware {
             hasPerms = provider.hasPermission(event.getUser(), context);
         }
         if (!hasPerms) {
-            context.cancel(context.implementationRegistry().getErrorMessageFactory().getInsufficientPermissionsMessage(context));
+            context.cancel(implementationRegistry.getErrorMessageFactory().getInsufficientPermissionsMessage(context));
             log.debug("Insufficient permissions!");
             return;
         }

@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -25,6 +26,12 @@ public class CooldownMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
     private final Map<Long, Set<CooldownEntry>> activeCooldowns = new ConcurrentHashMap<>();
+
+    private final ImplementationRegistry implementationRegistry;
+
+    public CooldownMiddleware(ImplementationRegistry implementationRegistry) {
+        this.implementationRegistry = implementationRegistry;
+    }
 
     /**
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
@@ -48,7 +55,7 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.cancel(context.implementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.cancel(implementationRegistry.getErrorMessageFactory().getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

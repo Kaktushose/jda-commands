@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 import java.util.function.BiConsumer;
 
@@ -57,7 +58,22 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             return;
         }
 
-        context.definition().invoke(context);
+        invoke(context);
+    }
+
+    private void invoke(InvocationContext<T> invocation) {
+        SequencedCollection<Object> arguments = invocation.arguments();
+
+        log.info("Executing interaction {} for user {}", invocation.definition().getDefinitionId(), invocation.event().getMember());
+        try {
+            log.debug("Invoking method with following arguments: {}", arguments);
+            invocation.definition().invoke(invocation);
+        } catch (Exception exception) {
+            log.error("Interaction execution failed!", exception);
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            invocation.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
+        }
     }
 
     protected final InvocationContext<T> newContext(T e, Runtime runtime, GenericInteractionDefinition definition, SequencedCollection<Object> arguments) {
@@ -66,8 +82,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 runtime.keyValueStore(),
                 definition,
                 arguments,
-                runtime.instanceSupplier(),
-                handlerContext
+                runtime.instanceSupplier()
         );
     }
 }

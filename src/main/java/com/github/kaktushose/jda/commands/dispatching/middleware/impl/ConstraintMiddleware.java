@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,12 @@ import java.util.List;
 public class ConstraintMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
+
+    private final ImplementationRegistry implementationRegistry;
+
+    public ConstraintMiddleware(ImplementationRegistry implementationRegistry) {
+        this.implementationRegistry = implementationRegistry;
+    }
 
     /**
      * Checks if all parameters fulfill their constraints. Will cancel the {@link Context} if a parameter
@@ -48,7 +55,7 @@ public class ConstraintMiddleware implements Middleware {
 
                 if (!validated) {
                     context.cancel(
-                            context.implementationRegistry()
+                            implementationRegistry
                                     .getErrorMessageFactory()
                                     .getConstraintFailedMessage(context, constraint)
                     );
