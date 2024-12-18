@@ -26,9 +26,9 @@ public final class ButtonHandler extends EventHandler<ButtonInteractionEvent> {
                 it.getDefinitionId().equals(CustomId.getDefinitionId(event.getComponentId()))
         );
 
-        return newContext(
+        return new InvocationContext<>(
                 event,
-                runtime,
+                runtime.keyValueStore(),
                 button,
                 List.of(new ComponentEvent(event, interactionRegistry, runtime, button.replyConfig()))
         );

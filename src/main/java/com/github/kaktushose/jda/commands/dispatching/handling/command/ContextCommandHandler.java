@@ -22,7 +22,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
                 it.getName().equals(event.getFullCommandName())
         );
 
-        return newContext(event, runtime, command,
+        return new InvocationContext<>(event, runtime.keyValueStore(), command,
                 List.of(new CommandEvent(event, interactionRegistry, runtime, command.replyConfig()), event.getTarget())
         );
     }

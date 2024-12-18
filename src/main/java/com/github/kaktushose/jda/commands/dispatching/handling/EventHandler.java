@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashComm
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,31 +57,23 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             return;
         }
 
-        invoke(context);
+        invoke(context, runtime);
     }
 
-    private void invoke(InvocationContext<T> invocation) {
+    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
         SequencedCollection<Object> arguments = invocation.arguments();
 
         log.info("Executing interaction {} for user {}", invocation.definition().getDefinitionId(), invocation.event().getMember());
         try {
             log.debug("Invoking method with following arguments: {}", arguments);
-            invocation.definition().invoke(invocation);
+
+            Object instance = runtime.instance(invocation.definition());
+            invocation.definition().invoke(instance, invocation);
         } catch (Exception exception) {
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            invocation.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
+            invocation.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(invocation.event(), throwable));
         }
-    }
-
-    protected final InvocationContext<T> newContext(T e, Runtime runtime, GenericInteractionDefinition definition, SequencedCollection<Object> arguments) {
-        return new InvocationContext<>(
-                e,
-                runtime.keyValueStore(),
-                definition,
-                arguments,
-                runtime.instanceSupplier()
-        );
     }
 }

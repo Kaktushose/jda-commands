@@ -8,15 +8,12 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.SequencedCollection;
-import java.util.function.Function;
 
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         T event,
         KeyValueStore keyValueStore,
         GenericInteractionDefinition definition,
-        SequencedCollection<Object> arguments,
-        Function<GenericInteractionDefinition, Object> instanceSupplier
-
+        SequencedCollection<Object> arguments
 ) {
     public void cancel(MessageCreateData errorMessage) {
         new MessageReply(event, replyConfig(definition)).reply(errorMessage);

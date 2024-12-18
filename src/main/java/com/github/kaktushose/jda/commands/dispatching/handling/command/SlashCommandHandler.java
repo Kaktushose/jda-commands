@@ -31,7 +31,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         );
 
         return parseArguments(command, event, runtime)
-                .map(args -> newContext(event, runtime, command, args))
+                .map(args -> new InvocationContext<>(event, runtime.keyValueStore(), command, args))
                 .orElse(null);
 
     }

@@ -13,9 +13,9 @@ import java.util.Arrays;
 /**
  * Default implementation of {@link PermissionsProvider} with the following behaviour:
  * <ul>
- *     <li>{@link PermissionsProvider#hasPermission(User, InvocationContext<?>)} will always return {@code true}</li>
+ *     <li>{@link PermissionsProvider#hasPermission(User, InvocationContext <?>)} will always return {@code true}</li>
  *     <li>
- *         {@link PermissionsProvider#hasPermission(Member, InvocationContext<?>)} will check against the default Discord permissions. More
+ *         {@link PermissionsProvider#hasPermission(Member, InvocationContext <?>)} will check against the default Discord permissions. More
  *         formally, this method will work with any permission provided by {@link Permission#values()}, ignoring the
  *         case. Any other permission String will be ignored.
  *     </li>

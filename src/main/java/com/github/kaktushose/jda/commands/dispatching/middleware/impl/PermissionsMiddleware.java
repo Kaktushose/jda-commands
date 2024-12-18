@@ -53,7 +53,7 @@ public class PermissionsMiddleware implements Middleware {
             hasPerms = provider.hasPermission(event.getUser(), context);
         }
         if (!hasPerms) {
-            context.cancel(implementationRegistry.getErrorMessageFactory().getInsufficientPermissionsMessage(context));
+            context.cancel(implementationRegistry.getErrorMessageFactory().getInsufficientPermissionsMessage(context.definition()));
             log.debug("Insufficient permissions!");
             return;
         }

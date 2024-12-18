@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.data.EmbedCache;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -64,12 +63,11 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull InvocationContext<?> context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition interaction) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
-            return super.getInsufficientPermissionsMessage(context);
+            return super.getInsufficientPermissionsMessage(interaction);
         }
 
-        GenericInteractionDefinition interaction = context.definition();
         StringBuilder sbPermissions = new StringBuilder();
         interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -81,9 +79,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull InvocationContext<?> context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
-            return super.getConstraintFailedMessage(context, constraint);
+            return super.getConstraintFailedMessage(constraint);
         }
         return embedCache.getEmbed("constraintFailed")
                 .injectValue("message", constraint.message())
@@ -91,9 +89,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull InvocationContext<?> context, long ms) {
+    public MessageCreateData getCooldownMessage(long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
-            return super.getCooldownMessage(context, ms);
+            return super.getCooldownMessage(ms);
         }
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
         long s = seconds % 60;
@@ -107,23 +105,23 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull InvocationContext<?> context) {
+    public MessageCreateData getWrongChannelTypeMessage() {
         if (!embedCache.containsEmbed("wrongChannel")) {
-            return super.getWrongChannelTypeMessage(context);
+            return super.getWrongChannelTypeMessage();
         }
         return embedCache.getEmbed("wrongChannel").toMessageCreateData();
     }
 
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull InvocationContext<?> context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericInteractionCreateEvent event, @NotNull Throwable exception) {
         if (!embedCache.containsEmbed("executionFailed")) {
-            return super.getCommandExecutionFailedMessage(context, exception);
+            return super.getCommandExecutionFailedMessage(event, exception);
         }
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
-                context.event().getUser().toString(),
-                context.event().getInteraction().getType(),
+                event.getUser().toString(),
+                event.getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
@@ -133,9 +131,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     }
 
     @Override
-    public MessageCreateData getUnknownInteractionMessage(@NotNull InvocationContext<?> context) {
+    public MessageCreateData getUnknownInteractionMessage() {
         if (!embedCache.containsEmbed("unknownInteraction")) {
-            return super.getUnknownInteractionMessage(context);
+            return super.getUnknownInteractionMessage();
         }
         return embedCache.getEmbed("unknownInteraction").toMessageCreateData();
     }
