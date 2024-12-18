@@ -30,7 +30,7 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
         this.permissions = permissions;
     }
 
-    public final void invoke(Object instance, InvocationContext invocation) throws InvocationTargetException, IllegalAccessException {
+    public final void invoke(Object instance, InvocationContext<?> invocation) throws InvocationTargetException, IllegalAccessException {
         SequencedCollection<Object> arguments = invocation.arguments();
 
         method.invoke(instance, arguments.toArray());
