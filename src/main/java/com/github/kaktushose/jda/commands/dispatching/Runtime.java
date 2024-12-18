@@ -6,14 +6,12 @@ import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,6 @@ import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Function;
@@ -39,8 +36,6 @@ public final class Runtime implements Closeable {
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
-    private Message latestReply;
-
 
     private Runtime(String id, HandlerContext handlerContext) {
         this.id = id;
@@ -50,7 +45,6 @@ public final class Runtime implements Closeable {
         autoCompleteHandler = new AutoCompleteHandler(handlerContext);
         contextCommandHandler = new ContextCommandHandler(handlerContext);
         buttonHandler = new ButtonHandler(handlerContext);
-
         this.executionThread = Thread.ofVirtual()
                 .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
@@ -93,14 +87,6 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
-    public Optional<Message> latestReply() {
-        return Optional.ofNullable(latestReply);
-    }
-
-    public void latestReply(@Nullable Message latestReply) {
-        this.latestReply = latestReply;
-    }
-
     public KeyValueStore keyValueStore() {
         return keyValueStore;
     }
@@ -120,7 +106,7 @@ public final class Runtime implements Closeable {
     }
 
     @Override
-    public void close()  {
+    public void close() {
         executionThread.interrupt();
     }
 }
