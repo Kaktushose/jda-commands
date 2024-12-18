@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -31,7 +32,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     public void removeComponents() {
         if (event instanceof IReplyCallback callback) {
             if (!event.isAcknowledged()) {
-                callback.deferReply(false).queue();
+                callback.deferReply(ephemeral).queue();
             }
             callback.getHook().editOriginalComponents().queue();
         }
@@ -45,15 +46,15 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return new ConfigurableReply(newReply(), interactionRegistry, runtime);
     }
 
-    public void reply(@NotNull String message) {
-        newReply().reply(message);
+    public Message reply(@NotNull String message) {
+        return newReply().reply(message);
     }
 
-    public void reply(@NotNull MessageCreateData message) {
-        newReply().reply(message);
+    public Message reply(@NotNull MessageCreateData message) {
+        return newReply().reply(message);
     }
 
-    public void reply(@NotNull EmbedBuilder builder) {
-        newReply().reply(builder);
+    public Message reply(@NotNull EmbedBuilder builder) {
+        return newReply().reply(builder);
     }
 }

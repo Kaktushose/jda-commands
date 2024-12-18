@@ -6,12 +6,12 @@ import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public final class Runtime implements Closeable {
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
-    private MessageCreateData latestReply;
+    private Message latestReply;
 
 
     private Runtime(String id, HandlerContext handlerContext) {
@@ -74,7 +74,8 @@ public final class Runtime implements Closeable {
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
             case ButtonInteractionEvent event -> buttonHandler.accept(event, this);
-            default -> throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+            default ->
+                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
     }
 
@@ -92,11 +93,11 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
-    public Optional<MessageCreateData> latestReply() {
+    public Optional<Message> latestReply() {
         return Optional.ofNullable(latestReply);
     }
 
-    public void latestReply(@Nullable MessageCreateData latestReply) {
+    public void latestReply(@Nullable Message latestReply) {
         this.latestReply = latestReply;
     }
 
