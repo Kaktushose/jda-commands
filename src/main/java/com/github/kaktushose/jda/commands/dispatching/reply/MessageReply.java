@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -23,13 +24,12 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     protected boolean editReply;
     protected boolean keepComponents;
 
-    public MessageReply(GenericInteractionCreateEvent event,
-                        boolean ephemeral) {
+    public MessageReply(GenericInteractionCreateEvent event, ReplyConfig replyConfig) {
         this.event = event;
-        this.ephemeral = ephemeral;
+        this.ephemeral = replyConfig.ephemeral();
+        this.editReply = replyConfig.editReply();
+        this.keepComponents = replyConfig.keepComponents();
         this.builder = new MessageCreateBuilder();
-        editReply = true;
-        keepComponents = true;
     }
 
     public MessageReply(MessageReply reply) {
@@ -71,7 +71,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
             }
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
-        return hook.sendMessage(builder.build()).complete();
+        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
     protected void deferReply(IReplyCallback callback) {

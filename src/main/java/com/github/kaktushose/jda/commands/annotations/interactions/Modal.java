@@ -26,11 +26,4 @@ public @interface Modal {
      */
     String value();
 
-    /**
-     * Whether this Modal should send ephemeral replies by default.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    boolean ephemeral() default false;
-
 }

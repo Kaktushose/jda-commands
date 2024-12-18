@@ -13,11 +13,11 @@ import java.util.Set;
  */
 public abstract sealed class EphemeralInteractionDefinition extends GenericInteractionDefinition permits ModalDefinition, GenericCommandDefinition, GenericComponentDefinition {
 
-    protected boolean ephemeral;
+    protected final ReplyConfig replyConfig;
 
-    protected EphemeralInteractionDefinition(Method method, Set<String> permissions, boolean ephemeral) {
+    protected EphemeralInteractionDefinition(Method method, Set<String> permissions, ReplyConfig replyConfig) {
         super(method, permissions);
-        this.ephemeral = ephemeral;
+        this.replyConfig = replyConfig;
     }
 
     /**
@@ -25,17 +25,8 @@ public abstract sealed class EphemeralInteractionDefinition extends GenericInter
      *
      * @return {@code true} if replies should be ephemeral
      */
-    public boolean isEphemeral() {
-        return ephemeral;
-    }
-
-    /**
-     * Sets whether replies should be ephemeral.
-     *
-     * @param ephemeral {@code true} if replies should be ephemeral
-     */
-    public void setEphemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
+    public ReplyConfig replyConfig() {
+        return replyConfig;
     }
 
 }

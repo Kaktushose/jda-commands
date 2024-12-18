@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 
@@ -14,16 +15,17 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     protected ModalReplyableEvent(T event,
                                   InteractionRegistry interactionRegistry,
                                   Runtime runtime,
-                                  boolean ephemeral) {
-        super(event, interactionRegistry, runtime, ephemeral);
+                                  ReplyConfig replyConfig) {
+        super(event, interactionRegistry, runtime, replyConfig);
     }
 
     public void replyModal(String modal) {
         if (event instanceof IModalCallback callback) {
-            var modalDefinition = interactionRegistry.find(ModalDefinition.class,
-                    it -> it.getMethod().getName().equals(modal));
+            var modalDefinition = interactionRegistry.find(ModalDefinition.class, false, it ->
+                    it.getMethod().getName().equals(modal)
+            );
 
-        callback.replyModal(modalDefinition.toModal(runtimeId())).queue();
+            callback.replyModal(modalDefinition.toModal(runtimeId())).queue();
         } else {
             throw new IllegalArgumentException(
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())

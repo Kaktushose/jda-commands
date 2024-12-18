@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -34,7 +35,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
     private final boolean isAutoComplete;
 
     public SlashCommandDefinition(Method method,
-                                  boolean ephemeral,
+                                  ReplyConfig replyConfig,
                                   String name,
                                   Set<String> permissions,
                                   boolean isGuildOnly,
@@ -47,7 +48,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
                                   List<ParameterDefinition> parameters,
                                   CooldownDefinition cooldown,
                                   boolean isAutoComplete) {
-        super(method, ephemeral, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
+        super(method, replyConfig, name, permissions, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
         this.description = description;
         this.parameters = parameters;
         this.cooldown = cooldown;
@@ -120,7 +121,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
 
         return Optional.of(new SlashCommandDefinition(
                 method,
-                Helpers.ephemeral(context, command.ephemeral()),
+                Helpers.replyConfig(method),
                 name,
                 Helpers.permissions(context),
                 command.isGuildOnly(),
@@ -264,7 +265,7 @@ public final class SlashCommandDefinition extends GenericCommandDefinition {
                 ", enabledPermissions=" + enabledPermissions +
                 ", scope=" + scope +
                 ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 '}';
     }
 }

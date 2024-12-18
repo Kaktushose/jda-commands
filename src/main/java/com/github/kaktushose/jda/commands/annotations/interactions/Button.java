@@ -55,11 +55,4 @@ public @interface Button {
      */
     String link() default "";
 
-    /**
-     * Whether this button should send ephemeral replies by default.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    boolean ephemeral() default false;
-
 }

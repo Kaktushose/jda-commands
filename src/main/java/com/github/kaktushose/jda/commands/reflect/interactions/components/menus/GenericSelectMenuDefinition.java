@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 
@@ -13,14 +14,20 @@ import java.util.Set;
  * @see StringSelectMenuDefinition
  * @since 4.0.0
  */
-public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> extends GenericComponentDefinition permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
+public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> extends GenericComponentDefinition
+        permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
 
     protected final String placeholder;
     protected final int minValue;
     protected final int maxValue;
 
-    protected GenericSelectMenuDefinition(Method method, Set<String> permissions, boolean ephemeral, String placeholder, int minValue, int maxValue) {
-        super(method, permissions, ephemeral);
+    protected GenericSelectMenuDefinition(Method method,
+                                          Set<String> permissions,
+                                          ReplyConfig replyConfig,
+                                          String placeholder,
+                                          int minValue,
+                                          int maxValue) {
+        super(method, permissions, replyConfig);
         this.placeholder = placeholder;
         this.minValue = minValue;
         this.maxValue = maxValue;

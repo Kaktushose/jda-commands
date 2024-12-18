@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -24,18 +25,15 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 
 ) {
     public void cancel(MessageCreateData errorMessage) {
-        new MessageReply(event, ephemeral()).reply(errorMessage);
+        new MessageReply(event, replyConfig(definition)).reply(errorMessage);
 
         Thread.currentThread().interrupt();
     }
 
-    // todo: move out of here
-    public boolean ephemeral() {
-        return ephemeral(definition);
-    }
-
-    public static boolean ephemeral(GenericInteractionDefinition definition) {
-        return definition instanceof EphemeralInteractionDefinition ep && ep.isEphemeral();
+    private ReplyConfig replyConfig(GenericInteractionDefinition definition) {
+        return definition instanceof EphemeralInteractionDefinition ephemeral
+                ? ephemeral.replyConfig()
+                : new ReplyConfig();
     }
 
     // todo: move out of here

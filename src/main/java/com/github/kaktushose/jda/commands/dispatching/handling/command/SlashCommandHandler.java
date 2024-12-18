@@ -26,8 +26,9 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     @Override
     protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
-        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class,
-                it -> it.getName().equals(event.getFullCommandName()));
+        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
+                it.getName().equals(event.getFullCommandName())
+        );
 
         return parseArguments(command, event, runtime)
                 .map(args -> newContext(event, runtime, command, args))
@@ -41,7 +42,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .toArray(String[]::new);
 
         List<Object> arguments = new ArrayList<>();
-        arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, InvocationContext.ephemeral(command)));
+        arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, command.replyConfig()));
 
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
@@ -89,7 +90,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional<?> parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, InvocationContext.ephemeral(command)).reply(
+                new MessageReply(event, command.replyConfig()).reply(
                         messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input))
                 );
                 return Optional.empty();

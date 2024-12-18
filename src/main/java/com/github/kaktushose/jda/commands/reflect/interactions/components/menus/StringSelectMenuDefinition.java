@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SelectOption;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -26,12 +27,12 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
 
     private StringSelectMenuDefinition(Method method,
                                        Set<String> permissions,
-                                       boolean ephemeral,
+                                       ReplyConfig replyConfig,
                                        Set<SelectOptionDefinition> selectOptions,
                                        String placeholder,
                                        int minValue,
                                        int maxValue) {
-        super(method, permissions, ephemeral, placeholder, minValue, maxValue);
+        super(method, permissions, replyConfig, placeholder, minValue, maxValue);
         this.selectOptions = selectOptions;
     }
 
@@ -65,7 +66,7 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
         return Optional.of(new StringSelectMenuDefinition(
                 method,
                 Helpers.permissions(context),
-                Helpers.ephemeral(context, selectMenu.ephemeral()),
+                Helpers.replyConfig(method),
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),
@@ -103,7 +104,7 @@ public final class StringSelectMenuDefinition extends GenericSelectMenuDefinitio
                 ", placeholder='" + placeholder + '\'' +
                 ", minValue=" + minValue +
                 ", maxValue=" + maxValue +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", permissions=" + permissions +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +

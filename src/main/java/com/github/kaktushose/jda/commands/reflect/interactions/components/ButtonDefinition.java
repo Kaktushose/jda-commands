@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +29,12 @@ public final class ButtonDefinition extends GenericComponentDefinition {
 
     private ButtonDefinition(Method method,
                              Set<String> permissions,
-                             boolean ephemeral,
+                             ReplyConfig replyConfig,
                              String label,
                              Emoji emoji,
                              String link,
                              ButtonStyle style) {
-        super(method, permissions, ephemeral);
+        super(method, permissions, replyConfig);
         this.label = label;
         this.emoji = emoji;
         this.link = link;
@@ -71,7 +72,7 @@ public final class ButtonDefinition extends GenericComponentDefinition {
         return Optional.of(new ButtonDefinition(
                 method,
                 Helpers.permissions(context),
-                Helpers.ephemeral(context, button.ephemeral()),
+                Helpers.replyConfig(method),
                 button.value(),
                 emoji,
                 button.link(),
@@ -147,7 +148,7 @@ public final class ButtonDefinition extends GenericComponentDefinition {
                 ", emoji=" + emoji +
                 ", link='" + link + '\'' +
                 ", style=" + style +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", permissions=" + permissions +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +

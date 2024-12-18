@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -16,14 +17,14 @@ import org.jetbrains.annotations.NotNull;
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
         permits ModalEvent, ModalReplyableEvent {
 
-    private final boolean ephemeral;
+    private final ReplyConfig replyConfig;
 
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
-                             boolean ephemeral) {
+                             ReplyConfig replyConfig) {
         super(event, interactionRegistry, runtime);
-        this.ephemeral = ephemeral;
+        this.replyConfig = replyConfig;
     }
 
     /**
@@ -32,14 +33,14 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     public void removeComponents() {
         if (event instanceof IReplyCallback callback) {
             if (!event.isAcknowledged()) {
-                callback.deferReply(ephemeral).queue();
+                callback.deferReply(replyConfig.ephemeral()).queue();
             }
             callback.getHook().editOriginalComponents().queue();
         }
     }
 
     private MessageReply newReply() {
-        return new MessageReply(event, ephemeral);
+        return new MessageReply(event, replyConfig);
     }
 
     public ConfigurableReply with() {

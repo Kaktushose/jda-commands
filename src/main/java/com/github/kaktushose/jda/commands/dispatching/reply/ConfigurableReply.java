@@ -82,8 +82,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         for (Component component : components) {
             switch (component) {
                 case Buttons buttons -> buttons.buttonContainers().forEach(container -> {
-                    var definition = interactionRegistry.find(ButtonDefinition.class,
-                            it -> it.getMethod().getName().equals(container.name())
+                    var definition = interactionRegistry.find(ButtonDefinition.class, false, it ->
+                            it.getMethod().getName().equals(container.name())
                     );
                     var button = definition.toButton().withDisabled(!container.enabled());
                     //only assign ids to non-link buttons
@@ -91,8 +91,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                 });
 
                 case SelectMenus selectMenus -> selectMenus.selectMenuContainers().stream().map(container ->
-                        interactionRegistry.find(GenericSelectMenuDefinition.class,
-                                it -> it.getMethod().getName().startsWith(container.name())
+                        interactionRegistry.find(GenericSelectMenuDefinition.class, false, it ->
+                                it.getMethod().getName().startsWith(container.name())
                         ).toSelectMenu(runtime.id(), container.enabled())
                 ).forEach(items::add);
             }
