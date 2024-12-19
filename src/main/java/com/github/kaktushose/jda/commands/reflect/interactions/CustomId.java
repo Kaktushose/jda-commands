@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 public interface CustomId {
 
     String PREFIX = "jdac";
-    String SCOPED_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.[0-9a-fA-F-]{36}$";
-    String STATIC_CUSTOM_ID_REGEX = "^jdac\\.static\\.[0-9a-fA-F-]{36}$";
+    String SCOPED_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
+    String STATIC_CUSTOM_ID_REGEX = "^jdac\\.static\\.-?\\d+$";
 
     /**
      * Gets the custom id for this component.

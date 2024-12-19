@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.SequencedCollection;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Abstract base class for all interaction definitions.
@@ -25,7 +24,7 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.definitionId = UUID.randomUUID().toString();
+        this.definitionId = String.valueOf((method.getClass().getName() + method.getName()).hashCode());
         this.method = method;
         this.permissions = permissions;
     }

@@ -35,7 +35,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
-            case ButtonInteractionEvent event -> new ArrayList<>();
+            case ButtonInteractionEvent _ -> new ArrayList<>();
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         };

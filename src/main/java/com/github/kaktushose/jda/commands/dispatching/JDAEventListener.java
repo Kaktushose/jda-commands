@@ -39,6 +39,7 @@ public final class JDAEventListener extends ListenerAdapter {
                     runtimes.get(CustomId.runtimeId(event.getComponentId()));
             case ModalInteractionEvent event when CustomId.isScoped(event.getModalId()) ->
                     runtimes.get(CustomId.runtimeId(event.getModalId()));
+
             case GenericComponentInteractionCreateEvent event when CustomId.isStatic(event.getComponentId()) ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
             case ModalInteractionEvent event when CustomId.isStatic(event.getModalId()) ->
