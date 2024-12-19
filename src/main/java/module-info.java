@@ -21,7 +21,6 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
     exports com.github.kaktushose.jda.commands.dispatching.reply;
-    exports com.github.kaktushose.jda.commands.dispatching.reply.components;
 
     exports com.github.kaktushose.jda.commands.dispatching.validation;
     exports com.github.kaktushose.jda.commands.dispatching.validation.impl;

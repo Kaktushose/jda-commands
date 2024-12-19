@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Indicates that this class can create a component or modal which Discord requires a custom id for.
@@ -25,24 +24,24 @@ public interface CustomId {
     String staticCustomId();
 
     @NotNull
-    static String runtimeId(@Nullable String customId) {
+    static String runtimeId(@NotNull String customId) {
         return getId(customId, 1);
     }
 
     @NotNull
-    static String definitionId(@Nullable String customId) {
+    static String definitionId(@NotNull String customId) {
         return getId(customId, 2);
     }
 
-    static boolean isStatic(@Nullable String customId) {
-        return customId == null || !customId.matches(STATIC_CUSTOM_ID_REGEX);
+    static boolean isStatic(@NotNull String customId) {
+        return customId.matches(STATIC_CUSTOM_ID_REGEX);
     }
 
-    static boolean isScoped(@Nullable String customId) {
-        return customId == null || !customId.matches(SCOPED_CUSTOM_ID_REGEX);
+    static boolean isScoped(@NotNull String customId) {
+        return customId.matches(SCOPED_CUSTOM_ID_REGEX);
     }
 
-    static boolean isInvalid(@Nullable String customId) {
+    static boolean isInvalid(@NotNull String customId) {
         return !(isStatic(customId) || isScoped(customId));
     }
 

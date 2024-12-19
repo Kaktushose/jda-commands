@@ -8,11 +8,6 @@ public final class ComponentReply extends ConfigurableReply {
         super(reply);
     }
 
-    public ComponentReply staticComponents(boolean staticComponents) {
-        this.staticComponents = staticComponents;
-        return this;
-    }
-
     /**
      * Sends the reply to Discord.
      */

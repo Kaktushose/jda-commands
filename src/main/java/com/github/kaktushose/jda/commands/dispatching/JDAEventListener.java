@@ -1,9 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
-import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -39,20 +37,21 @@ public final class JDAEventListener extends ListenerAdapter {
                     runtimes.get(CustomId.runtimeId(event.getComponentId()));
             case ModalInteractionEvent event when CustomId.isScoped(event.getModalId()) ->
                     runtimes.get(CustomId.runtimeId(event.getModalId()));
-
             case GenericComponentInteractionCreateEvent event when CustomId.isStatic(event.getComponentId()) ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
-            case ModalInteractionEvent event when CustomId.isStatic(event.getModalId()) ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
-            default -> throw new UnsupportedOperationException("Unsupported jda event: %s".formatted(jdaEvent));
+            default -> null;
         };
 
         if (runtime == null) {
-            new MessageReply(jdaEvent, new ReplyConfig()).reply(
-                    context.implementationRegistry()
-                            .getErrorMessageFactory()
-                            .getUnknownInteractionMessage()
-            );
+            if (jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && !CustomId.isInvalid(componentEvent.getComponentId())) {
+                componentEvent.deferEdit().setComponents().queue();
+                componentEvent.getHook()
+                        .setEphemeral(true)
+                        .sendMessage(context.implementationRegistry().getErrorMessageFactory().getUnknownInteractionMessage())
+                        .queue();
+            } else {
+               log.debug("Received unknown event: {}", jdaEvent);
+            }
             return;
         }
 
