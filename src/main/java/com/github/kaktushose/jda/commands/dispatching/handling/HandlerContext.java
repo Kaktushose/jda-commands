@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import org.jetbrains.annotations.ApiStatus;
 
+/// A collection of classes relevant for [EventHandler]s.
 @ApiStatus.Internal
 public record HandlerContext(MiddlewareRegistry middlewareRegistry,
                              ImplementationRegistry implementationRegistry,

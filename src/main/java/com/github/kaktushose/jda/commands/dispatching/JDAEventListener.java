@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
 public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);

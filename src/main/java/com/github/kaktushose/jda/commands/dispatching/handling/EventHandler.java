@@ -1,15 +1,20 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +22,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 import java.util.function.BiConsumer;
 
+/// Implementations of this class are handling specific [GenericInteractionCreateEvent]s.
+///
+/// Each [EventHandler] is split into 3 steps:
+/// 1. Preparation ([EventHandler#prepare(GenericInteractionCreateEvent, Runtime)]):
+/// In this step the [InvocationContext] is created from the jda event and the involved [Runtime].
+///
+///
+/// 2. Middleware execution: In this step all registered [Middleware]s
+/// are executed ordered by their [Priority].
+///
+/// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime)]):
+/// In this step the user implemented method is called with help of the right [GenericInteractionDefinition]
 @ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
         implements BiConsumer<T, Runtime>
@@ -38,7 +55,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         this.adapterRegistry = handlerContext.adapterRegistry();
     }
 
-    protected abstract InvocationContext<T> prepare(T event, Runtime runtime);
+    @Nullable
+    protected abstract InvocationContext<T> prepare(@NotNull T event, @NotNull Runtime runtime);
 
     @Override
     final public void accept(T e, Runtime runtime) {
@@ -63,7 +81,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         invoke(context, runtime);
     }
 
-    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
+    private void invoke(@NotNull InvocationContext<T> invocation, @NotNull Runtime runtime) {
         SequencedCollection<Object> arguments = invocation.arguments();
 
         log.info("Executing interaction {} for user {}", invocation.definition().getDefinitionId(), invocation.event().getMember());

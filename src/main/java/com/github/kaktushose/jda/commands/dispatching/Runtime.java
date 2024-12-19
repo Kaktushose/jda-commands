@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,18 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/// A [Runtime] delegates the jda events to their corresponding [EventHandler] and manages the used virtual threads.
+///
+/// A new [Runtime] is created each time an [SlashCommandInteractionEvent], [GenericContextInteractionEvent] or [CommandAutoCompleteInteractionEvent] is provided by jda
+/// or if an interaction is marked as 'static'. (staticComponent)
+/// Runtimes are executed in parallel, but events are processed sequentially by each runtime.
+/// Every [EventHandler] called by this [Runtime] is executed in its own virtual thread, isolated from the runtime one.
+///
+/// @implNote Each [Runtime] is based on a [BlockingQueue] in which jda events, belonging to this
+/// runtime, are put by the [JDAEventListener] running on the jda event thread.
+/// Each runtime than has its own virtual thread that takes events from this queue and executes them sequentially but
+/// each in its own (sub) virtual thread. Therefore, the virtual thread in which the user code will be called, only exists for
+/// the lifespan of one "interaction" and cannot interfere with other interactions on the same or other runtimes.
 @ApiStatus.Internal
 public final class Runtime implements Closeable {
 
@@ -37,7 +50,7 @@ public final class Runtime implements Closeable {
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
 
-    private Runtime(String id, HandlerContext handlerContext) {
+    private Runtime(@NotNull String id, @NotNull HandlerContext handlerContext) {
         this.id = id;
         this.instances = new HashMap<>();
         blockingQueue = new LinkedBlockingQueue<>();
@@ -75,12 +88,14 @@ public final class Runtime implements Closeable {
         }
     }
 
+    @NotNull
     public static Runtime startNew(String id, HandlerContext handlerContext) {
         var runtime = new Runtime(id, handlerContext);
         runtime.executionThread.start();
         return runtime;
     }
 
+    @NotNull
     public String id() {
         return id;
     }
@@ -89,6 +104,7 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
+    @NotNull
     public KeyValueStore keyValueStore() {
         return keyValueStore;
     }

@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
     }
 
     @Override
-    protected InvocationContext<GenericContextInteractionEvent<?>> prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
+    protected InvocationContext<GenericContextInteractionEvent<?>> prepare(@NotNull GenericContextInteractionEvent<?> event, @NotNull Runtime runtime) {
         ContextCommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class, true, it ->
                 it.getName().equals(event.getFullCommandName())
         );

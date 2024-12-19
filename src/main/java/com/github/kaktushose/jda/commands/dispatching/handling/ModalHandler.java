@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
     }
 
     @Override
-    protected InvocationContext<ModalInteractionEvent> prepare(ModalInteractionEvent event, Runtime runtime) {
+    protected InvocationContext<ModalInteractionEvent> prepare(@NotNull ModalInteractionEvent event, @NotNull Runtime runtime) {
         // ignore non jda-commands events
         if (CustomId.isInvalid(event.getModalId())) {
             return null;
