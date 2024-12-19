@@ -153,10 +153,6 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent>
         return (S) selectMenuDefinition.toSelectMenu(runtimeId(), true);
     }
 
-    protected InteractionRegistry interactionRegistry() {
-        return interactionRegistry;
-    }
-
     public String runtimeId() {
         return runtime.id();
     }
