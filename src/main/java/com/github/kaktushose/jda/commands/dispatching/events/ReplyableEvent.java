@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -17,14 +18,16 @@ import org.jetbrains.annotations.NotNull;
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
         permits ModalEvent, ModalReplyableEvent {
 
+    protected final EphemeralInteractionDefinition definition;
     private final ReplyConfig replyConfig;
 
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
-                             ReplyConfig replyConfig) {
+                             EphemeralInteractionDefinition definition) {
         super(event, interactionRegistry, runtime);
-        this.replyConfig = replyConfig;
+        this.replyConfig = definition.replyConfig();
+        this.definition = definition;
     }
 
     /**
@@ -40,7 +43,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     }
 
     private MessageReply newReply() {
-        return new MessageReply(event, replyConfig);
+        return new MessageReply(event, definition);
     }
 
     public ConfigurableReply with() {

@@ -24,7 +24,7 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.definitionId = String.valueOf((method.getClass().getName() + method.getName()).hashCode());
+        this.definitionId = String.valueOf((method.getDeclaringClass().getName() + method.getName()).hashCode());
         this.method = method;
         this.permissions = permissions;
     }

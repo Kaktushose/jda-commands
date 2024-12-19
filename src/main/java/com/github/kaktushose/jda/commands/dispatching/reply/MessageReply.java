@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,22 +21,29 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     protected static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final GenericInteractionCreateEvent event;
+    protected final GenericInteractionDefinition definition;
     protected final MessageCreateBuilder builder;
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
 
-    public MessageReply(GenericInteractionCreateEvent event, ReplyConfig replyConfig) {
+    public MessageReply(GenericInteractionCreateEvent event, GenericInteractionDefinition definition, ReplyConfig replyConfig) {
         this.event = event;
+        this.definition = definition;
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
         this.builder = new MessageCreateBuilder();
     }
 
+    public MessageReply(GenericInteractionCreateEvent event, EphemeralInteractionDefinition definition) {
+        this(event, definition, definition.replyConfig());
+    }
+
     public MessageReply(MessageReply reply) {
         this.event = reply.event;
         this.builder = reply.builder;
+        this.definition = reply.definition;
         this.ephemeral = reply.ephemeral;
         this.editReply = reply.editReply;
         this.keepComponents = reply.keepComponents;
@@ -57,7 +66,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     protected Message complete() {
         switch (event) {
-            case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply -> deferEdit(modalEvent);
+            case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
+                    deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
             default -> throw new IllegalArgumentException(

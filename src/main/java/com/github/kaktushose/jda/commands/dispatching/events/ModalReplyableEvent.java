@@ -1,28 +1,49 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
+import org.jetbrains.annotations.NotNull;
 
-public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCreateEvent> extends ReplyableEvent<T>
+/// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
+///
+///
+/// @param <T> the type of [GenericInteractionCreateEvent] this event represents
+/// @see CommandEvent
+/// @see ComponentEvent
+/// @since 4.0.0
+public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCreateEvent>
+        extends ReplyableEvent<T>
         permits CommandEvent, ComponentEvent {
 
-    protected ModalReplyableEvent(T event,
-                                  InteractionRegistry interactionRegistry,
-                                  Runtime runtime,
-                                  ReplyConfig replyConfig) {
-        super(event, interactionRegistry, runtime, replyConfig);
+    /// Constructs a new ModalReplyableEvent.
+    ///
+    /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
+    /// @param interactionRegistry the corresponding [InteractionRegistry]
+    /// @param runtime             the [Runtime] this event lives in
+    /// @param definition          the [EphemeralInteractionDefinition] this event belongs to
+    protected ModalReplyableEvent(@NotNull T event,
+                                  @NotNull InteractionRegistry interactionRegistry,
+                                  @NotNull Runtime runtime,
+                                  @NotNull EphemeralInteractionDefinition definition) {
+        super(event, interactionRegistry, runtime, definition);
     }
 
-    public void replyModal(String modal) {
+    /// Acknowledgement of this interaction with a [Modal]. This will open a popup on the target user's Discord client.
+    ///
+    /// @param modal the method name of the [Modal] you want to reply with
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
+    public void replyModal(@NotNull String modal) {
         if (event instanceof IModalCallback callback) {
+            var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + modal).hashCode());
             var modalDefinition = interactionRegistry.find(ModalDefinition.class, false, it ->
-                    it.getMethod().getName().equals(modal)
+                    it.getDefinitionId().equals(definitionId)
             );
 
             callback.replyModal(modalDefinition.toModal(runtimeId())).queue();
@@ -32,5 +53,4 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             );
         }
     }
-
 }

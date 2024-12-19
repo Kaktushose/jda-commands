@@ -45,7 +45,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .toArray(String[]::new);
 
         List<Object> arguments = new ArrayList<>();
-        arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, command.replyConfig()));
+        arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, command));
 
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
@@ -93,7 +93,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional<?> parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command.replyConfig()).reply(
+                new MessageReply(event, command).reply(
                         messageFactory.getTypeAdaptingFailedMessage(event, command, Arrays.asList(input))
                 );
                 return Optional.empty();

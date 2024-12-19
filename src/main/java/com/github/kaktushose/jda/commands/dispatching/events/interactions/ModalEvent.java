@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
+import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 
 /**
@@ -20,8 +20,8 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     public ModalEvent(ModalInteractionEvent event,
                       InteractionRegistry interactionRegistry,
                       Runtime runtime,
-                      ReplyConfig replyConfig) {
-        super(event, interactionRegistry, runtime, replyConfig);
+                      EphemeralInteractionDefinition definition) {
+        super(event, interactionRegistry, runtime, definition);
     }
 
 }

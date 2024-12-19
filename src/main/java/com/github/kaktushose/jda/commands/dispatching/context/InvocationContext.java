@@ -26,7 +26,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     ///
     /// @param errorMessage the error message that should be sent to the user as a reply
     public void cancel(MessageCreateData errorMessage) {
-        new MessageReply(event, replyConfig(definition)).reply(errorMessage);
+        new MessageReply(event, definition, new ReplyConfig()).reply(errorMessage);
 
         Thread.currentThread().interrupt();
     }

@@ -79,8 +79,9 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         List<ItemComponent> items = new ArrayList<>();
         for (Component component : components) {
 
+            var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + component.name()).hashCode());
             var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
-                    it.getMethod().getName().equals(component.name())
+                    it.getDefinitionId().equals(definitionId)
             );
 
             switch (definition) {

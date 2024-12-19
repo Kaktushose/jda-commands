@@ -40,7 +40,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, interactionRegistry, runtime, component.replyConfig()));
+        arguments.addFirst(new ComponentEvent(genericEvent, interactionRegistry, runtime, component));
 
         return new InvocationContext<>(
                 genericEvent,
