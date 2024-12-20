@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
  * Generic top level interface for type adapting.
  *
  * @param <T> the type the adapter parses
- * @see com.github.kaktushose.jda.commands.annotations.Implementation
+ * @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
  * @since 2.0.0
  */
 @FunctionalInterface
@@ -23,6 +23,6 @@ public interface TypeAdapter<T> extends BiFunction<String, GenericInteractionCre
      * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed type or an empty Optional if the parsing fails
      */
-    Optional<T> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event);
+    @NotNull Optional<T> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event);
 
 }

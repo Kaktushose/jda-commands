@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
@@ -13,68 +13,125 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
+///
+/// ### Example:
+/// ```
+/// @Interaction
+/// public class TestCommand {
+///
+///     @SlashCommand(value = "test command")
+///     public void onCommand(CommandEvent event) {
+///         event.with().components(buttons("onButton")).reply("Hello World");
+///     }
+///
+///     @Button("Press me!")
+///     public void onButton(ComponentEvent event) {
+///         event.reply("You pressed me!");
+///     }
+/// }
+/// ```
+///
+/// @since 4.0.0
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
     protected final InteractionRegistry interactionRegistry;
-    protected final Runtime runtime;
+    protected final String runtimeId;
 
-    public ConfigurableReply(MessageReply reply, InteractionRegistry registry, Runtime runtime) {
+    /// Constructs a new ConfigurableReply.
+    ///
+    /// @param reply the underlying [MessageReply]
+    /// @param registry the corresponding [InteractionRegistry]
+    /// @param runtimeId the corresponding [Runtime]
+    public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
         super(reply);
         this.interactionRegistry = registry;
-        this.runtime = runtime;
+        this.runtimeId = runtimeId;
     }
 
-    public ConfigurableReply(ConfigurableReply reply) {
+    /// Constructs a new ConfigurableReply.
+    ///
+    /// @param reply the [ConfigurableReply] to copy
+    public ConfigurableReply(@NotNull ConfigurableReply reply) {
         super(reply);
         this.interactionRegistry = reply.interactionRegistry;
-        this.runtime = reply.runtime;
+        this.runtimeId = reply.runtimeId;
     }
 
-    /**
-     * Whether to send ephemeral replies.
-     *
-     * @param ephemeral {@code true} if replies should be ephemeral
-     * @return the current instance for fluent interface
-     */
+    /// Whether to send ephemeral replies. Default value is `false`.
+    ///
+    /// Ephemeral messages have some limitations and will be removed once the user restarts their client.
+    /// Limitations:
+    /// - Cannot contain any files/ attachments
+    /// - Cannot be reacted to
+    /// - Cannot be retrieved
+    ///
+    /// **This will override both [GlobalReplyConfig] and any [ReplyConfig] annotation!**
+    ///
+    /// @param ephemeral `true` if to send ephemeral replies
+    /// @return the current instance for fluent interface
+    @NotNull
     public ConfigurableReply ephemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
         return this;
     }
 
-    /**
-     * Whether this reply should edit the existing message or send a new one. The default value is
-     * {@code true}.
-     *
-     * @param editReply {@code true} if this reply should edit the existing message
-     * @return the current instance for fluent interface
-     */
+    /// Whether to keep the original components when editing a message. Default value is `true`.
+    ///
+    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
+    /// its components get added to the reply before it is sent.
+    ///
+    /// **This will override both [GlobalReplyConfig] and any [ReplyConfig] annotation!**
+    ///
+    /// @param editReply `true` if to keep the original components
+    /// @return the current instance for fluent interface
+    @NotNull
     public ConfigurableReply editReply(boolean editReply) {
         this.editReply = editReply;
         return this;
     }
 
-    /**
-     * Whether this reply should keep all components that are attached to the previous message. The default value is
-     * {@code true}.
-     *
-     * @param keepComponents {@code true} if this reply should keep all components
-     * @return the current instance for fluent interface
-     */
+    /// Whether to edit the original message or to send a new one. Default value is `true`.
+    ///
+    /// The original message is always the very first reply that was sent. E.g. for a slash command event, which was
+    /// replied to with a text message and a button, the original message is that very reply.
+    ///
+    /// Subsequent replies to the same slash command event or the button event cannot be edited.
+    ///
+    /// **This will override both [GlobalReplyConfig] and any [ReplyConfig] annotation!**
+    ///
+    /// @param keepComponents `true` if to edit the original method
+    /// @return the current instance for fluent interface
+    @NotNull
     public ConfigurableReply keepComponents(boolean keepComponents) {
         this.keepComponents = keepComponents;
         return this;
     }
 
-    /**
-     * Adds an {@link ActionRow} to the reply and adds the passed {@link Component Components} to it.
-     * For buttonContainers, they must be defined in the same
-     * {@link com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction} as the referring
-     * {@link SlashCommand Command}.
-     *
-     * @param components the {@link Component Components} to add
-     * @return the current instance for fluent interface
-     */
+    /// Adds an [ActionRow] to the reply and adds the passed [`Components`][Component] to it.
+    ///
+    /// **The components must be defined in the same class where this method gets called!**
+    ///
+    /// ### Example:
+    /// ```
+    /// @Interaction
+    /// public class TestCommand {
+    ///
+    ///     @SlashCommand(value = "test command")
+    ///     public void onCommand(CommandEvent event) {
+    ///         event.with().components(buttons("onButton")).reply("Hello World");
+    ///     }
+    ///
+    ///     @Button("Press me!")
+    ///     public void onButton(ComponentEvent event) {
+    ///         event.reply("You pressed me!");
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// @param components the [`Components`][Component] to add
+    /// @return the current instance for fluent interface
+    @NotNull
     public ComponentReply components(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component component : components) {
@@ -83,7 +140,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
             var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
                     it.getDefinitionId().equals(definitionId)
             );
-
+            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.getDisplayName());
             switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toButton().withDisabled(!component.enabled());
@@ -104,7 +161,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     private String createId(GenericComponentDefinition definition, boolean staticComponent) {
         return staticComponent
                 ? definition.staticCustomId()
-                : definition.scopedCustomId(runtime.id());
+                : definition.scopedCustomId(runtimeId);
     }
 }
 

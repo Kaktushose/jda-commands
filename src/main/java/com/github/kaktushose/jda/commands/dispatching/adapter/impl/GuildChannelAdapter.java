@@ -20,9 +20,10 @@ public class GuildChannelAdapter implements TypeAdapter<GuildChannel> {
      * Attempts to parse a String to a {@link GuildChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link GuildChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<GuildChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
@@ -30,6 +31,6 @@ public class GuildChannelAdapter implements TypeAdapter<GuildChannel> {
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw);
+        return Helpers.resolveGuildChannel(raw, event);
     }
 }

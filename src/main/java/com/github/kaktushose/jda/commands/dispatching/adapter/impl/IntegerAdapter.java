@@ -17,9 +17,10 @@ public class IntegerAdapter implements TypeAdapter<Integer> {
      * Attempts to parse a String to an Integer.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed Integer or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Integer> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         try {

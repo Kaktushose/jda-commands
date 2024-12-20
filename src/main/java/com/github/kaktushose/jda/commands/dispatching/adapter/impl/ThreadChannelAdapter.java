@@ -20,9 +20,10 @@ public class ThreadChannelAdapter implements TypeAdapter<ThreadChannel> {
      * Attempts to parse a String to a {@link ThreadChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link ThreadChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<ThreadChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
@@ -30,6 +31,6 @@ public class ThreadChannelAdapter implements TypeAdapter<ThreadChannel> {
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw).filter(ThreadChannel.class::isInstance).map(ThreadChannel.class::cast);
+        return Helpers.resolveGuildChannel(raw, event).filter(ThreadChannel.class::isInstance).map(ThreadChannel.class::cast);
     }
 }

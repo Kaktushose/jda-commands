@@ -59,7 +59,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     protected abstract InvocationContext<T> prepare(@NotNull T event, @NotNull Runtime runtime);
 
     @Override
-    final public void accept(T e, Runtime runtime) {
+    public final void accept(T e, Runtime runtime) {
         InvocationContext<T> context = prepare(e, runtime);
 
         if (context == null || Thread.interrupted()) {
@@ -84,12 +84,17 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     private void invoke(@NotNull InvocationContext<T> invocation, @NotNull Runtime runtime) {
         SequencedCollection<Object> arguments = invocation.arguments();
 
-        log.info("Executing interaction {} for user {}", invocation.definition().getDefinitionId(), invocation.event().getMember());
-        try {
-            log.debug("Invoking method with following arguments: {}", arguments);
+        var definition = invocation.definition();
 
-            Object instance = runtime.instance(invocation.definition());
-            invocation.definition().invoke(instance, invocation);
+        log.info("Executing interaction \"{}\" for user \"{}\"", definition.getDisplayName(), invocation.event().getUser().getEffectiveName());
+        try {
+            log.debug("Invoking method \"{}.{}\" with following arguments: {}",
+                    definition.getMethod().getDeclaringClass().getName(),
+                    definition.getMethod().getName(),
+                    arguments
+            );
+            Object instance = runtime.instance(definition);
+            definition.invoke(instance, invocation);
         } catch (Exception exception) {
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class

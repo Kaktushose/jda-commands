@@ -10,7 +10,7 @@ public class CustomTypeAdapter implements TypeAdapter<CustomType> {
 
 
     @Override
-    public Optional<CustomType> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public @NotNull Optional<CustomType> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         return Optional.of(new CustomType());
     }
 }

@@ -19,15 +19,16 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
      * Attempts to parse a String to a {@link TextChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<TextChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         if (event.getGuild() == null) {
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw).filter(TextChannel.class::isInstance).map(TextChannel.class::cast);
+        return Helpers.resolveGuildChannel(raw, event).filter(TextChannel.class::isInstance).map(TextChannel.class::cast);
     }
 }

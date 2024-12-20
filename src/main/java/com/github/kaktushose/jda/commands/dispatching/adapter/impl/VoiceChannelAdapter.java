@@ -20,9 +20,10 @@ public class VoiceChannelAdapter implements TypeAdapter<VoiceChannel> {
      * Attempts to parse a String to a {@link VoiceChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link VoiceChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<VoiceChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
@@ -30,6 +31,6 @@ public class VoiceChannelAdapter implements TypeAdapter<VoiceChannel> {
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw).filter(VoiceChannel.class::isInstance).map(VoiceChannel.class::cast);
+        return Helpers.resolveGuildChannel(raw, event).filter(VoiceChannel.class::isInstance).map(VoiceChannel.class::cast);
     }
 }

@@ -18,9 +18,10 @@ public class BooleanAdapter implements TypeAdapter<Boolean> {
      * Parsing is <em>case-insensitive</em>.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed boolean or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Boolean> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         if ("true".equalsIgnoreCase(raw) || "1".equals(raw)) {

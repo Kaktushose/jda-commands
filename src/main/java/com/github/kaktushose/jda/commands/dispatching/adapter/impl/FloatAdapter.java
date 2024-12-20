@@ -17,9 +17,10 @@ public class FloatAdapter implements TypeAdapter<Float> {
      * Attempts to parse a String to a Float.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed Float or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Float> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         try {

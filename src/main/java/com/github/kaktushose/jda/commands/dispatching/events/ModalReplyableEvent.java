@@ -10,6 +10,8 @@ import com.github.kaktushose.jda.commands.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
@@ -21,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCreateEvent>
         extends ReplyableEvent<T>
         permits CommandEvent, ComponentEvent {
+
+    private static final Logger log = LoggerFactory.getLogger(ModalReplyableEvent.class);
 
     /// Constructs a new ModalReplyableEvent.
     ///
@@ -35,7 +39,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         super(event, interactionRegistry, runtime, definition);
     }
 
-    /// Acknowledgement of this interaction with a [Modal]. This will open a popup on the target user's Discord client.
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
     ///
     /// @param modal the method name of the [Modal] you want to reply with
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
@@ -45,10 +49,10 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             var modalDefinition = interactionRegistry.find(ModalDefinition.class, false, it ->
                     it.getDefinitionId().equals(definitionId)
             );
-
+            log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.getDisplayName(), modalDefinition.getDisplayName(), runtimeId());
             callback.replyModal(modalDefinition.toModal(runtimeId())).queue();
         } else {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }

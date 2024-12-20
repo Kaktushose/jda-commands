@@ -20,9 +20,10 @@ public class GuildMessageChannelAdapter implements TypeAdapter<GuildMessageChann
      * Attempts to parse a String to a {@link GuildMessageChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link GuildMessageChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<GuildMessageChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
@@ -30,7 +31,7 @@ public class GuildMessageChannelAdapter implements TypeAdapter<GuildMessageChann
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw)
+        return Helpers.resolveGuildChannel(raw, event)
                 .filter(it -> it.getType().isMessage())
                 .map(GuildMessageChannel.class::cast);
     }

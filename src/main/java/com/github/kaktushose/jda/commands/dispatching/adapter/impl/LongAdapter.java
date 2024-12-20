@@ -17,9 +17,10 @@ public class LongAdapter implements TypeAdapter<Long> {
      * Attempts to parse a String to a Long.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed Long or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Long> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         try {

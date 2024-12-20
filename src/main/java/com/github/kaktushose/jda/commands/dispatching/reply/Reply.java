@@ -4,52 +4,78 @@ import com.github.kaktushose.jda.commands.data.EmbedDTO;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
+/// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
+///
+/// This interface ensures that [ReplyableEvent] and [MessageReply], which is internally used by [ReplyableEvent],
+/// always share the same reply methods.
+///
+/// @see ReplyableEvent
+/// @since 4.0.0
 public sealed interface Reply permits MessageReply, ReplyableEvent {
 
-    /**
-     * Sends a message to the TextChannel where the interaction was executed.
-     *
-     * @param message the message to send
-     */
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    ///
+    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    ///
+    /// @param message the message to send
+    /// @return the [Message] that got created
     Message reply(@NotNull String message);
 
-    /**
-     * Sends a formatted message using the specified format string and arguments to the TextChannel where the interaction was executed.
-     *
-     * @param format the message to send
-     * @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
-     *               format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
-     *               zero.
-     * @throws java.util.IllegalFormatException If a format string contains an illegal syntax, a format specifier that
-     *                                          is incompatible with the given arguments, insufficient arguments given
-     *                                          the format string, or other illegal conditions.
-     */
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    ///
+    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    ///
+    /// @param format the message to send
+    /// @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
+    ///               format specifiers, the extra arguments are ignored. The number of arguments is variable and may be
+    ///               zero.
+    /// @return the [Message] that got created
+    /// @throws java.util.IllegalFormatException If a format string contains an illegal syntax, a format specifier that
+    ///                                         is incompatible with the given arguments, insufficient arguments given
+    ///                                         the format string, or other illegal conditions
+    ///                                                                                                                                                                                                                                                                                                is incompatible with the given arguments, insufficient arguments given
+    ///                                                                                                                                                                                                                                                                                               the format string, or other illegal conditions.
     default Message reply(@NotNull String format, @NotNull Object... args) {
         return reply(format.formatted(args));
     }
 
-    /**
-     * Sends a message to the TextChannel where the interaction was executed.
-     *
-     * @param message the {@code Message} to send
-     */
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    ///
+    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    ///
+    /// @param message the [MessageCreateData] to send
+    /// @return the [Message] that got created
     Message reply(@NotNull MessageCreateData message);
 
-    /**
-     * Sends a message to the TextChannel where the interaction was executed.
-     *
-     * @param builder the {@code EmbedBuilder} to send
-     */
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    ///
+    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    ///
+    /// @param builder the [EmbedBuilder] to send
+    /// @return the [Message] that got created
     Message reply(@NotNull EmbedBuilder builder);
 
-    /**
-     * Sends a message to the TextChannel where the interaction was executed.
-     *
-     * @param embedDTO the {@link EmbedDTO} to send
-     */
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    ///
+    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    ///
+    /// @param embedDTO the [EmbedDTO] to send
+    /// @return the [Message] that got created
     default Message reply(@NotNull EmbedDTO embedDTO) {
         return reply(embedDTO.toEmbedBuilder());
     }

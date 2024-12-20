@@ -17,9 +17,10 @@ public class DoubleAdapter implements TypeAdapter<Double> {
      * Attempts to parse a String to a Double.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed Double or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Double> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         try {

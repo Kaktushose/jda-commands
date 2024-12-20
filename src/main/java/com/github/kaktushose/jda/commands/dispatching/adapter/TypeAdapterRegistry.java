@@ -26,18 +26,16 @@ import java.util.Optional;
 public class TypeAdapterRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
-    public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = new HashMap<>() {
-        {
-            put(byte.class, (byte) 0);
-            put(short.class, (short) 0);
-            put(int.class, 0);
-            put(long.class, 0L);
-            put(double.class, 0.0d);
-            put(float.class, 0.0f);
-            put(boolean.class, false);
-            put(char.class, '\u0000');
-        }
-    };
+    public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
+            byte.class, ((byte) 0),
+            short.class, ((short) 0),
+            int.class, 0,
+            long.class, 0L,
+            double.class, 0.0d,
+            float.class, 0.0f,
+            boolean.class, false,
+            char.class, '\u0000'
+    );
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
     /**
@@ -48,7 +46,7 @@ public class TypeAdapterRegistry {
      *     <li>String Array</li>
      *     <li>{@link Member}</li>
      *     <li>{@link User}</li>
-     *     <li>{@link TextChannel}</li>
+     *     <li>{@link net.dv8tion.jda.api.entities.channel.middleman.MessageChannel MessageChannel} and subtypes</li>
      *     <li>{@link Role}</li>
      * </ul>
      */

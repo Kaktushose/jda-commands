@@ -20,9 +20,10 @@ public class NewsChannelAdapter implements TypeAdapter<NewsChannel> {
      * Attempts to parse a String to a {@link NewsChannel}. Accepts both the channel id and name.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed {@link NewsChannel} or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<NewsChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
@@ -30,6 +31,6 @@ public class NewsChannelAdapter implements TypeAdapter<NewsChannel> {
             return Optional.empty();
         }
 
-        return Helpers.resolveGuildChannel(event, raw).filter(NewsChannel.class::isInstance).map(NewsChannel.class::cast);
+        return Helpers.resolveGuildChannel(raw, event).filter(NewsChannel.class::isInstance).map(NewsChannel.class::cast);
     }
 }

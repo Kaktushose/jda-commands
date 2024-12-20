@@ -17,9 +17,10 @@ public class ByteAdapter implements TypeAdapter<Byte> {
      * Attempts to parse a String to a Byte.
      *
      * @param raw   the String to parse
-     * @param event the {@link Context}
+     * @param event the {@link GenericInteractionCreateEvent}
      * @return the parsed Byte or an empty Optional if the parsing fails
      */
+    @NotNull
     @Override
     public Optional<Byte> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
         try {
