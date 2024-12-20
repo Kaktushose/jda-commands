@@ -18,7 +18,7 @@ public interface Validator {
      *
      * @param argument   the argument to validate
      * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link Context}
+     * @param context    the corresponding {@link InvocationContext}
      * @return {@code true} if the argument passes the constraints
      */
     boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context);

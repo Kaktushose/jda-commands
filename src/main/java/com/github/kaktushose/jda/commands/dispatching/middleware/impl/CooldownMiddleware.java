@@ -37,7 +37,7 @@ public class CooldownMiddleware implements Middleware {
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param ctx the {@link InvocationContext} to filter
+     * @param context the {@link InvocationContext} to filter
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {

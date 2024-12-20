@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
+    @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
                                                           @NotNull GenericInteractionDefinition definition,
@@ -58,6 +59,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition interaction) {
         StringBuilder sbPermissions = new StringBuilder();
@@ -74,6 +76,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
@@ -84,6 +87,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getCooldownMessage(long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
@@ -96,13 +100,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             cooldown.append(hours).append(hours == 1 ? " hour" : " hours");
         }
         if (minutes > 0) {
-            if (cooldown.length() > 0) {
+            if (!cooldown.isEmpty()) {
                 cooldown.append(" ");
             }
             cooldown.append(minutes).append(minutes == 1 ? " minute" : " minutes");
         }
         if (seconds > 0) {
-            if (cooldown.length() > 0) {
+            if (!cooldown.isEmpty()) {
                 cooldown.append(" ");
             }
             cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
@@ -115,6 +119,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getWrongChannelTypeMessage() {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
@@ -125,6 +130,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericInteractionCreateEvent event, @NotNull Throwable exception) {
         String error;
@@ -132,7 +138,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
-                event.getUser().toString(),
+                event.getUser(),
                 event.getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
@@ -147,8 +153,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    @NotNull
     @Override
-    public MessageCreateData getUnknownInteractionMessage() {
+    public MessageCreateData getTimedOutComponentMessage() {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")

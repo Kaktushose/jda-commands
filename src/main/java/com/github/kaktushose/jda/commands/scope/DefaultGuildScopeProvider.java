@@ -13,6 +13,7 @@ import java.util.Set;
  */
 public class DefaultGuildScopeProvider implements GuildScopeProvider {
 
+    /// @return always an empty set
     @Override
     public Set<Long> apply(CommandData commandData) {
         return Collections.emptySet();

@@ -38,7 +38,7 @@ public class PermissionsMiddleware implements Middleware {
     /**
      * Checks if the {@link User} and respectively the {@link Member} has the permission to execute the command.
      *
-     * @param context the {@link Context} to filter
+     * @param context the {@link InvocationContext} to filter
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {

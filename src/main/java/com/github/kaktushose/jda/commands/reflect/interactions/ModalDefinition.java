@@ -83,7 +83,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
      * @param runtimeId the runtimeId of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     *                  {@link com.github.kaktushose.jda.commands.dispatching.Runtime Runtime}
      *                  of this interaction execution
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */

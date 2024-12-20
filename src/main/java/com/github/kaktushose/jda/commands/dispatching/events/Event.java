@@ -63,10 +63,10 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return this.event;
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] already transformed
-    /// into a JDA [Button] based on its name.
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// and transforms it into a JDA [Button].
     ///
-    /// The button will be linked to the current [Runtime]. This may be useful if you want to send a message without
+    /// The button will be linked to the current [Runtime]. This may be useful if you want to send a component without
     /// using the framework.
     ///
     /// @param button the name of the button
@@ -85,10 +85,9 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return buttonDefinition.toButton().withId(buttonDefinition.boundCustomId(runtimeId()));
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu]
-    /// already transformed into a JDA [SelectMenu] based on its name.
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
-    /// The select menu will be linked to the current [Runtime]. This may be useful if you want to send a message
+    /// The select menu will be linked to the current [Runtime]. This may be useful if you want to send a component
     /// without using the framework.
     ///
     /// @param <S>  the type of [SelectMenu]

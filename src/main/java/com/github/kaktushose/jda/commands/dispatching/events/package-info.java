@@ -1,4 +1,2 @@
-/// Event classes that represent an interaction execution.
-///
-/// @since 4.0.0
+/// Abstract event classes that build the foundation for specific event implementations.
 package com.github.kaktushose.jda.commands.dispatching.events;

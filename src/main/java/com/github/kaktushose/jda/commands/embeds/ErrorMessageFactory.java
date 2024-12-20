@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds;
 
+import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
@@ -9,73 +10,61 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/**
- * Generic interface for factory classes that generate error messages.
- *
- * @see com.github.kaktushose.jda.commands.annotations.Implementation
- * @see DefaultErrorMessageFactory
- * @since 2.0.0
- */
+/// Generic interface for factory classes that generate error messages.
+///
+/// @see Implementation
+/// @see DefaultErrorMessageFactory
+/// @since 2.0.0
 public interface ErrorMessageFactory {
 
-    /**
-     * Gets a {@link MessageCreateData} to send when type adapting of the user input failed.
-     *
-     * @param event the {@link GenericInteractionCreateEvent} that was attempted to type adapt
-     * @return a {@link MessageCreateData} to send when type adapting failed
-     */
+    /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
+    ///
+    /// @param event the [GenericInteractionCreateEvent] that was attempted to type adapt
+    /// @return a [MessageCreateData] to send when type adapting failed
+    @NotNull
     MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
                                                    @NotNull GenericInteractionDefinition definition,
                                                    @NotNull List<String> userInput);
 
-    /**
-     * Gets a {@link MessageCreateData} to send when a user is missing permissions.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when a user is missing permissions
-     */
+    /// Gets a [MessageCreateData] to send when a user is missing permissions.
+    ///
+    /// @param definition the corresponding [GenericInteractionDefinition]
+    /// @return a [MessageCreateData] to send when a user is missing permissions
+    @NotNull
     MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition definition);
 
-    /**
-     * Gets a {@link MessageCreateData} to send when a parameter constraint fails.
-     *
-     * @param context    the corresponding {@link Context}
-     * @param constraint the corresponding {@link ConstraintDefinition} that failed
-     * @return a {@link MessageCreateData} to send when a parameter constraint fails
-     */
+    /// Gets a [MessageCreateData] to send when a parameter constraint fails.
+    ///
+    /// @param constraint the corresponding [ConstraintDefinition] that failed
+    /// @return a [MessageCreateData] to send when a parameter constraint fails
+    @NotNull
     MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint);
 
-    /**
-     * Gets a {@link Message} to send when a command still has a cooldown.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when a command still has a cooldown
-     */
+    /// Gets a [Message] to send when a command still has a cooldown.
+    ///
+    /// @param ms the remaining cooldown in milliseconds
+    /// @return a [MessageCreateData] to send when a command still has a cooldown
+    @NotNull
     MessageCreateData getCooldownMessage(long ms);
 
-    /**
-     * Gets a {@link MessageCreateData} to send when the channel type isn't suitable for the command.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when the channel type isn't suitable for the command
-     */
+    /// Gets a [MessageCreateData] to send when the channel type isn't suitable for the command.
+    ///
+    /// @return a [MessageCreateData] to send when the channel type isn't suitable for the command
+    @NotNull
     MessageCreateData getWrongChannelTypeMessage();
 
-    /**
-     * Gets a {@link MessageCreateData} to send when the command execution failed.
-     *
-     * @param context   the corresponding {@link Context}
-     * @param exception the Exception that made the command execution fail
-     * @return a {@link MessageCreateData} to send when the command execution failed
-     */
+    /// Gets a [MessageCreateData] to send when the command execution failed.
+    ///
+    /// @param event   the corresponding [GenericInteractionCreateEvent]
+    /// @param exception the [Throwable] that made the command execution fail
+    /// @return a [MessageCreateData] to send when the command execution failed
+    @NotNull
     MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericInteractionCreateEvent event, @NotNull Throwable exception);
 
-    /**
-     * Gets a {@link MessageCreateData} to send when an incoming interaction already timed out.
-     *
-     * @param context the corresponding {@link Context}
-     * @return a {@link MessageCreateData} to send when an incoming interaction already timed out
-     */
-    MessageCreateData getUnknownInteractionMessage();
+    /// Gets a [MessageCreateData] to send when an incoming component interaction already timed out.
+    ///
+    /// @return a [MessageCreateData] to send when an incoming component interaction already timed out
+    @NotNull
+    MessageCreateData getTimedOutComponentMessage();
 
 }

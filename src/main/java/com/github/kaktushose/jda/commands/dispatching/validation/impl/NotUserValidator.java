@@ -22,7 +22,7 @@ public class NotUserValidator implements Validator {
      *
      * @param argument   the argument to validate
      * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link Context}
+     * @param context    the corresponding {@link InvocationContext}
      * @return {@code true} if the argument <b>isn't</b> the specified user or member
      */
     @Override

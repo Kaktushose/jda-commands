@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class is a DTO to serialize and deserialize JDA's embed objects to json. Checkout the discord docs to get
+ * This class is a DTO to serialize and deserialize JDAs embed objects to json. Checkout the discord docs to get
  * information about what each field does exactly.
  *
  * <p>The json object can contain {@code {placeholders}} which can then be injected with values at runtime by calling
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
  */
 public class EmbedDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private String title;
     private String description;

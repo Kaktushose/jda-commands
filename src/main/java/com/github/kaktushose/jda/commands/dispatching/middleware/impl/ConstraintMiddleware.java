@@ -31,10 +31,10 @@ public class ConstraintMiddleware implements Middleware {
     }
 
     /**
-     * Checks if all parameters fulfill their constraints. Will cancel the {@link Context} if a parameter
+     * Checks if all parameters fulfill their constraints. Will cancel the {@link InvocationContext} if a parameter
      * constraint fails.
      *
-     * @param context the {@link Context} to filter
+     * @param context the {@link InvocationContext} to filter
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {

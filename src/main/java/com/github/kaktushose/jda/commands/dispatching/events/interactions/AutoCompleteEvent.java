@@ -178,7 +178,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the numeric value of any of the choices is not between {@value OptionData#MIN_NEGATIVE_NUMBER} and {@value OptionData#MAX_POSITIVE_NUMBER}</li>
      *                                  </ul>
      */
-    public void replyChoiceLongs(@NotNull long... choices) {
+    public void replyChoiceLongs(long... choices) {
         replyChoices(Arrays.stream(choices).mapToObj(it -> new Command.Choice(String.valueOf(it), it)).collect(Collectors.toList()));
     }
 

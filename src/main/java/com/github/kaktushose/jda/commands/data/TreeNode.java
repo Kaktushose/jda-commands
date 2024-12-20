@@ -181,7 +181,7 @@ public record TreeNode(
     private SlashCommandData createRootCommand(String name, List<TreeNode> children) {
         SlashCommandData result = Commands.slash(name, "empty description");
         List<SlashCommandDefinition> subCommands = unwrapDefinitions(children);
-        LocalizationFunction function = subCommands.get(0).getLocalizationFunction();
+        LocalizationFunction function = subCommands.getFirst().getLocalizationFunction();
 
         boolean isNSFW = false;
         boolean isGuildOnly = false;

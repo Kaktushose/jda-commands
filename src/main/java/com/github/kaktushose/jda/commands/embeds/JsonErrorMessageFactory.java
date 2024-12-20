@@ -28,6 +28,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         this.embedCache = embedCache;
     }
 
+    @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
                                                           @NotNull GenericInteractionDefinition definition,
@@ -62,6 +63,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition interaction) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
@@ -78,6 +80,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
@@ -88,6 +91,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getCooldownMessage(long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
@@ -104,6 +108,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getWrongChannelTypeMessage() {
         if (!embedCache.containsEmbed("wrongChannel")) {
@@ -112,6 +117,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         return embedCache.getEmbed("wrongChannel").toMessageCreateData();
     }
 
+    @NotNull
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericInteractionCreateEvent event, @NotNull Throwable exception) {
         if (!embedCache.containsEmbed("executionFailed")) {
@@ -120,7 +126,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
-                event.getUser().toString(),
+                event.getUser(),
                 event.getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
@@ -130,10 +136,11 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
+    @NotNull
     @Override
-    public MessageCreateData getUnknownInteractionMessage() {
+    public MessageCreateData getTimedOutComponentMessage() {
         if (!embedCache.containsEmbed("unknownInteraction")) {
-            return super.getUnknownInteractionMessage();
+            return super.getTimedOutComponentMessage();
         }
         return embedCache.getEmbed("unknownInteraction").toMessageCreateData();
     }
