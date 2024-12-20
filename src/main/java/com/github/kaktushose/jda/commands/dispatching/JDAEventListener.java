@@ -51,7 +51,7 @@ public final class JDAEventListener extends ListenerAdapter {
                         .sendMessage(context.implementationRegistry().getErrorMessageFactory().getTimedOutComponentMessage())
                         .queue();
             } else {
-               log.debug("Received unknown event: {}", jdaEvent);
+                log.debug("Received unknown event: {}", jdaEvent);
             }
             return;
         }

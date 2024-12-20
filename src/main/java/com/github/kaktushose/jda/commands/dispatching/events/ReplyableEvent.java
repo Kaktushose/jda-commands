@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 /// @since 4.0.0
 /// @see ModalEvent
 /// @see ModalReplyableEvent
+/// @since 4.0.0
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
         permits ModalEvent, ModalReplyableEvent {
 
@@ -72,8 +73,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// Returns a [ConfigurableReply] that can be used to append components or override reply settings.
     ///
-    /// @see [ConfigurableReply]
     /// @return [ConfigurableReply]
+    /// @see [ConfigurableReply]
     @NotNull
     public ConfigurableReply with() {
         return new ConfigurableReply(newReply(), interactionRegistry, runtimeId());

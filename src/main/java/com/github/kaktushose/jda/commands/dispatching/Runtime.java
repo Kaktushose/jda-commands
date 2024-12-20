@@ -65,6 +65,13 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
+    @NotNull
+    public static Runtime startNew(String id, HandlerContext handlerContext) {
+        var runtime = new Runtime(id, handlerContext);
+        runtime.executionThread.start();
+        return runtime;
+    }
+
     private void checkForEvents() {
         try {
             while (!Thread.interrupted()) {
@@ -86,13 +93,6 @@ public final class Runtime implements Closeable {
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         }
-    }
-
-    @NotNull
-    public static Runtime startNew(String id, HandlerContext handlerContext) {
-        var runtime = new Runtime(id, handlerContext);
-        runtime.executionThread.start();
-        return runtime;
     }
 
     @NotNull

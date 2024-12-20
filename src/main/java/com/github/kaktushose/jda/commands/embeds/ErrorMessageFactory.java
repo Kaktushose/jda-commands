@@ -55,7 +55,7 @@ public interface ErrorMessageFactory {
 
     /// Gets a [MessageCreateData] to send when the command execution failed.
     ///
-    /// @param event   the corresponding [GenericInteractionCreateEvent]
+    /// @param event     the corresponding [GenericInteractionCreateEvent]
     /// @param exception the [Throwable] that made the command execution fail
     /// @return a [MessageCreateData] to send when the command execution failed
     @NotNull

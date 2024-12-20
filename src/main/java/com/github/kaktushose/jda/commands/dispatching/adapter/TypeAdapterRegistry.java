@@ -25,7 +25,6 @@ import java.util.Optional;
  */
 public class TypeAdapterRegistry {
 
-    private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
     public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
             short.class, ((short) 0),
@@ -36,6 +35,7 @@ public class TypeAdapterRegistry {
             boolean.class, false,
             char.class, '\u0000'
     );
+    private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
     /**

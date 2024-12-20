@@ -26,7 +26,6 @@ import java.util.Arrays;
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-///
 /// @since 2.3.0
 public record Components(boolean enabled, boolean independent, String name) {
 
@@ -49,9 +48,9 @@ public record Components(boolean enabled, boolean independent, String name) {
 
     /// Adds [Components] with the passed configuration to the reply.
     ///
-    /// @param enabled whether the [Components] should be enabled or disabled
+    /// @param enabled     whether the [Components] should be enabled or disabled
     /// @param independent whether the [Components] should be runtime-bound or independent
-    /// @param components the name of the method that represents the component
+    /// @param components  the name of the method that represents the component
     public static Components[] of(boolean enabled, boolean independent, String... components) {
         return Arrays.stream(components)
                 .map(it -> new Components(enabled, independent, it))

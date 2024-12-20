@@ -7,12 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 /// Indicates that this class can create a component or modal which Discord requires a custom id for.
 ///
-/// @implSpec
-/// the custom id has the following structure: `[prefix.runtimeId.definitionId]`. The prefix will always be `jdac`,
+/// @implSpec the custom id has the following structure: `[prefix.runtimeId.definitionId]`. The prefix will always be `jdac`,
 /// indicating that this id was created by jda-commands. The runtime id is a UUID or the String literal `independent`,
 /// if the component or modal works runtime independent. The definition id is the hash value of the full class name and
 /// method name combined: `(method.getDeclaringClass.getName() + method.getName()).hash()`
-///
 /// @see GenericComponentDefinition
 /// @see ModalDefinition
 /// @since 4.0.0
@@ -22,20 +20,6 @@ public sealed interface CustomId permits GenericComponentDefinition, ModalDefini
     String PREFIX = "jdac";
     String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
     String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.independent\\.-?\\d+$";
-
-    /// Gets a custom id for this definition that is bound to the passed [Runtime] id.
-    ///
-    /// @param runtimeId the id of the [Runtime]
-    /// @return the custom id
-    @NotNull
-    String boundCustomId(@NotNull String runtimeId);
-
-    /// Gets a custom id for this definition that is runtime-independent.
-    ///
-    /// @return the custom id
-    /// @throws UnsupportedOperationException if the interaction this definition wraps doesn't support independent execution
-    @NotNull
-    String independentCustomId();
 
     /// Extracts the runtime id from the passed custom id.
     ///
@@ -89,4 +73,18 @@ public sealed interface CustomId permits GenericComponentDefinition, ModalDefini
         }
         return customId.split("\\.")[index];
     }
+
+    /// Gets a custom id for this definition that is bound to the passed [Runtime] id.
+    ///
+    /// @param runtimeId the id of the [Runtime]
+    /// @return the custom id
+    @NotNull
+    String boundCustomId(@NotNull String runtimeId);
+
+    /// Gets a custom id for this definition that is runtime-independent.
+    ///
+    /// @return the custom id
+    /// @throws UnsupportedOperationException if the interaction this definition wraps doesn't support independent execution
+    @NotNull
+    String independentCustomId();
 }

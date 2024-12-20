@@ -37,9 +37,9 @@ public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> e
      * Transforms this definition to a select menu name.
      *
      * @param customId the runtimeId of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.Runtime Runtime}
-     *                  of this interaction execution
-     * @param enabled   {@code true} if the name should be enabled
+     *                 {@link com.github.kaktushose.jda.commands.dispatching.Runtime Runtime}
+     *                 of this interaction execution
+     * @param enabled  {@code true} if the name should be enabled
      * @return the select menu name
      */
     public abstract T toSelectMenu(String customId, boolean enabled);

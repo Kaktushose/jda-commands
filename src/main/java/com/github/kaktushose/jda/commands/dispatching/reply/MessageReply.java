@@ -46,7 +46,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [GenericInteractionDefinition]. This is mostly needed by the
-    ///                                      [ConfigurableReply]
+    ///                                                         [ConfigurableReply]
     /// @param replyConfig the [ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull GenericInteractionDefinition definition,
@@ -63,7 +63,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     ///
     /// @param event      the corresponding [GenericInteractionCreateEvent]
     /// @param definition the corresponding [EphemeralInteractionDefinition]. This is mostly needed by the
-    ///                                     [ConfigurableReply]
+    ///                                                       [ConfigurableReply]
     public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull EphemeralInteractionDefinition definition) {
         this(event, definition, definition.replyConfig());
     }
@@ -97,6 +97,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.
     ///
+    /// @return the [Message] that got created
     /// @implNote This method can handle both message replies and message edits. it will check if the interaction got
     /// acknowledged and will acknowledge it if necessary before sending or editing a message. After that,
     /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
@@ -104,8 +105,6 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     ///
     /// If editing a message and `keepComponents` is `true`, queries the original message first and adds its components
     /// to the reply before sending it.
-    ///
-    /// @return the [Message] that got created
     @NotNull
     protected Message complete() {
         switch (event) {

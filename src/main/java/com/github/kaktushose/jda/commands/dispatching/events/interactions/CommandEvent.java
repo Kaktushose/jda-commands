@@ -32,8 +32,8 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     /// Returns the underlying [GenericCommandInteractionEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericCommandInteractionEvent], like [SlashCommandInteractionEvent]
+    /// @param <T>  a subtype of [GenericCommandInteractionEvent]
     /// @return [T]
-    /// @param <T> a subtype of [GenericCommandInteractionEvent]
     @NotNull
     public <T extends GenericCommandInteractionEvent> T jdaEvent(@NotNull Class<T> type) {
         return type.cast(event);

@@ -40,8 +40,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param reply the underlying [MessageReply]
-    /// @param registry the corresponding [InteractionRegistry]
+    /// @param reply     the underlying [MessageReply]
+    /// @param registry  the corresponding [InteractionRegistry]
     /// @param runtimeId the corresponding [Runtime]
     public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
         super(reply);

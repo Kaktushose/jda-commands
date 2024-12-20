@@ -41,7 +41,7 @@ public final class Helpers {
 
     /// Attempts to resolve a [GuildChannel] based on user input.
     ///
-    /// @param raw the String the [GuildChannel] should be resolved from
+    /// @param raw   the String the [GuildChannel] should be resolved from
     /// @param event the corresponding [GenericInteractionCreateEvent]
     /// @return an [Optional] holding the resolved [GuildChannel] or an empty [Optional] if the resolving failed
     @NotNull
@@ -104,8 +104,8 @@ public final class Helpers {
     /// Checks if the given parameter is present at the [Method] at the given index.
     ///
     /// @param method the [Method] to check
-    /// @param index the index the parameter is expected to be at
-    /// @param type the type of the parameter
+    /// @param index  the index the parameter is expected to be at
+    /// @param type   the type of the parameter
     /// @return `true` if the parameter is present
     public static boolean isIncorrectParameterType(@NotNull Method method, int index, @NotNull Class<?> type) {
         if (!type.isAssignableFrom(method.getParameters()[index].getType())) {

@@ -11,11 +11,11 @@ import java.util.SequencedCollection;
 
 /// Bundles data that is important for the execution of an interaction, especially for invoking the user defined method.
 ///
-/// @param <T> The used type of [GenericInteractionCreateEvent]
-/// @param event the underlying jda event
+/// @param <T>           The used type of [GenericInteractionCreateEvent]
+/// @param event         the underlying jda event
 /// @param keyValueStore the [KeyValueStore] belonging to this interaction over its whole lifetime
-/// @param arguments the arguments used to call the final user defined method via [GenericInteractionDefinition#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
-/// @param definition the [GenericInteractionDefinition] defining this interaction (referring to the user defined method)
+/// @param arguments     the arguments used to call the final user defined method via [GenericInteractionDefinition#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
+/// @param definition    the [GenericInteractionDefinition] defining this interaction (referring to the user defined method)
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         T event,
         KeyValueStore keyValueStore,
@@ -29,11 +29,5 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         new MessageReply(event, definition, new ReplyConfig()).reply(errorMessage);
 
         Thread.currentThread().interrupt();
-    }
-
-    private ReplyConfig replyConfig(GenericInteractionDefinition definition) {
-        return definition instanceof EphemeralInteractionDefinition ephemeral
-                ? ephemeral.replyConfig()
-                : new ReplyConfig();
     }
 }
