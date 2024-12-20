@@ -29,6 +29,13 @@ import java.util.Arrays;
 /// @since 2.3.0
 public record Components(boolean enabled, boolean independent, String name) {
 
+    /// Adds enabled, runtime-bound [Components] to the reply.
+    ///
+    /// @param components the name of the method that represents the component
+    public static Components[] enabled(String... components) {
+        return of(true, false, components);
+    }
+
     /// Adds disabled, runtime-bound [Components] to the reply.
     ///
     /// @param components the name of the method that represents the component
