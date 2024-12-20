@@ -18,9 +18,9 @@ import java.util.List;
 /// ### Example:
 /// ```
 /// @Interaction
-/// public class TestCommand {
+/// public class ExampleCommand {
 ///
-///     @SlashCommand(value = "test command")
+///     @SlashCommand(value = "example command")
 ///     public void onCommand(CommandEvent event) {
 ///         event.with().components(buttons("onButton")).reply("Hello World");
 ///     }
@@ -108,18 +108,21 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return this;
     }
 
-    /// Adds an [ActionRow] to the reply and adds the passed [`Components`][Component] to it.
+    /// Adds an [ActionRow] to the reply and adds the passed components to it.
+    ///
+    /// The components will always be enabled and scoped. Use [#components(Components...)] if you want to modify these
+    /// settings.
     ///
     /// **The components must be defined in the same class where this method gets called!**
     ///
     /// ### Example:
     /// ```
     /// @Interaction
-    /// public class TestCommand {
+    /// public class ExampleCommand {
     ///
-    ///     @SlashCommand(value = "test command")
+    ///     @SlashCommand(value = "example command")
     ///     public void onCommand(CommandEvent event) {
-    ///         event.with().components(buttons("onButton")).reply("Hello World");
+    ///         event.with().components("onButton").reply("Hello World");
     ///     }
     ///
     ///     @Button("Press me!")
@@ -129,12 +132,41 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// }
     /// ```
     ///
-    /// @param components the [`Components`][Component] to add
+    /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull Component... components) {
+    public ComponentReply components(@NotNull String... components) {
+        return components(Components.of(true, false, components));
+    }
+
+    /// Adds an [ActionRow] to the reply and adds the passed [Components] to it.
+    ///
+    /// **The components must be defined in the same class where this method gets called!**
+    ///
+    /// ### Example:
+    /// ```
+    /// @Interaction
+    /// public class ExampleCommand {
+    ///
+    ///     @SlashCommand(value = "example command")
+    ///     public void onCommand(CommandEvent event) {
+    ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
+    ///     }
+    ///
+    ///     @Button("Press me!")
+    ///     public void onButton(ComponentEvent event) {
+    ///         event.reply("You pressed me!");
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// @see Components
+    /// @param components the [Components] to add
+    /// @return the current instance for fluent interface
+    @NotNull
+    public ComponentReply components(@NotNull Components... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component component : components) {
+        for (Components component : components) {
 
             var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + component.name()).hashCode());
             var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
@@ -145,10 +177,10 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toButton().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
-                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.staticComponent())) : button);
+                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent())) : button);
                 }
                 case GenericSelectMenuDefinition<?> menuDefinition ->
-                        items.add(menuDefinition.toSelectMenu(createId(definition, component.staticComponent()), component.enabled()));
+                        items.add(menuDefinition.toSelectMenu(createId(definition, component.independent()), component.enabled()));
             }
         }
         if (!items.isEmpty()) {
@@ -160,8 +192,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     private String createId(GenericComponentDefinition definition, boolean staticComponent) {
         return staticComponent
-                ? definition.staticCustomId()
-                : definition.scopedCustomId(runtimeId);
+                ? definition.independentCustomId()
+                : definition.boundCustomId(runtimeId);
     }
 }
 

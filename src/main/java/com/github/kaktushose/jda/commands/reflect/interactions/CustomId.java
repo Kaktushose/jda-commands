@@ -1,48 +1,86 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Indicates that this class can create a component or modal which Discord requires a custom id for.
- *
- * @see 4.0.0
- */
-public interface CustomId {
+/// Indicates that this class can create a component or modal which Discord requires a custom id for.
+///
+/// @implSpec
+/// the custom id has the following structure: `[prefix.runtimeId.definitionId]`. The prefix will always be `jdac`,
+/// indicating that this id was created by jda-commands. The runtime id is a UUID or the String literal `independent`,
+/// if the component or modal works runtime independent. The definition id is the hash value of the full class name and
+/// method name combined: `(method.getDeclaringClass.getName() + method.getName()).hash()`
+///
+/// @see GenericComponentDefinition
+/// @see ModalDefinition
+/// @since 4.0.0
+@ApiStatus.Internal
+public sealed interface CustomId permits GenericComponentDefinition, ModalDefinition {
 
     String PREFIX = "jdac";
-    String SCOPED_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
-    String STATIC_CUSTOM_ID_REGEX = "^jdac\\.static\\.-?\\d+$";
+    String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
+    String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.independent\\.-?\\d+$";
 
-    /**
-     * Gets the custom id for this component.
-     *
-     * @param runtimeId the runtimeId of this component execution
-     * @return the runtime id
-     */
-    String scopedCustomId(String runtimeId);
+    /// Gets a custom id for this definition that is bound to the passed [Runtime] id.
+    ///
+    /// @param runtimeId the id of the [Runtime]
+    /// @return the custom id
+    @NotNull
+    String boundCustomId(@NotNull String runtimeId);
 
-    String staticCustomId();
+    /// Gets a custom id for this definition that is runtime-independent.
+    ///
+    /// @return the custom id
+    /// @throws UnsupportedOperationException if the interaction this definition wraps doesn't support independent execution
+    @NotNull
+    String independentCustomId();
 
+    /// Extracts the runtime id from the passed custom id.
+    ///
+    /// @param customId the custom id to extract the runtime id from
+    /// @return the runtime id
     @NotNull
     static String runtimeId(@NotNull String customId) {
         return getId(customId, 1);
     }
 
+    /// Extracts the definition id from the passed custom id.
+    ///
+    /// @param customId the definition id to extract the runtime id from
+    /// @return the runtime id
+    /// @throws IllegalArgumentException if the passed custom id is a runtime-independent id
     @NotNull
     static String definitionId(@NotNull String customId) {
+        if (isIndependent(customId)) {
+            throw new IllegalArgumentException("Provided custom id is independent!");
+        }
         return getId(customId, 2);
     }
 
-    static boolean isStatic(@NotNull String customId) {
-        return customId.matches(STATIC_CUSTOM_ID_REGEX);
+    /// Checks if the passed custom id is runtime-independent.
+    ///
+    /// @param customId the custom id to check
+    /// @return `true` if the custom id is runtime-independent
+    static boolean isIndependent(@NotNull String customId) {
+        return customId.matches(INDEPENDENT_CUSTOM_ID_REGEX);
     }
 
-    static boolean isScoped(@NotNull String customId) {
-        return customId.matches(SCOPED_CUSTOM_ID_REGEX);
+    /// Checks if the passed custom id is runtime-bound.
+    ///
+    /// @param customId the custom id to check
+    /// @return `true` if the custom id is runtime-bound
+    static boolean isBound(@NotNull String customId) {
+        return customId.matches(BOUND_CUSTOM_ID_REGEX);
     }
 
+    /// Checks if the passed custom id conforms to the defined format of jda-commands.
+    ///
+    /// @param customId the custom id to check
+    /// @return `true` if the passed custom id conforms to the jda-commands format
     static boolean isInvalid(@NotNull String customId) {
-        return !(isStatic(customId) || isScoped(customId));
+        return !(isIndependent(customId) || isBound(customId));
     }
 
     private static String getId(String customId, int index) {
@@ -51,5 +89,4 @@ public interface CustomId {
         }
         return customId.split("\\.")[index];
     }
-
 }

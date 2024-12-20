@@ -26,7 +26,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /// A [Runtime] delegates the jda events to their corresponding [EventHandler] and manages the used virtual threads.
 ///
 /// A new [Runtime] is created each time an [SlashCommandInteractionEvent], [GenericContextInteractionEvent] or [CommandAutoCompleteInteractionEvent] is provided by jda
-/// or if an interaction is marked as 'static'. (staticComponent)
+/// or if an interaction is marked as 'independent'.
 /// Runtimes are executed in parallel, but events are processed sequentially by each runtime.
 /// Every [EventHandler] called by this [Runtime] is executed in its own virtual thread, isolated from the runtime one.
 ///

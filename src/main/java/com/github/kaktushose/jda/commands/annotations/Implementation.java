@@ -34,7 +34,7 @@ public @interface Implementation {
 
     /**
      * Gets the annotation the {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}
-     * should be mapped to. If the component is not a subtype of
+     * should be mapped to. If the name is not a subtype of
      * {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}, this field can be ignored.
      *
      * @return the annotation the {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}

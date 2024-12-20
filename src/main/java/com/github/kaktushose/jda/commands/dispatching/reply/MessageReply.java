@@ -97,8 +97,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.
     ///
-    /// This method can handle both message replies and message edits. Checks if the interaction got acknowledged and
-    /// will acknowledge it if necessary before sending or editing a message. After that,
+    /// @implNote This method can handle both message replies and message edits. it will check if the interaction got
+    /// acknowledged and will acknowledge it if necessary before sending or editing a message. After that,
     /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
     /// will be called.
     ///

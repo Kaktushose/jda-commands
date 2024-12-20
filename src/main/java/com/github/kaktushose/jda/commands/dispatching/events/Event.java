@@ -27,9 +27,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-/// Abstract base event for all interaction events, like
-///  [CommandEvent]. This class
-/// also holds the [GenericInteractionCreateEvent] and provides some shortcut methods to directly access its
+/// Abstract base event for all interaction events, like [CommandEvent].
+///
+/// This class also holds the [GenericInteractionCreateEvent] and provides some shortcut methods to directly access its
 /// content.
 ///
 ///
@@ -82,7 +82,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
 
-        return buttonDefinition.toButton().withId(buttonDefinition.scopedCustomId(runtimeId()));
+        return buttonDefinition.toButton().withId(buttonDefinition.boundCustomId(runtimeId()));
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu]

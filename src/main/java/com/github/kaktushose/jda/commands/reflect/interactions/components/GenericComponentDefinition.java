@@ -4,12 +4,13 @@ import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
- * Marker class for component definitions.
+ * Marker class for name definitions.
  *
  * @see ButtonDefinition
  * @see com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition GenericSelectMenuDefinition
@@ -23,12 +24,12 @@ public abstract sealed class GenericComponentDefinition extends EphemeralInterac
     }
 
     @Override
-    public String scopedCustomId(String runtimeId) {
+    public @NotNull String boundCustomId(@NotNull String runtimeId) {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
 
     @Override
-    public String staticCustomId() {
+    public @NotNull String independentCustomId() {
         return "%s.static.%s".formatted(PREFIX, definitionId);
     }
 }

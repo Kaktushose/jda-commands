@@ -20,9 +20,9 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly
     ///
-    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param message the message to send
     /// @return the [Message] that got created
@@ -30,9 +30,9 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly
     ///
-    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param format the message to send
     /// @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
@@ -50,9 +50,9 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly
     ///
-    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param message the [MessageCreateData] to send
     /// @return the [Message] that got created
@@ -60,9 +60,9 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly
     ///
-    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param builder the [EmbedBuilder] to send
     /// @return the [Message] that got created
@@ -70,9 +70,9 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned dircetly
+    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly
     ///
-    /// This might throw [`RuntimeExceptions`][RuntimeException] if JDA fails to send the message.
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param embedDTO the [EmbedDTO] to send
     /// @return the [Message] that got created

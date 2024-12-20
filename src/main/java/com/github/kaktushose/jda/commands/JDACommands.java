@@ -226,7 +226,7 @@ public record JDACommands(
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
 
-        return buttonDefinition.toButton().withId(buttonDefinition.scopedCustomId(runtimeId));
+        return buttonDefinition.toButton().withId(buttonDefinition.boundCustomId(runtimeId));
     }
 
     /**

@@ -88,7 +88,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */
     public net.dv8tion.jda.api.interactions.modals.Modal toModal(String runtimeId) {
-        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(scopedCustomId(runtimeId), title);
+        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(boundCustomId(runtimeId), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toTextInput()));
 
@@ -119,13 +119,13 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
     }
 
     @Override
-    public String scopedCustomId(String runtimeId) {
+    public @NotNull String boundCustomId(@NotNull String runtimeId) {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
 
     @Override
-    public String staticCustomId() {
-        throw new UnsupportedOperationException("Modals cannot be static!");
+    public @NotNull String independentCustomId() {
+        throw new UnsupportedOperationException("Modals cannot be independent!");
     }
 
     @Override
