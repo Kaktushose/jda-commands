@@ -20,7 +20,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly.
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
@@ -30,7 +31,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly.
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
@@ -50,7 +52,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly.
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
@@ -60,7 +63,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly.
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
@@ -70,7 +74,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// Internally this method will call [RestAction#complete()], thus the [Message] object gets returned directly.
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
