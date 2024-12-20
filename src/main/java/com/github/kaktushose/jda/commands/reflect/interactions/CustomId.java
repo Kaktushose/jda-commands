@@ -27,6 +27,9 @@ public sealed interface CustomId permits GenericComponentDefinition, ModalDefini
     /// @return the runtime id
     @NotNull
     static String runtimeId(@NotNull String customId) {
+        if (isIndependent(customId)) {
+            throw new IllegalArgumentException("Provided custom id is independent!");
+        }
         return getId(customId, 1);
     }
 
@@ -37,9 +40,6 @@ public sealed interface CustomId permits GenericComponentDefinition, ModalDefini
     /// @throws IllegalArgumentException if the passed custom id is a runtime-independent id
     @NotNull
     static String definitionId(@NotNull String customId) {
-        if (isIndependent(customId)) {
-            throw new IllegalArgumentException("Provided custom id is independent!");
-        }
         return getId(customId, 2);
     }
 

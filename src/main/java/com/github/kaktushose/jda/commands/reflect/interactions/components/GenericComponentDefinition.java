@@ -30,6 +30,6 @@ public abstract sealed class GenericComponentDefinition extends EphemeralInterac
 
     @Override
     public @NotNull String independentCustomId() {
-        return "%s.static.%s".formatted(PREFIX, definitionId);
+        return "%s.independent.%s".formatted(PREFIX, definitionId);
     }
 }
