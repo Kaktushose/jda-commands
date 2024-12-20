@@ -9,7 +9,6 @@ import java.lang.annotation.*;
  * Used to define {@link net.dv8tion.jda.api.interactions.components.selections.SelectOption SelectOptions}
  * for {@link StringSelectMenu StringSelectMenus}.
  *
- * @see Interaction
  * @see StringSelectMenu
  * @since 4.0.0
  */

@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
  * will try to parse it. If the parsing fails the command will still be executed but with empty or
  * possible {@code null} values.
  *
+ * @see SlashCommand
  * @since 1.0.0
  */
 @Target(ElementType.PARAMETER)

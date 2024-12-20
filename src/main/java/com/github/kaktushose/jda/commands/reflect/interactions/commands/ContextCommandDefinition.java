@@ -4,9 +4,12 @@ import com.github.kaktushose.jda.commands.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -46,6 +49,17 @@ public final class ContextCommandDefinition extends GenericCommandDefinition {
         if (!method.isAnnotationPresent(ContextCommand.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
             return Optional.empty();
         }
+
+        if (Helpers.isIncorrectParameterAmount(method, 2)) {
+            return Optional.empty();
+        }
+        if (Helpers.isIncorrectParameterType(method, 0, CommandEvent.class)) {
+            return Optional.empty();
+        }
+        if (Helpers.isIncorrectParameterType(method, 1, User.class) && Helpers.isIncorrectParameterType(method, 1, Message.class)) {
+            return Optional.empty();
+        }
+
 
         ContextCommand command = method.getAnnotation(ContextCommand.class);
 
