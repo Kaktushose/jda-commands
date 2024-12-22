@@ -60,7 +60,7 @@ public final class Runtime implements Closeable {
         componentHandler = new ComponentHandler(handlerContext);
         modalHandler = new ModalHandler(handlerContext);
         this.executionThread = Thread.ofVirtual()
-                .name("JDA-Commands Runtime-Thread for ID %s".formatted(id))
+                .name("JDAC Runtime-Thread %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
                 .unstarted(this::checkForEvents);
     }
@@ -69,6 +69,9 @@ public final class Runtime implements Closeable {
     public static Runtime startNew(String id, HandlerContext handlerContext) {
         var runtime = new Runtime(id, handlerContext);
         runtime.executionThread.start();
+
+        log.debug("Created new runtime with id {}", id);
+
         return runtime;
     }
 
@@ -77,7 +80,7 @@ public final class Runtime implements Closeable {
             while (!Thread.interrupted()) {
                 GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
 
-                Thread.ofVirtual().name("JDA-Commands EventHandler Thread").start(() -> executeHandler(incomingEvent)).join();
+                Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
             }
         } catch (InterruptedException ignored) {
         }

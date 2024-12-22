@@ -60,6 +60,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     @Override
     public final void accept(T e, Runtime runtime) {
+        log.debug("Got event {}", e);
+
         InvocationContext<T> context = prepare(e, runtime);
 
         if (context == null || Thread.interrupted()) {
