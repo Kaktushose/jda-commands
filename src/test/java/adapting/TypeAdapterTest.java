@@ -3,7 +3,7 @@ package adapting;
 import adapting.mock.GuildMock;
 import adapting.mock.JDAMock;
 import adapting.mock.SlashCommandInteractionEventMock;
-import com.github.kaktushose.jda.commands.Helpers;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,6 +1,5 @@
-package com.github.kaktushose.jda.commands.data;
+package com.github.kaktushose.jda.commands.internal.register;
 
-import com.github.kaktushose.jda.commands.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -8,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -21,6 +21,7 @@ import java.util.*;
  * @see CommandTree
  * @since 2.3.0
  */
+@ApiStatus.Internal
 public record TreeNode(
         String name,
         SlashCommandDefinition command,

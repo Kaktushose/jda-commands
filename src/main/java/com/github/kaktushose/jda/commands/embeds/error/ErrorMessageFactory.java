@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.embeds;
+package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;

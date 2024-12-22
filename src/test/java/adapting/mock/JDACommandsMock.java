@@ -1,7 +1,7 @@
 package adapting.mock;
 
-import com.github.kaktushose.jda.commands.JDAContext;
-import com.github.kaktushose.jda.commands.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.internal.JDAContext;
+import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;

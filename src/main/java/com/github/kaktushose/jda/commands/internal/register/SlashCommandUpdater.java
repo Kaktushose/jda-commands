@@ -1,7 +1,7 @@
-package com.github.kaktushose.jda.commands;
+package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.data.CommandTree;
+import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  * @see CommandTree
  * @since 2.3.0
  */
+@ApiStatus.Internal
 public class SlashCommandUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);

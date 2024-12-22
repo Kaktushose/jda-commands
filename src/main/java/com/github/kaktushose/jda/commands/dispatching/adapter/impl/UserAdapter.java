@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.Helpers;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;

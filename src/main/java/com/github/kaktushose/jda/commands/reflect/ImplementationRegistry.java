@@ -11,8 +11,8 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegis
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.embeds.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;

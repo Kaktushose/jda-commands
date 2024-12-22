@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands;
+package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;

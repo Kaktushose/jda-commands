@@ -1,6 +1,6 @@
 package reply;
 
-import com.github.kaktushose.jda.commands.Helpers;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import org.junit.jupiter.api.BeforeAll;

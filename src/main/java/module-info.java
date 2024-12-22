@@ -9,6 +9,14 @@ module jda.commands {
     requires kotlin.stdlib;
 
 
+    // annotations
+    exports com.github.kaktushose.jda.commands.annotations;
+    exports com.github.kaktushose.jda.commands.annotations.constraints;
+    exports com.github.kaktushose.jda.commands.annotations.interactions;
+
+    // dependency injection
+    exports com.github.kaktushose.jda.commands.dependency;
+
     // dispatching api
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
     exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;
@@ -25,4 +33,13 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dispatching.validation;
     exports com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
+    // embed
+    exports com.github.kaktushose.jda.commands.embeds;
+    exports com.github.kaktushose.jda.commands.embeds.error;
+
+    // permissions api
+    exports com.github.kaktushose.jda.commands.permissions;
+
+    // command scope api
+    exports com.github.kaktushose.jda.commands.scope;
 }

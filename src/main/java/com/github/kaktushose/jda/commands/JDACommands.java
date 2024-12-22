@@ -15,6 +15,8 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.Constraint
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.internal.JDAContext;
+import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;

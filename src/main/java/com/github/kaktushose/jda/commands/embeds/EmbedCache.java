@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.data;
+package com.github.kaktushose.jda.commands.embeds;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;

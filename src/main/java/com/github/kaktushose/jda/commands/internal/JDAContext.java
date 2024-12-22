@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands;
+package com.github.kaktushose.jda.commands.internal;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;

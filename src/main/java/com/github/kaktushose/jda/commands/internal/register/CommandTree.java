@@ -1,7 +1,8 @@
-package com.github.kaktushose.jda.commands.data;
+package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
  * @since 2.3.0
  */
+@ApiStatus.Internal
 public record CommandTree(
         TreeNode root
 ) {
