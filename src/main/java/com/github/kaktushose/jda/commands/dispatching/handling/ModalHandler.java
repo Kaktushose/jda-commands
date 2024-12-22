@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
-    public ModalHandler(HandlerContext handlerContext) {
-        super(handlerContext);
+    public ModalHandler(DispatchingContext dispatchingContext) {
+        super(dispatchingContext);
     }
 
     @Override

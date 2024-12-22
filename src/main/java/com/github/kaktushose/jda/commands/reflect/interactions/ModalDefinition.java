@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
 import org.jetbrains.annotations.NotNull;
@@ -83,7 +84,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
      * @param runtimeId the runtimeId of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.Runtime Runtime}
+     *                  {@link Runtime Runtime}
      *                  of this interaction execution
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */

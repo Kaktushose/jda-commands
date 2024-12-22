@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
@@ -18,8 +18,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ComponentHandler extends EventHandler<GenericComponentInteractionCreateEvent> {
 
-    public ComponentHandler(HandlerContext handlerContext) {
-        super(handlerContext);
+    public ComponentHandler(DispatchingContext dispatchingContext) {
+        super(dispatchingContext);
     }
 
     @Override

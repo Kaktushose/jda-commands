@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -115,6 +115,15 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     @NotNull
     public String runtimeId() {
         return runtime.id();
+    }
+
+    /// Closes the underlying [Runtime]. This will ignore any new jda events belonging to this interaction, resulting
+    /// in the freeing of occupied resources for gc.
+    ///
+    /// This is only needed if the expiration strategy
+    /// [com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy.Explicit] is used.
+    public void closeRuntime() {
+        runtime.close();
     }
 
     /// Returns the [KeyValueStore] of this [Runtime].

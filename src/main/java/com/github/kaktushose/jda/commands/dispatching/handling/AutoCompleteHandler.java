@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -13,8 +13,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
 
-    public AutoCompleteHandler(HandlerContext handlerContext) {
-        super(handlerContext);
+    public AutoCompleteHandler(DispatchingContext dispatchingContext) {
+        super(dispatchingContext);
     }
 
     @Override

@@ -1,5 +1,6 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.internal;
 
+import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.handling.*;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -39,6 +41,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
+    private final ExpirationStrategy expirationStrategy;
     private final SlashCommandHandler slashCommandHandler;
     private final AutoCompleteHandler autoCompleteHandler;
     private final ContextCommandHandler contextCommandHandler;
@@ -49,16 +52,18 @@ public final class Runtime implements Closeable {
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
+    private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(@NotNull String id, @NotNull HandlerContext handlerContext) {
+    private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext) {
         this.id = id;
         this.instances = new HashMap<>();
+        expirationStrategy = dispatchingContext.expirationStrategy();
         blockingQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(handlerContext);
-        autoCompleteHandler = new AutoCompleteHandler(handlerContext);
-        contextCommandHandler = new ContextCommandHandler(handlerContext);
-        componentHandler = new ComponentHandler(handlerContext);
-        modalHandler = new ModalHandler(handlerContext);
+        slashCommandHandler = new SlashCommandHandler(dispatchingContext);
+        autoCompleteHandler = new AutoCompleteHandler(dispatchingContext);
+        contextCommandHandler = new ContextCommandHandler(dispatchingContext);
+        componentHandler = new ComponentHandler(dispatchingContext);
+        modalHandler = new ModalHandler(dispatchingContext);
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
@@ -66,8 +71,8 @@ public final class Runtime implements Closeable {
     }
 
     @NotNull
-    public static Runtime startNew(String id, HandlerContext handlerContext) {
-        var runtime = new Runtime(id, handlerContext);
+    public static Runtime startNew(String id, DispatchingContext dispatchingContext) {
+        var runtime = new Runtime(id, dispatchingContext);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -82,8 +87,9 @@ public final class Runtime implements Closeable {
 
                 Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
             }
-        } catch (InterruptedException ignored) {
-        }
+        } catch (InterruptedException _) {}
+
+        log.debug("Runtime finished");
     }
 
     private void executeHandler(GenericInteractionCreateEvent incomingEvent) {
@@ -125,5 +131,15 @@ public final class Runtime implements Closeable {
     @Override
     public void close() {
         executionThread.interrupt();
+    }
+
+    public boolean isClosed() {
+        if (expirationStrategy instanceof ExpirationStrategy.Inactivity(long minutes) &&
+                lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
+            close();
+            return true;
+        }
+
+        return !executionThread.isAlive();
     }
 }

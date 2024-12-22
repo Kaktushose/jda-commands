@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
@@ -41,18 +41,18 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final HandlerContext handlerContext;
+    protected final DispatchingContext dispatchingContext;
     protected final MiddlewareRegistry middlewareRegistry;
     protected final ImplementationRegistry implementationRegistry;
     protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapterRegistry adapterRegistry;
 
-    public EventHandler(HandlerContext handlerContext) {
-        this.handlerContext = handlerContext;
-        this.middlewareRegistry = handlerContext.middlewareRegistry();
-        this.implementationRegistry = handlerContext.implementationRegistry();
-        this.interactionRegistry = handlerContext.interactionRegistry();
-        this.adapterRegistry = handlerContext.adapterRegistry();
+    public EventHandler(DispatchingContext dispatchingContext) {
+        this.dispatchingContext = dispatchingContext;
+        this.middlewareRegistry = dispatchingContext.middlewareRegistry();
+        this.implementationRegistry = dispatchingContext.implementationRegistry();
+        this.interactionRegistry = dispatchingContext.interactionRegistry();
+        this.adapterRegistry = dispatchingContext.adapterRegistry();
     }
 
     @Nullable

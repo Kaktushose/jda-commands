@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
@@ -167,7 +167,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     public ComponentReply components(@NotNull Components... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Components component : components) {
-
             var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + component.name()).hashCode());
             var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
                     it.getDefinitionId().equals(definitionId)

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -37,7 +38,7 @@ public abstract sealed class GenericSelectMenuDefinition<T extends SelectMenu> e
      * Transforms this definition to a select menu name.
      *
      * @param customId the runtimeId of the
-     *                 {@link com.github.kaktushose.jda.commands.dispatching.Runtime Runtime}
+     *                 {@link Runtime Runtime}
      *                 of this interaction execution
      * @param enabled  {@code true} if the name should be enabled
      * @return the select menu name

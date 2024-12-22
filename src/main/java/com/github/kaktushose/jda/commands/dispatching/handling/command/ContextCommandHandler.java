@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.ContextCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
@@ -15,8 +15,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
-    public ContextCommandHandler(HandlerContext handlerContext) {
-        super(handlerContext);
+    public ContextCommandHandler(DispatchingContext dispatchingContext) {
+        super(dispatchingContext);
     }
 
     @Override

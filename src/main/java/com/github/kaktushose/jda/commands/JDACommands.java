@@ -4,10 +4,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectM
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.handling.HandlerContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
@@ -40,7 +41,7 @@ public record JDACommands(
         SlashCommandUpdater updater) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
-    private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, String... packages) {
+    private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, ExpirationStrategy expirationStrategy, String[] packages) {
         log.info("Starting JDA-Commands...");
 
         var jdaContext = new JDAContext(jda);
@@ -55,7 +56,7 @@ public record JDACommands(
         middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
         middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
 
-        var eventListener = new JDAEventListener(new HandlerContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry));
+        var eventListener = new JDAEventListener(new DispatchingContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, expirationStrategy));
 
         implementationRegistry.index(clazz, packages);
 
@@ -89,7 +90,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MIN, packages);
     }
 
     /**
@@ -101,7 +102,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MIN, packages);
     }
 
     /**
@@ -114,7 +115,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return startInternal(jda, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, function, new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MIN, packages);
     }
 
     /**
@@ -127,7 +128,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, function, new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MIN, packages);
     }
 
     /**
@@ -140,8 +141,8 @@ public record JDACommands(
      * @param packages package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return startInternal(jda, clazz, function, injector, packages);
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, ExpirationStrategy expirationStrategy, @NotNull String... packages) {
+        return startInternal(jda, clazz, function, injector, expirationStrategy, packages);
     }
 
     /**
@@ -154,8 +155,8 @@ public record JDACommands(
      * @param packages     package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, function, injector, packages);
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, ExpirationStrategy expirationStrategy, @NotNull String... packages) {
+        return startInternal(shardManager, clazz, function, injector, expirationStrategy, packages);
     }
 
     /**
