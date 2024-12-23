@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
-import com.github.kaktushose.jda.commands.reflect.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.CustomId;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;

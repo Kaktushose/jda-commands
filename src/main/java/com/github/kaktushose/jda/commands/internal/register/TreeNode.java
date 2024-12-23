@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;

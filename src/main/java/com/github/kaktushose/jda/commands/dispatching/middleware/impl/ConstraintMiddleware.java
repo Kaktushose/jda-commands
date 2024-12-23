@@ -2,10 +2,10 @@ package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.misc.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.definitions.reflect.misc.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.SlashCommandDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

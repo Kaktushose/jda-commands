@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.reflect.MethodBuildContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -79,7 +79,7 @@ public final class Helpers {
         return context.permissions();
     }
 
-    /// Constructs the [com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig ReplyConfig] based on the
+    /// Constructs the [com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig ReplyConfig] based on the
     /// passed [Method].
     ///
     /// This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If neither is
@@ -87,18 +87,18 @@ public final class Helpers {
     /// [com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig GlobalReplyConfig].
     ///
     /// @param method the [Method] to use
-    /// @return the [com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig ReplyConfig]
+    /// @return the [com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig ReplyConfig]
     @NotNull
-    public static com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig replyConfig(@NotNull Method method) {
+    public static com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig replyConfig(@NotNull Method method) {
         var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
         var local = method.getAnnotation(ReplyConfig.class);
 
         if (global == null && local == null)
-            return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig();
+            return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig();
         if (local == null)
-            return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig(global);
+            return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig(global);
 
-        return new com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig(local);
+        return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig(local);
     }
 
     /// Checks if the given parameter is present at the [Method] at the given index.

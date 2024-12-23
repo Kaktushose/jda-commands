@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 
@@ -9,7 +10,7 @@ import java.lang.annotation.*;
 /**
  * Indicates that the annotated class is a custom implementation that should replace the default implementation.
  *
- * @see com.github.kaktushose.jda.commands.reflect.ImplementationRegistry ImplementationRegistry
+ * @see ImplementationRegistry ImplementationRegistry
  * @see com.github.kaktushose.jda.commands.dispatching.middleware.Middleware Middleware
  * @see com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator
  * @see com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter TypeAdapter

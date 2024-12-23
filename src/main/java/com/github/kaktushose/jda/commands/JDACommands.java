@@ -17,10 +17,10 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.Permission
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
