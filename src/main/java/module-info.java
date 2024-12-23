@@ -18,6 +18,7 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dependency;
 
     // dispatching api
+    exports com.github.kaktushose.jda.commands.dispatching;
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
     exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
