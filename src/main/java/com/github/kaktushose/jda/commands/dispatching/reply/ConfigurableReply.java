@@ -2,10 +2,10 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.GenericComponentDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;

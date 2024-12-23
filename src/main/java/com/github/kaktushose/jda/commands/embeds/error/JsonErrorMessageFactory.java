@@ -2,9 +2,9 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
-import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.misc.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.GenericInteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
