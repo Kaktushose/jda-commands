@@ -20,6 +20,8 @@ public interface ErrorMessageFactory {
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///
     /// @param event the [GenericInteractionCreateEvent] that was attempted to type adapt
+    /// @param definition the underlying [GenericInteractionDefinition]
+    /// @param userInput the input the user provided
     /// @return a [MessageCreateData] to send when type adapting failed
     @NotNull
     MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,

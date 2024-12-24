@@ -2,9 +2,9 @@ package com.github.kaktushose.jda.commands.dispatching.context;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A simple key-value-store to store variables between events.
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class KeyValueStore {
 
-    private final Map<String, Object> values = new ConcurrentHashMap<>();
+    private final Map<String, Object> values = new HashMap<>();
 
     /**
      * Gets a value.

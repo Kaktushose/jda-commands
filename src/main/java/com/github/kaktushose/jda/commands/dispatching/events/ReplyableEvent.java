@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
@@ -32,7 +34,8 @@ import org.slf4j.LoggerFactory;
 ///
 /// @since 4.0.0
 /// @see ModalEvent
-/// @see ModalReplyableEvent
+/// @see CommandEvent
+/// @see ComponentEvent
 /// @since 4.0.0
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
         permits ModalEvent, ModalReplyableEvent {
