@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.Components;
+import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 ///
 ///   - First parameter must be of type [ComponentEvent]
 ///
-/// You can reply with a button by calling [ConfigurableReply#components(Components...)].
+/// You can reply with a button by calling [ConfigurableReply#components(Component...)].
 ///
 /// ## Example:
 /// ```

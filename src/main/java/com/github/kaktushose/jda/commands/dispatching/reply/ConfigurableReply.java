@@ -110,7 +110,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
     ///
-    /// The components will always be enabled and runtime-bound. Use [#components(Components...)] if you want to modify these
+    /// The components will always be enabled and runtime-bound. Use [#components(Component...)] if you want to modify these
     /// settings.
     ///
     /// **The components must be defined in the same class where this method gets called!**
@@ -136,10 +136,10 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ComponentReply components(@NotNull String... components) {
-        return components(Components.of(true, false, components));
+        return components(Component.of(true, false, components));
     }
 
-    /// Adds an [ActionRow] to the reply and adds the passed [Components] to it.
+    /// Adds an [ActionRow] to the reply and adds the passed [Component] to it.
     ///
     /// **The components must be defined in the same class where this method gets called!**
     ///
@@ -160,13 +160,13 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// }
     /// ```
     ///
-    /// @see Components
-    /// @param components the [Components] to add
+    /// @see Component
+    /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull Components... components) {
+    public ComponentReply components(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Components component : components) {
+        for (Component component : components) {
             var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + component.name()).hashCode());
             var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
                     it.getDefinitionId().equals(definitionId)
