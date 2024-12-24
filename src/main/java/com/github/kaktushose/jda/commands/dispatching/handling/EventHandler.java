@@ -28,7 +28,6 @@ import java.util.function.BiConsumer;
 /// 1. Preparation ([EventHandler#prepare(GenericInteractionCreateEvent, Runtime)]):
 /// In this step the [InvocationContext] is created from the jda event and the involved [Runtime].
 ///
-///
 /// 2. Middleware execution: In this step all registered [Middleware]s
 /// are executed ordered by their [Priority].
 ///
