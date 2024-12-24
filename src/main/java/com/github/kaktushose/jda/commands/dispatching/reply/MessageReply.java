@@ -68,7 +68,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this(event, definition, definition.replyConfig());
     }
 
-    ///  Constructs a new MessageReply.
+    /// Constructs a new MessageReply.
     ///
     /// @param reply the [MessageReply] to copy
     public MessageReply(@NotNull MessageReply reply) {
