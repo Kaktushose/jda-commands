@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.Components;
+import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 ///   - First parameter must be of type [ComponentEvent]
 ///   - Second parameter must be of type [Mentions]
 ///
-/// You can reply with an entity select menu by calling [ConfigurableReply#components(Components...)].
+/// You can reply with an entity select menu by calling [ConfigurableReply#components(Component...)].
 ///
 /// ## Example:
 /// ```

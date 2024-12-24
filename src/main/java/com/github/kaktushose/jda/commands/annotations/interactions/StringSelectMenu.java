@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.Components;
+import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 
 import java.lang.annotation.ElementType;
@@ -19,7 +19,7 @@ import java.util.List;
 ///   - First parameter must be of type [ComponentEvent]
 ///   - Second parameter must be of type [`List<String>`][List]
 ///
-/// You can reply with a string select menu by calling [ConfigurableReply#components(Components...)].
+/// You can reply with a string select menu by calling [ConfigurableReply#components(Component...)].
 ///
 /// ## Example:
 /// ```
