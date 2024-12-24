@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
@@ -35,7 +37,9 @@ import java.util.List;
 ///
 /// @param <T> the type of [GenericInteractionCreateEvent] this event represents
 /// @see AutoCompleteEvent
-/// @see ReplyableEvent
+/// @see CommandEvent
+/// @see ComponentEvent
+/// @see ModalEvent
 /// @since 4.0.0
 public abstract sealed class Event<T extends GenericInteractionCreateEvent> implements Interaction
         permits ReplyableEvent, AutoCompleteEvent {
@@ -90,12 +94,10 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// The select menu will be linked to the current [Runtime]. This may be useful if you want to send a component
     /// without using the framework.
     ///
-    /// @param <S>  the type of [SelectMenu]
     /// @param menu the name of the select menu
     /// @return the JDA [SelectMenu]
-    @SuppressWarnings("unchecked")
     @NotNull
-    public <S extends SelectMenu> S getSelectMenu(@NotNull String menu) {
+    public SelectMenu getSelectMenu(@NotNull String menu) {
         if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
         }
@@ -105,7 +107,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        return (S) selectMenuDefinition.toSelectMenu(runtimeId(), true);
+        return selectMenuDefinition.toSelectMenu(runtimeId(), true);
     }
 
     /// Returns the id of the [Runtime] this event is dispatched in.
