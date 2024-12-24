@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.context;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -24,6 +23,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 ) {
     /// Stops further execution of this invocation at the next suitable moment.
     ///
+    /// @implNote This will interrupt the current event thread
     /// @param errorMessage the error message that should be sent to the user as a reply
     public void cancel(MessageCreateData errorMessage) {
         new MessageReply(event, definition, new ReplyConfig()).reply(errorMessage);

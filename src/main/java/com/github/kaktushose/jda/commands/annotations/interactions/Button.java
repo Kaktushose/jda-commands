@@ -17,8 +17,7 @@ import java.lang.annotation.Target;
 /// [Interaction].
 /// Furthermore, the method signature has to meet the following conditions:
 ///
-///   - First parameter must be of type
-///     [ComponentEvent][ComponentEvent]
+///   - First parameter must be of type [ComponentEvent]
 ///
 /// You can reply with a button by calling [ConfigurableReply#components(Components...)].
 ///

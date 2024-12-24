@@ -110,7 +110,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
     ///
-    /// The components will always be enabled and scoped. Use [#components(Components...)] if you want to modify these
+    /// The components will always be enabled and runtime-bound. Use [#components(Components...)] if you want to modify these
     /// settings.
     ///
     /// **The components must be defined in the same class where this method gets called!**
