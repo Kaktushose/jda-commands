@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /// Classes annotated with [Interaction] are responsible for defining and handling interactions.
 ///
-/// A class annotated with [Interaction] can define interactions via its methods. Therefore, the method must be annotated
+/// A class annotated with [Interaction] can define interactions via its methods. Therefore, such methods must be annotated
 /// with one of the following interaction annotations: [SlashCommand], [ContextCommand], [Button], [EntitySelectMenu],
 /// [StringSelectMenu] or [Modal]. See the respective annotations for details.
 ///
