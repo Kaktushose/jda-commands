@@ -71,7 +71,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     /// Entry point for configuring a reply.
     ///
-    /// Returns a [ConfigurableReply] that can be used to append components or override reply settings.
+    /// Returns a new [ConfigurableReply] that can be used to append components or override reply settings.
     ///
     /// @return [ConfigurableReply]
     /// @see [ConfigurableReply]
