@@ -17,9 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFuncti
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.SequencedCollection;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public record SlashCommandDefinition(
@@ -79,7 +77,10 @@ public record SlashCommandDefinition(
     @NotNull
     @Override
     public SequencedCollection<Class<?>> parameters() {
-        return null;
+        List<Class<?>> parameters = new ArrayList<>();
+        parameters.add(CommandEvent.class);
+        commandParameters.forEach(it -> parameters.add(it.type()));
+        return parameters;
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {

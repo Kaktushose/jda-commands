@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomIdInteraction;
 import com.github.kaktushose.jda.commands.definitions.interactions.PermissionsInteraction;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
@@ -13,13 +14,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
 import java.util.SequencedCollection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public record StringSelectMenuDefinition(
         @NotNull Method method,
-        @NotNull SequencedCollection<Class<?>> parameters,
         @NotNull Collection<String> permissions,
         @NotNull Set<SelectOptionDefinition> selectOptions,
         @NotNull String placeholder,
@@ -57,6 +58,11 @@ public record StringSelectMenuDefinition(
     @Override
     public String displayName() {
         return "Select Menu: %s".formatted(placeholder);
+    }
+
+    @Override
+    public @NotNull SequencedCollection<Class<?>> parameters() {
+        return List.of(ComponentEvent.class, List.class);
     }
 
     public record SelectOptionDefinition(@NotNull String value,
