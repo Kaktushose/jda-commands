@@ -52,8 +52,8 @@ public @interface ReplyConfig {
 
     /// Whether to edit the original message or to send a new one. Default value is `true`.
     ///
-    /// The original message is always the very first reply that was sent. E.g. for a slash command event, which was
-    /// replied to with a text message and a button, the original message is that very reply.
+    /// The original message is the message, from which this event (interaction) originates.
+    /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
     ///
     /// Subsequent replies to the same slash command event or the button event cannot be edited.
     ///

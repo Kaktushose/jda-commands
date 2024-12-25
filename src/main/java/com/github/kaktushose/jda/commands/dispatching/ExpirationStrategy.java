@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 
-/// <a href="{@docRoot}/overview-summary.html">Overview</a>
 /// Classes implementing [ExpirationStrategy] define a strategy when a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) should be closed.
 ///
 /// There are two strategies available:

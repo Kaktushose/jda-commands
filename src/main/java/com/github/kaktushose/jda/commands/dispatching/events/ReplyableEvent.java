@@ -61,7 +61,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     /// Removes all components from the original message.
     ///
-    /// The original message is the very first reply that was sent using the [#reply(String)] or its overloads.
+    /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
     public void removeComponents() {
         log.debug("Reply Debug: Removing components from original message");
         if (event instanceof IReplyCallback callback) {
