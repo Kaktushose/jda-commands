@@ -1,6 +1,9 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.reply.Component;
+import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
+import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
 
@@ -9,20 +12,24 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Methods annotated with EntitySelectMenu will be registered as a EntitySelectMenu at startup.
- *
- * <p>Therefore the method must be declared inside a class that is annotated with
- * {@link Interaction}.
- * Furthermore, the method signature has to meet the following conditions:
- * <ul>
- * <li>First parameter must be of type
- * {@link ComponentEvent SelectMenuEvent}</li>
- * </ul>
- *
- * @see Interaction
- * @since 2.3.0
- */
+/// Methods annotated with EntitySelectMenu will be registered as a EntitySelectMenu at startup.
+///
+/// Therefore, the method must be declared inside a class that is annotated with
+/// [Interaction].
+/// Furthermore, the method signature has to meet the following conditions:
+///
+///   - First parameter must be of type [ComponentEvent]
+///   - Second parameter must be of type [Mentions]
+///
+/// You can reply with an entity select menu by calling [ConfigurableReply#components(Component...)].
+///
+/// ## Example:
+/// ```
+/// @EntitySelectMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
+/// public void onMenu(ComponentEvent event, Mentions mentions) { ... }
+/// ```
+/// @see Interaction
+/// @since 2.3.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EntitySelectMenu {
@@ -92,12 +99,5 @@ public @interface EntitySelectMenu {
      * @return the maximum amount of values a user can select
      */
     int maxValue() default 1;
-
-    /**
-     * Whether this button should send ephemeral replies by default.
-     *
-     * @return {@code true} if to send ephemeral replies
-     */
-    boolean ephemeral() default false;
 
 }

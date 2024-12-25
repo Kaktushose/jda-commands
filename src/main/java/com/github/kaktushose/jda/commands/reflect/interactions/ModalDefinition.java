@@ -1,10 +1,11 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
-import com.github.kaktushose.jda.commands.Helpers;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.interactions.modals.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.reflect.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.modals.Modal.Builder;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +25,8 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
     private final String title;
     private final List<TextInputDefinition> textInputs;
 
-    private ModalDefinition(Method method, Set<String> permissions, boolean ephemeral, String title, List<TextInputDefinition> textInputs) {
-        super(method, permissions, ephemeral);
+    private ModalDefinition(Method method, Set<String> permissions, ReplyConfig replyConfig, String title, List<TextInputDefinition> textInputs) {
+        super(method, permissions, replyConfig);
         this.title = title;
         this.textInputs = textInputs;
     }
@@ -76,19 +77,19 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
 
         Modal modal = method.getAnnotation(Modal.class);
 
-        return Optional.of(new ModalDefinition(method, permissions, modal.ephemeral(), modal.value(), textInputs));
+        return Optional.of(new ModalDefinition(method, permissions, Helpers.replyConfig(method), modal.value(), textInputs));
     }
 
     /**
      * Transforms this ModalDefinition to a {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}.
      *
      * @param runtimeId the runtimeId of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
+     *                  {@link Runtime Runtime}
      *                  of this interaction execution
      * @return the transformed {@link net.dv8tion.jda.api.interactions.modals.Modal Modal}
      */
     public net.dv8tion.jda.api.interactions.modals.Modal toModal(String runtimeId) {
-        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(createCustomId(runtimeId), title);
+        Builder modal = net.dv8tion.jda.api.interactions.modals.Modal.create(boundCustomId(runtimeId), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toTextInput()));
 
@@ -119,13 +120,13 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
     }
 
     @Override
-    public String createCustomId(String runtimeId) {
-        return String.format("%s.%s%s.%s",
-                PREFIX,
-                method.getDeclaringClass().getSimpleName(),
-                method.getName(),
-                runtimeId
-        );
+    public @NotNull String boundCustomId(@NotNull String runtimeId) {
+        return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
+    }
+
+    @Override
+    public @NotNull String independentCustomId() {
+        throw new UnsupportedOperationException("Modals cannot be independent!");
     }
 
     @Override
@@ -133,7 +134,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
         return "ModalDefinition{" +
                 "title='" + title + '\'' +
                 ", textInputs=" + textInputs +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +
                 ", permissions=" + permissions +

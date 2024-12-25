@@ -1,12 +1,22 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
+import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.DispatcherSupervisor;
-import com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor;
+import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.internal.JDAContext;
+import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
@@ -24,18 +34,16 @@ import org.slf4j.LoggerFactory;
 
 public record JDACommands(
         JDAContext jdaContext,
-        DispatcherSupervisor dispatcherSupervisor,
+        JDAEventListener JDAEventListener,
         MiddlewareRegistry middlewareRegistry,
         TypeAdapterRegistry adapterRegistry,
         ValidatorRegistry validatorRegistry,
         DependencyInjector dependencyInjector,
         InteractionRegistry interactionRegistry,
-        SlashCommandUpdater updater,
-        RuntimeSupervisor runtimeSupervisor
-) {
+        SlashCommandUpdater updater) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
-    private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, String... packages) {
+    private static JDACommands startInternal(Object jda, Class<?> clazz, LocalizationFunction function, DependencyInjector dependencyInjector, ExpirationStrategy expirationStrategy, String[] packages) {
         log.info("Starting JDA-Commands...");
 
         var jdaContext = new JDAContext(jda);
@@ -47,8 +55,10 @@ public record JDACommands(
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
         var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
 
-        var runtimeSupervisor = new RuntimeSupervisor(dependencyInjector);
-        var dispatcherSupervisor = new DispatcherSupervisor(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, runtimeSupervisor);
+        middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
+        middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
+
+        var eventListener = new JDAEventListener(new DispatchingContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, expirationStrategy));
 
         implementationRegistry.index(clazz, packages);
 
@@ -57,20 +67,19 @@ public record JDACommands(
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
 
-        jdaContext.performTask(it -> it.addEventListener(dispatcherSupervisor));
+        jdaContext.performTask(it -> it.addEventListener(eventListener));
 
         log.info("Finished loading!");
 
         return new JDACommands(
                 jdaContext,
-                dispatcherSupervisor,
+                eventListener,
                 middlewareRegistry,
                 adapterRegistry,
                 validatorRegistry,
                 dependencyInjector,
                 interactionRegistry,
-                updater,
-                runtimeSupervisor
+                updater
         );
     }
 
@@ -83,7 +92,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MINUTES, packages);
     }
 
     /**
@@ -95,7 +104,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, ResourceBundleLocalizationFunction.empty().build(), new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MINUTES, packages);
     }
 
     /**
@@ -108,7 +117,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return startInternal(jda, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(jda, clazz, function, new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MINUTES, packages);
     }
 
     /**
@@ -121,7 +130,7 @@ public record JDACommands(
      * @return a new JDACommands instance
      */
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, function, new DefaultDependencyInjector(), packages);
+        return startInternal(shardManager, clazz, function, new DefaultDependencyInjector(), ExpirationStrategy.AFTER_15_MINUTES, packages);
     }
 
     /**
@@ -134,8 +143,8 @@ public record JDACommands(
      * @param packages package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return startInternal(jda, clazz, function, injector, packages);
+    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, ExpirationStrategy expirationStrategy, @NotNull String... packages) {
+        return startInternal(jda, clazz, function, injector, expirationStrategy, packages);
     }
 
     /**
@@ -148,8 +157,8 @@ public record JDACommands(
      * @param packages     package(s) to exclusively scan
      * @return a new JDACommands instance
      */
-    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, @NotNull String... packages) {
-        return startInternal(shardManager, clazz, function, injector, packages);
+    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, LocalizationFunction function, DependencyInjector injector, ExpirationStrategy expirationStrategy, @NotNull String... packages) {
+        return startInternal(shardManager, clazz, function, injector, expirationStrategy, packages);
     }
 
     /**
@@ -157,7 +166,7 @@ public record JDACommands(
      * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(dispatcherSupervisor));
+        jdaContext.performTask(jda -> jda.removeEventListener(JDAEventListener));
     }
 
     /**
@@ -169,19 +178,16 @@ public record JDACommands(
         updater.updateGuildCommands();
     }
 
-    /**
-     * Gets a JDA {@link Button} to use it for message builders based on the jda-commands id.
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a button defined by a
-     * {@code onButton(ComponentEvent event)} method inside an {@code ExampleButton} class would be
-     * {@code ExampleButton.onButton}.
-     * </p>
-     *
-     * @param button the id of the button
-     * @return a JDA {@link Button}
-     */
-    public Button getButton(String button) {
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// and transforms it into a JDA [Button].
+    ///
+    /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a message without
+    /// using the framework.
+    ///
+    /// @param button the name of the button
+    /// @return the JDA [Button]
+    @NotNull
+    public Button getButton(@NotNull String button) {
         if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Button");
         }
@@ -191,95 +197,29 @@ public record JDACommands(
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
 
-        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(buttonDefinition);
-        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(runtime.getRuntimeId()));
+        return buttonDefinition.toButton().withId(buttonDefinition.independentCustomId());
     }
 
-    /**
-     * Gets a JDA {@link Button} to use it for message builders based on the jda-commands id and links it an
-     * existing
-     * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
-     *
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a button defined by a
-     * {@code onButton(ComponentEvent event)} method inside an {@code ExampleButton} class would be
-     * {@code ExampleButton.onButton}.
-     * </p>
-     *
-     * @param button    the id of the button
-     * @param runtimeId the id of the
-     *                  {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}
-     * @return a JDA {@link Button}
-     */
-    public Button getButton(String button, String runtimeId) {
-        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Button");
-        }
-
-        String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
-
-        return buttonDefinition.toButton().withId(buttonDefinition.createCustomId(runtimeId));
-    }
-
-    /**
-     * Gets a JDA {@link SelectMenu} to use it for message builders based on the jda-commands id.
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a a select menu defined by a
-     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
-     * {@code ExampleMenu.onSelectMenu}.
-     * </p>
-     *
-     * @param selectMenu the id of the selectMenu
-     * @return a JDA {@link SelectMenu}
-     */
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    ///
+    /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a component
+    /// without using the framework.
+    ///
+    /// @param <S>  the type of [SelectMenu]
+    /// @param menu the name of the select menu
+    /// @return the JDA [SelectMenu]
     @SuppressWarnings("unchecked")
-    public <T extends SelectMenu> T getSelectMenu(String selectMenu) {
-        if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
+    @NotNull
+    public <S extends SelectMenu> S getSelectMenu(@NotNull String menu) {
+        if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
             throw new IllegalArgumentException("Unknown Select Menu");
         }
 
-        String sanitizedId = selectMenu.replaceAll("\\.", "");
+        String sanitizedId = menu.replaceAll("\\.", "");
         GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
                 .filter(it -> it.getDefinitionId().equals(sanitizedId))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        RuntimeSupervisor.InteractionRuntime runtime = runtimeSupervisor.newRuntime(selectMenuDefinition);
-        return (T) selectMenuDefinition.toSelectMenu(runtime.getRuntimeId(), true);
-    }
-
-    /**
-     * Gets a JDA {@link SelectMenu} subtype to use it for message builders based on the jda-commands id and links it an
-     * existing
-     * {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime InteractionRuntime}.
-     *
-     * <p>
-     * The id is made up of the simple class name and the method name. E.g. the id of a select menu defined by a
-     * {@code onSelectMenu(ComponentEvent event)} method inside an {@code ExampleMenu} class would be
-     * {@code ExampleMenu.onSelectMenu}.
-     * </p>
-     *
-     * @param selectMenu the id of the selectMenu
-     * @param runtimeId  the id of the
-     *                   {@link com.github.kaktushose.jda.commands.dispatching.RuntimeSupervisor.InteractionRuntime
-     *                   InteractionRuntime}
-     * @return a JDA {@link SelectMenu}
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends SelectMenu> T getSelectMenu(String selectMenu, String runtimeId) {
-        if (!selectMenu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Select Menu");
-        }
-
-        String sanitizedId = selectMenu.replaceAll("\\.", "");
-        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
-
-        return (T) selectMenuDefinition.toSelectMenu(runtimeId, true);
+        return (S) selectMenuDefinition.toSelectMenu(selectMenuDefinition.independentCustomId(), true);
     }
 }

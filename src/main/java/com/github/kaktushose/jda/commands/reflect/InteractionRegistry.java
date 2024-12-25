@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Central registry for all {@link SlashCommandDefinition CommandDefinitions}.
@@ -92,6 +93,33 @@ public final class InteractionRegistry {
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 controllerSet.size(),
                 definitions.size());
+    }
+
+    /**
+     * Attempts to find a {@link GenericInteractionDefinition} of type {@link T} based on the given {@link Predicate}.
+     *
+     * @param type          the type of the {@link GenericInteractionDefinition} to find
+     * @param internalError {@code true} if the {@link GenericInteractionDefinition} must be found and not finding it
+     *                      indicates a framework bug
+     * @param predicate     the {@link Predicate} used to find the {@link GenericInteractionDefinition}
+     * @param <T>           a subtype of {@link GenericInteractionDefinition}
+     * @return {@link T}
+     * @throws IllegalStateException    if no {@link GenericInteractionDefinition} was found, although this mandatory
+     *                                  should have been the case. This is a rare occasion and can be considered a
+     *                                  framework bug
+     * @throws IllegalArgumentException if no {@link GenericInteractionDefinition} was found, because the
+     *                                  {@link Predicate} didn't include any elements
+     */
+    public <T extends GenericInteractionDefinition> T find(Class<T> type, boolean internalError, Predicate<T> predicate) {
+        return definitions.stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .filter(predicate)
+                .findFirst()
+                .orElseThrow(() -> internalError
+                        ? new IllegalStateException("No interaction found! Please report this error the the devs of jda-commands.")
+                        : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
+                );
     }
 
     /**

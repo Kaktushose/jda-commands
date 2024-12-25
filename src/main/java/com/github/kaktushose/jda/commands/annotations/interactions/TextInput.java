@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to add TextInputs to {@link Modal Modals}.
  *
+ * @see Modal
  * @since 4.0.0
  */
 @Target(ElementType.PARAMETER)
@@ -17,19 +18,19 @@ import java.lang.annotation.Target;
 public @interface TextInput {
 
     /**
-     * The label shown above this text input box
-     *
-     * @return Label for the input
-     */
-    String label() default "";
-
-    /**
      * The placeholder of this TextInput
      * <br>This is the short hint that describes the expected value of the TextInput field.
      *
      * @return Placeholder
      */
-    String value() default "";
+    String value();
+
+    /**
+     * The label shown above this text input box
+     *
+     * @return Label for the input
+     */
+    String label() default "";
 
     /**
      * The default value of this TextInput.

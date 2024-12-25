@@ -5,12 +5,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Classes annotated with Interaction will be scanned at startup and are eligible for defining interactions such as
- * slash commands, buttonContainers, modals or context menus.
- *
- * @since 4.0.0
- */
+/// Classes annotated with [Interaction] are responsible for defining and handling interactions.
+///
+/// A class annotated with [Interaction] can define interactions via its methods. Therefore, such methods must be annotated
+/// with one of the following interaction annotations: [SlashCommand], [ContextCommand], [Button], [EntitySelectMenu],
+/// [StringSelectMenu] or [Modal]. See the respective annotations for details.
+///
+/// ## Example:
+/// ```
+/// @Interaction
+/// public class InteractionClass {
+///
+///     @SlashCommand("greet")
+///     public void onCommand(CommandEvent event) {
+///         event.reply("Hello World!");
+///     }
+/// }
+/// ```
+///
+/// @since 4.0.0
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Interaction {
@@ -21,12 +34,5 @@ public @interface Interaction {
      * @return the base name for slash commands
      */
     String value() default "";
-
-    /**
-     * Returns whether this interaction should send ephemeral replies by default.
-     *
-     * @return {@code true} if this interaction should send ephemeral replies by default
-     */
-    boolean ephemeral() default false;
 
 }

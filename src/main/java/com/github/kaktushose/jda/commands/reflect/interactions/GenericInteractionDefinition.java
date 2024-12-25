@@ -1,11 +1,13 @@
 package com.github.kaktushose.jda.commands.reflect.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.SequencedCollection;
 import java.util.Set;
 
 /**
@@ -22,9 +24,15 @@ public sealed abstract class GenericInteractionDefinition permits AutoCompleteDe
     protected final Set<String> permissions;
 
     protected GenericInteractionDefinition(Method method, Set<String> permissions) {
-        this.definitionId = String.format("%s%s", method.getDeclaringClass().getSimpleName(), method.getName());
+        this.definitionId = String.valueOf((method.getDeclaringClass().getName() + method.getName()).hashCode());
         this.method = method;
         this.permissions = permissions;
+    }
+
+    public final void invoke(Object instance, InvocationContext<?> invocation) throws InvocationTargetException, IllegalAccessException {
+        SequencedCollection<Object> arguments = invocation.arguments();
+
+        method.invoke(instance, arguments.toArray());
     }
 
     /**

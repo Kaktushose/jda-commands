@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to add choices to parameters.
  *
+ * @see SlashCommand
  * @since 2.3.0
  */
 @Target(ElementType.PARAMETER)

@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 
 import java.lang.annotation.*;
 
@@ -14,7 +15,7 @@ import java.lang.annotation.*;
  * @see com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter TypeAdapter
  * @see com.github.kaktushose.jda.commands.permissions.PermissionsProvider PermissionsProvider
  * @see com.github.kaktushose.jda.commands.scope.GuildScopeProvider GuildScopeProvider
- * @see com.github.kaktushose.jda.commands.embeds.ErrorMessageFactory ErrorMessageFactory
+ * @see ErrorMessageFactory ErrorMessageFactory
  * @since 2.0.0
  */
 @Target(ElementType.TYPE)
@@ -34,7 +35,7 @@ public @interface Implementation {
 
     /**
      * Gets the annotation the {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}
-     * should be mapped to. If the component is not a subtype of
+     * should be mapped to. If this class is not a subtype of
      * {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}, this field can be ignored.
      *
      * @return the annotation the {@link com.github.kaktushose.jda.commands.dispatching.validation.Validator Validator}

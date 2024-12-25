@@ -1,12 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
-import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,20 +16,12 @@ import java.util.stream.Stream;
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
-    private final Map<Priority, Set<Middleware>> middlewares;
-
-    /**
-     * Constructs a new MiddlewareRegistry.
-     */
-    public MiddlewareRegistry() {
-        middlewares = new HashMap<>();
-        middlewares.put(Priority.LOW, new HashSet<>());
-        middlewares.put(Priority.NORMAL, new HashSet<>());
-        middlewares.put(Priority.HIGH, new HashSet<>());
-        middlewares.put(Priority.PERMISSIONS, new HashSet<>());
-        register(Priority.PERMISSIONS, new PermissionsMiddleware());
-        register(Priority.NORMAL, new ConstraintMiddleware(), new CooldownMiddleware());
-    }
+    private final SortedMap<Priority, Set<Middleware>> middlewares = new TreeMap<>(Map.of(
+            Priority.PERMISSIONS, new HashSet<>(),
+            Priority.HIGH, new HashSet<>(),
+            Priority.NORMAL, new HashSet<>(),
+            Priority.LOW, new HashSet<>()
+    ));
 
     /**
      * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
@@ -91,7 +81,16 @@ public class MiddlewareRegistry {
      * @return a set of all registered middlewares {@link Middleware Middlewares}
      */
     public Set<Middleware> getMiddlewares() {
-        return middlewares.values().stream().flatMap(Collection::stream).collect(Collectors.toUnmodifiableSet());
+        return middlewares.sequencedValues()
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public void forAllOrdered(Consumer<Middleware> task) {
+        for (Set<Middleware> value : middlewares.values()) {
+            value.forEach(task);
+        }
     }
 
     /**

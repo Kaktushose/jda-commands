@@ -1,17 +1,20 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A {@link Middleware} implementation that contains the business logic behind command cooldowns.
@@ -25,30 +28,25 @@ import java.util.*;
 public class CooldownMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
-    private final Map<Long, Set<CooldownEntry>> activeCooldowns;
+    private final Map<Long, Set<CooldownEntry>> activeCooldowns = new ConcurrentHashMap<>();
 
-    public CooldownMiddleware() {
-        activeCooldowns = new HashMap<>();
+    private final ImplementationRegistry implementationRegistry;
+
+    public CooldownMiddleware(ImplementationRegistry implementationRegistry) {
+        this.implementationRegistry = implementationRegistry;
     }
 
     /**
      * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
      * context.
      *
-     * @param context the {@link Context} to filter
+     * @param context the {@link InvocationContext} to filter
      */
     @Override
-    public void accept(@NotNull Context context) {
-        if (!SlashCommandInteractionEvent.class.isAssignableFrom(context.getEvent().getClass())) {
-            return;
-        }
-        SlashCommandDefinition command = ((SlashCommandContext) context).getCommand();
+    public void accept(@NotNull InvocationContext<?> context) {
+        if (!(context.definition() instanceof SlashCommandDefinition command) || !command.hasCooldown()) return;
 
-        if (!command.hasCooldown()) {
-            return;
-        }
-
-        long id = context.getEvent().getUser().getIdLong();
+        long id = context.event().getUser().getIdLong();
 
         activeCooldowns.putIfAbsent(id, new HashSet<>());
 
@@ -60,7 +58,7 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.setCancelled(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.cancel(implementationRegistry.getErrorMessageFactory().getCooldownMessage(remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

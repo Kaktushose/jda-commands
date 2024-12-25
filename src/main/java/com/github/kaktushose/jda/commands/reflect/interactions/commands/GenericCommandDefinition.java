@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.reflect.interactions.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -18,7 +19,10 @@ import java.util.Set;
  * @see ContextCommandDefinition
  * @since 4.0.0
  */
-public abstract sealed class GenericCommandDefinition extends EphemeralInteractionDefinition implements Comparable<GenericCommandDefinition> permits ContextCommandDefinition, SlashCommandDefinition {
+public abstract sealed class GenericCommandDefinition
+        extends EphemeralInteractionDefinition
+        implements Comparable<GenericCommandDefinition>
+        permits ContextCommandDefinition, SlashCommandDefinition {
 
     protected final String name;
     protected final boolean isGuildOnly;
@@ -29,7 +33,7 @@ public abstract sealed class GenericCommandDefinition extends EphemeralInteracti
     protected final LocalizationFunction localizationFunction;
 
     protected GenericCommandDefinition(Method method,
-                                       boolean ephemeral,
+                                       ReplyConfig replyConfig,
                                        String name,
                                        Set<String> permissions,
                                        boolean isGuildOnly,
@@ -38,7 +42,7 @@ public abstract sealed class GenericCommandDefinition extends EphemeralInteracti
                                        Set<Permission> enabledPermissions,
                                        SlashCommand.CommandScope scope,
                                        LocalizationFunction localizationFunction) {
-        super(method, permissions, ephemeral);
+        super(method, permissions, replyConfig);
         this.name = name;
         this.isGuildOnly = isGuildOnly;
         this.isNSFW = isNSFW;
@@ -130,7 +134,7 @@ public abstract sealed class GenericCommandDefinition extends EphemeralInteracti
                 ", enabledPermissions=" + enabledPermissions +
                 ", scope=" + scope +
                 ", localizationFunction=" + localizationFunction +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 '}';
     }
 

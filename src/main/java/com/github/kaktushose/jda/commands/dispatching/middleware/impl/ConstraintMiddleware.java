@@ -1,18 +1,17 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.reflect.ParameterDefinition;
 import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A {@link Middleware} implementation that will check the parameter constraints a
@@ -25,20 +24,25 @@ public class ConstraintMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
 
+    private final ImplementationRegistry implementationRegistry;
+
+    public ConstraintMiddleware(ImplementationRegistry implementationRegistry) {
+        this.implementationRegistry = implementationRegistry;
+    }
+
     /**
-     * Checks if all parameters fulfill their constraints. Will cancel the {@link Context} if a parameter
+     * Checks if all parameters fulfill their constraints. Will cancel the {@link InvocationContext} if a parameter
      * constraint fails.
      *
-     * @param ctx the {@link Context} to filter
+     * @param context the {@link InvocationContext} to filter
      */
     @Override
-    public void accept(@NotNull Context ctx) {
-        if (!SlashCommandInteractionEvent.class.isAssignableFrom(ctx.getEvent().getClass())) {
+    public void accept(@NotNull InvocationContext<?> context) {
+        if (!(context.definition() instanceof SlashCommandDefinition command))
             return;
-        }
-        SlashCommandContext context = (SlashCommandContext) ctx;
-        List<Object> arguments = context.getArguments();
-        List<ParameterDefinition> parameters = Objects.requireNonNull(context.getCommand()).getParameters();
+
+        var arguments = new ArrayList<>(context.arguments());
+        List<ParameterDefinition> parameters = command.getParameters();
 
         log.debug("Applying parameter constraints...");
         for (int i = 1; i < arguments.size(); i++) {
@@ -50,10 +54,10 @@ public class ConstraintMiddleware implements Middleware {
                 boolean validated = constraint.validator().apply(argument, constraint.annotation(), context);
 
                 if (!validated) {
-                    context.setCancelled(
-                            context.getImplementationRegistry()
+                    context.cancel(
+                            implementationRegistry
                                     .getErrorMessageFactory()
-                                    .getConstraintFailedMessage(context, constraint)
+                                    .getConstraintFailedMessage(constraint)
                     );
                     log.debug("Constraint failed!");
                     return;

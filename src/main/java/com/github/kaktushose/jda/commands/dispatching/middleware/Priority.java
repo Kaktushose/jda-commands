@@ -6,21 +6,22 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
  * @see MiddlewareRegistry
  * @since 4.0.0
  */
+// !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
 public enum Priority {
     /**
-     * Lowest priority, will be executed at the end
+     * Middlewares with priority PERMISSIONS will always be executed first
      */
-    LOW,
-    /**
-     * Default priority.
-     */
-    NORMAL,
+    PERMISSIONS,
     /**
      * Highest priority for custom implementation, will be executed right after internal middlewares.
      */
     HIGH,
     /**
-     * Middlewares with priority PERMISSIONS will always be executed first
+     * Default priority.
      */
-    PERMISSIONS
+    NORMAL,
+    /**
+     * Lowest priority, will be executed at the end
+     */
+    LOW
 }

@@ -23,6 +23,7 @@ public class ReportCommand {
             name = "Remove Report", usage = "{prefix}report remove @Member", desc = "Remove the reports of a user", category = "Moderation")
     public void onReportRemove(CommandEvent event, Member member) {
         event.reply("Cleared reports for member %s", member.getAsMention());
+        event.kv().put("error", error);
     }
 
 }

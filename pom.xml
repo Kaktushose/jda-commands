@@ -36,8 +36,13 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.2</version>
                 <configuration>
-                    <source>11</source>
+                    <source>23</source>
                     <doclint>none</doclint>
+                    <overview>${basedir}/src/main/javadoc/overview.md</overview>
+                    <links>
+                        <link>https://javadoc.io/doc/net.dv8tion/JDA/5.0.2</link>
+                    </links>
+                    <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
             </plugin>
             <plugin>

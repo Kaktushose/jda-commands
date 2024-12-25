@@ -1,17 +1,18 @@
 package com.github.kaktushose.jda.commands.reflect.interactions.components.menus;
 
-import com.github.kaktushose.jda.commands.Helpers;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.interactions.components.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.reflect.MethodBuildContext;
+import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
+import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,14 +30,14 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
 
     private EntitySelectMenuDefinition(Method method,
                                        Set<String> permissions,
-                                       boolean ephemeral,
+                                       ReplyConfig replyConfig,
                                        Set<SelectTarget> selectTargets,
                                        Set<DefaultValue> defaultValues,
                                        Set<ChannelType> channelTypes,
                                        String placeholder,
                                        int minValue,
                                        int maxValue) {
-        super(method, permissions, ephemeral, placeholder, minValue, maxValue);
+        super(method, permissions, replyConfig, placeholder, minValue, maxValue);
         this.selectTargets = selectTargets;
         this.defaultValues = defaultValues;
         this.channelTypes = channelTypes;
@@ -58,7 +59,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
         }
 
         if (Helpers.isIncorrectParameterType(method, 0, ComponentEvent.class) ||
-                Helpers.isIncorrectParameterType(method, 1, List.class)) {
+                Helpers.isIncorrectParameterType(method, 1, Mentions.class)) {
             return Optional.empty();
         }
 
@@ -81,7 +82,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
         return Optional.of(new EntitySelectMenuDefinition(
                 method,
                 Helpers.permissions(context),
-                Helpers.ephemeral(context, selectMenu.ephemeral()),
+                Helpers.replyConfig(method),
                 Set.of(selectMenu.value()),
                 defaultValueSet,
                 new HashSet<>(Set.of(selectMenu.channelTypes())),
@@ -92,8 +93,8 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
     }
 
     @Override
-    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String runtimeId, boolean enabled) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(createCustomId(runtimeId), selectTargets)
+    public net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu toSelectMenu(String customId, boolean enabled) {
+        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(customId, selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
@@ -145,7 +146,7 @@ public final class EntitySelectMenuDefinition extends GenericSelectMenuDefinitio
                 ", minValue=" + minValue +
                 ", maxValue=" + maxValue +
                 ", permissions=" + permissions +
-                ", ephemeral=" + ephemeral +
+                ", replyConfig=" + replyConfig +
                 ", id='" + definitionId + '\'' +
                 ", method=" + method +
                 '}';
