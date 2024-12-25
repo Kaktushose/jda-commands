@@ -1,41 +1,37 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.impl;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.features.Replyable;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomIdInteraction;
-import com.github.kaktushose.jda.commands.definitions.interactions.PermissionsInteraction;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.SequencedCollection;
 
-import static net.dv8tion.jda.api.interactions.modals.Modal.*;
 
 public record ModalDefinition(
-        Method method,
+        ClassDescription clazz,
+        MethodDescription method,
         SequencedCollection<Class<?>> parameters,
         Collection<String> permissions,
         String title,
         SequencedCollection<TextInputDefinition> textInputs
-) implements JDAEntity<Modal>, Replyable, PermissionsInteraction, CustomIdInteraction {
+) implements Interaction, CustomIdJDAEntity<Modal> {
 
     @NotNull
     @Override
-    public Modal toJDAEntity() {
-        throw new UnsupportedOperationException("Cannot create modal without runtime id!");
-    }
-
-    @Override
-    public Modal toJDAEntity(@NotNull String runtimeId) {
-        var modal = create(boundCustomId(runtimeId).customId(), title);
+    public Modal toJDAEntity(@NotNull CustomId customId) {
+        var modal = Modal.create(customId.id(), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
 

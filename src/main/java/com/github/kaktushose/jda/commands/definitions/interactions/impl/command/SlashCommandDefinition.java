@@ -1,14 +1,13 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl;
+package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
-import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.features.Replyable;
-import com.github.kaktushose.jda.commands.definitions.interactions.PermissionsInteraction;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -16,25 +15,35 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public record SlashCommandDefinition(
-        Method method,
-        Collection<String> permissions,
-        boolean isNSFW,
-        boolean isGuildOnly,
-        Command.Type commandType,
-        Set<Permission> enabledPermissions,
-        SlashCommand.CommandScope scope,
-        LocalizationFunction localizationFunction,
-        String name,
-        String description,
-        SequencedCollection<ParameterDefinition> commandParameters,
-        CooldownDefinition cooldown,
-        boolean isAutoComplete
-) implements JDAEntity<SlashCommandData>, Replyable, PermissionsInteraction {
+public final class SlashCommandDefinition extends CommandDefinition {
+
+    private final String description;
+    private final SequencedCollection<ParameterDefinition> commandParameters;
+    private final SlashCommandDefinition.CooldownDefinition cooldown;
+    private final boolean isAutoComplete;
+
+    public SlashCommandDefinition(@NotNull ClassDescription clazz,
+                                  @NotNull MethodDescription method,
+                                  @NotNull Collection<String> permissions,
+                                  @NotNull String name,
+                                  @NotNull SlashCommand.CommandScope scope,
+                                  boolean isGuildOnly,
+                                  boolean isNSFW,
+                                  @NotNull Set<Permission> enabledPermissions,
+                                  @NotNull LocalizationFunction localizationFunction,
+                                  @NotNull String description,
+                                  @NotNull SequencedCollection<ParameterDefinition> commandParameters,
+                                  @NotNull CooldownDefinition cooldown,
+                                  boolean isAutoComplete) {
+        super(clazz, method, permissions, name, Type.SLASH, scope, isGuildOnly, isNSFW, enabledPermissions, localizationFunction);
+        this.description = description;
+        this.commandParameters = commandParameters;
+        this.cooldown = cooldown;
+        this.isAutoComplete = isAutoComplete;
+    }
 
     @NotNull
     @Override
@@ -81,6 +90,14 @@ public record SlashCommandDefinition(
         parameters.add(CommandEvent.class);
         commandParameters.forEach(it -> parameters.add(it.type()));
         return parameters;
+    }
+
+    public CooldownDefinition cooldown() {
+        return cooldown;
+    }
+
+    public boolean autoComplete() {
+        return isAutoComplete;
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
