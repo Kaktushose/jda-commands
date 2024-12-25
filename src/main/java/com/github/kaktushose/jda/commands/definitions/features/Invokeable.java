@@ -1,22 +1,24 @@
-package com.github.kaktushose.jda.commands.definitions.api.features;
+package com.github.kaktushose.jda.commands.definitions.features;
 
-import com.github.kaktushose.jda.commands.definitions.api.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.definitions.api.interactions.PermissionsInteraction;
+import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.SequencedCollection;
 
-public sealed interface Invokeable permits AutoCompleteDefinition, PermissionsInteraction {
+public sealed interface Invokeable permits Interaction {
 
     Logger log = LoggerFactory.getLogger(Invokeable.class);
 
-    void invoke(Object instance, InvocationContext<?> invocation) throws InvocationTargetException, IllegalAccessException;
+    default void invoke(Object instance, InvocationContext<?> invocation) throws Throwable {
+        SequencedCollection<Object> arguments = invocation.arguments();
+
+        method().invoke(instance, arguments.toArray());
+    }
 
     Method method();
 
