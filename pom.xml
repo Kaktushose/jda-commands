@@ -38,6 +38,7 @@
                 <configuration>
                     <source>23</source>
                     <doclint>none</doclint>
+                    <overview>src/main/java/overview.md</overview>
                     <links>
                         <link>https://javadoc.io/doc/net.dv8tion/JDA/5.0.2</link>
                     </links>

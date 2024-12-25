@@ -70,7 +70,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
     /// and transforms it into a JDA [Button].
     ///
-    /// The button will be linked to the current [Runtime]. This may be useful if you want to send a component without
+    /// The button will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This may be useful if you want to send a component without
     /// using the framework.
     ///
     /// @param button the name of the button
@@ -91,7 +91,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
-    /// The select menu will be linked to the current [Runtime]. This may be useful if you want to send a component
+    /// The select menu will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This may be useful if you want to send a component
     /// without using the framework.
     ///
     /// @param menu the name of the select menu
@@ -110,16 +110,16 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return selectMenuDefinition.toSelectMenu(runtimeId(), true);
     }
 
-    /// Returns the id of the [Runtime] this event is dispatched in.
+    /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.
     ///
     ///
-    /// @return the id of the current [Runtime]
+    /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
     @NotNull
     public String runtimeId() {
         return runtime.id();
     }
 
-    /// Closes the underlying [Runtime]. This will ignore any new jda events belonging to this interaction, resulting
+    /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new jda events belonging to this interaction, resulting
     /// in the freeing of occupied resources for gc.
     ///
     /// This is only needed if the expiration strategy
@@ -128,10 +128,10 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         runtime.close();
     }
 
-    /// Returns the [KeyValueStore] of this [Runtime].
+    /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// The [KeyValueStore] can be accessed during the [Middleware] execution as well as any
-    /// interaction execution. Its content will be the same as long as the executions take place in the same [Runtime].
+    /// interaction execution. Its content will be the same as long as the executions take place in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the [KeyValueStore]
     @NotNull

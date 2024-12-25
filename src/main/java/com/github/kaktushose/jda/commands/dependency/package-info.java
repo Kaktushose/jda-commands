@@ -1,4 +1,4 @@
 /**
- * The Dependency Injection feature of JDA-Commands.
+ * The Dependency Injection feature of jda-commands.
  */
 package com.github.kaktushose.jda.commands.dependency;

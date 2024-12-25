@@ -181,7 +181,7 @@ public record JDACommands(
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
     /// and transforms it into a JDA [Button].
     ///
-    /// The button will be [Runtime] independent. This may be useful if you want to send a message without
+    /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a message without
     /// using the framework.
     ///
     /// @param button the name of the button
@@ -202,7 +202,7 @@ public record JDACommands(
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
-    /// The select menu will be [Runtime] independent. This may be useful if you want to send a component
+    /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a component
     /// without using the framework.
     ///
     /// @param <S>  the type of [SelectMenu]
