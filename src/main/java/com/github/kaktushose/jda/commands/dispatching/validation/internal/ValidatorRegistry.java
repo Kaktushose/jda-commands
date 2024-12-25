@@ -1,6 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.validation;
+package com.github.kaktushose.jda.commands.dispatching.validation.internal;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.*;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

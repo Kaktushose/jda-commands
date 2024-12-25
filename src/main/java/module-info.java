@@ -41,10 +41,8 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
     exports com.github.kaktushose.jda.commands.dispatching.middleware;
-    exports com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
     exports com.github.kaktushose.jda.commands.dispatching.validation;
-    exports com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
     // embed
     exports com.github.kaktushose.jda.commands.embeds;

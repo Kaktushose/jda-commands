@@ -1,5 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.middleware;
+package com.github.kaktushose.jda.commands.dispatching.middleware.internal;
 
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

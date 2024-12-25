@@ -1,5 +1,6 @@
-package com.github.kaktushose.jda.commands.dispatching.adapter;
+package com.github.kaktushose.jda.commands.dispatching.adapter.internal;
 
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
