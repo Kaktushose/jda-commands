@@ -9,7 +9,6 @@ import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractio
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -28,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /// A [Runtime] delegates the jda events to their corresponding [EventHandler] and manages the used virtual threads.
 ///
-/// A new [Runtime] is created each time an [GenericCommandInteractionEvent], [GenericContextInteractionEvent] or [CommandAutoCompleteInteractionEvent] is provided by jda
+/// A new [Runtime] is created each time an [SlashCommandInteractionEvent], [GenericContextInteractionEvent] or [CommandAutoCompleteInteractionEvent] is provided by jda
 /// or if an interaction is marked as 'independent'.
 /// Runtimes are executed in parallel, but events are processed sequentially by each runtime.
 /// Every [EventHandler] called by this [Runtime] is executed in its own virtual thread, isolated from the runtime one.

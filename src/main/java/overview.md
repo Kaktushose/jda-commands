@@ -23,7 +23,7 @@ Having trouble or found a bug?
 
 One of the core concepts in jda-commands is the so-called `Runtime`. It is mentioned frequently in the docs. A `Runtime` delegates the jda events to their corresponding `EventHandlers` and manages the used virtual threads.
 
-A new `Runtime` is created each time a [`GenericCommandInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html), 
+A new `Runtime` is created each time a [`SlashCommandInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html),
 [`GenericContextInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html)
 or [`CommandAutoCompleteInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html) is provided by jda
 or if an interaction is marked as [*independent*](jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#independent(java.lang.String...)).
