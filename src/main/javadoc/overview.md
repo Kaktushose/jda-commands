@@ -33,3 +33,5 @@ Every `EventHandler` called by this `Runtime` is executed in its own virtual thr
 
 See [`ExpirationStrategy`](jda.commands/com/github/kaktushose/jda/commands/dispatching/ExpirationStrategy.html) for
 details when a `Runtime` will close.
+
+<img src="doc-files/flowchart.png" alt="event/runtime flowchart" width="100%"/>
