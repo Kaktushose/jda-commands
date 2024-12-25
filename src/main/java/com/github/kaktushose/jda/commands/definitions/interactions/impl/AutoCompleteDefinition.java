@@ -1,14 +1,20 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.impl;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.SequencedCollection;
 import java.util.Set;
 
 public record AutoCompleteDefinition(
-        String displayName,
-        Method method,
-        SequencedCollection<Class<?>> parameters,
-        Set<String> commands
-) implements Interaction {}
+        @NotNull Method method,
+        @NotNull SequencedCollection<Class<?>> parameters,
+        @NotNull Set<String> commands
+) implements Interaction {
+
+    @Override
+    public String displayName() {
+        return "%s.%s".formatted(method.getDeclaringClass().getName(), method.getName());
+    }
+}
