@@ -19,6 +19,34 @@ Having trouble or found a bug?
 - Join the [Discord Server](https://discord.gg/JYWezvQ)
 - Or open an [Issue](https://github.com/Kaktushose/jda-commands/issues)
 
+## Example usage
+### 1. Create JDACommands instance and start framework
+```java
+public class Main {
+    
+    public static void main(String[] args) {
+        JDA jda = yourJDABuilding();
+        JDACommands jdaCommands = JDACommands.start(jda, Main.class);
+    }
+    
+}
+```
+
+### 2. Create interaction class
+
+```java
+@Interaction
+public class HelloWorld { 
+    
+    @SlashCommand("greet") 
+    public void onCommand(CommandEvent event) {
+        event.reply("Hello World!");
+    }
+    
+}
+```
+
+
 ## Runtime Concept
 
 One of the core concepts in jda-commands is the so-called `Runtime`. It is mentioned frequently in the docs. A `Runtime` delegates the jda events to their corresponding `EventHandlers` and manages the used virtual threads.

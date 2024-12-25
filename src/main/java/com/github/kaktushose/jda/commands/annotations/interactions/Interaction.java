@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 ///
 /// ## Example:
 /// ```
+/// @Interaction
 /// public class InteractionClass {
 ///
 ///     @SlashCommand("greet")
