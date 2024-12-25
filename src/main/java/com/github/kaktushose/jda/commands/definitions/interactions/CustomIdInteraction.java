@@ -1,9 +1,11 @@
-package com.github.kaktushose.jda.commands.definitions.api.interactions;
+package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.definitions.api.Definition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.SelectMenuDefinition;
 import org.jetbrains.annotations.NotNull;
 
-public sealed interface CustomIdInteraction extends Definition permits ButtonDefinition, ModalDefinition, SelectMenuDefinition {
+public sealed interface CustomIdInteraction extends Interaction permits ButtonDefinition, ModalDefinition, SelectMenuDefinition {
 
     String PREFIX = "jdac";
 
@@ -70,5 +72,4 @@ public sealed interface CustomIdInteraction extends Definition permits ButtonDef
             return customId.split("\\.")[index];
         }
     }
-
 }
