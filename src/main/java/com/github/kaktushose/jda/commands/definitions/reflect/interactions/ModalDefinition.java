@@ -38,46 +38,7 @@ public final class ModalDefinition extends EphemeralInteractionDefinition implem
      * @return an {@link Optional} holding the ModalDefinition
      */
     public static Optional<ModalDefinition> build(@NotNull Method method) {
-        if (!method.isAnnotationPresent(Modal.class) || !method.getDeclaringClass().isAnnotationPresent(Interaction.class)) {
-            return Optional.empty();
-        }
 
-        // Modals support up to 5 TextInputs
-        if (method.getParameters().length < 1 || method.getParameters().length > 6) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
-            return Optional.empty();
-        }
-
-        if (Helpers.isIncorrectParameterType(method, 0, ModalEvent.class)) {
-            return Optional.empty();
-        }
-
-        List<TextInputDefinition> textInputs = new ArrayList<>();
-        for (int i = 1; i < method.getParameters().length; i++) {
-            Parameter parameter = method.getParameters()[i];
-            TextInputDefinition.build(parameter).ifPresent(textInputs::add);
-        }
-
-        if (textInputs.isEmpty()) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException("Modals need at least one valid TextInput"));
-            return Optional.empty();
-        }
-
-        Set<String> permissions = new HashSet<>();
-        if (method.isAnnotationPresent(Permissions.class)) {
-            Permissions permission = method.getAnnotation(Permissions.class);
-            permissions = new HashSet<>(Arrays.asList(permission.value()));
-        }
-
-        Modal modal = method.getAnnotation(Modal.class);
-
-        return Optional.of(new ModalDefinition(method, permissions, Helpers.replyConfig(method), modal.value(), textInputs));
     }
 
     /**

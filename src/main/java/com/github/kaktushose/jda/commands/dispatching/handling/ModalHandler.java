@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ModalDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;

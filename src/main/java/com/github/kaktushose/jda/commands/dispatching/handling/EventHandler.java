@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegis
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;

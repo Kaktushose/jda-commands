@@ -1,8 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.EphemeralInteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;

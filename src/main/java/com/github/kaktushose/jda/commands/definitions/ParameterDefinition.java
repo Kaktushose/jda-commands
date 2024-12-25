@@ -1,9 +1,14 @@
 package com.github.kaktushose.jda.commands.definitions;
 
+import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
+import com.github.kaktushose.jda.commands.annotations.interactions.Param;
+import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -17,6 +22,9 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -32,6 +40,17 @@ public record ParameterDefinition(
         SequencedCollection<Command.Choice> choices,
         Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
+
+    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
+            entry(byte.class, Byte.class),
+            entry(short.class, Short.class),
+            entry(int.class, Integer.class),
+            entry(long.class, Long.class),
+            entry(double.class, Double.class),
+            entry(float.class, Float.class),
+            entry(boolean.class, Boolean.class),
+            entry(char.class, Character.class)
+    );
 
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
             entry(Byte.class, OptionType.STRING),
@@ -71,6 +90,67 @@ public record ParameterDefinition(
             ))
     );
 
+    public static ParameterDefinition build(ParameterDescription parameter,
+                                                      boolean autoComplete,
+                                                      @NotNull ValidatorRegistry validatorRegistry) {
+        final var parameterType = TYPE_MAPPINGS.getOrDefault(parameter.type(), parameter.type());
+
+        var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
+        var defaultValue = "";
+        if (optional.isPresent()) {
+            defaultValue = optional.get().value();
+        }
+        if (defaultValue.isEmpty()) {
+            defaultValue = null;
+        }
+
+        // index constraints
+        List<ConstraintDefinition> constraints = new ArrayList<>();
+        parameter.annotations().stream()
+                .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
+                .forEach(it -> {
+                    var validator = validatorRegistry.get(it.annotationType(), parameterType);
+                    validator.ifPresent(value -> constraints.add(ConstraintDefinition.build(value, it)));
+                });
+
+        // Param
+        String name = parameter.name();
+        String description = "empty description";
+        var param = parameter.annotation(Param.class);
+        if (param.isPresent()) {
+            name = param.get().name().isEmpty() ? name : param.get().name();
+            description = param.get().value();
+        }
+        name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
+
+        List<Command.Choice> commandChoices = new ArrayList<>();
+        // Options
+        var choices = parameter.annotation(Choices.class);
+        if (choices.isPresent()) {
+            for (String option : choices.get().value()) {
+                String[] parsed = option.split(":", 2);
+                if (parsed.length < 1) {
+                    continue;
+                }
+                if (parsed.length < 2) {
+                    commandChoices.add(new Command.Choice(parsed[0], parsed[0]));
+                    continue;
+                }
+                commandChoices.add(new Command.Choice(parsed[0], parsed[1]));
+            }
+        }
+        return new ParameterDefinition(
+                parameterType,
+                optional.isPresent(),
+                autoComplete,
+                defaultValue,
+                TYPE_MAPPINGS.containsKey(parameter.type()),
+                name,
+                description,
+                commandChoices,
+                constraints
+        );
+    }
 
     @Override
     public @NotNull String displayName() {
@@ -108,6 +188,22 @@ public record ParameterDefinition(
 
     public record ConstraintDefinition(Validator validator, String message,
                                        Object annotation) implements Definition {
+
+
+        public static ConstraintDefinition build(@NotNull Validator validator, @NotNull Annotation annotation) {
+            // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
+            var message = "";
+            try {
+                Method method = annotation.getClass().getDeclaredMethod("message");
+                message = (String) method.invoke(annotation);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException _) {
+            }
+            if (message.isEmpty()) {
+                message = "Parameter validation failed";
+            }
+            return new ConstraintDefinition(validator, message, annotation);
+        }
+
         @Override
         public @NotNull String displayName() {
             return validator.getClass().getName();

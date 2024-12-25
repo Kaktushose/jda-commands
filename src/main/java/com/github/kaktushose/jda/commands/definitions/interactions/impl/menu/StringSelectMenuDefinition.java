@@ -7,17 +7,16 @@ import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.SequencedCollection;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public record StringSelectMenuDefinition(
@@ -29,6 +28,34 @@ public record StringSelectMenuDefinition(
         int minValue,
         int maxValue
 ) implements JDAEntity<StringSelectMenu>, CustomIdJDAEntity<StringSelectMenu>, Interaction {
+
+    public static Optional<Definition> build(MethodBuildContext context) {
+        var method = context.method();
+        com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu selectMenu =
+                method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu.class).orElseThrow();
+
+        if (Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class))) {
+            return Optional.empty();
+        }
+
+        Set<SelectOptionDefinition> selectOptions = new HashSet<>();
+        method.annotations().stream()
+                .filter(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::isInstance)
+                .map(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::cast)
+                .forEach(it -> {
+                    selectOptions.add(SelectOptionDefinition.build(it));
+                });
+
+        return Optional.of(new StringSelectMenuDefinition(
+                context.clazz(),
+                method,
+                Helpers.permissions(context),
+                selectOptions,
+                selectMenu.value(),
+                selectMenu.minValue(),
+                selectMenu.maxValue()
+        ));
+    }
 
     @NotNull
     @Override
@@ -57,17 +84,23 @@ public record StringSelectMenuDefinition(
         return "Select Menu: %s".formatted(placeholder);
     }
 
-    @Override
-    public @NotNull SequencedCollection<Class<?>> methodSignature() {
-        return List.of(ComponentEvent.class, List.class);
-    }
-
     public record SelectOptionDefinition(@NotNull String value,
-                                  @NotNull String label,
-                                  @Nullable String description,
-                                  @Nullable Emoji emoji,
-                                  boolean isDefault
+                                         @NotNull String label,
+                                         @Nullable String description,
+                                         @Nullable Emoji emoji,
+                                         boolean isDefault
     ) implements JDAEntity<SelectOption>, Definition {
+
+        public static SelectOptionDefinition build(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption option) {
+            Emoji emoji;
+            String emojiString = option.emoji();
+            if (emojiString.isEmpty()) {
+                emoji = null;
+            } else {
+                emoji = Emoji.fromFormatted(emojiString);
+            }
+            return new SelectOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
+        }
 
         @NotNull
         @Override

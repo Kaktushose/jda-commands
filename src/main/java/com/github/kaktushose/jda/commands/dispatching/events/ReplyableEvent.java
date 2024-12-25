@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.EphemeralInteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;

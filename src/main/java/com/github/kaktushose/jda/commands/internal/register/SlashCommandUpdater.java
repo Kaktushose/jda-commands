@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.GenericCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.Command;

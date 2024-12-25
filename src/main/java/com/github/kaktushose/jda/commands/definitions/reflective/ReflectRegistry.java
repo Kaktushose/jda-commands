@@ -1,8 +1,22 @@
 package com.github.kaktushose.jda.commands.definitions.reflective;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.Inject;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.Registry;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.StringSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
@@ -11,22 +25,37 @@ import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
+import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
+
+import static com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
 
 public final class ReflectRegistry implements Registry {
 
     private static final Logger log = LoggerFactory.getLogger(ReflectRegistry.class);
     private final Reflections reflections;
+    private final DependencyInjector dependencyInjector;
+    private final ValidatorRegistry validatorRegistry;
+    private final LocalizationFunction localizationFunction;
     private Set<Definition> definitions;
 
-    public ReflectRegistry(Class<?> clazz, String... packages) {
-        FilterBuilder filter = new FilterBuilder();
+    public ReflectRegistry(DependencyInjector dependencyInjector,
+                           ValidatorRegistry validatorRegistry,
+                           LocalizationFunction localizationFunction,
+                           Class<?> clazz,
+                           String... packages) {
+        this.dependencyInjector = dependencyInjector;
+        this.validatorRegistry = validatorRegistry;
+        this.localizationFunction = localizationFunction;
+        definitions = new HashSet<>();
+
+        var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);
         }
 
-        ConfigurationBuilder config = new ConfigurationBuilder()
+        var config = new ConfigurationBuilder()
                 .setScanners(Scanners.SubTypes, Scanners.TypesAnnotated)
                 .setUrls(ClasspathHelper.forClass(clazz))
                 .filterInputsBy(filter);
@@ -35,17 +64,115 @@ public final class ReflectRegistry implements Registry {
 
     @Override
     public void index() {
-        Set<Class<?>> controllerSet = reflections.getTypesAnnotatedWith(Interaction.class);
+        var interactionClasses = reflections.getTypesAnnotatedWith(Interaction.class);
 
-        for (Class<?> aClass : controllerSet) {
-            log.debug("Found interaction controller {}", aClass.getName());
-
-            // TODO build definitions
+        for (Class<?> clazz : interactionClasses) {
+            log.debug("Found interaction controller {}", clazz.getName());
+            definitions = Set.copyOf(indexInteractionClass(new ReflectiveDescriptor().apply(clazz)));
         }
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
-                controllerSet.size(),
+                interactionClasses.size(),
                 definitions.size());
+    }
+
+    private Collection<Definition> indexInteractionClass(ClassDescription clazz) {
+        var interaction = clazz.annotation(Interaction.class).orElseThrow();
+
+        var fields = Arrays.stream(clazz.clazz().getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(Inject.class))
+                .toList();
+        dependencyInjector.registerDependencies(clazz.clazz(), fields);
+
+        final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
+        // get controller level cooldown and use it if no command level cooldown is present
+        CooldownDefinition cooldown = clazz.annotation(Cooldown.class).map(CooldownDefinition::build).orElse(null);
+
+        var autoCompletes = autoCompleteDefinitions(clazz);
+
+        // index interactions
+        var interactionDefinitions = interactionDefinitions(
+                clazz,
+                validatorRegistry,
+                localizationFunction,
+                interaction,
+                permissions,
+                cooldown,
+                autoCompletes
+        );
+
+        // validate auto completes
+        var commandDefinitions = interactionDefinitions.stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
+                .toList();
+
+        autoCompletes.stream()
+                .map(AutoCompleteDefinition::commands)
+                .flatMap(Collection::stream)
+                .filter(name -> commandDefinitions.stream().noneMatch(command -> command.name().startsWith(name)))
+                .forEach(s -> log.warn("No Command found for auto complete {}", s));
+
+        return interactionDefinitions;
+    }
+
+    private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
+        return clazz.methods().stream()
+                .filter(it -> it.annotation(AutoComplete.class).isPresent())
+                .map(method -> Optional.ofNullable(AutoCompleteDefinition.build(method)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+    }
+
+    private Set<Definition> interactionDefinitions(ClassDescription clazz,
+                                                   ValidatorRegistry validatorRegistry,
+                                                   LocalizationFunction localizationFunction,
+                                                   Interaction interaction,
+                                                   Set<String> permissions,
+                                                   CooldownDefinition cooldown,
+                                                   Collection<AutoCompleteDefinition> autocompletes) {
+        Set<Definition> definitions = new HashSet<>(autocompletes);
+        for (MethodDescription method : clazz.methods()) {
+            final MethodBuildContext context = new MethodBuildContext(
+                    validatorRegistry,
+                    localizationFunction,
+                    interaction,
+                    permissions,
+                    cooldown,
+                    clazz,
+                    method,
+                    autocompletes
+            );
+
+            Optional<Definition> definition = Optional.empty();
+            // index commands
+            if (method.annotation(SlashCommand.class).isPresent()) {
+                definition = SlashCommandDefinition.build(context);
+            }
+            if (method.annotation(ContextCommand.class).isPresent()) {
+                definition = CommandDefinition.build(context);
+            }
+
+            // index components
+            if (method.annotation(Button.class).isPresent()) {
+                definition = ButtonDefinition.build(context);
+            }
+            if (method.annotation(EntitySelectMenu.class).isPresent()) {
+                definition = EntitySelectMenuDefinition.build(context);
+            }
+            if (method.annotation(StringSelectMenu.class).isPresent()) {
+                definition = StringSelectMenuDefinition.build(context);
+            }
+
+            //index modals
+            if (method.annotation(Modal.class).isPresent()) {
+                definition = ModalDefinition.build(context);
+            }
+
+            definition.ifPresent(definitions::add);
+        }
+        return definitions;
     }
 
     @Override

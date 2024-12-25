@@ -1,21 +1,21 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.impl.menu;
 
+import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.SequencedCollection;
-import java.util.Set;
+import java.util.*;
 
 public record EntitySelectMenuDefinition(
         @NotNull ClassDescription clazz,
@@ -28,6 +28,42 @@ public record EntitySelectMenuDefinition(
         int minValue,
         int maxValue
 ) implements JDAEntity<EntitySelectMenu>, CustomIdJDAEntity<EntitySelectMenu>, Interaction {
+
+    public static Optional<Definition> build(MethodBuildContext context) {
+        var method = context.method();
+        com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu selectMenu =
+                method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu.class).orElseThrow();
+
+        if (Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class))) {
+            return Optional.empty();
+        }
+
+        Set<EntitySelectMenu.DefaultValue> defaultValueSet = new HashSet<>();
+        for (long id : selectMenu.defaultChannels()) {
+            if (id < 0) continue;
+            defaultValueSet.add(EntitySelectMenu.DefaultValue.channel(id));
+        }
+        for (long id : selectMenu.defaultUsers()) {
+            if (id < 0) continue;
+            defaultValueSet.add(EntitySelectMenu.DefaultValue.user(id));
+        }
+        for (long id : selectMenu.defaultRoles()) {
+            if (id < 0) continue;
+            defaultValueSet.add(EntitySelectMenu.DefaultValue.role(id));
+        }
+
+        return Optional.of(new EntitySelectMenuDefinition(
+                context.clazz(),
+                method,
+                Helpers.permissions(context),
+                Set.of(selectMenu.value()),
+                defaultValueSet,
+                new HashSet<>(Set.of(selectMenu.channelTypes())),
+                selectMenu.placeholder(),
+                selectMenu.minValue(),
+                selectMenu.maxValue()
+        ));
+    }
 
     @NotNull
     @Override
@@ -58,8 +94,4 @@ public record EntitySelectMenuDefinition(
         return "Select Menu: %s".formatted(placeholder);
     }
 
-    @Override
-    public @NotNull SequencedCollection<Class<?>> methodSignature() {
-        return List.of(ComponentEvent.class, Mentions.class);
-    }
 }

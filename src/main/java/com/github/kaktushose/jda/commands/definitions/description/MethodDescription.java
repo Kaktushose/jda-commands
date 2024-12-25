@@ -7,9 +7,10 @@ import java.util.Optional;
 import java.util.SequencedCollection;
 
 public record MethodDescription(
+        Class<?> declaringClass,
         Class<?> returnType,
         String name,
-        Collection<ParameterDescription> parameters,
+        SequencedCollection<ParameterDescription> parameters,
         Collection<Annotation> annotations,
         Invoker invoker
 ) {

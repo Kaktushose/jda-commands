@@ -1,16 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.reflect;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.InteractionControllerDefinition;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.GenericInteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.GenericCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;

@@ -28,7 +28,4 @@ public sealed interface Invokeable permits Permissions, Replyable, Interaction, 
     @NotNull
     MethodDescription method();
 
-    @NotNull
-    SequencedCollection<Class<?>> methodSignature();
-
 }

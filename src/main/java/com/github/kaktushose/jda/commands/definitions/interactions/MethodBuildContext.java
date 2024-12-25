@@ -1,15 +1,15 @@
-package com.github.kaktushose.jda.commands.definitions.reflect;
+package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.definitions.reflect.misc.CooldownDefinition;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.GenericInteractionDefinition;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public record MethodBuildContext(
         Interaction interaction,
         Set<String> permissions,
         CooldownDefinition cooldownDefinition,
-        Method method,
+        ClassDescription clazz,
+        MethodDescription method,
         Collection<AutoCompleteDefinition> autoCompleteDefinitions
-) {
-}
+) {}

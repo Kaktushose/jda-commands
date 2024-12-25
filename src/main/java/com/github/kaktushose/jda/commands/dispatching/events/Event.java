@@ -10,8 +10,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCo
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;

@@ -1,10 +1,14 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
+import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -15,10 +19,8 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.SequencedCollection;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope;
 
@@ -57,6 +59,42 @@ public sealed class CommandDefinition implements Interaction, JDAEntity<CommandD
         this.localizationFunction = localizationFunction;
     }
 
+    public static Optional<Definition> build(MethodBuildContext context) {
+        var method = context.method();
+        ContextCommand command = method.annotation(ContextCommand.class).orElseThrow();
+
+        var type = switch (command.type()) {
+            case USER -> User.class;
+            case MESSAGE -> Message.class;
+            default -> null;
+        };
+        if (type == null) {
+            log.error("Invalid command type for context command! Must either be USER or MESSAGE");
+            return Optional.empty();
+        }
+        if (Helpers.checkSignature(method, List.of(CommandEvent.class, type))) {
+            return Optional.empty();
+        }
+
+        Set<Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
+        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
+            enabledFor.clear();
+        }
+
+        return Optional.of(new CommandDefinition(
+                context.clazz(),
+                method,
+                Helpers.permissions(context),
+                command.value(),
+                command.type(),
+                command.scope(),
+                command.isGuildOnly(),
+                command.isNSFW(),
+                enabledFor,
+                context.localizationFunction()
+        ));
+    }
+
     @NotNull
     @Override
     public CommandData toJDAEntity() {
@@ -68,25 +106,14 @@ public sealed class CommandDefinition implements Interaction, JDAEntity<CommandD
         return command;
     }
 
-    @NotNull
-    public ClassDescription clazz() {
+    @Override
+    public @NotNull ClassDescription clazz() {
         return clazz;
     }
 
     @NotNull
     public MethodDescription method() {
         return method;
-    }
-
-    @NotNull
-    @Override
-    public  SequencedCollection<Class<?>> methodSignature() {
-        var type = switch (commandType) {
-            case USER -> User.class;
-            case MESSAGE -> Message.class;
-            default -> throw new IllegalStateException("Unknown CommandType" + commandType);
-        };
-        return List.of(CommandEvent.class, type);
     }
 
     @NotNull

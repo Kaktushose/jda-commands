@@ -38,6 +38,7 @@ public class ReflectiveDescriptor implements Descriptor {
 
 
         return new MethodDescription(
+                method.getDeclaringClass(),
                 method.getReturnType(),
                 method.getName(),
                 parameters,
@@ -49,6 +50,7 @@ public class ReflectiveDescriptor implements Descriptor {
     private ParameterDescription parameter(Parameter parameter) {
         return new ParameterDescription(
                 parameter.getType(),
+                parameter.getName(),
                 toList(parameter.getAnnotations())
         );
     }

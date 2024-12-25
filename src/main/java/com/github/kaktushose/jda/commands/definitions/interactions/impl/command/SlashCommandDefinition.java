@@ -1,11 +1,15 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -13,7 +17,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import net.dv8tion.jda.internal.utils.Checks;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +49,64 @@ public final class SlashCommandDefinition extends CommandDefinition {
         this.commandParameters = commandParameters;
         this.cooldown = cooldown;
         this.isAutoComplete = isAutoComplete;
+    }
+
+    public static Optional<Definition> build(MethodBuildContext context) {
+        var method = context.method();
+        var interaction = context.interaction();
+        var command = method.annotation(SlashCommand.class).orElseThrow();
+
+        String name = String.join(" ", interaction.value(), command.value())
+                .replaceAll(" +", " ")
+                .trim();
+
+        if (name.isEmpty()) {
+            Checks.notBlank(name, "Command name");
+            return Optional.empty();
+        }
+
+        boolean autoComplete = context.autoCompleteDefinitions().stream()
+                .map(AutoCompleteDefinition::commands)
+                .flatMap(Collection::stream)
+                .anyMatch(name::startsWith);
+
+        // build parameter definitions
+        List<ParameterDefinition> parameters = method.parameters().stream()
+                .map(parameter -> ParameterDefinition.build(parameter, autoComplete, context.validatorRegistry()))
+                .toList();
+
+        Set<Permission> enabledFor = Set.of(command.enabledFor());
+        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
+            enabledFor = Set.of();
+        }
+
+        List<Class<?>> signature = new ArrayList<>();
+        signature.add(CommandEvent.class);
+        parameters.forEach(it -> signature.add(it.type()));
+        if (Helpers.checkSignature(method, signature)) {
+            return Optional.empty();
+        }
+
+        CooldownDefinition cooldownDefinition = CooldownDefinition.build(method.annotation(Cooldown.class).orElse(null));
+        if (cooldownDefinition.delay() == 0 && context.cooldownDefinition() != null) {
+            cooldownDefinition = context.cooldownDefinition();
+        }
+
+        return Optional.of(new SlashCommandDefinition(
+                context.clazz(),
+                method,
+                Helpers.permissions(context),
+                name,
+                command.scope(),
+                command.isGuildOnly(),
+                command.isNSFW(),
+                enabledFor,
+                context.localizationFunction(),
+                command.desc(),
+                parameters,
+                cooldownDefinition,
+                autoComplete
+        ));
     }
 
     @NotNull
@@ -83,15 +147,6 @@ public final class SlashCommandDefinition extends CommandDefinition {
         return "/%s".formatted(name);
     }
 
-    @NotNull
-    @Override
-    public SequencedCollection<Class<?>> methodSignature() {
-        List<Class<?>> parameters = new ArrayList<>();
-        parameters.add(CommandEvent.class);
-        commandParameters.forEach(it -> parameters.add(it.type()));
-        return parameters;
-    }
-
     public CooldownDefinition cooldown() {
         return cooldown;
     }
@@ -101,9 +156,21 @@ public final class SlashCommandDefinition extends CommandDefinition {
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
+
+        @NotNull
+        public static CooldownDefinition build(@Nullable Cooldown cooldown) {
+            if (cooldown == null) {
+                return new CooldownDefinition(0, TimeUnit.MILLISECONDS);
+            }
+            return new CooldownDefinition(cooldown.value(), cooldown.timeUnit());
+        }
+
+        @NotNull
         @Override
-        public @NotNull String displayName() {
+        public String displayName() {
             return "Cooldown of %d %s".formatted(delay, timeUnit.name());
         }
+
+
     }
 }
