@@ -45,7 +45,7 @@ public record ButtonDefinition(
 
     @NotNull
     @Override
-    public SequencedCollection<Class<?>> parameters() {
+    public SequencedCollection<Class<?>> methodSignature() {
         return List.of(ComponentEvent.class);
     }
 

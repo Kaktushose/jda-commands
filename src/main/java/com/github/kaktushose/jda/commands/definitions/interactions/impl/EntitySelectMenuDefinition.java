@@ -61,7 +61,7 @@ public record EntitySelectMenuDefinition(
     }
 
     @Override
-    public @NotNull SequencedCollection<Class<?>> parameters() {
+    public @NotNull SequencedCollection<Class<?>> methodSignature() {
         return List.of(ComponentEvent.class, Mentions.class);
     }
 }

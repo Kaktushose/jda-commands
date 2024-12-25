@@ -50,7 +50,7 @@ public record ModalDefinition(
 
     @NotNull
     @Override
-    public SequencedCollection<Class<?>> parameters() {
+    public SequencedCollection<Class<?>> methodSignature() {
         List<Class<?>> parameters = new ArrayList<>();
         parameters.add(ModalEvent.class);
         textInputs.forEach(_ -> parameters.add(String.class));

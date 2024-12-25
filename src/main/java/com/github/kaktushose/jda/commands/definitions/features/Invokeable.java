@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.SequencedCollection;
 
 public sealed interface Invokeable permits Replyable, Interaction {
@@ -25,18 +23,6 @@ public sealed interface Invokeable permits Replyable, Interaction {
     Method method();
 
     @NotNull
-    SequencedCollection<Class<?>> parameters();
-
-    default boolean checkSignature() {
-        if (method().getParameterCount() != parameters().size()) {
-            log.error("Incorrect parameter count!");
-            return false;
-        }
-        if (!Arrays.stream(method().getParameters()).map(Parameter::getType).equals(parameters())) {
-            log.error("Incorrect parameter type!");
-            return false;
-        }
-        return true;
-    }
+    SequencedCollection<Class<?>> methodSignature();
 
 }

@@ -76,7 +76,7 @@ public record SlashCommandDefinition(
 
     @NotNull
     @Override
-    public SequencedCollection<Class<?>> parameters() {
+    public SequencedCollection<Class<?>> methodSignature() {
         List<Class<?>> parameters = new ArrayList<>();
         parameters.add(CommandEvent.class);
         commandParameters.forEach(it -> parameters.add(it.type()));

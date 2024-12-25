@@ -52,7 +52,7 @@ public record ContextCommandDefinition(
 
     @NotNull
     @Override
-    public SequencedCollection<Class<?>> parameters() {
+    public SequencedCollection<Class<?>> methodSignature() {
         var type = switch (commandType) {
             case USER -> User.class;
             case MESSAGE -> Message.class;

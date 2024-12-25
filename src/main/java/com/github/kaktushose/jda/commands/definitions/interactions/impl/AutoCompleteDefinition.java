@@ -9,7 +9,7 @@ import java.util.Set;
 
 public record AutoCompleteDefinition(
         @NotNull Method method,
-        @NotNull SequencedCollection<Class<?>> parameters,
+        @NotNull SequencedCollection<Class<?>> methodSignature,
         @NotNull Set<String> commands
 ) implements Interaction {
 
