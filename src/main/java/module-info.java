@@ -1,3 +1,4 @@
+/// The base module of jda-commands
 module jda.commands {
     requires com.google.gson;
     requires jsr305;
@@ -8,6 +9,8 @@ module jda.commands {
     requires org.slf4j;
     requires kotlin.stdlib;
 
+    // base package
+    exports com.github.kaktushose.jda.commands;
 
     // annotations
     exports com.github.kaktushose.jda.commands.annotations;
