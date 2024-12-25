@@ -94,6 +94,7 @@ public final class Runtime implements Closeable {
     }
 
     private void executeHandler(GenericInteractionCreateEvent incomingEvent) {
+        lastActivity = LocalDateTime.now();
         switch (incomingEvent) {
             case SlashCommandInteractionEvent event -> slashCommandHandler.accept(event, this);
             case GenericContextInteractionEvent<?> event -> contextCommandHandler.accept(event, this);
