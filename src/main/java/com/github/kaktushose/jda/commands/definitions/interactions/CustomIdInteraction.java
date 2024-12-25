@@ -1,11 +1,12 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.StringSelectMenuDefinition;
 import org.jetbrains.annotations.NotNull;
 
-public sealed interface CustomIdInteraction extends Interaction permits ButtonDefinition, ModalDefinition, SelectMenuDefinition {
+public sealed interface CustomIdInteraction extends Interaction permits ButtonDefinition, EntitySelectMenuDefinition, ModalDefinition, StringSelectMenuDefinition {
 
     String PREFIX = "jdac";
 

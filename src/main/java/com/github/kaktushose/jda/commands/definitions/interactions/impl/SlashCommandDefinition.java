@@ -2,16 +2,19 @@ package com.github.kaktushose.jda.commands.definitions.interactions.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.PermissionsInteraction;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -20,56 +23,68 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public record SlashCommandDefinition(
-        String displayName,
         Method method,
-        SequencedCollection<Class<?>> parameters,
         Collection<String> permissions,
-        ReplyConfig replyConfig,
         boolean isNSFW,
+        boolean isGuildOnly,
         Command.Type commandType,
         Set<Permission> enabledPermissions,
         SlashCommand.CommandScope scope,
         LocalizationFunction localizationFunction,
+        String name,
         String description,
         SequencedCollection<ParameterDefinition> commandParameters,
         CooldownDefinition cooldown,
         boolean isAutoComplete
-) implements JDAEntity<CommandData>, Replyable, PermissionsInteraction {
+) implements JDAEntity<SlashCommandData>, Replyable, PermissionsInteraction {
 
+    @NotNull
     @Override
-    public CommandData toJDAEntity() {
-        return null;
+    public SlashCommandData toJDAEntity() {
+        SlashCommandData command = Commands.slash(
+                name,
+                description.replaceAll("N/A", "no description")
+        );
+        command.setGuildOnly(isGuildOnly)
+                .setNSFW(isNSFW)
+                .setLocalizationFunction(localizationFunction)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
+        commandParameters.forEach(parameter -> {
+            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
+                return;
+            }
+            command.addOptions(parameter.toJDAEntity());
+        });
+        return command;
     }
 
-    public record ParameterDefinition(
-            OptionData toJDAEntity,
-            Class<?> type,
-            boolean optional,
-            String defaultValue,
-            boolean primitive,
-            String name,
-            String description,
-            SequencedCollection<Command.Choice> choices,
-            Collection<ConstraintDefinition> constraints
-    ) implements Definition, JDAEntity<OptionData> {
+    public SubcommandData toSubCommandData(String label) {
+        SubcommandData command = new SubcommandData(
+                label,
+                description.replaceAll("N/A", "no description")
 
-        @Override
-        public String displayName() {
-            return "";
-        }
+        );
+        commandParameters.forEach(parameter -> {
+            command.addOptions(parameter.toJDAEntity());
+        });
+        return command;
+    }
 
-        public record ConstraintDefinition(Validator validator, String message,
-                                           Object annotation) implements Definition {
-            @Override
-            public String displayName() {
-                return validator.getClass().getName();
-            }
-        }
+    @NotNull
+    @Override
+    public String displayName() {
+        return "/%s".formatted(name);
+    }
+
+    @NotNull
+    @Override
+    public SequencedCollection<Class<?>> parameters() {
+        return null;
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
         @Override
-        public String displayName() {
+        public @NotNull String displayName() {
             return "Cooldown of %d %s".formatted(delay, timeUnit.name());
         }
     }
