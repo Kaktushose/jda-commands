@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link StageChannel}.
- *
- * @since 2.3.0
- */
+/// Type adapter for JDAs [StageChannel].
 public class StageChannelAdapter implements TypeAdapter<StageChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link StageChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link StageChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [StageChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [StageChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<StageChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

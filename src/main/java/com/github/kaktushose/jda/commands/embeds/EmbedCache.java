@@ -15,12 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * This class loads and caches embeds from a json file.
- *
- * @see EmbedDTO
- * @since 1.1.0
- */
+/// This class loads and caches embeds from a json file.
+///
+/// @see EmbedDTO
 public class EmbedCache {
 
     private static final Logger log = LoggerFactory.getLogger(EmbedCache.class);
@@ -29,11 +26,9 @@ public class EmbedCache {
     private final InputStream stream;
     private final Map<String, EmbedDTO> embedMap;
 
-    /**
-     * Constructs a new EmbedCache object.
-     *
-     * @param file the file to load the embeds from
-     */
+    /// Constructs a new EmbedCache object.
+    ///
+    /// @param file the file to load the embeds from
     public EmbedCache(File file) {
         embedMap = new ConcurrentHashMap<>();
         this.file = file;
@@ -41,11 +36,9 @@ public class EmbedCache {
         loadEmbeds();
     }
 
-    /**
-     * Constructs a new EmbedCache object.
-     *
-     * @param stream the stream to load the embeds from
-     */
+    /// Constructs a new EmbedCache object.
+    ///
+    /// @param stream the stream to load the embeds from
     public EmbedCache(InputStream stream) {
         embedMap = new ConcurrentHashMap<>();
         this.stream = stream;
@@ -53,11 +46,9 @@ public class EmbedCache {
         loadEmbeds();
     }
 
-    /**
-     * Constructs a new EmbedCache object.
-     *
-     * @param file the path to the file to load the embeds from
-     */
+    /// Constructs a new EmbedCache object.
+    ///
+    /// @param file the path to the file to load the embeds from
     public EmbedCache(String file) {
         embedMap = new ConcurrentHashMap<>();
         this.file = new File(file);
@@ -65,20 +56,8 @@ public class EmbedCache {
         loadEmbeds();
     }
 
-    /**
-     * Loads all embeds from a file and caches them.
-     *
-     * @deprecated This now happens automatically. Use {@link #loadEmbeds()} if you want to reload the cache
-     */
-    @Deprecated
-    public void loadEmbedsToCache() {
-        loadEmbeds();
-    }
-
-    /**
-     * Loads all embeds from a file and stores them. This happens automatically each time you construct a new
-     * EmbedCache. Thus, it's <b>not</b> needed to call this method manually, unless you want to reload the embeds.
-     */
+    /// Loads all embeds from a file and stores them. This happens automatically each time you construct a new
+    /// EmbedCache. Thus, it's **not** needed to call this method manually, unless you want to reload the embeds.
     public void loadEmbeds() {
         try {
             Reader reader;
@@ -100,49 +79,39 @@ public class EmbedCache {
         }
     }
 
-    /**
-     * Gets an embed from the cache.
-     *
-     * @param name the name the {@link EmbedDTO} is mapped to
-     * @return the {@link EmbedDTO} or {@code null} if the cache contains no mapping for the key
-     */
+    /// Gets an embed from the cache.
+    ///
+    /// @param name the name the [EmbedDTO] is mapped to
+    /// @return the [EmbedDTO] or `null` if the cache contains no mapping for the key
     public EmbedDTO getEmbed(@Nonnull String name) {
         return new EmbedDTO(embedMap.get(name));
     }
 
-    /**
-     * Returns {@code true} if this cache contains no {@link EmbedDTO}s.
-     *
-     * @return {@code true} if this cache contains no {@link EmbedDTO}s.
-     */
+    /// Returns `true` if this cache contains no [EmbedDTO]s.
+    ///
+    /// @return `true` if this cache contains no [EmbedDTO]s.
     public boolean isEmpty() {
         return embedMap.isEmpty();
     }
 
-    /**
-     * Returns the number of {@link EmbedDTO}s in this cache.
-     *
-     * @return the number of {@link EmbedDTO}s in this cache.
-     */
+    /// Returns the number of [EmbedDTO]s in this cache.
+    ///
+    /// @return the number of [EmbedDTO]s in this cache.
     public int size() {
         return embedMap.size();
     }
 
-    /**
-     * Returns {@code true} if this cache contains a mapping for the specified name.
-     *
-     * @param name the name the {@link EmbedDTO} is mapped to
-     * @return {@code true} if this cache contains a mapping for the specified name.
-     */
+    /// Returns `true` if this cache contains a mapping for the specified name.
+    ///
+    /// @param name the name the [EmbedDTO] is mapped to
+    /// @return `true` if this cache contains a mapping for the specified name.
     public boolean containsEmbed(@Nonnull String name) {
         return embedMap.containsKey(name);
     }
 
-    /**
-     * Returns an unmodifiable List containing all {@link EmbedDTO} of this cache.
-     *
-     * @return an unmodifiable List containing all {@link EmbedDTO} of this cache.
-     */
+    /// Returns an unmodifiable List containing all [EmbedDTO] of this cache.
+    ///
+    /// @return an unmodifiable List containing all [EmbedDTO] of this cache.
     public List<EmbedDTO> values() {
         return List.copyOf(embedMap.values());
     }

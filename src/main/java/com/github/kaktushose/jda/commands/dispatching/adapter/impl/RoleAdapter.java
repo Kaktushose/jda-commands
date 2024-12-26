@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link Role}.
- *
- * @since 2.0.0
- */
+/// Type adapter for JDAs [Role].
 public class RoleAdapter implements TypeAdapter<Role> {
 
-    /**
-     * Attempts to parse a String to a {@link Role}. Accepts both the role id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link Role} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [Role]. Accepts both the role id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [Role] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<Role> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

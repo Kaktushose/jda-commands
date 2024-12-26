@@ -23,7 +23,6 @@ public sealed interface Replyable extends Invokeable permits InteractionDefiniti
     /// [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
     ///
     /// @see [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
-    /// @since 4.0.0
     record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean editReply) {
 
         /// Constructs a new ReplyConfig using the default values specified by [GlobalReplyConfig].

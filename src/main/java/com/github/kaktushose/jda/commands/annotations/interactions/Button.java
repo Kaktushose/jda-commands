@@ -28,37 +28,28 @@ import java.lang.annotation.Target;
 /// ```
 ///
 /// @see Interaction
-/// @since 2.3.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Button {
 
-    /**
-     * Gets the label of the button.
-     *
-     * @return the label of the button
-     */
+    /// Gets the label of the button.
+    ///
+    /// @return the label of the button
     String value() default "";
 
-    /**
-     * Gets the {@link ButtonStyle}.
-     *
-     * @return the {@link ButtonStyle}
-     */
+    /// Gets the [ButtonStyle].
+    ///
+    /// @return the [ButtonStyle]
     ButtonStyle style() default ButtonStyle.PRIMARY;
 
-    /**
-     * Gets the {@link Emoji} of the button.
-     *
-     * @return the {@link Emoji}
-     */
+    /// Gets the [Emoji] of the button.
+    ///
+    /// @return the [Emoji]
     String emoji() default "";
 
-    /**
-     * Gets the link of the button.
-     *
-     * @return the link of the button
-     */
+    /// Gets the link of the button.
+    ///
+    /// @return the link of the button
     String link() default "";
 
 }

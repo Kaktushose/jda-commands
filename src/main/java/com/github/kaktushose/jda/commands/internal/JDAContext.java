@@ -9,31 +9,23 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Wrapper class for {@link JDA} and {@link ShardManager}. Use {@link #performTask(Consumer)} when you need to do
- * work with an {@link JDA} object.
- *
- * @since 2.3.0
- */
+/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do
+/// work with an [JDA] object.
 @ApiStatus.Internal
 public final class JDAContext {
 
     private final Object context;
 
-    /**
-     * Constructs a new JDAContext.
-     *
-     * @param context the {@link JDA} or {@link ShardManager} object
-     */
+    /// Constructs a new JDAContext.
+    ///
+    /// @param context the [JDA] or [ShardManager] object
     public JDAContext(Object context) {
         this.context = context;
     }
 
-    /**
-     * Performs an operation on either the {@link JDA} object or on all shards.
-     *
-     * @param consumer the operation to perform
-     */
+    /// Performs an operation on either the [JDA] object or on all shards.
+    ///
+    /// @param consumer the operation to perform
     public void performTask(Consumer<JDA> consumer) {
         switch (context) {
             case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
@@ -43,15 +35,13 @@ public final class JDAContext {
         }
     }
 
-    /**
-     * An unmodifiable List of all {@link Guild Guilds} that the logged account is connected to.
-     * If this account is not connected to any {@link Guild Guilds}, this will return an empty list.
-     * This copies the backing store into a list. This means every call creates a new list with O(n) complexity.
-     * It is recommended to store this into a local variable or use getGuildCache() and use its more efficient
-     * versions of handling these values.
-     *
-     * @return Possibly-empty list of all the {@link Guild Guilds} that this account is connected to.
-     */
+    /// An unmodifiable List of all [Guilds][Guild] that the logged account is connected to.
+    /// If this account is not connected to any [Guilds][Guild], this will return an empty list.
+    /// This copies the backing store into a list. This means every call creates a new list with O(n) complexity.
+    /// It is recommended to store this into a local variable or use getGuildCache() and use its more efficient
+    /// versions of handling these values.
+    ///
+    /// @return Possibly-empty list of all the [Guilds][Guild] that this account is connected to.
     public List<Guild> getGuilds() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuilds();
@@ -61,11 +51,9 @@ public final class JDAContext {
         };
     }
 
-    /**
-     * {@link SnowflakeCacheView} of all cached {@link Guild Guilds}.
-     *
-     * @return {@link SnowflakeCacheView}
-     */
+    /// [SnowflakeCacheView] of all cached [Guilds][Guild].
+    ///
+    /// @return [SnowflakeCacheView]
     public SnowflakeCacheView<Guild> getGuildCache() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();

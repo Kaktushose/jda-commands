@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 /// always share the same reply methods.
 ///
 /// @see ReplyableEvent
-/// @since 4.0.0
 public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.

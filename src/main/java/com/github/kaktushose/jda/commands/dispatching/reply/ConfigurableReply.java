@@ -33,7 +33,6 @@ import java.util.List;
 ///     }
 /// }
 /// ```
-/// @since 4.0.0
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
     protected final InteractionRegistry registry;

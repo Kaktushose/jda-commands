@@ -16,15 +16,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * A {@link Middleware} implementation that contains the business logic behind command cooldowns.
- * If the command isn't annotated with {@link Cooldown Cooldown} or more
- * formally if the {@link SlashCommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
- * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
- *
- * @see Cooldown
- * @since 2.0.0
- */
+/// A [Middleware] implementation that contains the business logic behind command cooldowns.
+/// If the command isn't annotated with [Cooldown][Cooldown] or more
+/// formally if the [SlashCommandDefinition] doesn't hold a [CooldownDefinition] or the delay of the
+/// [CooldownDefinition] amounts to `0` this filter has no effect.
+///
+/// @see Cooldown
 public class CooldownMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
@@ -36,12 +33,10 @@ public class CooldownMiddleware implements Middleware {
         this.implementationRegistry = implementationRegistry;
     }
 
-    /**
-     * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
-     * context.
-     *
-     * @param context the {@link InvocationContext} to filter
-     */
+    /// Checks if an active cooldown for the given [SlashCommandDefinition] exists and will eventually cancel the
+    /// context.
+    ///
+    /// @param context the [InvocationContext] to filter
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0)

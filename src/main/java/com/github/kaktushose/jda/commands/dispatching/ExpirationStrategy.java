@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.Event;
 ///
 /// @implNote The [Inactivity] strategy will check all active [`Runtimes`]({@docRoot}/index.html#runtime-concept-heading) at every incoming jda event. If a
 /// [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) didn't handle any events in the last *x* minutes, it will be closed.
-/// @since 4.0.0
 public sealed interface ExpirationStrategy {
 
     /// Default [ExpirationStrategy] of [Inactivity], that closes [`Runtimes`]({@docRoot}/index.html#runtime-concept-heading) after *15* minutes of inactivity.

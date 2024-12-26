@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link VoiceChannel}.
- *
- * @since 2.3.0
- */
+/// Type adapter for JDAs [VoiceChannel].
 public class VoiceChannelAdapter implements TypeAdapter<VoiceChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link VoiceChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link VoiceChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [VoiceChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [VoiceChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<VoiceChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

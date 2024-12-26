@@ -17,12 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Central registry for all type adapters.
- *
- * @see TypeAdapter
- * @since 2.0.0
- */
+/// Central registry for all type adapters.
+///
+/// @see TypeAdapter
 public class TypeAdapterRegistry {
 
     public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
@@ -38,18 +35,16 @@ public class TypeAdapterRegistry {
     private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
-    /**
-     * Constructs a new TypeAdapterRegistry. This will register default type adapters for:
-     * <ul>
-     *     <li>all primitive data types</li>
-     *     <li>String</li>
-     *     <li>String Array</li>
-     *     <li>{@link Member}</li>
-     *     <li>{@link User}</li>
-     *     <li>{@link net.dv8tion.jda.api.entities.channel.middleman.MessageChannel MessageChannel} and subtypes</li>
-     *     <li>{@link Role}</li>
-     * </ul>
-     */
+    /// Constructs a new TypeAdapterRegistry. This will register default type adapters for:
+    ///
+    ///   - all primitive data types
+    ///   - String
+    ///   - String Array
+    ///   - [Member]
+    ///   - [User]
+    ///   - [MessageChannel][net.dv8tion.jda.api.entities.channel.middleman.MessageChannel] and subtypes
+    ///   - [Role]
+    ///
     public TypeAdapterRegistry() {
         parameterAdapters = new HashMap<>();
 
@@ -79,43 +74,35 @@ public class TypeAdapterRegistry {
         register(Role.class, new RoleAdapter());
     }
 
-    /**
-     * Registers a new type adapter.
-     *
-     * @param type    the type the adapter is for
-     * @param adapter the {@link TypeAdapter}
-     */
+    /// Registers a new type adapter.
+    ///
+    /// @param type    the type the adapter is for
+    /// @param adapter the [TypeAdapter]
     public void register(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
         parameterAdapters.put(type, adapter);
         log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
     }
 
-    /**
-     * Unregisters a new type adapter.
-     *
-     * @param type the type the adapter is for
-     */
+    /// Unregisters a new type adapter.
+    ///
+    /// @param type the type the adapter is for
     public void unregister(@NotNull Class<?> type) {
         parameterAdapters.remove(type);
         log.debug("Unregistered adapter for type {}", type.getName());
     }
 
-    /**
-     * Checks if a type adapter for the given type exists.
-     *
-     * @param type the type to check
-     * @return {@code true} if a type adapter exists
-     */
+    /// Checks if a type adapter for the given type exists.
+    ///
+    /// @param type the type to check
+    /// @return `true` if a type adapter exists
     public boolean exists(@Nullable Class<?> type) {
         return parameterAdapters.containsKey(type);
     }
 
-    /**
-     * Retrieves a type adapter.
-     *
-     * @param type the type to get the adapter for
-     * @return the type adapter or an empty Optional if none found
-     */
+    /// Retrieves a type adapter.
+    ///
+    /// @param type the type to get the adapter for
+    /// @return the type adapter or an empty Optional if none found
     public Optional<TypeAdapter<?>> get(@Nullable Class<?> type) {
         return Optional.ofNullable(parameterAdapters.get(type));
     }

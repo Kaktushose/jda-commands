@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 ///
 /// @see Event
 /// @see ModalReplyableEvent
-/// @since 4.0.0
 public final class ComponentEvent extends ModalReplyableEvent<GenericComponentInteractionCreateEvent> {
 
     /// Constructs a new CommandEvent.

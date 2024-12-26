@@ -17,13 +17,10 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Class that sends the {@link SlashCommandData} to Discord. Uses a {@link CommandTree} to properly transpile all
- * {@link SlashCommandDefinition CommandDefinitions} to {@link SlashCommandData}.
- *
- * @see CommandTree
- * @since 2.3.0
- */
+/// Class that sends the [SlashCommandData] to Discord. Uses a [CommandTree] to properly transpile all
+/// [CommandDefinitions][SlashCommandDefinition] to [SlashCommandData].
+///
+/// @see CommandTree
 @ApiStatus.Internal
 public class SlashCommandUpdater {
 

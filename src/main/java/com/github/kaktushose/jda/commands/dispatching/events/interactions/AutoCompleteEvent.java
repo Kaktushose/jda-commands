@@ -15,22 +15,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-/**
- * This class is a subclass of {@link Event}.
- * It provides additional features for replying to a {@link CommandAutoCompleteInteractionEvent}.
- *
- * @see Event
- * @since 4.0.0
- */
+/// This class is a subclass of [Event].
+/// It provides additional features for replying to a [CommandAutoCompleteInteractionEvent].
+///
+/// @see Event
 public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractionEvent> {
 
-    /**
-     * Constructs a new AutoCompleteEvent.
-     *
-     * @param event    the {@link CommandAutoCompleteInteractionEvent} this event holds
-     * @param registry the corresponding {@link InteractionRegistry}
-     * @param runtime  the corresponding {@link Runtime}
-     */
+    /// Constructs a new AutoCompleteEvent.
+    ///
+    /// @param event    the [CommandAutoCompleteInteractionEvent] this event holds
+    /// @param registry the corresponding [InteractionRegistry]
+    /// @param runtime  the corresponding [Runtime]
     public AutoCompleteEvent(@NotNull CommandAutoCompleteInteractionEvent event,
                              @NotNull InteractionRegistry registry,
                              @NotNull Runtime runtime) {
@@ -238,34 +233,28 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
         replyChoices(choices.stream().map(it -> new Command.Choice(String.valueOf(it), it)).collect(Collectors.toList()));
     }
 
-    /**
-     * The name of the input field, usually an option name in {@link CommandAutoCompleteInteraction}.
-     *
-     * @return The option name
-     */
+    /// The name of the input field, usually an option name in [CommandAutoCompleteInteraction].
+    ///
+    /// @return The option name
     @NotNull
     public String getName() {
         return event.getFocusedOption().getName();
     }
 
-    /**
-     * The query value that the user is currently typing.
-     *
-     * <p>This is not validated and may not be a valid value for an actual command.
-     * For instance, a user may input invalid numbers for {@link OptionType#NUMBER}.
-     *
-     * @return The current auto-completable query value
-     */
+    /// The query value that the user is currently typing.
+    ///
+    /// This is not validated and may not be a valid value for an actual command.
+    /// For instance, a user may input invalid numbers for [#NUMBER].
+    ///
+    /// @return The current auto-completable query value
     @NotNull
     public String getValue() {
         return event.getFocusedOption().getValue();
     }
 
-    /**
-     * The expected option type for this query.
-     *
-     * @return The option type expected from this auto-complete response
-     */
+    /// The expected option type for this query.
+    ///
+    /// @return The option type expected from this auto-complete response
     @NotNull
     public OptionType getOptionType() {
         return event.getFocusedOption().getType();

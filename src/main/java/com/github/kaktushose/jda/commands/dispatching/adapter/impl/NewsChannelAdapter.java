@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link NewsChannel}.
- *
- * @since 2.3.0
- */
+/// Type adapter for JDAs [NewsChannel].
 public class NewsChannelAdapter implements TypeAdapter<NewsChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link NewsChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link NewsChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [NewsChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [NewsChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<NewsChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

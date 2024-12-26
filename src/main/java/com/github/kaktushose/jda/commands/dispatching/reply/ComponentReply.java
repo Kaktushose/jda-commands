@@ -4,8 +4,6 @@ import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
 
 /// Subtype of [ConfigurableReply] that allows replying only with a name without a message.
-///
-/// @since 4.0.0
 public final class ComponentReply extends ConfigurableReply {
 
     /// Constructs a new ComponentReply.

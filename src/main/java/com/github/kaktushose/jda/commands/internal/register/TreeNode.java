@@ -15,12 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-/**
- * Single node inside the {@link CommandTree}.
- *
- * @see CommandTree
- * @since 2.3.0
- */
+/// Single node inside the [CommandTree].
+///
+/// @see CommandTree
 @ApiStatus.Internal
 public record TreeNode(
         String name,
@@ -30,36 +27,30 @@ public record TreeNode(
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
 
-    /**
-     * Constructs an empty TreeNode. Should only be used for root nodes.
-     */
+    /// Constructs an empty TreeNode. Should only be used for root nodes.
     public TreeNode() {
         this("", null);
     }
 
-    /**
-     * Constructs a new TreeNode.
-     *
-     * @param name    the name of the command
-     * @param command the {@link SlashCommandDefinition}
-     */
+    /// Constructs a new TreeNode.
+    ///
+    /// @param name    the name of the command
+    /// @param command the [SlashCommandDefinition]
     public TreeNode(@NotNull String name, @Nullable SlashCommandDefinition command) {
         this(name, command, new ArrayList<>());
     }
 
-    /**
-     * Adds a child {@link TreeNode} either as a child of this {@link TreeNode} or to one of its children based on the
-     * amount of labels.
-     *
-     * <p>For instance {@code labels[0]} will be added as a child {@link TreeNode} to this
-     * {@link TreeNode}, {@code labels[1]} will be added as a child to the child {@link TreeNode} created from
-     * {@code labels[0]} and so on.
-     *
-     * <p>This guarantees to create a {@link CommandTree} that respects Subcommands and SubcommandGroups.
-     *
-     * @param labels  an Array of all labels, can be empty
-     * @param command the {@link SlashCommandDefinition} to add
-     */
+    /// Adds a child [TreeNode] either as a child of this [TreeNode] or to one of its children based on the
+    /// amount of labels.
+    ///
+    /// For instance `labels[0]` will be added as a child [TreeNode] to this
+    /// [TreeNode], `labels[1]` will be added as a child to the child [TreeNode] created from
+    /// `labels[0]` and so on.
+    ///
+    /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
+    ///
+    /// @param labels  an Array of all labels, can be empty
+    /// @param command the [SlashCommandDefinition] to add
     public void addChild(@NotNull String[] labels, @NotNull SlashCommandDefinition command) {
         if (labels.length < 1) {
             return;
@@ -79,49 +70,39 @@ public record TreeNode(
         }
     }
 
-    /**
-     * Gets a child {@link TreeNode} based on its name.
-     *
-     * @param name the label to get the child {@link TreeNode} from
-     * @return an {@link Optional} holding the result
-     */
+    /// Gets a child [TreeNode] based on its name.
+    ///
+    /// @param name the label to get the child [TreeNode] from
+    /// @return an [Optional] holding the result
     public Optional<TreeNode> getChild(String name) {
         return children.stream().filter(child -> child.name.equals(name)).findFirst();
     }
 
-    /**
-     * Gets the label of the {@link SlashCommandDefinition} of this {@link TreeNode}.
-     *
-     * @return the label of the {@link SlashCommandDefinition}
-     */
+    /// Gets the name of the [SlashCommandDefinition] of this [TreeNode].
+    ///
+    /// @return the name of the [SlashCommandDefinition]
     public String getName() {
         return name;
     }
 
-    /**
-     * Gets all children {@link TreeNode TreeNodes}.
-     *
-     * @return all children {@link TreeNode TreeNodes}
-     */
+    /// Gets all children [TreeNodes][TreeNode].
+    ///
+    /// @return all children [TreeNodes][TreeNode]
     public List<TreeNode> getChildren() {
         return children;
     }
 
-    /**
-     * Gets whether this {@link TreeNode} has children.
-     *
-     * @return {@code true} if this {@link TreeNode} has children
-     */
+    /// Gets whether this [TreeNode] has children.
+    ///
+    /// @return `true` if this [TreeNode] has children
     public boolean hasChildren() {
         return !children.isEmpty();
     }
 
-    /**
-     * Gets the {@link SlashCommandDefinition} of this {@link TreeNode}. Returns an empty {@link Optional} if one or more
-     * children exist or if the {@link SlashCommandDefinition} is {@code null}.
-     *
-     * @return an {@link Optional} holding the result
-     */
+    /// Gets the [SlashCommandDefinition] of this [TreeNode]. Returns an empty [Optional] if one or more
+    /// children exist or if the [SlashCommandDefinition] is `null`.
+    ///
+    /// @return an [Optional] holding the result
     public Optional<SlashCommandDefinition> getCommand() {
         if (!children.isEmpty()) {
             return Optional.empty();
@@ -129,11 +110,9 @@ public record TreeNode(
         return Optional.ofNullable(command);
     }
 
-    /**
-     * Gets all names of the leaf nodes.
-     *
-     * @return a {@link List} of all names of the leaf nodes.
-     */
+    /// Gets all names of the leaf nodes.
+    ///
+    /// @return a [List] of all names of the leaf nodes.
     public List<String> getNames() {
         List<String> result = new ArrayList<>();
         toLabel(result, "");
@@ -148,11 +127,9 @@ public record TreeNode(
         }
     }
 
-    /**
-     * Gets all {@link SlashCommandData of the leaf nodes}.
-     *
-     * @return a {@link List} of all {@link SlashCommandData of the leaf nodes.
-     */
+    /// Gets all [of the leaf nodes][SlashCommandData].
+    ///
+    /// @return a [List] of all [of the leaf nodes.][SlashCommandData]
     public List<SlashCommandData> getCommandData() {
         List<SlashCommandData> result = new ArrayList<>();
         children.forEach(child -> child.toCommandData(result));

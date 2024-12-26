@@ -18,8 +18,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /// Collection of helper methods that are used inside the framework.
-///
-/// @since 4.0.0
 @ApiStatus.Internal
 public final class Helpers {
 

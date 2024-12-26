@@ -33,21 +33,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
-/**
- * Central registry for all custom user implementations. This class will look for custom implementations that
- * override the default implementation of this framework. Supports the following interfaces:
- * <ul>
- *     <li>{@link PermissionsProvider}</li>
- *     <li>{@link ErrorMessageFactory}</li>
- *     <li>{@link GuildScopeProvider}</li>
- *     <li>{@link TypeAdapter}</li>
- *     <li>{@link Middleware}</li>
- *     <li>{@link Validator}</li>
- * </ul>
- *
- * @see Implementation
- * @since 2.0.0
- */
+/// Central registry for all custom user implementations. This class will look for custom implementations that
+/// override the default implementation of this framework. Supports the following interfaces:
+///
+///   - [PermissionsProvider]
+///   - [ErrorMessageFactory]
+///   - [GuildScopeProvider]
+///   - [TypeAdapter]
+///   - [Middleware]
+///   - [Validator]
+///
+/// @see Implementation
 @ApiStatus.Internal
 public class ImplementationRegistry {
 
@@ -61,14 +57,12 @@ public class ImplementationRegistry {
     private ErrorMessageFactory errorMessageFactory;
     private GuildScopeProvider guildScopeProvider;
 
-    /**
-     * Constructs a new ImplementationRegistry.
-     *
-     * @param dependencyInjector  the corresponding {@link DependencyInjector}
-     * @param middlewareRegistry  the corresponding {@link MiddlewareRegistry}
-     * @param typeAdapterRegistry the corresponding {@link TypeAdapterRegistry}
-     * @param validatorRegistry   the corresponding {@link ValidatorRegistry}
-     */
+    /// Constructs a new ImplementationRegistry.
+    ///
+    /// @param dependencyInjector  the corresponding [DependencyInjector]
+    /// @param middlewareRegistry  the corresponding [MiddlewareRegistry]
+    /// @param typeAdapterRegistry the corresponding [TypeAdapterRegistry]
+    /// @param validatorRegistry   the corresponding [ValidatorRegistry]
     public ImplementationRegistry(DependencyInjector dependencyInjector,
                                   MiddlewareRegistry middlewareRegistry,
                                   TypeAdapterRegistry typeAdapterRegistry,
@@ -83,12 +77,10 @@ public class ImplementationRegistry {
         this.validatorRegistry = validatorRegistry;
     }
 
-    /**
-     * Scans the whole classpath for custom implementations.
-     *
-     * @param packages package(s) to exclusively scan
-     * @param clazz    a class of the classpath to scan
-     */
+    /// Scans the whole classpath for custom implementations.
+    ///
+    /// @param packages package(s) to exclusively scan
+    /// @param clazz    a class of the classpath to scan
     public void index(@NotNull Class<?> clazz, @NotNull String... packages) {
         log.debug("Indexing custom implementations...");
 
@@ -112,57 +104,45 @@ public class ImplementationRegistry {
         findValidators().forEach(validatorRegistry::register);
     }
 
-    /**
-     * Gets the {@link PermissionsProvider}.
-     *
-     * @return the {@link PermissionsProvider}
-     */
+    /// Gets the [PermissionsProvider].
+    ///
+    /// @return the [PermissionsProvider]
     public PermissionsProvider getPermissionsProvider() {
         return permissionsProvider;
     }
 
-    /**
-     * Sets the {@link PermissionsProvider}.
-     *
-     * @param permissionsProvider the new {@link PermissionsProvider}
-     */
+    /// Sets the [PermissionsProvider].
+    ///
+    /// @param permissionsProvider the new [PermissionsProvider]
     public void setPermissionsProvider(PermissionsProvider permissionsProvider) {
         this.permissionsProvider = permissionsProvider;
     }
 
-    /**
-     * Gets the {@link ErrorMessageFactory}.
-     *
-     * @return the {@link ErrorMessageFactory}
-     */
+    /// Gets the [ErrorMessageFactory].
+    ///
+    /// @return the [ErrorMessageFactory]
     public ErrorMessageFactory getErrorMessageFactory() {
         return errorMessageFactory;
     }
 
-    /**
-     * Sets the {@link ErrorMessageFactory}
-     *
-     * @param errorMessageFactory the new {@link ErrorMessageFactory}
-     */
+    /// Sets the [ErrorMessageFactory]
+    ///
+    /// @param errorMessageFactory the new [ErrorMessageFactory]
     public void setErrorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = errorMessageFactory;
     }
 
-    /**
-     * Gets the {@link GuildScopeProvider}.
-     *
-     * @return the {@link GuildScopeProvider}
-     */
+    /// Gets the [GuildScopeProvider].
+    ///
+    /// @return the [GuildScopeProvider]
     public GuildScopeProvider getGuildScopeProvider() {
         return guildScopeProvider;
     }
 
 
-    /**
-     * Sets the {@link GuildScopeProvider}
-     *
-     * @param guildScopeProvider the new {@link GuildScopeProvider}
-     */
+    /// Sets the [GuildScopeProvider]
+    ///
+    /// @param guildScopeProvider the new [GuildScopeProvider]
     public void setGuildScopeProvider(GuildScopeProvider guildScopeProvider) {
         this.guildScopeProvider = guildScopeProvider;
     }

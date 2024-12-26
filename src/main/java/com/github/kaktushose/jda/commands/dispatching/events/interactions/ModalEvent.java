@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 ///
 /// @see Event
 /// @see ReplyableEvent
-/// @since 4.0.0
 public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     /// Constructs a new CommandEvent.

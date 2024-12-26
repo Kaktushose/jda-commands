@@ -34,7 +34,6 @@ import java.util.List;
 /// @see CommandEvent
 /// @see ComponentEvent
 /// @see ModalEvent
-/// @since 4.0.0
 public abstract sealed class Event<T extends GenericInteractionCreateEvent> implements Interaction
         permits ReplyableEvent, AutoCompleteEvent {
 

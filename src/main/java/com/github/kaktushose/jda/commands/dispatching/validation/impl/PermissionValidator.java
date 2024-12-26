@@ -10,24 +10,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A {@link Validator} implementation that checks the {@link Perm} constraint.
- *
- * @see Perm
- * @since 2.0.0
- */
+/// A [Validator] implementation that checks the [Perm] constraint.
+///
+/// @see Perm
 public class PermissionValidator implements Validator {
 
-    /**
-     * Validates an argument. The argument must be a user or member that has the specified discord
-     * permission.
-     *
-     * @param argument   the argument to validate
-     * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link InvocationContext}
-     * @return {@code true} if the argument is a user or member that has the specified discord
-     * permission
-     */
+    /// Validates an argument. The argument must be a user or member that has the specified discord
+    /// permission.
+    ///
+    /// @param argument   the argument to validate
+    /// @param annotation the corresponding annotation
+    /// @param context    the corresponding [InvocationContext]
+    /// @return `true` if the argument is a user or member that has the specified discord
+    /// permission
     @Override
     public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Set<Permission> permissions = new HashSet<>();

@@ -13,13 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Subtype of {@link DefaultErrorMessageFactory} that can load the embeds from an {@link EmbedCache}.
- *
- * @see DefaultErrorMessageFactory
- * @see EmbedCache
- * @since 2.0.0
- */
+/// Subtype of [DefaultErrorMessageFactory] that can load the embeds from an [EmbedCache].
+///
+/// @see DefaultErrorMessageFactory
+/// @see EmbedCache
 public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     private final EmbedCache embedCache;

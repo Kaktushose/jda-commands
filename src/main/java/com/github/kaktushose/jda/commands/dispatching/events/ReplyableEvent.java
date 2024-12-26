@@ -38,12 +38,9 @@ import org.slf4j.LoggerFactory;
 ///     event.reply("Hello World");
 /// }
 /// ```
-/// @since 4.0.0
 /// @see ModalEvent
 /// @see CommandEvent
 /// @see ComponentEvent
-/// @since 4.0.0
-/// @since 4.0.0
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
         permits ModalEvent, ModalReplyableEvent {
 

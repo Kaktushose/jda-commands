@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link ThreadChannel}.
- *
- * @since 2.3.0
- */
+/// Type adapter for JDAs [ThreadChannel].
 public class ThreadChannelAdapter implements TypeAdapter<ThreadChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link ThreadChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link ThreadChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [ThreadChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [ThreadChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<ThreadChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

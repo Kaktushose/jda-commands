@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 ///
 /// @see ConfigurableReply
 /// @see ReplyableEvent
-/// @since 4.0.0
 public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     protected static final Logger log = LoggerFactory.getLogger(MessageReply.class);

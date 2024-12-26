@@ -9,20 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link GuildMessageChannel}.
- *
- * @since 2.3.0
- */
+/// Type adapter for JDAs [GuildMessageChannel].
 public class GuildMessageChannelAdapter implements TypeAdapter<GuildMessageChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link GuildMessageChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link GuildMessageChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [GuildMessageChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [GuildMessageChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<GuildMessageChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

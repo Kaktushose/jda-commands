@@ -16,12 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Implementation of {@link ErrorMessageFactory} with default embeds.
- *
- * @see JsonErrorMessageFactory
- * @since 2.0.0
- */
+/// Implementation of [ErrorMessageFactory] with default embeds.
+///
+/// @see JsonErrorMessageFactory
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull

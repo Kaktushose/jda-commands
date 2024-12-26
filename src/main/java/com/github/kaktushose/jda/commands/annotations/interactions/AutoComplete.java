@@ -24,16 +24,13 @@ import java.lang.annotation.Target;
 /// }
 /// ```
 /// @see SlashCommand
-/// @since 4.0.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutoComplete {
 
-    /**
-     * Returns the name of the slash commands this autocomplete should handle.
-     *
-     * @return the slash commands
-     */
+    /// Returns the name of the slash commands this autocomplete should handle.
+    ///
+    /// @return the slash commands
     String[] value();
 
 }

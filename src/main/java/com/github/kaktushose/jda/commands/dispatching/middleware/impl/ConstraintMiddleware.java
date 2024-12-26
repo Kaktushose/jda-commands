@@ -12,13 +12,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A {@link Middleware} implementation that will check the parameter constraints a
- * {@link SlashCommandDefinition} might have.
- *
- * @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
- * @since 2.0.0
- */
+/// A [Middleware] implementation that will check the parameter constraints a
+/// [SlashCommandDefinition] might have.
+///
+/// @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
 public class ConstraintMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
@@ -29,12 +26,10 @@ public class ConstraintMiddleware implements Middleware {
         this.implementationRegistry = implementationRegistry;
     }
 
-    /**
-     * Checks if all parameters fulfill their constraints. Will cancel the {@link InvocationContext} if a parameter
-     * constraint fails.
-     *
-     * @param context the {@link InvocationContext} to filter
-     */
+    /// Checks if all parameters fulfill their constraints. Will cancel the [InvocationContext] if a parameter
+    /// constraint fails.
+    ///
+    /// @param context the [InvocationContext] to filter
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command))

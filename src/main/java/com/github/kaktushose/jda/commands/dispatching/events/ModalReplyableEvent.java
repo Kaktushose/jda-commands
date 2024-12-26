@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 /// @param <T> the type of [GenericInteractionCreateEvent] this event represents
 /// @see CommandEvent
 /// @see ComponentEvent
-/// @since 4.0.0
 public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCreateEvent>
         extends ReplyableEvent<T>
         permits CommandEvent, ComponentEvent {

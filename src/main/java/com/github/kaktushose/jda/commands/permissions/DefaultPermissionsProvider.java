@@ -21,7 +21,6 @@ import java.util.Arrays;
 ///
 ///
 /// @see PermissionsProvider
-/// @since 2.0.0
 public class DefaultPermissionsProvider implements PermissionsProvider {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);

@@ -14,7 +14,6 @@ import java.util.List;
 ///
 /// @see Implementation
 /// @see DefaultErrorMessageFactory
-/// @since 2.0.0
 public interface ErrorMessageFactory {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.

@@ -10,22 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * A {@link Validator} implementation that checks the {@link NotRole} constraint.
- *
- * @see NotRole
- * @since 2.0.0
- */
+/// A [Validator] implementation that checks the [NotRole] constraint.
+///
+/// @see NotRole
 public class NotRoleValidator implements Validator {
 
-    /**
-     * Validates an argument. The argument must be a user or member that <b>doesn't</b>have the specified guild role.
-     *
-     * @param argument   the argument to validate
-     * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link InvocationContext}
-     * @return {@code true} if the argument is a user or member that <b>doesn't</b> have the specified guild role
-     */
+    /// Validates an argument. The argument must be a user or member that **doesn't**have the specified guild role.
+    ///
+    /// @param argument   the argument to validate
+    /// @param annotation the corresponding annotation
+    /// @param context    the corresponding [InvocationContext]
+    /// @return `true` if the argument is a user or member that **doesn't** have the specified guild role
     @Override
     public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         NotRole roleAnnotation = (NotRole) annotation;

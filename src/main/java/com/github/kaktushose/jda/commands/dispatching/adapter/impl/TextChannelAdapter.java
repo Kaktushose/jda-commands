@@ -8,20 +8,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for JDAs {@link TextChannel}.
- *
- * @since 2.0.0
- */
+/// Type adapter for JDAs [TextChannel].
 public class TextChannelAdapter implements TypeAdapter<TextChannel> {
 
-    /**
-     * Attempts to parse a String to a {@link TextChannel}. Accepts both the channel id and name.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed {@link TextChannel} or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a [TextChannel]. Accepts both the channel id and name.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed [TextChannel] or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<TextChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

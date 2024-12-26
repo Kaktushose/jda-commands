@@ -29,7 +29,6 @@ import java.lang.annotation.Target;
 /// public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 /// ```
 /// @see Interaction
-/// @since 2.3.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EntitySelectMenu {
