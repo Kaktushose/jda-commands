@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 

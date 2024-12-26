@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.context;
 
-import com.github.kaktushose.jda.commands.definitions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.features.Invokeable;
+import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -27,7 +27,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @implNote This will interrupt the current event thread
     /// @param errorMessage the error message that should be sent to the user as a reply
     public void cancel(MessageCreateData errorMessage) {
-        new MessageReply(event, definition, new ReplyConfig()).reply(errorMessage);
+        new MessageReply(event, definition, new Replyable.ReplyConfig()).reply(errorMessage);
 
         Thread.currentThread().interrupt();
     }

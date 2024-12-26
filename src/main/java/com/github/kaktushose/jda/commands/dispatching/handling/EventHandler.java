@@ -1,15 +1,15 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.definitions.Registry;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     protected final DispatchingContext dispatchingContext;
     protected final MiddlewareRegistry middlewareRegistry;
     protected final ImplementationRegistry implementationRegistry;
-    protected final Registry registry;
+    protected final InteractionRegistry registry;
     protected final TypeAdapterRegistry adapterRegistry;
 
     public EventHandler(DispatchingContext dispatchingContext) {

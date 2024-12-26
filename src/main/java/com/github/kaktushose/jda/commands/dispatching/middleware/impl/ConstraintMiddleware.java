@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import org.jetbrains.annotations.NotNull;

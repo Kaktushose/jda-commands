@@ -1,10 +1,11 @@
-package com.github.kaktushose.jda.commands.definitions;
+package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Param;
+import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;

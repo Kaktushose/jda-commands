@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.reflective;
+package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
@@ -16,16 +16,16 @@ import java.util.Objects;
 public class ReflectiveDescriptor implements Descriptor {
 
     @Override
-    public ClassDescription apply(Class<?> klass) {
-        List<MethodDescription> methods = Arrays.stream(klass.getMethods())
+    public ClassDescription apply(Class<?> clazz) {
+        List<MethodDescription> methods = Arrays.stream(clazz.getMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)
                 .toList();
 
         return new ClassDescription(
-                klass,
-                klass.getName(),
-                toList(klass.getAnnotations()),
+                clazz,
+                clazz.getName(),
+                toList(clazz.getAnnotations()),
                 methods
         );
     }

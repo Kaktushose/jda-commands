@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.reflect;
+package com.github.kaktushose.jda.commands.dispatching.internal;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.annotations.Inject;
@@ -17,6 +17,7 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -47,6 +48,7 @@ import java.util.*;
  * @see Implementation
  * @since 2.0.0
  */
+@ApiStatus.Internal
 public class ImplementationRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(ImplementationRegistry.class);

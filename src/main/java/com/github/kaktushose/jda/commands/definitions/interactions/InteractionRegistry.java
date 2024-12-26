@@ -1,12 +1,11 @@
-package com.github.kaktushose.jda.commands.definitions.reflective;
+package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import com.github.kaktushose.jda.commands.definitions.Registry;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
@@ -31,20 +30,20 @@ import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
 
-public final class ReflectRegistry implements Registry {
+public final class InteractionRegistry {
 
-    private static final Logger log = LoggerFactory.getLogger(ReflectRegistry.class);
+    private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
     private final Reflections reflections;
     private final DependencyInjector dependencyInjector;
     private final ValidatorRegistry validatorRegistry;
     private final LocalizationFunction localizationFunction;
     private Set<Definition> definitions;
 
-    public ReflectRegistry(DependencyInjector dependencyInjector,
-                           ValidatorRegistry validatorRegistry,
-                           LocalizationFunction localizationFunction,
-                           Class<?> clazz,
-                           String... packages) {
+    public InteractionRegistry(DependencyInjector dependencyInjector,
+                               ValidatorRegistry validatorRegistry,
+                               LocalizationFunction localizationFunction,
+                               Class<?> clazz,
+                               String... packages) {
         this.dependencyInjector = dependencyInjector;
         this.validatorRegistry = validatorRegistry;
         this.localizationFunction = localizationFunction;
@@ -62,13 +61,12 @@ public final class ReflectRegistry implements Registry {
         reflections = new Reflections(config);
     }
 
-    @Override
-    public void index() {
+    public void index(Descriptor descriptor) {
         var interactionClasses = reflections.getTypesAnnotatedWith(Interaction.class);
 
         for (Class<?> clazz : interactionClasses) {
             log.debug("Found interaction controller {}", clazz.getName());
-            definitions = Set.copyOf(indexInteractionClass(new ReflectiveDescriptor().apply(clazz)));
+            definitions = Set.copyOf(indexInteractionClass(descriptor.apply(clazz)));
         }
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
@@ -175,7 +173,6 @@ public final class ReflectRegistry implements Registry {
         return definitions;
     }
 
-    @Override
     public <T extends Definition> T find(Class<T> type, boolean internalError, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
@@ -188,17 +185,11 @@ public final class ReflectRegistry implements Registry {
                 );
     }
 
-    @Override
-    public Collection<CommandDefinition> getCommands() {
-        return definitions.stream().filter(CommandDefinition.class::isInstance)
-                .map(CommandDefinition.class::cast)
-                .toList();
-    }
-
-    @Override
-    public Collection<AutoCompleteDefinition> getAutoCompletes() {
-        return definitions.stream().filter(AutoCompleteDefinition.class::isInstance)
-                .map(AutoCompleteDefinition.class::cast)
+    public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
+        return definitions.stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .filter(predicate)
                 .toList();
     }
 }

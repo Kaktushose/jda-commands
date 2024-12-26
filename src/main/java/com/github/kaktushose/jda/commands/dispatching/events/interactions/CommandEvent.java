@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.definitions.Registry;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -19,11 +19,11 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     /// Constructs a new CommandEvent.
     ///
     /// @param event               the [GenericCommandInteractionEvent] this event holds
-    /// @param registry the corresponding [Registry]
+    /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime             the corresponding [Runtime]
     /// @param definition          the corresponding [InteractionDefinition]
     public CommandEvent(@NotNull GenericCommandInteractionEvent event,
-                        @NotNull Registry registry,
+                        @NotNull InteractionRegistry registry,
                         @NotNull Runtime runtime,
                         @NotNull InteractionDefinition definition) {
         super(event, registry, runtime, definition);

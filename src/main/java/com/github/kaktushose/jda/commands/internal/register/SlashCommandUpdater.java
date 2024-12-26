@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.definitions.Registry;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
@@ -30,12 +30,12 @@ public class SlashCommandUpdater {
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
-    private final Registry interactionRegistry;
+    private final InteractionRegistry interactionRegistry;
 
     /**
      * Constructs a new SlashCommandUpdater.
      */
-    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, Registry registry) {
+    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry registry) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
@@ -59,7 +59,7 @@ public class SlashCommandUpdater {
         for (Guild guild : jdaContext.getGuildCache()) {
             Set<CommandData> commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
             guild.updateCommands().addCommands(commands).queue();
-            log.debug(String.format("Registered guild command(s) %s for %s", commands.stream().map(CommandData::getName).collect(Collectors.toSet()), guild));
+            log.debug("Registered guild command(s) {} for {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()), guild);
         }
     }
 
@@ -69,10 +69,9 @@ public class SlashCommandUpdater {
     public void updateGlobalCommands() {
         log.debug("Updating global commands...");
 
-        Set<CommandDefinition> globalCommands = interactionRegistry.getCommands()
-                .stream()
-                .filter(it -> it.scope() == SlashCommand.CommandScope.GLOBAL)
-                .collect(Collectors.toSet());
+        Collection<CommandDefinition> globalCommands = interactionRegistry.find(CommandDefinition.class,
+                it -> it.scope() == SlashCommand.CommandScope.GLOBAL
+        );
 
         CommandTree tree = new CommandTree(
                 globalCommands.stream()
@@ -80,7 +79,7 @@ public class SlashCommandUpdater {
                         .map(it -> (SlashCommandDefinition) it)
                         .collect(Collectors.toSet())
         );
-        log.debug("Generated slash command tree with CommandScope.GLOBAL:\n" + tree);
+        log.debug("Generated slash command tree with CommandScope.GLOBAL:\n{}", tree);
 
         Set<CommandData> result = new HashSet<>();
         result.addAll(tree.getCommands());
@@ -89,16 +88,15 @@ public class SlashCommandUpdater {
                 .map(CommandDefinition::toJDAEntity)
                 .collect(Collectors.toSet())
         );
-        log.debug("Registered global command(s): " + result.stream().map(CommandData::getName).collect(Collectors.toSet()));
+        log.debug("Registered global command(s): {}", result.stream().map(CommandData::getName).collect(Collectors.toSet()));
 
         jdaContext.performTask(jda -> jda.updateCommands().addCommands(result).queue());
     }
 
     private Map<Long, Set<CommandData>> getGuildMapping() {
-        Set<CommandDefinition> guildCommands = interactionRegistry.getCommands()
-                .stream()
-                .filter(it -> it.scope() == SlashCommand.CommandScope.GUILD)
-                .collect(Collectors.toSet());
+        Collection<CommandDefinition> guildCommands = interactionRegistry.find(CommandDefinition.class,
+                it -> it.scope() == SlashCommand.CommandScope.GUILD
+        );
 
         CommandTree tree = new CommandTree(
                 guildCommands.stream()
@@ -106,7 +104,7 @@ public class SlashCommandUpdater {
                         .map(it -> (SlashCommandDefinition) it)
                         .collect(Collectors.toSet())
         );
-        log.debug("Generated slash command tree with CommandScope.GUILD:\n" + tree);
+        log.debug("Generated slash command tree with CommandScope.GUILD:\n{}", tree);
 
         Set<CommandData> result = new HashSet<>();
         result.addAll(tree.getCommands());
@@ -115,7 +113,7 @@ public class SlashCommandUpdater {
                 .map(CommandDefinition::toJDAEntity)
                 .collect(Collectors.toSet())
         );
-        log.debug("Interactions eligible for registration: " + result.stream().map(CommandData::getName).collect(Collectors.toSet()));
+        log.debug("Interactions eligible for registration: {}", result.stream().map(CommandData::getName).collect(Collectors.toSet()));
 
         Map<Long, Set<CommandData>> guildMapping = new HashMap<>();
         for (CommandData command : result) {

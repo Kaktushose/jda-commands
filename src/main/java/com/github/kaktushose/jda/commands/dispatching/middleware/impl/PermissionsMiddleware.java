@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

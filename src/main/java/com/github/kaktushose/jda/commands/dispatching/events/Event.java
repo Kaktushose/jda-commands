@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.definitions.Registry;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -39,15 +39,15 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         permits ReplyableEvent, AutoCompleteEvent {
 
     protected final T event;
-    protected final Registry registry;
+    protected final InteractionRegistry registry;
     private final Runtime runtime;
 
     /// Constructs a new Event.
     ///
     /// @param event    the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry the corresponding [Registry]
+    /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime  the [Runtime] this event lives in
-    protected Event(@NotNull T event, @NotNull Registry registry, @NotNull Runtime runtime) {
+    protected Event(@NotNull T event, @NotNull InteractionRegistry registry, @NotNull Runtime runtime) {
         this.event = event;
         this.registry = registry;
         this.runtime = runtime;

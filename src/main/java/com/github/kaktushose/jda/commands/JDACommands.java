@@ -2,11 +2,11 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.definitions.Registry;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.definitions.reflective.ReflectRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
@@ -21,7 +21,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.Permission
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
@@ -40,7 +40,7 @@ public record JDACommands(
         TypeAdapterRegistry adapterRegistry,
         ValidatorRegistry validatorRegistry,
         DependencyInjector dependencyInjector,
-        Registry registry,
+        InteractionRegistry registry,
         SlashCommandUpdater updater) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
@@ -54,7 +54,7 @@ public record JDACommands(
         var adapterRegistry = new TypeAdapterRegistry();
         var validatorRegistry = new ValidatorRegistry();
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
-        var interactionRegistry = new ReflectRegistry(dependencyInjector, validatorRegistry, function, clazz, packages);
+        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function, clazz, packages);
 
         middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
         middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
@@ -63,7 +63,7 @@ public record JDACommands(
 
         implementationRegistry.index(clazz, packages);
 
-        interactionRegistry.index();
+        interactionRegistry.index(new ReflectiveDescriptor());
 
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();

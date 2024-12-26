@@ -2,10 +2,10 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.definitions.Registry;
-import com.github.kaktushose.jda.commands.definitions.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -49,16 +49,16 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
     protected final InteractionDefinition definition;
-    private final ReplyConfig replyConfig;
+    private final Replyable.ReplyConfig replyConfig;
 
     /// Constructs a new ReplyableEvent.
     ///
     /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param interactionRegistry the corresponding [Registry]
+    /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
     protected ReplyableEvent(T event,
-                             Registry interactionRegistry,
+                             InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition) {
         super(event, interactionRegistry, runtime);

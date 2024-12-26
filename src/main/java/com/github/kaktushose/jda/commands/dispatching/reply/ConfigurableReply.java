@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.definitions.Registry;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.SelectMenuDefinition;
@@ -37,15 +37,15 @@ import java.util.List;
 /// @since 4.0.0
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
-    protected final Registry registry;
+    protected final InteractionRegistry registry;
     protected final String runtimeId;
 
     /// Constructs a new ConfigurableReply.
     ///
     /// @param reply     the underlying [MessageReply]
-    /// @param registry  the corresponding [Registry]
+    /// @param registry  the corresponding [InteractionRegistry]
     /// @param runtimeId the corresponding [Runtime]
-    public ConfigurableReply(@NotNull MessageReply reply, @NotNull Registry registry, @NotNull String runtimeId) {
+    public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
         super(reply);
         this.registry = registry;
         this.runtimeId = runtimeId;

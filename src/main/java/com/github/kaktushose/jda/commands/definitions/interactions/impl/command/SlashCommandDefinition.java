@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.definitions.interactions.impl.command
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;

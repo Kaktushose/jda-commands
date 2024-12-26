@@ -9,10 +9,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull MethodDescription method, @NotNull Set<String> commands)
@@ -37,7 +34,7 @@ public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull M
     @NotNull
     @Override
     public Collection<String> permissions() {
-        throw new UnsupportedOperationException("Auto complete cannot have permissions!");
+        return Collections.emptyList();
     }
 
 }

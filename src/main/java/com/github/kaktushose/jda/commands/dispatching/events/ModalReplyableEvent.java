@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
-import com.github.kaktushose.jda.commands.definitions.Registry;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
@@ -30,11 +30,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// Constructs a new ModalReplyableEvent.
     ///
     /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry the corresponding [Registry]
+    /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
     protected ModalReplyableEvent(@NotNull T event,
-                                  @NotNull Registry registry,
+                                  @NotNull InteractionRegistry registry,
                                   @NotNull Runtime runtime,
                                   @NotNull InteractionDefinition definition) {
         super(event, registry, runtime, definition);
