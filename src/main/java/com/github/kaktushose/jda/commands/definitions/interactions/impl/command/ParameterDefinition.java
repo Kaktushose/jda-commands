@@ -92,8 +92,8 @@ public record ParameterDefinition(
     );
 
     public static ParameterDefinition build(ParameterDescription parameter,
-                                                      boolean autoComplete,
-                                                      @NotNull ValidatorRegistry validatorRegistry) {
+                                            boolean autoComplete,
+                                            @NotNull ValidatorRegistry validatorRegistry) {
         final var parameterType = TYPE_MAPPINGS.getOrDefault(parameter.type(), parameter.type());
 
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);

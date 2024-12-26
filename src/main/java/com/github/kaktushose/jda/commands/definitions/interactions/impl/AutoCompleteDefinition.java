@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull MethodDescription method, @NotNull Set<String> commands)
+public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull MethodDescription method,
+                                     @NotNull Set<String> commands)
         implements InteractionDefinition {
 
     @Nullable

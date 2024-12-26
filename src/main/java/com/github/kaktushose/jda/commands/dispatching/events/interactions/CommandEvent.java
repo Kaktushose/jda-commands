@@ -18,10 +18,10 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event               the [GenericCommandInteractionEvent] this event holds
-    /// @param registry the corresponding [InteractionRegistry]
-    /// @param runtime             the corresponding [Runtime]
-    /// @param definition          the corresponding [InteractionDefinition]
+    /// @param event      the [GenericCommandInteractionEvent] this event holds
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the corresponding [Runtime]
+    /// @param definition the corresponding [InteractionDefinition]
     public CommandEvent(@NotNull GenericCommandInteractionEvent event,
                         @NotNull InteractionRegistry registry,
                         @NotNull Runtime runtime,

@@ -29,10 +29,10 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     /// Constructs a new ModalReplyableEvent.
     ///
-    /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry the corresponding [InteractionRegistry]
-    /// @param runtime             the [Runtime] this event lives in
-    /// @param definition          the [InteractionDefinition] this event belongs to
+    /// @param event      the subtype [T] of [GenericInteractionCreateEvent]
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the [Runtime] this event lives in
+    /// @param definition the [InteractionDefinition] this event belongs to
     protected ModalReplyableEvent(@NotNull T event,
                                   @NotNull InteractionRegistry registry,
                                   @NotNull Runtime runtime,

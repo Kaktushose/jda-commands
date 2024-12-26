@@ -24,8 +24,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 ) {
     /// Stops further execution of this invocation at the next suitable moment.
     ///
-    /// @implNote This will interrupt the current event thread
     /// @param errorMessage the error message that should be sent to the user as a reply
+    /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
         new MessageReply(event, definition, new Replyable.ReplyConfig()).reply(errorMessage);
 

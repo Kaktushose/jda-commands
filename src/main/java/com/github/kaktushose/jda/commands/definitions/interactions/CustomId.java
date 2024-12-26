@@ -39,6 +39,13 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         return new CustomId(split[0], split[1]);
     }
 
+    /// Checks if the passed custom id conforms to the defined format of jda-commands.
+    ///
+    /// @return `true` if the passed custom id conforms to the jda-commands format
+    public static boolean isInvalid(String customId) {
+        return !(customId.matches(BOUND_CUSTOM_ID_REGEX) || customId.matches(INDEPENDENT_CUSTOM_ID_REGEX));
+    }
+
     @NotNull
     public String id() {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
@@ -68,13 +75,6 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     /// @return `true` if the custom id is runtime-bound
     public boolean isBound() {
         return !isIndependent();
-    }
-
-    /// Checks if the passed custom id conforms to the defined format of jda-commands.
-    ///
-    /// @return `true` if the passed custom id conforms to the jda-commands format
-    public static boolean isInvalid(String customId) {
-        return !(customId.matches(BOUND_CUSTOM_ID_REGEX) || customId.matches(INDEPENDENT_CUSTOM_ID_REGEX));
     }
 
 }

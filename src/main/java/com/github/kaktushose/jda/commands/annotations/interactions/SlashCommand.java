@@ -37,7 +37,6 @@ import java.lang.annotation.Target;
 /// public void onCommand(CommandEvent event, String[] arguments) {}
 /// }
 /// ```
-///
 /// @see Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint

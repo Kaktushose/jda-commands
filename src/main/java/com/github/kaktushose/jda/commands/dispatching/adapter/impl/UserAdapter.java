@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

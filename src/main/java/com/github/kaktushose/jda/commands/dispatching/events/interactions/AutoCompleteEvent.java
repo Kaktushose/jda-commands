@@ -27,9 +27,9 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /**
      * Constructs a new AutoCompleteEvent.
      *
-     * @param event               the {@link CommandAutoCompleteInteractionEvent} this event holds
+     * @param event    the {@link CommandAutoCompleteInteractionEvent} this event holds
      * @param registry the corresponding {@link InteractionRegistry}
-     * @param runtime             the corresponding {@link Runtime}
+     * @param runtime  the corresponding {@link Runtime}
      */
     public AutoCompleteEvent(@NotNull CommandAutoCompleteInteractionEvent event,
                              @NotNull InteractionRegistry registry,

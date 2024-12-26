@@ -46,7 +46,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [Definition]. This is mostly needed by the
-    ///                                                         [ConfigurableReply]
+    ///                                                                            [ConfigurableReply]
     /// @param replyConfig the [Replyable.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
@@ -63,7 +63,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     ///
     /// @param event      the corresponding [GenericInteractionCreateEvent]
     /// @param definition the corresponding [InteractionDefinition]. This is mostly needed by the
-    ///                                                       [ConfigurableReply]
+    ///                                                                         [ConfigurableReply]
     public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
         this(event, definition, definition.replyConfig());
     }

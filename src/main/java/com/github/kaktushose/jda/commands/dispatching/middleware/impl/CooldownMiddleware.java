@@ -4,8 +4,8 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,8 @@ public class CooldownMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0) return;
+        if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0)
+            return;
 
         long id = context.event().getUser().getIdLong();
 

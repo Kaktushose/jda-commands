@@ -28,7 +28,6 @@ import java.lang.annotation.Target;
 /// @ContextCommand(value = "user context command", type = Command.Type.USER)
 /// public void onCommand(CommandEvent event, User target) { ... }
 /// ```
-///
 /// @see Interaction
 /// @since 4.0.0
 @Target(ElementType.METHOD)

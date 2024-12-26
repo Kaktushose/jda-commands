@@ -23,7 +23,6 @@ import java.lang.annotation.Target;
 ///     event.replyChoices(...);
 /// }
 /// ```
-///
 /// @see SlashCommand
 /// @since 4.0.0
 @Target(ElementType.METHOD)

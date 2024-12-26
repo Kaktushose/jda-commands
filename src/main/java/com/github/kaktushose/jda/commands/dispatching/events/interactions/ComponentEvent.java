@@ -20,10 +20,10 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event               the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param registry the corresponding [InteractionRegistry]
-    /// @param runtime             the corresponding [Runtime]
-    /// @param definition          the corresponding [InteractionDefinition]
+    /// @param event      the [GenericComponentInteractionCreateEvent] this event holds
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the corresponding [Runtime]
+    /// @param definition the corresponding [InteractionDefinition]
     public ComponentEvent(@NotNull GenericComponentInteractionCreateEvent event,
                           @NotNull InteractionRegistry registry,
                           @NotNull Runtime runtime,
@@ -34,7 +34,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
-    /// [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
+    ///             [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
     /// @return [T]
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {

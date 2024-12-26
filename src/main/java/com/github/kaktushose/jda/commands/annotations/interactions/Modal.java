@@ -19,7 +19,6 @@ import java.lang.annotation.Target;
 /// @Modal("My Modal")
 /// public void onModal(ModalEvent event, @TextInput("Type here") String input) { ... }
 /// ```
-///
 /// @see Interaction
 /// @see TextInput
 /// @since 4.0.0

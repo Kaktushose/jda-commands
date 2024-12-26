@@ -33,7 +33,6 @@ import java.util.List;
 ///     }
 /// }
 /// ```
-///
 /// @since 4.0.0
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
@@ -133,7 +132,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///     }
     /// }
     /// ```
-    ///
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
@@ -161,7 +159,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///     }
     /// }
     /// ```
-    ///
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
