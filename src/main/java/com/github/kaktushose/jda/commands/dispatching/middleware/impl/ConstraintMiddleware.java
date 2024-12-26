@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
+import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +41,13 @@ public class ConstraintMiddleware implements Middleware {
             return;
 
         var arguments = new ArrayList<>(context.arguments());
-        List<ParameterDefinition> parameters = command.getParameters();
+        List<ParameterDefinition> parameters = List.copyOf(command.commandParameters());
 
         log.debug("Applying parameter constraints...");
         for (int i = 1; i < arguments.size(); i++) {
             Object argument = arguments.get(i);
             ParameterDefinition parameter = parameters.get(i);
-            for (ConstraintDefinition constraint : parameter.constraints()) {
+            for (ParameterDefinition.ConstraintDefinition constraint : parameter.constraints()) {
                 log.debug("Found constraint {} for parameter {}", constraint, parameter.type().getName());
 
                 boolean validated = constraint.validator().apply(argument, constraint.annotation(), context);

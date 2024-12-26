@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
-public record CustomId(@NotNull String definitionId, @NotNull String runtimeId) {
+public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) {
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
     public static String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
@@ -15,7 +17,26 @@ public record CustomId(@NotNull String definitionId, @NotNull String runtimeId) 
     }
 
     public CustomId(String definitionId) {
-        this(definitionId, INDEPENDENT_ID);
+        this(INDEPENDENT_ID, definitionId);
+    }
+
+    @NotNull
+    public static CustomId fromEvent(@NotNull GenericComponentInteractionCreateEvent event) {
+        return fromEvent(event.getComponentId());
+    }
+
+    @NotNull
+    public static CustomId fromEvent(@NotNull ModalInteractionEvent event) {
+        return fromEvent(event.getModalId());
+    }
+
+    @NotNull
+    private static CustomId fromEvent(@NotNull String customId) {
+        if (isInvalid(customId)) {
+            throw new IllegalArgumentException("Provided custom id is invalid!");
+        }
+        var split = customId.split("\\.");
+        return new CustomId(split[0], split[1]);
     }
 
     @NotNull
@@ -38,7 +59,7 @@ public record CustomId(@NotNull String definitionId, @NotNull String runtimeId) 
     /// Checks if the passed custom id is runtime-independent.
     ///
     /// @return `true` if the custom id is runtime-independent
-    boolean isIndependent() {
+    public boolean isIndependent() {
         return runtimeId.equals(INDEPENDENT_ID);
     }
 

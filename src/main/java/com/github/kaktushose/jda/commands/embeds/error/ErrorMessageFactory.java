@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
+import com.github.kaktushose.jda.commands.definitions.ParameterDefinition.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -18,20 +20,20 @@ public interface ErrorMessageFactory {
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///
     /// @param event the [GenericInteractionCreateEvent] that was attempted to type adapt
-    /// @param definition the underlying [GenericInteractionDefinition]
+    /// @param definition the underlying [InteractionDefinition]
     /// @param userInput the input the user provided
     /// @return a [MessageCreateData] to send when type adapting failed
     @NotNull
     MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
-                                                   @NotNull GenericInteractionDefinition definition,
+                                                   @NotNull InteractionDefinition definition,
                                                    @NotNull List<String> userInput);
 
     /// Gets a [MessageCreateData] to send when a user is missing permissions.
     ///
-    /// @param definition the corresponding [GenericInteractionDefinition]
+    /// @param definition the corresponding [InteractionDefinition]
     /// @return a [MessageCreateData] to send when a user is missing permissions
     @NotNull
-    MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition definition);
+    MessageCreateData getInsufficientPermissionsMessage(@NotNull InteractionDefinition definition);
 
     /// Gets a [MessageCreateData] to send when a parameter constraint fails.
     ///

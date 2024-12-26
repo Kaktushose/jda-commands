@@ -1,7 +1,8 @@
-package com.github.kaktushose.jda.commands.definitions.reflect.interactions;
+package com.github.kaktushose.jda.commands.definitions;
 
 import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import org.jetbrains.annotations.NotNull;
+
 
 /// Stores the configuration values for sending replies. This acts as a representation of
 /// [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].

@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
 
 
 public record JDACommandsMock(

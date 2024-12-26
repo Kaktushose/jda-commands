@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope;
 
-public sealed class CommandDefinition implements Interaction, JDAEntity<CommandData> permits SlashCommandDefinition {
+public sealed class CommandDefinition implements InteractionDefinition, JDAEntity<CommandData> permits SlashCommandDefinition {
 
     protected final ClassDescription clazz;
     protected final MethodDescription method;

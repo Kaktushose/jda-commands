@@ -78,7 +78,7 @@ public final class Helpers {
         return context.permissions();
     }
 
-    /// Constructs the [com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig ReplyConfig] based on the
+    /// Constructs the [com.github.kaktushose.jda.commands.definitions.ReplyConfig ReplyConfig] based on the
     /// passed [Method].
     ///
     /// This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If neither is
@@ -86,18 +86,18 @@ public final class Helpers {
     /// [com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig GlobalReplyConfig].
     ///
     /// @param method the [Method] to use
-    /// @return the [com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig ReplyConfig]
+    /// @return the [com.github.kaktushose.jda.commands.definitions.ReplyConfig ReplyConfig]
     @NotNull
-    public static com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig replyConfig(@NotNull Method method) {
+    public static com.github.kaktushose.jda.commands.definitions.ReplyConfig replyConfig(@NotNull Method method) {
         var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
         var local = method.getAnnotation(ReplyConfig.class);
 
         if (global == null && local == null)
-            return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig();
+            return new com.github.kaktushose.jda.commands.definitions.ReplyConfig();
         if (local == null)
-            return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig(global);
+            return new com.github.kaktushose.jda.commands.definitions.ReplyConfig(global);
 
-        return new com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig(local);
+        return new com.github.kaktushose.jda.commands.definitions.ReplyConfig(local);
     }
 
     /// Checks if the given parameter is present at the [Method] at the given index.
@@ -117,32 +117,15 @@ public final class Helpers {
         return false;
     }
 
-    /// Checks if a [Method] has the given parameter count.
-    ///
-    /// @param count the parameter count
-    /// @return `true` if the method has the given parameter count
-    public static boolean isIncorrectParameterAmount(@NotNull Method method, int count) {
-        if (method.getParameters().length != count) {
-            log.error("An error has occurred! Skipping Interaction {}.{}:",
-                    method.getDeclaringClass().getSimpleName(),
-                    method.getName(),
-                    new IllegalArgumentException(String.format(
-                            "Invalid amount of parameters!. Expected: %d Actual: %d",
-                            count,
-                            method.getParameters().length
-                    )));
-            return true;
-        }
-        return false;
-    }
-
     public static boolean checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
-        if (method.parameters().size() != methodSignature.size()) {
-            log.error("Incorrect parameter count!");
-            return true;
-        }
-        if (!method.parameters().stream().map(ParameterDescription::type).equals(methodSignature)) {
-            log.error("Incorrect parameter type!");
+        if (!method.parameters().stream().map(ParameterDescription::type).toList().equals(methodSignature)) {
+            log.error("An error has occurred! Skipping Interaction {}.{}:",
+                    method.declaringClass().getName(),
+                    method.name(),
+                    new IllegalArgumentException("Incorrect method signature!\nExpected: %s\nActual:   %s".formatted(
+                            methodSignature.stream().toList(),
+                            method.parameters().stream().map(ParameterDescription::type).toList()
+                    )));
             return true;
         }
         return false;

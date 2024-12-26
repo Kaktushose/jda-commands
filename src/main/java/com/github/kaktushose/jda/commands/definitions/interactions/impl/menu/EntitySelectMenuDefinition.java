@@ -3,10 +3,7 @@ package com.github.kaktushose.jda.commands.definitions.interactions.impl.menu;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
-import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
@@ -27,7 +24,7 @@ public record EntitySelectMenuDefinition(
         @NotNull String placeholder,
         int minValue,
         int maxValue
-) implements JDAEntity<EntitySelectMenu>, CustomIdJDAEntity<EntitySelectMenu>, Interaction {
+) implements SelectMenuDefinition<EntitySelectMenu> {
 
     public static Optional<Definition> build(MethodBuildContext context) {
         var method = context.method();

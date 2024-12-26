@@ -119,7 +119,7 @@ public final class ReflectRegistry implements Registry {
     private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
         return clazz.methods().stream()
                 .filter(it -> it.annotation(AutoComplete.class).isPresent())
-                .map(method -> Optional.ofNullable(AutoCompleteDefinition.build(method)))
+                .map(method -> Optional.ofNullable(AutoCompleteDefinition.build(clazz, method)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
@@ -186,5 +186,19 @@ public final class ReflectRegistry implements Registry {
                         ? new IllegalStateException("No interaction found! Please report this error the the devs of jda-commands.")
                         : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
                 );
+    }
+
+    @Override
+    public Collection<CommandDefinition> getCommands() {
+        return definitions.stream().filter(CommandDefinition.class::isInstance)
+                .map(CommandDefinition.class::cast)
+                .toList();
+    }
+
+    @Override
+    public Collection<AutoCompleteDefinition> getAutoCompletes() {
+        return definitions.stream().filter(AutoCompleteDefinition.class::isInstance)
+                .map(AutoCompleteDefinition.class::cast)
+                .toList();
     }
 }

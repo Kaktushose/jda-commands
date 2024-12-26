@@ -1,5 +1,8 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.definitions.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -24,12 +27,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
-                                                          @NotNull GenericInteractionDefinition definition,
+                                                          @NotNull InteractionDefinition definition,
                                                           @NotNull List<String> userInput) {
         StringBuilder sbExpected = new StringBuilder();
         SlashCommandDefinition command = (SlashCommandDefinition) definition;
 
-        command.getParameters().forEach(parameter -> {
+        command.commandParameters().forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
@@ -48,7 +51,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
-                .setDescription(command.getDisplayName())
+                .setDescription(command.displayName())
                 .addField("Expected", String.format("`%s`", expected), false)
                 .addField("Actual", String.format("`%s`", actual), false)
                 .build();
@@ -58,15 +61,15 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition interaction) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull InteractionDefinition interaction) {
         StringBuilder sbPermissions = new StringBuilder();
-        interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
+        interaction.permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s` requires specific permissions to be executed",
-                        interaction.getDisplayName()))
+                        interaction.displayName()))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
@@ -75,7 +78,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ParameterDefinition.ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")

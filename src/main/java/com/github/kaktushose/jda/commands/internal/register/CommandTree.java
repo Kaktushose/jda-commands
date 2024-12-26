@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -42,7 +43,7 @@ public record CommandTree(
      * @param command the {@link SlashCommandDefinition} to add
      */
     public void add(SlashCommandDefinition command) {
-        root.addChild(resolveLabel(command.getName()), command);
+        root.addChild(resolveLabel(command.name()), command);
     }
 
     /**

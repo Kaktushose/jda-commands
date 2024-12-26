@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.definitions.Registry;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
-import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.commands.GenericCommandDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -29,15 +30,15 @@ public class SlashCommandUpdater {
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
-    private final InteractionRegistry interactionRegistry;
+    private final Registry interactionRegistry;
 
     /**
      * Constructs a new SlashCommandUpdater.
      */
-    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry interactionRegistry) {
+    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, Registry registry) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
-        this.interactionRegistry = interactionRegistry;
+        this.interactionRegistry = registry;
     }
 
     /**
@@ -68,14 +69,14 @@ public class SlashCommandUpdater {
     public void updateGlobalCommands() {
         log.debug("Updating global commands...");
 
-        Set<GenericCommandDefinition> globalCommands = interactionRegistry.getCommands()
+        Set<CommandDefinition> globalCommands = interactionRegistry.getCommands()
                 .stream()
-                .filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GLOBAL)
+                .filter(it -> it.scope() == SlashCommand.CommandScope.GLOBAL)
                 .collect(Collectors.toSet());
 
         CommandTree tree = new CommandTree(
                 globalCommands.stream()
-                        .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                        .filter(it -> it.commandType() == Command.Type.SLASH)
                         .map(it -> (SlashCommandDefinition) it)
                         .collect(Collectors.toSet())
         );
@@ -84,8 +85,8 @@ public class SlashCommandUpdater {
         Set<CommandData> result = new HashSet<>();
         result.addAll(tree.getCommands());
         result.addAll(globalCommands.stream().
-                filter(it -> (it.getCommandType() == Command.Type.USER || it.getCommandType() == Command.Type.MESSAGE))
-                .map(GenericCommandDefinition::toCommandData)
+                filter(it -> (it.commandType() == Command.Type.USER || it.commandType() == Command.Type.MESSAGE))
+                .map(CommandDefinition::toJDAEntity)
                 .collect(Collectors.toSet())
         );
         log.debug("Registered global command(s): " + result.stream().map(CommandData::getName).collect(Collectors.toSet()));
@@ -94,14 +95,14 @@ public class SlashCommandUpdater {
     }
 
     private Map<Long, Set<CommandData>> getGuildMapping() {
-        Set<GenericCommandDefinition> guildCommands = interactionRegistry.getCommands()
+        Set<CommandDefinition> guildCommands = interactionRegistry.getCommands()
                 .stream()
-                .filter(it -> it.getCommandScope() == SlashCommand.CommandScope.GUILD)
+                .filter(it -> it.scope() == SlashCommand.CommandScope.GUILD)
                 .collect(Collectors.toSet());
 
         CommandTree tree = new CommandTree(
                 guildCommands.stream()
-                        .filter(it -> it.getCommandType() == Command.Type.SLASH)
+                        .filter(it -> it.commandType() == Command.Type.SLASH)
                         .map(it -> (SlashCommandDefinition) it)
                         .collect(Collectors.toSet())
         );
@@ -110,8 +111,8 @@ public class SlashCommandUpdater {
         Set<CommandData> result = new HashSet<>();
         result.addAll(tree.getCommands());
         result.addAll(guildCommands.stream().
-                filter(it -> (it.getCommandType() == Command.Type.USER || it.getCommandType() == Command.Type.MESSAGE))
-                .map(GenericCommandDefinition::toCommandData)
+                filter(it -> (it.commandType() == Command.Type.USER || it.commandType() == Command.Type.MESSAGE))
+                .map(CommandDefinition::toJDAEntity)
                 .collect(Collectors.toSet())
         );
         log.debug("Interactions eligible for registration: " + result.stream().map(CommandData::getName).collect(Collectors.toSet()));

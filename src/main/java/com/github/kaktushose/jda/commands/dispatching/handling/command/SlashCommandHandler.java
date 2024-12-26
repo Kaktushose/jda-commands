@@ -1,12 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -27,8 +28,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     @Override
     protected InvocationContext<SlashCommandInteractionEvent> prepare(@NotNull SlashCommandInteractionEvent event, @NotNull Runtime runtime) {
-        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
-                it.getName().equals(event.getFullCommandName())
+        SlashCommandDefinition command = registry.find(SlashCommandDefinition.class, true, it ->
+                it.name().equals(event.getFullCommandName())
         );
 
         return parseArguments(command, event, runtime)
@@ -38,18 +39,19 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
-        var input = command.getActualParameters().stream()
+        var input = command.commandParameters().stream()
                 .map(it -> event.getOption(it.name()).getAsString())
                 .toArray(String[]::new);
 
         List<Object> arguments = new ArrayList<>();
-        arguments.addFirst(new CommandEvent(event, interactionRegistry, runtime, command));
+        arguments.addFirst(new CommandEvent(event, registry, runtime, command));
 
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        for (int i = 0; i < command.getActualParameters().size(); i++) {
-            ParameterDefinition parameter = command.getActualParameters().get(i);
+        var parameters = List.copyOf(command.commandParameters());
+        for (int i = 0; i < parameters.size(); i++) {
+            var parameter = parameters.get(i);
 
             // if parameter is array don't parse
             if (String[].class.isAssignableFrom(parameter.type())) {
@@ -61,7 +63,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             String raw;
             // current parameter index == total amount of input, check if it's optional else cancel context
             if (i >= input.length) {
-                if (!parameter.isOptional()) {
+                if (!parameter.optional()) {
                     throw new IllegalStateException(
                             "Command input doesn't match parameter length! Please report this error the the devs of jda-commands."
                     );

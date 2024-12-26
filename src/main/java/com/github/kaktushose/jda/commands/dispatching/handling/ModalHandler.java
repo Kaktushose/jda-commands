@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ModalDefinition;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.jetbrains.annotations.NotNull;
@@ -25,12 +26,12 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
             return null;
         }
 
-        var modal = interactionRegistry.find(ModalDefinition.class, true, it ->
-                it.getDefinitionId().equals(CustomId.definitionId(event.getModalId()))
+        var modal = registry.find(ModalDefinition.class, true, it ->
+                it.definitionId().equals(CustomId.fromEvent(event).definitionId())
         );
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent(event, interactionRegistry, runtime, modal));
+        arguments.addFirst(new ModalEvent(event, registry, runtime, modal));
 
         return new InvocationContext<>(
                 event,

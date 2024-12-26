@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
@@ -25,7 +25,7 @@ public record ModalDefinition(
         Collection<String> permissions,
         String title,
         SequencedCollection<TextInputDefinition> textInputs
-) implements Interaction, CustomIdJDAEntity<Modal> {
+) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
     public static Optional<Definition> build(MethodBuildContext context) {
         var method = context.method();

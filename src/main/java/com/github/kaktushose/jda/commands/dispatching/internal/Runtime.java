@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.internal;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.handling.*;
@@ -119,8 +120,8 @@ public final class Runtime implements Closeable {
         return keyValueStore;
     }
 
-    public Object instance(GenericInteractionDefinition definition) {
-        return instances.computeIfAbsent(definition.getMethod().getClass(), _ -> {
+    public Object instance(InteractionDefinition definition) {
+        return instances.computeIfAbsent(definition.method().declaringClass(), _ -> {
             try {
                 return definition.newInstance();
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {

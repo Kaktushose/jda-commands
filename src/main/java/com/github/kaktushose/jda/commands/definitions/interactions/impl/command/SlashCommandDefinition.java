@@ -72,6 +72,7 @@ public final class SlashCommandDefinition extends CommandDefinition {
 
         // build parameter definitions
         List<ParameterDefinition> parameters = method.parameters().stream()
+                .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter -> ParameterDefinition.build(parameter, autoComplete, context.validatorRegistry()))
                 .toList();
 
@@ -153,6 +154,14 @@ public final class SlashCommandDefinition extends CommandDefinition {
 
     public boolean autoComplete() {
         return isAutoComplete;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public SequencedCollection<ParameterDefinition> commandParameters() {
+        return commandParameters;
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {

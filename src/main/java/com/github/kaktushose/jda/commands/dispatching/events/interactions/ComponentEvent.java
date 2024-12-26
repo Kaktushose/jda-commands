@@ -1,9 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
+import com.github.kaktushose.jda.commands.definitions.Registry;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
-import com.github.kaktushose.jda.commands.definitions.reflect.InteractionRegistry;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -20,14 +21,14 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Constructs a new CommandEvent.
     ///
     /// @param event               the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param interactionRegistry the corresponding [InteractionRegistry]
+    /// @param registry the corresponding [Registry]
     /// @param runtime             the corresponding [Runtime]
-    /// @param definition          the corresponding [EphemeralInteractionDefinition]
+    /// @param definition          the corresponding [InteractionDefinition]
     public ComponentEvent(@NotNull GenericComponentInteractionCreateEvent event,
-                          @NotNull InteractionRegistry interactionRegistry,
+                          @NotNull Registry registry,
                           @NotNull Runtime runtime,
-                          @NotNull EphemeralInteractionDefinition definition) {
-        super(event, interactionRegistry, runtime, definition);
+                          @NotNull InteractionDefinition definition) {
+        super(event, registry, runtime, definition);
     }
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.

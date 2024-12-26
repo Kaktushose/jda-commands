@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -27,8 +29,8 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             return null;
         }
 
-        var component = interactionRegistry.find(GenericComponentDefinition.class, true, it ->
-                it.getDefinitionId().equals(CustomId.definitionId(genericEvent.getComponentId()))
+        var component = registry.find(ComponentDefinition.class, true, it ->
+                it.definitionId().equals(CustomId.fromEvent(genericEvent).definitionId())
         );
 
         List<Object> arguments = switch (genericEvent) {
@@ -38,7 +40,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, interactionRegistry, runtime, component));
+        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component));
 
         return new InvocationContext<>(
                 genericEvent,

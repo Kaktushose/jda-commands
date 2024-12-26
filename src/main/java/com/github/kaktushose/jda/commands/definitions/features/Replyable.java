@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.features;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
-import com.github.kaktushose.jda.commands.definitions.reflect.interactions.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import org.jetbrains.annotations.NotNull;
 
-public sealed interface Replyable extends Invokeable permits Interaction {
+public sealed interface Replyable extends Invokeable permits InteractionDefinition {
 
     @NotNull
     default ReplyConfig replyConfig() {

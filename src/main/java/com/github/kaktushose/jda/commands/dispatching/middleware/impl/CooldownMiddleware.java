@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.definitions.reflect.ImplementationRegistry;
@@ -42,7 +44,7 @@ public class CooldownMiddleware implements Middleware {
      */
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command) || !command.hasCooldown()) return;
+        if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0) return;
 
         long id = context.event().getUser().getIdLong();
 
@@ -62,34 +64,13 @@ public class CooldownMiddleware implements Middleware {
             }
         }
 
-        CooldownDefinition cooldown = command.getCooldown();
+        CooldownDefinition cooldown = command.cooldown();
         long startTime = System.currentTimeMillis();
         long duration = cooldown.timeUnit().toMillis(cooldown.delay());
         activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
         log.debug("Added new cooldown entry for this user");
     }
 
-    private static class CooldownEntry {
-        private final SlashCommandDefinition command;
-        private final long startTime;
-        private final long duration;
-
-        public CooldownEntry(SlashCommandDefinition command, long startTime, long duration) {
-            this.command = command;
-            this.startTime = startTime;
-            this.duration = duration;
-        }
-
-        public SlashCommandDefinition getCommand() {
-            return command;
-        }
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public long getDuration() {
-            return duration;
-        }
+    private record CooldownEntry(SlashCommandDefinition command, long startTime, long duration) {
     }
 }

@@ -3,8 +3,7 @@ package com.github.kaktushose.jda.commands.definitions.interactions.impl;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
@@ -26,7 +25,7 @@ public record ButtonDefinition(
         @Nullable Emoji emoji,
         @Nullable String link,
         @NotNull ButtonStyle style
-) implements Interaction, JDAEntity<Button> {
+) implements ComponentDefinition<Button> {
 
     public static Optional<Definition> build(MethodBuildContext context) {
         var method = context.method();
@@ -59,7 +58,13 @@ public record ButtonDefinition(
     @NotNull
     @Override
     public Button toJDAEntity() {
-        String idOrUrl = Optional.ofNullable(link).orElse(definitionId());
+        return toJDAEntity(new CustomId(definitionId()));
+    }
+
+    @NotNull
+    @Override
+    public Button toJDAEntity(@NotNull CustomId customId) {
+        String idOrUrl = Optional.ofNullable(link).orElse(customId.id());
         if (emoji == null) {
             return Button.of(style, idOrUrl, label);
         } else {
@@ -72,5 +77,4 @@ public record ButtonDefinition(
     public String displayName() {
         return label.isEmpty() ? definitionId() : label;
     }
-
 }

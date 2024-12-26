@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -169,11 +170,11 @@ public record TreeNode(
             return;
         }
         try {
-            commands.add(command.toCommandData());
+            commands.add(command.toJDAEntity());
         } catch (Exception e) {
             log.error(String.format("Cannot convert command %s.%s to  SlashCommandData!",
-                    command.getMethod().getDeclaringClass().getSimpleName(),
-                    command.getMethod().getName()), e
+                    command.clazz().name(),
+                    command.method().name()), e
             );
         }
     }
@@ -181,15 +182,15 @@ public record TreeNode(
     private SlashCommandData createRootCommand(String name, List<TreeNode> children) {
         SlashCommandData result = Commands.slash(name, "empty description");
         List<SlashCommandDefinition> subCommands = unwrapDefinitions(children);
-        LocalizationFunction function = subCommands.getFirst().getLocalizationFunction();
+        LocalizationFunction function = subCommands.getFirst().localizationFunction();
 
         boolean isNSFW = false;
         boolean isGuildOnly = false;
         Set<Permission> enabledPermissions = new HashSet<>();
         for (SlashCommandDefinition command : subCommands) {
-            isNSFW = isNSFW || command.isNSFW();
-            isGuildOnly = isGuildOnly || command.isGuildOnly();
-            enabledPermissions.addAll(command.getEnabledPermissions());
+            isNSFW = isNSFW || command.nsfw();
+            isGuildOnly = isGuildOnly || command.guildOnly();
+            enabledPermissions.addAll(command.enabledPermissions());
         }
 
         return result.setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions))

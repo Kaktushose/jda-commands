@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.internal;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -38,13 +39,13 @@ public final class JDAEventListener extends ListenerAdapter {
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
 
             // always fetch runtime (bound to runtime)
-            case GenericComponentInteractionCreateEvent event when CustomId.isBound(event.getComponentId()) ->
-                    runtimes.get(CustomId.runtimeId(event.getComponentId()));
-            case ModalInteractionEvent event when CustomId.isBound(event.getModalId()) ->
-                    runtimes.get(CustomId.runtimeId(event.getModalId()));
+            case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isBound() ->
+                    runtimes.get(CustomId.fromEvent(event).runtimeId());
+            case ModalInteractionEvent event when CustomId.fromEvent(event).isBound() ->
+                    runtimes.get(CustomId.fromEvent(event).runtimeId());
 
             // independent components always get their own runtime
-            case GenericComponentInteractionCreateEvent event when CustomId.isIndependent(event.getComponentId()) ->
+            case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isIndependent() ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
             default -> null;
         };
