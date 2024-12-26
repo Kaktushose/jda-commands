@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// A [Middleware] implementation that contains the business logic behind command cooldowns.
-/// If the command isn't annotated with [Cooldown][Cooldown] or more
+/// If the command isn't annotated with [Cooldown] or more
 /// formally if the [SlashCommandDefinition] doesn't hold a [CooldownDefinition] or the delay of the
 /// [CooldownDefinition] amounts to `0` this filter has no effect.
 ///

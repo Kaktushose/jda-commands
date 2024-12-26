@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/// Central registry for all [Middlewares][Middleware].
+/// Central registry for all [Middleware]s.
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
@@ -23,7 +23,7 @@ public class MiddlewareRegistry {
     ///
     /// @param priority    the [Priority] to register the [Middleware(s)][Middleware] with
     /// @param first       the first [Middleware] to register
-    /// @param middlewares additional [Middlewares][Middleware] to register
+    /// @param middlewares additional [Middleware]s to register
     /// @return this instance for fluent interface
     public MiddlewareRegistry register(Priority priority, Middleware first, Middleware... middlewares) {
         register(priority, Stream.concat(Stream.of(first), Arrays.stream(middlewares)).collect(Collectors.toList()));

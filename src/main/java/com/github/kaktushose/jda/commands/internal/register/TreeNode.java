@@ -85,9 +85,9 @@ public record TreeNode(
         return name;
     }
 
-    /// Gets all children [TreeNodes][TreeNode].
+    /// Gets all children [TreeNode]s.
     ///
-    /// @return all children [TreeNodes][TreeNode]
+    /// @return all children [TreeNode]s
     public List<TreeNode> getChildren() {
         return children;
     }
@@ -129,7 +129,7 @@ public record TreeNode(
 
     /// Gets all [of the leaf nodes][SlashCommandData].
     ///
-    /// @return a [List] of all [of the leaf nodes.][SlashCommandData]
+    /// @return a [List] of [SlashCommandData]
     public List<SlashCommandData> getCommandData() {
         List<SlashCommandData> result = new ArrayList<>();
         children.forEach(child -> child.toCommandData(result));

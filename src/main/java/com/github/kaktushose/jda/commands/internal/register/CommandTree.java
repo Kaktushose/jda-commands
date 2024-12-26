@@ -37,9 +37,9 @@ public record CommandTree(
         root.addChild(resolveLabel(command.name()), command);
     }
 
-    /// Adds all [CommandDefinitions][SlashCommandDefinition] of the [Collection] to the [CommandTree].
+    /// Adds all [SlashCommandDefinition]s of the [Collection] to the [CommandTree].
     ///
-    /// @param commands a [Collection] of [CommandDefinitions][SlashCommandDefinition] to add
+    /// @param commands a [Collection] of [SlashCommandDefinition]s to add
     /// @see #add(SlashCommandDefinition)
     public void addAll(Collection<SlashCommandDefinition> commands) {
         commands.forEach(this::add);

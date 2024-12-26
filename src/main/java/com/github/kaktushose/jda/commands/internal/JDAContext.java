@@ -35,13 +35,13 @@ public final class JDAContext {
         }
     }
 
-    /// An unmodifiable List of all [Guilds][Guild] that the logged account is connected to.
-    /// If this account is not connected to any [Guilds][Guild], this will return an empty list.
+    /// An unmodifiable List of all [Guild]s that the logged account is connected to.
+    /// If this account is not connected to any [Guild]s, this will return an empty list.
     /// This copies the backing store into a list. This means every call creates a new list with O(n) complexity.
     /// It is recommended to store this into a local variable or use getGuildCache() and use its more efficient
     /// versions of handling these values.
     ///
-    /// @return Possibly-empty list of all the [Guilds][Guild] that this account is connected to.
+    /// @return Possibly-empty list of all the [Guild]s that this account is connected to.
     public List<Guild> getGuilds() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuilds();
@@ -51,7 +51,7 @@ public final class JDAContext {
         };
     }
 
-    /// [SnowflakeCacheView] of all cached [Guilds][Guild].
+    /// [SnowflakeCacheView] of all cached [Guild]s.
     ///
     /// @return [SnowflakeCacheView]
     public SnowflakeCacheView<Guild> getGuildCache() {

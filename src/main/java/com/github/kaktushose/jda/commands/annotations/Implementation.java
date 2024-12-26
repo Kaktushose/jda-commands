@@ -31,7 +31,7 @@ public @interface Implementation {
     /// Gets the annotation the [Validator] should be mapped to. If this class is not a subtype of [Validator],
     /// this field can be ignored.
     ///
-    /// @return the annotation the [Validator][Validator]
+    /// @return the annotation the [Validator]
     /// should be mapped to
     Class<? extends Annotation> annotation() default Constraint.class;
 

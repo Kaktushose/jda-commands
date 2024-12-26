@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// Internal wrapper for repeating [SelectOptions][SelectOption].
+/// Internal wrapper for repeating [SelectOption]s.
 ///
 /// @see SelectOption
 @Target(ElementType.METHOD)

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/// Central registry for all [Validators][Validator].
+/// Central registry for all [Validator]s.
 ///
 /// @see Validator
 public class ValidatorRegistry {
@@ -20,7 +20,7 @@ public class ValidatorRegistry {
     private final Logger log = LoggerFactory.getLogger(ValidatorRegistry.class);
     private final Map<Class<? extends Annotation>, Validator> validators;
 
-    /// Constructs a new ValidatorRegistry. This will register the following [Validators][Validator] by default:
+    /// Constructs a new ValidatorRegistry. This will register the following [Validator]s by default:
     ///
     ///   - [MinimumValidator]
     ///   - [MaximumValidator]

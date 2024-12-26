@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /// Generic top level interface for validators. A validator checks if a command argument fulfills the given constraint.
 ///
-/// @see com.github.kaktushose.jda.commands.annotations.Implementation
+/// @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
 /// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
 @FunctionalInterface
 public interface Validator {

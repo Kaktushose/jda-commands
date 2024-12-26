@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// Annotation used to add TextInputs to [Modals][Modal].
+/// Annotation used to add TextInputs to [Modal]s.
 ///
 /// @see Modal
 @Target(ElementType.PARAMETER)
@@ -43,7 +43,7 @@ public @interface TextInput {
     /// @return Maximum length or -1
     int maxValue() default -1;
 
-    /// The [TextInputStyle][TextInputStyle]. The default value is [#PARAGRAPH].
+    /// The [TextInputStyle]. The default value is [TextInputStyle#PARAGRAPH].
     ///
     /// @return The TextInputStyle
     TextInputStyle style() default TextInputStyle.PARAGRAPH;

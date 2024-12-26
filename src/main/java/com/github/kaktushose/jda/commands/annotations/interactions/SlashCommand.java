@@ -65,8 +65,8 @@ public @interface SlashCommand {
     /// @return `true` if this command can only be executed in NSFW channels
     boolean isNSFW() default false;
 
-    /// Returns an array of [Permissions][net.dv8tion.jda.api.Permission] this command
-    /// should be enabled for by default. Note that guild admins can modify this at any time.
+    /// Returns an array of [Permission]s this command should be enabled for by default. Note that guild admins can
+    /// modify this at any time.
     ///
     /// @return an array of permissions this command will be enabled for by default
     /// @see Permissions Permission

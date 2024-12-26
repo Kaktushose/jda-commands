@@ -29,27 +29,21 @@ public class SlashCommandUpdater {
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;
 
-    /**
-     * Constructs a new SlashCommandUpdater.
-     */
+    /// Constructs a new SlashCommandUpdater.
     public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry registry) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
     }
 
-    /**
-     * Sends the {@link SlashCommandData} to Discord. This is equivalent to calling {@link #updateGlobalCommands()} and
-     * {@link #updateGuildCommands()} each.
-     */
+    /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
+    /// [#updateGuildCommands()] each.
     public void updateAllCommands() {
         updateGuildCommands();
         updateGlobalCommands();
     }
 
-    /**
-     * Sends the guild scope {@link SlashCommandData} to Discord.
-     */
+    /// Sends the guild scope [SlashCommandData] to Discord.
     public void updateGuildCommands() {
         log.debug("Updating guild commands...");
         Map<Long, Set<CommandData>> guildMapping = getGuildMapping();
@@ -60,9 +54,7 @@ public class SlashCommandUpdater {
         }
     }
 
-    /**
-     * Sends the global scope {@link SlashCommandData} to Discord.
-     */
+    /// Sends the global scope [SlashCommandData] to Discord.
     public void updateGlobalCommands() {
         log.debug("Updating global commands...");
 

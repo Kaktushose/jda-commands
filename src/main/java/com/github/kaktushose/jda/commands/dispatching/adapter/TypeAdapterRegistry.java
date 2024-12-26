@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -38,11 +39,11 @@ public class TypeAdapterRegistry {
     /// Constructs a new TypeAdapterRegistry. This will register default type adapters for:
     ///
     ///   - all primitive data types
-    ///   - String
-    ///   - String Array
+    ///   - [String]
+    ///   - [String] Array
     ///   - [Member]
     ///   - [User]
-    ///   - [MessageChannel][net.dv8tion.jda.api.entities.channel.middleman.MessageChannel] and subtypes
+    ///   - [MessageChannel] and subtypes
     ///   - [Role]
     ///
     public TypeAdapterRegistry() {

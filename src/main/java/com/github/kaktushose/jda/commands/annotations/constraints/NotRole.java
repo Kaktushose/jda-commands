@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.constraints;
 
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.lang.annotation.ElementType;
@@ -8,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// The annotated element must be member that **doesn't** have the specified guild role. This constraint will use the
-/// [TypeAdapterRegistry][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry] to determine
+/// [TypeAdapterRegistry] to determine
 /// the role.
 ///
 /// @see Constraint
