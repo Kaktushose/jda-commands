@@ -42,7 +42,7 @@ public record ParameterDefinition(
         Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
-    private static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
+    public static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
             entry(byte.class, Byte.class),
             entry(short.class, Short.class),
             entry(int.class, Integer.class),
@@ -63,7 +63,6 @@ public record ParameterDefinition(
             entry(Boolean.class, OptionType.BOOLEAN),
             entry(Character.class, OptionType.STRING),
             entry(String.class, OptionType.STRING),
-            entry(String[].class, OptionType.STRING),
             entry(User.class, OptionType.USER),
             entry(Member.class, OptionType.USER),
             entry(GuildChannel.class, OptionType.CHANNEL),
