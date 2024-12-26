@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
@@ -54,7 +55,7 @@ public record JDACommands(
         var adapterRegistry = new TypeAdapterRegistry();
         var validatorRegistry = new ValidatorRegistry();
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
-        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function, clazz, packages);
+        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function);
 
         middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
         middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
@@ -63,7 +64,7 @@ public record JDACommands(
 
         implementationRegistry.index(clazz, packages);
 
-        interactionRegistry.index(new ReflectiveDescriptor());
+        interactionRegistry.index(ReflectiveClassFinder.find(clazz, packages), new ReflectiveDescriptor());
 
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
