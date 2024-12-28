@@ -55,7 +55,7 @@ public record JDACommands(
         var adapterRegistry = new TypeAdapterRegistry();
         var validatorRegistry = new ValidatorRegistry();
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
-        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function);
+        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function, new ReflectiveDescriptor());
 
         middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
         middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
@@ -64,7 +64,7 @@ public record JDACommands(
 
         implementationRegistry.index(clazz, packages);
 
-        interactionRegistry.index(ReflectiveClassFinder.find(clazz, packages), new ReflectiveDescriptor());
+        interactionRegistry.index(ReflectiveClassFinder.find(clazz, packages));
 
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
@@ -192,7 +192,7 @@ public record JDACommands(
     public Button getButton(@NotNull String button) {
         var id = String.valueOf(button.replaceAll("\\.", "").hashCode());
         var definition = registry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
-        return definition.toJDAEntity(new CustomId(definition.definitionId()));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
@@ -206,6 +206,6 @@ public record JDACommands(
     public SelectMenu getSelectMenu(@NotNull String menu) {
         var id = String.valueOf(menu.replaceAll("\\.", "").hashCode());
         var definition = registry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
-        return (SelectMenu) definition.toJDAEntity(new CustomId(definition.definitionId()));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 }

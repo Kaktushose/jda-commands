@@ -191,7 +191,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     private CustomId createId(InteractionDefinition definition, boolean staticComponent) {
         return staticComponent
-                ? new CustomId(definition.definitionId())
+                ? CustomId.independent(definition.definitionId())
                 : new CustomId(runtimeId, definition.definitionId());
     }
 }

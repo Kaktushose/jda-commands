@@ -58,7 +58,7 @@ public record ButtonDefinition(
     @NotNull
     @Override
     public Button toJDAEntity() {
-        return toJDAEntity(new CustomId(definitionId()));
+        return toJDAEntity(CustomId.independent(definitionId()));
     }
 
     @NotNull

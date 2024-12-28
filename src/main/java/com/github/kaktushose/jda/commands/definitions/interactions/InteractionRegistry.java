@@ -31,24 +31,29 @@ public final class InteractionRegistry {
     private final DependencyInjector dependencyInjector;
     private final ValidatorRegistry validatorRegistry;
     private final LocalizationFunction localizationFunction;
-    private Set<Definition> definitions;
+    private final Descriptor descriptor;
+    private final Set<Definition> definitions = new HashSet<>();
 
-    public InteractionRegistry(DependencyInjector dependencyInjector, ValidatorRegistry validatorRegistry, LocalizationFunction localizationFunction) {
+    public InteractionRegistry(DependencyInjector dependencyInjector, ValidatorRegistry validatorRegistry, LocalizationFunction localizationFunction, Descriptor descriptor) {
         this.dependencyInjector = dependencyInjector;
         this.validatorRegistry = validatorRegistry;
         this.localizationFunction = localizationFunction;
-        definitions = new HashSet<>();
+        this.descriptor = descriptor;
     }
 
-    public void index(Collection<Class<?>> classes, Descriptor descriptor) {
+    public void index(Iterable<Class<?>> classes) {
+        int oldSize = definitions.size();
+
+        int c = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found interaction controller {}", clazz.getName());
-            definitions = Set.copyOf(indexInteractionClass(descriptor.apply(clazz)));
+            definitions.addAll(indexInteractionClass(descriptor.apply(clazz)));
+            c++;
         }
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
-                classes.size(),
-                definitions.size());
+                c,
+                definitions.size() - oldSize);
     }
 
     private Collection<Definition> indexInteractionClass(ClassDescription clazz) {

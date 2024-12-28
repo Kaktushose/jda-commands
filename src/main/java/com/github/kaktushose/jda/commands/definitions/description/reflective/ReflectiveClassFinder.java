@@ -7,12 +7,10 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import java.util.Collection;
-
 // temp class
-public record ReflectiveClassFinder() {
+public class ReflectiveClassFinder {
 
-    public static Collection<Class<?>> find(Class<?> clazz, String[] packages) {
+    public static Iterable<Class<?>> find(Class<?> clazz, String[] packages) {
         var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);

@@ -27,6 +27,7 @@ import static com.github.kaktushose.jda.commands.annotations.interactions.SlashC
 public sealed class CommandDefinition implements InteractionDefinition, JDAEntity<CommandData> permits SlashCommandDefinition {
 
     protected final ClassDescription clazz;
+
     protected final MethodDescription method;
     protected final Collection<String> permissions;
     protected final String name;
@@ -36,7 +37,6 @@ public sealed class CommandDefinition implements InteractionDefinition, JDAEntit
     protected final Set<Permission> enabledPermissions;
     protected final CommandScope scope;
     protected final LocalizationFunction localizationFunction;
-
     public CommandDefinition(@NotNull ClassDescription clazz,
                              @NotNull MethodDescription method,
                              @NotNull Collection<String> permissions,
@@ -157,5 +157,17 @@ public sealed class CommandDefinition implements InteractionDefinition, JDAEntit
     @Override
     public String displayName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CommandDefinition that = (CommandDefinition) o;
+        return isGuildOnly == that.isGuildOnly && isNSFW == that.isNSFW && Objects.equals(clazz, that.clazz) && Objects.equals(method, that.method) && Objects.equals(permissions, that.permissions) && Objects.equals(name, that.name) && commandType == that.commandType && Objects.equals(enabledPermissions, that.enabledPermissions) && scope == that.scope && Objects.equals(localizationFunction, that.localizationFunction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clazz, method, permissions, name, isGuildOnly, isNSFW, commandType, enabledPermissions, scope, localizationFunction);
     }
 }

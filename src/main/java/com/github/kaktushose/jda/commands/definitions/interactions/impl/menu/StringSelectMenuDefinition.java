@@ -58,7 +58,7 @@ public record StringSelectMenuDefinition(
     @NotNull
     @Override
     public StringSelectMenu toJDAEntity() {
-        return toJDAEntity(new CustomId(definitionId()));
+        return toJDAEntity(CustomId.independent(definitionId()));
     }
 
     @NotNull

@@ -65,7 +65,7 @@ public record EntitySelectMenuDefinition(
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity() {
-        return toJDAEntity(new CustomId(definitionId()));
+        return toJDAEntity(CustomId.independent(definitionId()));
     }
 
     @NotNull

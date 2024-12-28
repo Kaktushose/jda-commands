@@ -180,5 +180,18 @@ public final class SlashCommandDefinition extends CommandDefinition {
         }
 
 
+
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        SlashCommandDefinition that = (SlashCommandDefinition) o;
+        return isAutoComplete == that.isAutoComplete && Objects.equals(description, that.description) && Objects.equals(commandParameters, that.commandParameters) && Objects.equals(cooldown, that.cooldown);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), description, commandParameters, cooldown, isAutoComplete);
     }
 }

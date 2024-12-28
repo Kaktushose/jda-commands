@@ -11,13 +11,9 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     public static String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
 
     public CustomId {
-        if (!(runtimeId.matches("[0-9a-fA-F-]{36}") || runtimeId.equals(INDEPENDENT_ID))) {
+        if (!(runtimeId.matches("[0-9a-fA-F-]{36}")) || !runtimeId.equals(INDEPENDENT_ID)) {
             throw new IllegalArgumentException("Invalid runtime id! Must either be a UUID or \"%s\"".formatted(INDEPENDENT_ID));
         }
-    }
-
-    public CustomId(String definitionId) {
-        this(INDEPENDENT_ID, definitionId);
     }
 
     @NotNull
@@ -37,6 +33,10 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         }
         var split = customId.split("\\.");
         return new CustomId(split[0], split[1]);
+    }
+
+    public static CustomId independent(String definitionId) {
+        return new CustomId(INDEPENDENT_ID, definitionId);
     }
 
     /// Checks if the passed custom id conforms to the defined format of jda-commands.
