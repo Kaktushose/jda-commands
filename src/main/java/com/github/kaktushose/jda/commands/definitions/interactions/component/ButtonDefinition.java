@@ -50,7 +50,7 @@ public record ButtonDefinition(
                 Helpers.permissions(context),
                 button.value(),
                 emoji,
-                button.link(),
+                button.link().isEmpty() ? null : button.link(),
                 button.style()
         ));
     }

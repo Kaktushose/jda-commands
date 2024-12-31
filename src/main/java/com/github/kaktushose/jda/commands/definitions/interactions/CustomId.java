@@ -11,7 +11,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     public static String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
 
     public CustomId {
-        if (!(runtimeId.matches("[0-9a-fA-F-]{36}")) || !runtimeId.equals(INDEPENDENT_ID)) {
+        if (!runtimeId.matches("[0-9a-fA-F-]{36}") && !runtimeId.equals(INDEPENDENT_ID)) {
             throw new IllegalArgumentException("Invalid runtime id! Must either be a UUID or \"%s\"".formatted(INDEPENDENT_ID));
         }
     }
@@ -32,7 +32,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
             throw new IllegalArgumentException("Provided custom id is invalid!");
         }
         var split = customId.split("\\.");
-        return new CustomId(split[0], split[1]);
+        return new CustomId(split[1], split[2]);
     }
 
     public static CustomId independent(String definitionId) {

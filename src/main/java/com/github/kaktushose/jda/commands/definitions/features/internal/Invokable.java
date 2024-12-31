@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,13 @@ public sealed interface Invokable extends Definition permits Replyable, Interact
     Logger log = LoggerFactory.getLogger(Invokable.class);
 
     default Object invoke(@NotNull Object instance, @NotNull InvocationContext<?> invocation) throws InvocationTargetException, IllegalAccessException {
+        if (!EventHandler.INVOCATION_PERMITTED.get()) {
+            throw new IllegalStateException("The Definition must not be invoked at this point.");
+        }
         SequencedCollection<Object> arguments = invocation.arguments();
 
-        return methodDescription().invoke(instance, arguments);
+        EventHandler.INVOCATION_PERMITTED.set(false);
+        return methodDescription().invoker().invoke(instance, arguments);
     }
 
     @NotNull
