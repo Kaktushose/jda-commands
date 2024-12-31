@@ -1,15 +1,16 @@
 package com.github.kaktushose.jda.commands.definitions.features;
 
+import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import org.jetbrains.annotations.NotNull;
 
-public sealed interface Replyable extends Invokeable permits InteractionDefinition {
+public sealed interface Replyable extends Invokable permits InteractionDefinition {
 
     @NotNull
     default ReplyConfig replyConfig() {
-        var global = clazz().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
-        var local = method().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
+        var global = clazzDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
+        var local = methodDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
 
         if (global.isEmpty() && local.isEmpty()) {
             return new ReplyConfig();

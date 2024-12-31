@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

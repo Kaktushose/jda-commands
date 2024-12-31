@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl;
+package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
@@ -6,9 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -20,8 +17,8 @@ import java.util.*;
 
 
 public record ModalDefinition(
-        ClassDescription clazz,
-        MethodDescription method,
+        ClassDescription clazzDescription,
+        MethodDescription methodDescription,
         Collection<String> permissions,
         String title,
         SequencedCollection<TextInputDefinition> textInputs

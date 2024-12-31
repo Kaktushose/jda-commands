@@ -4,10 +4,10 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(@NotNull String modal) {
         if (event instanceof IModalCallback callback) {
-            var definitionId = String.valueOf((definition.clazz().name() + modal).hashCode());
+            var definitionId = String.valueOf((definition.clazzDescription().name() + modal).hashCode());
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );

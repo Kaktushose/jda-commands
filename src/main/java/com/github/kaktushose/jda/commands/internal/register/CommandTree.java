@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.ApiStatus;
 

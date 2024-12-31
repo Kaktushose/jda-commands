@@ -6,13 +6,11 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ModalDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.EntitySelectMenuDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.StringSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -23,7 +21,7 @@ import java.util.Optional;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition.CooldownDefinition;
+import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
 public final class InteractionRegistry {
 
@@ -131,7 +129,7 @@ public final class InteractionRegistry {
                 definition = SlashCommandDefinition.build(context);
             }
             if (method.annotation(ContextCommand.class).isPresent()) {
-                definition = CommandDefinition.build(context);
+                definition = ContextCommandDefinition.build(context);
             }
 
             // index components

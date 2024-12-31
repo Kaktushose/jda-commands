@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -150,8 +150,8 @@ public record TreeNode(
             commands.add(command.toJDAEntity());
         } catch (Exception e) {
             log.error(String.format("Cannot convert command %s.%s to  SlashCommandData!",
-                    command.clazz().name(),
-                    command.method().name()), e
+                    command.clazzDescription().name(),
+                    command.methodDescription().name()), e
             );
         }
     }

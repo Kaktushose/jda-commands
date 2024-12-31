@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
+package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
@@ -6,11 +6,11 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.interactions.commands.Command.Type;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -23,32 +23,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public final class SlashCommandDefinition extends CommandDefinition {
-
-    private final String description;
-    private final SequencedCollection<ParameterDefinition> commandParameters;
-    private final SlashCommandDefinition.CooldownDefinition cooldown;
-    private final boolean isAutoComplete;
-
-    public SlashCommandDefinition(@NotNull ClassDescription clazz,
-                                  @NotNull MethodDescription method,
-                                  @NotNull Collection<String> permissions,
-                                  @NotNull String name,
-                                  @NotNull SlashCommand.CommandScope scope,
-                                  boolean isGuildOnly,
-                                  boolean isNSFW,
-                                  @NotNull Set<Permission> enabledPermissions,
-                                  @NotNull LocalizationFunction localizationFunction,
-                                  @NotNull String description,
-                                  @NotNull SequencedCollection<ParameterDefinition> commandParameters,
-                                  @NotNull CooldownDefinition cooldown,
-                                  boolean isAutoComplete) {
-        super(clazz, method, permissions, name, Type.SLASH, scope, isGuildOnly, isNSFW, enabledPermissions, localizationFunction);
-        this.description = description;
-        this.commandParameters = commandParameters;
-        this.cooldown = cooldown;
-        this.isAutoComplete = isAutoComplete;
-    }
+public record SlashCommandDefinition(
+        ClassDescription clazzDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        String name,
+        SlashCommand.CommandScope scope,
+        boolean guildOnly,
+        boolean nsfw,
+        Set<Permission> enabledPermissions,
+        LocalizationFunction localizationFunction,
+        String description,
+        SequencedCollection<ParameterDefinition> commandParameters,
+        CooldownDefinition cooldown,
+        boolean isAutoComplete
+) implements CommandDefinition {
 
     public static Optional<Definition> build(MethodBuildContext context) {
         var method = context.method();
@@ -116,8 +105,8 @@ public final class SlashCommandDefinition extends CommandDefinition {
                 name,
                 description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(isGuildOnly)
-                .setNSFW(isNSFW)
+        command.setGuildOnly(guildOnly)
+                .setNSFW(nsfw)
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         commandParameters.forEach(parameter -> {
@@ -147,20 +136,9 @@ public final class SlashCommandDefinition extends CommandDefinition {
         return "/%s".formatted(name);
     }
 
-    public CooldownDefinition cooldown() {
-        return cooldown;
-    }
-
-    public boolean autoComplete() {
-        return isAutoComplete;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public SequencedCollection<ParameterDefinition> commandParameters() {
-        return commandParameters;
+    @Override
+    public @NotNull Command.Type commandType() {
+        return Command.Type.SLASH;
     }
 
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
@@ -178,20 +156,5 @@ public final class SlashCommandDefinition extends CommandDefinition {
         public String displayName() {
             return "Cooldown of %d %s".formatted(delay, timeUnit.name());
         }
-
-
-
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        SlashCommandDefinition that = (SlashCommandDefinition) o;
-        return isAutoComplete == that.isAutoComplete && Objects.equals(description, that.description) && Objects.equals(commandParameters, that.commandParameters) && Objects.equals(cooldown, that.cooldown);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), description, commandParameters, cooldown, isAutoComplete);
     }
 }

@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl.menu;
+package com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
@@ -15,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public record EntitySelectMenuDefinition(
-        @NotNull ClassDescription clazz,
-        @NotNull MethodDescription method,
+        @NotNull ClassDescription clazzDescription,
+        @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull Set<EntitySelectMenu.SelectTarget> selectTargets,
         @NotNull Set<EntitySelectMenu.DefaultValue> defaultValues,

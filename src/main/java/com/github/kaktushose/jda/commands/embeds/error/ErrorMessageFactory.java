@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.ParameterDefinition.ConstraintDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition.ConstraintDefinition;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;

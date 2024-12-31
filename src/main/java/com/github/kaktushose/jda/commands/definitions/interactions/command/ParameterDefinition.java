@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl.command;
+package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;

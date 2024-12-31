@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.internal;
+package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.annotations.Inject;

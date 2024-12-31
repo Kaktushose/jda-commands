@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl;
+package com.github.kaktushose.jda.commands.definitions.interactions.component;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 public record ButtonDefinition(
-        @NotNull ClassDescription clazz,
-        @NotNull MethodDescription method,
+        @NotNull ClassDescription clazzDescription,
+        @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String label,
         @Nullable Emoji emoji,

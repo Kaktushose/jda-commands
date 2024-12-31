@@ -1,9 +1,8 @@
-package com.github.kaktushose.jda.commands.definitions.interactions.impl;
+package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull MethodDescription method,
+public record AutoCompleteDefinition(@NotNull ClassDescription clazzDescription, @NotNull MethodDescription methodDescription,
                                      @NotNull Set<String> commands)
         implements InteractionDefinition {
 
@@ -29,7 +28,7 @@ public record AutoCompleteDefinition(@NotNull ClassDescription clazz, @NotNull M
 
     @Override
     public String displayName() {
-        return "%s.%s".formatted(method.declaringClass().getName(), method.name());
+        return "%s.%s".formatted(methodDescription.declaringClass().getName(), methodDescription.name());
     }
 
     @NotNull

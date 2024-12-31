@@ -6,7 +6,8 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCo
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
@@ -73,7 +74,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// in the freeing of occupied resources for gc.
     ///
     /// This is only needed if the expiration strategy
-    /// [com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy.Explicit] is used.
+    /// [ExpirationStrategy.Explicit] is used.
     public void closeRuntime() {
         runtime.close();
     }

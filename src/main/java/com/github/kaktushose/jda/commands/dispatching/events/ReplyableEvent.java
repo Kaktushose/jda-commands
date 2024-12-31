@@ -6,12 +6,12 @@ import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
@@ -86,7 +86,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the JDA [Button]
     @NotNull
     public Button getButton(@NotNull String button) {
-        var id = String.valueOf(("%s%s".formatted(definition.clazz().name(), button)).hashCode());
+        var id = String.valueOf(("%s%s".formatted(definition.clazzDescription().name(), button)).hashCode());
         var definition = registry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
@@ -100,7 +100,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the JDA [SelectMenu]
     @NotNull
     public SelectMenu getSelectMenu(@NotNull String menu) {
-        var id = String.valueOf(("%s%s".formatted(definition.clazz().name(), menu)).hashCode());
+        var id = String.valueOf(("%s%s".formatted(definition.clazzDescription().name(), menu)).hashCode());
         var definition = registry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }

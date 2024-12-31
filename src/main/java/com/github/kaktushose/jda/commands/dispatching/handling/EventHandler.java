@@ -5,8 +5,8 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.internal.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
@@ -89,8 +89,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         log.info("Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser().getEffectiveName());
         try {
             log.debug("Invoking method \"{}.{}\" with following arguments: {}",
-                    definition.clazz().name(),
-                    definition.method().name(),
+                    definition.clazzDescription().name(),
+                    definition.methodDescription().name(),
                     arguments
             );
             Object instance = runtime.instance(definition);

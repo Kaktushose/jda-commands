@@ -2,8 +2,8 @@ package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
@@ -58,7 +58,7 @@ public class SlashCommandUpdater {
     public void updateGlobalCommands() {
         log.debug("Updating global commands...");
 
-        Collection<CommandDefinition> globalCommands = interactionRegistry.find(CommandDefinition.class,
+        Collection<SlashCommandDefinition> globalCommands = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.scope() == SlashCommand.CommandScope.GLOBAL
         );
 
@@ -83,7 +83,7 @@ public class SlashCommandUpdater {
     }
 
     private Map<Long, Set<CommandData>> getGuildMapping() {
-        Collection<CommandDefinition> guildCommands = interactionRegistry.find(CommandDefinition.class,
+        Collection<SlashCommandDefinition> guildCommands = interactionRegistry.find(SlashCommandDefinition.class,
                 it -> it.scope() == SlashCommand.CommandScope.GUILD
         );
 

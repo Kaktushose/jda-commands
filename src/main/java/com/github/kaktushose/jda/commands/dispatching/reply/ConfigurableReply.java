@@ -4,10 +4,10 @@ import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.ComponentDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.impl.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
@@ -165,7 +165,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     public ComponentReply components(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component component : components) {
-            var definitionId = String.valueOf((definition.method().declaringClass().getName() + component.name()).hashCode());
+            var definitionId = String.valueOf((definition.methodDescription().declaringClass().getName() + component.name()).hashCode());
             var definition = registry.find(ComponentDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
