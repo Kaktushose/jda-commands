@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.features.Replyable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
@@ -44,8 +43,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// Constructs a new MessageReply.
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
-    /// @param definition  the corresponding [Definition]. This is mostly needed by the
-    ///                                                                            [ConfigurableReply]
+    /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
     /// @param replyConfig the [Replyable.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
@@ -61,8 +59,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// Constructs a new MessageReply.
     ///
     /// @param event      the corresponding [GenericInteractionCreateEvent]
-    /// @param definition the corresponding [InteractionDefinition]. This is mostly needed by the
-    ///                                                                         [ConfigurableReply]
+    /// @param definition the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
     public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
         this(event, definition, definition.replyConfig());
     }
