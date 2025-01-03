@@ -75,6 +75,10 @@ public record ModalDefinition(
         return Optional.of(new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs));
     }
 
+    /// Transforms this definition to an [Modal] with the given custom id.
+    ///
+    /// @return the [Modal]
+    /// @see CustomId#independent(String)
     @NotNull
     @Override
     public Modal toJDAEntity(@NotNull CustomId customId) {
@@ -90,6 +94,7 @@ public record ModalDefinition(
     public String displayName() {
         return title;
     }
+
 
     public record TextInputDefinition(
             @NotNull String label,

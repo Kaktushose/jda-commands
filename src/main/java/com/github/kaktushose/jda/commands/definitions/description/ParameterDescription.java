@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
-/// A [Description] that describes a method.
+/// A [Description] that describes a parameter.
 ///
 /// @param type the [Class] representing the type of this parameter
 /// @param name the name of the parameter

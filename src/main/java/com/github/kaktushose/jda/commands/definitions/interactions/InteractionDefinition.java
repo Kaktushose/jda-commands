@@ -12,6 +12,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,6 +44,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// @throws InvocationTargetException if the object creation fails
     /// @throws InstantiationException    if the object creation fails
     /// @throws IllegalAccessException    if the object creation fails
+    @ApiStatus.Internal
     default Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         return clazzDescription().clazz().getConstructors()[0].newInstance();
     }
