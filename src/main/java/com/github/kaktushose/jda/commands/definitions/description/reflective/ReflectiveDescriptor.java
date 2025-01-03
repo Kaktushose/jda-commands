@@ -1,9 +1,8 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
-import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
-import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.definitions.description.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -13,10 +12,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
 
+    /// Transforms the given [Class] into a [ClassDescription].
+    ///
+    /// @param clazz the [Class] to transform
+    /// @return the [ClassDescription] built from the given [Class]
+    @NotNull
     @Override
-    public ClassDescription apply(Class<?> clazz) {
+    public ClassDescription apply(@NotNull Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)
@@ -30,7 +35,8 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    private MethodDescription method(Method method) {
+    @Nullable
+    private MethodDescription method(@NotNull Method method) {
         if (!Modifier.isPublic(method.getModifiers())) return null;
         List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
                 .map(this::parameter)
@@ -47,7 +53,8 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    private ParameterDescription parameter(Parameter parameter) {
+    @NotNull
+    private ParameterDescription parameter(@NotNull Parameter parameter) {
         return new ParameterDescription(
                 parameter.getType(),
                 parameter.getName(),
@@ -55,7 +62,8 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    private <T> Collection<T> toList(T[] array) {
+    @NotNull
+    private <T> Collection<T> toList(@NotNull T[] array) {
         return Arrays.stream(array).toList();
     }
 }

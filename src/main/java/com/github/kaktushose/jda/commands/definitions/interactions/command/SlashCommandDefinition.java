@@ -5,8 +5,8 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
@@ -23,23 +23,42 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/// Representation of a slash command.
+///
+/// @param clazzDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription    the [MethodDescription] of the method this definition is bound to
+/// @param permissions          a [Collection] of permissions for this command
+/// @param name                 the name of the command
+/// @param scope                the [SlashCommand.CommandScope] of this command
+/// @param guildOnly            whether this command can only be executed in guilds
+/// @param nsfw                 whether this command is nsfw
+/// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
+/// @param localizationFunction the [LocalizationFunction] to use for this command
+/// @param description          the command description
+/// @param commandParameters    a [SequencedCollection] of [ParameterDefinition]s
+/// @param cooldown             the corresponding [CooldownDefinition]
+/// @param isAutoComplete       whether this command supports auto complete
 public record SlashCommandDefinition(
-        ClassDescription clazzDescription,
-        MethodDescription methodDescription,
-        Collection<String> permissions,
-        String name,
-        SlashCommand.CommandScope scope,
+        @NotNull ClassDescription clazzDescription,
+        @NotNull MethodDescription methodDescription,
+        @NotNull Collection<String> permissions,
+        @NotNull String name,
+        @NotNull SlashCommand.CommandScope scope,
         boolean guildOnly,
         boolean nsfw,
-        Set<Permission> enabledPermissions,
-        LocalizationFunction localizationFunction,
-        String description,
-        SequencedCollection<ParameterDefinition> commandParameters,
-        CooldownDefinition cooldown,
+        @NotNull Set<Permission> enabledPermissions,
+        @NotNull LocalizationFunction localizationFunction,
+        @NotNull String description,
+        @NotNull SequencedCollection<ParameterDefinition> commandParameters,
+        @NotNull CooldownDefinition cooldown,
         boolean isAutoComplete
 ) implements CommandDefinition {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Builds a new [SlashCommandDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [Optional] holding the [SlashCommandDefinition]
+    @NotNull
+    public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
         var command = method.annotation(SlashCommand.class).orElseThrow();
@@ -98,6 +117,9 @@ public record SlashCommandDefinition(
         ));
     }
 
+    /// Transforms this definition into [SlashCommandData].
+    ///
+    /// @return the [SlashCommandData]
     @NotNull
     @Override
     public SlashCommandData toJDAEntity() {
@@ -118,6 +140,9 @@ public record SlashCommandDefinition(
         return command;
     }
 
+    /// Transforms this definition into [SubcommandData].
+    ///
+    /// @return the [SubcommandData]
     public SubcommandData toSubCommandData(String label) {
         SubcommandData command = new SubcommandData(
                 label,
@@ -136,13 +161,19 @@ public record SlashCommandDefinition(
         return "/%s".formatted(name);
     }
 
+    @NotNull
     @Override
-    public @NotNull Command.Type commandType() {
+    public Command.Type commandType() {
         return Command.Type.SLASH;
     }
 
+    /// Representation of a cooldown definition defined by [Cooldown].
+    ///
+    /// @param delay    the delay of the cooldown
+    /// @param timeUnit the [TimeUnit] of the specified delay
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
 
+        /// Builds a new [CooldownDefinition] from the given [Cooldown] annotation.
         @NotNull
         public static CooldownDefinition build(@Nullable Cooldown cooldown) {
             if (cooldown == null) {

@@ -5,18 +5,23 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-
+/// Common interface for component interaction definitions.
+///
+/// @see ButtonDefinition
+/// @see EntitySelectMenuDefinition
+/// @see StringSelectMenuDefinition
 public sealed interface ComponentDefinition<T> extends InteractionDefinition, JDAEntity<T>, CustomIdJDAEntity<T>
         permits ButtonDefinition, SelectMenuDefinition {
 
+    /// The [ClassDescription] of the declaring class of the [#methodDescription()]
     @NotNull ClassDescription clazzDescription();
 
+    /// The [MethodDescription] of the method this definition is bound to
     @NotNull MethodDescription methodDescription();
-
-    @NotNull Collection<String> permissions();
 
 }

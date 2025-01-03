@@ -11,18 +11,30 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
+/// Common interface for command interaction definitions.
+///
+/// @see SlashCommandDefinition
+/// @see ContextCommandDefinition
 public sealed interface CommandDefinition extends InteractionDefinition, JDAEntity<CommandData> permits ContextCommandDefinition, SlashCommandDefinition {
+
+    /// The name of the command.
     @NotNull String name();
 
+    /// Whether this command can only be executed in guilds.
     boolean guildOnly();
 
+    /// Whether this command is nsfw.
     boolean nsfw();
 
+    /// The [Command.Type] of this command.
     @NotNull Command.Type commandType();
 
+    /// A possibly-empty [Set] of [Permission]s this command will be enabled for.
     @NotNull Set<Permission> enabledPermissions();
 
+    /// The [SlashCommand.CommandScope] of this command.
     @NotNull SlashCommand.CommandScope scope();
 
+    /// The [LocalizationFunction] to use for this command.
     @NotNull LocalizationFunction localizationFunction();
 }

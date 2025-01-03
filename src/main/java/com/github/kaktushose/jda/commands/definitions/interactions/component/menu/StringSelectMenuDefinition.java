@@ -17,6 +17,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/// Representation of a string select menu.
+///
+/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this menu
+/// @param selectOptions     the [SelectOptions][SelectOptionDefinition] of this menu
+/// @param placeholder       the placeholder text of this menu
+/// @param minValue          the minimum amount of choices
+/// @param maxValue          the maximum amount of choices
 public record StringSelectMenuDefinition(
         @NotNull ClassDescription clazzDescription,
         @NotNull MethodDescription methodDescription,
@@ -27,7 +36,10 @@ public record StringSelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [Optional] holding the [StringSelectMenuDefinition]
+    public static Optional<StringSelectMenuDefinition> build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu selectMenu =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu.class).orElseThrow();
@@ -55,12 +67,20 @@ public record StringSelectMenuDefinition(
         ));
     }
 
+    /// Transforms this definition to an [StringSelectMenu] with an independent custom id.
+    ///
+    /// @return the [StringSelectMenu]
+    /// @see CustomId#independent(String)
     @NotNull
     @Override
     public StringSelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
     }
 
+    /// Transforms this definition to an [StringSelectMenu] with the given [CustomId].
+    ///
+    /// @param customId the [CustomId] to use
+    /// @return the [StringSelectMenu]
     @NotNull
     @Override
     public StringSelectMenu toJDAEntity(@NotNull CustomId customId) {
@@ -82,6 +102,14 @@ public record StringSelectMenuDefinition(
         return "Select Menu: %s".formatted(placeholder);
     }
 
+    /// Representation of a select option for a string select menu defined by a
+    /// [`SelectOption`][com.github.kaktushose.jda.commands.annotations.interactions.SelectOption].
+    ///
+    /// @param value       the value of the select option
+    /// @param label       the label of the select option
+    /// @param description the description of the select option
+    /// @param emoji       the [Emoji] of the select option or `null`
+    /// @param isDefault   whether the select option is a default value
     public record SelectOptionDefinition(@NotNull String value,
                                          @NotNull String label,
                                          @Nullable String description,
@@ -89,6 +117,8 @@ public record StringSelectMenuDefinition(
                                          boolean isDefault
     ) implements JDAEntity<SelectOption>, Definition {
 
+        /// Constructs a new [SelectOptionDefinition] from the given
+        /// [`SelectOption`][com.github.kaktushose.jda.commands.annotations.interactions.SelectOption].
         public static SelectOptionDefinition build(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption option) {
             Emoji emoji;
             String emojiString = option.emoji();
@@ -106,8 +136,10 @@ public record StringSelectMenuDefinition(
             return value;
         }
 
+        /// Transforms this definition into a [SelectOption].
+        @NotNull
         @Override
-        public @NotNull SelectOption toJDAEntity() {
+        public SelectOption toJDAEntity() {
             return SelectOption.of(label, value)
                     .withDescription(description)
                     .withEmoji(emoji);

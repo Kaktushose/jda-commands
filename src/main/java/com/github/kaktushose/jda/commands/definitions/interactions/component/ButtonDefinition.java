@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.component;
 
-import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -17,6 +17,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/// Representation of a button.
+///
+/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this button
+/// @param label             the label of this button
+/// @param emoji             the [Emoji] of this button or `null`
+/// @param link              the link of this button or `null`
+/// @param style             the [ButtonStyle] of this button
 public record ButtonDefinition(
         @NotNull ClassDescription clazzDescription,
         @NotNull MethodDescription methodDescription,
@@ -27,7 +36,10 @@ public record ButtonDefinition(
         @NotNull ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [ButtonDefinition] holding the [StringSelectMenuDefinition]
+    public static Optional<ButtonDefinition> build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.Button button =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Button.class).orElseThrow();
@@ -55,12 +67,20 @@ public record ButtonDefinition(
         ));
     }
 
+    /// Transforms this definition to an [Button] with an independent custom id.
+    ///
+    /// @return the [Button]
+    /// @see CustomId#independent(String)
     @NotNull
     @Override
     public Button toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
     }
 
+    /// Transforms this definition to an [Button] with the given [CustomId].
+    ///
+    /// @param customId the [CustomId] to use
+    /// @return the [Button]
     @NotNull
     @Override
     public Button toJDAEntity(@NotNull CustomId customId) {

@@ -4,8 +4,9 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
-import com.github.kaktushose.jda.commands.definitions.features.Replyable;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -79,26 +80,25 @@ public final class Helpers {
         return context.permissions();
     }
 
-    /// Constructs the [Replyable.ReplyConfig ReplyConfig] based on the
+    /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the
     /// passed [Method].
     ///
-    /// This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If neither is
-    /// present will fall back to the
-    /// [com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig GlobalReplyConfig].
+    /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class.
+    /// If neither is present will fall back to the [GlobalReplyConfig].
     ///
     /// @param method the [Method] to use
-    /// @return the [Replyable.ReplyConfig ReplyConfig]
+    /// @return the [InteractionDefinition.ReplyConfig ReplyConfig]
     @NotNull
-    public static Replyable.ReplyConfig replyConfig(@NotNull Method method) {
+    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Method method) {
         var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
         var local = method.getAnnotation(ReplyConfig.class);
 
         if (global == null && local == null)
-            return new Replyable.ReplyConfig();
+            return new InteractionDefinition.ReplyConfig();
         if (local == null)
-            return new Replyable.ReplyConfig(global);
+            return new InteractionDefinition.ReplyConfig(global);
 
-        return new Replyable.ReplyConfig(local);
+        return new InteractionDefinition.ReplyConfig(local);
     }
 
     /// Checks if the given parameter is present at the [Method] at the given index.

@@ -17,6 +17,16 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.annotations.constraints;
     exports com.github.kaktushose.jda.commands.annotations.interactions;
 
+    // definitions
+    exports com.github.kaktushose.jda.commands.definitions;
+    exports com.github.kaktushose.jda.commands.definitions.interactions;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.command;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.component;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
+    exports com.github.kaktushose.jda.commands.definitions.description;
+    exports com.github.kaktushose.jda.commands.definitions.description.reflective;
+    exports com.github.kaktushose.jda.commands.definitions.features;
+
     // dependency injection
     exports com.github.kaktushose.jda.commands.dependency;
 

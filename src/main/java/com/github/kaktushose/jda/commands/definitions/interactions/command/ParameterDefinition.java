@@ -21,7 +21,9 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -30,18 +32,29 @@ import java.util.*;
 
 import static java.util.Map.entry;
 
+/// Representation of a slash command parameter.
+///
+/// @param type         the [Class] type of the parameter
+/// @param optional     whether this parameter is optional
+/// @param autoComplete whether this parameter supports autocomplete
+/// @param defaultValue the default value of this parameter or `null`
+/// @param name         the name of the parameter
+/// @param description  the description of the parameter
+/// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
+/// @param constraints  a [Collection] of [ConstraintDefinition]s of this parameter
 public record ParameterDefinition(
-        Class<?> type,
+        @NotNull Class<?> type,
         boolean optional,
         boolean autoComplete,
-        String defaultValue,
-        boolean primitive,
-        String name,
-        String description,
-        SequencedCollection<Command.Choice> choices,
-        Collection<ConstraintDefinition> constraints
+        @Nullable String defaultValue,
+        @NotNull String name,
+        @NotNull String description,
+        @NotNull SequencedCollection<Command.Choice> choices,
+        @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
+    /// A mapping of primitive types and their wrapper classes.
+    @ApiStatus.Internal
     public static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
             entry(byte.class, Byte.class),
             entry(short.class, Short.class),
@@ -90,6 +103,13 @@ public record ParameterDefinition(
             ))
     );
 
+    /// Builds a new [ParameterDefinition].
+    ///
+    /// @param parameter         the [ParameterDescription] to build the [ParameterDefinition from]
+    /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
+    /// @param validatorRegistry the corresponding [ValidatorRegistry]
+    /// @return the [ParameterDefinition]
+    @NotNull
     public static ParameterDefinition build(ParameterDescription parameter,
                                             boolean autoComplete,
                                             @NotNull ValidatorRegistry validatorRegistry) {
@@ -144,7 +164,6 @@ public record ParameterDefinition(
                 optional.isPresent(),
                 autoComplete,
                 defaultValue,
-                TYPE_MAPPINGS.containsKey(parameter.type()),
                 name,
                 description,
                 commandChoices,
@@ -152,13 +171,18 @@ public record ParameterDefinition(
         );
     }
 
+    @NotNull
     @Override
-    public @NotNull String displayName() {
+    public String displayName() {
         return name;
     }
 
+    /// Transforms this definition into [OptionData].
+    ///
+    /// @return the [OptionData]
+    @NotNull
     @Override
-    public @NotNull OptionData toJDAEntity() {
+    public OptionData toJDAEntity() {
         OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
 
         OptionData optionData = new OptionData(
@@ -186,10 +210,17 @@ public record ParameterDefinition(
         return optionData;
     }
 
-    public record ConstraintDefinition(Validator validator, String message,
-                                       Object annotation) implements Definition {
+    /// Representation of a parameter constraint defined by a constraint annotation.
+    ///
+    /// @param validator  the corresponding [Validator]
+    /// @param message    the message to display if the constraint fails
+    /// @param annotation the corresponding annotation object
+    public record ConstraintDefinition(Validator validator, String message, Object annotation) implements Definition {
 
-
+        /// Builds a new  [ConstraintDefinition].
+        ///
+        /// @param validator  the corresponding [Validator]
+        /// @param annotation the corresponding annotation object
         public static ConstraintDefinition build(@NotNull Validator validator, @NotNull Annotation annotation) {
             // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
             var message = "";
@@ -204,8 +235,9 @@ public record ParameterDefinition(
             return new ConstraintDefinition(validator, message, annotation);
         }
 
+        @NotNull
         @Override
-        public @NotNull String displayName() {
+        public String displayName() {
             return validator.getClass().getName();
         }
     }

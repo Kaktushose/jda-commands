@@ -1,9 +1,17 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
+import com.github.kaktushose.jda.commands.definitions.Definition;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
+/// Representation of a custom id used in modals, buttons or select menus.
+///
+/// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is bound to
+///                                         or the literal `independent`.
+/// @param definitionId the [Definition#definitionId()]
+/// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
 public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) {
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
@@ -16,16 +24,28 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         }
     }
 
+    /// Constructs a new [CustomId] from the given [GenericInteractionCreateEvent].
+    ///
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the [CustomId]
     @NotNull
     public static CustomId fromEvent(@NotNull GenericComponentInteractionCreateEvent event) {
         return fromEvent(event.getComponentId());
     }
 
+    /// Constructs a new [CustomId] from the given [ModalInteractionEvent].
+    ///
+    /// @param event the [ModalInteractionEvent]
+    /// @return the [CustomId]
     @NotNull
     public static CustomId fromEvent(@NotNull ModalInteractionEvent event) {
         return fromEvent(event.getModalId());
     }
 
+    /// Constructs a new [CustomId] from the given String.
+    ///
+    /// @param customId the custom id String
+    /// @return the [CustomId]
     @NotNull
     private static CustomId fromEvent(@NotNull String customId) {
         if (isInvalid(customId)) {
@@ -46,6 +66,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         return !(customId.matches(BOUND_CUSTOM_ID_REGEX) || customId.matches(INDEPENDENT_CUSTOM_ID_REGEX));
     }
 
+    /// The String representation of this custom id.
     @NotNull
     public String id() {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
@@ -76,5 +97,4 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     public boolean isBound() {
         return !isIndependent();
     }
-
 }

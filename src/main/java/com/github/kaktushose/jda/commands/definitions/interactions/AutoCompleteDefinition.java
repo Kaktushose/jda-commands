@@ -6,26 +6,37 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public record AutoCompleteDefinition(@NotNull ClassDescription clazzDescription, @NotNull MethodDescription methodDescription,
+/// Representation of an auto complete handler.
+///
+/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param commands          the commands this autocomplete handler can handle
+public record AutoCompleteDefinition(@NotNull ClassDescription clazzDescription,
+                                     @NotNull MethodDescription methodDescription,
                                      @NotNull Set<String> commands)
         implements InteractionDefinition {
 
-    @Nullable
-    public static AutoCompleteDefinition build(@NotNull ClassDescription clazz, @NotNull MethodDescription method) {
+    /// Builds a new [AutoCompleteDefinition] from the given class and method description.
+    ///
+    /// @param clazz  the corresponding [ClassDescription]
+    /// @param method the corresponding [MethodDescription]
+    /// @return an [Optional] holding the [AutoCompleteDefinition]
+    @NotNull
+    public static Optional<AutoCompleteDefinition> build(@NotNull ClassDescription clazz, @NotNull MethodDescription method) {
         if (Helpers.checkSignature(method, List.of(AutoCompleteEvent.class))) {
-            return null;
+            return Optional.empty();
         }
         return method.annotation(AutoComplete.class).map(complete ->
                 new AutoCompleteDefinition(clazz, method, Arrays.stream(complete.value()).collect(Collectors.toSet()))
-        ).orElse(null);
+        );
 
     }
 
+    @NotNull
     @Override
     public String displayName() {
         return "%s.%s".formatted(methodDescription.declaringClass().getName(), methodDescription.name());

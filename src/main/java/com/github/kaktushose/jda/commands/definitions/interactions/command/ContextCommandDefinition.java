@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
-import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
@@ -22,20 +22,36 @@ import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope;
 
+/// Representation of a context command.
+///
+/// @param clazzDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription    the [MethodDescription] of the method this definition is bound to
+/// @param permissions          a [Collection] of permissions for this command
+/// @param name                 the name of the command
+/// @param commandType          the [Command.Type] of this command
+/// @param scope                the [SlashCommand.CommandScope] of this command
+/// @param guildOnly            whether this command can only be executed in guilds
+/// @param nsfw                 whether this command is nsfw
+/// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
+/// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
-        ClassDescription clazzDescription,
-        MethodDescription methodDescription,
-        Collection<String> permissions,
-        String name,
-        Command.Type commandType,
-        CommandScope scope,
+        @NotNull ClassDescription clazzDescription,
+        @NotNull MethodDescription methodDescription,
+        @NotNull Collection<String> permissions,
+        @NotNull String name,
+        @NotNull Command.Type commandType,
+        @NotNull CommandScope scope,
         boolean guildOnly,
         boolean nsfw,
-        Set<Permission> enabledPermissions,
-        LocalizationFunction localizationFunction
+        @NotNull Set<Permission> enabledPermissions,
+        @NotNull LocalizationFunction localizationFunction
 ) implements CommandDefinition {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Builds a new [ContextCommandDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [Optional] holding the [ContextCommandDefinition]
+    @NotNull
+    public static Optional<ContextCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         ContextCommand command = method.annotation(ContextCommand.class).orElseThrow();
 
@@ -71,6 +87,9 @@ public record ContextCommandDefinition(
         ));
     }
 
+    /// Transforms this definition into [CommandData].
+    ///
+    /// @return the [CommandData]
     @NotNull
     @Override
     public CommandData toJDAEntity() {
@@ -82,6 +101,7 @@ public record ContextCommandDefinition(
         return command;
     }
 
+    @NotNull
     @Override
     public String displayName() {
         return name;

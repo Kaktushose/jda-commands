@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
 
-import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
@@ -14,6 +13,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/// Representation of an entity select menu.
+///
+/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this menu
+/// @param selectTargets     the [EntitySelectMenu.SelectTarget]s of this menu
+/// @param defaultValues     the [EntitySelectMenu.DefaultValue]s of this menu
+/// @param channelTypes      the [ChannelType]s that should be supported by this menu.
+/// @param placeholder       the placeholder text of this menu
+/// @param minValue          the minimum amount of choices
+/// @param maxValue          the maximum amount of choices
 public record EntitySelectMenuDefinition(
         @NotNull ClassDescription clazzDescription,
         @NotNull MethodDescription methodDescription,
@@ -26,7 +36,10 @@ public record EntitySelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [Optional] holding the [EntitySelectMenuDefinition]
+    public static Optional<EntitySelectMenuDefinition> build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu selectMenu =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu.class).orElseThrow();
@@ -62,12 +75,20 @@ public record EntitySelectMenuDefinition(
         ));
     }
 
+    /// Transforms this definition to an [EntitySelectMenu] with an independent custom id.
+    ///
+    /// @see CustomId#independent(String)
+    /// @return the [EntitySelectMenu]
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
     }
 
+    /// Transforms this definition to an [EntitySelectMenu] with the given [CustomId].
+    ///
+    /// @param customId the [CustomId] to use
+    /// @return the [EntitySelectMenu]
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
@@ -85,9 +106,9 @@ public record EntitySelectMenuDefinition(
         return menu.build();
     }
 
-
+    @NotNull
     @Override
-    public @NotNull String displayName() {
+    public String displayName() {
         return "Select Menu: %s".formatted(placeholder);
     }
 

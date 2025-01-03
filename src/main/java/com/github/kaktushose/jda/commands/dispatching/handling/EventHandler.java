@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
@@ -31,7 +32,7 @@ import java.util.function.BiConsumer;
 /// are executed ordered by their [Priority].
 ///
 /// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime)]):
-/// In this step the user implemented method is called with help of the right [GenericInteractionDefinition]
+/// In this step the user implemented method is called with help of the right [InteractionDefinition]
 @ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
         implements BiConsumer<T, Runtime>

@@ -23,34 +23,31 @@ import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
-public final class InteractionRegistry {
+public record InteractionRegistry(DependencyInjector dependencyInjector,
+                                  ValidatorRegistry validatorRegistry,
+                                  LocalizationFunction localizationFunction,
+                                  Descriptor descriptor,
+                                  Set<Definition> definitions
+) {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
-    private final DependencyInjector dependencyInjector;
-    private final ValidatorRegistry validatorRegistry;
-    private final LocalizationFunction localizationFunction;
-    private final Descriptor descriptor;
-    private final Set<Definition> definitions = new HashSet<>();
 
-    public InteractionRegistry(DependencyInjector dependencyInjector, ValidatorRegistry validatorRegistry, LocalizationFunction localizationFunction, Descriptor descriptor) {
-        this.dependencyInjector = dependencyInjector;
-        this.validatorRegistry = validatorRegistry;
-        this.localizationFunction = localizationFunction;
-        this.descriptor = descriptor;
+    public InteractionRegistry(DependencyInjector injector, ValidatorRegistry registry, LocalizationFunction function, Descriptor descriptor) {
+        this(injector, registry, function, descriptor, new HashSet<>());
     }
 
     public void index(Iterable<Class<?>> classes) {
         int oldSize = definitions.size();
 
-        int c = 0;
+        int count = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found interaction controller {}", clazz.getName());
             definitions.addAll(indexInteractionClass(descriptor.apply(clazz)));
-            c++;
+            count++;
         }
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
-                c,
+                count,
                 definitions.size() - oldSize);
     }
 
@@ -97,7 +94,7 @@ public final class InteractionRegistry {
     private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
         return clazz.methods().stream()
                 .filter(it -> it.annotation(AutoComplete.class).isPresent())
-                .map(method -> Optional.ofNullable(AutoCompleteDefinition.build(clazz, method)))
+                .map(method -> AutoCompleteDefinition.build(clazz, method))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
@@ -123,7 +120,7 @@ public final class InteractionRegistry {
                     autocompletes
             );
 
-            Optional<Definition> definition = Optional.empty();
+            Optional<? extends Definition> definition = Optional.empty();
             // index commands
             if (method.annotation(SlashCommand.class).isPresent()) {
                 definition = SlashCommandDefinition.build(context);

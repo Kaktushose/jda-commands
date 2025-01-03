@@ -15,16 +15,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-
+/// Representation of a modal.
+///
+/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this command
+/// @param title             the title of the modal
+/// @param textInputs        the [`TextInputs`][TextInputDefinition] of this modal
 public record ModalDefinition(
-        ClassDescription clazzDescription,
-        MethodDescription methodDescription,
-        Collection<String> permissions,
-        String title,
-        SequencedCollection<TextInputDefinition> textInputs
+        @NotNull ClassDescription clazzDescription,
+        @NotNull MethodDescription methodDescription,
+        @NotNull Collection<String> permissions,
+        @NotNull String title,
+        @NotNull SequencedCollection<TextInputDefinition> textInputs
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
-    public static Optional<Definition> build(MethodBuildContext context) {
+    /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
+    ///
+    /// @return an [Optional] holding the [ModalDefinition]
+    public static Optional<ModalDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var modal = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Modal.class).orElseThrow();
 
@@ -83,12 +92,12 @@ public record ModalDefinition(
     }
 
     public record TextInputDefinition(
-            String label,
-            String placeholder,
-            String defaultValue,
+            @NotNull String label,
+            @NotNull String placeholder,
+            @NotNull String defaultValue,
             int minValue,
             int maxValue,
-            TextInputStyle style,
+            @NotNull TextInputStyle style,
             boolean required
     ) implements JDAEntity<TextInput>, Definition {
 

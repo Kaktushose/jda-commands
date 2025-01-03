@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import net.dv8tion.jda.api.Permission;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,13 +13,21 @@ import java.lang.annotation.Target;
 /// interaction methods (commands, components or modals) annotated with Permission will
 /// require the user to have the given permissions in order to execute the command.
 ///
-/// The default implementation of this framework can only handle discord permissions.
-/// However, the [PermissionsProvider] interface allows custom implementations.
+/// @apiNote This annotation should not be confused with [SlashCommand#enabledFor()] or [ContextCommand#enabledFor()].
+/// The `enabledFor` permissions will be client-side checked by Discord directly, while the [Permissions] annotation
+/// will be used for the own permission system of jda-commands.
 ///
-/// If a class is annotated with Permission all methods or respectively all interactions will require the given
-/// permission level.
+/// @implNote The [PermissionsMiddleware] will validate the permissions during the middleware phase of the execution
+/// chain. The [PermissionsProvider] will be called to check the respective user. The default implementation of the
+/// [PermissionsProvider] can only handle Discord permissions([Permission]).
 ///
-/// @see PermissionsProvider PermissionsProvider
+/// ## Example:
+/// ```
+/// @Permissions("BAN_MEMBERS")
+/// public class BanCommand { ... }
+/// ```
+///
+/// @see PermissionsProvider
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Permissions {
