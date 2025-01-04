@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegist
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Set;
@@ -19,7 +20,7 @@ public record MethodBuildContext(
         @NotNull LocalizationFunction localizationFunction,
         Interaction interaction,
         @NotNull Set<String> permissions,
-        @NotNull CooldownDefinition cooldownDefinition,
+        @Nullable CooldownDefinition cooldownDefinition,
         @NotNull ClassDescription clazz,
         @NotNull MethodDescription method,
         @NotNull Collection<AutoCompleteDefinition> autoCompleteDefinitions
