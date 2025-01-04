@@ -16,7 +16,6 @@ import java.lang.annotation.Target;
 /// @apiNote This annotation should not be confused with [SlashCommand#enabledFor()] or [ContextCommand#enabledFor()].
 /// The `enabledFor` permissions will be client-side checked by Discord directly, while the [Permissions] annotation
 /// will be used for the own permission system of jda-commands.
-///
 /// @implNote The [PermissionsMiddleware] will validate the permissions during the middleware phase of the execution
 /// chain. The [PermissionsProvider] will be called to check the respective user. The default implementation of the
 /// [PermissionsProvider] can only handle Discord permissions([Permission]).

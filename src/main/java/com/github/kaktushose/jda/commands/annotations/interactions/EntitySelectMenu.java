@@ -69,7 +69,7 @@ public @interface EntitySelectMenu {
 
     /// The minimum amount of values a user has to select.
     ///
-    ///Default: `1`
+    /// Default: `1`
     ///
     /// The minimum must not exceed the amount of available options.
     ///
@@ -78,7 +78,7 @@ public @interface EntitySelectMenu {
 
     /// The maximum amount of values a user can select.
     ///
-    ///Default: `1`
+    /// Default: `1`
     ///
     /// The maximum must not exceed the amount of available options.
     ///

@@ -2,9 +2,9 @@ package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -33,7 +33,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
-    ///             [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
+    ///                         [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
     /// @return [T]
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {

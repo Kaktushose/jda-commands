@@ -77,8 +77,8 @@ public record EntitySelectMenuDefinition(
 
     /// Transforms this definition to an [EntitySelectMenu] with an independent custom id.
     ///
-    /// @see CustomId#independent(String)
     /// @return the [EntitySelectMenu]
+    /// @see CustomId#independent(String)
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity() {

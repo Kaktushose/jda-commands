@@ -1,6 +1,9 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
-import com.github.kaktushose.jda.commands.definitions.description.*;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

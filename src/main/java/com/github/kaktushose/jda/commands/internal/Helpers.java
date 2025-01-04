@@ -83,11 +83,10 @@ public final class Helpers {
     /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the
     /// passed [Method].
     ///
-    /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class.
-    /// If neither is present will fall back to the [GlobalReplyConfig].
-    ///
     /// @param method the [Method] to use
     /// @return the [InteractionDefinition.ReplyConfig ReplyConfig]
+    /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class.
+    /// If neither is present will fall back to the [GlobalReplyConfig].
     @NotNull
     public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Method method) {
         var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);

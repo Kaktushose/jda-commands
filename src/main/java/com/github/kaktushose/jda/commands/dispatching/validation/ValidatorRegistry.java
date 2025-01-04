@@ -30,7 +30,6 @@ public class ValidatorRegistry {
     ///   - [NotPermissionValidator]
     ///   - [UserValidator]
     ///   - [NotUserValidator]
-    ///
     public ValidatorRegistry() {
         validators = new HashMap<>();
         // default types

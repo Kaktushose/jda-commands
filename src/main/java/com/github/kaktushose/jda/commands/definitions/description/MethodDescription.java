@@ -9,11 +9,11 @@ import java.util.SequencedCollection;
 /// A [Description] that describes a method.
 ///
 /// @param declaringClass the declaring [Class] of this method
-/// @param returnType the [Class] this method returns
-/// @param name the name of the method
-/// @param parameters a [SequencedCollection] of the [ParameterDescription]s of this method
-/// @param annotations a [Collection] of all [Annotation]s this method is annotated with
-/// @param invoker the corresponding [Invoker], used to invoke this method
+/// @param returnType     the [Class] this method returns
+/// @param name           the name of the method
+/// @param parameters     a [SequencedCollection] of the [ParameterDescription]s of this method
+/// @param annotations    a [Collection] of all [Annotation]s this method is annotated with
+/// @param invoker        the corresponding [Invoker], used to invoke this method
 public record MethodDescription(
         @NotNull Class<?> declaringClass,
         @NotNull Class<?> returnType,

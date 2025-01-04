@@ -45,7 +45,6 @@ public class TypeAdapterRegistry {
     ///   - [User]
     ///   - [MessageChannel] and subtypes
     ///   - [Role]
-    ///
     public TypeAdapterRegistry() {
         parameterAdapters = new HashMap<>();
 

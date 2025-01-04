@@ -16,7 +16,7 @@ public @interface TextInput {
 
     /// The placeholder of this TextInput
     ///
-    ///This is the short hint that describes the expected value of the TextInput field.
+    /// This is the short hint that describes the expected value of the TextInput field.
     ///
     /// @return Placeholder
     String value();
@@ -28,7 +28,7 @@ public @interface TextInput {
 
     /// The default value of this TextInput.
     ///
-    ///This sets a pre-populated text for this TextInput field
+    /// This sets a pre-populated text for this TextInput field
     ///
     /// @return default value
     String defaultValue() default "";
@@ -50,7 +50,7 @@ public @interface TextInput {
 
     /// Whether this TextInput is required.
     ///
-    ///If this is True, the user must populate this TextInput field before they can submit the Modal.
+    /// If this is True, the user must populate this TextInput field before they can submit the Modal.
     ///
     /// @return True if this TextInput is required
     /// @see net.dv8tion.jda.api.interactions.components.text.TextInput#isRequired()

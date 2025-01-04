@@ -5,8 +5,8 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import org.jetbrains.annotations.ApiStatus;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,12 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
 
     /// Invokes the method that this [Definition] is bound to.
     ///
-    /// @param instance an instance of the declaring class of the method
+    /// @param instance   an instance of the declaring class of the method
     /// @param invocation the corresponding [InvocationContext]
     /// @return the result of the method invocation
-    /// @throws IllegalStateException if the definition must not be invoked at the moment this method gets called
-    /// @throws IllegalAccessException if this Method object is enforcing Java language access control and the
-    /// underlying method is inaccessible.
+    /// @throws IllegalStateException     if the definition must not be invoked at the moment this method gets called
+    /// @throws IllegalAccessException    if this Method object is enforcing Java language access control and the
+    ///                                   underlying method is inaccessible.
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor.
     @NotNull
     default Object invoke(@NotNull Object instance, @NotNull InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
