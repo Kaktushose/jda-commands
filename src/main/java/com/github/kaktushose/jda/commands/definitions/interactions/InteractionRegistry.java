@@ -34,9 +34,10 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
 
     /// Constructs a new [InteractionRegistry]
-    /// @param injector the [DependencyInjector] to use
-    /// @param registry the corresponding [ValidatorRegistry]
-    /// @param function the [LocalizationFunction] to use
+    ///
+    /// @param injector   the [DependencyInjector] to use
+    /// @param registry   the corresponding [ValidatorRegistry]
+    /// @param function   the [LocalizationFunction] to use
     /// @param descriptor the [Descriptor] to use
     public InteractionRegistry(DependencyInjector injector, ValidatorRegistry registry, LocalizationFunction function, Descriptor descriptor) {
         this(injector, registry, function, descriptor, new HashSet<>());
@@ -159,6 +160,17 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
         return definitions;
     }
 
+    /// Attempts to find a [Definition] of type [T] based on the given [Predicate].
+    ///
+    /// @param type          the type of the [Definition] to find
+    /// @param internalError `true` if the [Definition] must be found and not finding it
+    ///                      indicates a framework bug
+    /// @param predicate     the [Predicate] used to find the [Definition]
+    /// @param <T>           a subtype of [Definition]
+    /// @return [T]
+    /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
+    ///                                  This is a rare occasion and can be considered a framework bug
+    /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     public <T extends Definition> T find(Class<T> type, boolean internalError, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
@@ -171,6 +183,16 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
                 );
     }
 
+    /// Attempts to find all [Definition]s of type [T] based on the given [Predicate].
+    ///
+    /// @param type          the type of the [Definition] to find
+    ///                      indicates a framework bug
+    /// @param predicate     the [Predicate] used to find the [Definition]s
+    /// @param <T>           a subtype of [Definition]
+    /// @return a possibly-empty [Collection] of all [Definition]s that match the given [Predicate]
+    /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
+    ///                                  This is a rare occasion and can be considered a framework bug
+    /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)

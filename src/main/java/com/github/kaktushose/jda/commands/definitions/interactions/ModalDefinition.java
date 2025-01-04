@@ -141,7 +141,9 @@ public record ModalDefinition(
             return label;
         }
 
-        /// Transforms this definition into a [TextInput]
+        /// Transforms this definition into a [TextInput].
+        ///
+        /// @return the [TextInput]
         @NotNull
         @Override
         public TextInput toJDAEntity() {
