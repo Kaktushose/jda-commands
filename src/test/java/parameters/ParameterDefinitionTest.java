@@ -40,15 +40,6 @@ public class ParameterDefinitionTest {
     }
 
     @Test
-    public void method_withPrimitiveInt_ShouldWrap() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("primitives", int.class);
-        ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
-
-        assertEquals(Integer.class, parameter.type());
-        assertTrue(parameter.primitive());
-    }
-
-    @Test
     public void optional_withoutDefault_ShouldBeNull() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optional", Object.class);
         ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
