@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
+/// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(DependencyInjector dependencyInjector,
                                   ValidatorRegistry validatorRegistry,
                                   LocalizationFunction localizationFunction,
@@ -32,10 +33,18 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
 
+    /// Constructs a new [InteractionRegistry]
+    /// @param injector the [DependencyInjector] to use
+    /// @param registry the corresponding [ValidatorRegistry]
+    /// @param function the [LocalizationFunction] to use
+    /// @param descriptor the [Descriptor] to use
     public InteractionRegistry(DependencyInjector injector, ValidatorRegistry registry, LocalizationFunction function, Descriptor descriptor) {
         this(injector, registry, function, descriptor, new HashSet<>());
     }
 
+    /// Scans all given classes and registers the interactions defined in them.
+    ///
+    /// @param classes the [Class]es to build the interactions from
     public void index(Iterable<Class<?>> classes) {
         int oldSize = definitions.size();
 

@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -95,7 +96,8 @@ public record ModalDefinition(
         return title;
     }
 
-
+    /// Representation of a modal text input defined by
+    /// [`TextInput`][com.github.kaktushose.jda.commands.annotations.interactions.TextInput]
     public record TextInputDefinition(
             @NotNull String label,
             @NotNull String placeholder,
@@ -106,6 +108,10 @@ public record ModalDefinition(
             boolean required
     ) implements JDAEntity<TextInput>, Definition {
 
+        /// Builds a new [TextInputDefinition] from the given [ParameterDefinition]
+        ///
+        /// @param parameter the [ParameterDefinition] to build the [TextInputDefinition] from
+        /// @return the new [TextInputDefinition]
         public static Optional<TextInputDefinition> build(ParameterDescription parameter) {
             var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.TextInput.class);
 
@@ -135,8 +141,10 @@ public record ModalDefinition(
             return label;
         }
 
+        /// Transforms this definition into a [TextInput]
+        @NotNull
         @Override
-        public @NotNull TextInput toJDAEntity() {
+        public TextInput toJDAEntity() {
             var textInput = TextInput.create(label, label, style).setRequired(required);
 
             if (minValue != -1) {
