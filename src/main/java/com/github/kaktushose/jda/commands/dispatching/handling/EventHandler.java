@@ -12,6 +12,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -105,6 +106,9 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            if (invocation.event() instanceof IReplyCallback callback) {
+                callback.getHook().editOriginalComponents().queue();
+            }
             invocation.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
         }
     }
