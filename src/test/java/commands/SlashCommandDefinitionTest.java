@@ -117,7 +117,7 @@ public class SlashCommandDefinitionTest {
         assertNotNull(definition);
 
 
-        assertTrue(definition.commandParameters().isEmpty());
+        assertTrue(definition.commandOptions().isEmpty());
     }
 
     @Test
@@ -129,8 +129,8 @@ public class SlashCommandDefinitionTest {
         assertNotNull(definition);
 
 
-        assertEquals(1, definition.commandParameters().size());
-        assertEquals(UnsupportedType.class, definition.commandParameters().getFirst().type());
+        assertEquals(1, definition.commandOptions().size());
+        assertEquals(UnsupportedType.class, definition.commandOptions().getFirst().type());
     }
 
     @Test
@@ -142,8 +142,8 @@ public class SlashCommandDefinitionTest {
         assertNotNull(definition);
 
 
-        assertEquals(2, definition.commandParameters().size());
-        var parameters = List.copyOf(definition.commandParameters());
+        assertEquals(2, definition.commandOptions().size());
+        var parameters = List.copyOf(definition.commandOptions());
         assertTrue(parameters.get(0).optional());
         assertFalse(parameters.get(1).optional());
     }
@@ -156,8 +156,8 @@ public class SlashCommandDefinitionTest {
         assertNotNull(definition);
 
 
-        assertEquals(2, definition.commandParameters().size());
-        var parameters = List.copyOf(definition.commandParameters());
+        assertEquals(2, definition.commandOptions().size());
+        var parameters = List.copyOf(definition.commandOptions());
         assertEquals(String.class, parameters.get(0).type());
         assertEquals(Integer.class, parameters.get(1).type());
     }

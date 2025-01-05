@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/// A [Middleware] implementation that will check the parameter constraints a
-/// [SlashCommandDefinition] might have.
+/// A [Middleware] implementation that will check the parameter constraints a [SlashCommandDefinition] might have.
 ///
 /// @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
 public class ConstraintMiddleware implements Middleware {
@@ -32,27 +31,20 @@ public class ConstraintMiddleware implements Middleware {
     /// @param context the [InvocationContext] to filter
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command))
-            return;
+        if (!(context.definition() instanceof SlashCommandDefinition command)) return;
 
         var arguments = new ArrayList<>(context.arguments());
-        List<ParameterDefinition> parameters = List.copyOf(command.commandParameters());
+        arguments.removeIf(Event.class::isInstance);
+        var commandOptions = List.copyOf(command.commandOptions());
 
         log.debug("Applying parameter constraints...");
-        for (int i = 1; i < arguments.size(); i++) {
-            Object argument = arguments.get(i);
-            ParameterDefinition parameter = parameters.get(i);
-            for (ParameterDefinition.ConstraintDefinition constraint : parameter.constraints()) {
-                log.debug("Found constraint {} for parameter {}", constraint, parameter.type().getName());
-
-                boolean validated = constraint.validator().apply(argument, constraint.annotation(), context);
-
-                if (!validated) {
-                    context.cancel(
-                            implementationRegistry
-                                    .getErrorMessageFactory()
-                                    .getConstraintFailedMessage(context, constraint)
-                    );
+        for (int i = 0; i < arguments.size(); i++) {
+            var argument = arguments.get(i);
+            var optionData = commandOptions.get(i);
+            for (var constraint : optionData.constraints()) {
+                log.debug("Found constraint {} for parameter {}", constraint, optionData.type().getName());
+                if (!constraint.validator().apply(argument, constraint.annotation(), context)) {
+                    context.cancel(implementationRegistry.getErrorMessageFactory().getConstraintFailedMessage(context, constraint));
                     log.debug("Constraint failed!");
                     return;
                 }

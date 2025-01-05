@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -108,9 +107,9 @@ public record ModalDefinition(
             boolean required
     ) implements JDAEntity<TextInput>, Definition {
 
-        /// Builds a new [TextInputDefinition] from the given [ParameterDefinition]
+        /// Builds a new [TextInputDefinition] from the given [ParameterDescription]
         ///
-        /// @param parameter the [ParameterDefinition] to build the [TextInputDefinition] from
+        /// @param parameter the [ParameterDescription] to build the [TextInputDefinition] from
         /// @return the new [TextInputDefinition]
         public static Optional<TextInputDefinition> build(ParameterDescription parameter) {
             var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.TextInput.class);

@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
@@ -34,7 +34,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         StringBuilder sbExpected = new StringBuilder();
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
 
-        command.commandParameters().forEach(parameter -> {
+        command.commandOptions().forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
@@ -76,7 +76,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ParameterDefinition.ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }

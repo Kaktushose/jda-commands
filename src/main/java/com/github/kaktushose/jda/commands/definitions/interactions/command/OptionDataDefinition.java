@@ -42,7 +42,7 @@ import static java.util.Map.entry;
 /// @param description  the description of the parameter
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this parameter
-public record ParameterDefinition(
+public record OptionDataDefinition(
         @NotNull Class<?> type,
         boolean optional,
         boolean autoComplete,
@@ -103,16 +103,16 @@ public record ParameterDefinition(
             ))
     );
 
-    /// Builds a new [ParameterDefinition].
+    /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter         the [ParameterDescription] to build the [ParameterDefinition] from
+    /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
     /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
     /// @param validatorRegistry the corresponding [ValidatorRegistry]
-    /// @return the [ParameterDefinition]
+    /// @return the [OptionDataDefinition]
     @NotNull
-    public static ParameterDefinition build(ParameterDescription parameter,
-                                            boolean autoComplete,
-                                            @NotNull ValidatorRegistry validatorRegistry) {
+    public static OptionDataDefinition build(ParameterDescription parameter,
+                                             boolean autoComplete,
+                                             @NotNull ValidatorRegistry validatorRegistry) {
         final var parameterType = TYPE_MAPPINGS.getOrDefault(parameter.type(), parameter.type());
 
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
@@ -159,7 +159,7 @@ public record ParameterDefinition(
                 commandChoices.add(new Command.Choice(parsed[0], parsed[1]));
             }
         }
-        return new ParameterDefinition(
+        return new OptionDataDefinition(
                 parameterType,
                 optional.isPresent(),
                 autoComplete,

@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
-/// @param commandParameters    a [SequencedCollection] of [ParameterDefinition]s
+/// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
 /// @param cooldown             the corresponding [CooldownDefinition]
 /// @param isAutoComplete       whether this command supports auto complete
 public record SlashCommandDefinition(
@@ -50,7 +50,7 @@ public record SlashCommandDefinition(
         @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
-        @NotNull SequencedCollection<ParameterDefinition> commandParameters,
+        @NotNull SequencedCollection<OptionDataDefinition> commandOptions,
         @NotNull CooldownDefinition cooldown,
         boolean isAutoComplete
 ) implements CommandDefinition {
@@ -78,10 +78,10 @@ public record SlashCommandDefinition(
                 .flatMap(Collection::stream)
                 .anyMatch(name::startsWith);
 
-        // build parameter definitions
-        List<ParameterDefinition> parameters = method.parameters().stream()
+        // build option data definitions
+        List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
-                .map(parameter -> ParameterDefinition.build(parameter, autoComplete, context.validatorRegistry()))
+                .map(parameter -> OptionDataDefinition.build(parameter, autoComplete, context.validatorRegistry()))
                 .toList();
 
         Set<Permission> enabledFor = Set.of(command.enabledFor());
@@ -91,7 +91,7 @@ public record SlashCommandDefinition(
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
-        parameters.forEach(it -> signature.add(it.type()));
+        commandOptions.forEach(it -> signature.add(it.type()));
         if (Helpers.checkSignature(method, signature)) {
             return Optional.empty();
         }
@@ -112,7 +112,7 @@ public record SlashCommandDefinition(
                 enabledFor,
                 context.localizationFunction(),
                 command.desc(),
-                parameters,
+                commandOptions,
                 cooldownDefinition,
                 autoComplete
         ));
@@ -132,7 +132,7 @@ public record SlashCommandDefinition(
                 .setNSFW(nsfw)
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
-        commandParameters.forEach(parameter -> {
+        commandOptions.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
@@ -150,7 +150,7 @@ public record SlashCommandDefinition(
                 description.replaceAll("N/A", "no description")
 
         );
-        commandParameters.forEach(parameter -> {
+        commandOptions.forEach(parameter -> {
             command.addOptions(parameter.toJDAEntity());
         });
         return command;

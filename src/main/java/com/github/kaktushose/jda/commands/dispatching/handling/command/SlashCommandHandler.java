@@ -12,13 +12,11 @@ import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
@@ -40,8 +38,10 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
-        var input = command.commandParameters().stream()
-                .map(it -> event.getOption(it.name()).getAsString())
+        var input = command.commandOptions().stream()
+                .map(it -> event.getOption(it.name()))
+                .filter(Objects::nonNull)
+                .map(OptionMapping::getAsString)
                 .toArray(String[]::new);
 
         List<Object> arguments = new ArrayList<>();
@@ -50,7 +50,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
-        var parameters = List.copyOf(command.commandParameters());
+        var parameters = List.copyOf(command.commandOptions());
         for (int i = 0; i < parameters.size(); i++) {
             var parameter = parameters.get(i);
 
