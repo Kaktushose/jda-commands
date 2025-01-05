@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
@@ -76,26 +75,6 @@ public final class Helpers {
             return Collections.unmodifiableSet(mergedPermissions);
         }
         return context.permissions();
-    }
-
-    /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the passed [Method].
-    ///
-    /// @param method the [Method] to use
-    /// @param fallbackReplyConfig the [InteractionDefinition.ReplyConfig] to be used as a fallback
-    /// @return the [InteractionDefinition.ReplyConfig ReplyConfig]
-    /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class.
-    /// If neither is present will fall back to the provided fallback.
-    @NotNull
-    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Method method, InteractionDefinition.ReplyConfig fallbackReplyConfig) {
-        var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
-        var local = method.getAnnotation(ReplyConfig.class);
-
-        if (global == null && local == null)
-            return new InteractionDefinition.ReplyConfig();
-        if (local == null)
-            return new InteractionDefinition.ReplyConfig(global);
-
-        return new InteractionDefinition.ReplyConfig(local);
     }
 
     /// Checks if the given parameter is present at the [Method] at the given index.
