@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectM
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
@@ -47,12 +48,13 @@ public final class JDACommands {
             Middlewares middlewares,
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
-            InteractionRegistry interactionRegistry) {
+            InteractionRegistry interactionRegistry,
+            InteractionDefinition.ReplyConfig globalReplyConfig) {
         this.jdaContext = jdaContext;
         this.dependencyInjector = dependencyInjector;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector));
+        this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector, globalReplyConfig));
     }
 
     JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {

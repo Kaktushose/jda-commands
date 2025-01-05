@@ -24,8 +24,9 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     public ModalEvent(@NotNull ModalInteractionEvent event,
                       @NotNull InteractionRegistry registry,
                       @NotNull Runtime runtime,
-                      @NotNull InteractionDefinition definition) {
-        super(event, registry, runtime, definition);
+                      @NotNull InteractionDefinition definition,
+                      @NotNull InteractionDefinition.ReplyConfig global) {
+        super(event, registry, runtime, definition, global);
     }
 
 }

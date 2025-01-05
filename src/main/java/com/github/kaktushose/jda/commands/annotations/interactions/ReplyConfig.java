@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import com.github.kaktushose.jda.commands.JDACommandsBuilder;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +14,8 @@ import java.lang.annotation.Target;
 /// Interaction methods annotated with [ReplyConfig] will use the configured values of this annotation when sending a reply.
 /// Interaction classes annotated with [ReplyConfig] will apply the configured values of this annotation to
 /// every method, if and only if no annotation is present at method level. If the [ReplyConfig] annotation is neither
-/// present at the class level nor the method level, the [GlobalReplyConfig] will be used instead.
+/// present at the class level nor the method level, the global [`ReplyConfig`][com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig]
+///  will be used instead.
 ///
 /// **These values are always overridden by [ConfigurableReply#ephemeral(boolean)],
 /// [ConfigurableReply#keepComponents(boolean)] or respectively [ConfigurableReply#editReply(boolean)].**
@@ -23,7 +24,7 @@ import java.lang.annotation.Target;
 /// 1. [ConfigurableReply]
 /// 2. [ReplyConfig] method annotation
 /// 3. [ReplyConfig] class annotation
-/// 4. [GlobalReplyConfig]
+/// 4. global [`ReplyConfig`][com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig] provided in [JDACommandsBuilder]
 ///
 /// @see ReplyableEvent
 @Target({ElementType.TYPE, ElementType.METHOD})

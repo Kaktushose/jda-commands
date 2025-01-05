@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
@@ -15,5 +16,6 @@ public record DispatchingContext(Middlewares middlewares,
                                  InteractionRegistry registry,
                                  TypeAdapters adapterRegistry,
                                  ExpirationStrategy expirationStrategy,
-                                 DependencyInjector dependencyInjector) {
+                                 DependencyInjector dependencyInjector,
+                                 InteractionDefinition.ReplyConfig globalReplyConfig) {
 }

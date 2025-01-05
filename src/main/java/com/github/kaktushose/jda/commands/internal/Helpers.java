@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
-import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
@@ -82,11 +81,12 @@ public final class Helpers {
     /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the passed [Method].
     ///
     /// @param method the [Method] to use
+    /// @param fallbackReplyConfig the [InteractionDefinition.ReplyConfig] to be used as a fallback
     /// @return the [InteractionDefinition.ReplyConfig ReplyConfig]
     /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class.
-    /// If neither is present will fall back to the [GlobalReplyConfig].
+    /// If neither is present will fall back to the provided fallback.
     @NotNull
-    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Method method) {
+    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Method method, InteractionDefinition.ReplyConfig fallbackReplyConfig) {
         var global = method.getDeclaringClass().getAnnotation(ReplyConfig.class);
         var local = method.getAnnotation(ReplyConfig.class);
 

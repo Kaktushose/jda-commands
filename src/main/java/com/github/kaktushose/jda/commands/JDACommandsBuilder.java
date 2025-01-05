@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
@@ -44,6 +45,8 @@ public class JDACommandsBuilder {
 
     private final Collection<ClassFinder> classFinders;
     private Descriptor descriptor = new ReflectiveDescriptor();
+
+    private ReplyConfig globalReplyConfig = new ReplyConfig();
 
     // registries
     private final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
@@ -140,6 +143,12 @@ public class JDACommandsBuilder {
         return this;
     }
 
+    /// @param globalReplyConfig the [ReplyConfig] to be used as a global fallback option
+    public JDACommandsBuilder globalReplyConfig(ReplyConfig globalReplyConfig) {
+        this.globalReplyConfig = globalReplyConfig;
+        return this;
+    }
+
     /// This method instantiated an instance of [JDACommands] and starts the framework.
     public JDACommands start(Class<?> clazz, String... packages) {
         Validators validators = new Validators(this.validators);
@@ -151,7 +160,8 @@ public class JDACommandsBuilder {
                 new Middlewares(middlewares, errorMessageFactory, permissionsProvider),
                 errorMessageFactory,
                 guildScopeProvider,
-                new InteractionRegistry(dependencyInjector, validators, localizationFunction, descriptor)
+                new InteractionRegistry(dependencyInjector, validators, localizationFunction, descriptor),
+                globalReplyConfig
         );
 
         return jdaCommands.start(classFinders, clazz, packages);

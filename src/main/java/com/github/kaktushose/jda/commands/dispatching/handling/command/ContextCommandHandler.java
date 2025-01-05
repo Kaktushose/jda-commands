@@ -27,7 +27,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
         );
 
         return new InvocationContext<>(event, runtime.keyValueStore(), command,
-                List.of(new CommandEvent(event, registry, runtime, command), event.getTarget())
+                List.of(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig()), event.getTarget())
         );
     }
 }

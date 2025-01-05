@@ -56,9 +56,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
-                             InteractionDefinition definition) {
+                             InteractionDefinition definition,
+                             InteractionDefinition.ReplyConfig globalReplyConfig) {
         super(event, interactionRegistry, runtime);
-        this.replyConfig = definition.replyConfig();
+        this.replyConfig = definition.replyConfig(globalReplyConfig);
         this.definition = definition;
     }
 
@@ -132,6 +133,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private MessageReply newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition);
+        return new MessageReply(event, definition, replyConfig);
     }
 }
