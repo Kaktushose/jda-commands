@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
-import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.ValidatorRegistry;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;

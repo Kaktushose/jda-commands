@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistr
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;

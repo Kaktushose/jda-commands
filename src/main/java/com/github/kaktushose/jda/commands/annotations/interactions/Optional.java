@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

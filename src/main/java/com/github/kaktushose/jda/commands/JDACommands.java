@@ -2,11 +2,17 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
-import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMiddleware;
@@ -15,10 +21,6 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middle
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -32,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;
-    private final JDAEventListener JDAEventListener;
+    private final com.github.kaktushose.jda.commands.dispatching.JDAEventListener JDAEventListener;
     private final MiddlewareRegistry middlewareRegistry = new MiddlewareRegistry();
     private final TypeAdapterRegistry adapterRegistry = new TypeAdapterRegistry();
     private final ValidatorRegistry validatorRegistry = new ValidatorRegistry();
@@ -48,7 +50,7 @@ public final class JDACommands {
             ExpirationStrategy expirationStrategy) {
         this.jdaContext = jdaContext;
         this.dependencyInjector = dependencyInjector;
-        this.interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, localizationFunction);
+        this.interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, localizationFunction, new ReflectiveDescriptor());
         this.implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
         this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewareRegistry, implementationRegistry, interactionRegistry, adapterRegistry, expirationStrategy));
         this.updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
@@ -61,7 +63,7 @@ public final class JDACommands {
         log.info("Starting JDA-Commands...");
         dependencyInjector.index(clazz, packages);
         implementationRegistry.index(clazz, packages);
-        interactionRegistry.index(clazz, packages);
+        interactionRegistry.index(ReflectiveClassFinder.find(clazz, packages));
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(JDAEventListener));
@@ -153,11 +155,11 @@ public final class JDACommands {
         }
 
         String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+        ButtonDefinition buttonDefinition = interactionRegistry.find(ButtonDefinition.class, it -> it.definitionId().equals(sanitizedId))
+                .stream()
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
 
-        return buttonDefinition.toButton().withId(buttonDefinition.independentCustomId());
+        return buttonDefinition.toJDAEntity();
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
@@ -176,11 +178,11 @@ public final class JDACommands {
         }
 
         String sanitizedId = menu.replaceAll("\\.", "");
-        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
+        SelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.find(SelectMenuDefinition.class, it -> it.definitionId().equals(sanitizedId))
+                .stream()
                 .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
 
-        return (S) selectMenuDefinition.toSelectMenu(selectMenuDefinition.independentCustomId(), true);
+        return (S) selectMenuDefinition.toJDAEntity();
     }
 
 }

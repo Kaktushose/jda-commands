@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
-import com.github.kaktushose.jda.commands.dispatching.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import org.jetbrains.annotations.NotNull;
+
+;
 
 /// A [Validator] implementation that checks the [Max] constraint.
 ///

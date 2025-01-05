@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.constraints;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.lang.annotation.ElementType;

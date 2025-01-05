@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;

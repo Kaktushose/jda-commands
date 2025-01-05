@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package com.github.kaktushose.jda.commands.dispatching.context;
 
 import org.jetbrains.annotations.NotNull;
 
