@@ -92,7 +92,7 @@ public record EntitySelectMenuDefinition(
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
-        var menu = net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.create(customId.id(), selectTargets)
+        var menu = EntitySelectMenu.create(customId.id(), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue);
