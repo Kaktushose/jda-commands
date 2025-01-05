@@ -54,7 +54,7 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.cancel(implementationRegistry.getErrorMessageFactory().getCooldownMessage(remaining));
+                context.cancel(implementationRegistry.getErrorMessageFactory().getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -131,5 +132,23 @@ public final class Helpers {
             return true;
         }
         return false;
+    }
+
+    @NotNull
+    public static ErrorContext errorContext(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
+        return new ErrorContext() {
+
+            @NotNull
+            @Override
+            public GenericInteractionCreateEvent event() {
+                return event;
+            }
+
+            @NotNull
+            @Override
+            public InteractionDefinition definition() {
+                return definition;
+            }
+        };
     }
 }

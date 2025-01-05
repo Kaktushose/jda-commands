@@ -51,7 +51,7 @@ public class ConstraintMiddleware implements Middleware {
                     context.cancel(
                             implementationRegistry
                                     .getErrorMessageFactory()
-                                    .getConstraintFailedMessage(constraint)
+                                    .getConstraintFailedMessage(context, constraint)
                     );
                     log.debug("Constraint failed!");
                     return;

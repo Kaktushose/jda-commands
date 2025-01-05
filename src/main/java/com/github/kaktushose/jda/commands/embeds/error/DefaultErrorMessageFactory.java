@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -23,11 +22,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
-                                                          @NotNull InteractionDefinition definition,
-                                                          @NotNull List<String> userInput) {
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput) {
         StringBuilder sbExpected = new StringBuilder();
-        SlashCommandDefinition command = (SlashCommandDefinition) definition;
+        SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
 
         command.commandParameters().forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
@@ -58,15 +55,15 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull InteractionDefinition interaction) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
-        interaction.permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
+        context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
                 .setDescription(String.format("`%s` requires specific permissions to be executed",
-                        interaction.displayName()))
+                        context.definition().displayName()))
                 .addField("Permissions:",
                         String.format("`%s`", permissions), false
                 ).build();
@@ -75,7 +72,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ParameterDefinition.ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ParameterDefinition.ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -86,7 +83,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getCooldownMessage(long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
         long seconds = secs % 60;
         long minutes = (secs / 60) % 60;
@@ -118,7 +115,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getWrongChannelTypeMessage() {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -129,14 +126,14 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull GenericInteractionCreateEvent event, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
         String error;
 
         error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
-                event.getUser(),
-                event.getInteraction().getType(),
+                context.event().getUser(),
+                context.event().getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
@@ -152,7 +149,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage() {
+    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")
