@@ -81,7 +81,7 @@ public record SlashCommandDefinition(
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
-                .map(parameter -> OptionDataDefinition.build(parameter, autoComplete, context.validatorRegistry()))
+                .map(parameter -> OptionDataDefinition.build(parameter, autoComplete, context.validators()))
                 .toList();
 
         Set<Permission> enabledFor = Set.of(command.enabledFor());

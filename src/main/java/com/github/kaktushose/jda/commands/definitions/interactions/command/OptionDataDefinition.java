@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.dispatching.validation.internal.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -93,12 +93,12 @@ public record OptionDataDefinition(
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
     /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
-    /// @param validatorRegistry the corresponding [ValidatorRegistry]
+    /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     @NotNull
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              boolean autoComplete,
-                                             @NotNull ValidatorRegistry validatorRegistry) {
+                                             @NotNull Validators validatorRegistry) {
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
         var defaultValue = "";
         if (optional.isPresent()) {
