@@ -27,7 +27,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
-
+/// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
+/// while running.
+///
+/// Instances of this class can be created by using one of the "start" or "builder" methods.
 public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;

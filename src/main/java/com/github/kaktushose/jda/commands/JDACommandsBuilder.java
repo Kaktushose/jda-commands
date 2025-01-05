@@ -22,7 +22,6 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -56,11 +55,6 @@ public class JDACommandsBuilder {
         this.context = Objects.requireNonNull(context);
     }
 
-    public JDACommandsBuilder jda(JDA jda) {
-        this.context = new JDAContext(jda);
-        return this;
-    }
-
     /// Adds instanced of [ClassFinder] to the later used collection
     /// @param classFinders The [ClassFinder]s to be added
     public JDACommandsBuilder classFinders(ClassFinder... classFinders) {
@@ -68,6 +62,7 @@ public class JDACommandsBuilder {
         return this;
     }
 
+    /// @param descriptor the [Descriptor] to be used
     public JDACommandsBuilder descriptor(Descriptor descriptor) {
         this.descriptor = descriptor;
         return this;
