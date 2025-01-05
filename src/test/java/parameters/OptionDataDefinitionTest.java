@@ -71,6 +71,18 @@ public class OptionDataDefinitionTest {
     }
 
     @Test
+    public void constraintMin_withLimit10Wrapped_ShouldWork() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("constraintWrapped", Integer.class);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+
+        var constraints = List.copyOf(parameter.constraints());
+        assertEquals(1, parameter.constraints().size());
+        assertEquals(10, ((Min) constraints.get(0).annotation()).value());
+        assertEquals(MinimumValidator.class, constraints.get(0).validator().getClass());
+        assertFalse(constraints.get(0).message().isEmpty());
+    }
+
+    @Test
     public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraintWithMessage", int.class);
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);

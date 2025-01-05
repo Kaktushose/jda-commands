@@ -52,6 +52,17 @@ public record OptionDataDefinition(
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(
+            int.class, Integer.class,
+            double.class, Double.class,
+            byte.class, Byte.class,
+            float.class, Float.class,
+            boolean.class, Boolean.class,
+            short.class, Short.class,
+            long.class, Long.class,
+            char.class, Character.class
+    );
+
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
             entry(Byte.class, OptionType.STRING),
             entry(Short.class, OptionType.STRING),
@@ -113,8 +124,9 @@ public record OptionDataDefinition(
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), parameter.type());
-                    validator.ifPresent(value -> constraints.add(ConstraintDefinition.build(value, it)));
+                    var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
+                                    .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
+                    constraints.add(ConstraintDefinition.build(validator, it));
                 });
 
         // Param
