@@ -15,9 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /// Central registry for all type adapters.
 ///
@@ -46,33 +44,35 @@ public class TypeAdapterRegistry {
     ///   - [User]
     ///   - [MessageChannel] and subtypes
     ///   - [Role]
-    public TypeAdapterRegistry() {
-        parameterAdapters = new HashMap<>();
+    public TypeAdapterRegistry(Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
+        HashMap<Class<?>, TypeAdapter<?>> adapterMap = new HashMap<>(parameterAdapters);
 
         // default types
-        register(Byte.class, new ByteAdapter());
-        register(Short.class, new ShortAdapter());
-        register(Integer.class, new IntegerAdapter());
-        register(Long.class, new LongAdapter());
-        register(Float.class, new FloatAdapter());
-        register(Double.class, new DoubleAdapter());
-        register(Character.class, new CharacterAdapter());
-        register(Boolean.class, new BooleanAdapter());
-        register(String.class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
-        register(String[].class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
+        adapterMap.put(Byte.class, new ByteAdapter());
+        adapterMap.put(Short.class, new ShortAdapter());
+        adapterMap.put(Integer.class, new IntegerAdapter());
+        adapterMap.put(Long.class, new LongAdapter());
+        adapterMap.put(Float.class, new FloatAdapter());
+        adapterMap.put(Double.class, new DoubleAdapter());
+        adapterMap.put(Character.class, new CharacterAdapter());
+        adapterMap.put(Boolean.class, new BooleanAdapter());
+        adapterMap.put(String.class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
+        adapterMap.put(String[].class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
 
         // jda specific
-        register(Member.class, new MemberAdapter());
-        register(User.class, new UserAdapter());
-        register(GuildChannel.class, new GuildChannelAdapter());
-        register(GuildMessageChannel.class, new GuildMessageChannelAdapter());
-        register(ThreadChannel.class, new ThreadChannelAdapter());
-        register(TextChannel.class, new TextChannelAdapter());
-        register(NewsChannel.class, new NewsChannelAdapter());
-        register(AudioChannel.class, new AudioChannelAdapter());
-        register(VoiceChannel.class, new VoiceChannelAdapter());
-        register(StageChannel.class, new StageChannelAdapter());
-        register(Role.class, new RoleAdapter());
+        adapterMap.put(Member.class, new MemberAdapter());
+        adapterMap.put(User.class, new UserAdapter());
+        adapterMap.put(GuildChannel.class, new GuildChannelAdapter());
+        adapterMap.put(GuildMessageChannel.class, new GuildMessageChannelAdapter());
+        adapterMap.put(ThreadChannel.class, new ThreadChannelAdapter());
+        adapterMap.put(TextChannel.class, new TextChannelAdapter());
+        adapterMap.put(NewsChannel.class, new NewsChannelAdapter());
+        adapterMap.put(AudioChannel.class, new AudioChannelAdapter());
+        adapterMap.put(VoiceChannel.class, new VoiceChannelAdapter());
+        adapterMap.put(StageChannel.class, new StageChannelAdapter());
+        adapterMap.put(Role.class, new RoleAdapter());
+
+        this.parameterAdapters = Collections.unmodifiableMap(adapterMap);
     }
 
     /// Registers a new type adapter.

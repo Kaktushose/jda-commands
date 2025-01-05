@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
@@ -11,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashComm
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -45,16 +45,16 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     protected final DispatchingContext dispatchingContext;
     protected final MiddlewareRegistry middlewareRegistry;
-    protected final ImplementationRegistry implementationRegistry;
     protected final InteractionRegistry registry;
     protected final TypeAdapterRegistry adapterRegistry;
+    protected final ErrorMessageFactory errorMessageFactory;
 
     public EventHandler(DispatchingContext dispatchingContext) {
         this.dispatchingContext = dispatchingContext;
         this.middlewareRegistry = dispatchingContext.middlewareRegistry();
-        this.implementationRegistry = dispatchingContext.implementationRegistry();
         this.registry = dispatchingContext.registry();
         this.adapterRegistry = dispatchingContext.adapterRegistry();
+        this.errorMessageFactory = dispatchingContext.errorMessageFactory();
     }
 
     @Nullable
@@ -105,7 +105,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            invocation.cancel(implementationRegistry.getErrorMessageFactory().getCommandExecutionFailedMessage(invocation, throwable));
+            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
         }
     }
 }

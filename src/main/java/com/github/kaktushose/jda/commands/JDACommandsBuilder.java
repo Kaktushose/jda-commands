@@ -1,11 +1,15 @@
 package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
@@ -30,8 +34,6 @@ import java.util.*;
 /// This builder is used to build instances of [JDACommands].
 /// Please note that values that can be set, have a default implementation by default.
 public class JDACommandsBuilder {
-    private Class<?> clazz;
-    private String[] packages;
     private JDAContext context;
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
     private DependencyInjector dependencyInjector = new DefaultDependencyInjector();
@@ -40,21 +42,18 @@ public class JDACommandsBuilder {
     private PermissionsProvider permissionsProvider = new DefaultPermissionsProvider();
     private ErrorMessageFactory errorMessageFactory = new DefaultErrorMessageFactory();
     private GuildScopeProvider guildScopeProvider = new DefaultGuildScopeProvider();
+
+    private final Collection<ClassFinder> classFinders;
+    private Descriptor descriptor = new ReflectiveDescriptor();
+
+    // registries
     private final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
-
-    private final Map<Priority, Collection<Middleware>> middlewares = Map.of(
-            Priority.PERMISSIONS, new HashSet<>(),
-            Priority.HIGH, new HashSet<>(),
-            Priority.NORMAL, new HashSet<>(),
-            Priority.LOW, new HashSet<>()
-    );
-
+    private final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
     private final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
 
-    JDACommandsBuilder(JDAContext context, Class<?> clazz, String[] packages) {
-        this.clazz = Objects.requireNonNull(clazz);
+    JDACommandsBuilder(JDAContext context, ClassFinder[] classFinders) {
+        this.classFinders = Arrays.asList(classFinders);
         this.context = Objects.requireNonNull(context);
-        this.packages = Objects.requireNonNull(packages);
     }
 
     public JDACommandsBuilder jda(JDA jda) {
@@ -62,21 +61,21 @@ public class JDACommandsBuilder {
         return this;
     }
 
+    /// Adds instanced of [ClassFinder] to the later used collection
+    /// @param classFinders The [ClassFinder]s to be added
+    public JDACommandsBuilder classFinders(ClassFinder... classFinders) {
+        this.classFinders.addAll(Arrays.asList(classFinders));
+        return this;
+    }
+
+    public JDACommandsBuilder descriptor(Descriptor descriptor) {
+        this.descriptor = descriptor;
+        return this;
+    }
+
     /// @param shardManager The [ShardManager] to be used by JDA-Commands
     public JDACommandsBuilder shardManager(ShardManager shardManager) {
         this.context = new JDAContext(shardManager);
-        return this;
-    }
-
-    /// @param packages package(s) to exclusively scan
-    public JDACommandsBuilder packages(String[] packages) {
-        this.packages = Objects.requireNonNull(packages);
-        return this;
-    }
-
-    /// @param clazz a class of the classpath to scan
-    public JDACommandsBuilder clazz(Class<?> clazz) {
-        this.clazz = Objects.requireNonNull(clazz);;
         return this;
     }
 
@@ -104,7 +103,7 @@ public class JDACommandsBuilder {
         Objects.requireNonNull(priority);
         Objects.requireNonNull(middleware);
 
-        middlewares.get(priority).add(middleware);
+        middlewares.add(Map.entry(priority, middleware));
         return this;
     }
 
@@ -147,27 +146,19 @@ public class JDACommandsBuilder {
     }
 
     /// This method instantiated an instance of [JDACommands] and starts the framework.
-    public JDACommands start() {
+    public JDACommands start(Class<?> clazz, String... packages) {
+        ValidatorRegistry validatorRegistry = new ValidatorRegistry(validators);
         JDACommands jdaCommands = new JDACommands(
                 context,
                 dependencyInjector,
-                localizationFunction,
-                expirationStrategy
+                expirationStrategy,
+                new TypeAdapterRegistry(typeAdapters),
+                new MiddlewareRegistry(middlewares, errorMessageFactory, permissionsProvider),
+                errorMessageFactory,
+                guildScopeProvider,
+                new InteractionRegistry(dependencyInjector, validatorRegistry, localizationFunction, descriptor)
         );
 
-        jdaCommands.implementationRegistry().setPermissionsProvider(permissionsProvider);
-        jdaCommands.implementationRegistry().setGuildScopeProvider(guildScopeProvider);
-        jdaCommands.implementationRegistry().setErrorMessageFactory(errorMessageFactory);
-
-        ValidatorRegistry validatorRegistry = jdaCommands.validatorRegistry();
-        validators.forEach(validatorRegistry::register);
-
-        TypeAdapterRegistry typeAdapterRegistry = jdaCommands.adapterRegistry();
-        typeAdapters.forEach(typeAdapterRegistry::register);
-
-        MiddlewareRegistry middlewareRegistry = jdaCommands.middlewareRegistry();
-        middlewares.forEach(middlewareRegistry::register);
-
-        return jdaCommands.start(clazz, packages);
+        return jdaCommands.start(classFinders, clazz, packages);
     }
 }
