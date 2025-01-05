@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.entities.sticker.StickerPack;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
@@ -358,6 +359,21 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public SnowflakeCacheView<RichCustomEmoji> getEmojiCache() {
+        return null;
+    }
+
+    @Override
+    public @NotNull RestAction<ApplicationEmoji> createApplicationEmoji(@NotNull String s, @NotNull Icon icon) {
+        return null;
+    }
+
+    @Override
+    public @NotNull RestAction<List<ApplicationEmoji>> retrieveApplicationEmojis() {
+        return null;
+    }
+
+    @Override
+    public @NotNull RestAction<ApplicationEmoji> retrieveApplicationEmojiById(@NotNull String s) {
         return null;
     }
 

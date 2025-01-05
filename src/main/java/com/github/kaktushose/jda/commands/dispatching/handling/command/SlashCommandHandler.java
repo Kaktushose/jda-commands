@@ -2,13 +2,12 @@ package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -45,11 +44,10 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .toList();
 
         List<Object> parsedArguments = new ArrayList<>();
-        ErrorMessageFactory messageFactory = implementationRegistry.getErrorMessageFactory();
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig()));
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(
@@ -62,8 +60,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             var raw = input.get(i);
             if (raw == null) {
                 if (commandOption.defaultValue() == null) {
-                    System.out.println(commandOption.type());
-                    parsedArguments.add(TypeAdapterRegistry.DEFAULT_MAPPINGS.getOrDefault(commandOption.type(), null));
+                    parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(commandOption.type(), null));
                     continue;
                 } else {
                     raw = commandOption.defaultValue();
@@ -81,8 +78,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             var parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command).reply(
-                        messageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
+                new MessageReply(event, command, dispatchingContext.globalReplyConfig()).reply(
+                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
                 );
                 return Optional.empty();
             }

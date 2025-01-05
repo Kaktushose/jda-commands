@@ -3,9 +3,9 @@ package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
-import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +27,10 @@ public class CooldownMiddleware implements Middleware {
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
     private final Map<Long, Set<CooldownEntry>> activeCooldowns = new ConcurrentHashMap<>();
 
-    private final ImplementationRegistry implementationRegistry;
+    private final ErrorMessageFactory errorMessageFactory;
 
-    public CooldownMiddleware(ImplementationRegistry implementationRegistry) {
-        this.implementationRegistry = implementationRegistry;
+    public CooldownMiddleware(ErrorMessageFactory errorMessageFactory) {
+        this.errorMessageFactory = errorMessageFactory;
     }
 
     /// Checks if an active cooldown for the given [SlashCommandDefinition] exists and will eventually cancel the
@@ -54,7 +54,7 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.cancel(implementationRegistry.getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.cancel(errorMessageFactory.getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }

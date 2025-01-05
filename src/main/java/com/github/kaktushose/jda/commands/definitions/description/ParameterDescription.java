@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Collections;
 
 /// A [Description] that describes a parameter.
 ///
@@ -14,4 +15,10 @@ public record ParameterDescription(
         @NotNull Class<?> type,
         @NotNull String name,
         @NotNull Collection<Annotation> annotations
-) implements Description {}
+) implements Description {
+    public ParameterDescription(@NotNull Class<?> type, @NotNull String name, @NotNull Collection<Annotation> annotations) {
+        this.type = type;
+        this.name = name;
+        this.annotations = Collections.unmodifiableCollection(annotations);
+    }
+}

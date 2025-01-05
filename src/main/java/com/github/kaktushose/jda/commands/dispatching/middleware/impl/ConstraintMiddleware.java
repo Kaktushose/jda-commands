@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +14,15 @@ import java.util.List;
 
 /// A [Middleware] implementation that will check the parameter constraints a [SlashCommandDefinition] might have.
 ///
-/// @see com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry ValidatorRegistry
+/// @see com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators ValidatorRegistry
 public class ConstraintMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
 
-    private final ImplementationRegistry implementationRegistry;
+    private final ErrorMessageFactory errorMessageFactory;
 
-    public ConstraintMiddleware(ImplementationRegistry implementationRegistry) {
-        this.implementationRegistry = implementationRegistry;
+    public ConstraintMiddleware(ErrorMessageFactory errorMessageFactory) {
+        this.errorMessageFactory = errorMessageFactory;
     }
 
     /// Checks if all parameters fulfill their constraints. Will cancel the [InvocationContext] if a parameter
@@ -44,7 +44,7 @@ public class ConstraintMiddleware implements Middleware {
             for (var constraint : optionData.constraints()) {
                 log.debug("Found constraint {} for parameter {}", constraint, optionData.type().getName());
                 if (!constraint.validator().apply(argument, constraint.annotation(), context)) {
-                    context.cancel(implementationRegistry.getErrorMessageFactory().getConstraintFailedMessage(context, constraint));
+                    context.cancel(errorMessageFactory.getConstraintFailedMessage(context, constraint));
                     log.debug("Constraint failed!");
                     return;
                 }

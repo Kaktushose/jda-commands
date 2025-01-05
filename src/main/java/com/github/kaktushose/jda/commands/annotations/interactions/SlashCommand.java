@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 
@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 /// Furthermore, the method signature has to meet the following conditions:
 ///
 ///   - First parameter must be of type [CommandEvent]
-///   - Remaining parameter types must be registered at the [TypeAdapterRegistry]
+///   - Remaining parameter types must be registered at the [TypeAdapters]
 ///   - or the second parameter is a String array
 ///
 /// ## Examples:

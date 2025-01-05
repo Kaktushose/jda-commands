@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -26,10 +26,12 @@ public class PermissionsMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(PermissionsMiddleware.class);
 
-    private final ImplementationRegistry implementationRegistry;
+    private final PermissionsProvider permissionsProvider;
+    private final ErrorMessageFactory errorMessageFactory;
 
-    public PermissionsMiddleware(ImplementationRegistry implementationRegistry) {
-        this.implementationRegistry = implementationRegistry;
+    public PermissionsMiddleware(PermissionsProvider permissionsProvider, ErrorMessageFactory errorMessageFactory) {
+        this.permissionsProvider = permissionsProvider;
+        this.errorMessageFactory = errorMessageFactory;
     }
 
     /// Checks if the [User] and respectively the [Member] has the permission to execute the command.
@@ -38,7 +40,7 @@ public class PermissionsMiddleware implements Middleware {
     @Override
     public void accept(@NotNull InvocationContext<?> context) {
         log.debug("Checking permissions...");
-        PermissionsProvider provider = implementationRegistry.getPermissionsProvider();
+        PermissionsProvider provider = permissionsProvider;
         GenericInteractionCreateEvent event = context.event();
 
         boolean hasPerms;
@@ -48,7 +50,7 @@ public class PermissionsMiddleware implements Middleware {
             hasPerms = provider.hasPermission(event.getUser(), context);
         }
         if (!hasPerms) {
-            context.cancel(implementationRegistry.getErrorMessageFactory().getInsufficientPermissionsMessage(context));
+            context.cancel(errorMessageFactory.getInsufficientPermissionsMessage(context));
             log.debug("Insufficient permissions!");
             return;
         }

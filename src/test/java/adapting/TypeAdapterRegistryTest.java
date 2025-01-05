@@ -4,11 +4,11 @@
 //import adapting.mock.TypeAdapterRegistryTestController;
 //import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 //import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
-//import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+//import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapters;
 //import com.github.kaktushose.jda.commands.dispatching.adapter.impl.IntegerAdapter;
 //import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-//import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
-//import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+//import com.github.kaktushose.jda.commands.dispatching.middleware.Middlewares;
+//import com.github.kaktushose.jda.commands.dispatching.validation.Validators;
 //import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
 //import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
 //import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
@@ -27,26 +27,26 @@
 //public class TypeAdapterRegistryTest {
 //
 //    private static Class<?> controller;
-//    private static ValidatorRegistry validator;
-//    private static TypeAdapterRegistry adapter;
-//    private TypeAdapterRegistry registry;
+//    private static Validators validator;
+//    private static TypeAdapters adapter;
+//    private TypeAdapters registry;
 //
 //    @BeforeAll
 //    public static void setup() {
 //        TypeAdapterRegistryTestController instance = new TypeAdapterRegistryTestController();
 //        controller = instance.getClass();
-//        validator = new ValidatorRegistry();
-//        adapter = new TypeAdapterRegistry();
+//        validator = new Validators();
+//        adapter = new TypeAdapters();
 //    }
 //
 //    @BeforeEach
 //    public void cleanup() {
-//        registry = new TypeAdapterRegistry();
+//        registry = new TypeAdapters();
 //    }
 //
 //    @Test
 //    public void register_withNewTypeAndNewAdapter_ShouldAdd() {
-//        registry = new TypeAdapterRegistry();
+//        registry = new TypeAdapters();
 //        registry.register(CustomType.class, new CustomTypeAdapter());
 //
 //        assertTrue(registry.exists(CustomType.class));
@@ -54,7 +54,7 @@
 //
 //    @Test
 //    public void register_withExistingTypeAndNewAdapter_ShouldOverride() {
-//        registry = new TypeAdapterRegistry();
+//        registry = new TypeAdapters();
 //        CustomTypeAdapter adapter = new CustomTypeAdapter();
 //
 //        assertEquals(IntegerAdapter.class, registry.get(Integer.class).get().getClass());
@@ -65,7 +65,7 @@
 //
 //    @Test
 //    public void unregister_withExistingType_ShouldRemove() {
-//        registry = new TypeAdapterRegistry();
+//        registry = new TypeAdapters();
 //
 //        assertTrue(registry.exists(Integer.class));
 //        registry.unregister(Integer.class);
@@ -152,15 +152,15 @@
 //        SlashCommandContext context = new SlashCommandContext(
 //                new SlashCommandInteractionEventMock(),
 //                new InteractionRegistry(
-//                        new ValidatorRegistry(),
+//                        new Validators(),
 //                        new DefaultDependencyInjector(),
 //                        ResourceBundleLocalizationFunction.empty().build()
 //                ),
 //                new ImplementationRegistry(
 //                        new DefaultDependencyInjector(),
-//                        new MiddlewareRegistry(),
-//                        new TypeAdapterRegistry(),
-//                        new ValidatorRegistry()
+//                        new Middlewares(),
+//                        new TypeAdapters(),
+//                        new Validators()
 //                )
 //        );
 //        context.setInput(input);

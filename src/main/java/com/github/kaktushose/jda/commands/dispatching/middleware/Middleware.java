@@ -2,16 +2,17 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.function.Consumer;
 
 /// Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
-/// more info the [InvocationContext]. Either register them at the [MiddlewareRegistry] or use the [Implementation]
+/// more info the [InvocationContext]. Either register them at the [Middlewares] or use the [Implementation]
 /// annotation. Middlewares can have different [Priorities][Priority] dictating their priority on execution.
 ///
 /// @see Implementation Implementation
-/// @see MiddlewareRegistry
+/// @see Middlewares
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 

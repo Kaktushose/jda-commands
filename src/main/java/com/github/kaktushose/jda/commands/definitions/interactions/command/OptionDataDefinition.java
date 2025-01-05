@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -52,6 +52,17 @@ public record OptionDataDefinition(
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(
+            int.class, Integer.class,
+            double.class, Double.class,
+            byte.class, Byte.class,
+            float.class, Float.class,
+            boolean.class, Boolean.class,
+            short.class, Short.class,
+            long.class, Long.class,
+            char.class, Character.class
+    );
+
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
             entry(Byte.class, OptionType.STRING),
             entry(Short.class, OptionType.STRING),
@@ -93,12 +104,12 @@ public record OptionDataDefinition(
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
     /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
-    /// @param validatorRegistry the corresponding [ValidatorRegistry]
+    /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     @NotNull
-    public static OptionDataDefinition build(ParameterDescription parameter,
+    public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              boolean autoComplete,
-                                             @NotNull ValidatorRegistry validatorRegistry) {
+                                             @NotNull Validators validatorRegistry) {
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
         var defaultValue = "";
         if (optional.isPresent()) {
@@ -113,8 +124,9 @@ public record OptionDataDefinition(
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), parameter.type());
-                    validator.ifPresent(value -> constraints.add(ConstraintDefinition.build(value, it)));
+                    var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
+                                    .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
+                    constraints.add(ConstraintDefinition.build(validator, it));
                 });
 
         // Param

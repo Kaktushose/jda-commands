@@ -57,14 +57,6 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     /// Constructs a new MessageReply.
     ///
-    /// @param event      the corresponding [GenericInteractionCreateEvent]
-    /// @param definition the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
-    public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
-        this(event, definition, definition.replyConfig());
-    }
-
-    /// Constructs a new MessageReply.
-    ///
     /// @param reply the [MessageReply] to copy
     public MessageReply(@NotNull MessageReply reply) {
         this.event = reply.event;

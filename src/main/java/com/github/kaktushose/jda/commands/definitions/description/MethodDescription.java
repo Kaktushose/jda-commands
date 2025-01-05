@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.SequencedCollection;
 
 /// A [Description] that describes a method.
@@ -22,4 +23,12 @@ public record MethodDescription(
         @NotNull Collection<Annotation> annotations,
         @NotNull Invoker invoker
 ) implements Description {
+    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<Annotation> annotations, @NotNull Invoker invoker) {
+        this.declaringClass = declaringClass;
+        this.returnType = returnType;
+        this.name = name;
+        this.parameters = Collections.unmodifiableSequencedCollection(parameters);
+        this.annotations = Collections.unmodifiableCollection(annotations);
+        this.invoker = invoker;
+    }
 }

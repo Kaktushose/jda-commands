@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 /// command.
 ///
 /// It is also possible to pass a default value which will be used instead if the argument isn't present.
-/// The default value will be handled as a normal input and thus the [TypeAdapterRegistry] will try to parse it.
+/// The default value will be handled as a normal input and thus the [TypeAdapters] will try to parse it.
 /// If the parsing fails the command will still be executed but with empty or possible `null` values.
 ///
 /// @see SlashCommand

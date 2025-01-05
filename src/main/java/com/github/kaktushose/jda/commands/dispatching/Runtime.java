@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.*;
@@ -46,6 +47,7 @@ public final class Runtime implements Closeable {
     private final AutoCompleteHandler autoCompleteHandler;
     private final ContextCommandHandler contextCommandHandler;
     private final ComponentHandler componentHandler;
+    private final DependencyInjector dependencyInjector;
     private final String id;
     private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
@@ -64,6 +66,7 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(dispatchingContext);
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
+        this.dependencyInjector = dispatchingContext.dependencyInjector();
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))
@@ -123,7 +126,9 @@ public final class Runtime implements Closeable {
     public Object instance(InteractionDefinition definition) {
         return instances.computeIfAbsent(definition.methodDescription().declaringClass(), _ -> {
             try {
-                return definition.newInstance();
+                var instance =  definition.newInstance();
+                dependencyInjector.inject(instance);
+                return instance;
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

@@ -11,7 +11,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.Com
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
-import com.github.kaktushose.jda.commands.dispatching.reply.GlobalReplyConfig;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,17 +57,17 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// The [ReplyConfig] that should be used when sending replies.
     ///
     /// @implNote This will first attempt to use the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
-    /// annotation of the method and then of the class. If neither is present will fall back to the [GlobalReplyConfig].
+    /// annotation of the method and then of the class. If neither is present will fall back to the global [ReplyConfig] provided by [com.github.kaktushose.jda.commands.JDACommandsBuilder]
     @NotNull
-    default ReplyConfig replyConfig() {
-        var global = clazzDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
-        var local = methodDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
+    default ReplyConfig replyConfig(@NotNull ReplyConfig globalFallback) {
+        var clazz = clazzDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
+        var method = methodDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
 
-        if (global.isEmpty() && local.isEmpty()) {
-            return new ReplyConfig();
+        if (clazz.isEmpty() && method.isEmpty()) {
+            return globalFallback;
         }
 
-        return local.map(ReplyConfig::new).orElseGet(() -> new ReplyConfig(global.get()));
+        return method.map(ReplyConfig::new).orElseGet(() -> new ReplyConfig(clazz.get()));
 
     }
 
@@ -78,9 +77,12 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// @see com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig ReplyConfig
     record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean editReply) {
 
-        /// Constructs a new ReplyConfig using the default values specified by [GlobalReplyConfig].
+        /// Constructs a new [ReplyConfig] using the following default values:
+        /// - ephemeral: `false`
+        /// - keepComponents: `true`
+        /// - editReply: `true`
         public ReplyConfig() {
-            this(GlobalReplyConfig.ephemeral, GlobalReplyConfig.keepComponents, GlobalReplyConfig.editReply);
+            this(false, true, true);
         }
 
         /// Constructs a new ReplyConfig.

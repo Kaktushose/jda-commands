@@ -6,9 +6,8 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,17 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SlashCommandDefinitionTest {
 
     private static Class<?> controller;
-    private static ValidatorRegistry validator;
+    private static Validators validator;
 
     @BeforeAll
     public static void setup() {
         controller = CommandDefinitionTestController.class;
 
-        validator = new ValidatorRegistry();
-
-        // make sure that this type is not registered before testing
-        TypeAdapterRegistry adapter = new TypeAdapterRegistry();
-        adapter.unregister(UnsupportedType.class);
+        validator = new Validators(Map.of());
     }
 
     public static MethodBuildContext getBuildContext(Method method) {
@@ -159,7 +154,7 @@ public class SlashCommandDefinitionTest {
         assertEquals(2, definition.commandOptions().size());
         var parameters = List.copyOf(definition.commandOptions());
         assertEquals(String.class, parameters.get(0).type());
-        assertEquals(Integer.class, parameters.get(1).type());
+        assertEquals(int.class, parameters.get(1).type());
     }
 
     @Test

@@ -55,7 +55,7 @@ public final class JDAEventListener extends ListenerAdapter {
                 componentEvent.deferEdit().setComponents().queue();
                 componentEvent.getHook()
                         .setEphemeral(true)
-                        .sendMessage(context.implementationRegistry().getErrorMessageFactory().getTimedOutComponentMessage(jdaEvent))
+                        .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
                         .queue();
             } else {
                 log.debug("Received unknown event: {}", jdaEvent);
