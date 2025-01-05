@@ -19,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.TYPE_MAPPINGS;
-
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
 public final class Helpers {
@@ -120,7 +118,7 @@ public final class Helpers {
     public static boolean checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
         var parameters = method.parameters().stream()
                 .map(ParameterDescription::type)
-                .map(it -> TYPE_MAPPINGS.getOrDefault(it, it)).toList();
+                .toList();
         if (!parameters.equals(methodSignature)) {
             log.error("An error has occurred! Skipping Interaction {}.{}:",
                     method.declaringClass().getName(),

@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,19 +51,6 @@ public record OptionDataDefinition(
         @NotNull SequencedCollection<Command.Choice> choices,
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
-
-    /// A mapping of primitive types and their wrapper classes.
-    @ApiStatus.Internal
-    public static final Map<Class<?>, Class<?>> TYPE_MAPPINGS = Map.ofEntries(
-            entry(byte.class, Byte.class),
-            entry(short.class, Short.class),
-            entry(int.class, Integer.class),
-            entry(long.class, Long.class),
-            entry(double.class, Double.class),
-            entry(float.class, Float.class),
-            entry(boolean.class, Boolean.class),
-            entry(char.class, Character.class)
-    );
 
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
             entry(Byte.class, OptionType.STRING),
@@ -113,8 +99,6 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              boolean autoComplete,
                                              @NotNull ValidatorRegistry validatorRegistry) {
-        final var parameterType = TYPE_MAPPINGS.getOrDefault(parameter.type(), parameter.type());
-
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
         var defaultValue = "";
         if (optional.isPresent()) {
@@ -129,7 +113,7 @@ public record OptionDataDefinition(
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), parameterType);
+                    var validator = validatorRegistry.get(it.annotationType(), parameter.type());
                     validator.ifPresent(value -> constraints.add(ConstraintDefinition.build(value, it)));
                 });
 
@@ -160,7 +144,7 @@ public record OptionDataDefinition(
             }
         }
         return new OptionDataDefinition(
-                parameterType,
+                parameter.type(),
                 optional.isPresent(),
                 autoComplete,
                 defaultValue,

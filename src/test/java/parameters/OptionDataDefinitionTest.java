@@ -2,7 +2,7 @@ package parameters;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.MinimumValidator;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ParameterDefinitionTest {
+public class OptionDataDefinitionTest {
 
     private static Class<?> controller;
     private static ValidatorRegistry validatorRegistry;
@@ -42,7 +42,7 @@ public class ParameterDefinitionTest {
     @Test
     public void optional_withoutDefault_ShouldBeNull() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optional", Object.class);
-        ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
 
         assertTrue(parameter.optional());
         assertNull(parameter.defaultValue());
@@ -51,7 +51,7 @@ public class ParameterDefinitionTest {
     @Test
     public void optional_withDefault_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optionalWithDefault", Object.class);
-        ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
 
         assertTrue(parameter.optional());
         assertEquals("default", parameter.defaultValue());
@@ -60,7 +60,7 @@ public class ParameterDefinitionTest {
     @Test
     public void constraintMin_withLimit10_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraint", int.class);
-        ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
 
         var constraints = List.copyOf(parameter.constraints());
         assertEquals(1, parameter.constraints().size());
@@ -72,7 +72,7 @@ public class ParameterDefinitionTest {
     @Test
     public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraintWithMessage", int.class);
-        ParameterDefinition parameter = ParameterDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
         var constraints = List.copyOf(parameter.constraints());
 
         assertEquals("error message", constraints.getFirst().message());
