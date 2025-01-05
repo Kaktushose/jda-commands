@@ -3,12 +3,12 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -44,14 +44,14 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
     protected final DispatchingContext dispatchingContext;
-    protected final MiddlewareRegistry middlewareRegistry;
+    protected final Middlewares middlewares;
     protected final InteractionRegistry registry;
-    protected final TypeAdapterRegistry adapterRegistry;
+    protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
     public EventHandler(DispatchingContext dispatchingContext) {
         this.dispatchingContext = dispatchingContext;
-        this.middlewareRegistry = dispatchingContext.middlewareRegistry();
+        this.middlewares = dispatchingContext.middlewares();
         this.registry = dispatchingContext.registry();
         this.adapterRegistry = dispatchingContext.adapterRegistry();
         this.errorMessageFactory = dispatchingContext.errorMessageFactory();
@@ -72,7 +72,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
 
         log.debug("Executing middlewares...");
-        middlewareRegistry.forAllOrdered(middleware -> {
+        middlewares.forAllOrdered(middleware -> {
             log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
             middleware.accept(context);
         });

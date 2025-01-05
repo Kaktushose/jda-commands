@@ -20,7 +20,7 @@ import java.util.Optional;
 /// Central registry for all type adapters.
 ///
 /// @see TypeAdapter
-public class TypeAdapterRegistry {
+public class TypeAdapters {
 
     public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
@@ -34,7 +34,7 @@ public class TypeAdapterRegistry {
     );
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
-    /// Constructs a new TypeAdapterRegistry. This will register default type adapters for:
+    /// Constructs a new TypeAdapters. This will register default type adapters for:
     ///
     ///   - all primitive data types
     ///   - [String]
@@ -43,7 +43,7 @@ public class TypeAdapterRegistry {
     ///   - [User]
     ///   - [MessageChannel] and subtypes
     ///   - [Role]
-    public TypeAdapterRegistry(Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
+    public TypeAdapters(Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
         HashMap<Class<?>, TypeAdapter<?>> adapterMap = new HashMap<>(parameterAdapters);
 
         // default types

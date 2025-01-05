@@ -8,13 +8,13 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.dispatching.validation.internal.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
@@ -147,16 +147,16 @@ public class JDACommandsBuilder {
 
     /// This method instantiated an instance of [JDACommands] and starts the framework.
     public JDACommands start(Class<?> clazz, String... packages) {
-        ValidatorRegistry validatorRegistry = new ValidatorRegistry(validators);
+        Validators validators = new Validators(this.validators);
         JDACommands jdaCommands = new JDACommands(
                 context,
                 dependencyInjector,
                 expirationStrategy,
-                new TypeAdapterRegistry(typeAdapters),
-                new MiddlewareRegistry(middlewares, errorMessageFactory, permissionsProvider),
+                new TypeAdapters(typeAdapters),
+                new Middlewares(middlewares, errorMessageFactory, permissionsProvider),
                 errorMessageFactory,
                 guildScopeProvider,
-                new InteractionRegistry(dependencyInjector, validatorRegistry, localizationFunction, descriptor)
+                new InteractionRegistry(dependencyInjector, validators, localizationFunction, descriptor)
         );
 
         return jdaCommands.start(classFinders, clazz, packages);

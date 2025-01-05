@@ -11,10 +11,10 @@ import java.util.*;
 /// Central registry for all [Validator]s.
 ///
 /// @see Validator
-public class ValidatorRegistry {
+public class Validators {
     private final Map<Class<? extends Annotation>, Validator> validators;
 
-    /// Constructs a new ValidatorRegistry. This will register the following [Validator]s by default:
+    /// Constructs a new Validators. This will register the following [Validator]s by default:
     ///
     ///   - [MinimumValidator]
     ///   - [MaximumValidator]
@@ -24,7 +24,7 @@ public class ValidatorRegistry {
     ///   - [NotPermissionValidator]
     ///   - [UserValidator]
     ///   - [NotUserValidator]
-    public ValidatorRegistry(Map<Class<? extends Annotation>, Validator> validators) {
+    public Validators(Map<Class<? extends Annotation>, Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
                 // default types

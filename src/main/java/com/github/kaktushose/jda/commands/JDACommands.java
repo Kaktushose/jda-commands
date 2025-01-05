@@ -9,10 +9,10 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
-import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
@@ -40,8 +40,8 @@ public final class JDACommands {
             JDAContext jdaContext,
             DependencyInjector dependencyInjector,
             ExpirationStrategy expirationStrategy,
-            TypeAdapterRegistry typeAdapterRegistry,
-            MiddlewareRegistry middlewareRegistry,
+            TypeAdapters typeAdapters,
+            Middlewares middlewares,
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry) {
@@ -49,7 +49,7 @@ public final class JDACommands {
         this.dependencyInjector = dependencyInjector;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewareRegistry, errorMessageFactory, interactionRegistry, typeAdapterRegistry, expirationStrategy, dependencyInjector));
+        this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector));
     }
 
     JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {

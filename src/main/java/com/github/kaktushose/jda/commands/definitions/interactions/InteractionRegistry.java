@@ -12,7 +12,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.validation.internal.ValidatorRegistry;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import static com.github.kaktushose.jda.commands.definitions.interactions.comman
 
 /// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(DependencyInjector dependencyInjector,
-                                  ValidatorRegistry validatorRegistry,
+                                  Validators validators,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
                                   Set<Definition> definitions
@@ -36,10 +36,10 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
     /// Constructs a new [InteractionRegistry]
     ///
     /// @param injector   the [DependencyInjector] to use
-    /// @param registry   the corresponding [ValidatorRegistry]
+    /// @param registry   the corresponding [Validators]
     /// @param function   the [LocalizationFunction] to use
     /// @param descriptor the [Descriptor] to use
-    public InteractionRegistry(DependencyInjector injector, ValidatorRegistry registry, LocalizationFunction function, Descriptor descriptor) {
+    public InteractionRegistry(DependencyInjector injector, Validators registry, LocalizationFunction function, Descriptor descriptor) {
         this(injector, registry, function, descriptor, new HashSet<>());
     }
 
@@ -78,7 +78,7 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
         // index interactions
         var interactionDefinitions = interactionDefinitions(
                 clazz,
-                validatorRegistry,
+                validators,
                 localizationFunction,
                 interaction,
                 permissions,
@@ -111,7 +111,7 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
     }
 
     private Set<Definition> interactionDefinitions(ClassDescription clazz,
-                                                   ValidatorRegistry validatorRegistry,
+                                                   Validators validators,
                                                    LocalizationFunction localizationFunction,
                                                    Interaction interaction,
                                                    Set<String> permissions,
@@ -120,7 +120,7 @@ public record InteractionRegistry(DependencyInjector dependencyInjector,
         Set<Definition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
-                    validatorRegistry,
+                    validators,
                     localizationFunction,
                     interaction,
                     permissions,

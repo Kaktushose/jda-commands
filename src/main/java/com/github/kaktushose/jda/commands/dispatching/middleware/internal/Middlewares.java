@@ -13,11 +13,11 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /// Central registry for all [Middleware]s.
-public class MiddlewareRegistry {
+public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;
 
-    public MiddlewareRegistry(Set<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
+    public Middlewares(Set<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
                 Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
