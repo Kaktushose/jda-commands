@@ -538,6 +538,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @Nullable TextChannel getSafetyAlertsChannel() {
+        return null;
+    }
+
     @Nullable
     @Override
     public Member getOwner() {
