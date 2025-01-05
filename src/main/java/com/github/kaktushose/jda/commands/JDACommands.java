@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
-import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
@@ -68,24 +67,24 @@ public final class JDACommands {
         return this;
     }
 
-    /// Creates a new JDACommands instance and starts the frameworks.
+    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
     ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new JDACommands instance
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return builder(jda, clazz, packages).start(clazz, packages);
+        return builder(jda, clazz, packages).start();
     }
 
-    /// Creates a new JDACommands instance and starts the frameworks.
+    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @param clazz        a class of the classpath to scan
     /// @param packages     package(s) to exclusively scan
     /// @return a new JDACommands instance
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return builder(shardManager, clazz, packages).start(clazz, packages);
+        return builder(shardManager, clazz, packages).start();
     }
 
     /// Create a new builder which uses a reflection based version of [ClassFinder].
@@ -94,30 +93,14 @@ public final class JDACommands {
     /// @param packages package(s) to exclusively scan
     /// @return a new [JDACommandsBuilder]
     public static JDACommandsBuilder builder(JDA jda, Class<?> clazz, String... packages) {
-        return new JDACommandsBuilder(new JDAContext(jda), new ClassFinder[]{new ReflectiveClassFinder(clazz, packages)});
+        return new JDACommandsBuilder(new JDAContext(jda), clazz, packages);
     }
 
     /// Create a new builder which uses a reflection based version of [ClassFinder].
     /// @param shardManager      the corresponding [ShardManager] instance
     /// @return a new [JDACommandsBuilder]
     public static JDACommandsBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
-        return new JDACommandsBuilder(new JDAContext(shardManager), new ClassFinder[]{new ReflectiveClassFinder(clazz, packages)});
-    }
-
-    /// Create a new builder.
-    /// @param jda      the corresponding [JDA] instance
-    /// @param classFinders the [ClassFinder]s to be used
-    /// @return a new [JDACommandsBuilder]
-    public static JDACommandsBuilder builder(JDA jda, ClassFinder... classFinders) {
-        return new JDACommandsBuilder(new JDAContext(jda), classFinders);
-    }
-
-    /// Create a new builder.
-    /// @param shardManager the corresponding [ShardManager] instance
-    /// @param classFinders the [ClassFinder]s to be used
-    /// @return a new [JDACommandsBuilder]
-    public static JDACommandsBuilder builder(ShardManager shardManager, ClassFinder... classFinders) {
-        return new JDACommandsBuilder(new JDAContext(shardManager), classFinders);
+        return new JDACommandsBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
     /**

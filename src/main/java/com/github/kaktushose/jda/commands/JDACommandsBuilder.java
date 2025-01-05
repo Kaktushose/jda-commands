@@ -32,9 +32,26 @@ import java.util.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
-/// Please note that values that can be set, have a default implementation by default.
+/// Please note that values that can be set have a default implementation by default.
+/// These default implementations are sometimes bases on reflections. If you want to avoid reflections, you have to provide your own implementations for:
+/// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
+/// - [#classFinders(ClassFinder...)]
+/// - [#dependencyInjector(DependencyInjector)]
+///
+/// A possible usage is for example:
+/// ```java
+///         JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
+///                 .middleware(Priority.NORMAL, new TestMiddleware())
+///                 .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
+///                 .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
+///                 .start();
+/// ```
+///
 public class JDACommandsBuilder {
+    private final Class<?> baseClass;
+    private final String[] packages;
     private final JDAContext context;
+
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
     private DependencyInjector dependencyInjector = new DefaultDependencyInjector();
     private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
@@ -43,7 +60,7 @@ public class JDACommandsBuilder {
     private ErrorMessageFactory errorMessageFactory = new DefaultErrorMessageFactory();
     private GuildScopeProvider guildScopeProvider = new DefaultGuildScopeProvider();
 
-    private final Collection<ClassFinder> classFinders;
+    private Collection<ClassFinder> classFinders;
     private Descriptor descriptor = new ReflectiveDescriptor();
 
     private ReplyConfig globalReplyConfig = new ReplyConfig();
@@ -53,17 +70,23 @@ public class JDACommandsBuilder {
     private final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
     private final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
 
-    JDACommandsBuilder(@NotNull JDAContext context, @NotNull ClassFinder[] classFinders) {
-        this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
+    JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, String[] packages) {
+        this.baseClass = baseClass;
+        this.packages = packages;
         this.context = Objects.requireNonNull(context);
+        this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
     }
 
-    /// Adds instances of [ClassFinder] to the later used collection
+
+    /// @param classFinders the to be used [ClassFinder]s
     ///
-    /// @param classFinders The [ClassFinder]s to be added
+    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
+    /// [ClassFinder#reflective(Class, String...)] too.
+    ///
     @NotNull
     public JDACommandsBuilder classFinders(ClassFinder... classFinders) {
-        this.classFinders.addAll(Arrays.asList(classFinders));
+        this.classFinders = Arrays.asList(classFinders);
         return this;
     }
 
@@ -158,7 +181,7 @@ public class JDACommandsBuilder {
 
     /// This method instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
-    public JDACommands start(@NotNull Class<?> clazz, @NotNull String... packages) {
+    public JDACommands start() {
         Validators validators = new Validators(this.validators);
         JDACommands jdaCommands = new JDACommands(
                 context,
@@ -172,6 +195,6 @@ public class JDACommandsBuilder {
                 globalReplyConfig
         );
 
-        return jdaCommands.start(classFinders, clazz, packages);
+        return jdaCommands.start(classFinders, baseClass, packages);
     }
 }
