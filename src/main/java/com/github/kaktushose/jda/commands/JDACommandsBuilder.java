@@ -32,19 +32,19 @@ import java.util.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
-/// Please note that values that can be set have a default implementation by default.
+/// Please note that values that can be set have a default implementation;
 /// These default implementations are sometimes bases on reflections. If you want to avoid reflections, you have to provide your own implementations for:
 /// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
 /// - [#classFinders(ClassFinder...)]
 /// - [#dependencyInjector(DependencyInjector)]
 ///
-/// A possible usage is for example:
+/// ## Example
 /// ```java
-///         JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
-///                 .middleware(Priority.NORMAL, new TestMiddleware())
-///                 .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
-///                 .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
-///                 .start();
+/// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
+///     .middleware(Priority.NORMAL, new TestMiddleware())
+///     .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
+///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
+///     .start();
 /// ```
 ///
 public class JDACommandsBuilder {
@@ -70,7 +70,8 @@ public class JDACommandsBuilder {
     private final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
     private final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
 
-    JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, String[] packages) {
+
+    JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = Objects.requireNonNull(context);
@@ -97,7 +98,7 @@ public class JDACommandsBuilder {
         return this;
     }
 
-    /// @param localizationFunction The [LocalizationFunction] to be used to localize things
+    /// @param localizationFunction The [LocalizationFunction] to be used to localize interactions
     @NotNull
     public JDACommandsBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
         this.localizationFunction = Objects.requireNonNull(localizationFunction);
@@ -129,7 +130,7 @@ public class JDACommandsBuilder {
         return this;
     }
 
-    /// @param type    The resulting type of the give [TypeAdapter]
+    /// @param type    The type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     @NotNull
     public JDACommandsBuilder adapter(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
@@ -141,7 +142,7 @@ public class JDACommandsBuilder {
     }
 
     /// @param annotation The annotation for which the given [Validator] should be called
-    /// @param validator  The to be registered [Validator]
+    /// @param validator  The [Validator] to be registered
     @NotNull
     public JDACommandsBuilder validator(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) {
         Objects.requireNonNull(annotation);
@@ -182,7 +183,6 @@ public class JDACommandsBuilder {
     /// This method instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {
-        Validators validators = new Validators(this.validators);
         JDACommands jdaCommands = new JDACommands(
                 context,
                 dependencyInjector,
@@ -191,7 +191,7 @@ public class JDACommandsBuilder {
                 new Middlewares(middlewares, errorMessageFactory, permissionsProvider),
                 errorMessageFactory,
                 guildScopeProvider,
-                new InteractionRegistry(dependencyInjector, validators, localizationFunction, descriptor),
+                new InteractionRegistry(dependencyInjector, new Validators(this.validators), localizationFunction, descriptor),
                 globalReplyConfig
         );
 

@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class TypeAdapters {
     ///   - [User]
     ///   - [MessageChannel] and subtypes
     ///   - [Role]
-    public TypeAdapters(Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
+    public TypeAdapters(@NotNull Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
         HashMap<Class<?>, TypeAdapter<?>> adapterMap = new HashMap<>(parameterAdapters);
 
         // default types

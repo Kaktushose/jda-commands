@@ -107,7 +107,7 @@ public record OptionDataDefinition(
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     @NotNull
-    public static OptionDataDefinition build(ParameterDescription parameter,
+    public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              boolean autoComplete,
                                              @NotNull Validators validatorRegistry) {
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);

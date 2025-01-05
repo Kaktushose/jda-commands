@@ -18,7 +18,7 @@ import java.util.Set;
 public record MethodBuildContext(
         @NotNull Validators validators,
         @NotNull LocalizationFunction localizationFunction,
-        Interaction interaction,
+        @NotNull Interaction interaction,
         @NotNull Set<String> permissions,
         @Nullable CooldownDefinition cooldownDefinition,
         @NotNull ClassDescription clazz,

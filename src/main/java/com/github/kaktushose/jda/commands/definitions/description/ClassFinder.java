@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-/// [ClassFinder]s provide instances of [Class] that will be scanned for [Interaction]
+/// [ClassFinder]s provide instances of [Class] that will be scanned for [Interaction]s
 public interface ClassFinder {
 
     /// @return the classes to be searched for [Interaction]

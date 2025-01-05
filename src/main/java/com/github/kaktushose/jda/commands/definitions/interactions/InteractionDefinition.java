@@ -77,7 +77,10 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// @see com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig ReplyConfig
     record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean editReply) {
 
-        /// Constructs a new ReplyConfig using the same default values as [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
+        /// Constructs a new [ReplyConfig] using the following default values:
+        /// - ephemeral: `false`
+        /// - keepComponents: `true`
+        /// - editReply: `true`
         public ReplyConfig() {
             this(false, true, true);
         }

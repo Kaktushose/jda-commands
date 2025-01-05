@@ -24,7 +24,7 @@ public class Validators {
     ///   - [NotPermissionValidator]
     ///   - [UserValidator]
     ///   - [NotUserValidator]
-    public Validators(Map<Class<? extends Annotation>, Validator> validators) {
+    public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
                 // default types
@@ -48,6 +48,7 @@ public class Validators {
     /// @param annotation the class of the annotation
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
+    @NotNull
     public Optional<Validator> get(@NotNull Class<?> annotation, @NotNull Class<?> type) {
         Validator validator = validators.get(annotation);
 

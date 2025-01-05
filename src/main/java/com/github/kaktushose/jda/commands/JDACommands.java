@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
@@ -34,7 +36,7 @@ import java.util.Collection;
 public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;
-    private final com.github.kaktushose.jda.commands.dispatching.JDAEventListener JDAEventListener;
+    private final JDAEventListener jdaEventListener;
     private final DependencyInjector dependencyInjector;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
@@ -53,7 +55,7 @@ public final class JDACommands {
         this.dependencyInjector = dependencyInjector;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.JDAEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector, globalReplyConfig));
     }
 
     JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {
@@ -62,12 +64,13 @@ public final class JDACommands {
         classFinders.forEach(classFinder -> interactionRegistry.index(classFinder.find()));
         updater.updateAllCommands();
 
-        jdaContext.performTask(it -> it.addEventListener(JDAEventListener));
+        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
         log.info("Finished loading!");
         return this;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+    /// This uses reflections for some functionality.
     ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
@@ -79,6 +82,7 @@ public final class JDACommands {
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+    /// This uses reflections for some functionality.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @param clazz        a class of the classpath to scan
@@ -89,7 +93,7 @@ public final class JDACommands {
         return builder(shardManager, clazz, packages).start();
     }
 
-    /// Create a new builder which uses a reflection based version of [ClassFinder].
+    /// Create a new builder.
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
@@ -99,7 +103,7 @@ public final class JDACommands {
         return new JDACommandsBuilder(new JDAContext(jda), clazz, packages);
     }
 
-    /// Create a new builder which uses a reflection based version of [ClassFinder].
+    /// Create a new builder.
     /// @param shardManager      the corresponding [ShardManager] instance
     /// @return a new [JDACommandsBuilder]
     @NotNull
@@ -112,58 +116,42 @@ public final class JDACommands {
      * This will <b>not</b> unregister any slash commands.
      */
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(JDAEventListener));
+        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));
     }
 
-    /// Updates all slash commands that are registered with
-    /// [CommandScope#Guild][#GUILD]
+    /// Updates all slash commands that are registered with [CommandScope#GUILD]
     public void updateGuildCommands() {
         updater.updateGuildCommands();
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the definition id
     /// and transforms it into a JDA [Button].
     ///
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a message without
     /// using the framework.
     ///
-    /// @param button the name of the button
+    /// @param button the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [Button]
     @NotNull
     public Button getButton(@NotNull String button) {
-        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Button");
-        }
-
-        String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.find(ButtonDefinition.class, it -> it.definitionId().equals(sanitizedId))
-                .stream()
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
-
-        return buttonDefinition.toJDAEntity();
+        var id = String.valueOf(button.replaceAll("\\.", "").hashCode());
+        var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the definition id and transforms it into a JDA [SelectMenu].
     ///
     /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a component
     /// without using the framework.
     ///
-    /// @param <S>  the type of [SelectMenu]
-    /// @param menu the name of the select menu
+    /// @param menu the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [SelectMenu]
     @SuppressWarnings("unchecked")
     @NotNull
-    public <S extends SelectMenu> S getSelectMenu(@NotNull String menu) {
-        if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Select Menu");
-        }
-
-        String sanitizedId = menu.replaceAll("\\.", "");
-        SelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.find(SelectMenuDefinition.class, it -> it.definitionId().equals(sanitizedId))
-                .stream()
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
-
-        return (S) selectMenuDefinition.toJDAEntity();
+    public SelectMenu getSelectMenu(@NotNull String menu) {
+        var id = String.valueOf(menu.replaceAll("\\.", "").hashCode());
+        var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
 }

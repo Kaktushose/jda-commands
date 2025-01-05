@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMi
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -17,7 +18,7 @@ public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;
 
-    public Middlewares(Set<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
+    public Middlewares(@NotNull Set<Map.Entry<Priority, Middleware>> userDefined, @NotNull ErrorMessageFactory errorMessageFactory, @NotNull PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
                 Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
@@ -35,9 +36,10 @@ public class Middlewares {
         this.middlewares = Collections.unmodifiableSortedMap(middlewareMap);
     }
 
-    /// Returns a set of all registered [Middlewares][Middleware], regardless of their priority.
+    /// Returns a set of all registered [Middleware]s, regardless of their priority.
     ///
-    /// @return a set of all registered middlewares [Middlewares][Middleware]
+    /// @return a set of all registered middlewares [Middleware]s
+    @NotNull
     public Set<Middleware> getMiddlewares() {
         return middlewares.sequencedValues()
                 .stream()
@@ -45,7 +47,9 @@ public class Middlewares {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    public void forAllOrdered(Consumer<Middleware> task) {
+    /// Executed the given task for all registered [Middleware]s ordered by their [Priority]
+    /// @param task The task to be executed
+    public void forAllOrdered(@NotNull Consumer<Middleware> task) {
         for (Set<Middleware> value : middlewares.values()) {
             value.forEach(task);
         }

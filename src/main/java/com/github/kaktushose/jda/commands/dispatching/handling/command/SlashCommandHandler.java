@@ -60,7 +60,6 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             var raw = input.get(i);
             if (raw == null) {
                 if (commandOption.defaultValue() == null) {
-                    System.out.println(commandOption.type());
                     parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(commandOption.type(), null));
                     continue;
                 } else {
