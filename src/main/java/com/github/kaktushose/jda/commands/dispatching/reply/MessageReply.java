@@ -1,9 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.ReplyConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -31,12 +29,11 @@ import org.slf4j.LoggerFactory;
 ///
 /// @see ConfigurableReply
 /// @see ReplyableEvent
-/// @since 4.0.0
 public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     protected static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final GenericInteractionCreateEvent event;
-    protected final GenericInteractionDefinition definition;
+    protected final InteractionDefinition definition;
     protected final MessageCreateBuilder builder;
     protected boolean ephemeral;
     protected boolean editReply;
@@ -45,12 +42,11 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// Constructs a new MessageReply.
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
-    /// @param definition  the corresponding [GenericInteractionDefinition]. This is mostly needed by the
-    ///                                                         [ConfigurableReply]
-    /// @param replyConfig the [ReplyConfig] to use
+    /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
+    /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
-                        @NotNull GenericInteractionDefinition definition,
-                        @NotNull ReplyConfig replyConfig) {
+                        @NotNull InteractionDefinition definition,
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
         this.ephemeral = replyConfig.ephemeral();
@@ -62,9 +58,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// Constructs a new MessageReply.
     ///
     /// @param event      the corresponding [GenericInteractionCreateEvent]
-    /// @param definition the corresponding [EphemeralInteractionDefinition]. This is mostly needed by the
-    ///                                                       [ConfigurableReply]
-    public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull EphemeralInteractionDefinition definition) {
+    /// @param definition the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
+    public MessageReply(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
         this(event, definition, definition.replyConfig());
     }
 
@@ -121,7 +116,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         }
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}]",
-                definition.getDisplayName(), builder.build().toData(), ephemeral, editReply, keepComponents
+                definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents
         );
         var hook = ((IDeferrableCallback) event).getHook();
         if (editReply) {

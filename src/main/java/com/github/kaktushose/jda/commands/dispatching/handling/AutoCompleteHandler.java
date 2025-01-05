@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -21,10 +22,11 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
     protected InvocationContext<CommandAutoCompleteInteractionEvent> prepare(@NotNull CommandAutoCompleteInteractionEvent event, @NotNull Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
-        return interactionRegistry.getAutoCompletes().stream()
-                .filter(it -> it.getCommandNames().stream().anyMatch(name -> interaction.getFullCommandName().startsWith(name)))
+        return registry.find(AutoCompleteDefinition.class,
+                        it -> it.commands().stream().anyMatch(name -> interaction.getFullCommandName().startsWith(name))
+                ).stream()
                 .findFirst()
-                .map(autoComplete -> new InvocationContext<>(event, runtime.keyValueStore(), autoComplete, List.of(new AutoCompleteEvent(event, interactionRegistry, runtime))))
+                .map(autoComplete -> new InvocationContext<>(event, runtime.keyValueStore(), autoComplete, List.of(new AutoCompleteEvent(event, registry, runtime))))
                 .orElseGet(() -> {
                     log.debug("No auto complete handler found for {}", interaction.getFullCommandName());
                     return null;

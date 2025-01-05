@@ -8,11 +8,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Central registry for all {@link Middleware Middlewares}.
- *
- * @since 4.0.0
- */
+/// Central registry for all [Middleware]s.
 public class MiddlewareRegistry {
 
     private static final Logger log = LoggerFactory.getLogger(MiddlewareRegistry.class);
@@ -23,63 +19,53 @@ public class MiddlewareRegistry {
             Priority.LOW, new HashSet<>()
     ));
 
-    /**
-     * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
-     *
-     * @param priority    the {@link Priority} to register the {@link Middleware Middleware(s)} with
-     * @param first       the first {@link Middleware} to register
-     * @param middlewares additional {@link Middleware Middlewares} to register
-     * @return this instance for fluent interface
-     */
+    /// Register [Middleware(s)][Middleware] with the given [Priority].
+    ///
+    /// @param priority    the [Priority] to register the [Middleware(s)][Middleware] with
+    /// @param first       the first [Middleware] to register
+    /// @param middlewares additional [Middleware]s to register
+    /// @return this instance for fluent interface
     public MiddlewareRegistry register(Priority priority, Middleware first, Middleware... middlewares) {
         register(priority, Stream.concat(Stream.of(first), Arrays.stream(middlewares)).collect(Collectors.toList()));
         return this;
     }
 
-    /**
-     * Register {@link Middleware Middleware(s)} with the given {@link Priority}.
-     *
-     * @param priority    the {@link Priority} to register the {@link Middleware Middleware(s)} with
-     * @param middlewares the {@link Middleware Middleware(s)} to register
-     * @return this instance for fluent interface
-     */
+    /// Register [Middleware(s)][Middleware] with the given [Priority].
+    ///
+    /// @param priority    the [Priority] to register the [Middleware(s)][Middleware] with
+    /// @param middlewares the [Middleware(s)][Middleware] to register
+    /// @return this instance for fluent interface
     public MiddlewareRegistry register(Priority priority, Collection<Middleware> middlewares) {
         this.middlewares.get(priority).addAll(middlewares);
         log.debug("Registered middleware(s) {} with priority {}", middlewares, priority);
         return this;
     }
 
-    /**
-     * Unregister {@link Middleware Middleware(s)} with the given {@link Priority}.
-     *
-     * @param priority    the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
-     * @param first       the first {@link Middleware} to unregister
-     * @param middlewares additional {@link Middleware Middlewares} to unregister
-     * @return this instance for fluent interface
-     */
+    /// Unregister [Middleware(s)][Middleware] with the given [Priority].
+    ///
+    /// @param priority    the [Priority] to unregister the [Middleware(s)][Middleware] with
+    /// @param first       the first [Middleware] to unregister
+    /// @param middlewares additional [Middlewares][Middleware] to unregister
+    /// @return this instance for fluent interface
     public MiddlewareRegistry unregister(Priority priority, Middleware first, Middleware... middlewares) {
         unregister(priority, Stream.concat(Stream.of(first), Arrays.stream(middlewares)).collect(Collectors.toList()));
         return this;
     }
 
-    /**
-     * Unregister {@link Middleware Middleware(s)} with the given {@link Priority}.
-     *
-     * @param priority    the {@link Priority} to unregister the {@link Middleware Middleware(s)} with
-     * @param middlewares the {@link Middleware Middleware(s)} to unregister
-     * @return this instance for fluent interface
-     */
+    /// Unregister [Middleware(s)][Middleware] with the given [Priority].
+    ///
+    /// @param priority    the [Priority] to unregister the [Middleware(s)][Middleware] with
+    /// @param middlewares the [Middleware(s)][Middleware] to unregister
+    /// @return this instance for fluent interface
     public MiddlewareRegistry unregister(Priority priority, Collection<Middleware> middlewares) {
         this.middlewares.get(priority).removeAll(middlewares);
         log.debug("Unregistered middleware(s) {}", middlewares);
         return this;
     }
 
-    /**
-     * Returns a set of all registered {@link Middleware Middlewares}, regardless of their priority.
-     *
-     * @return a set of all registered middlewares {@link Middleware Middlewares}
-     */
+    /// Returns a set of all registered [Middlewares][Middleware], regardless of their priority.
+    ///
+    /// @return a set of all registered middlewares [Middlewares][Middleware]
     public Set<Middleware> getMiddlewares() {
         return middlewares.sequencedValues()
                 .stream()
@@ -93,11 +79,9 @@ public class MiddlewareRegistry {
         }
     }
 
-    /**
-     * Returns a possibly-empty set of all registered {@link Middleware Middlewares} with the given {@link Priority}.
-     *
-     * @return a set of all registered middlewares {@link Middleware Middlewares} with the given {@link Priority}
-     */
+    /// Returns a possibly-empty set of all registered [Middlewares][Middleware] with the given [Priority].
+    ///
+    /// @return a set of all registered middlewares [Middlewares][Middleware] with the given [Priority]
     public Set<Middleware> getMiddlewares(Priority priority) {
         return Collections.unmodifiableSet(middlewares.get(priority));
     }

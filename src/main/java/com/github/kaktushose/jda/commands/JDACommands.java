@@ -1,13 +1,20 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
 import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
-import com.github.kaktushose.jda.commands.dispatching.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.internal.JDAEventListener;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.ImplementationRegistry;
+import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.MiddlewareRegistry;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
@@ -17,10 +24,6 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.Permission
 import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.reflect.ImplementationRegistry;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
@@ -53,7 +56,7 @@ public record JDACommands(
         var adapterRegistry = new TypeAdapterRegistry();
         var validatorRegistry = new ValidatorRegistry();
         var implementationRegistry = new ImplementationRegistry(dependencyInjector, middlewareRegistry, adapterRegistry, validatorRegistry);
-        var interactionRegistry = new InteractionRegistry(validatorRegistry, dependencyInjector, function);
+        var interactionRegistry = new InteractionRegistry(dependencyInjector, validatorRegistry, function, new ReflectiveDescriptor());
 
         middlewareRegistry.register(Priority.PERMISSIONS, new PermissionsMiddleware(implementationRegistry));
         middlewareRegistry.register(Priority.NORMAL, new ConstraintMiddleware(implementationRegistry), new CooldownMiddleware(implementationRegistry));
@@ -62,7 +65,7 @@ public record JDACommands(
 
         implementationRegistry.index(clazz, packages);
 
-        interactionRegistry.index(clazz, packages);
+        interactionRegistry.index(ReflectiveClassFinder.find(clazz, packages));
 
         var updater = new SlashCommandUpdater(jdaContext, implementationRegistry.getGuildScopeProvider(), interactionRegistry);
         updater.updateAllCommands();
@@ -171,14 +174,14 @@ public record JDACommands(
 
     /**
      * Updates all slash commands that are registered with
-     * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
+     * {@link CommandScope#GUILD
      * CommandScope#Guild}
      */
     public void updateGuildCommands() {
         updater.updateGuildCommands();
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the definition id
     /// and transforms it into a JDA [Button].
     ///
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a message without
@@ -188,38 +191,22 @@ public record JDACommands(
     /// @return the JDA [Button]
     @NotNull
     public Button getButton(@NotNull String button) {
-        if (!button.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Button");
-        }
-
-        String sanitizedId = button.replaceAll("\\.", "");
-        ButtonDefinition buttonDefinition = interactionRegistry.getButtons().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Button"));
-
-        return buttonDefinition.toButton().withId(buttonDefinition.independentCustomId());
+        var id = String.valueOf(button.replaceAll("\\.", "").hashCode());
+        var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the definition id and transforms it into a JDA [SelectMenu].
     ///
     /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a component
     /// without using the framework.
     ///
-    /// @param <S>  the type of [SelectMenu]
     /// @param menu the name of the select menu
     /// @return the JDA [SelectMenu]
-    @SuppressWarnings("unchecked")
     @NotNull
-    public <S extends SelectMenu> S getSelectMenu(@NotNull String menu) {
-        if (!menu.matches("[a-zA-Z]+\\.[a-zA-Z]+")) {
-            throw new IllegalArgumentException("Unknown Select Menu");
-        }
-
-        String sanitizedId = menu.replaceAll("\\.", "");
-        GenericSelectMenuDefinition<?> selectMenuDefinition = interactionRegistry.getSelectMenus().stream()
-                .filter(it -> it.getDefinitionId().equals(sanitizedId))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Select Menu"));
-
-        return (S) selectMenuDefinition.toSelectMenu(selectMenuDefinition.independentCustomId(), true);
+    public SelectMenu getSelectMenu(@NotNull String menu) {
+        var id = String.valueOf(menu.replaceAll("\\.", "").hashCode());
+        var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 }

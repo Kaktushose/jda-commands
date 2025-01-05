@@ -6,21 +6,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for boolean values.
- *
- * @since 2.0.0
- */
+/// Type adapter for boolean values.
 public class BooleanAdapter implements TypeAdapter<Boolean> {
 
-    /**
-     * Attempts to parse a String to a Boolean. Accepts both String literals and {@code 0} or {@code 1}.
-     * Parsing is <em>case-insensitive</em>.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed boolean or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a Boolean. Accepts both String literals and `0` or `1`.
+    /// Parsing is _case-insensitive_.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed boolean or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<Boolean> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

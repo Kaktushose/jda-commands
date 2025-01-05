@@ -8,10 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 /// Interface for performing permission checks.
 ///
-/// @see com.github.kaktushose.jda.commands.annotations.Implementation
+/// @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
 /// @see DefaultPermissionsProvider
 /// @see Permissions Permission
-/// @since 2.0.0
 public interface PermissionsProvider {
 
     /// Checks if a [User] has permissions. Compared to [#hasPermission(Member, InvocationContext)] this method will be

@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.ParameterDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
-import com.github.kaktushose.jda.commands.reflect.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.GenericInteractionDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -13,13 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Subtype of {@link DefaultErrorMessageFactory} that can load the embeds from an {@link EmbedCache}.
- *
- * @see DefaultErrorMessageFactory
- * @see EmbedCache
- * @since 2.0.0
- */
+/// Subtype of [DefaultErrorMessageFactory] that can load the embeds from an [EmbedCache].
+///
+/// @see DefaultErrorMessageFactory
+/// @see EmbedCache
 public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     private final EmbedCache embedCache;
@@ -31,7 +28,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull GenericInteractionCreateEvent event,
-                                                          @NotNull GenericInteractionDefinition definition,
+                                                          @NotNull InteractionDefinition definition,
                                                           @NotNull List<String> userInput) {
         if (!embedCache.containsEmbed("typeAdaptingFailed")) {
             return super.getTypeAdaptingFailedMessage(event, definition, userInput);
@@ -40,7 +37,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         StringBuilder sbExpected = new StringBuilder();
         SlashCommandDefinition command = (SlashCommandDefinition) definition;
 
-        command.getParameters().forEach(parameter -> {
+        command.commandParameters().forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
@@ -57,7 +54,7 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
         return embedCache.getEmbed("typeAdaptingFailed")
-                .injectValue("usage", command.getDisplayName())
+                .injectValue("usage", command.displayName())
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
                 .toMessageCreateData();
@@ -65,24 +62,24 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull GenericInteractionDefinition interaction) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull InteractionDefinition interaction) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(interaction);
         }
 
         StringBuilder sbPermissions = new StringBuilder();
-        interaction.getPermissions().forEach(permission -> sbPermissions.append(permission).append(", "));
+        interaction.permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         return embedCache.getEmbed("insufficientPermissions")
-                .injectValue("name", interaction.getDisplayName())
+                .injectValue("name", interaction.displayName())
                 .injectValue("permissions", permissions)
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ParameterDefinition.ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
             return super.getConstraintFailedMessage(constraint);
         }

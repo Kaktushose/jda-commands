@@ -22,17 +22,13 @@ import java.lang.annotation.Target;
 ///     }
 /// }
 /// ```
-///
-/// @since 4.0.0
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Interaction {
 
-    /**
-     * Returns the base name for slash commands.
-     *
-     * @return the base name for slash commands
-     */
+    /// Returns the base name for slash commands.
+    ///
+    /// @return the base name for slash commands
     String value() default "";
 
 }

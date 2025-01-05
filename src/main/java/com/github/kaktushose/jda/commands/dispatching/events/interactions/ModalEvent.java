@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.EphemeralInteractionDefinition;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -13,20 +13,19 @@ import org.jetbrains.annotations.NotNull;
 ///
 /// @see Event
 /// @see ReplyableEvent
-/// @since 4.0.0
 public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event               the [GenericCommandInteractionEvent] this event holds
-    /// @param interactionRegistry the corresponding [InteractionRegistry]
-    /// @param runtime             the corresponding [Runtime]
-    /// @param definition          the corresponding [EphemeralInteractionDefinition]
+    /// @param event      the [GenericCommandInteractionEvent] this event holds
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the corresponding [Runtime]
+    /// @param definition the corresponding [InteractionDefinition]
     public ModalEvent(@NotNull ModalInteractionEvent event,
-                      @NotNull InteractionRegistry interactionRegistry,
+                      @NotNull InteractionRegistry registry,
                       @NotNull Runtime runtime,
-                      @NotNull EphemeralInteractionDefinition definition) {
-        super(event, interactionRegistry, runtime, definition);
+                      @NotNull InteractionDefinition definition) {
+        super(event, registry, runtime, definition);
     }
 
 }

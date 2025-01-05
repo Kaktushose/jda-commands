@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
 /// 4. [GlobalReplyConfig]
 ///
 /// @see ReplyableEvent
-/// @since 4.0.0
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReplyConfig {

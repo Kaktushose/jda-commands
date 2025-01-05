@@ -6,20 +6,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * Type adapter for double values.
- *
- * @since 2.0.0
- */
+/// Type adapter for double values.
 public class DoubleAdapter implements TypeAdapter<Double> {
 
-    /**
-     * Attempts to parse a String to a Double.
-     *
-     * @param raw   the String to parse
-     * @param event the {@link GenericInteractionCreateEvent}
-     * @return the parsed Double or an empty Optional if the parsing fails
-     */
+    /// Attempts to parse a String to a Double.
+    ///
+    /// @param raw   the String to parse
+    /// @param event the [GenericInteractionCreateEvent]
+    /// @return the parsed Double or an empty Optional if the parsing fails
     @NotNull
     @Override
     public Optional<Double> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {

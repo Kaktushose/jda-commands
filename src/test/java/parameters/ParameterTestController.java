@@ -9,10 +9,6 @@ public class ParameterTestController {
 
     }
 
-    public void primitives(int i) {
-
-    }
-
     public void optional(@Optional Object argument) {
 
     }

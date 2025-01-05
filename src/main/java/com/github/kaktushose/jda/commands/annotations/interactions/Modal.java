@@ -19,19 +19,15 @@ import java.lang.annotation.Target;
 /// @Modal("My Modal")
 /// public void onModal(ModalEvent event, @TextInput("Type here") String input) { ... }
 /// ```
-///
 /// @see Interaction
 /// @see TextInput
-/// @since 4.0.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Modal {
 
-    /**
-     * Gets the title of this modal.
-     *
-     * @return the title of the modal
-     */
+    /// Gets the title of this modal.
+    ///
+    /// @return the title of the modal
     String value();
 
 }

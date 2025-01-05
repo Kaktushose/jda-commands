@@ -1,11 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.dispatching.internal.Runtime;
-import com.github.kaktushose.jda.commands.reflect.InteractionRegistry;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.ButtonDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.GenericComponentDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.components.menus.GenericSelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
@@ -31,11 +33,9 @@ import java.util.List;
 ///     }
 /// }
 /// ```
-///
-/// @since 4.0.0
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
-    protected final InteractionRegistry interactionRegistry;
+    protected final InteractionRegistry registry;
     protected final String runtimeId;
 
     /// Constructs a new ConfigurableReply.
@@ -45,7 +45,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param runtimeId the corresponding [Runtime]
     public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
         super(reply);
-        this.interactionRegistry = registry;
+        this.registry = registry;
         this.runtimeId = runtimeId;
     }
 
@@ -54,7 +54,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param reply the [ConfigurableReply] to copy
     public ConfigurableReply(@NotNull ConfigurableReply reply) {
         super(reply);
-        this.interactionRegistry = reply.interactionRegistry;
+        this.registry = reply.registry;
         this.runtimeId = reply.runtimeId;
     }
 
@@ -131,7 +131,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///     }
     /// }
     /// ```
-    ///
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
@@ -159,7 +158,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///     }
     /// }
     /// ```
-    ///
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
@@ -167,19 +165,21 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     public ComponentReply components(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component component : components) {
-            var definitionId = String.valueOf((definition.getMethod().getDeclaringClass().getName() + component.name()).hashCode());
-            var definition = interactionRegistry.find(GenericComponentDefinition.class, false, it ->
-                    it.getDefinitionId().equals(definitionId)
+            var definitionId = String.valueOf((definition.methodDescription().declaringClass().getName() + component.name()).hashCode());
+            var definition = registry.find(ComponentDefinition.class, false, it ->
+                    it.definitionId().equals(definitionId)
             );
-            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.getDisplayName());
+            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
             switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
-                    var button = buttonDefinition.toButton().withDisabled(!component.enabled());
+                    var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
-                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent())) : button);
+                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
                 }
-                case GenericSelectMenuDefinition<?> menuDefinition ->
-                        items.add(menuDefinition.toSelectMenu(createId(definition, component.independent()), component.enabled()));
+                case SelectMenuDefinition<?> menuDefinition -> {
+                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
+                    items.add(menu.withDisabled(!component.enabled()));
+                }
             }
         }
         if (!items.isEmpty()) {
@@ -189,10 +189,10 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return new ComponentReply(this);
     }
 
-    private String createId(GenericComponentDefinition definition, boolean staticComponent) {
+    private CustomId createId(InteractionDefinition definition, boolean staticComponent) {
         return staticComponent
-                ? definition.independentCustomId()
-                : definition.boundCustomId(runtimeId);
+                ? CustomId.independent(definition.definitionId())
+                : new CustomId(runtimeId, definition.definitionId());
     }
 }
 

@@ -7,7 +7,6 @@ module jda.commands {
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
-    requires kotlin.stdlib;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -17,22 +16,32 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.annotations.constraints;
     exports com.github.kaktushose.jda.commands.annotations.interactions;
 
+    // definitions
+    exports com.github.kaktushose.jda.commands.definitions;
+    exports com.github.kaktushose.jda.commands.definitions.interactions;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.command;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.component;
+    exports com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
+    exports com.github.kaktushose.jda.commands.definitions.description;
+    exports com.github.kaktushose.jda.commands.definitions.description.reflective;
+    exports com.github.kaktushose.jda.commands.definitions.features;
+
     // dependency injection
     exports com.github.kaktushose.jda.commands.dependency;
 
     // dispatching api
-    exports com.github.kaktushose.jda.commands.dispatching;
+    exports com.github.kaktushose.jda.commands.dispatching.expiration;
+    exports com.github.kaktushose.jda.commands.dispatching.context;
+    exports com.github.kaktushose.jda.commands.dispatching.reply;
+
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
     exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
-    exports com.github.kaktushose.jda.commands.dispatching.context;
     exports com.github.kaktushose.jda.commands.dispatching.events;
     exports com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
     exports com.github.kaktushose.jda.commands.dispatching.middleware;
     exports com.github.kaktushose.jda.commands.dispatching.middleware.impl;
-
-    exports com.github.kaktushose.jda.commands.dispatching.reply;
 
     exports com.github.kaktushose.jda.commands.dispatching.validation;
     exports com.github.kaktushose.jda.commands.dispatching.validation.impl;

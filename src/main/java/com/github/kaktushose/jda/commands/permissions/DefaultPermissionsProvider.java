@@ -21,7 +21,6 @@ import java.util.Arrays;
 ///
 ///
 /// @see PermissionsProvider
-/// @since 2.0.0
 public class DefaultPermissionsProvider implements PermissionsProvider {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
@@ -40,7 +39,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     /// Any other permission String will be ignored.
     @Override
     public boolean hasPermission(@NotNull Member member, @NotNull InvocationContext<?> context) {
-        for (String s : context.definition().getPermissions()) {
+        for (String s : context.definition().permissions()) {
             // not a discord perm, continue
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;

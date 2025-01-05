@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
  *
  * @see <a href="https://discord.com/developers/docs/resources/channel#embed-object">Discord Embed Documentation</a>
  * @see EmbedCache
- * @since 1.1.0
  */
 public class EmbedDTO implements Serializable {
 

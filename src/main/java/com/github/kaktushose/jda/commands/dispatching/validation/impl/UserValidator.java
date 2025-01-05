@@ -9,22 +9,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * A {@link Validator} implementation that checks the {@link User} constraint.
- *
- * @see User
- * @since 2.0.0
- */
+/// A [Validator] implementation that checks the [User] constraint.
+///
+/// @see User
 public class UserValidator implements Validator {
 
-    /**
-     * Validates an argument. The argument must be the specified user or member.
-     *
-     * @param argument   the argument to validate
-     * @param annotation the corresponding annotation
-     * @param context    the corresponding {@link InvocationContext}
-     * @return {@code true} if the argument is the specified user or member
-     */
+    /// Validates an argument. The argument must be the specified user or member.
+    ///
+    /// @param argument   the argument to validate
+    /// @param annotation the corresponding annotation
+    /// @param context    the corresponding [InvocationContext]
+    /// @return `true` if the argument is the specified user or member
     @Override
     public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Member member = (Member) argument;

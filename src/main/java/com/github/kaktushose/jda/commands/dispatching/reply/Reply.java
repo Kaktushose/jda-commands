@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -15,26 +15,19 @@ import org.jetbrains.annotations.NotNull;
 /// always share the same reply methods.
 ///
 /// @see ReplyableEvent
-/// @since 4.0.0
 public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
+    /// @param message the message to send
+    /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    ///
-    /// @param message the message to send
-    /// @return the [Message] that got created
     Message reply(@NotNull String message);
 
     /// Acknowledgement of this event with a text message.
-    ///
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
     ///
     /// @param format the message to send
     /// @param args   Arguments referenced by the format specifiers in the format string. If there are more arguments than
@@ -52,35 +45,32 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
+    /// @param message the [MessageCreateData] to send
+    /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    ///
-    /// @param message the [MessageCreateData] to send
-    /// @return the [Message] that got created
     Message reply(@NotNull MessageCreateData message);
 
     /// Acknowledgement of this event with a text message.
     ///
+    /// @param builder the [EmbedBuilder] to send
+    /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    ///
-    /// @param builder the [EmbedBuilder] to send
-    /// @return the [Message] that got created
     Message reply(@NotNull EmbedBuilder builder);
 
     /// Acknowledgement of this event with a text message.
     ///
+    /// @param embedDTO the [EmbedDTO] to send
+    /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    ///
-    /// @param embedDTO the [EmbedDTO] to send
-    /// @return the [Message] that got created
     default Message reply(@NotNull EmbedDTO embedDTO) {
         return reply(embedDTO.toEmbedBuilder());
     }

@@ -31,36 +31,31 @@ import java.util.List;
 /// ```
 /// @see Interaction
 /// @see SelectOption
-/// @since 4.0.0
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StringSelectMenu {
 
-    /**
-     * Configure the placeholder which is displayed when no selections have been made yet.
-     *
-     * @return the placeholder which is displayed when no selections have been made yet
-     */
+    /// Configure the placeholder which is displayed when no selections have been made yet.
+    ///
+    /// @return the placeholder which is displayed when no selections have been made yet
     String value();
 
-    /**
-     * The minimum amount of values a user has to select.
-     * <br>Default: {@code 1}
-     *
-     * <p>The minimum must not exceed the amount of available options.
-     *
-     * @return the minimum amount of values a user has to select
-     */
+    /// The minimum amount of values a user has to select.
+    ///
+    /// Default: `1`
+    ///
+    /// The minimum must not exceed the amount of available options.
+    ///
+    /// @return the minimum amount of values a user has to select
     int minValue() default 1;
 
-    /**
-     * The maximum amount of values a user can select.
-     * <br>Default: {@code 1}
-     *
-     * <p>The maximum must not exceed the amount of available options.
-     *
-     * @return the maximum amount of values a user can select
-     */
+    /// The maximum amount of values a user can select.
+    ///
+    /// Default: `1`
+    ///
+    /// The maximum must not exceed the amount of available options.
+    ///
+    /// @return the maximum amount of values a user can select
     int maxValue() default 1;
 
 }

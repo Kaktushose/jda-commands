@@ -25,7 +25,6 @@ import java.util.Arrays;
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-/// @since 2.3.0
 public record Component(boolean enabled, boolean independent, String name) {
 
     /// Adds enabled, runtime-bound [Component]s to the reply.
