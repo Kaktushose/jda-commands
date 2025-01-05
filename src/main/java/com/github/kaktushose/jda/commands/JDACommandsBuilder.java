@@ -51,7 +51,7 @@ public class JDACommandsBuilder {
     private final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
 
     JDACommandsBuilder(JDAContext context, ClassFinder[] classFinders) {
-        this.classFinders = Arrays.asList(classFinders);
+        this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
         this.context = Objects.requireNonNull(context);
     }
 
