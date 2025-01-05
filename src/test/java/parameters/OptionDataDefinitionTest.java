@@ -3,8 +3,8 @@ package parameters;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
-import com.github.kaktushose.jda.commands.dispatching.validation.ValidatorRegistry;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.MinimumValidator;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,18 +13,19 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OptionDataDefinitionTest {
 
     private static Class<?> controller;
-    private static ValidatorRegistry validatorRegistry;
+    private static Validators validatorRegistry;
 
     @BeforeAll
     public static void setup() {
         controller = ParameterTestController.class;
-        validatorRegistry = new ValidatorRegistry();
+        validatorRegistry = new Validators(Map.of());
     }
 
     private static ParameterDescription parameter(Parameter parameter) {

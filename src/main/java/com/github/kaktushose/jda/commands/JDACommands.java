@@ -73,6 +73,7 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new JDACommands instance
+    @NotNull
     public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
         return builder(jda, clazz, packages).start();
     }
@@ -83,6 +84,7 @@ public final class JDACommands {
     /// @param clazz        a class of the classpath to scan
     /// @param packages     package(s) to exclusively scan
     /// @return a new JDACommands instance
+    @NotNull
     public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
         return builder(shardManager, clazz, packages).start();
     }
@@ -92,14 +94,16 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new [JDACommandsBuilder]
-    public static JDACommandsBuilder builder(JDA jda, Class<?> clazz, String... packages) {
+    @NotNull
+    public static JDACommandsBuilder builder(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACommandsBuilder(new JDAContext(jda), clazz, packages);
     }
 
     /// Create a new builder which uses a reflection based version of [ClassFinder].
     /// @param shardManager      the corresponding [ShardManager] instance
     /// @return a new [JDACommandsBuilder]
-    public static JDACommandsBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
+    @NotNull
+    public static JDACommandsBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACommandsBuilder(new JDAContext(shardManager), clazz, packages);
     }
 

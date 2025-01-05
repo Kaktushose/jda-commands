@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.definitions.description.reflective;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
@@ -22,7 +23,7 @@ public class ReflectiveClassFinder implements ClassFinder {
     }
 
     @Override
-    public Iterable<Class<?>> find() {
+    public @NotNull Iterable<Class<?>> find() {
         var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);

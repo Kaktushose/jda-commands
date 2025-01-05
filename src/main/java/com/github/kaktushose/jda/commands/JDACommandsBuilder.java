@@ -85,7 +85,7 @@ public class JDACommandsBuilder {
     /// [ClassFinder#reflective(Class, String...)] too.
     ///
     @NotNull
-    public JDACommandsBuilder classFinders(ClassFinder... classFinders) {
+    public JDACommandsBuilder classFinders(@NotNull ClassFinder... classFinders) {
         this.classFinders = Arrays.asList(classFinders);
         return this;
     }

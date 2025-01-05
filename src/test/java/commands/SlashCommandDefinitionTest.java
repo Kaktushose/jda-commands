@@ -154,7 +154,7 @@ public class SlashCommandDefinitionTest {
         assertEquals(2, definition.commandOptions().size());
         var parameters = List.copyOf(definition.commandOptions());
         assertEquals(String.class, parameters.get(0).type());
-        assertEquals(Integer.class, parameters.get(1).type());
+        assertEquals(int.class, parameters.get(1).type());
     }
 
     @Test
