@@ -168,7 +168,6 @@ public class JDACommandsBuilder {
         MiddlewareRegistry middlewareRegistry = jdaCommands.middlewareRegistry();
         middlewares.forEach(middlewareRegistry::register);
 
-
         return jdaCommands.start(clazz, packages);
     }
 }
