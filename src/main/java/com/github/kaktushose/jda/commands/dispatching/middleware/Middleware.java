@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 
 import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.MiddlewareRegistry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.util.function.Consumer;

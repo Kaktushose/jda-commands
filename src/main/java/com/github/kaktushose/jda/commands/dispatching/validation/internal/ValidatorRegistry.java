@@ -12,7 +12,7 @@ import java.util.*;
 ///
 /// @see Validator
 public class ValidatorRegistry {
-        private final Map<Class<? extends Annotation>, Validator> validators;
+    private final Map<Class<? extends Annotation>, Validator> validators;
 
     /// Constructs a new ValidatorRegistry. This will register the following [Validator]s by default:
     ///

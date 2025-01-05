@@ -10,12 +10,12 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /// Central registry for all type adapters.
 ///
@@ -32,7 +32,6 @@ public class TypeAdapterRegistry {
             boolean.class, false,
             char.class, '\u0000'
     );
-    private static final Logger log = LoggerFactory.getLogger(TypeAdapterRegistry.class);
     private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
 
     /// Constructs a new TypeAdapterRegistry. This will register default type adapters for:
@@ -73,23 +72,6 @@ public class TypeAdapterRegistry {
         adapterMap.put(Role.class, new RoleAdapter());
 
         this.parameterAdapters = Collections.unmodifiableMap(adapterMap);
-    }
-
-    /// Registers a new type adapter.
-    ///
-    /// @param type    the type the adapter is for
-    /// @param adapter the [TypeAdapter]
-    public void register(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
-        parameterAdapters.put(type, adapter);
-        log.debug("Registered adapter {} for type {}", adapter.getClass().getName(), type.getName());
-    }
-
-    /// Unregisters a new type adapter.
-    ///
-    /// @param type the type the adapter is for
-    public void unregister(@NotNull Class<?> type) {
-        parameterAdapters.remove(type);
-        log.debug("Unregistered adapter for type {}", type.getName());
     }
 
     /// Checks if a type adapter for the given type exists.
