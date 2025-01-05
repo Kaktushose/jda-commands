@@ -6,11 +6,9 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do
-/// work with an [JDA] object.
+/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
 @ApiStatus.Internal
 public final class JDAContext {
 
@@ -33,22 +31,6 @@ public final class JDAContext {
             default ->
                     throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
         }
-    }
-
-    /// An unmodifiable List of all [Guild]s that the logged account is connected to.
-    /// If this account is not connected to any [Guild]s, this will return an empty list.
-    /// This copies the backing store into a list. This means every call creates a new list with O(n) complexity.
-    /// It is recommended to store this into a local variable or use getGuildCache() and use its more efficient
-    /// versions of handling these values.
-    ///
-    /// @return Possibly-empty list of all the [Guild]s that this account is connected to.
-    public List<Guild> getGuilds() {
-        return switch (context) {
-            case ShardManager shardManager -> shardManager.getGuilds();
-            case JDA jda -> jda.getGuilds();
-            default ->
-                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
-        };
     }
 
     /// [SnowflakeCacheView] of all cached [Guild]s.

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveClassFinder;
@@ -41,7 +42,7 @@ public record JDACommands(
         TypeAdapterRegistry adapterRegistry,
         ValidatorRegistry validatorRegistry,
         DependencyInjector dependencyInjector,
-        InteractionRegistry registry,
+        InteractionRegistry interactionRegistry,
         SlashCommandUpdater updater) {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
 
@@ -173,14 +174,14 @@ public record JDACommands(
 
     /**
      * Updates all slash commands that are registered with
-     * {@link com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope#GUILD
+     * {@link CommandScope#GUILD
      * CommandScope#Guild}
      */
     public void updateGuildCommands() {
         updater.updateGuildCommands();
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the definition id
     /// and transforms it into a JDA [Button].
     ///
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a message without
@@ -191,11 +192,11 @@ public record JDACommands(
     @NotNull
     public Button getButton(@NotNull String button) {
         var id = String.valueOf(button.replaceAll("\\.", "").hashCode());
-        var definition = registry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the definition id and transforms it into a JDA [SelectMenu].
     ///
     /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent. This may be useful if you want to send a component
     /// without using the framework.
@@ -205,7 +206,7 @@ public record JDACommands(
     @NotNull
     public SelectMenu getSelectMenu(@NotNull String menu) {
         var id = String.valueOf(menu.replaceAll("\\.", "").hashCode());
-        var definition = registry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 }

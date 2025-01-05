@@ -57,7 +57,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
     /// The [ReplyConfig] that should be used when sending replies.
     ///
-    /// @implNote This will first attempt to use the [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
+    /// @implNote This will first attempt to use the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
     /// annotation of the method and then of the class. If neither is present will fall back to the [GlobalReplyConfig].
     @NotNull
     default ReplyConfig replyConfig() {
@@ -73,9 +73,9 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     }
 
     /// Stores the configuration values for sending replies. This acts as a representation of
-    /// [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
+    /// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
     ///
-    /// @see [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
+    /// @see com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig ReplyConfig
     record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean editReply) {
 
         /// Constructs a new ReplyConfig using the default values specified by [GlobalReplyConfig].
@@ -85,7 +85,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
         /// Constructs a new ReplyConfig.
         ///
-        /// @param replyConfig the [com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
+        /// @param replyConfig the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(@NotNull com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
             this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.editReply());
         }

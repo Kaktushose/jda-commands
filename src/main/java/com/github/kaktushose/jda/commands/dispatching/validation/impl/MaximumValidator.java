@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 /// @see Max
 public class MaximumValidator implements Validator {
 
-    /// Validates an argument. The argument must be a number whose value must be lower or equal to the specified maximum.
+    /// Validates an argument. The argument must be a number whose value must be less or equal to the specified maximum.
     ///
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
-    /// @return `true` if the argument is a number whose value is lower or equal to the specified maximum
+    /// @return `true` if the argument is a number whose value is less or equal to the specified maximum
     @Override
     public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
         Max max = (Max) annotation;

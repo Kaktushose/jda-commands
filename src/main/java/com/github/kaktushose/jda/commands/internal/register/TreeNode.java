@@ -25,7 +25,7 @@ public record TreeNode(
         List<TreeNode> children
 ) implements Iterable<TreeNode> {
 
-    private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
+    private static final Logger log = LoggerFactory.getLogger(TreeNode.class);
 
     /// Constructs an empty TreeNode. Should only be used for root nodes.
     public TreeNode() {
@@ -149,10 +149,7 @@ public record TreeNode(
         try {
             commands.add(command.toJDAEntity());
         } catch (Exception e) {
-            log.error(String.format("Cannot convert command %s.%s to  SlashCommandData!",
-                    command.clazzDescription().name(),
-                    command.methodDescription().name()), e
-            );
+            log.error("Cannot convert command {}.{} to  SlashCommandData!", command.clazzDescription().name(), command.methodDescription().name(), e);
         }
     }
 

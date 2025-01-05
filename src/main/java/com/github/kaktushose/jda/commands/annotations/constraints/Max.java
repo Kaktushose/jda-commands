@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// The annotated element must be a number whose value must be lower or equal to the specified maximum.
+/// The annotated element must be a number whose value must be less or equal to the specified maximum.
 ///
 /// @see Constraint
 @Target(ElementType.PARAMETER)

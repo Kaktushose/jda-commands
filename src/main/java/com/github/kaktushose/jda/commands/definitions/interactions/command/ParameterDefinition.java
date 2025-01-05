@@ -105,7 +105,7 @@ public record ParameterDefinition(
 
     /// Builds a new [ParameterDefinition].
     ///
-    /// @param parameter         the [ParameterDescription] to build the [ParameterDefinition from]
+    /// @param parameter         the [ParameterDescription] to build the [ParameterDefinition] from
     /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
     /// @param validatorRegistry the corresponding [ValidatorRegistry]
     /// @return the [ParameterDefinition]

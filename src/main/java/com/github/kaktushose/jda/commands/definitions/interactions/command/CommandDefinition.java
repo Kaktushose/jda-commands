@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import net.dv8tion.jda.api.Permission;
@@ -32,8 +32,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     /// A possibly-empty [Set] of [Permission]s this command will be enabled for.
     @NotNull Set<Permission> enabledPermissions();
 
-    /// The [SlashCommand.CommandScope] of this command.
-    @NotNull SlashCommand.CommandScope scope();
+    /// The [CommandScope] of this command.
+    @NotNull CommandScope scope();
 
     /// The [LocalizationFunction] to use for this command.
     @NotNull LocalizationFunction localizationFunction();

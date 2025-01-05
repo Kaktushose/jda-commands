@@ -20,7 +20,7 @@ import java.util.*;
 ///
 /// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
-/// @param permissions       a [Collection] of permissions for this command
+/// @param permissions       a [Collection] of permissions for this modal
 /// @param title             the title of the modal
 /// @param textInputs        the [`TextInputs`][TextInputDefinition] of this modal
 public record ModalDefinition(

@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand.CommandScope;
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 
 /// Representation of a context command.
 ///
@@ -29,7 +28,7 @@ import static com.github.kaktushose.jda.commands.annotations.interactions.SlashC
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
 /// @param commandType          the [Command.Type] of this command
-/// @param scope                the [SlashCommand.CommandScope] of this command
+/// @param scope                the [CommandScope] of this command
 /// @param guildOnly            whether this command can only be executed in guilds
 /// @param nsfw                 whether this command is nsfw
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for

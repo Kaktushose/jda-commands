@@ -9,8 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// The annotated element must be member that **doesn't** have the specified guild role. This constraint will use the
-/// [TypeAdapterRegistry] to determine
-/// the role.
+/// [TypeAdapterRegistry] to determine the role.
 ///
 /// @see Constraint
 /// @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter RoleAdapter

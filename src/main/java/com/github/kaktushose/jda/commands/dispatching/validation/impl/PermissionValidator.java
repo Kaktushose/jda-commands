@@ -15,8 +15,7 @@ import java.util.Set;
 /// @see Perm
 public class PermissionValidator implements Validator {
 
-    /// Validates an argument. The argument must be a user or member that has the specified discord
-    /// permission.
+    /// Validates an argument. The argument must be a user or member that has the specified discord permission.
     ///
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation

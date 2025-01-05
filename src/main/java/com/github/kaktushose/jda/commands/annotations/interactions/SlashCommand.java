@@ -80,12 +80,4 @@ public @interface SlashCommand {
     /// @see CommandScope
     CommandScope scope() default CommandScope.GLOBAL;
 
-    /// Enum describing the two possible scopes a command can be registered for.
-    ///
-    /// @see SlashCommand#scope()
-    enum CommandScope {
-        GUILD,
-        GLOBAL
-    }
-
 }

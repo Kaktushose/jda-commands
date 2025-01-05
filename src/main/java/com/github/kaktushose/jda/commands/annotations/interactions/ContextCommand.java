@@ -61,8 +61,8 @@ public @interface ContextCommand {
     /// Returns whether this command should be registered as a global or as a guild command.
     ///
     /// @return whether this command should be registered as a global or as a guild command
-    /// @see SlashCommand.CommandScope
-    SlashCommand.CommandScope scope() default SlashCommand.CommandScope.GLOBAL;
+    /// @see CommandScope
+    CommandScope scope() default CommandScope.GLOBAL;
 
     /// Gets the type of this command.
     ///

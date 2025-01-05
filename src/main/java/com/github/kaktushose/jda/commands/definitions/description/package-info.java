@@ -4,4 +4,3 @@
 /// Descriptions are created by an implementation of [`Descriptions`][com.github.kaktushose.jda.commands.definitions.description.Description]
 /// and are used in many places of this framework, resulting in the possible avoidance of java reflections.
 package com.github.kaktushose.jda.commands.definitions.description;
-

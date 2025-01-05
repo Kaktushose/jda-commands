@@ -80,8 +80,7 @@ public final class Helpers {
         return context.permissions();
     }
 
-    /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the
-    /// passed [Method].
+    /// Constructs the [InteractionDefinition.ReplyConfig ReplyConfig] based on the passed [Method].
     ///
     /// @param method the [Method] to use
     /// @return the [InteractionDefinition.ReplyConfig ReplyConfig]

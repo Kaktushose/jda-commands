@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
-/// @param scope                the [SlashCommand.CommandScope] of this command
+/// @param scope                the [CommandScope] of this command
 /// @param guildOnly            whether this command can only be executed in guilds
 /// @param nsfw                 whether this command is nsfw
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
@@ -43,7 +44,7 @@ public record SlashCommandDefinition(
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,
-        @NotNull SlashCommand.CommandScope scope,
+        @NotNull CommandScope scope,
         boolean guildOnly,
         boolean nsfw,
         @NotNull Set<Permission> enabledPermissions,

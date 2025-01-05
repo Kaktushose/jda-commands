@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.constraints;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapterRegistry;
+import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
@@ -10,11 +11,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// The annotated element must **not** be the specified user or member. This constraint will use the
-/// [TypeAdapterRegistry] to
-/// determine the user or member.
+/// [TypeAdapterRegistry] to determine the user or member.
 ///
 /// @see Constraint
-/// @see com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter RoleAdapter
+/// @see RoleAdapter
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint({Member.class, User.class})

@@ -9,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
 /// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is bound to
-///                                         or the literal `independent`.
+///                     or the literal `independent`.
 /// @param definitionId the [Definition#definitionId()]
 /// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
 public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) {
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
-    public static String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
-    public static String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
+    public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
+    public static final String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
 
     public CustomId {
         if (!runtimeId.matches("[0-9a-fA-F-]{36}") && !runtimeId.equals(INDEPENDENT_ID)) {
@@ -55,14 +55,19 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         return new CustomId(split[1], split[2]);
     }
 
-    public static CustomId independent(String definitionId) {
+    /// Constructs a new runtime-independent [CustomId] from the given definition id.
+    ///
+    /// @param definitionId the definition id to construct the [CustomId] from
+    /// @return a new runtime-independent [CustomId]
+    @NotNull
+    public static CustomId independent(@NotNull String definitionId) {
         return new CustomId(INDEPENDENT_ID, definitionId);
     }
 
-    /// Checks if the passed custom id conforms to the defined format of jda-commands.
+    /// Checks if the passed custom id *doesn't* conform to the defined format of jda-commands.
     ///
-    /// @return `true` if the passed custom id conforms to the jda-commands format
-    public static boolean isInvalid(String customId) {
+    /// @return `true` if the passed custom id *doesn't* conform to the jda-commands format
+    public static boolean isInvalid(@NotNull String customId) {
         return !(customId.matches(BOUND_CUSTOM_ID_REGEX) || customId.matches(INDEPENDENT_CUSTOM_ID_REGEX));
     }
 
@@ -72,7 +77,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
 
-    /// Extracts the runtime id from the passed custom id.
+    /// Gets the runtime id of this custom id.
     ///
     /// @return the runtime id
     /// @throws IllegalStateException if this custom id is runtime-independent

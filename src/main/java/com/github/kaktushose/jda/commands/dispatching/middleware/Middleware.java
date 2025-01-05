@@ -7,17 +7,15 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import java.util.function.Consumer;
 
 /// Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
-/// more info the [InvocationContext]. Either register them at the [MiddlewareRegistry] or use the
-/// [Implementation] annotation. Middlewares can have
-/// different [Priorities][Priority] dictating their priority on execution.
+/// more info the [InvocationContext]. Either register them at the [MiddlewareRegistry] or use the [Implementation]
+/// annotation. Middlewares can have different [Priorities][Priority] dictating their priority on execution.
 ///
 /// @see Implementation Implementation
 /// @see MiddlewareRegistry
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 
-    /// Executes this middleware with the given [InvocationContext]. Use [#cancel(MessageCreateData)]
-    /// to cancel the execution chain.
+    /// Executes this middleware with the given [InvocationContext]. Use [#cancel(MessageCreateData)] to cancel the execution chain.
     ///
     /// @param context the [InvocationContext] of the current interaction event
     void accept(InvocationContext<?> context);
