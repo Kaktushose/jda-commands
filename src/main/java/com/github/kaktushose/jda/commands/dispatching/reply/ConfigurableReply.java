@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
@@ -135,7 +136,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ComponentReply components(@NotNull String... components) {
-        return components(Component.of(true, false, components));
+        return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
     /// Adds an [ActionRow] to the reply and adds the passed [Component] to it.
