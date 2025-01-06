@@ -27,9 +27,9 @@ jobs:
           
           if [ "$branch" == "development" ]; then
             echo "name=development" >> "$GITHUB_OUTPUT"
-          elif: [ "$branch" == "main" ]; then
+          elif [ "$branch" == "main" ]; then
             echo "name=latest" >> "$GITHUB_OUTPUT"
-          elif: [ "$branch" == "workflows/docs" ]; then
+          elif [ "$branch" == "workflows/docs" ]; then
             echo 
           fi
       - name: Deploy docs
