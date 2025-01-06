@@ -6,7 +6,6 @@ on:
       - development
       - main
       - 'legacy/*'
-      - workflows/docs
   create:
 
 jobs:
@@ -36,8 +35,6 @@ jobs:
             echo "name=latest" >> "$GITHUB_OUTPUT"
           elif [[ $branch == legacy/* ]]; then
             echo "name=${branch#legacy/}" >> "$GITHUB_OUTPUT"
-          elif [[ $branch == workflows/* ]]; then
-            echo "name=${branch#workflows/}-test" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
