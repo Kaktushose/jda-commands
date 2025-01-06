@@ -2,7 +2,7 @@ name: Development Javadocs
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, workflows/docs ]
 
 jobs:
   build:
@@ -20,19 +20,30 @@ jobs:
       - name: Generate Documentation
         run: |
           mvn javadoc:aggregate
-      - name: Checkout Docs Branch
-        run: |
-          git checkout docs
-          git pull
-      - name: Move Files
-        run: |
-          rm -rf ./javadocs/development
-          mv ./target/site/apidocs/ ./javadocs/development
-          rm -rf ./target
-      - name: Commit & Push Changes
-        run: |
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git config --global user.name github-actions[bot]
-          git add .
-          git commit -m "update documentation"
-          git push
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./target/site/apidocs
+          branch: docs
+          target-folder: javadocs/development-test
+
+#      - name: Checkout Docs Branch
+#        run: |
+#          git checkout docs
+#          git pull
+#      - name: Move Files
+#        run: |
+#          rm -rf ./javadocs/development
+#          mv ./target/site/apidocs/ ./javadocs/development
+#          rm -rf ./target
+#
+#          rm -rf ./javadocs/development-test
+#          mv ./target/site/apidocs/ ./javadocs/development-test
+#          rm -rf ./target
+#      - name: Commit & Push Changes
+#        run: |
+#          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+#          git config --global user.name github-actions[bot]
+#          git add .
+#          git commit -m "update documentation"
+#          git push
