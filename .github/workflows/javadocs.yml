@@ -2,7 +2,11 @@ name: Development Javadocs
 
 on:
   push:
-    branches: [ development, main, workflows/docs ]
+    branches:
+      - development
+      - main
+      - 'legacy/*'
+  create:
 
 jobs:
   build:
@@ -29,10 +33,13 @@ jobs:
             echo "name=development" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
             echo "name=latest" >> "$GITHUB_OUTPUT"
-          elif [ "$branch" == "workflows/docs" ]; then
-            echo "name=latest-test" >> "$GITHUB_OUTPUT"
+          elif [[ $branch == legacy/* ]]; then
+            echo "name=${branch#legacy/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
       - name: Deploy docs
+        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./target/site/apidocs
