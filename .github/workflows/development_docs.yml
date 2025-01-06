@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
       - name: Generate Documentation
         run: |
-          mvn javadoc:javadoc
+          mvn javadoc:aggregate
       - name: Checkout Docs Branch
         run: |
           git checkout docs
