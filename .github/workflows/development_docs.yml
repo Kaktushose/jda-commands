@@ -2,7 +2,7 @@ name: Development Javadocs
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, workflows/docs ]
 
 jobs:
   build:
