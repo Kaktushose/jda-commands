@@ -1,8 +1,8 @@
-name: Development Javadocs
+name: Latest Javadocs
 
 on:
   push:
-    branches: [ development ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -26,8 +26,8 @@ jobs:
           git pull
       - name: Move Files
         run: |
-          rm -rf ./javadocs/development
-          mv ./target/site/apidocs/ ./javadocs/development
+          rm -rf ./javadocs/latest
+          mv ./target/site/apidocs/ ./javadocs/latest
           rm -rf ./target
       - name: Commit & Push Changes
         run: |
