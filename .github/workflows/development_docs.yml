@@ -30,7 +30,7 @@ jobs:
           elif [ "$branch" == "main" ]; then
             echo "name=latest" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "workflows/docs" ]; then
-            echo 
+            echo "name=latest-test" >> "$GITHUB_OUTPUT"
           fi
       - name: Deploy docs
         uses: JamesIves/github-pages-deploy-action@v4
