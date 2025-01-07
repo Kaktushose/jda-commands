@@ -15,22 +15,17 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-/**
- * Default implementation of {@link DependencyInjector}.
- *
- * @see Produces
- * @see com.github.kaktushose.jda.commands.annotations.Inject Inject
- * @since 1.0.0
- */
+/// Default implementation of [DependencyInjector].
+///
+/// @see Produces
+/// @see com.github.kaktushose.jda.commands.annotations.Inject Inject
 public class DefaultDependencyInjector implements DependencyInjector {
 
     private final Map<Class<?>, Object> providedObjects;
     private final Logger log = LoggerFactory.getLogger(DefaultDependencyInjector.class);
     private final Map<Class<?>, List<Field>> dependencies;
 
-    /**
-     * Create a new DependencyInjector.
-     */
+    /// Create a new DependencyInjector.
     public DefaultDependencyInjector() {
         providedObjects = new HashMap<>();
         dependencies = new HashMap<>();

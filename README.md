@@ -1,6 +1,6 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.0.0--beta.22-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.2-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
-[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.2.2-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.3-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
@@ -11,25 +11,29 @@ A lightweight, easy-to-use command framework for building Discord bots
 with [JDA](https://github.com/DV8FromTheWorld/JDA) with full support for interactions. JDA-Commands goal is to remove
 any boilerplate code, so you can focus solely on the business logic of your bot - writing bots has never been easier!
 
-### Version Overview
+### Version Guide
 
-| jda-commands                                                               | JDA | Text Commands | Interactions | Stable |
-|----------------------------------------------------------------------------|-----|---------------|--------------|--------|
-| [4.0.0-beta.2](https://github.com/Kaktushose/jda-commands/releases/latest) | 5   | ❌             | ✅            | ✅      |
-| [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)    | 5   | ✅             | ❌            | ✅      |
-| [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)   | 4   | ✅             | ❌            | ✅      |
+| jda-commands                                                               | JDA | Text Commands | Interactions |
+|----------------------------------------------------------------------------|-----|---------------|--------------|
+| [4.0.0-beta.3](https://github.com/Kaktushose/jda-commands/releases/latest) | 5   | ❌             | ✅            |
+| [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)    | 5   | ✅             | ❌            |
+| [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)   | 4   | ✅             | ❌            |
 
 ## Features
 
 - Simple and intuitive syntax following an annotation-driven and declarative style
 
+
 - Built-in support for slash commands, components, context menus and modals
 
-- Type adapting of parameters
 
-- Expandable execution chain including type adapters, filters, permissions and constraints
+- Automatic and customizable type adapting and constraint validation of parameters
 
-- Built-in support for ephemeral replies, permissions, localization
+
+- Expandable executing chain (Middleware API)
+
+
+- Multithreaded event handling using VirtualThreads
 
 ---
 
@@ -42,31 +46,20 @@ public class CookieClicker {
     private int count;
 
     @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
-    public void onCommand(CommandEvent event) {
-        event.withButtons("onClick").reply("You have %d cookies(s)!", count);
+    public void onClicker(CommandEvent event) {
+        event.with().components("onCookie", "onReset").reply("You've got %s cookie(s)!", count);
     }
 
-    @Button(value = "Click me!", emoji = "🍪")
-    public void onClick(ComponentEvent event) {
+    @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
+    public void onCookie(ComponentEvent event) {
         count++;
-        event.reply("You have %d cookies(s)!", count);
+        event.reply("You've got %s cookie(s)!", count);
     }
-}
-```
 
-Additionally, let's rebuild the official slash commands example from the [JDA Readme](https://github.com/DV8FromTheWorld/JDA#listening-to-events) as a more complex example:
-
-```java
-@Interaction
-public class BanCommand {
-
-    @Permissions("BAN_MEMBERS")
-    @SlashCommand(value = "ban", enabledFor = Permission.BAN_MEMBERS, desc = "Bans a user", ephemeral = true)
-    public void onBan(CommandEvent event, @Param("The member to ban") Member target, @Optional("no reason") @Param("The ban reason") String reason) {
-        event.getGuild().ban(target, 0, TimeUnit.SECONDS).reason(reason).queue(
-                success -> event.reply("**%s** was banned by **%s**", target.getAsMention(), event.getUser().getAsMention()),
-                error -> event.reply("Some error occurred, try again!")
-        );
+    @Button(value = "Reset", emoji = "🔄", style = ButtonStyle.DANGER)
+    public void onReset(ComponentEvent event) {
+        count = 0;
+        event.reply("You've got %s cookie(s)!", count);
     }
 }
 ```
@@ -74,126 +67,10 @@ public class BanCommand {
 Finally, start the framework by calling:
 
 ```java
-JDACommands.start(jda, Main.class, "com.package");
+JDACommands.start(jda, Main.class);
 ```
 
 ---
-
-You can find a detailed list of all features down below _(click on the ▶ for details)_:
-
-### Execution
-
-<details>
-<summary>Request-scoped Instances</summary>
-
-For every command execution a new instance of the controller class is created. Subsequent executions of components are
-executed in the same instance.
-This allows you to store stateful objects, like the target of a ban command, _inside_ the controller class.
-
-</details>
-
-<details>
-<summary>Private Channel Support</summary>
-
-If enabled, commands can also be executed in direct messages.
-
-</details>
-
-### Parameters
-
-<details>
-<summary>Type Adapting</summary>
-
-As seen in the example, the method signature will be translated into a command syntax. When a command gets called, this
-framework will adapt the raw String input to the types specified in the method signature. As a result all the
-boilerplate code for parsing parameters becomes obsolete.
-
-</details>
-
-<details>
-<summary>Parameter Validation</summary>
-
-Parameters can have additional constraints, such as min or max value, etc. When a constraint fails, an error message
-will be sent automatically. You can also define your own constraints.
-
-![embed](https://cdn.discordapp.com/attachments/545967082253189121/938871716749377586/Untitled.png)
-
-</details>
-
-### Constraints
-
-<details>
-<summary>Permissions System</summary>
-
-Besides the default permissions system of slash commands, this framework comes in with an own system, supporting both
-discord and custom permissions. By default, you can use all
-permissions defined inside
-JDAs [Permission Embed](https://ci.dv8tion.net/job/JDA/javadoc/net/dv8tion/jda/api/Permission.html). By adding your own
-permission validator, you can use custom permission strings and bind permissions to certain roles or members.
-
-</details>
-
-<details>
-<summary>Filter Chain</summary>
-
-You can define filters that will run before each command execution. This can be useful to perform additional checks,
-which aren't supported by this framework by default.
-
-</details>
-
-<details>
-<summary>Cooldown System</summary>
-
-Commands can have a per-user cooldown to rate limit the execution of commands.
-
-</details>
-
-### Misc
-
-<details>
-<summary>Error Messages</summary>
-
-There are default error embeds for all validation systems of this framework, i.e. parameter constraints, permissions,
-etc.
-
-</details>
-
-<details>
-<summary>Localization</summary>
-
-This framework supports the use of
-JDAs [LocalizationFunction](https://ci.dv8tion.net/job/JDA5/javadoc/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html)
-for localizing slash commands.
-
-Furthermore, you can adapt the auto generated bot responses. All embeds
-sent can also be loaded from a json file, which uses
-placeholders. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
-
-</details>
-
-<details>
-<summary>Embed Deserialization</summary>
-
-You can serialize and deserialize JDAs EmbedBuilder object to json. This comes in pretty handy, because for example you
-don't have to recompile the whole project if you find one typo inside your
-embed. _[example](https://github.com/Kaktushose/jda-commands/blob/master/src/examples/embeds.json)_
-
-</details>
-
-<details>
-<summary>Dependency Injection</summary>
-
-This framework has a basic implementation of dependency injection, since you don't construct your command classes on
-your own.
-
-</details>
-
-<details>
-<summary>Reflect API</summary>
-
-Just like Javas Reflect API this framework also supports accessing and modifying command definitions at runtime.
-
-</details>
 
 If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or
 the [Javadoc](https://kaktushose.github.io/jda-commands/).
@@ -241,8 +118,9 @@ dependencies {
 ## Contributing
 
 If you think that something is missing, and you want to add it yourself, feel free to open a pull request. Please try to
-keep your code quality as good as mine and stick to the core concepts of this framework.
+keep your code quality as good as mine and stick to the core concepts of this framework. Also consider opening an issue
+first, so we can discuss if your changes fit to the framework.
 
-Special thanks to all contributors <3
+Special thanks to all contributors, especially to @Goldmensch and @lus <3
 
 [![Contributors Display](https://badges.pufler.dev/contributors/Kaktushose/jda-commands?size=50&padding=5&perRow=10&bots=false)]([https://badges.pufler.dev](https://github.com/Kaktushose/jda-commands/graphs/contributors))

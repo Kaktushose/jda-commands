@@ -1,54 +1,48 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware.impl;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.SlashCommandContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.reflect.CooldownDefinition;
-import com.github.kaktushose.jda.commands.reflect.interactions.commands.SlashCommandDefinition;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * A {@link Middleware} implementation that contains the business logic behind command cooldowns.
- * If the command isn't annotated with {@link Cooldown Cooldown} or more
- * formally if the {@link SlashCommandDefinition} doesn't hold a {@link CooldownDefinition} or the delay of the
- * {@link CooldownDefinition} amounts to {@code 0} this filter has no effect.
- *
- * @see Cooldown
- * @since 2.0.0
- */
+/// A [Middleware] implementation that contains the business logic behind command cooldowns.
+/// If the command isn't annotated with [Cooldown] or more
+/// formally if the [SlashCommandDefinition] doesn't hold a [CooldownDefinition] or the delay of the
+/// [CooldownDefinition] amounts to `0` this filter has no effect.
+///
+/// @see Cooldown
 public class CooldownMiddleware implements Middleware {
 
     private static final Logger log = LoggerFactory.getLogger(CooldownMiddleware.class);
-    private final Map<Long, Set<CooldownEntry>> activeCooldowns;
+    private final Map<Long, Set<CooldownEntry>> activeCooldowns = new ConcurrentHashMap<>();
 
-    public CooldownMiddleware() {
-        activeCooldowns = new HashMap<>();
+    private final ErrorMessageFactory errorMessageFactory;
+
+    public CooldownMiddleware(ErrorMessageFactory errorMessageFactory) {
+        this.errorMessageFactory = errorMessageFactory;
     }
 
-    /**
-     * Checks if an active cooldown for the given {@link SlashCommandDefinition} exists and will eventually cancel the
-     * context.
-     *
-     * @param context the {@link Context} to filter
-     */
+    /// Checks if an active cooldown for the given [SlashCommandDefinition] exists and will eventually cancel the
+    /// context.
+    ///
+    /// @param context the [InvocationContext] to filter
     @Override
-    public void execute(@NotNull Context context) {
-        if (!SlashCommandInteractionEvent.class.isAssignableFrom(context.getEvent().getClass())) {
+    public void accept(@NotNull InvocationContext<?> context) {
+        if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0)
             return;
-        }
-        SlashCommandDefinition command = ((SlashCommandContext) context).getCommand();
 
-        if (!command.hasCooldown()) {
-            return;
-        }
-
-        long id = context.getEvent().getUser().getIdLong();
+        long id = context.event().getUser().getIdLong();
 
         activeCooldowns.putIfAbsent(id, new HashSet<>());
 
@@ -60,40 +54,19 @@ public class CooldownMiddleware implements Middleware {
             if (remaining <= 0) {
                 activeCooldowns.get(id).remove(entry);
             } else {
-                context.setCancelled(context.getImplementationRegistry().getErrorMessageFactory().getCooldownMessage(context, remaining));
+                context.cancel(errorMessageFactory.getCooldownMessage(context, remaining));
                 log.debug("Command has a remaining cooldown of {} ms!", remaining);
                 return;
             }
         }
 
-        CooldownDefinition cooldown = command.getCooldown();
+        CooldownDefinition cooldown = command.cooldown();
         long startTime = System.currentTimeMillis();
-        long duration = cooldown.getTimeUnit().toMillis(cooldown.getDelay());
+        long duration = cooldown.timeUnit().toMillis(cooldown.delay());
         activeCooldowns.get(id).add(new CooldownEntry(command, startTime, duration));
         log.debug("Added new cooldown entry for this user");
     }
 
-    private static class CooldownEntry {
-        private final SlashCommandDefinition command;
-        private final long startTime;
-        private final long duration;
-
-        public CooldownEntry(SlashCommandDefinition command, long startTime, long duration) {
-            this.command = command;
-            this.startTime = startTime;
-            this.duration = duration;
-        }
-
-        public SlashCommandDefinition getCommand() {
-            return command;
-        }
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public long getDuration() {
-            return duration;
-        }
+    private record CooldownEntry(SlashCommandDefinition command, long startTime, long duration) {
     }
 }

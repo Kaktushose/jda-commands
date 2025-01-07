@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.permissions;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -10,32 +10,36 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-/**
- * Default implementation of {@link PermissionsProvider} with the following behaviour:
- * <ul>
- *     <li>{@link PermissionsProvider#hasPermission(User, Context)} will always return {@code true}</li>
- *     <li>
- *         {@link PermissionsProvider#hasPermission(Member, Context)} will check against the default Discord permissions. More
- *         formally, this method will work with any permission provided by {@link Permission#values()}, ignoring the
- *         case. Any other permission String will be ignored.
- *     </li>
- * </ul>
- *
- * @see PermissionsProvider
- * @since 2.0.0
- */
+/// Default implementation of [PermissionsProvider] with the following behaviour:
+///
+///   - [#hasPermission(User,InvocationContext)] will always return `true`
+///   -
+///     [#hasPermission(Member,InvocationContext)] will check against the default Discord permissions. More
+///     formally, this method will work with any permission provided by [Permission#values()], ignoring the
+///     case. Any other permission String will be ignored.
+///
+///
+///
+/// @see PermissionsProvider
 public class DefaultPermissionsProvider implements PermissionsProvider {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
 
+    /// Doesn't perform checks and will always return `true`.
+    ///
+    /// @return always `true`
     @Override
-    public boolean hasPermission(@NotNull User user, @NotNull Context context) {
+    public boolean hasPermission(@NotNull User user, @NotNull InvocationContext<?> context) {
         return true;
     }
 
+    /// Checks against the default Discord permissions.
+    ///
+    /// More formally, this method will work with any permission provided by [Permission#values()], case-insensitive.
+    /// Any other permission String will be ignored.
     @Override
-    public boolean hasPermission(@NotNull Member member, @NotNull Context context) {
-        for (String s : context.getInteractionDefinition().getPermissions()) {
+    public boolean hasPermission(@NotNull Member member, @NotNull InvocationContext<?> context) {
+        for (String s : context.definition().permissions()) {
             // not a discord perm, continue
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;

@@ -5,10 +5,12 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.entities.sticker.StickerPack;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.entities.sticker.StickerUnion;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -23,6 +25,7 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.*;
 import net.dv8tion.jda.api.requests.restaction.pagination.EntitlementPaginationAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.Once;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.utils.cache.CacheView;
 import net.dv8tion.jda.api.utils.cache.ChannelCacheView;
@@ -159,6 +162,12 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public List<Object> getRegisteredListeners() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public <E extends GenericEvent> Once.Builder<E> listenOnce(@NotNull Class<E> eventType) {
         return null;
     }
 
@@ -353,6 +362,21 @@ public class JDAMock implements JDA {
         return null;
     }
 
+    @Override
+    public @NotNull RestAction<ApplicationEmoji> createApplicationEmoji(@NotNull String s, @NotNull Icon icon) {
+        return null;
+    }
+
+    @Override
+    public @NotNull RestAction<List<ApplicationEmoji>> retrieveApplicationEmojis() {
+        return null;
+    }
+
+    @Override
+    public @NotNull RestAction<ApplicationEmoji> retrieveApplicationEmojiById(@NotNull String s) {
+        return null;
+    }
+
     @NotNull
     @Override
     public RestAction<StickerUnion> retrieveSticker(@NotNull StickerSnowflake stickerSnowflake) {
@@ -449,6 +473,24 @@ public class JDAMock implements JDA {
     @NotNull
     @Override
     public EntitlementPaginationAction retrieveEntitlements() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Entitlement> retrieveEntitlementById(long entitlementId) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public TestEntitlementCreateAction createTestEntitlement(long skuId, long ownerId, @NotNull TestEntitlementCreateAction.OwnerType ownerType) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public RestAction<Void> deleteTestEntitlement(long entitlementId) {
         return null;
     }
 

@@ -42,7 +42,13 @@
   },
   "executionFailed": {
     "title": "Command Execution Failed",
-    "description": "```exception```",
+    "description": "The command execution has unexpectedly failed. Please report the following error to the bot devs.",
+    "fields": [
+      {
+        "name": "Error Message",
+        "value": "{error}"
+      }
+    ],
     "color": "#ff0000"
   },
   "unknownInteraction": {

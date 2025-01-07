@@ -128,7 +128,7 @@ public class GuildMock implements Guild {
 
     @NotNull
     @Override
-    public AuditableRestAction<BulkBanResponse> ban(@NotNull Collection<UserSnowflake> collection, @Nullable Duration duration) {
+    public AuditableRestAction<BulkBanResponse> ban(@NotNull Collection<? extends UserSnowflake> users, @Nullable Duration deletionTime) {
         return null;
     }
 
@@ -538,6 +538,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @Nullable TextChannel getSafetyAlertsChannel() {
+        return null;
+    }
+
     @Nullable
     @Override
     public Member getOwner() {
@@ -624,10 +629,18 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @Nullable GuildChannel getGuildChannelById(long id) {
+        if (id == TEXT_CHANNEL.getIdLong()) {
+            return TEXT_CHANNEL;
+        }
+        return null;
+    }
+
     @NotNull
     @Override
     public List<GuildChannel> getChannels(boolean b) {
-        return null;
+        return List.of(TEXT_CHANNEL);
     }
 
     @Nullable

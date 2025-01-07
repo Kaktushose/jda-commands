@@ -1,7 +1,7 @@
 package commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
-import com.github.kaktushose.jda.commands.dispatching.interactions.commands.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,11 +48,6 @@ public class CommandDefinitionTestController {
 
     @SlashCommand("i")
     public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
-
-    }
-
-    @SlashCommand(value = "k", isActive = false)
-    public void inactive() {
 
     }
 

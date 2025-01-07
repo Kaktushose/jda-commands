@@ -1,26 +1,16 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-/**
- * Enum to define with witch priority a {@link Middleware} should be executed.
- *
- * @see MiddlewareRegistry
- * @since 4.0.0
- */
+/// Enum to define with witch priority a [Middleware] should be executed.
+///
+/// @see MiddlewareRegistry
+// !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
 public enum Priority {
-    /**
-     * Lowest priority, will be executed at the end
-     */
-    LOW,
-    /**
-     * Default priority.
-     */
-    NORMAL,
-    /**
-     * Highest priority for custom implementation, will be executed right after internal middlewares.
-     */
+    /// Middlewares with priority PERMISSIONS will always be executed first
+    PERMISSIONS,
+    /// Highest priority for custom implementation, will be executed right after internal middlewares.
     HIGH,
-    /**
-     * Middlewares with priority PERMISSIONS will always be executed first
-     */
-    PERMISSIONS
+    /// Default priority.
+    NORMAL,
+    /// Lowest priority, will be executed at the end
+    LOW
 }

@@ -9,10 +9,6 @@ public class ParameterTestController {
 
     }
 
-    public void primitives(int i) {
-
-    }
-
     public void optional(@Optional Object argument) {
 
     }
@@ -22,6 +18,10 @@ public class ParameterTestController {
     }
 
     public void constraint(@Min(10) int i) {
+
+    }
+
+    public void constraintWrapped(@Min(10) Integer i) {
 
     }
 

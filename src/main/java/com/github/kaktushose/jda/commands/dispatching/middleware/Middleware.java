@@ -1,26 +1,24 @@
 package com.github.kaktushose.jda.commands.dispatching.middleware;
 
-import com.github.kaktushose.jda.commands.dispatching.interactions.Context;
+import com.github.kaktushose.jda.commands.annotations.Implementation;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
-/**
- * Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
- * more info the {@link Context}. Either register them at the {@link MiddlewareRegistry} or use the
- * {@link com.github.kaktushose.jda.commands.annotations.Implementation Implementation} annotation. Middlewares can have
- * different {@link Priority Priorities} dictating their priority on execution.
- *
- * @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
- * @see MiddlewareRegistry
- * @since 4.0.0
- */
-public interface Middleware {
+import java.util.function.Consumer;
 
-    /**
-     * Executes this middleware with the given {@link Context}. Use {@link Context#setCancelled(MessageCreateData)}
-     * to cancel the execution chain.
-     *
-     * @param context the {@link Context} of the current interaction event
-     */
-    void execute(Context context);
+/// Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
+/// more info the [InvocationContext]. Either register them at the [Middlewares] or use the [Implementation]
+/// annotation. Middlewares can have different [Priorities][Priority] dictating their priority on execution.
+///
+/// @see Implementation Implementation
+/// @see Middlewares
+@FunctionalInterface
+public interface Middleware extends Consumer<InvocationContext<?>> {
+
+    /// Executes this middleware with the given [InvocationContext]. Use [#cancel(MessageCreateData)] to cancel the execution chain.
+    ///
+    /// @param context the [InvocationContext] of the current interaction event
+    void accept(InvocationContext<?> context);
 
 }

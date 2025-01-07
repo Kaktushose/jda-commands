@@ -6,8 +6,7 @@
 
     <groupId>com.github.kaktushose</groupId>
     <artifactId>jda-commands</artifactId>
-    <version>4.0.0-beta.2</version>
-
+    <version>4.0.0-beta.3</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -19,8 +18,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>23</source>
+                    <target>23</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
@@ -36,14 +35,36 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.2</version>
                 <configuration>
-                    <source>11</source>
+                    <source>23</source>
                     <doclint>none</doclint>
+                    <overview>${basedir}/src/main/javadoc/overview.md</overview>
+                    <links>
+                        <link>https://javadoc.io/doc/net.dv8tion/JDA/5.0.2</link>
+                    </links>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <tags>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API Note:</head>
+                        </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
+                        </tag>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>a</placement>
+                            <head>Implementation Note:</head>
+                        </tag>
+                    </tags>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <goals>
@@ -66,7 +87,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.22</version>
+            <version>5.2.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>club.minnced</groupId>
