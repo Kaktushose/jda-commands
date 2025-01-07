@@ -73,7 +73,7 @@ JDACommands.start(jda, Main.class);
 ---
 
 If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or
-the [Javadoc](https://kaktushose.github.io/jda-commands/).
+the [Javadoc](https://kaktushose.github.io/jda-commands/javadocs/latest/).
 
 ## Download
 
