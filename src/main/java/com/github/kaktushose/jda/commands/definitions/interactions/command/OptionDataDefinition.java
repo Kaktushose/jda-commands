@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters.PRIMITIVE_MAPPING;
 import static java.util.Map.entry;
 
 /// Representation of a slash command parameter.
@@ -52,27 +53,19 @@ public record OptionDataDefinition(
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
-    private static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(
-            int.class, Integer.class,
-            double.class, Double.class,
-            byte.class, Byte.class,
-            float.class, Float.class,
-            boolean.class, Boolean.class,
-            short.class, Short.class,
-            long.class, Long.class,
-            char.class, Character.class
-    );
-
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
-            entry(Byte.class, OptionType.STRING),
-            entry(Short.class, OptionType.STRING),
-            entry(Integer.class, OptionType.INTEGER),
-            entry(Long.class, OptionType.NUMBER),
-            entry(Double.class, OptionType.NUMBER),
-            entry(Float.class, OptionType.NUMBER),
+            entry(boolean.class, OptionType.BOOLEAN),
             entry(Boolean.class, OptionType.BOOLEAN),
-            entry(Character.class, OptionType.STRING),
-            entry(String.class, OptionType.STRING),
+            entry(short.class, OptionType.INTEGER),
+            entry(Short.class, OptionType.INTEGER),
+            entry(int.class, OptionType.INTEGER),
+            entry(Integer.class, OptionType.INTEGER),
+            entry(long.class, OptionType.NUMBER),
+            entry(Long.class, OptionType.NUMBER),
+            entry(float.class, OptionType.NUMBER),
+            entry(Float.class, OptionType.NUMBER),
+            entry(double.class, OptionType.NUMBER),
+            entry(Double.class, OptionType.NUMBER),
             entry(User.class, OptionType.USER),
             entry(Member.class, OptionType.USER),
             entry(GuildChannel.class, OptionType.CHANNEL),

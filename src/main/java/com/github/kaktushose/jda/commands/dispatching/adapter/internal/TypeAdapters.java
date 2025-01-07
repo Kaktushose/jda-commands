@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +22,19 @@ import java.util.Optional;
 /// Central registry for all type adapters.
 ///
 /// @see TypeAdapter
+@ApiStatus.Internal
 public class TypeAdapters {
+
+    public static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(
+            boolean.class, Boolean.class,
+            byte.class, Byte.class,
+            short.class, Short.class,
+            int.class, Integer.class,
+            long.class, Long.class,
+            float.class, Float.class,
+            double.class, Double.class,
+            char.class, Character.class
+    );
 
     public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
@@ -57,7 +70,6 @@ public class TypeAdapters {
         adapterMap.put(Character.class, new CharacterAdapter());
         adapterMap.put(Boolean.class, new BooleanAdapter());
         adapterMap.put(String.class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
-        adapterMap.put(String[].class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
 
         // jda specific
         adapterMap.put(Member.class, new MemberAdapter());
@@ -80,7 +92,7 @@ public class TypeAdapters {
     /// @param type the type to check
     /// @return `true` if a type adapter exists
     public boolean exists(@Nullable Class<?> type) {
-        return parameterAdapters.containsKey(type);
+        return parameterAdapters.containsKey(PRIMITIVE_MAPPING.getOrDefault(type, type));
     }
 
     /// Retrieves a type adapter.
@@ -88,7 +100,7 @@ public class TypeAdapters {
     /// @param type the type to get the adapter for
     /// @return the type adapter or an empty Optional if none found
     public Optional<TypeAdapter<?>> get(@Nullable Class<?> type) {
-        return Optional.ofNullable(parameterAdapters.get(type));
+        return Optional.ofNullable(parameterAdapters.get(PRIMITIVE_MAPPING.getOrDefault(type, type)));
     }
 
 
