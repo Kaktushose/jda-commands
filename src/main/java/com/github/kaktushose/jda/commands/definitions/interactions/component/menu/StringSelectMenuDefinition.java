@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
 
+import com.github.kaktushose.jda.commands.annotations.internal.SelectOptionContainer;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -50,11 +51,10 @@ public record StringSelectMenuDefinition(
 
         Set<SelectOptionDefinition> selectOptions = new HashSet<>();
         method.annotations().stream()
-                .filter(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::isInstance)
-                .map(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::cast)
-                .forEach(it -> {
-                    selectOptions.add(SelectOptionDefinition.build(it));
-                });
+                .filter(SelectOptionContainer.class::isInstance)
+                .map(SelectOptionContainer.class::cast)
+                .flatMap(it -> Arrays.stream(it.value()))
+                .forEach(it -> selectOptions.add(SelectOptionDefinition.build(it)));
 
         return Optional.of(new StringSelectMenuDefinition(
                 context.clazz(),
