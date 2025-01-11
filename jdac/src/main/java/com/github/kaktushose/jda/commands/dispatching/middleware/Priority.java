@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 
 /// Enum to define with witch priority a [Middleware] should be executed.
 ///
-/// @see MiddlewareRegistry
+/// @see com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares
 // !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
 public enum Priority {
     /// Middlewares with priority PERMISSIONS will always be executed first

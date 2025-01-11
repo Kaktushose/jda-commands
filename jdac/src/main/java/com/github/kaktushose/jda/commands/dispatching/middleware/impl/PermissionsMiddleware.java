@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 /// A [Middleware] implementation that will check permissions.
 /// The default implementation can only handle discord permissions. However, the [PermissionsProvider] can be
 /// used for own implementations.
-/// This filter will first check against [#hasPermission(User,InvocationContext)] with a
+/// This filter will first check against [PermissionsProvider#hasPermission(User,InvocationContext)] with a
 /// [User] object. This can be used for global permissions. Afterward
-/// [#hasPermission(User,InvocationContext)] will be called. Since the [Member] is
+/// [PermissionsProvider#hasPermission(User,InvocationContext)] will be called. Since the [Member] is
 /// available this might be used for guild related permissions.
 ///
 /// @see Permissions

@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 
-    /// Executes this middleware with the given [InvocationContext]. Use [#cancel(MessageCreateData)] to cancel the execution chain.
+    /// Executes this middleware with the given [InvocationContext]. Use [InvocationContext#cancel(MessageCreateData)] to cancel the execution chain.
     ///
     /// @param context the [InvocationContext] of the current interaction event
     void accept(InvocationContext<?> context);

@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -83,7 +82,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the string value of any of the choices is empty or longer than {@value OptionData#MAX_CHOICE_VALUE_LENGTH}</li>
      *                                  </ul>
      */
-    public void replyChoice(@Nonnull String name, @Nonnull String value) {
+    public void replyChoice(@NotNull String name, @NotNull String value) {
         replyChoices(new Command.Choice(name, value));
     }
 
@@ -244,7 +243,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// The query value that the user is currently typing.
     ///
     /// This is not validated and may not be a valid value for an actual command.
-    /// For instance, a user may input invalid numbers for [#NUMBER].
+    /// For instance, a user may input invalid numbers for [OptionType#NUMBER].
     ///
     /// @return The current auto-completable query value
     @NotNull

@@ -1,7 +1,6 @@
 /// The base module of jda-commands
 module jda.commands {
     requires com.google.gson;
-    requires jsr305;
     requires net.dv8tion.jda;
     requires transitive org.jetbrains.annotations;
     requires org.reflections;

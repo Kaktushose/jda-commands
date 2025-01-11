@@ -15,7 +15,7 @@ public sealed interface Definition permits CustomIdJDAEntity, Invokable, JDAEnti
         ModalDefinition.TextInputDefinition, OptionDataDefinition, OptionDataDefinition.ConstraintDefinition,
         SlashCommandDefinition.CooldownDefinition, StringSelectMenuDefinition.SelectOptionDefinition {
 
-    /// The id for this definition. Per default this is the hash code of the [#toString()] method.
+    /// The id for this definition. Per default this is the hash code of the [Object#toString()] method.
     @NotNull
     default String definitionId() {
         return String.valueOf(toString().hashCode());

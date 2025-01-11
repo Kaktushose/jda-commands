@@ -5,10 +5,10 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -83,7 +83,7 @@ public class EmbedCache {
     ///
     /// @param name the name the [EmbedDTO] is mapped to
     /// @return the [EmbedDTO] or `null` if the cache contains no mapping for the key
-    public EmbedDTO getEmbed(@Nonnull String name) {
+    public EmbedDTO getEmbed(@NotNull String name) {
         return new EmbedDTO(embedMap.get(name));
     }
 
@@ -105,7 +105,7 @@ public class EmbedCache {
     ///
     /// @param name the name the [EmbedDTO] is mapped to
     /// @return `true` if this cache contains a mapping for the specified name.
-    public boolean containsEmbed(@Nonnull String name) {
+    public boolean containsEmbed(@NotNull String name) {
         return embedMap.containsKey(name);
     }
 
