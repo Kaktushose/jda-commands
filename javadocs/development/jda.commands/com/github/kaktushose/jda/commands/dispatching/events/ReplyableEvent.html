@@ -78,7 +78,9 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#removeComponents()" tabindex="0">removeComponents()</a></li>
 <li><a href="#getButton(java.lang.String)" tabindex="0">getButton(String)</a></li>
+<li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
 <li><a href="#getSelectMenu(java.lang.String)" tabindex="0">getSelectMenu(String)</a></li>
+<li><a href="#getSelectMenu(java.lang.Class,java.lang.String)" tabindex="0">getSelectMenu(Class, String)</a></li>
 <li><a href="#with()" tabindex="0">with()</a></li>
 <li><a href="#reply(java.lang.String)" tabindex="0">reply(String)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
@@ -187,10 +189,23 @@ implements <a href="../reply/Reply.html" title="interface in com.github.kaktusho
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull net.dv8tion.jda.api.interactions.components.buttons.Button</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;button)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;button)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a <a href="../../annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
+and the given class and transforms it into a JDA <code>Button</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull net.dv8tion.jda.api.interactions.components.buttons.Button</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;button)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets a <a href="../../annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
 and transforms it into a JDA <code>Button</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull net.dv8tion.jda.api.interactions.components.selections.SelectMenu</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSelectMenu(java.lang.Class,java.lang.String)" class="member-name-link">getSelectMenu</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;menu)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets a <a href="../../annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="../../annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and transforms it into a JDA <code>SelectMenu</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull net.dv8tion.jda.api.interactions.components.selections.SelectMenu</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSelectMenu(java.lang.String)" class="member-name-link">getSelectMenu</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;menu)</code></div>
@@ -320,7 +335,31 @@ This may be useful if you want to send a component without using the framework.<
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>button</code> - the name of the button</dd>
+<dd><code>button</code> - the name of the button defining method</dd>
+<dt>Returns:</dt>
+<dd>the JDA <code>Button</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getButton(java.lang.Class,java.lang.String)">
+<h3>getButton</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull net.dv8tion.jda.api.interactions.components.buttons.Button</span>&nbsp;<span class="element-name">getButton</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;button)</span></div>
+<div class="block"><p>Gets a <a href="../../annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
+and the given class and transforms it into a JDA <code>Button</code>.</p>
+<p>The button will be <a href="../../../../../../../../index.html#runtime-concept-heading"><code>runtime</code></a>-independent.
+This may be useful if you want to send a component without using the framework.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the method</dd>
+<dd><code>button</code> - the name of the button defining method</dd>
 <dt>Returns:</dt>
 <dd>the JDA <code>Button</code></dd>
 </dl>
@@ -340,6 +379,29 @@ without using the framework.</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
+<dd><code>menu</code> - the name of the select menu</dd>
+<dt>Returns:</dt>
+<dd>the JDA <code>SelectMenu</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getSelectMenu(java.lang.Class,java.lang.String)">
+<h3>getSelectMenu</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull net.dv8tion.jda.api.interactions.components.selections.SelectMenu</span>&nbsp;<span class="element-name">getSelectMenu</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;menu)</span></div>
+<div class="block"><p>Gets a <a href="../../annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="../../annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and transforms it into a JDA <code>SelectMenu</code>.</p>
+<p>The select menu will be <a href="../../../../../../../../index.html#runtime-concept-heading"><code>runtime</code></a>-independent.
+This may be useful if you want to send a component without using the framework.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the method</dd>
 <dd><code>menu</code> - the name of the select menu</dd>
 <dt>Returns:</dt>
 <dd>the JDA <code>SelectMenu</code></dd>

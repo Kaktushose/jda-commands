@@ -81,6 +81,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#ephemeral(boolean)" tabindex="0">ephemeral(boolean)</a></li>
 <li><a href="#editReply(boolean)" tabindex="0">editReply(boolean)</a></li>
 <li><a href="#keepComponents(boolean)" tabindex="0">keepComponents(boolean)</a></li>
+<li><a href="#builder(java.util.function.Consumer)" tabindex="0">builder(Consumer)</a></li>
 <li><a href="#components(java.lang.String...)" tabindex="0">components(String...)</a></li>
 <li><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" tabindex="0">components(Component...)</a></li>
 </ol>
@@ -185,29 +186,34 @@ public class ExampleCommand {
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" class="member-name-link">components</a><wbr>(@NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>...&nbsp;components)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#builder(java.util.function.Consumer)" class="member-name-link">builder</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;net.dv8tion.jda.api.utils.messages.MessageCreateBuilder&gt;&nbsp;builder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds an <code>ActionRow</code> to the reply and adds the passed <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to it.</div>
+<div class="block">Access the underlying <code>MessageCreateBuilder</code> for configuration steps not covered by <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(java.lang.String...)" class="member-name-link">components</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;components)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" class="member-name-link">components</a><wbr>(@NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>...&nbsp;components)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds an <code>ActionRow</code> to the reply and adds the passed <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to it.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(java.lang.String...)" class="member-name-link">components</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;components)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds an <code>ActionRow</code> to the reply and adds the passed components to it.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editReply(boolean)" class="member-name-link">editReply</a><wbr>(boolean&nbsp;editReply)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editReply(boolean)" class="member-name-link">editReply</a><wbr>(boolean&nbsp;editReply)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to keep the original components when editing a message.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to send ephemeral replies.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepComponents(boolean)" class="member-name-link">keepComponents</a><wbr>(boolean&nbsp;keepComponents)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepComponents(boolean)" class="member-name-link">keepComponents</a><wbr>(boolean&nbsp;keepComponents)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to edit the original message or to send a new one.</div>
 </div>
 </div>
@@ -366,6 +372,25 @@ replied to with a text message and a button, the original message is that very r
 </section>
 </li>
 <li>
+<section class="detail" id="builder(java.util.function.Consumer)">
+<h3>builder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">builder</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;net.dv8tion.jda.api.utils.messages.MessageCreateBuilder&gt;&nbsp;builder)</span></div>
+<div class="block"><p>Access the underlying <code>MessageCreateBuilder</code> for configuration steps not covered by <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a>.</p>
+<h5 id="example--heading1">Example:</h5>
+<pre><code>event.with().builder(builder -&gt; builder.setFiles(myFile)).reply(&quot;Hello World!&quot;);
+</code></pre>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>builder</code> - the <code>MessageCreateBuilder</code> callback</dd>
+<dt>Returns:</dt>
+<dd>the current instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="components(java.lang.String...)">
 <h3>components</h3>
 <div class="horizontal-scroll">
@@ -376,7 +401,7 @@ replied to with a text message and a button, the original message is that very r
 <p>The components will always be enabled and runtime-bound. Use <a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)"><code>components(Component...)</code></a> if you want to modify these
 settings.</p>
 <p><strong>The components must be defined in the same class where this method gets called!</strong></p>
-<h6 id="example--heading1">Example:</h6>
+<h6 id="example--heading2">Example:</h6>
 <pre><code>@Interaction
 public class ExampleCommand {
 
@@ -410,7 +435,7 @@ public class ExampleCommand {
  @NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>...&nbsp;components)</span></div>
 <div class="block"><p>Adds an <code>ActionRow</code> to the reply and adds the passed <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to it.</p>
 <p><strong>The components must be defined in the same class where this method gets called!</strong></p>
-<h6 id="example--heading2">Example:</h6>
+<h6 id="example--heading3">Example:</h6>
 <pre><code>@Interaction
 public class ExampleCommand {
 

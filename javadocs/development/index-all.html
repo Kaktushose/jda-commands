@@ -366,6 +366,10 @@ amount of labels.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/MessageReply.html#builder" class="member-name-link">builder</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/MessageReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">MessageReply</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#builder(java.util.function.Consumer)" class="member-name-link">builder(Consumer&lt;MessageCreateBuilder&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></dt>
+<dd>
+<div class="block">Access the underlying <code>MessageCreateBuilder</code> for configuration steps not covered by <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a>.</div>
+</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html#builder(net.dv8tion.jda.api.JDA,java.lang.Class,java.lang.String...)" class="member-name-link">builder(JDA, Class&lt;?&gt;, String...)</a> - Static method in class com.github.kaktushose.jda.commands.<a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
 <dd>
 <div class="block">Create a new builder.</div>
@@ -689,7 +693,7 @@ that contain meta information about classes, methods und parameters, similar to 
 <dd>
 <div class="block">Represents a component, namely <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a>, <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a>, that should be added to a reply.</div>
 </dd>
-<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#%3Cinit%3E(boolean,boolean,java.lang.String)" class="member-name-link">Component(boolean, boolean, String)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#%3Cinit%3E(boolean,boolean,java.lang.String,java.lang.Class)" class="member-name-link">Component(boolean, boolean, String, Class&lt;?&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>Component</code> record class.</div>
 </dd>
@@ -963,6 +967,10 @@ for users that will be shown to the user.</div>
 <dd>
 <div class="block">A <a href="jda.commands/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description"><code>Descriptor</code></a> takes a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> as input and transforms it into a <a href="jda.commands/com/github/kaktushose/jda/commands/definitions/description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a>.</div>
 </dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.Class,java.lang.String)" class="member-name-link">disabled(Class&lt;?&gt;, String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
+<dd>
+<div class="block">Adds a disabled <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
+</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)" class="member-name-link">disabled(String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
 <div class="block">Adds disabled, runtime-bound <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
@@ -1084,9 +1092,13 @@ for users that will be shown to the user.</div>
 <dd>
 <div class="block">Returns the value of the <code>enabled</code> record component.</div>
 </dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String)" class="member-name-link">enabled(Class&lt;?&gt;, String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
+<dd>
+<div class="block">Adds an enabled <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
+</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.String)" class="member-name-link">enabled(String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
-<div class="block">Adds enabled, runtime-bound <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
+<div class="block">Adds an enabled, runtime-bound <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html#enabledFor()" class="member-name-link">enabledFor()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">ContextCommand</a></dt>
 <dd>
@@ -1375,14 +1387,19 @@ should be enabled for by default.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/embeds/EmbedDTO.html#getAuthor()" class="member-name-link">getAuthor()</a> - Method in class com.github.kaktushose.jda.commands.embeds.<a href="jda.commands/com/github/kaktushose/jda/commands/embeds/EmbedDTO.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton(Class&lt;?&gt;, String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
+<dd>
+<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
+and the given class and transforms it into a JDA <code>Button</code>.</div>
+</dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton(Class&lt;?&gt;, String)</a> - Method in class com.github.kaktushose.jda.commands.<a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
+<dd>
+<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
+and the given class and transforms it into a JDA <code>Button</code>.</div>
+</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getButton(java.lang.String)" class="member-name-link">getButton(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
 <dd>
 <div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the method name
-and transforms it into a JDA <code>Button</code>.</div>
-</dd>
-<dt><a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html#getButton(java.lang.String)" class="member-name-link">getButton(String)</a> - Method in class com.github.kaktushose.jda.commands.<a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
-<dd>
-<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a> based on the definition id
 and transforms it into a JDA <code>Button</code>.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getChannel()" class="member-name-link">getChannel()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
@@ -1501,13 +1518,18 @@ and transforms it into a JDA <code>Button</code>.</div>
 <dd>
 <div class="block">The expected option type for this query.</div>
 </dd>
-<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getSelectMenu(java.lang.String)" class="member-name-link">getSelectMenu(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)" class="member-name-link">getSelectMenu(Class&lt;?&gt;, String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
 <dd>
 <div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and transforms it into a JDA <code>SelectMenu</code>.</div>
 </dd>
-<dt><a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html#getSelectMenu(java.lang.String)" class="member-name-link">getSelectMenu(String)</a> - Method in class com.github.kaktushose.jda.commands.<a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html#getSelectMenu(java.lang.Class,java.lang.String)" class="member-name-link">getSelectMenu(Class&lt;?&gt;, String)</a> - Method in class com.github.kaktushose.jda.commands.<a href="jda.commands/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
 <dd>
-<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the definition id and transforms it into a JDA <code>SelectMenu</code>.</div>
+<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and the given class and transforms it
+into a JDA <code>SelectMenu</code>.</div>
+</dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getSelectMenu(java.lang.String)" class="member-name-link">getSelectMenu(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
+<dd>
+<div class="block">Gets a <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and transforms it into a JDA <code>SelectMenu</code>.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html#getText()" class="member-name-link">getText()</a> - Method in class com.github.kaktushose.jda.commands.embeds.<a href="jda.commands/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Footer</a></dt>
 <dd>&nbsp;</dd>
@@ -1771,7 +1793,7 @@ and transforms it into a JDA <code>Button</code>.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#independent(java.lang.String)" class="member-name-link">independent(String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
-<div class="block">Adds enabled, runtime-independent <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
+<div class="block">Adds an enabled, runtime-independent <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html#INDEPENDENT_CUSTOM_ID_REGEX" class="member-name-link">INDEPENDENT_CUSTOM_ID_REGEX</a> - Static variable in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></dt>
 <dd>&nbsp;</dd>
@@ -2438,6 +2460,10 @@ and transforms it into a JDA <code>Button</code>.</div>
 <dd>
 <div class="block">Adds <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s with the passed configuration to the reply.</div>
 </dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#of(boolean,java.lang.Class,java.lang.String)" class="member-name-link">of(boolean, Class&lt;?&gt;, String)</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
+<dd>
+<div class="block">Adds <a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s with the passed configuration to the reply.</div>
+</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html#onGenericInteractionCreate(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">onGenericInteractionCreate(GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html" title="class in com.github.kaktushose.jda.commands.dispatching">JDAEventListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#optional()" class="member-name-link">optional()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
@@ -2459,6 +2485,10 @@ and transforms it into a JDA <code>Button</code>.</div>
 <dt><a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.ConstraintDefinition.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a> - Record Class in <a href="jda.commands/com/github/kaktushose/jda/commands/definitions/interactions/command/package-summary.html">com.github.kaktushose.jda.commands.definitions.interactions.command</a></dt>
 <dd>
 <div class="block">Representation of a parameter constraint defined by a constraint annotation.</div>
+</dd>
+<dt><a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#origin()" class="member-name-link">origin()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>origin</code> record component.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
