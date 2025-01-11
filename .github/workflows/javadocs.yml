@@ -23,7 +23,7 @@ jobs:
           java-version: '23'
       - name: Generate Documentation
         run: |
-          mvn javadoc:aggregate
+          gradle javadoc
       - name: Find target directory
         id: target_dir
         run: |
@@ -42,6 +42,6 @@ jobs:
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./target/site/apidocs
+          folder: ./jdac/build/docs/javadoc
           branch: docs
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}

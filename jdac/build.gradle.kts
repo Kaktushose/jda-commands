@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    jacoco
 }
 
 repositories {
@@ -26,23 +27,47 @@ group = "com.github.kaktushose"
 version = "4.0.0-beta.3"
 description = "jda-commands"
 
-
-java.sourceCompatibility = JavaVersion.VERSION_23
-
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
     }
 }
 
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
 }
 
-tasks.withType<Javadoc>() {
+tasks.test {
+    useJUnitPlatform()
+
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+tasks.withType<Javadoc> {
     val options = options as StandardJavadocDocletOptions
     options.encoding = "UTF-8"
+
     options.tags("apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:")
-    options.docFilesSubDirs(true)
-    options.overview = rootDir.path.plus("src/main/javadoc/overview.md")
+    options.overview = "src/main/javadoc/overview.md"
+    // doesn't work anyway, f u gradle
+//    options.docFilesSubDirs(true)
+
+    doLast {
+        copy {
+            include("**/doc-files/*")
+            from("src/main/javadoc")
+            into(project.layout.buildDirectory.dir("docs/javadoc"))
+        }
+
+    }
 }
