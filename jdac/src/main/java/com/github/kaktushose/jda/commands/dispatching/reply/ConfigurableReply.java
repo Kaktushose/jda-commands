@@ -11,11 +11,13 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
 ///
@@ -107,6 +109,20 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     @NotNull
     public ConfigurableReply keepComponents(boolean keepComponents) {
         this.keepComponents = keepComponents;
+        return this;
+    }
+
+    /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
+    ///
+    /// ## Example:
+    /// ```
+    /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
+    /// ```
+    ///
+    /// @param builder the [MessageCreateBuilder] callback
+    /// @return the current instance for fluent interface
+    public ConfigurableReply builder(Consumer<MessageCreateBuilder> builder) {
+        builder.accept(this.builder);
         return this;
     }
 
