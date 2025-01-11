@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
@@ -18,10 +19,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
+import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,13 +85,25 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// The button will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     /// This may be useful if you want to send a component without using the framework.
     ///
-    /// @param button the name of the button
+    /// @param button the name of the button defining method
     /// @return the JDA [Button]
     @NotNull
     public Button getButton(@NotNull String button) {
-        var id = String.valueOf(("%s%s".formatted(definition.clazzDescription().name(), button)).hashCode());
-        var definition = registry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
-        return definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        return getComponent(button, null, ButtonDefinition.class);
+    }
+
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// and the given class and transforms it into a JDA [Button].
+    ///
+    /// The button will be [`runtime`]({@docRoot}/index.html#runtime-concept-heading)-independent.
+    /// This may be useful if you want to send a component without using the framework.
+    ///
+    /// @param origin the [Class] of the method
+    /// @param button the name of the button defining method
+    /// @return the JDA [Button]
+    @NotNull
+    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+        return getComponent(button, null, ButtonDefinition.class);
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
@@ -100,9 +115,29 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the JDA [SelectMenu]
     @NotNull
     public SelectMenu getSelectMenu(@NotNull String menu) {
-        var id = String.valueOf(("%s%s".formatted(definition.clazzDescription().name(), menu)).hashCode());
-        var definition = registry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
-        return (SelectMenu) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        return getComponent(menu, null, SelectMenuDefinition.class);
+    }
+
+    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    ///
+    /// The select menu will be [`runtime`]({@docRoot}/index.html#runtime-concept-heading)-independent.
+    /// This may be useful if you want to send a component without using the framework.
+    ///
+    /// @param origin the [Class] of the method
+    /// @param menu the name of the select menu
+    /// @return the JDA [SelectMenu]
+    @NotNull
+    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+        return getComponent(menu, origin, SelectMenuDefinition.class);
+    }
+
+    @NotNull
+    @SuppressWarnings("unchecked")
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type) {
+        var className = origin == null ? definition.clazzDescription().name() : origin.getName();
+        var id = String.valueOf((className + component).hashCode());
+        var definition = registry.find(type, false, it -> it.definitionId().equals(id));
+        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
     /// Entry point for configuring a reply.

@@ -183,7 +183,10 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     public ComponentReply components(@NotNull Component... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component component : components) {
-            var definitionId = String.valueOf((definition.methodDescription().declaringClass().getName() + component.name()).hashCode());
+            var className = component.origin() == null
+                    ? definition.methodDescription().declaringClass().getName()
+                    : component.origin().getName();
+            var definitionId = String.valueOf((className + component.name()).hashCode());
             var definition = registry.find(ComponentDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
