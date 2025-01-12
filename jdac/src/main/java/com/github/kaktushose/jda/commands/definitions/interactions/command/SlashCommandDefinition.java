@@ -150,9 +150,7 @@ public record SlashCommandDefinition(
                 description.replaceAll("N/A", "no description")
 
         );
-        commandOptions.forEach(parameter -> {
-            command.addOptions(parameter.toJDAEntity());
-        });
+        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity()));
         return command;
     }
 

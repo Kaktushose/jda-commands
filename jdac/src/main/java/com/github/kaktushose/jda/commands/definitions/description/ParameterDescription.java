@@ -21,4 +21,12 @@ public record ParameterDescription(
         this.name = name;
         this.annotations = Collections.unmodifiableCollection(annotations);
     }
+
+    @Override
+    public String toString() {
+        return "ParameterDescription{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

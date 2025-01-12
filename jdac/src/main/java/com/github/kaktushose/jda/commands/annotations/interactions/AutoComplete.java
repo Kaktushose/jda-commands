@@ -13,12 +13,12 @@ import java.lang.annotation.Target;
 ///
 /// ## Example:
 /// ```
-/// @SlashCommand(value = "favourite fruit")
+/// @SlashCommand("favourite fruit")
 /// public void fruitCommand(CommandEvent event, String fruit) {
 ///     event.reply("You've chosen: %s", fruit);
 /// }
 ///
-/// @AutoComplete("fruitCommand")
+/// @AutoComplete("favourite fruit")
 /// public void onFruitAutoComplete(AutoCompleteEvent event) {
 ///     event.replyChoices(...);
 /// }

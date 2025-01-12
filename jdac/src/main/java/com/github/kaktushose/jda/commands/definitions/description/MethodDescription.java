@@ -31,4 +31,9 @@ public record MethodDescription(
         this.annotations = Collections.unmodifiableCollection(annotations);
         this.invoker = invoker;
     }
+
+    @Override
+    public String toString() {
+        return "MethodDescription(%s)".formatted(name);
+    }
 }

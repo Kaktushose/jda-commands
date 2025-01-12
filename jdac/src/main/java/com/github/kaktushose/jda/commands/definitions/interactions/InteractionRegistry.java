@@ -52,7 +52,7 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
 
         int count = 0;
         for (Class<?> clazz : classes) {
-            log.debug("Found interaction controller {}", clazz.getName());
+            log.debug("Found controller: {}", clazz.getName());
             definitions.addAll(indexInteractionClass(descriptor.apply(clazz)));
             count++;
         }
@@ -156,6 +156,7 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
                 definition = ModalDefinition.build(context);
             }
 
+            definition.ifPresent(it -> log.debug("Found interaction: {}", it));
             definition.ifPresent(definitions::add);
         }
         return definitions;

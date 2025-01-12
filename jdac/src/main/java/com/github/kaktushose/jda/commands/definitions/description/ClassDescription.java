@@ -24,4 +24,9 @@ public record ClassDescription(
         this.annotations = Collections.unmodifiableCollection(annotations);
         this.methods = Collections.unmodifiableCollection(methods);
     }
+
+    @Override
+    public String toString() {
+        return "ClassDescription(%s)".formatted(name);
+    }
 }
