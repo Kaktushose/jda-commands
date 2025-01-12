@@ -83,12 +83,12 @@ loadScripts(document, 'script');</script>
 <div class="block"><p>Methods annotated with AutoComplete will be registered as a handler for <a href="../../dispatching/events/interactions/AutoCompleteEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions"><code>AutoCompleteEvent</code></a>s for the given
 <a href="s">SlashCommand</a>.</p>
 <h3 id="example--heading">Example:</h3>
-<pre><code>@SlashCommand(value = &quot;favourite fruit&quot;)
+<pre><code>@SlashCommand(&quot;favourite fruit&quot;)
 public void fruitCommand(CommandEvent event, String fruit) {
     event.reply(&quot;You've chosen: %s&quot;, fruit);
 }
 
-@AutoComplete(&quot;fruitCommand&quot;)
+@AutoComplete(&quot;favourite fruit&quot;)
 public void onFruitAutoComplete(AutoCompleteEvent event) {
     event.replyChoices(...);
 }

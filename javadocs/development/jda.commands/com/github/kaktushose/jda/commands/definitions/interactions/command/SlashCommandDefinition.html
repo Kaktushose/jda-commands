@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
-<li><a href="#clazzDescription()" tabindex="0">clazzDescription()</a></li>
+<li><a href="#classDescription()" tabindex="0">classDescription()</a></li>
 <li><a href="#methodDescription()" tabindex="0">methodDescription()</a></li>
 <li><a href="#permissions()" tabindex="0">permissions()</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
@@ -111,7 +111,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <dl class="notes">
 <dt>Record Components:</dt>
-<dd><code><span id="param-clazzDescription">clazzDescription</span></code> - the <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></dd>
+<dd><code><span id="param-classDescription">classDescription</span></code> - the <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></dd>
 <dd><code><span id="param-methodDescription">methodDescription</span></code> - the <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</dd>
 <dd><code><span id="param-permissions">permissions</span></code> - a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this command</dd>
 <dd><code><span id="param-name">name</span></code> - the name of the command</dd>
@@ -130,7 +130,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></code>, <code><a href="../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code>, <code><a href="../../features/JDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">JDAEntity</a>&lt;net.dv8tion.jda.api.interactions.commands.build.CommandData&gt;</code>, <code><a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></code>, <code><a href="../InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">SlashCommandDefinition</span>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;clazzDescription, @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope, boolean&nbsp;guildOnly, boolean&nbsp;nsfw, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.dv8tion.jda.api.Permission&gt;&nbsp;enabledPermissions, @NotNull net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction&nbsp;localizationFunction, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions, @NotNull <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a>&nbsp;cooldown, boolean&nbsp;isAutoComplete)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">SlashCommandDefinition</span>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope, boolean&nbsp;guildOnly, boolean&nbsp;nsfw, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.dv8tion.jda.api.Permission&gt;&nbsp;enabledPermissions, @NotNull net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction&nbsp;localizationFunction, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions, @NotNull <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a>&nbsp;cooldown, boolean&nbsp;isAutoComplete)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></span></div>
 <div class="block">Representation of a slash command.</div>
@@ -175,7 +175,7 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,boolean,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition,boolean)" class="member-name-link">SlashCommandDefinition</a><wbr>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;clazzDescription,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,boolean,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition,boolean)" class="member-name-link">SlashCommandDefinition</a><wbr>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
  @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
@@ -211,9 +211,9 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <div class="block">Builds a new <a href="SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> from the given <a href="../MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>MethodBuildContext</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clazzDescription()" class="member-name-link">clazzDescription</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#classDescription()" class="member-name-link">classDescription</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-clazzDescription"><code>clazzDescription</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="#param-classDescription"><code>classDescription</code></a> record component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#commandOptions()" class="member-name-link">commandOptions</a>()</code></div>
@@ -338,7 +338,7 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <h3>SlashCommandDefinition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SlashCommandDefinition</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;clazzDescription,
+ @NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
  @NotNull
  @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  @NotNull
@@ -363,7 +363,7 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <div class="block">Creates an instance of a <code>SlashCommandDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>clazzDescription</code> - the value for the <a href="#param-clazzDescription"><code>clazzDescription</code></a> record component</dd>
+<dd><code>classDescription</code> - the value for the <a href="#param-classDescription"><code>classDescription</code></a> record component</dd>
 <dd><code>methodDescription</code> - the value for the <a href="#param-methodDescription"><code>methodDescription</code></a> record component</dd>
 <dd><code>permissions</code> - the value for the <a href="#param-permissions"><code>permissions</code></a> record component</dd>
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
@@ -509,17 +509,17 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 </section>
 </li>
 <li>
-<section class="detail" id="clazzDescription()">
-<h3>clazzDescription</h3>
+<section class="detail" id="classDescription()">
+<h3>classDescription</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></span>&nbsp;<span class="element-name">clazzDescription</span>()</div>
-<div class="block">Returns the value of the <a href="#param-clazzDescription"><code>clazzDescription</code></a> record component.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></span>&nbsp;<span class="element-name">classDescription</span>()</div>
+<div class="block">Returns the value of the <a href="#param-classDescription"><code>classDescription</code></a> record component.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../features/internal/Invokable.html#clazzDescription()">clazzDescription</a></code>&nbsp;in interface&nbsp;<code><a href="../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code></dd>
+<dd><code><a href="../../features/internal/Invokable.html#classDescription()">classDescription</a></code>&nbsp;in interface&nbsp;<code><a href="../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code></dd>
 <dt>Returns:</dt>
-<dd>the value of the <a href="#param-clazzDescription"><code>clazzDescription</code></a> record component</dd>
+<dd>the value of the <a href="#param-classDescription"><code>classDescription</code></a> record component</dd>
 </dl>
 </div>
 </section>
