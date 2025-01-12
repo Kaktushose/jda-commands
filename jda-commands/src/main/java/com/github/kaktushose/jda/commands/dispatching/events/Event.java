@@ -90,6 +90,13 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return runtime.keyValueStore();
     }
 
+    /// Returns an instance of a class annotated with [`Interaction`][com.github.kaktushose.jda.commands.annotations.interactions.Interaction],
+    /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    /// @return the interaction class instance
+    @Nullable
+    public <I> I interactionClass(Class<I> interactionClass) {
+        return runtime.interactionClass(interactionClass);
+    }
 
     @Override
     public int getTypeRaw() {
