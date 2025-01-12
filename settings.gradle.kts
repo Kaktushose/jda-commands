@@ -5,4 +5,4 @@
  */
 
 rootProject.name = "jda-commands"
-include("jdac")
+include("jda-commands")

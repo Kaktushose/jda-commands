@@ -42,6 +42,6 @@ jobs:
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./jdac/build/docs/javadoc
+          folder: ./jda-commands/build/docs/javadoc
           branch: docs
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}

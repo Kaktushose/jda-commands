@@ -21,4 +21,4 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: jdac/build/reports/jacoco/test/jacocoTestReport.xml
+          coverage-reports: jda-commands/build/reports/jacoco/test/jacocoTestReport.xml
