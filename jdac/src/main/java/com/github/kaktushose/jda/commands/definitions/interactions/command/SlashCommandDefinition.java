@@ -76,7 +76,7 @@ public record SlashCommandDefinition(
         boolean autoComplete = context.autoCompleteDefinitions().stream()
                 .map(AutoCompleteDefinition::commands)
                 .flatMap(Collection::stream)
-                .anyMatch(name::startsWith);
+                .anyMatch(it -> name.startsWith(it) || it.equals(method.name()));
 
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()

@@ -96,8 +96,10 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
         autoCompletes.stream()
                 .map(AutoCompleteDefinition::commands)
                 .flatMap(Collection::stream)
-                .filter(name -> commandDefinitions.stream().noneMatch(command -> command.name().startsWith(name)))
-                .forEach(s -> log.warn("No Command found for auto complete {}", s));
+                .filter(name -> commandDefinitions.stream().noneMatch(command ->
+                        command.name().startsWith(name) || command.methodDescription().name().equals(name))
+                ).forEach(s -> log.warn("No Command found for auto complete {}", s));
+
 
         return interactionDefinitions;
     }
@@ -166,12 +168,12 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
     ///
     /// @param type          the type of the [Definition] to find
     /// @param internalError `true` if the [Definition] must be found and not finding it
-    ///                      indicates a framework bug
+    ///                                                                indicates a framework bug
     /// @param predicate     the [Predicate] used to find the [Definition]
     /// @param <T>           a subtype of [Definition]
     /// @return [T]
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
-    ///                                  This is a rare occasion and can be considered a framework bug
+    ///                                                                                                    This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     public <T extends Definition> T find(Class<T> type, boolean internalError, Predicate<T> predicate) {
         return definitions.stream()
@@ -187,13 +189,13 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
 
     /// Attempts to find all [Definition]s of type [T] based on the given [Predicate].
     ///
-    /// @param type          the type of the [Definition] to find
-    ///                      indicates a framework bug
-    /// @param predicate     the [Predicate] used to find the [Definition]s
-    /// @param <T>           a subtype of [Definition]
+    /// @param type      the type of the [Definition] to find
+    ///                                                        indicates a framework bug
+    /// @param predicate the [Predicate] used to find the [Definition]s
+    /// @param <T>       a subtype of [Definition]
     /// @return a possibly-empty [Collection] of all [Definition]s that match the given [Predicate]
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
-    ///                                  This is a rare occasion and can be considered a framework bug
+    ///                                                                                                    This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
