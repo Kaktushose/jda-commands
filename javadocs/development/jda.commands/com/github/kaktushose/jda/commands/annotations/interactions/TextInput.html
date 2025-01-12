@@ -66,7 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#annotation-interface-element-detail" tabindex="0">Element Details</a>
 <ol class="toc-list">
 <li><a href="#value()" tabindex="0">value</a></li>
-<li><a href="#label()" tabindex="0">label</a></li>
+<li><a href="#placeholder()" tabindex="0">placeholder</a></li>
 <li><a href="#defaultValue()" tabindex="0">defaultValue</a></li>
 <li><a href="#minValue()" tabindex="0">minValue</a></li>
 <li><a href="#maxValue()" tabindex="0">maxValue</a></li>
@@ -112,7 +112,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">The placeholder of this TextInput</div>
+<div class="block">The label shown above this text input box.</div>
 </div>
 </div>
 </section>
@@ -131,20 +131,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">The default value of this TextInput.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#label()" class="member-name-link">label</a></code></div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#maxValue()" class="member-name-link">maxValue</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">The label shown above this text input box</div>
-</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#maxValue()" class="member-name-link">maxValue</a></code></div>
-<div class="col-last even-row-color">
 <div class="block">The maximum length.</div>
 </div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#minValue()" class="member-name-link">minValue</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#minValue()" class="member-name-link">minValue</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The minimum length.</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#placeholder()" class="member-name-link">placeholder</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The placeholder of this TextInput.</div>
 </div>
 <div class="col-first even-row-color"><code>boolean</code></div>
 <div class="col-second even-row-color"><code><a href="#required()" class="member-name-link">required</a></code></div>
@@ -173,9 +173,7 @@ loadScripts(document, 'script');</script>
 <h3>value</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">value</span></div>
-<div class="block"><p>The placeholder of this TextInput</p>
-<p>This is the short hint that describes the expected value of the TextInput field.</p>
-</div>
+<div class="block">The label shown above this text input box.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Placeholder</dd>
@@ -184,11 +182,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="label()">
-<h3>label</h3>
+<section class="detail" id="placeholder()">
+<h3>placeholder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">label</span></div>
-<div class="block">The label shown above this text input box</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">placeholder</span></div>
+<div class="block"><p>The placeholder of this TextInput.</p>
+<p>This is the short hint that describes the expected value of the TextInput field.</p>
+</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Label for the input</dd>
