@@ -24,7 +24,7 @@ dependencies {
 }
 
 group = "com.github.kaktushose"
-version = "4.0.0-beta.3"
+version = "4.0.0-beta.4"
 description = "jda-commands"
 
 publishing {
