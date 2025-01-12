@@ -125,8 +125,8 @@ public record ModalDefinition(
             var textInput = optional.get();
 
             return Optional.of(new TextInputDefinition(
-                    textInput.label().isEmpty() ? parameter.name() : textInput.label(),
-                    textInput.value(),
+                    textInput.value().isEmpty() ? parameter.name() : textInput.value(),
+                    textInput.placeholder(),
                     textInput.defaultValue(),
                     textInput.minValue(),
                     textInput.maxValue(),

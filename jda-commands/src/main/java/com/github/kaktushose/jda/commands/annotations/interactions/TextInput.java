@@ -14,17 +14,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TextInput {
 
-    /// The placeholder of this TextInput
-    ///
-    /// This is the short hint that describes the expected value of the TextInput field.
+    /// The label shown above this text input box.
     ///
     /// @return Placeholder
     String value();
 
-    /// The label shown above this text input box
+    /// The placeholder of this TextInput.
+    ///
+    /// This is the short hint that describes the expected value of the TextInput field.
     ///
     /// @return Label for the input
-    String label() default "";
+    String placeholder() default "";
 
     /// The default value of this TextInput.
     ///
