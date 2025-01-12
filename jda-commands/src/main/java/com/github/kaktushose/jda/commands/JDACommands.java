@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -37,30 +37,27 @@ public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
-    private final DependencyInjector dependencyInjector;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
 
     JDACommands(
             JDAContext jdaContext,
-            DependencyInjector dependencyInjector,
             ExpirationStrategy expirationStrategy,
             TypeAdapters typeAdapters,
             Middlewares middlewares,
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
+            Instantiator instantiator,
             InteractionDefinition.ReplyConfig globalReplyConfig) {
         this.jdaContext = jdaContext;
-        this.dependencyInjector = dependencyInjector;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, dependencyInjector, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instantiator, globalReplyConfig));
     }
 
     JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {
         log.info("Starting JDA-Commands...");
-        dependencyInjector.index(clazz, packages);
         classFinders.forEach(classFinder -> interactionRegistry.index(classFinder.find()));
         updater.updateAllCommands();
 

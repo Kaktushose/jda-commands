@@ -1,13 +1,12 @@
 package com.github.kaktushose.jda.commands;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.dependency.DefaultDependencyInjector;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.DefaultInstantiator;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -36,7 +35,6 @@ import java.util.*;
 /// These default implementations are sometimes bases on reflections. If you want to avoid reflections, you have to provide your own implementations for:
 /// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
 /// - [#classFinders(ClassFinder...)]
-/// - [#dependencyInjector(DependencyInjector)]
 ///
 /// ## Example
 /// ```java
@@ -53,7 +51,7 @@ public class JDACommandsBuilder {
     private final JDAContext context;
 
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
-    private DependencyInjector dependencyInjector = new DefaultDependencyInjector();
+    private Instantiator instantiator = new DefaultInstantiator();
     private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
     private PermissionsProvider permissionsProvider = new DefaultPermissionsProvider();
@@ -105,10 +103,9 @@ public class JDACommandsBuilder {
         return this;
     }
 
-    /// @param dependencyInjector The [DependencyInjector] that should be used to instantiate instances of the user defined Interactions [Interaction]
-    @NotNull
-    public JDACommandsBuilder dependencyInjector(@NotNull DependencyInjector dependencyInjector) {
-        this.dependencyInjector = Objects.requireNonNull(dependencyInjector);
+    /// @param instantiator The [Instantiator] to be used to instantiate interaction classes
+    public JDACommandsBuilder instantiator(Instantiator instantiator) {
+        this.instantiator = instantiator;
         return this;
     }
 
@@ -185,15 +182,15 @@ public class JDACommandsBuilder {
     public JDACommands start() {
         JDACommands jdaCommands = new JDACommands(
                 context,
-                dependencyInjector,
                 expirationStrategy,
                 new TypeAdapters(typeAdapters),
                 new Middlewares(middlewares, errorMessageFactory, permissionsProvider),
                 errorMessageFactory,
                 guildScopeProvider,
-                new InteractionRegistry(dependencyInjector, new Validators(this.validators), localizationFunction, descriptor),
+                new InteractionRegistry(new Validators(this.validators), localizationFunction, descriptor),
+                instantiator,
                 globalReplyConfig
-        );
+                );
 
         return jdaCommands.start(classFinders, baseClass, packages);
     }

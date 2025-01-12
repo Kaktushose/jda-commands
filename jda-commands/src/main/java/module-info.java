@@ -25,9 +25,6 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.definitions.description.reflective;
     exports com.github.kaktushose.jda.commands.definitions.features;
 
-    // dependency injection
-    exports com.github.kaktushose.jda.commands.dependency;
-
     // dispatching api
     exports com.github.kaktushose.jda.commands.dispatching.expiration;
     exports com.github.kaktushose.jda.commands.dispatching.context;
@@ -42,6 +39,8 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dispatching.middleware;
 
     exports com.github.kaktushose.jda.commands.dispatching.validation;
+
+    exports com.github.kaktushose.jda.commands.dispatching.instantiation;
 
     // embed
     exports com.github.kaktushose.jda.commands.embeds;

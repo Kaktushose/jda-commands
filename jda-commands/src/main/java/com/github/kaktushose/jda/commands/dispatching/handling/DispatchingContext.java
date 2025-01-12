@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
@@ -16,6 +16,6 @@ public record DispatchingContext(Middlewares middlewares,
                                  InteractionRegistry registry,
                                  TypeAdapters adapterRegistry,
                                  ExpirationStrategy expirationStrategy,
-                                 DependencyInjector dependencyInjector,
+                                 Instantiator instantiator,
                                  InteractionDefinition.ReplyConfig globalReplyConfig) {
 }

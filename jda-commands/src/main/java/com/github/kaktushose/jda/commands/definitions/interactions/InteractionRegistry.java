@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.Inject;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
@@ -11,22 +10,22 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dependency.DependencyInjector;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
-import java.util.*;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
 /// Central registry for all [InteractionDefinition]s.
-public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector,
-                                  @NotNull Validators validators,
+public record InteractionRegistry(@NotNull Validators validators,
                                   @NotNull LocalizationFunction localizationFunction,
                                   @NotNull Descriptor descriptor,
                                   @NotNull Set<Definition> definitions
@@ -36,12 +35,11 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
 
     /// Constructs a new [InteractionRegistry]
     ///
-    /// @param injector   the [DependencyInjector] to use
     /// @param registry   the corresponding [Validators]
     /// @param function   the [LocalizationFunction] to use
     /// @param descriptor the [Descriptor] to use
-    public InteractionRegistry(DependencyInjector injector, Validators registry, LocalizationFunction function, Descriptor descriptor) {
-        this(injector, registry, function, descriptor, new HashSet<>());
+    public InteractionRegistry(Validators registry, LocalizationFunction function, Descriptor descriptor) {
+        this(registry, function, descriptor, new HashSet<>());
     }
 
     /// Scans all given classes and registers the interactions defined in them.
@@ -64,11 +62,6 @@ public record InteractionRegistry(@NotNull DependencyInjector dependencyInjector
 
     private Collection<Definition> indexInteractionClass(ClassDescription clazz) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
-
-        var fields = Arrays.stream(clazz.clazz().getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Inject.class))
-                .toList();
-        dependencyInjector.registerDependencies(clazz.clazz(), fields);
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
         // get controller level cooldown and use it if no command level cooldown is present
