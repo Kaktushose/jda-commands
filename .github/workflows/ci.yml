@@ -17,4 +17,4 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: gradle build

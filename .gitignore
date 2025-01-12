@@ -3,7 +3,10 @@
 /guilds.json
 migration.md
 target/
-src/main/java/testing
+**/testing
 src/main/resources
 /logs
 .direnv
+
+**/build/
+.gradle/
