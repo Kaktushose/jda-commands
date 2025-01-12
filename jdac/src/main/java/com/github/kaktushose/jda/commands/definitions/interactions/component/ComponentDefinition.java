@@ -19,7 +19,7 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
         permits ButtonDefinition, SelectMenuDefinition {
 
     /// The [ClassDescription] of the declaring class of the [#methodDescription()]
-    @NotNull ClassDescription clazzDescription();
+    @NotNull ClassDescription classDescription();
 
     /// The [MethodDescription] of the method this definition is bound to
     @NotNull MethodDescription methodDescription();

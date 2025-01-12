@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 /// Representation of a slash command.
 ///
-/// @param clazzDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 /// @param cooldown             the corresponding [CooldownDefinition]
 /// @param isAutoComplete       whether this command supports auto complete
 public record SlashCommandDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,

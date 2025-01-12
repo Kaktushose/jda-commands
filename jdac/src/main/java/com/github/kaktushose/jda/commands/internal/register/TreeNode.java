@@ -149,7 +149,7 @@ public record TreeNode(
         try {
             commands.add(command.toJDAEntity());
         } catch (Exception e) {
-            log.error("Cannot convert command {}.{} to  SlashCommandData!", command.clazzDescription().name(), command.methodDescription().name(), e);
+            log.error("Cannot convert command {}.{} to  SlashCommandData!", command.classDescription().name(), command.methodDescription().name(), e);
         }
     }
 

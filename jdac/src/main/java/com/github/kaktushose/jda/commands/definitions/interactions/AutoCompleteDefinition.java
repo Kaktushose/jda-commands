@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 /// Representation of an auto complete handler.
 ///
-/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param commands          the commands this autocomplete handler can handle
-public record AutoCompleteDefinition(@NotNull ClassDescription clazzDescription,
+public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
                                      @NotNull MethodDescription methodDescription,
                                      @NotNull Set<String> commands)
         implements InteractionDefinition {

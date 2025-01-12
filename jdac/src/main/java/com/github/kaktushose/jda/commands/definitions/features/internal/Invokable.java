@@ -43,7 +43,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
 
     /// The [ClassDescription] of the declaring class of the [#methodDescription()].
     @NotNull
-    ClassDescription clazzDescription();
+    ClassDescription classDescription();
 
     /// The [MethodDescription] of the method this [Definition] is bound to.
     @NotNull

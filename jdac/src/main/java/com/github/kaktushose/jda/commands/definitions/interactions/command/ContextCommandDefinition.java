@@ -23,7 +23,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 
 /// Representation of a context command.
 ///
-/// @param clazzDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
@@ -34,7 +34,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,

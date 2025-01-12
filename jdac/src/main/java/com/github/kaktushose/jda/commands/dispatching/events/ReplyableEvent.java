@@ -134,7 +134,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     @NotNull
     @SuppressWarnings("unchecked")
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type) {
-        var className = origin == null ? definition.clazzDescription().name() : origin.getName();
+        var className = origin == null ? definition.classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = registry.find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));

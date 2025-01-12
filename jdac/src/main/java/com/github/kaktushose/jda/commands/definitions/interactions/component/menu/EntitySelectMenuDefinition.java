@@ -15,7 +15,7 @@ import java.util.*;
 
 /// Representation of an entity select menu.
 ///
-/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param permissions       a [Collection] of permissions for this menu
 /// @param selectTargets     the [EntitySelectMenu.SelectTarget]s of this menu
@@ -25,7 +25,7 @@ import java.util.*;
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 public record EntitySelectMenuDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull Set<EntitySelectMenu.SelectTarget> selectTargets,

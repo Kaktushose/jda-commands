@@ -47,7 +47,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(@NotNull String modal) {
         if (event instanceof IModalCallback callback) {
-            var definitionId = String.valueOf((definition.clazzDescription().name() + modal).hashCode());
+            var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );

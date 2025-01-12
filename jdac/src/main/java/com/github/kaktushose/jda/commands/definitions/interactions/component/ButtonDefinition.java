@@ -19,7 +19,7 @@ import java.util.Optional;
 
 /// Representation of a button.
 ///
-/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param permissions       a [Collection] of permissions for this button
 /// @param label             the label of this button
@@ -27,7 +27,7 @@ import java.util.Optional;
 /// @param link              the link of this button or `null`
 /// @param style             the [ButtonStyle] of this button
 public record ButtonDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String label,

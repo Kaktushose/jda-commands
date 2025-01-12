@@ -94,7 +94,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         log.info("Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser().getEffectiveName());
         try {
             log.debug("Invoking method \"{}.{}\" with following arguments: {}",
-                    definition.clazzDescription().name(),
+                    definition.classDescription().name(),
                     definition.methodDescription().name(),
                     arguments
             );

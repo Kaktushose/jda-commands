@@ -17,13 +17,13 @@ import java.util.*;
 
 /// Representation of a modal.
 ///
-/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param permissions       a [Collection] of permissions for this modal
 /// @param title             the title of the modal
 /// @param textInputs        the [`TextInputs`][TextInputDefinition] of this modal
 public record ModalDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String title,

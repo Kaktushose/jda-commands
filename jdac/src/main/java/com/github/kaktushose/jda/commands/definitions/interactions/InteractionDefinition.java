@@ -34,7 +34,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     @NotNull
     @Override
     default String definitionId() {
-        return String.valueOf((clazzDescription().clazz().getName() + methodDescription().name()).hashCode());
+        return String.valueOf((classDescription().clazz().getName() + methodDescription().name()).hashCode());
     }
 
     /// Creates a new instance of the [Interaction] class.
@@ -45,7 +45,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// @throws IllegalAccessException    if the object creation fails
     @ApiStatus.Internal
     default Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        return clazzDescription().clazz().getConstructors()[0].newInstance();
+        return classDescription().clazz().getConstructors()[0].newInstance();
     }
 
     /// A possibly-empty [Collection] of permissions for this interaction.
@@ -60,7 +60,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// annotation of the method and then of the class. If neither is present will fall back to the global [ReplyConfig] provided by [com.github.kaktushose.jda.commands.JDACommandsBuilder]
     @NotNull
     default ReplyConfig replyConfig(@NotNull ReplyConfig globalFallback) {
-        var clazz = clazzDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
+        var clazz = classDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
         var method = methodDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
 
         if (clazz.isEmpty() && method.isEmpty()) {

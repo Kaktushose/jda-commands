@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 /// Representation of a string select menu.
 ///
-/// @param clazzDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param permissions       a [Collection] of permissions for this menu
 /// @param selectOptions     the [SelectOptions][SelectOptionDefinition] of this menu
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 public record StringSelectMenuDefinition(
-        @NotNull ClassDescription clazzDescription,
+        @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull Set<SelectOptionDefinition> selectOptions,
