@@ -34,9 +34,13 @@ publishing {
 }
 
 java {
+    targetCompatibility = JavaVersion.VERSION_23
+    sourceCompatibility = JavaVersion.VERSION_23
     toolchain {
         languageVersion = JavaLanguageVersion.of(23)
     }
+    withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.test {
