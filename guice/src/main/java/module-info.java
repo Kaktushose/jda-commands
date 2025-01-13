@@ -1,9 +1,12 @@
-import com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider;
-import com.github.kaktushose.jda.commands.guice.GuiceInstantiatorProvider;
+import com.github.kaktushose.jda.commands.guice.internal.GuiceInstantiatorProvider;
 
 module jda.commands.guice {
-    requires jda.commands;
-    requires com.google.guice;
+    requires transitive jda.commands;
+    //noinspection requires-transitive-automatic -- must be
+    requires transitive com.google.guice;
+    requires org.jetbrains.annotations;
 
-    provides InstantiatorProvider with GuiceInstantiatorProvider;
+    exports com.github.kaktushose.jda.commands.guice;
+
+    provides com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider with GuiceInstantiatorProvider;
 }

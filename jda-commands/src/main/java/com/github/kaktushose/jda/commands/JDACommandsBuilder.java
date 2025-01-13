@@ -51,18 +51,8 @@ public class JDACommandsBuilder {
     private final JDAContext context;
 
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
-    private Instantiator instantiator = findDefaultInstantiator();
-
-    private static Instantiator findDefaultInstantiator() {
-        return ServiceLoader.load(InstantiatorProvider.class)
-                .stream()
-                .map(ServiceLoader.Provider::get)
-                .max(Comparator.comparingInt(InstantiatorProvider::priority))
-                .orElseThrow(() -> new IllegalStateException(
-                        "No InstantiatorProvider was found! Please use a default integration provided by jda-commands like the guice integration or write your own.")
-                )
-                .create();
-    }
+    private Instantiator instantiator = null;
+    private InstantiatorProvider.Data instatiatorProviderData = null;
 
     private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
@@ -118,6 +108,11 @@ public class JDACommandsBuilder {
     /// @param instantiator The [Instantiator] to be used to instantiate interaction classes
     public JDACommandsBuilder instantiator(Instantiator instantiator) {
         this.instantiator = instantiator;
+        return this;
+    }
+
+    public JDACommandsBuilder instantiatorProviderData(InstantiatorProvider.Data instatiatorProviderData) {
+        this.instatiatorProviderData = instatiatorProviderData;
         return this;
     }
 
@@ -192,6 +187,10 @@ public class JDACommandsBuilder {
     /// This method instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {
+        if (instantiator == null) {
+            instantiator = findDefaultInstantiator();
+        }
+
         JDACommands jdaCommands = new JDACommands(
                 context,
                 expirationStrategy,
@@ -205,5 +204,16 @@ public class JDACommandsBuilder {
                 );
 
         return jdaCommands.start(classFinders, baseClass, packages);
+    }
+
+    private Instantiator findDefaultInstantiator() {
+        return ServiceLoader.load(InstantiatorProvider.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .max(Comparator.comparingInt(InstantiatorProvider::priority))
+                .orElseThrow(() -> new IllegalStateException(
+                        "No InstantiatorProvider was found! Please use a default integration provided by jda-commands like the guice integration or write your own.")
+                )
+                .create(instatiatorProviderData);
     }
 }

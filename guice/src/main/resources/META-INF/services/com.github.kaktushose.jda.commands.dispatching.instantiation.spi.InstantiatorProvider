@@ -1,1 +1,1 @@
-com.github.kaktushose.jda.commands.guice.GuiceInstantiatorProvider
+com.github.kaktushose.jda.commands.guice.internal.GuiceInstantiatorProvider

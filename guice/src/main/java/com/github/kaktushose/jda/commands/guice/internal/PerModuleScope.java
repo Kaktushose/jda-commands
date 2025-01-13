@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.guice;
+package com.github.kaktushose.jda.commands.guice.internal;
 
 import com.google.inject.Key;
 import com.google.inject.Provider;

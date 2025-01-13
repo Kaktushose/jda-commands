@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.guice;
+package com.github.kaktushose.jda.commands.guice.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.instantiation.InstantiationContext;
 import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
