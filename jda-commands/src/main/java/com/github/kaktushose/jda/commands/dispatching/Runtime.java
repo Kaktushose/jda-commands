@@ -66,7 +66,9 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(dispatchingContext);
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
-        this.instantiator = dispatchingContext.instantiator();
+
+        this.instantiator = dispatchingContext.instantiator().forRuntime(id);
+
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
                 .uncaughtExceptionHandler((_, e) -> log.error("Error in JDA-Commands Runtime:", e))

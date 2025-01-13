@@ -9,6 +9,8 @@ org-junit-jupiter-junit-jupiter-api = "5.9.2"
 org-junit-jupiter-junit-jupiter-engine = "5.9.2"
 org-reflections-reflections = "0.10.2"
 org-slf4j-slf4j-api = "2.0.5"
+com-google-inject-guice = "7.0.0"
+
 
 [libraries]
 com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
@@ -18,3 +20,4 @@ org-junit-jupiter-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupite
 org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "org-junit-jupiter-junit-jupiter-engine" }
 org-reflections-reflections = { module = "org.reflections:reflections", version.ref = "org-reflections-reflections" }
 org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
+com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }

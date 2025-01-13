@@ -2,10 +2,12 @@
 module jda.commands {
     requires com.google.gson;
     requires net.dv8tion.jda;
-    requires transitive org.jetbrains.annotations;
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
+
+    requires transitive org.jetbrains.annotations;
+    requires transitive jakarta.inject;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -41,6 +43,7 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.dispatching.validation;
 
     exports com.github.kaktushose.jda.commands.dispatching.instantiation;
+    exports com.github.kaktushose.jda.commands.dispatching.instantiation.spi;
 
     // embed
     exports com.github.kaktushose.jda.commands.embeds;
@@ -51,4 +54,6 @@ module jda.commands {
 
     // command scope api
     exports com.github.kaktushose.jda.commands.scope;
+
+    uses com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider;
 }

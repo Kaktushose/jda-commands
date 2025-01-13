@@ -5,11 +5,11 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.DefaultInstantiator;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
+import com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
@@ -51,7 +51,19 @@ public class JDACommandsBuilder {
     private final JDAContext context;
 
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
-    private Instantiator instantiator = new DefaultInstantiator();
+    private Instantiator instantiator = findDefaultInstantiator();
+
+    private static Instantiator findDefaultInstantiator() {
+        return ServiceLoader.load(InstantiatorProvider.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .max(Comparator.comparingInt(InstantiatorProvider::priority))
+                .orElseThrow(() -> new IllegalStateException(
+                        "No InstantiatorProvider was found! Please use a default integration provided by jda-commands like the guice integration or write your own.")
+                )
+                .create();
+    }
+
     private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
     private PermissionsProvider permissionsProvider = new DefaultPermissionsProvider();

@@ -19,6 +19,8 @@ dependencies {
     api(libs.com.google.code.gson.gson)
     api(libs.org.jetbrains.annotations)
 
+    compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
+
 
     testImplementation(libs.org.junit.jupiter.junit.jupiter.api)
     testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
