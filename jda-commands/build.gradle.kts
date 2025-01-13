@@ -1,7 +1,10 @@
+import java.security.MessageDigest
+
 plugins {
     `java-library`
     `maven-publish`
     jacoco
+    signing
 }
 
 repositories {
@@ -23,15 +26,9 @@ dependencies {
     testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
 }
 
-group = "com.github.kaktushose"
+group = "io.github.kaktushose"
 version = "4.0.0-beta.4"
 description = "jda-commands"
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}
 
 java {
     targetCompatibility = JavaVersion.VERSION_23
@@ -41,6 +38,133 @@ java {
     }
     withSourcesJar()
     withJavadocJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            pom {
+                name.set("JDA-Commands")
+                description.set("A declarative, annotation driven interaction framework for JDA")
+                url.set("https://github.com/Kaktushose/jda-commands")
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
+                }
+
+                developers {
+                    developer {
+                        name.set("Kaktushose")
+                    }
+                    developer {
+                        name.set("Goldmensch")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/kaktushose/jda-commands.git")
+                    developerConnection.set("scm:git:ssh://github.com/kaktushose/jda-commands.git")
+                    url.set("https://github.com/Kaktushose/jda-commands")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications["mavenJava"])
+}
+
+// Task to generate checksums
+tasks.register("generateChecksums") {
+    group = "verification"
+    description = "Generates SHA1 and MD5 checksums for artifacts"
+
+    doLast {
+        val artifacts = listOf(
+            tasks.named<Jar>("javadocJar").get().archiveFile.get().asFile,
+            tasks.named<Jar>("sourcesJar").get().archiveFile.get().asFile,
+            tasks.named<Jar>("jar").get().archiveFile.get().asFile,
+            file("${layout.buildDirectory.asFile.get().absolutePath}/publications/mavenJava/pom-default.xml")
+        )
+
+        artifacts.forEach { artifact ->
+            println(artifact.absolutePath)
+            val sha1File = File(artifact.absolutePath + ".sha1")
+            val md5File = File(artifact.absolutePath + ".md5")
+
+            sha1File.writeText(artifact.inputStream().use { it.readBytes().sha1Hex() })
+            md5File.writeText(artifact.inputStream().use { it.readBytes().md5Hex() })
+        }
+    }
+}
+
+// Task to create the ZIP file
+tasks.register<Zip>("packageForMavenCentral") {
+    group = "build"
+    val buildDir = layout.buildDirectory.asFile.get().absolutePath
+    val destinationDir = "io/github/kaktushose/jda-commands/${version}"
+    dependsOn("generateChecksums")
+    dependsOn("signMavenJavaPublication")
+
+    from(tasks.named("javadocJar")) {
+        into(destinationDir)
+    }
+    from(tasks.named("sourcesJar")) {
+        into(destinationDir)
+    }
+    from(tasks.named("jar")) {
+        into(destinationDir)
+    }
+    from("$buildDir/publications/mavenJava") {
+        include("pom-default.xml")
+        into(destinationDir)
+        rename("pom-default.xml", "${project.name}-${version}.pom")
+    }
+    from("$buildDir/publications/mavenJava") {
+        include("pom-default.xml.asc")
+        into(destinationDir)
+        rename("pom-default.xml.asc", "${project.name}-${version}.pom.asc")
+    }
+    from("$buildDir/publications/mavenJava") {
+        include("pom-default.xml.md5")
+        into(destinationDir)
+        rename("pom-default.xml.md5", "${project.name}-${version}.pom.md5")
+    }
+    from("$buildDir/publications/mavenJava") {
+        include("pom-default.xml.sha1")
+        into(destinationDir)
+        rename("pom-default.xml.sha1", "${project.name}-${version}.pom.sha1")
+    }
+    from("$buildDir/libs") {
+        include("*.asc", "*.md5", "*sha1")
+        into(destinationDir)
+    }
+    archiveFileName.set("${project.name}-${version}-maven-central.zip")
+    destinationDirectory.set(file("$buildDir/distributions"))
+}
+
+// Utility functions for checksums
+fun ByteArray.sha1Hex(): String {
+    return MessageDigest.getInstance("SHA-1")
+        .digest(this)
+        .joinToString("") { "%02x".format(it) }
+}
+
+fun ByteArray.md5Hex(): String {
+    return MessageDigest.getInstance("MD5")
+        .digest(this)
+        .joinToString("") { "%02x".format(it) }
+}
+
+tasks.named("build") {
+    dependsOn("generatePomFileForMavenJavaPublication")
+    dependsOn("packageForMavenCentral")
 }
 
 tasks.test {
@@ -60,7 +184,7 @@ tasks.jacocoTestReport {
 tasks.withType<Javadoc> {
     val options = options as StandardJavadocDocletOptions
     options.encoding = "UTF-8"
-
+    options.addBooleanOption("Xdoclint:none,-missing", true)
     options.tags("apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:")
     options.overview = "src/main/javadoc/overview.md"
     // doesn't work anyway, f u gradle
