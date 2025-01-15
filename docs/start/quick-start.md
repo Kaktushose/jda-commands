@@ -7,7 +7,6 @@ public class Main {
         JDA jda = yourJDABuilding();
         JDACommands jdaCommands = JDACommands.start(jda, Main.class);
    }
-   
 }
 ```
 
