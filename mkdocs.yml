@@ -67,4 +67,8 @@ nav:
   - Getting Started:
       - Installation: start/installation.md
       - Quick Start Guide: start/quick-start.md
+  - Interactions: interactions.d
+  - Middlewares: middlewares.md
+  - Dependency Injection: di.md
+  - Misc: misc.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/latest/
