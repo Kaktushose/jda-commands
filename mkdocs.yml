@@ -1,1 +1,70 @@
-site_name: My Docs
+site_name: JDA-Commands Wiki
+site_url: https://kaktushose.github.io/wiki
+
+theme:
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - toc.follow
+    - search.share
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/book-open-page-variant
+    admonition:
+      link: octicons/link-16
+  palette:
+    scheme: slate
+    primary: teal
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+repo_name: JDA-Commands
+repo_url: https://github.com/kaktushose/jda-commands
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kaktushose
+
+copyright: Copyright &copy; 2025 Kaktushose
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: start/installation.md
+      - Quick Start Guide: start/quick-start.md
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/latest/
