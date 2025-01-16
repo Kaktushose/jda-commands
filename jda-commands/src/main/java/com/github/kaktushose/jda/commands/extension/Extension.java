@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.extension;
 
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -27,6 +28,15 @@ public interface Extension<T extends Extension.Data> {
     /// @param builder the used instance of [JDACommandsBuilder]
     /// @see JDACommandsBuilder#applyExtensions(JDACommandsBuilder.FilterStrategy, String...)
     void configure(@NotNull JDACommandsBuilder builder, @Nullable T data);
+
+    /// Runs after the [JDACommandsBuilder] has created the [JDACommands] object, but didn't start the framework.
+    ///
+    /// Please note that the [JDACommands] instance isn't completely initialized yet, this method is primary
+    /// intended for e.g. registering the instance in a dependency injection framework.
+    default void afterInit(JDACommands jdaCommands) {}
+
+    /// Runs after the framework was started.
+    default void afterStart(JDACommands jdaCommands) {}
 
     /// @return the [Class] of the custom [Data] implementation
     @NotNull

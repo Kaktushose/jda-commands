@@ -79,7 +79,9 @@ public class JDACommandsBuilder {
     private ReplyConfig globalReplyConfig = new ReplyConfig();
 
     private final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
-    private boolean extensionsAlreadyApplied = false;
+
+    @SuppressWarnings("rawtypes")
+    private List<Extension> extensions = null;
 
     // registries
     private final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
@@ -221,7 +223,7 @@ public class JDACommandsBuilder {
     /// @param classes the classes to be filtered
     @SuppressWarnings("unchecked")
     public JDACommandsBuilder applyExtensions(FilterStrategy strategy, String... classes) {
-        ServiceLoader.load(Extension.class)
+        this.extensions = ServiceLoader.load(Extension.class)
                 .stream()
                 .peek(provider -> log.debug("Found extension: {}", provider.type()))
                 .filter(provider -> {
@@ -235,9 +237,9 @@ public class JDACommandsBuilder {
                 })
                 .peek(provider -> log.debug("Using extension {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
-                .forEach(extension -> extension.configure(this, extensionData.get(extension.dataType())));
+                .toList();
 
-        extensionsAlreadyApplied = true;
+        extensions.forEach(extension -> extension.configure(this, extensionData.get(extension.dataType())));
         return this;
     }
 
@@ -254,7 +256,7 @@ public class JDACommandsBuilder {
     @NotNull
     public JDACommands start() {
         // exclude no packages -> apply all
-        if (!extensionsAlreadyApplied) applyExtensions(FilterStrategy.EXCLUDE);
+        if (extensions == null) applyExtensions(FilterStrategy.EXCLUDE);
 
         validateConfiguration();
 
@@ -269,8 +271,12 @@ public class JDACommandsBuilder {
                 instanceProvider,
                 globalReplyConfig
                 );
+        extensions.forEach(extension -> extension.afterInit(jdaCommands));
 
-        return jdaCommands.start(classFinders, baseClass, packages);
+        jdaCommands.start(classFinders, baseClass, packages);
+
+        extensions.forEach(extension -> extension.afterStart(jdaCommands));
+        return jdaCommands;
     }
 
     private void validateConfiguration() {

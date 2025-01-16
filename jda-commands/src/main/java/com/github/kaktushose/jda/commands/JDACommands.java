@@ -56,14 +56,13 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
     }
 
-    JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {
+    void start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {
         log.info("Starting JDA-Commands...");
         classFinders.forEach(classFinder -> interactionRegistry.index(classFinder.find()));
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
         log.info("Finished loading!");
-        return this;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
