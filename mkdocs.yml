@@ -47,6 +47,7 @@ plugins:
   - open-in-new-tab
 
 markdown_extensions:
+  - pymdownx.blocks.caption
   - admonition
   - pymdownx.details
   - pymdownx.highlight

@@ -72,10 +72,10 @@ is explicitly called.
     ```
 
 ### Inactivity
-You can also adjust the time frame until a `Runtime` gets closed.
+You can also adjust the time frame for a `Runtime` to be closed.
 
 !!! example
-    ```java title="Main.java" hl_lines="2"
+    ```java title="Main.java"
     JDACommands.builder(jda, Main.class)
             .expirationStrategy(new ExpirationStrategy.Inactivity(20))//(1)!
             .start();
@@ -91,11 +91,29 @@ By default, Buttons, SelectMenus and Modals are `runtime-bound`. This means that
 `Runtime` as the interaction that replied with them. 
 
 However, this also means that they cannot be executed anymore after the `Runtime` is closed. JDA-Commands will handle 
-that case and remove the component in question. It will also send an ephemeral reply to the user, saying that the 
+that case and remove the component. It will also send an ephemeral reply to the user, saying that the 
 component is no longer available.
 
+![Expiration Message](../assets/expiration.png)
+/// caption
+You can customize this error message, find more about it [here](TODO link).
+///
 
 ### Independent
+You can also reply with components that are `runtime-independent`, making them virtually immortal. They will create a
+new `Runtime` everytime they are executed. 
 
-!!! info
+These components will even work after a full bot restart! If you want them to not be usable anymore you need to remove 
+them on your own.
+
+!!! info inline end
     Modals cannot be independent because they always need a parent interaction that triggers them!
+
+!!! example
+    ```java
+    @SlashCommand("greet")
+    public void onCommand(CommandEvent event) {
+        event.with().components(Component.independent("onButton")).reply("Hello World!");
+    }
+    ```
+_Read more about building replies [here](../interactions/reply.md)._
