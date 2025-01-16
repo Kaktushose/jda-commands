@@ -3,27 +3,37 @@
 A declarative, annotation driven interaction framework for JDA. Our goal is to remove any boilerplate code, so 
 you can focus solely on the business logic of your bot - writing bots has never been easier:
 
-## Example
-```java
-@Interaction
-public class CookieClicker {
+=== "Code"
+      ```java
+      @Interaction
+      public class CookieClicker {
+      
+          private int counter;//(1)!
+      
+          @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
+          public void onClicker(CommandEvent event) {
+              event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
+          }
+      
+          @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
+          public void onCookie(ComponentEvent event) {
+              event.reply("You've got %s cookie(s)!", ++counter);//(2)!
+          }
+      }
+      ```
 
-    private int count;
+      1. Yes, that's right! We can store the `counter` as a class variable. JDA-Commands will create a new instance of
+      `CookieClicker` for every command execution, so you don't need to worry about state. You can read more about 
+      it [here](./start/runtime.md).
+      2. This will edit the original message and will also keep the `🍪 Collect` button attached. You can find find more 
+      about building replies [here](./interactions/reply.md).
 
-    @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
-    public void onClicker(CommandEvent event) {
-        event.with().components("onCookie").reply("You've got %s cookie(s)!", count);
-    }
+=== "Execution"
+      ![Cookie Clicker](./assets/cookie-clicker.gif)
 
-    @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
-    public void onCookie(ComponentEvent event) {
-        event.reply("You've got %s cookie(s)!", ++count);
-    }
-}
-```
-## Dependency
+## Adding to your Project
 === "Maven"
-      ```xml
+      ```xml title="pom.xml"
       <dependency>
          <groupId>io.github.kaktushose</groupId>
          <artifactId>jda-commands</artifactId>
@@ -31,7 +41,7 @@ public class CookieClicker {
       </dependency>
       ```
 === "Gradle (Kotlin DSL)"
-      ```kotlin
+      ```kotlin title="build.gradle.kts"
       repositories {
          mavenCentral()
       }
@@ -40,7 +50,7 @@ public class CookieClicker {
       }
       ```
 === "Gradle (Groovy DSL)"
-      ```groovy
+      ```groovy title="build.gradle"
       repositories {
          mavenCentral()
       }
@@ -49,7 +59,7 @@ public class CookieClicker {
       }
       ```
 
-## Resources
+## Additional Resources
 
 You might also find the following resources helpful:
 

@@ -43,6 +43,9 @@ extra:
 
 copyright: Copyright &copy; 2025 Kaktushose
 
+plugins:
+  - open-in-new-tab
+
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -67,7 +70,8 @@ nav:
   - Getting Started:
       - Installation: start/installation.md
       - Quick Start Guide: start/quick-start.md
-  - Interactions: interactions.d
+      - Runtime Concept: start/runtime.md
+  - Interactions: interactions.md
   - Middlewares: middlewares.md
   - Dependency Injection: di.md
   - Misc: misc.md

@@ -4,14 +4,14 @@
 
 - Java 23 or later
 - [JDA 5.x](https://github.com/discord-jda/JDA)
-- <a href="https://jda.wiki/setup/logging/" target="_blank">SLF4J Implementation</a> _(not mandatory, but recommended)_
+- [SLF4J Implementation](https://jda.wiki/setup/logging/) _(not mandatory, but recommended)_
 
 ## Configuration
-JDA-Commands is distributed through Maven Central, or alternately you can download the latest version
-[here](https://github.com/Kaktushose/jda-commands/releases/latest)
+JDA-Commands is distributed through Maven Central. Alternatively you can download the latest version
+[here](https://github.com/Kaktushose/jda-commands/releases/latest).
 
 === "Maven"
-    ```xml
+    ```xml title="pom.xml"
     <dependency>
        <groupId>io.github.kaktushose</groupId>
        <artifactId>jda-commands</artifactId>
@@ -19,7 +19,7 @@ JDA-Commands is distributed through Maven Central, or alternately you can downlo
     </dependency>
     ```
 === "Gradle (Kotlin DSL)"
-    ```kotlin
+    ```kotlin title="build.gradle.kts"
     repositories {
        mavenCentral()
     }
@@ -28,7 +28,7 @@ JDA-Commands is distributed through Maven Central, or alternately you can downlo
     }
     ```
 === "Gradle (Groovy DSL)"
-    ```groovy
+    ```groovy title="build.gradle"
     repositories {
        mavenCentral()
     }
@@ -36,3 +36,11 @@ JDA-Commands is distributed through Maven Central, or alternately you can downlo
        implementation 'io.github.kaktushose:jda-commands:v4.0.0-beta.4"'
     }
     ```
+
+## IntelliJ Plugin
+
+We also provide an IntelliJ Plugin that performs some Code Inspection. It validates method references, which are 
+commonly used in jda-commands. You can find it [here](https://plugins.jetbrains.com/plugin/25977-jda-commands-inspection).
+
+![Plugin Example](../assets/plugin.png) 
+
