@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 
 /// Indicates that the annotated class is a custom implementation that should replace the default implementation.
 ///
-/// @see "ImplementationRegistry -> TBD DI"
+/// @see "ImplementationRegistry -> TBD DependencyInjection"
 /// @see Middleware
 /// @see Validator
 /// @see TypeAdapter

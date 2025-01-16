@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
@@ -98,7 +99,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                     definition.methodDescription().name(),
                     arguments
             );
-            Object instance = runtime.instance(definition);
+            Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
             INVOCATION_PERMITTED.set(true);
             definition.invoke(instance, invocation);

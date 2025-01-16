@@ -1,13 +1,14 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.handling.*;
+import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.ComponentHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.InstantiationContext;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
+import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -21,8 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -48,17 +47,15 @@ public final class Runtime implements Closeable {
     private final ContextCommandHandler contextCommandHandler;
     private final ComponentHandler componentHandler;
     private final String id;
-    private final Map<Class<?>, Object> instances;
     private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
-    private final Instantiator instantiator;
+    private final InstanceProvider instanceProvider;
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext) {
         this.id = id;
-        this.instances = new HashMap<>();
         expirationStrategy = dispatchingContext.expirationStrategy();
         blockingQueue = new LinkedBlockingQueue<>();
         slashCommandHandler = new SlashCommandHandler(dispatchingContext);
@@ -67,7 +64,7 @@ public final class Runtime implements Closeable {
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
 
-        this.instantiator = dispatchingContext.instantiator().forRuntime(id);
+        this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -126,16 +123,8 @@ public final class Runtime implements Closeable {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T interactionClass(Class<T> clazz) {
-        return (T) instances.computeIfAbsent(clazz, _ -> instantiator.instantiate(clazz, instantiationContext()));
-    }
-
-    private InstantiationContext instantiationContext() {
-        return new InstantiationContext(this);
-    }
-
-    public Object instance(InteractionDefinition definition) {
-        return interactionClass(definition.classDescription().clazz());
+    public <T> T interactionInstance(Class<T> clazz) {
+        return instanceProvider.instance(clazz, new InstanceProvider.Context(this));
     }
 
     @Override

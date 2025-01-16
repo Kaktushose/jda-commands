@@ -1,0 +1,2 @@
+/// This package contains logic needed to get instances of classes annotated with [com.github.kaktushose.jda.commands.annotations.interactions.Interaction]
+package com.github.kaktushose.jda.commands.dispatching.instance;

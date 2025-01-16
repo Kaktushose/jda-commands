@@ -1,5 +1,3 @@
-import com.github.kaktushose.jda.commands.guice.internal.GuiceInstantiatorProvider;
-
 module jda.commands.guice {
     requires transitive jda.commands;
     //noinspection requires-transitive-automatic -- must be
@@ -8,5 +6,5 @@ module jda.commands.guice {
 
     exports com.github.kaktushose.jda.commands.guice;
 
-    provides com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider with GuiceInstantiatorProvider;
+    provides com.github.kaktushose.jda.commands.extension.Extension with com.github.kaktushose.jda.commands.guice.GuiceExtension;
 }

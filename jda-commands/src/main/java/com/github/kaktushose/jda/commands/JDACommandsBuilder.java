@@ -8,8 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
@@ -17,6 +16,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -25,16 +25,29 @@ import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /// This builder is used to build instances of [JDACommands].
 ///
 /// Please note that values that can be set have a default implementation;
-/// These default implementations are sometimes bases on reflections. If you want to avoid reflections, you have to provide your own implementations for:
+/// These default implementations are sometimes based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
 /// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
 /// - [#classFinders(ClassFinder...)]
+/// - [#instanceProvider(InstanceProvider)]
+///
+///
+/// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough java's [`service
+/// provider interface`][ServiceLoader], which are then applied by [#start()] or [#applyExtensions(FilterStrategy, String...)].
+///
+/// These implementations of [Extension] can be additionally configured by adding the according implementations of [Extension.Data]
+/// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
+///
 ///
 /// ## Example
 /// ```java
@@ -44,15 +57,15 @@ import java.util.*;
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
 ///     .start();
 /// ```
-///
+/// @see Extension
 public class JDACommandsBuilder {
+    private static final Logger log = LoggerFactory.getLogger(JDACommandsBuilder.class);
     private final Class<?> baseClass;
     private final String[] packages;
     private final JDAContext context;
 
     private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
-    private Instantiator instantiator = null;
-    private InstantiatorProvider.Data instatiatorProviderData = null;
+    private InstanceProvider instanceProvider = null;
 
     private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
@@ -64,6 +77,9 @@ public class JDACommandsBuilder {
     private Descriptor descriptor = new ReflectiveDescriptor();
 
     private ReplyConfig globalReplyConfig = new ReplyConfig();
+
+    private final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
+    private boolean extensionsAlreadyApplied = false;
 
     // registries
     private final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
@@ -105,14 +121,9 @@ public class JDACommandsBuilder {
         return this;
     }
 
-    /// @param instantiator The [Instantiator] to be used to instantiate interaction classes
-    public JDACommandsBuilder instantiator(Instantiator instantiator) {
-        this.instantiator = instantiator;
-        return this;
-    }
-
-    public JDACommandsBuilder instantiatorProviderData(InstantiatorProvider.Data instatiatorProviderData) {
-        this.instatiatorProviderData = instatiatorProviderData;
+    /// @param instanceProvider the implementation of [InstanceProvider] to be used.
+    public JDACommandsBuilder instanceProvider(InstanceProvider instanceProvider) {
+        this.instanceProvider = instanceProvider;
         return this;
     }
 
@@ -184,12 +195,68 @@ public class JDACommandsBuilder {
         return this;
     }
 
-    /// This method instantiates an instance of [JDACommands] and starts the framework.
+    /// Registers instances of implementations of [Extension.Data] to be used by the according implementation
+    /// of [Extension] to configure it properly.
+    ///
+    /// @param data the instances of [Extension.Data] to be used
+    public JDACommandsBuilder extensionData(Extension.Data... data) {
+        for (Extension.Data entity : data) {
+            extensionData.put(entity.getClass(), entity);
+        }
+        return this;
+    }
+
+    /// After filtering the by SPI registered implementations of [Extension] according to the chosen [FilterStrategy],
+    /// this method loads all implementations of [Extension] by executing [Extension#configure(JDACommandsBuilder, Extension.Data)].
+    ///
+    /// If this method is not called explicitly all [Extension]s will be loaded by [#start()].
+    ///
+    /// This methods should only be used if you want to filter some implementations of [Extension] or if you want to override
+    /// some values set by any [Extension#configure(JDACommandsBuilder, Extension.Data)].
+    ///
+    /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
+    /// so it's possible to include/exclude a bunch of classes in the same package by just providing the package name.
+    ///
+    /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
+    /// @param classes the classes to be filtered
+    @SuppressWarnings("unchecked")
+    public JDACommandsBuilder applyExtensions(FilterStrategy strategy, String... classes) {
+        ServiceLoader.load(Extension.class)
+                .stream()
+                .peek(provider -> log.debug("Found extension: {}", provider.type()))
+                .filter(provider -> {
+                    Stream<String> filterStream = Arrays.stream(classes);
+                    Predicate<String> startsWith = s -> provider.type().getName().startsWith(s);
+
+                    return switch (strategy) {
+                        case INCLUDE -> filterStream.anyMatch(startsWith);
+                        case EXCLUDE -> filterStream.noneMatch(startsWith);
+                    };
+                })
+                .peek(provider -> log.debug("Using extension {}", provider.type()))
+                .map(ServiceLoader.Provider::get)
+                .forEach(extension -> extension.configure(this, extensionData.get(extension.dataType())));
+
+        extensionsAlreadyApplied = true;
+        return this;
+    }
+
+    /// The two available filter strategies
+    public enum FilterStrategy {
+        /// includes the defined classes
+        INCLUDE,
+        /// excludes the defined classes
+        EXCLUDE
+    }
+
+    /// This method applies all found implementations of [Extension] (if [#applyExtensions(FilterStrategy, String...)] isn't called explicitly),
+    /// instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {
-        if (instantiator == null) {
-            instantiator = findDefaultInstantiator();
-        }
+        // exclude no packages -> apply all
+        if (!extensionsAlreadyApplied) applyExtensions(FilterStrategy.EXCLUDE);
+
+        validateConfiguration();
 
         JDACommands jdaCommands = new JDACommands(
                 context,
@@ -199,21 +266,21 @@ public class JDACommandsBuilder {
                 errorMessageFactory,
                 guildScopeProvider,
                 new InteractionRegistry(new Validators(this.validators), localizationFunction, descriptor),
-                instantiator,
+                instanceProvider,
                 globalReplyConfig
                 );
 
         return jdaCommands.start(classFinders, baseClass, packages);
     }
 
-    private Instantiator findDefaultInstantiator() {
-        return ServiceLoader.load(InstantiatorProvider.class)
-                .stream()
-                .map(ServiceLoader.Provider::get)
-                .max(Comparator.comparingInt(InstantiatorProvider::priority))
-                .orElseThrow(() -> new IllegalStateException(
-                        "No InstantiatorProvider was found! Please use a default integration provided by jda-commands like the guice integration or write your own.")
-                )
-                .create(instatiatorProviderData);
+    private void validateConfiguration() {
+        if (instanceProvider == null) throw new ConfigurationException("An implementation of com.github.kaktushose.jda.commands.dispatching.instantiation.InstanceProvider must be set!");
+    }
+
+    /// Will be thrown if anything goes wrong while configuring jda-commands.
+    public static class ConfigurationException extends RuntimeException {
+        public ConfigurationException(String message) {
+            super("Error while trying to configure jda-commands: " + message);
+        }
     }
 }

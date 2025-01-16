@@ -9,11 +9,11 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.instantiation.Instantiator;
+import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
@@ -48,12 +48,12 @@ public final class JDACommands {
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
-            Instantiator instantiator,
+            InstanceProvider instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instantiator, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
     }
 
     JDACommands start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {

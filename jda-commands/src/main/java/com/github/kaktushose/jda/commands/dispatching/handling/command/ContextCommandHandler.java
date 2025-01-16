@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Conte
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.handling.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;

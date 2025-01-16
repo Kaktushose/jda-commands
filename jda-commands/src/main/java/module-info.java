@@ -8,6 +8,7 @@ module jda.commands {
 
     requires transitive org.jetbrains.annotations;
     requires transitive jakarta.inject;
+    requires java.naming;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -42,8 +43,7 @@ module jda.commands {
 
     exports com.github.kaktushose.jda.commands.dispatching.validation;
 
-    exports com.github.kaktushose.jda.commands.dispatching.instantiation;
-    exports com.github.kaktushose.jda.commands.dispatching.instantiation.spi;
+    exports com.github.kaktushose.jda.commands.dispatching.instance;
 
     // embed
     exports com.github.kaktushose.jda.commands.embeds;
@@ -55,5 +55,8 @@ module jda.commands {
     // command scope api
     exports com.github.kaktushose.jda.commands.scope;
 
-    uses com.github.kaktushose.jda.commands.dispatching.instantiation.spi.InstantiatorProvider;
+    // extensions
+    exports com.github.kaktushose.jda.commands.extension;
+
+    uses com.github.kaktushose.jda.commands.extension.Extension;
 }
