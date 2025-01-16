@@ -2,14 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://kaktushose.github.io/wiki/</loc>
-         <lastmod>2025-01-15</lastmod>
+         <lastmod>2025-01-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/interactions/reply/</loc>
+         <lastmod>2025-01-16</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/installation/</loc>
-         <lastmod>2025-01-15</lastmod>
+         <lastmod>2025-01-16</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/quick-start/</loc>
-         <lastmod>2025-01-15</lastmod>
+         <lastmod>2025-01-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/start/runtime/</loc>
+         <lastmod>2025-01-16</lastmod>
     </url>
 </urlset>
