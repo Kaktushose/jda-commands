@@ -18,7 +18,7 @@ public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;
 
-    public Middlewares(@NotNull Set<Map.Entry<Priority, Middleware>> userDefined, @NotNull ErrorMessageFactory errorMessageFactory, @NotNull PermissionsProvider permissionsProvider) {
+    public Middlewares(@NotNull Collection<Map.Entry<Priority, Middleware>> userDefined, @NotNull ErrorMessageFactory errorMessageFactory, @NotNull PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
                 Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),

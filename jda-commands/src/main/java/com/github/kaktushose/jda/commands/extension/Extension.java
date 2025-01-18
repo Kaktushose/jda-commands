@@ -8,6 +8,9 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.List;
+
 /// Implementations of this interface, that are registered by java's service provider interface, will be called
 /// in [JDACommandsBuilder] to configure the framework.
 ///
@@ -16,31 +19,21 @@ import org.jetbrains.annotations.Nullable;
 ///
 /// If the implementation of this class needs additional configuration, implementations have to provide an
 /// own implementation of [Data] that the user have to register in the builder before the extensions are loaded.
-public interface Extension<T extends Extension.Data> {
-    /// Will be called by the [JDACommandsBuilder] at a specific time to let the specific implementation
-    /// configure the framework.
-    ///
-    /// Please note that extensions shouldn't override user specific options and are mainly
-    /// intended to register things like [InstanceProvider], [Descriptor] or additional [TypeAdapter]s
-    ///
-    /// For further information please take a look at [JDACommandsBuilder].
-    ///
-    /// @param builder the used instance of [JDACommandsBuilder]
-    /// @see JDACommandsBuilder#applyExtensions(JDACommandsBuilder.FilterStrategy, String...)
-    void configure(@NotNull JDACommandsBuilder builder, @Nullable T data);
+public interface Extension {
 
-    /// Runs after the [JDACommandsBuilder] has created the [JDACommands] object, but didn't start the framework.
-    ///
-    /// Please note that the [JDACommands] instance isn't completely initialized yet, this method is primary
-    /// intended for e.g. registering the instance in a dependency injection framework.
-    default void afterInit(JDACommands jdaCommands) {}
+    void init(ReadOnlyJDACommandsBuilder builder, @Nullable Data data);
 
-    /// Runs after the framework was started.
-    default void afterStart(JDACommands jdaCommands) {}
+    default Collection<Object> providedImplementations() {
+        return List.of();
+    }
+
+    default void afterFrameworkInit(JDACommands jdaCommands) {}
+
+    default void afterFrameworkStart(JDACommands jdaCommands) {}
 
     /// @return the [Class] of the custom [Data] implementation
     @NotNull
-    default Class<T> dataType() {
+    default Class<?> dataType() {
         return null;
     }
 

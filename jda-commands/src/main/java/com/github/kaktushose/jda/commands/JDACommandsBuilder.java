@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -14,24 +13,20 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
+import com.github.kaktushose.jda.commands.extension.ExtensionFilter;
+import com.github.kaktushose.jda.commands.extension.ReadOnlyJDACommandsBuilder;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
-import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -58,42 +53,11 @@ import java.util.stream.Stream;
 ///     .start();
 /// ```
 /// @see Extension
-public class JDACommandsBuilder {
+public final class JDACommandsBuilder extends ReadOnlyJDACommandsBuilder {
     private static final Logger log = LoggerFactory.getLogger(JDACommandsBuilder.class);
-    private final Class<?> baseClass;
-    private final String[] packages;
-    private final JDAContext context;
-
-    private LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
-    private InstanceProvider instanceProvider = null;
-
-    private ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
-
-    private PermissionsProvider permissionsProvider = new DefaultPermissionsProvider();
-    private ErrorMessageFactory errorMessageFactory = new DefaultErrorMessageFactory();
-    private GuildScopeProvider guildScopeProvider = new DefaultGuildScopeProvider();
-
-    private Collection<ClassFinder> classFinders;
-    private Descriptor descriptor = new ReflectiveDescriptor();
-
-    private ReplyConfig globalReplyConfig = new ReplyConfig();
-
-    private final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
-
-    @SuppressWarnings("rawtypes")
-    private List<Extension> extensions = null;
-
-    // registries
-    private final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
-    private final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
-    private final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
-
 
     JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
-        this.baseClass = baseClass;
-        this.packages = packages;
-        this.context = Objects.requireNonNull(context);
-        this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
+        super(baseClass, packages, context);
     }
 
 
@@ -105,7 +69,7 @@ public class JDACommandsBuilder {
     ///
     @NotNull
     public JDACommandsBuilder classFinders(@NotNull ClassFinder... classFinders) {
-        this.classFinders = Arrays.asList(classFinders);
+        this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
         return this;
     }
 
@@ -221,25 +185,8 @@ public class JDACommandsBuilder {
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
     /// @param classes the classes to be filtered
-    @SuppressWarnings("unchecked")
-    public JDACommandsBuilder applyExtensions(FilterStrategy strategy, String... classes) {
-        this.extensions = ServiceLoader.load(Extension.class)
-                .stream()
-                .peek(provider -> log.debug("Found extension: {}", provider.type()))
-                .filter(provider -> {
-                    Stream<String> filterStream = Arrays.stream(classes);
-                    Predicate<String> startsWith = s -> provider.type().getName().startsWith(s);
-
-                    return switch (strategy) {
-                        case INCLUDE -> filterStream.anyMatch(startsWith);
-                        case EXCLUDE -> filterStream.noneMatch(startsWith);
-                    };
-                })
-                .peek(provider -> log.debug("Using extension {}", provider.type()))
-                .map(ServiceLoader.Provider::get)
-                .toList();
-
-        extensions.forEach(extension -> extension.configure(this, extensionData.get(extension.dataType())));
+    public JDACommandsBuilder filterExtensions(FilterStrategy strategy, String... classes) {
+        this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
         return this;
     }
 
@@ -255,32 +202,25 @@ public class JDACommandsBuilder {
     /// instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {
-        // exclude no packages -> apply all
-        if (extensions == null) applyExtensions(FilterStrategy.EXCLUDE);
 
-        validateConfiguration();
-
+        ErrorMessageFactory errorMessageFactory = errorMessageFactory();
         JDACommands jdaCommands = new JDACommands(
-                context,
-                expirationStrategy,
-                new TypeAdapters(typeAdapters),
-                new Middlewares(middlewares, errorMessageFactory, permissionsProvider),
+                context(),
+                expirationStrategy(),
+                new TypeAdapters(typeAdapters()),
+                new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
-                guildScopeProvider,
-                new InteractionRegistry(new Validators(this.validators), localizationFunction, descriptor),
-                instanceProvider,
-                globalReplyConfig
+                guildScopeProvider(),
+                new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
+                instanceProvider(),
+                globalReplyConfig()
                 );
-        extensions.forEach(extension -> extension.afterInit(jdaCommands));
+        loadedExtensions.forEach(extension -> extension.afterFrameworkInit(jdaCommands));
 
-        jdaCommands.start(classFinders, baseClass, packages);
+        jdaCommands.start(classFinders(), baseClass(), packages());
 
-        extensions.forEach(extension -> extension.afterStart(jdaCommands));
+        loadedExtensions.forEach(extension -> extension.afterFrameworkStart(jdaCommands));
         return jdaCommands;
-    }
-
-    private void validateConfiguration() {
-        if (instanceProvider == null) throw new ConfigurationException("An implementation of com.github.kaktushose.jda.commands.dispatching.instantiation.InstanceProvider must be set!");
     }
 
     /// Will be thrown if anything goes wrong while configuring jda-commands.
