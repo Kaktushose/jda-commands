@@ -50,6 +50,12 @@ public record StringSelectMenuDefinition(
         }
 
         Set<SelectOptionDefinition> selectOptions = new HashSet<>();
+
+        method.annotations().stream()
+                .filter(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::isInstance)
+                .map(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::cast)
+                .forEach(it -> selectOptions.add(SelectOptionDefinition.build(it)));
+
         method.annotations().stream()
                 .filter(SelectOptionContainer.class::isInstance)
                 .map(SelectOptionContainer.class::cast)
