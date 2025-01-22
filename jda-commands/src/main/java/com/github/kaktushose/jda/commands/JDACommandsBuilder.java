@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
+import com.github.kaktushose.jda.commands.extension.JDACommandsCreationContext;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -50,7 +51,7 @@ import java.util.*;
 ///     .start();
 /// ```
 /// @see Extension
-public final class JDACommandsBuilder extends com.github.kaktushose.jda.commands.extension.JDACommandsCreationContext {
+public final class JDACommandsBuilder extends JDACommandsCreationContext {
 
     JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
