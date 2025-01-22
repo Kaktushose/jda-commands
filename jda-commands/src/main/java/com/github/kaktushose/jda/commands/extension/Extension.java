@@ -23,7 +23,7 @@ public interface Extension {
 
     void init(@Nullable Data data);
 
-    default Collection<Object> providedImplementations(ReadOnlyJDACommandsBuilder builder) {
+    default Collection<ImplementationProvider<?>> providedImplementations() {
         return List.of();
     }
 

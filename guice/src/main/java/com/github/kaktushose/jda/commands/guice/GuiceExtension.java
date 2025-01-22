@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.guice;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import com.github.kaktushose.jda.commands.extension.Extension;
-import com.github.kaktushose.jda.commands.extension.ReadOnlyJDACommandsBuilder;
+import com.github.kaktushose.jda.commands.extension.ImplementationProvider;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceRootInstanceProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -29,8 +29,14 @@ public class GuiceExtension implements Extension {
     }
 
     @Override
-    public Collection<Object> providedImplementations(ReadOnlyJDACommandsBuilder builder) {
-        return List.of(new GuiceRootInstanceProvider(this));
+    public Collection<ImplementationProvider<?>> providedImplementations() {
+        return List.of(new ImplementationProvider<>(
+                InstanceProvider.class,
+                builder -> {
+                    builder.descriptor();
+                    return new GuiceRootInstanceProvider(this);
+                })
+        );
     }
 
     @Override
