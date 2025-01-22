@@ -29,7 +29,7 @@ public class GuiceExtension implements Extension {
     }
 
     @Override
-    public Collection<ImplementationProvider<?>> providedImplementations() {
+    public @NotNull Collection<ImplementationProvider<?>> providedImplementations() {
         return List.of(new ImplementationProvider<>(
                 InstanceProvider.class,
                 _ -> new GuiceRootInstanceProvider(this))
@@ -37,7 +37,7 @@ public class GuiceExtension implements Extension {
     }
 
     @Override
-    public void afterFrameworkInit(JDACommands jdaCommands) {
+    public void afterFrameworkInit(@NotNull JDACommands jdaCommands) {
         this.jdaCommands = jdaCommands;
     }
 

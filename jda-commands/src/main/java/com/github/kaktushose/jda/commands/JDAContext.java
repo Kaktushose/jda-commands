@@ -1,24 +1,31 @@
-package com.github.kaktushose.jda.commands.internal;
+package com.github.kaktushose.jda.commands;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
-import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 /// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
-@ApiStatus.Internal
 public final class JDAContext {
 
     private final Object context;
 
     /// Constructs a new JDAContext.
     ///
-    /// @param context the [JDA] or [ShardManager] object
-    public JDAContext(Object context) {
-        this.context = context;
+    /// @param shardManager the [ShardManager] object
+    JDAContext(@NotNull ShardManager shardManager) {
+        this.context = shardManager;
+    }
+
+
+    /// Constructs a new JDAContext.
+    ///
+    /// @param jda the [JDA] object
+    JDAContext(@NotNull JDA jda) {
+        this.context = jda;
     }
 
     /// Performs an operation on either the [JDA] object or on all shards.
@@ -36,6 +43,7 @@ public final class JDAContext {
     /// [SnowflakeCacheView] of all cached [Guild]s.
     ///
     /// @return [SnowflakeCacheView]
+    @NotNull
     public SnowflakeCacheView<Guild> getGuildCache() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();

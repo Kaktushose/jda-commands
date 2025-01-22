@@ -15,14 +15,11 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
-import com.github.kaktushose.jda.commands.extension.ExtensionFilter;
-import com.github.kaktushose.jda.commands.internal.JDAContext;
+import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -37,9 +34,10 @@ import java.util.*;
 ///
 ///
 /// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough java's [`service
-/// provider interface`][ServiceLoader], which are then applied by [#start()] or [#applyExtensions(FilterStrategy, String...)].
+/// provider interface`][ServiceLoader], which are applied during [JDACommands] creation. Manually defined values always override
+/// loaded and default ones.
 ///
-/// These implementations of [Extension] can be additionally configured by adding the according implementations of [Extension.Data]
+/// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
 ///
 ///
@@ -53,7 +51,6 @@ import java.util.*;
 /// ```
 /// @see Extension
 public final class JDACommandsBuilder extends com.github.kaktushose.jda.commands.extension.JDACommandsCreationContext {
-    private static final Logger log = LoggerFactory.getLogger(JDACommandsBuilder.class);
 
     JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
@@ -164,27 +161,23 @@ public final class JDACommandsBuilder extends com.github.kaktushose.jda.commands
     /// of [Extension] to configure it properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
-    public JDACommandsBuilder extensionData(Extension.Data... data) {
+    @NotNull
+    public JDACommandsBuilder extensionData(@NotNull Extension.Data... data) {
         for (Extension.Data entity : data) {
             extensionData.put(entity.getClass(), entity);
         }
         return this;
     }
 
-    /// After filtering the by SPI registered implementations of [Extension] according to the chosen [FilterStrategy],
-    /// this method loads all implementations of [Extension] by executing [Extension#configure(JDACommandsBuilder , Extension.Data)].
-    ///
-    /// If this method is not called explicitly all [Extension]s will be loaded by [#start()].
-    ///
-    /// This methods should only be used if you want to filter some implementations of [Extension] or if you want to override
-    /// some values set by any [Extension#configure(JDACommandsBuilder , Extension.Data)].
+    /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of classes in the same package by just providing the package name.
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
     /// @param classes the classes to be filtered
-    public JDACommandsBuilder filterExtensions(FilterStrategy strategy, String... classes) {
+    @NotNull
+    public JDACommandsBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
         this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
         return this;
     }
@@ -197,7 +190,7 @@ public final class JDACommandsBuilder extends com.github.kaktushose.jda.commands
         EXCLUDE
     }
 
-    /// This method applies all found implementations of [Extension] (if [#applyExtensions(FilterStrategy, String...)] isn't called explicitly),
+    /// This method applies all found implementations of [Extension] and
     /// instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {

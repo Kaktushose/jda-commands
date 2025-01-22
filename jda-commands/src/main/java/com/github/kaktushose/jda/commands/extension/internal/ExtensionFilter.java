@@ -1,20 +1,16 @@
-package com.github.kaktushose.jda.commands.extension;
+package com.github.kaktushose.jda.commands.extension.internal;
 
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.extension.Extension;
 
 import java.util.Collection;
 import java.util.ServiceLoader;
 import java.util.function.Predicate;
 
-public class ExtensionFilter implements Predicate<ServiceLoader.Provider<Extension>> {
-
-    private final Collection<String> classes;
-    private final JDACommandsBuilder.FilterStrategy filterStrategy;
-
-    public ExtensionFilter(JDACommandsBuilder.FilterStrategy filterStrategy, Collection<String> classes) {
-        this.classes = classes;
-        this.filterStrategy = filterStrategy;
-    }
+public record ExtensionFilter(
+        JDACommandsBuilder.FilterStrategy filterStrategy,
+        Collection<String> classes
+) implements Predicate<ServiceLoader.Provider<Extension>> {
 
     @Override
     public boolean test(ServiceLoader.Provider<Extension> provider) {

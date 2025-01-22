@@ -16,7 +16,6 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;

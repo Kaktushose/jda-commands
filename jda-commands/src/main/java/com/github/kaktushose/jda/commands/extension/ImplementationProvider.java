@@ -1,18 +1,23 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/// Instances of this class are used to provide specific implementations of classes, that can be loaded by the [JDACommandsBuilder].
+///
+/// @param type the [Class] of the implemented interface
+/// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the specific implementation
 public record ImplementationProvider<T>(
-        Class<T> type,
-        Function<JDACommandsCreationContext, ? extends T> supplier
+        @NotNull Class<T> type,
+        @NotNull Function<JDACommandsCreationContext, ? extends T> supplier
 ) {
 
-    public T getValue(JDACommandsCreationContext builder) {
+    T getValue(JDACommandsCreationContext builder) {
         checkCycling(builder);
         builder.alreadyCalled.add(this);
 
@@ -20,11 +25,6 @@ public record ImplementationProvider<T>(
 
         builder.alreadyCalled.remove(this);
         return apply;
-    }
-
-    @Override
-    public Function<JDACommandsCreationContext,? extends T> supplier() {
-        return supplier;
     }
 
     private void checkCycling(JDACommandsCreationContext builder) {
@@ -52,7 +52,7 @@ public record ImplementationProvider<T>(
         }
     }
 
-    record GraphEntry(
+    private record GraphEntry(
             Class<?> extension,
             Class<?> provides
     ) {}

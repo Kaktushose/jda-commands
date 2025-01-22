@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.internal.JDAContext;
+import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 
 
