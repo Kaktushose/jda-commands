@@ -75,6 +75,11 @@ publishing {
     }
 }
 
+tasks.publish {
+    dependsOn("generatePomFileForMavenJavaPublication")
+    dependsOn("packageForMavenCentral")
+}
+
 signing {
     useGpgCmd()
     sign(publishing.publications["mavenJava"])
@@ -160,11 +165,6 @@ fun ByteArray.md5Hex(): String {
     return MessageDigest.getInstance("MD5")
         .digest(this)
         .joinToString("") { "%02x".format(it) }
-}
-
-tasks.named("build") {
-    dependsOn("generatePomFileForMavenJavaPublication")
-    dependsOn("packageForMavenCentral")
 }
 
 tasks.test {
