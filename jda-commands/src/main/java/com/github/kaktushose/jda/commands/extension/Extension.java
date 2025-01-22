@@ -21,9 +21,9 @@ import java.util.List;
 /// own implementation of [Data] that the user have to register in the builder before the extensions are loaded.
 public interface Extension {
 
-    void init(ReadOnlyJDACommandsBuilder builder, @Nullable Data data);
+    void init(@Nullable Data data);
 
-    default Collection<Object> providedImplementations() {
+    default Collection<Object> providedImplementations(ReadOnlyJDACommandsBuilder builder) {
         return List.of();
     }
 

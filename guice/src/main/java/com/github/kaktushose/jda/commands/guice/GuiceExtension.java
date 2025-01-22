@@ -20,19 +20,17 @@ public class GuiceExtension implements Extension {
 
     private JDACommands jdaCommands;
     private Injector injector;
-    private GuiceRootInstanceProvider provider;
 
     @Override
-    public void init(ReadOnlyJDACommandsBuilder builder, @Nullable Data data) {
+    public void init(@Nullable Data data) {
         this.injector = data != null
                 ? ((GuiceExtensionData) data).providedInjector()
                 : Guice.createInjector();
-        this.provider = new GuiceRootInstanceProvider(this);
     }
 
     @Override
-    public Collection<Object> providedImplementations() {
-        return List.of(provider);
+    public Collection<Object> providedImplementations(ReadOnlyJDACommandsBuilder builder) {
+        return List.of(new GuiceRootInstanceProvider(this));
     }
 
     @Override

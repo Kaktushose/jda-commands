@@ -26,9 +26,13 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
     public static final Logger log = LoggerFactory.getLogger(ReadOnlyJDACommandsBuilder.class);
+
+    private static final StackWalker STACK_WALKER = StackWalker.getInstance(Set.of(StackWalker.Option.RETAIN_CLASS_REFERENCE,
+            StackWalker.Option.DROP_METHOD_INFO), 8);
 
     protected Collection<Extension> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
@@ -55,6 +59,7 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
     protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
     protected final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
 
+
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
 
@@ -73,16 +78,24 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
                     .filter(extensionFilter)
                     .peek(provider -> log.debug("Using extension {}", provider.type()))
                     .map(ServiceLoader.Provider::get)
-                    .peek(extension -> extension.init(this, extensionData.get(extension.dataType())))
+                    .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                     .toList();
         }
         return loadedExtensions;
     }
 
-    private <T> List<Map.Entry<Extension, T>> implementation(Class<T> type) {
+    private <T> SequencedCollection<Map.Entry<Extension, T>> implementation(Class<T> type) {
         return extensions()
                 .stream()
-                .flatMap(extension -> extension.providedImplementations()
+                .peek(extension -> {
+                    Boolean alreadyCalled = STACK_WALKER.walk(stream -> stream
+                            .anyMatch(stackFrame -> stackFrame.getDeclaringClass().equals(extension.getClass())));
+
+                    if (alreadyCalled) {
+                        throw new JDACommandsBuilder.ConfigurationException("Cycling dependencies!");
+                    }
+                })
+                .flatMap(extension -> extension.providedImplementations(this)
                         .stream()
                         .filter(type::isInstance)
                         .map(type::cast)
@@ -93,7 +106,7 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
 
     private <T> T load(Class<T> type, T setValue, T defaultValue) {
         if (setValue != null) return setValue;
-        List<Map.Entry<Extension, T>> implementations = implementation(type);
+        SequencedCollection<Map.Entry<Extension, T>> implementations = implementation(type);
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
@@ -110,7 +123,6 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
                             .formatted(type, foundImplementations)
             );
         }
-
     }
 
     public String[] packages() {
@@ -167,13 +179,17 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
         return all;
     }
 
-    public Collection<Map.Entry<Priority, Middleware>> middlewares() {
-        @SuppressWarnings("unchecked")
-        Collection<Map.Entry<Priority, Middleware>> all = implementation(Map.Entry.class)
+    @SuppressWarnings("unchecked")
+    private <K, V> Stream<Map.Entry<K, V>> mapEntryImplementations(Class<K> keyType, Class<V> valueType) {
+        return implementation(Map.Entry.class)
                 .stream()
                 .map(Map.Entry::getValue)
-                .filter(entry -> entry.getKey() instanceof Priority && entry.getValue() instanceof Middleware)
-                .map(entry -> (Map.Entry<Priority, Middleware>) entry)
+                .filter(entry -> keyType.isInstance(entry.getKey()) && valueType.isInstance(entry.getValue()))
+                .map(entry -> (Map.Entry<K, V>) entry);
+    }
+
+    public Collection<Map.Entry<Priority, Middleware>> middlewares() {
+        Collection<Map.Entry<Priority, Middleware>> all = mapEntryImplementations(Priority.class, Middleware.class)
                 .collect(Collectors.toSet());
         all.addAll(middlewares);
         return all;
@@ -181,11 +197,7 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
 
     public Map<Class<? extends Annotation>, Validator> validators() {
         @SuppressWarnings("unchecked")
-        Map<Class<? extends Annotation>, Validator> all = implementation(Map.Entry.class)
-                .stream()
-                .map(Map.Entry::getValue)
-                .filter(entry -> entry.getKey() instanceof Class && entry.getValue() instanceof Validator)
-                .map(entry -> (Map.Entry<Class<? extends Annotation>, Validator>) entry)
+        Map<Class<? extends Annotation>, Validator> all = mapEntryImplementations(Class.class, Validator.class)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         all.putAll(validators);
         return all;
@@ -193,11 +205,7 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
 
     public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
         @SuppressWarnings("unchecked")
-        Map<Class<?>, TypeAdapter<?>> all = implementation(Map.Entry.class)
-                .stream()
-                .map(Map.Entry::getValue)
-                .filter(entry -> entry.getKey() instanceof Class && entry.getValue() instanceof TypeAdapter<?>)
-                .map(entry -> (Map.Entry<Class<?>, TypeAdapter<?>>) entry)
+        Map<Class<?>, TypeAdapter<?>> all = mapEntryImplementations(Class.class, TypeAdapter.class)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         all.putAll(typeAdapters);
         return all;
