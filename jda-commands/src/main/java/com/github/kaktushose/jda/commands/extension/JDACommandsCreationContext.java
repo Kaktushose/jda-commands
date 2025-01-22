@@ -28,11 +28,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
-    public static final Logger log = LoggerFactory.getLogger(ReadOnlyJDACommandsBuilder.class);
+public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
+    public static final Logger log = LoggerFactory.getLogger(JDACommandsCreationContext.class);
+
+    // used for cycling dependency detection
+    List<ImplementationProvider<?>> alreadyCalled = new ArrayList<>();
 
     protected Collection<Extension> loadedExtensions = null;
-    SequencedCollection<Map.Entry<Extension, ImplementationProvider<?>>> implementations = new ArrayList<>();
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACommandsBuilder.FilterStrategy.EXCLUDE, List.of());
 
@@ -61,7 +63,7 @@ public sealed class ReadOnlyJDACommandsBuilder permits JDACommandsBuilder {
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
 
-    public ReadOnlyJDACommandsBuilder(Class<?> baseClass, String[] packages, JDAContext context) {
+    public JDACommandsCreationContext(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;

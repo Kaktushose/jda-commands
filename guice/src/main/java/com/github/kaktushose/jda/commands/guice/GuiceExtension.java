@@ -32,10 +32,7 @@ public class GuiceExtension implements Extension {
     public Collection<ImplementationProvider<?>> providedImplementations() {
         return List.of(new ImplementationProvider<>(
                 InstanceProvider.class,
-                builder -> {
-                    builder.descriptor();
-                    return new GuiceRootInstanceProvider(this);
-                })
+                _ -> new GuiceRootInstanceProvider(this))
         );
     }
 

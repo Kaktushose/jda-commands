@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
+import com.github.kaktushose.jda.commands.JDACommandsBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
@@ -57,7 +58,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// The [ReplyConfig] that should be used when sending replies.
     ///
     /// @implNote This will first attempt to use the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
-    /// annotation of the method and then of the class. If neither is present will fall back to the global [ReplyConfig] provided by [com.github.kaktushose.jda.commands.JDACommandsBuilder]
+    /// annotation of the method and then of the class. If neither is present will fall back to the global [ReplyConfig] provided by [JDACommandsBuilder]
     @NotNull
     default ReplyConfig replyConfig(@NotNull ReplyConfig globalFallback) {
         var clazz = classDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);

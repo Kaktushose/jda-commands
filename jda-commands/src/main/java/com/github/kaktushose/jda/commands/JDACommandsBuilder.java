@@ -16,7 +16,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.internal.Valida
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.ExtensionFilter;
-import com.github.kaktushose.jda.commands.extension.ReadOnlyJDACommandsBuilder;
 import com.github.kaktushose.jda.commands.internal.JDAContext;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -53,7 +52,7 @@ import java.util.*;
 ///     .start();
 /// ```
 /// @see Extension
-public final class JDACommandsBuilder extends ReadOnlyJDACommandsBuilder {
+public final class JDACommandsBuilder extends com.github.kaktushose.jda.commands.extension.JDACommandsCreationContext {
     private static final Logger log = LoggerFactory.getLogger(JDACommandsBuilder.class);
 
     JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
@@ -173,12 +172,12 @@ public final class JDACommandsBuilder extends ReadOnlyJDACommandsBuilder {
     }
 
     /// After filtering the by SPI registered implementations of [Extension] according to the chosen [FilterStrategy],
-    /// this method loads all implementations of [Extension] by executing [Extension#configure(JDACommandsBuilder, Extension.Data)].
+    /// this method loads all implementations of [Extension] by executing [Extension#configure(JDACommandsBuilder , Extension.Data)].
     ///
     /// If this method is not called explicitly all [Extension]s will be loaded by [#start()].
     ///
     /// This methods should only be used if you want to filter some implementations of [Extension] or if you want to override
-    /// some values set by any [Extension#configure(JDACommandsBuilder, Extension.Data)].
+    /// some values set by any [Extension#configure(JDACommandsBuilder , Extension.Data)].
     ///
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of classes in the same package by just providing the package name.
