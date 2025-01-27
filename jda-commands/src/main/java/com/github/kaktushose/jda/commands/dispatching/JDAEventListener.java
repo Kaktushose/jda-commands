@@ -35,7 +35,7 @@ public final class JDAEventListener extends ListenerAdapter {
             // always create new one (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
                  CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
 
             // always fetch runtime (bound to runtime)
             case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isBound() ->
@@ -45,7 +45,7 @@ public final class JDAEventListener extends ListenerAdapter {
 
             // independent components always get their own runtime
             case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isIndependent() ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context));
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
             default -> null;
         };
 

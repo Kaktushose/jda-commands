@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -54,7 +55,7 @@ public final class Runtime implements Closeable {
     private final InteractionClassProvider instanceProvider;
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext) {
+    private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext, JDA jda) {
         this.id = id;
         expirationStrategy = dispatchingContext.expirationStrategy();
         blockingQueue = new LinkedBlockingQueue<>();
@@ -64,7 +65,7 @@ public final class Runtime implements Closeable {
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
 
-        this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id);
+        this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id, jda);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -73,8 +74,8 @@ public final class Runtime implements Closeable {
     }
 
     @NotNull
-    public static Runtime startNew(String id, DispatchingContext dispatchingContext) {
-        var runtime = new Runtime(id, dispatchingContext);
+    public static Runtime startNew(String id, DispatchingContext dispatchingContext, JDA jda) {
+        var runtime = new Runtime(id, dispatchingContext, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.instance;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.extension.Implementation;
+import net.dv8tion.jda.api.JDA;
 
 /// An [InteractionClassProvider] is used get instances of classes annotated with [Interaction], if needed creating those.
 ///
@@ -24,8 +25,9 @@ public non-sealed interface InteractionClassProvider extends Implementation.Exte
     /// Called each time a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String)] is created.
     ///
     /// @param id the runtime id
+    /// @param jda the [JDA] instance associated with the event responsible for creating the new Runtime instance
     /// @return a specific instance of [InteractionClassProvider] belonging to provided runtime.
-    default InteractionClassProvider forRuntime(String id) {
+    default InteractionClassProvider forRuntime(String id, JDA jda) {
         return this;
     }
 

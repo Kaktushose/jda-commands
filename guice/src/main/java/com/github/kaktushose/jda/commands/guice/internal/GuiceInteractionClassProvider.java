@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.guice.GuiceExtension;
 import com.google.inject.Injector;
+import net.dv8tion.jda.api.JDA;
 
 public class GuiceInteractionClassProvider implements InteractionClassProvider {
 
@@ -21,8 +22,8 @@ public class GuiceInteractionClassProvider implements InteractionClassProvider {
     /// Creates a new child injector with its own [JDACommandsModule] for each runtime.
     /// This has the effect, that each class annotated with [Interaction] will be treated as a runtime scoped singleton.
     @Override
-    public InteractionClassProvider forRuntime(String id) {
-        Injector childInjector = extension.injector().createChildInjector(new JDACommandsModule(extension.jdaCommands()));
+    public InteractionClassProvider forRuntime(String id, JDA jda) {
+        Injector childInjector = extension.injector().createChildInjector(new JDACommandsModule(extension.jdaCommands(), jda));
 
         return new InteractionClassProvider() {
             @Override
