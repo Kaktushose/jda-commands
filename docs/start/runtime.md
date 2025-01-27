@@ -12,7 +12,7 @@ A new `Runtime` is created each time a:
 - [`GenericContextInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html)
 - [`CommandAutoCompleteInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html)
 
-is provided by JDA or if an interaction is marked as [*independent*](#components).
+is provided by JDA or if an interaction is marked as [*independent*](#independent).
 
 Runtimes are executed in parallel, but events are processed sequentially by each `Runtime`.
 Every `EventHandler` called by a `Runtime` is executed in its own virtual thread, isolated from the runtime one.
@@ -75,7 +75,7 @@ is explicitly called.
 You can also adjust the time frame for a `Runtime` to be closed.
 
 !!! example
-    ```java title="Main.java"
+    ```java
     JDACommands.builder(jda, Main.class)
             .expirationStrategy(new ExpirationStrategy.Inactivity(20))//(1)!
             .start();
@@ -110,7 +110,7 @@ them on your own.
     Modals cannot be independent because they always need a parent interaction that triggers them!
 
 !!! example
-    ```java
+    ```java title="GreetCommand.java"
     @SlashCommand("greet")
     public void onCommand(CommandEvent event) {
         event.with().components(Component.independent("onButton")).reply("Hello World!");

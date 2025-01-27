@@ -72,7 +72,12 @@ nav:
       - Installation: start/installation.md
       - Quick Start Guide: start/quick-start.md
       - Runtime Concept: start/runtime.md
-  - Interactions: interactions.md
+  - Interactions:
+      - Overview: interactions/overview.md
+      - Commands: interactions/commands.md
+      - Components: interactions/components.md
+      - Modals: interactions/modals.md
+      - Reply API: interactions/reply.md
   - Middlewares: middlewares.md
   - Dependency Injection: di.md
   - Misc: misc.md
