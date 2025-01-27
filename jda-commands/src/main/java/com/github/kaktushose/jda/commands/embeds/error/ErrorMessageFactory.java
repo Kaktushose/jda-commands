@@ -14,7 +14,7 @@ import java.util.List;
 ///
 /// @see Implementation
 /// @see DefaultErrorMessageFactory
-public interface ErrorMessageFactory {
+public non-sealed interface ErrorMessageFactory extends com.github.kaktushose.jda.commands.extension.Implementation.ExtensionImplementable {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///

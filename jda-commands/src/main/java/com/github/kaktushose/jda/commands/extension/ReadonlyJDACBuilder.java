@@ -1,20 +1,20 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
-import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
@@ -33,11 +33,11 @@ import java.util.stream.Stream;
 /// This class is used to give implementations of [Extension] access to properties involved in the creation of [com.github.kaktushose.jda.commands.JDACommands]
 ///
 /// Please note that this class only give read not write access to the [JDACommandsBuilder]
-public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
-    public static final Logger log = LoggerFactory.getLogger(JDACommandsCreationContext.class);
+public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
+    public static final Logger log = LoggerFactory.getLogger(ReadonlyJDACBuilder.class);
 
     // used for cycling dependency detection
-    List<ImplementationProvider<?>> alreadyCalled = new ArrayList<>();
+    List<Implementation<?>> alreadyCalled = new ArrayList<>();
 
     protected final Class<?> baseClass;
     protected final String[] packages;
@@ -50,8 +50,7 @@ public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
 
 
     // loadable by extension
-    protected LocalizationFunction localizationFunction;
-    protected InstanceProvider instanceProvider = null;
+    protected InteractionClassProvider instanceProvider = null;
 
     protected ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
@@ -69,8 +68,9 @@ public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
 
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
+    protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
-    protected JDACommandsCreationContext(Class<?> baseClass, String[] packages, JDAContext context) {
+    protected ReadonlyJDACBuilder(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
@@ -92,21 +92,21 @@ public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T> SequencedCollection<Map.Entry<Extension, ImplementationProvider<T>>> implementation(Class<T> type) {
+    <T extends Implementation.ExtensionImplementable> SequencedCollection<Map.Entry<Extension, Implementation<T>>> implementation(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension ->
                         extension.providedImplementations()
                                 .stream()
                                 .filter(provider -> provider.type().isAssignableFrom(type))
-                                .map(impl -> Map.entry(extension, (ImplementationProvider<T>) impl))
+                                .map(impl -> Map.entry(extension, (Implementation<T>) impl))
                 )
                 .toList();
     }
 
-    private <T> T load(Class<T> type, T setValue, T defaultValue) {
+    private <T extends Implementation.ExtensionImplementable> T load(Class<T> type, T setValue, T defaultValue) {
         if (setValue != null) return setValue;
-        SequencedCollection<Map.Entry<Extension, ImplementationProvider<T>>> implementations = implementation(type);
+        SequencedCollection<Map.Entry<Extension, Implementation<T>>> implementations = implementation(type);
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
@@ -154,17 +154,18 @@ public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
         return expirationStrategy;
     }
 
-    // loaded
+    // will be later loadable
     /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
     @NotNull
     public LocalizationFunction localizationFunction() {
-        return load(LocalizationFunction.class, localizationFunction, ResourceBundleLocalizationFunction.empty().build());
+        return localizationFunction;
     }
 
-    /// @return the [InstanceProvider] to be used. Can be added via an [Extension]
+    // loadable
+    /// @return the [InteractionClassProvider] to be used. Can be added via an [Extension]
     @NotNull
-    public InstanceProvider instanceProvider() {
-        return load(InstanceProvider.class, instanceProvider, null);
+    public InteractionClassProvider instanceProvider() {
+        return load(InteractionClassProvider.class, instanceProvider, null);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
@@ -205,12 +206,12 @@ public sealed class JDACommandsCreationContext permits JDACommandsBuilder {
 
     @SuppressWarnings("unchecked")
     private <K, V> Stream<Map.Entry<K, V>> mapEntryImplementations(Class<K> keyType, Class<V> valueType) {
-        return implementation(Map.Entry.class)
+        return implementation(Implementation.Pair.class)
                 .stream()
                 .map(Map.Entry::getValue)
                 .map(provider -> provider.getValue(this))
-                .filter(entry -> keyType.isInstance(entry.getKey()) && valueType.isInstance(entry.getValue()))
-                .map(entry -> (Map.Entry<K, V>) entry);
+                .filter(entry -> keyType.isInstance(entry.key()) && valueType.isInstance(entry.value()))
+                .map(entry -> (Map.Entry<K, V>) Map.entry(entry.key(), entry.value()));
     }
 
     /// @return the [Middleware]s to be used. Can be added via an [Extension]

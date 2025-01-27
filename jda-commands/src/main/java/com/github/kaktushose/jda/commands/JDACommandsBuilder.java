@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
@@ -15,7 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
-import com.github.kaktushose.jda.commands.extension.JDACommandsCreationContext;
+import com.github.kaktushose.jda.commands.extension.ReadonlyJDACBuilder;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -31,12 +31,14 @@ import java.util.*;
 /// These default implementations are sometimes based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
 /// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
 /// - [#classFinders(ClassFinder...)]
-/// - [#instanceProvider(InstanceProvider)]
+/// - [#instanceProvider(InteractionClassProvider)]
 ///
 ///
 /// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough java's [`service
-/// provider interface`][ServiceLoader], which are applied during [JDACommands] creation. Manually defined values always override
-/// loaded and default ones.
+/// provider interface`][ServiceLoader], which are applied during [JDACommands] creation.
+/// Manually defined values always override loaded and default ones, except for [#middleware(Priority, Middleware)],
+/// [#adapter(Class, TypeAdapter)], [#classFinders(ClassFinder...)] or [#validator(Class, Validator)]
+/// were they will add to the user provided or default values.
 ///
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
@@ -51,12 +53,11 @@ import java.util.*;
 ///     .start();
 /// ```
 /// @see Extension
-public final class JDACommandsBuilder extends JDACommandsCreationContext {
+public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
 
     JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
     }
-
 
     /// @param classFinders the to be used [ClassFinder]s
     ///
@@ -84,8 +85,8 @@ public final class JDACommandsBuilder extends JDACommandsCreationContext {
         return this;
     }
 
-    /// @param instanceProvider the implementation of [InstanceProvider] to be used.
-    public JDACommandsBuilder instanceProvider(InstanceProvider instanceProvider) {
+    /// @param instanceProvider the implementation of [InteractionClassProvider] to be used.
+    public JDACommandsBuilder instanceProvider(InteractionClassProvider instanceProvider) {
         this.instanceProvider = instanceProvider;
         return this;
     }

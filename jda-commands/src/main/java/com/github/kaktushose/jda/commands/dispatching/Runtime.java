@@ -8,7 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -51,7 +51,7 @@ public final class Runtime implements Closeable {
     private final Thread executionThread;
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
-    private final InstanceProvider instanceProvider;
+    private final InteractionClassProvider instanceProvider;
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext) {
@@ -124,7 +124,7 @@ public final class Runtime implements Closeable {
 
     @SuppressWarnings("unchecked")
     public <T> T interactionInstance(Class<T> clazz) {
-        return instanceProvider.instance(clazz, new InstanceProvider.Context(this));
+        return instanceProvider.instance(clazz, new InteractionClassProvider.Context(this));
     }
 
     @Override

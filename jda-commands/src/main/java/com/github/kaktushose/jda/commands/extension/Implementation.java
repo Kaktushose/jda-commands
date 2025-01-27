@@ -1,6 +1,12 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -8,26 +14,33 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/// Instances of this class are used to provide specific implementations of classes, that can be loaded by the [JDACommandsBuilder].
+/// Instances of this class are used to provide custom implementations of classes implementing [ExtensionImplementable].
+/// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACommandsBuilder].
 ///
 /// @param type the [Class] of the implemented interface
-/// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the specific implementation
-public record ImplementationProvider<T>(
+/// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the custom implementation
+public record Implementation<T extends Implementation.ExtensionImplementable>(
         @NotNull Class<T> type,
-        @NotNull Function<JDACommandsCreationContext, ? extends T> supplier
+        @NotNull Function<ReadonlyJDACBuilder, T> supplier
 ) {
 
-    T getValue(JDACommandsCreationContext builder) {
-        checkCycling(builder);
-        builder.alreadyCalled.add(this);
+    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionClassProvider, ErrorMessageFactory, Pair, PermissionsProvider, GuildScopeProvider {}
+    public record Pair<K, V extends ExtensionImplementable>(K key, V value) implements ExtensionImplementable {}
 
+    T getValue(ReadonlyJDACBuilder builder) {
+        checkCycling(builder);
+
+        builder.alreadyCalled.add(this); // scope entry
+
+        // other Implementation#getValue() could be called in here.
+        // Scoping this will create a simple stack of already called methods, allowing checking for cycling dependencies (Implementation#type())
         T apply = supplier().apply(builder);
 
-        builder.alreadyCalled.remove(this);
+        builder.alreadyCalled.remove(this); // scope leave
         return apply;
     }
 
-    private void checkCycling(JDACommandsCreationContext builder) {
+    private void checkCycling(ReadonlyJDACBuilder builder) {
         boolean alreadyCalled = builder.alreadyCalled
                 .stream()
                 .anyMatch(provider -> provider.type.equals(type));

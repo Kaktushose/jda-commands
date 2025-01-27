@@ -13,7 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
@@ -47,7 +47,7 @@ public final class JDACommands {
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
-            InstanceProvider instanceProvider,
+            InteractionClassProvider instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;

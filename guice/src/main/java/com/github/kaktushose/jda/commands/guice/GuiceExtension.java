@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.guice;
 
 import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.dispatching.instance.InstanceProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.extension.Extension;
-import com.github.kaktushose.jda.commands.extension.ImplementationProvider;
-import com.github.kaktushose.jda.commands.guice.internal.GuiceRootInstanceProvider;
+import com.github.kaktushose.jda.commands.extension.Implementation;
+import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionClassProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-/// The implementation of [Extension] for using Google's [Guice] as an [InstanceProvider].
+/// The implementation of [Extension] for using Google's [Guice] as an [InteractionClassProvider].
 ///
 /// @see GuiceExtensionData
 public class GuiceExtension implements Extension {
@@ -29,10 +29,10 @@ public class GuiceExtension implements Extension {
     }
 
     @Override
-    public @NotNull Collection<ImplementationProvider<?>> providedImplementations() {
-        return List.of(new ImplementationProvider<>(
-                InstanceProvider.class,
-                _ -> new GuiceRootInstanceProvider(this))
+    public @NotNull Collection<Implementation<?>> providedImplementations() {
+        return List.of(new Implementation<>(
+                InteractionClassProvider.class,
+                _ -> new GuiceInteractionClassProvider(this))
         );
     }
 

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.scope;
 
+import com.github.kaktushose.jda.commands.extension.Implementation;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.function.Function;
 /// @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
 /// @see DefaultGuildScopeProvider
 @FunctionalInterface
-public interface GuildScopeProvider extends Function<CommandData, Set<Long>> {
+public non-sealed interface GuildScopeProvider extends Function<CommandData, Set<Long>>, Implementation.ExtensionImplementable {
 
     /// Gets a Set of guild ids the provided command should be registered for.
     ///
