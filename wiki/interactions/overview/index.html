@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://kaktushose.github.io/wiki/start/runtime/">
+        <link rel="canonical" href="https://kaktushose.github.io/wiki/interactions/overview/">
       
       
-        <link rel="prev" href="../quick-start/">
+        <link rel="prev" href="../../start/runtime/">
       
       
-        <link rel="next" href="../../interactions/overview/">
+        <link rel="next" href="../commands/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Runtime Concept - JDA-Commands Wiki</title>
+        <title>Overview - JDA-Commands Wiki</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#runtime-concept" class="md-skip">
+        <a href="#overview" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Runtime Concept
+              Overview
             
           </span>
         </div>
@@ -169,13 +169,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../installation/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../start/installation/" class="md-tabs__link">
           
   
   Getting Started
@@ -189,11 +187,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../interactions/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   Interactions
@@ -349,30 +349,25 @@
       
   
   
-    
   
   
-  
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -383,7 +378,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -397,7 +392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../start/installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -418,7 +413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quick-start/" class="md-nav__link">
+      <a href="../../start/quick-start/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -431,6 +426,79 @@
   
 
               
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/runtime/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Runtime Concept
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Interactions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Interactions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -452,7 +520,7 @@
           
   
   <span class="md-ellipsis">
-    Runtime Concept
+    Overview
   </span>
   
 
@@ -463,7 +531,7 @@
         
   
   <span class="md-ellipsis">
-    Runtime Concept
+    Overview
   </span>
   
 
@@ -485,86 +553,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Overview
+      Structure
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#threading-model" class="md-nav__link">
+  <a href="#runtime-scoped-instances" class="md-nav__link">
     <span class="md-ellipsis">
-      Threading Model
+      Runtime Scoped Instances
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lifetime" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lifetime
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Lifetime">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#explicit" class="md-nav__link">
-    <span class="md-ellipsis">
-      Explicit
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inactivity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inactivity
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#components-and-modals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Components and Modals
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Components and Modals">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#runtime-bound" class="md-nav__link">
-    <span class="md-ellipsis">
-      Runtime-bound
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#independent" class="md-nav__link">
-    <span class="md-ellipsis">
-      Independent
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -577,53 +579,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Interactions
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            Interactions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
               
                 
   
@@ -631,28 +586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/overview/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Overview
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../interactions/commands/" class="md-nav__link">
+      <a href="../commands/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -673,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/components/" class="md-nav__link">
+      <a href="../components/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -694,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/modals/" class="md-nav__link">
+      <a href="../modals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -715,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/reply/" class="md-nav__link">
+      <a href="../reply/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -834,104 +768,82 @@
   
 
 
-<h1 id="runtime-concept">Runtime Concept<a class="headerlink" href="#runtime-concept" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>One of the core concepts in JDA-Commands is the so-called <code>Runtime</code>. It will be mentioned frequently here and in the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/">Javadocs</a>. A <code>Runtime</code> delegates the JDA events to their 
-corresponding <code>EventHandlers</code> and manages the used virtual threads.</p>
-<p>A new <code>Runtime</code> is created each time a:</p>
-<ul>
-<li><a href="https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a></li>
-<li><a href="https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html"><code>GenericContextInteractionEvent</code></a></li>
-<li><a href="https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html"><code>CommandAutoCompleteInteractionEvent</code></a></li>
-</ul>
-<p>is provided by JDA or if an interaction is marked as <a href="#independent"><em>independent</em></a>.</p>
-<p>Runtimes are executed in parallel, but events are processed sequentially by each <code>Runtime</code>.
-Every <code>EventHandler</code> called by a <code>Runtime</code> is executed in its own virtual thread, isolated from the runtime one.</p>
-<p>See <a href="#Lifetime"><code>Lifetime</code></a> for
-details when a <code>Runtime</code> will close.</p>
-<h2 id="threading-model">Threading Model<a class="headerlink" href="#threading-model" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands will listen for incoming events on the <code>JDA MainWS-ReadThread</code>. It will then create a new <code>Runtime</code>
-or use an existing one, depending on the type of event <em>(see the flowchart below for details).</em> The incoming event is 
-then passed to the corresponding <code>Runtime</code>.</p>
-<p>Each <code>Runtime</code> will run in its own virtual thread, called <code>JDAC Runtime-Thread &lt;UUID&gt;</code>. The <code>Runtime</code> will wait for new
-incoming events and then delegate them to the correct <code>EventHandler</code>. For instance, a
-<a href="https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a>
-will be passed to the <code>SlashCommandHandler</code>.</p>
-<p>The <code>EventHandler</code> will <em>again</em> run in its own virtual thread, named <code>JDAC EventHandler-Thread &lt;UUID&gt;</code>, isolated from 
-the runtime one. Other incoming events are only executed when the previous one has finished. </p>
+<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Please make yourself familiar with our <a href="../../start/runtime/">Runtime Concept</a> before you proceed. This is a 
+centerpiece of JDA-Commands and a requirement for understanding the following parts.</p>
+</div>
+<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
+<p>In JDA-Commands you define interactions as methods. These methods must be contained in a class annotated with 
+<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html"><code>@Interaction</code></a>,
+which is also referred to as the <em>interaction controller</em>. </p>
+<p>Each method controls one interaction. The interaction data gets defined by annotations and sometimes by the method signature. 
+JDA-Commands will call the method when the interaction gets executed by a user. </p>
 <div class="admonition tip">
-<p class="admonition-title">Blocking Methods</p>
-<p>Because each event has its own virtual thread, you can call blocking methods like JDAs <code>RestAction#complete</code> safely
-without blocking the <code>JDA MainWS-ReadThread</code>.</p>
+<p class="admonition-title">Tip</p>
+<p>It is recommended that you define one <em>conversation</em> per class. By conversation, we mean a logical sequence of
+interactions, for example a Slash Command that is replied to with a Button followed by a Modal.   </p>
 </div>
-<p><img alt="Runtime Flowchart" src="../../assets/runtime.png" /></p>
-<h2 id="lifetime">Lifetime<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h2>
-<p>By default, JDA-Commands will handle the lifetime of Runtimes for you. Every <code>Runtime</code> will be closed <strong>15 minutes</strong> 
-after its creation. This time span is oriented towards the lifespan of the 
-<a href="https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/interactions/InteractionHook.html"><code>InteractionHook</code></a>. </p>
-<h3 id="explicit">Explicit<a class="headerlink" href="#explicit" title="Permanent link">&para;</a></h3>
-<p>You can disable the default behaviour by setting the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html"><code>ExpirationStrategy</code></a> to 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html"><code>EXPLICIT</code></a>.</p>
-<div class="language-java highlight"><span class="filename">Main.java</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">        </span><span class="p">.</span><span class="na">expirationStrategy</span><span class="p">(</span><span class="n">ExpirationStrategy</span><span class="p">.</span><span class="na">EXPLICIT</span><span class="p">)</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-<p>This will prevent any <code>Runtime</code> from closing until <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime()"><code>closeRuntime</code></a>
-is explicitly called.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><span class="filename">GreetCommand.java</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll"><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">closeRuntime</span><span class="p">();</span>
-</span></span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="inactivity">Inactivity<a class="headerlink" href="#inactivity" title="Permanent link">&para;</a></h3>
-<p>You can also adjust the time frame for a <code>Runtime</code> to be closed.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">        </span><span class="p">.</span><span class="na">expirationStrategy</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ExpirationStrategy</span><span class="p">.</span><span class="na">Inactivity</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span><span class="c1">//(1)!</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Interaction</span><span class="c1">//(1)!</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GreetCommand</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greet user&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Play cookie clicker&quot;</span><span class="p">)</span><span class="c1">//(2)!</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onGreet</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;The user you want to greet&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="c1">//(3)!</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getAsMention</span><span class="p">());</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <ol>
-<li>Note: the duration is always passed as minutes.</li>
+<li>This marks the <code>GreetCommand</code> class as an interaction controller.</li>
+<li>This defines the Slash Command and also tells JDA-Commands to call the <code>onGreet</code> method for this command.</li>
+<li>In that case the method signature also defines part of the interaction.</li>
 </ol>
-</div>
-<h2 id="components-and-modals">Components and Modals<a class="headerlink" href="#components-and-modals" title="Permanent link">&para;</a></h2>
-<h3 id="runtime-bound">Runtime-bound<a class="headerlink" href="#runtime-bound" title="Permanent link">&para;</a></h3>
-<p>By default, Buttons, SelectMenus and Modals are <code>runtime-bound</code>. This means that any incoming event will use the same
-<code>Runtime</code> as the interaction that replied with them. </p>
-<p>However, this also means that they cannot be executed anymore after the <code>Runtime</code> is closed. JDA-Commands will handle 
-that case and remove the component. It will also send an ephemeral reply to the user, saying that the 
-component is no longer available.</p>
-<figure>
-<p><img alt="Expiration Message" src="../../assets/expiration.png" /></p>
-<figcaption>
-<p>You can customize this error message, find more about it <a href="TODO link">here</a>.</p>
-</figcaption>
-</figure>
-<h3 id="independent">Independent<a class="headerlink" href="#independent" title="Permanent link">&para;</a></h3>
-<p>You can also reply with components that are <code>runtime-independent</code>, making them virtually immortal. They will create a
-new <code>Runtime</code> everytime they are executed. </p>
-<p>These components will even work after a full bot restart! If you want them to not be usable anymore you need to remove 
-them on your own.</p>
-<div class="admonition info inline end">
-<p class="admonition-title">Info</p>
-<p>Modals cannot be independent because they always need a parent interaction that triggers them!</p>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><span class="filename">GreetCommand.java</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">components</span><span class="p">(</span><span class="n">Component</span><span class="p">.</span><span class="na">independent</span><span class="p">(</span><span class="s">&quot;onButton&quot;</span><span class="p">)).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<p><em>Read more about building replies <a href="../../interactions/reply/">here</a>.</em></p>
+<h2 id="runtime-scoped-instances">Runtime Scoped Instances<a class="headerlink" href="#runtime-scoped-instances" title="Permanent link">&para;</a></h2>
+<p>JDA-Commands will create one instance of the interaction controller per conversation. That way you don't need to worry
+about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
+the state of other executions. </p>
+<p>Let's say we have the following code:
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Interaction</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CookieClicker</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cookie clicker&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Play cookie clicker&quot;</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onClicker</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;onCookie&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counter</span><span class="p">);</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nd">@Button</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Collect&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">emoji</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;🍪&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ButtonStyle</span><span class="p">.</span><span class="na">SUCCESS</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCookie</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">counter</span><span class="p">);</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greet&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">//(1)!</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onGreet</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<ol>
+<li>This is bad practise, you shouldn't mix conversations. This is only for explaining purposes.</li>
+</ol>
+<p>Let's see what's going on here:</p>
+<ul>
+<li>
+<p>Both <code>onClicker</code> and <code>onGreet</code> are an entrypoint for starting a new conversation. Everytime they get executed a new
+<a href="../../start/runtime/">Runtime</a> will be started that will also create an instance of <code>CookieClicker</code>. This also means 
+that you cannot exchange values between these two commands using class variables.</p>
+</li>
+<li>
+<p><code>onCookie</code> is linked the <code>onClicker</code> and will use the same instance of <code>CookieClicker</code> as on <code>onClicker</code>.</p>
+</li>
+<li>
+<p><code>onCookie</code> is only executable as long as the <a href="../../start/runtime/">Runtime</a> is alive and thus the instance of 
+<code>CookieClicker</code> exists. You can circumvent this by making <code>onCookie</code> <a href="../../start/runtime/#independent">independent</a>.</p>
+</li>
+</ul>
 
 
 
@@ -969,7 +881,7 @@ them on your own.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../quick-start/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quick Start Guide">
+          <a href="../../start/runtime/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Runtime Concept">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -979,20 +891,20 @@ them on your own.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Quick Start Guide
+                Runtime Concept
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../interactions/overview/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+          <a href="../commands/" class="md-footer__link md-footer__link--next" aria-label="Next: Commands">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Overview
+                Commands
               </div>
             </div>
             <div class="md-footer__button md-icon">
