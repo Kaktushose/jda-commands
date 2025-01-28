@@ -37,7 +37,7 @@ jobs:
           elif [[ $branch == legacy/* ]]; then
             echo "name=${branch#legacy/}" >> "$GITHUB_OUTPUT"
           elif [[ $branch == "di/refactor" ]]; then
-            echo "name=${branch#legacy/}" >> "$GITHUB_OUTPUT"
+            echo "name=development" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
