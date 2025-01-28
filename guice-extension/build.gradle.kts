@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     api(libs.com.google.inject.guice)
-    api(project(":jda-commands"))
+    api(project(":core"))
 }
 
 java {
