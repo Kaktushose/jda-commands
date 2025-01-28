@@ -92,27 +92,29 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends Implementation.ExtensionImplementable> SequencedCollection<Map.Entry<Extension, Implementation<T>>> implementation(Class<T> type) {
+    <T extends Implementation.ExtensionImplementable> SequencedCollection<Map.Entry<Extension, T>> implementation(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension ->
                         extension.providedImplementations()
                                 .stream()
                                 .filter(provider -> provider.type().isAssignableFrom(type))
-                                .map(impl -> Map.entry(extension, (Implementation<T>) impl))
+                                .map(implementation -> implementation.getValue(this))
+                                .filter(Objects::nonNull)
+                                .map(value -> Map.entry(extension, (T) value))
                 )
                 .toList();
     }
 
     private <T extends Implementation.ExtensionImplementable> T load(Class<T> type, T setValue, T defaultValue) {
         if (setValue != null) return setValue;
-        SequencedCollection<Map.Entry<Extension, Implementation<T>>> implementations = implementation(type);
+        SequencedCollection<Map.Entry<Extension, T>> implementations = implementation(type);
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
             throw new JDACommandsBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
         } else if (implementations.size() == 1) {
-            return implementations.getFirst().getValue().getValue(this);
+            return implementations.getFirst().getValue();
         } else {
             String foundImplementations = implementations.stream()
                     .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
@@ -198,10 +200,21 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
         Collection<ClassFinder> all = implementation(ClassFinder.class)
                 .stream()
                 .map(Map.Entry::getValue)
-                .map(provider -> provider.getValue(this))
                 .collect(Collectors.toSet());
         all.addAll(classFinders);
         return all;
+    }
+
+    /// @return an instance of [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()].
+    public ClassFinder mergedClassFinder() {
+        Collection<ClassFinder> classFinders = classFinders();
+
+        return annotationClass -> classFinders
+                 .stream()
+                 .map(classFinder -> classFinder.search(annotationClass))
+                 .flatMap(Collection::stream)
+                 .toList();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -209,7 +222,6 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
         return implementation(Implementation.Pair.class)
                 .stream()
                 .map(Map.Entry::getValue)
-                .map(provider -> provider.getValue(this))
                 .filter(entry -> keyType.isInstance(entry.key()) && valueType.isInstance(entry.value()))
                 .map(entry -> (Map.Entry<K, V>) Map.entry(entry.key(), entry.value()));
     }

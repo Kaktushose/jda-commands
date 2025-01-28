@@ -211,7 +211,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
                 );
         loadedExtensions.forEach(extension -> extension.afterFrameworkInit(jdaCommands));
 
-        jdaCommands.start(classFinders(), baseClass(), packages());
+        jdaCommands.start(mergedClassFinder(), baseClass(), packages());
 
         loadedExtensions.forEach(extension -> extension.afterFrameworkStart(jdaCommands));
         return jdaCommands;

@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +8,9 @@ import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+
+import java.lang.annotation.Annotation;
+import java.util.SequencedCollection;
 
 // temp class
 @ApiStatus.Internal
@@ -23,7 +25,7 @@ public class ReflectiveClassFinder implements ClassFinder {
     }
 
     @Override
-    public @NotNull Iterable<Class<?>> find() {
+    public @NotNull SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
         var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);
@@ -34,6 +36,8 @@ public class ReflectiveClassFinder implements ClassFinder {
                 .setUrls(ClasspathHelper.forClass(clazz))
                 .filterInputsBy(filter);
         var reflections = new Reflections(config);
-        return reflections.getTypesAnnotatedWith(Interaction.class);
+        return reflections.getTypesAnnotatedWith(annotationClass)
+                .stream()
+                .toList();
     }
 }

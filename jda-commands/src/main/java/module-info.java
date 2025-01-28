@@ -25,7 +25,6 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands.definitions.interactions.component;
     exports com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
     exports com.github.kaktushose.jda.commands.definitions.description;
-    exports com.github.kaktushose.jda.commands.definitions.description.reflective;
     exports com.github.kaktushose.jda.commands.definitions.features;
 
     // dispatching api

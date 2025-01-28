@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
@@ -25,8 +26,6 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
@@ -55,9 +54,9 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
     }
 
-    void start(Collection<ClassFinder> classFinders, Class<?> clazz, String[] packages) {
+    void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
         log.info("Starting JDA-Commands...");
-        classFinders.forEach(classFinder -> interactionRegistry.index(classFinder.find()));
+        interactionRegistry.index(classFinder.search(Interaction.class));
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener));

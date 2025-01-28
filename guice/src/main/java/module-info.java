@@ -3,6 +3,7 @@ module jda.commands.guice {
     requires com.google.guice;
     requires org.jetbrains.annotations;
     requires net.dv8tion.jda;
+    requires org.slf4j;
 
     exports com.github.kaktushose.jda.commands.guice;
 

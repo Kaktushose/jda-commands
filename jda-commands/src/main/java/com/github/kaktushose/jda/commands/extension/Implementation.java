@@ -17,6 +17,8 @@ import java.util.stream.Stream;
 /// Instances of this class are used to provide custom implementations of classes implementing [ExtensionImplementable].
 /// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACommandsBuilder].
 ///
+/// If the value returned by [java.util.function.Supplier#get()] ([#supplier()]) is `null` then this implementation is discarded and thus treated as non-existent.
+///
 /// @param type the [Class] of the implemented interface
 /// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the custom implementation
 public record Implementation<T extends Implementation.ExtensionImplementable>(
