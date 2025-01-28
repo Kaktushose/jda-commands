@@ -33,7 +33,7 @@ public class SlashCommandDefinitionTest {
     }
 
     public static MethodBuildContext getBuildContext(Method method) {
-        var clazz = new ReflectiveDescriptor().apply(method.getClass());
+        var clazz = new ReflectiveDescriptor().describe(method.getClass());
 
         return new MethodBuildContext(
                 validator,

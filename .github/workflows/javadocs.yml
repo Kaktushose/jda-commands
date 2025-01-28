@@ -45,13 +45,13 @@ jobs:
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./jda-commands/jda-commands/build/docs/javadoc
+          folder: ./jda-commands/build/docs/javadoc
           branch: docs
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}/jda-commands
       - name: Deploy guice docs
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./jda-commands/guice/build/docs/javadoc
+          folder: ./guice-extension/build/docs/javadoc
           branch: docs
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}/guice

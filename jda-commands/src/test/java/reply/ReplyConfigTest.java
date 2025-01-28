@@ -28,7 +28,7 @@ public class ReplyConfigTest {
     }
 
     private ReplyConfig getReplyConfig(Class<?> clazz, String method, ReplyConfig replyConfig) {
-        var description = new ReflectiveDescriptor().apply(clazz);
+        var description = new ReflectiveDescriptor().describe(clazz);
         var definition = ButtonDefinition.build(
                 new MethodBuildContext(
                         new Validators(Map.of()),

@@ -6,4 +6,4 @@
 
 rootProject.name = "jda-commands"
 include("jda-commands")
-include("guice")
+include("guice-extension")
