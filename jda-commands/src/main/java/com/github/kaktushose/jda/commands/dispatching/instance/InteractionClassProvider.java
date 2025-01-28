@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.JDA;
 
 /// An [InteractionClassProvider] is used get instances of classes annotated with [Interaction], if needed creating those.
 ///
-/// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String)] is called,
+/// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String, JDA)] is called,
 /// allowing the InteractionClassProvider to provide an instance that has not to be thread safe and is bound to one Runtime.
 ///
 /// Please also note that per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) there can be multiple
@@ -22,7 +22,7 @@ public non-sealed interface InteractionClassProvider extends Implementation.Exte
     /// @param context a context that gives additional useful information or provide some needed functionality
     <T> T instance(Class<T> clazz, Context context);
 
-    /// Called each time a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String)] is created.
+    /// Called each time a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String, JDA)] is created.
     ///
     /// @param id the runtime id
     /// @param jda the [JDA] instance associated with the event responsible for creating the new Runtime instance

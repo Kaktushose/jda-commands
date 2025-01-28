@@ -27,19 +27,35 @@ import java.util.stream.Stream;
 ///
 /// If the collection returned by [java.util.function.Supplier#get()] ([#supplier()]) is empty then this implementation is discarded and thus treated as non-existent.
 ///
+/// As shown by the setter methods defined in [JDACommandsBuilder], there can be only one instance provided by *all* extensions/implementations of most interfaces.
+/// There are only 3 interfaces which can be implemented multiple times: [TypeAdapter], [Middleware] and [Validator].
+///
 /// @param type the [Class] of the implemented interface
-/// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the custom implementation
+/// @param supplier the [java.util.function.Supplier] used to retrieve instances of the custom implementations
 public record Implementation<T extends Implementation.ExtensionImplementable>(
         @NotNull Class<T> type,
-        @NotNull Function<ReadonlyJDACBuilder, SequencedCollection<T>> supplier
+        @NotNull Function<@NotNull ReadonlyJDACBuilder, @NotNull SequencedCollection<@NotNull T>> supplier
 ) {
 
+    /// A marker interface that all types providable by an [Implementation] implement
     public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionClassProvider, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
-    public record TypeAdapterContainer(Class<?> type, TypeAdapter<?> adapter) implements ExtensionImplementable {}
-    public record MiddlewareContainer(Priority priority, Middleware middleware) implements ExtensionImplementable {}
-    public record ValidatorContainer(Class<? extends Annotation> annotation, Validator validator) implements ExtensionImplementable {}
 
-    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<ReadonlyJDACBuilder, T> supplier) {
+    /// A container type for providing [TypeAdapterContainer]
+    /// @param type the [Class] for which the [TypeAdapter] should be registered
+    /// @param adapter the [TypeAdapter] implementation
+    public record TypeAdapterContainer(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) implements ExtensionImplementable {}
+
+    /// A container type for providing [Middleware]
+    /// @param priority the [Priority] with which the [Middleware] should be registered
+    /// @param middleware the [Middleware] implementation
+    public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionImplementable {}
+
+    /// A container type for providing [Validator]
+    /// @param annotation the [Annotation] for which the [Validator] should be registered
+    /// @param validator the [Validator] implementation
+    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionImplementable {}
+
+    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<@NotNull ReadonlyJDACBuilder, @NotNull T> supplier) {
         return new Implementation<>(
                 type,
                 (builder -> List.of(supplier.apply(builder)))

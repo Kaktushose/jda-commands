@@ -43,7 +43,6 @@ import java.util.*;
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
 ///
-///
 /// ## Example
 /// ```java
 /// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
@@ -209,11 +208,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
                 instanceProvider(),
                 globalReplyConfig()
                 );
-        loadedExtensions.forEach(extension -> extension.afterFrameworkInit(jdaCommands));
-
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
-
-        loadedExtensions.forEach(extension -> extension.afterFrameworkStart(jdaCommands));
         return jdaCommands;
     }
 

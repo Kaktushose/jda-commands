@@ -204,6 +204,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     }
 
     /// @return an instance of [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()].
+    @NotNull
     public ClassFinder mergedClassFinder() {
         Collection<ClassFinder> classFinders = classFinders();
 

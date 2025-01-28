@@ -26,6 +26,9 @@ import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionClassProvider].
 ///
+/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
+/// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
+///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
 public class GuiceExtension implements Extension {

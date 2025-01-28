@@ -18,13 +18,9 @@ import java.util.Objects;
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
 
-    /// Transforms the given [Class] into a [ClassDescription].
-    ///
-    /// @param clazz the [Class] to transform
-    /// @return the [ClassDescription] built from the given [Class]
     @NotNull
     @Override
-    public ClassDescription apply(@NotNull Class<?> clazz) {
+    public ClassDescription describe(@NotNull Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)

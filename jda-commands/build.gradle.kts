@@ -187,9 +187,13 @@ tasks.withType<Javadoc> {
     options.addBooleanOption("Xdoclint:none,-missing", true)
     options.tags("apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:")
     options.overview = "src/main/javadoc/overview.md"
-    // doesn't work anyway, f u gradle
-//    options.docFilesSubDirs(true)
+    options.links = listOf(
+        "https://docs.jda.wiki/"
+    )
 
+
+    // doesn't work anyway, f u gradle
+    //    options.docFilesSubDirs(true)
     doLast {
         copy {
             include("**/doc-files/*")

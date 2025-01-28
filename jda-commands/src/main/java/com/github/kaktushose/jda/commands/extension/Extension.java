@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.extension;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionImplementable;
@@ -71,23 +70,9 @@ public interface Extension {
     ///
     /// @return a collection of [Implementation]s that should be used to retrieve certain implementations of an interface.
     @NotNull
-    default Collection<Implementation<?>> providedImplementations() {
+    default Collection<@NotNull Implementation<?>> providedImplementations() {
         return List.of();
     }
-
-
-    /// Called after creation of the [JDACommands] object but before starting the framework.
-    ///
-    /// Can be used to store/inject the JDACommands instance before the user can use any part of the framework. Useful
-    /// for own implementations of [InteractionClassProvider] for example.
-    ///
-    /// @param jdaCommands the instantiated [JDACommands] instance
-    default void afterFrameworkInit(@NotNull JDACommands jdaCommands) {}
-
-    /// Called after starting the framework.
-    ///
-    /// @param jdaCommands the instantiated and started [JDACommands]
-    default void afterFrameworkStart(@NotNull JDACommands jdaCommands) {}
 
     /// @return the [Class] of the custom [Data] implementation
     @NotNull

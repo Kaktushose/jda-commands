@@ -17,6 +17,11 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionImplemen
     @NotNull
     SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass);
 
+    /// This method searches for classes annotated with the given annotation, which have the given super type.
+    ///
+    /// @param annotationClass the class of the annotation
+    /// @param superType the [Class], which is a supertype of the found classes
+    /// @return the found classes
     @SuppressWarnings("unchecked")
     default <T> SequencedCollection<Class<T>> search(Class<? extends Annotation> annotationClass, Class<T> superType) {
         return search(annotationClass).stream()

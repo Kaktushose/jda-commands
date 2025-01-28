@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 /// Interface for performing permission checks.
 ///
-/// @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
 /// @see DefaultPermissionsProvider
 /// @see Permissions Permission
 public non-sealed interface PermissionsProvider extends Implementation.ExtensionImplementable {

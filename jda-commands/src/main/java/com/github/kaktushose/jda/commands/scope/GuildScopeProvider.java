@@ -8,7 +8,6 @@ import java.util.function.Function;
 
 /// Interface for declaring on which Guilds a guild scoped command should be registered.
 ///
-/// @see com.github.kaktushose.jda.commands.annotations.Implementation Implementation
 /// @see DefaultGuildScopeProvider
 @FunctionalInterface
 public non-sealed interface GuildScopeProvider extends Function<CommandData, Set<Long>>, Implementation.ExtensionImplementable {

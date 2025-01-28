@@ -51,7 +51,7 @@ public record InteractionRegistry(@NotNull Validators validators,
         int count = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found controller: {}", clazz.getName());
-            definitions.addAll(indexInteractionClass(descriptor.apply(clazz)));
+            definitions.addAll(indexInteractionClass(descriptor.describe(clazz)));
             count++;
         }
 
