@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"jda.commands.guice","l":"com.github.kaktushose.jda.commands.guice"},{"m":"jda.commands.guice","l":"com.github.kaktushose.jda.commands.guice.internal"}];updateSearchResults();

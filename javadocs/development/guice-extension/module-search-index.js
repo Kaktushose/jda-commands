@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"jda.commands.guice"}];updateSearchResults();
