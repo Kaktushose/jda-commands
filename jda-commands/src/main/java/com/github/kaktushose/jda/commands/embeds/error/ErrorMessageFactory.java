@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
-import com.github.kaktushose.jda.commands.annotations.Implementation;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,7 +11,6 @@ import java.util.List;
 
 /// Generic interface for factory classes that generate error messages.
 ///
-/// @see Implementation
 /// @see DefaultErrorMessageFactory
 public non-sealed interface ErrorMessageFactory extends com.github.kaktushose.jda.commands.extension.Implementation.ExtensionImplementable {
 

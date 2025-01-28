@@ -3,40 +3,57 @@ package com.github.kaktushose.jda.commands.extension;
 import com.github.kaktushose.jda.commands.JDACommandsBuilder;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/// Instances of this class are used to provide custom implementations of classes implementing [ExtensionImplementable].
+/// Instances of this class are used to provide custom implementations of classes implementing [ExtensionImplementable],
+/// please note that [TypeAdapter]s, [Middleware]s and [Validator]s are only providable by their corresponding container types:
+/// [TypeAdapterContainer], [MiddlewareContainer], [ValidatorContainer].
+///
 /// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACommandsBuilder].
 ///
-/// If the value returned by [java.util.function.Supplier#get()] ([#supplier()]) is `null` then this implementation is discarded and thus treated as non-existent.
+/// If the collection returned by [java.util.function.Supplier#get()] ([#supplier()]) is empty then this implementation is discarded and thus treated as non-existent.
 ///
 /// @param type the [Class] of the implemented interface
 /// @param supplier the [java.util.function.Supplier] used to retrieve an instance of the custom implementation
 public record Implementation<T extends Implementation.ExtensionImplementable>(
         @NotNull Class<T> type,
-        @NotNull Function<ReadonlyJDACBuilder, T> supplier
+        @NotNull Function<ReadonlyJDACBuilder, SequencedCollection<T>> supplier
 ) {
 
-    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionClassProvider, ErrorMessageFactory, Pair, PermissionsProvider, GuildScopeProvider {}
-    public record Pair<K, V extends ExtensionImplementable>(K key, V value) implements ExtensionImplementable {}
+    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionClassProvider, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
+    public record TypeAdapterContainer(Class<?> type, TypeAdapter<?> adapter) implements ExtensionImplementable {}
+    public record MiddlewareContainer(Priority priority, Middleware middleware) implements ExtensionImplementable {}
+    public record ValidatorContainer(Class<? extends Annotation> annotation, Validator validator) implements ExtensionImplementable {}
 
-    T getValue(ReadonlyJDACBuilder builder) {
+    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<ReadonlyJDACBuilder, T> supplier) {
+        return new Implementation<>(
+                type,
+                (builder -> List.of(supplier.apply(builder)))
+        );
+    }
+
+    SequencedCollection<T> implementations(ReadonlyJDACBuilder builder) {
         checkCycling(builder);
 
         builder.alreadyCalled.add(this); // scope entry
 
         // other Implementation#getValue() could be called in here.
         // Scoping this will create a simple stack of already called methods, allowing checking for cycling dependencies (Implementation#type())
-        T apply = supplier().apply(builder);
+        SequencedCollection<T> apply = supplier().apply(builder);
 
         builder.alreadyCalled.remove(this); // scope leave
         return apply;

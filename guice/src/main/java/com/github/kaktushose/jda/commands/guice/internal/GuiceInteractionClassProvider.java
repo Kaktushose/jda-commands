@@ -19,11 +19,11 @@ public class GuiceInteractionClassProvider implements InteractionClassProvider {
         throw new UnsupportedOperationException("GuiceInteractionClassProvider must be used runtime bound!");
     }
 
-    /// Creates a new child injector with its own [JDACommandsModule] for each runtime.
+    /// Creates a new child injector with its own [InteractionClassProviderModule] for each runtime.
     /// This has the effect, that each class annotated with [Interaction] will be treated as a runtime scoped singleton.
     @Override
     public InteractionClassProvider forRuntime(String id, JDA jda) {
-        Injector childInjector = extension.injector().createChildInjector(new JDACommandsModule(extension.jdaCommands(), jda));
+        Injector childInjector = extension.injector().createChildInjector(new InteractionClassProviderModule(jda));
 
         return new InteractionClassProvider() {
             @Override

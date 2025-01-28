@@ -1,50 +1,57 @@
 package com.github.kaktushose.jda.commands.guice;
 
-import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.Implementation;
+import com.github.kaktushose.jda.commands.extension.ReadonlyJDACBuilder;
+import com.github.kaktushose.jda.commands.guice.internal.GuiceExtensionModule;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionClassProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import jakarta.inject.Singleton;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.SequencedCollection;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionClassProvider].
 ///
 /// @see GuiceExtensionData
+@ApiStatus.Internal
 public class GuiceExtension implements Extension {
 
-    private static final Logger log = LoggerFactory.getLogger(GuiceExtension.class);
-    private JDACommands jdaCommands;
+    private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
+            com.github.kaktushose.jda.commands.guice.Implementation.class;
+
     private Injector injector;
 
     @Override
     public void init(@Nullable Data data) {
-        this.injector = data != null
+        Injector found = data != null
                 ? ((GuiceExtensionData) data).providedInjector()
                 : Guice.createInjector();
+
+        this.injector = found.createChildInjector(new GuiceExtensionModule());
     }
 
     @Override
     public @NotNull Collection<Implementation<?>> providedImplementations() {
         List<Implementation<?>> implementations = new ArrayList<>();
-        implementations.add(new Implementation<>(
+
+        implementations.add(Implementation.single(
                 InteractionClassProvider.class,
                 _ -> new GuiceInteractionClassProvider(this)));
+
         addDynamicImplementations(implementations);
         return implementations;
     }
@@ -58,30 +65,54 @@ public class GuiceExtension implements Extension {
 
     @SuppressWarnings("unchecked")
     private void addDynamicImplementations(List<Implementation<?>> list) {
+        // load single types
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionImplementable>) type,
-                    builder -> {
-                        SequencedCollection<? extends Class<? extends Implementation.ExtensionImplementable>> classes = builder
-                                .mergedClassFinder()
-                                .search(Singleton.class, type);
-                        if (classes.isEmpty()) {
-                            return null;
-                        }
-
-                        if (classes.size() == 1) {
-                            log.debug("Found {} implementation provided by class annotated with @Singleton: {}", type, classes.getFirst());
-                            return injector.getInstance(classes.getFirst());
-                        }
-
-                        throw new JDACGuiceException("Multiple instances of interface %s found annotated with @Singleton. There can be only one implementation!: \n%s".formatted(
-                                type, classes.stream()
-                                        .map(Class::getName)
-                                        .collect(Collectors.joining(System.lineSeparator()))
-                        ));
-                    }
+                    builder -> searchImplementedClasses(builder, type)
+                                .map(instance -> (Implementation.ExtensionImplementable) instance)
+                                .toList()
             ));
         }
+
+        // load multiple implementable types
+        list.add(new Implementation<>(
+                Implementation.TypeAdapterContainer.class,
+                builder -> searchImplementedClasses(builder, TypeAdapter.class)
+                        .map(adapter -> new Implementation.TypeAdapterContainer(
+                                adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
+                                adapter)
+                        )
+                        .toList()
+        ));
+
+        list.add(new Implementation<>(
+                Implementation.ValidatorContainer.class,
+                builder -> searchImplementedClasses(builder, Validator.class)
+                        .map(validator -> new Implementation.ValidatorContainer(
+                                validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
+                                validator)
+                        )
+                        .toList()
+        ));
+
+        list.add(new Implementation<>(
+                Implementation.MiddlewareContainer.class,
+                builder -> searchImplementedClasses(builder, Middleware.class)
+                        .map(middleware -> new Implementation.MiddlewareContainer(
+                                middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
+                                middleware)
+                        )
+                        .toList()
+        ));
+    }
+
+    private <T> Stream<T> searchImplementedClasses(ReadonlyJDACBuilder builder, Class<T> type) {
+        return builder
+                .mergedClassFinder()
+                .search(IMPLEMENTATION_ANN, type)
+                .stream()
+                .map(injector::getInstance);
     }
 
     public static class JDACGuiceException extends RuntimeException {
@@ -91,20 +122,11 @@ public class GuiceExtension implements Extension {
     }
 
     @Override
-    public void afterFrameworkInit(@NotNull JDACommands jdaCommands) {
-        this.jdaCommands = jdaCommands;
-    }
-
-    @Override
     public @NotNull Class<GuiceExtensionData> dataType() {
         return GuiceExtensionData.class;
     }
 
     public Injector injector() {
         return injector;
-    }
-
-    public JDACommands jdaCommands() {
-        return jdaCommands;
     }
 }

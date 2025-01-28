@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /// This class is used to give implementations of [Extension] access to properties involved in the creation of [com.github.kaktushose.jda.commands.JDACommands]
 ///
@@ -99,8 +98,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
                         extension.providedImplementations()
                                 .stream()
                                 .filter(provider -> provider.type().isAssignableFrom(type))
-                                .map(implementation -> implementation.getValue(this))
-                                .filter(Objects::nonNull)
+                                .flatMap(implementation -> implementation.implementations(this).stream())
                                 .map(value -> Map.entry(extension, (T) value))
                 )
                 .toList();
@@ -217,19 +215,13 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
 
     }
 
-    @SuppressWarnings("unchecked")
-    private <K, V> Stream<Map.Entry<K, V>> mapEntryImplementations(Class<K> keyType, Class<V> valueType) {
-        return implementation(Implementation.Pair.class)
-                .stream()
-                .map(Map.Entry::getValue)
-                .filter(entry -> keyType.isInstance(entry.key()) && valueType.isInstance(entry.value()))
-                .map(entry -> (Map.Entry<K, V>) Map.entry(entry.key(), entry.value()));
-    }
-
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
     @NotNull
     public Collection<Map.Entry<Priority, Middleware>> middlewares() {
-        Collection<Map.Entry<Priority, Middleware>> all = mapEntryImplementations(Priority.class, Middleware.class)
+        Collection<Map.Entry<Priority, Middleware>> all = implementation(Implementation.MiddlewareContainer.class)
+                .stream()
+                .map(Map.Entry::getValue)
+                .map(container -> Map.entry(container.priority(), container.middleware()))
                 .collect(Collectors.toSet());
         all.addAll(middlewares);
         return all;
@@ -238,9 +230,10 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     /// @return the [Validator]s to be used. Can be added via an [Extension]
     @NotNull
     public Map<Class<? extends Annotation>, Validator> validators() {
-        @SuppressWarnings("unchecked")
-        Map<Class<? extends Annotation>, Validator> all = mapEntryImplementations(Class.class, Validator.class)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        Map<Class<? extends Annotation>, Validator> all = implementation(Implementation.ValidatorContainer.class)
+                .stream()
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));
         all.putAll(validators);
         return all;
     }
@@ -248,9 +241,10 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
     @NotNull
     public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
-        @SuppressWarnings("unchecked")
-        Map<Class<?>, TypeAdapter<?>> all = mapEntryImplementations(Class.class, TypeAdapter.class)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        Map<Class<?>, TypeAdapter<?>> all = implementation(Implementation.TypeAdapterContainer.class)
+                .stream()
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toMap(Implementation.TypeAdapterContainer::type, Implementation.TypeAdapterContainer::adapter));
         all.putAll(typeAdapters);
         return all;
     }

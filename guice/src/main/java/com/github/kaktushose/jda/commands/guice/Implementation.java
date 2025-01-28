@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.annotations;
+package com.github.kaktushose.jda.commands.guice;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import jakarta.inject.Scope;
 
 import java.lang.annotation.*;
 
@@ -22,6 +23,7 @@ import java.lang.annotation.*;
 /// @see ErrorMessageFactory
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Scope
 public @interface Implementation {
 
     /// Gets the [Priority] to register the [Middleware] with. If this implementation is not a subtype of [Middleware],
@@ -35,5 +37,10 @@ public @interface Implementation {
     ///
     /// @return the annotation the [Validator] should be mapped to
     Class<? extends Annotation> annotation() default Constraint.class;
+
+
+    Class<?> clazz() default Object.class;
+
+
 
 }

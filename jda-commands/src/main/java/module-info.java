@@ -14,7 +14,6 @@ module jda.commands {
     exports com.github.kaktushose.jda.commands;
 
     // annotations
-    exports com.github.kaktushose.jda.commands.annotations;
     exports com.github.kaktushose.jda.commands.annotations.constraints;
     exports com.github.kaktushose.jda.commands.annotations.interactions;
 
