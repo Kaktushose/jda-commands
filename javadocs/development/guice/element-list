@@ -1,0 +1,3 @@
+module:jda.commands.guice
+com.github.kaktushose.jda.commands.guice
+com.github.kaktushose.jda.commands.guice.internal
