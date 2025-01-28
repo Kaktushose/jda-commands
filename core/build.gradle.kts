@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+
 plugins {
     `java-library`
     `maven-publish`
