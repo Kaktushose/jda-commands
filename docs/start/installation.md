@@ -15,7 +15,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
     <dependency>
        <groupId>io.github.kaktushose</groupId>
        <artifactId>jda-commands</artifactId>
-       <version>v4.0.0-beta.4</version>
+       <version>4.0.0-beta.4</version>
     </dependency>
     ```
 === "Gradle (Kotlin DSL)"
@@ -24,7 +24,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation("io.github.kaktushose:jda-commands:v4.0.0-beta.4")
+       implementation("io.github.kaktushose:jda-commands:4.0.0-beta.4")
     }
     ```
 === "Gradle (Groovy DSL)"
@@ -33,7 +33,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation 'io.github.kaktushose:jda-commands:v4.0.0-beta.4"'
+       implementation 'io.github.kaktushose:jda-commands:4.0.0-beta.4"'
     }
     ```
 

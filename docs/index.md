@@ -37,7 +37,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
       <dependency>
          <groupId>io.github.kaktushose</groupId>
          <artifactId>jda-commands</artifactId>
-         <version>v4.0.0-beta.4</version>
+         <version>4.0.0-beta.4</version>
       </dependency>
       ```
 === "Gradle (Kotlin DSL)"
@@ -46,7 +46,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
          mavenCentral()
       }
       dependencies {
-         implementation("io.github.kaktushose:jda-commands:v4.0.0-beta.4")
+         implementation("io.github.kaktushose:jda-commands:4.0.0-beta.4")
       }
       ```
 === "Gradle (Groovy DSL)"
@@ -55,7 +55,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
          mavenCentral()
       }
       dependencies {
-         implementation 'io.github.kaktushose:jda-commands:v4.0.0-beta.4"'
+         implementation 'io.github.kaktushose:jda-commands:4.0.0-beta.4"'
       }
       ```
 

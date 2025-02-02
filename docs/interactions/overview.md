@@ -53,15 +53,8 @@ public class CookieClicker {
         event.reply("You've got %s cookie(s)!", ++counter);
     }
     
-    @SlashCommand(value = "greet") //(1)!
-    public void onGreet(CommandEvent event) {
-        event.reply("Hello World!");
-    }
-    
 }
 ```
-
-1. This is bad practise, you shouldn't mix conversations. This is only for explaining purposes.
 
 Let's see what's going on here:
 
