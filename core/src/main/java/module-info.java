@@ -1,5 +1,5 @@
 /// The base module of jda-commands
-module jda.commands {
+module io.github.kaktushose.jda.commands.core {
     requires com.google.gson;
     requires net.dv8tion.jda;
     requires org.reflections;

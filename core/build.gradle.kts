@@ -182,26 +182,3 @@ tasks.jacocoTestReport {
     }
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
-
-tasks.withType<Javadoc> {
-    val options = options as StandardJavadocDocletOptions
-    options.encoding = "UTF-8"
-    options.addBooleanOption("Xdoclint:none,-missing", true)
-    options.tags("apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:")
-    options.overview = "src/main/javadoc/overview.md"
-    options.links = listOf(
-        "https://docs.jda.wiki/"
-    )
-
-
-    // doesn't work anyway, f u gradle
-    //    options.docFilesSubDirs(true)
-    doLast {
-        copy {
-            include("**/doc-files/*")
-            from("src/main/javadoc")
-            into(project.layout.buildDirectory.dir("docs/javadoc"))
-        }
-
-    }
-}
