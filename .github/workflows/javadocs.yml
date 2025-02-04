@@ -24,7 +24,7 @@ jobs:
           java-version: '23'
       - name: Generate Documentation
         run: |
-          gradle javadoc
+          gradle jda-commands:javadoc
       - name: Find target directory
         id: target_dir
         run: |

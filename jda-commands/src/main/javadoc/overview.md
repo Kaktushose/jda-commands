@@ -89,7 +89,7 @@ The JDA-Commands project is structured in two (JPMS/gradle) modules.
 |      Name       |                                                        JPMS Modules                                                        |                          Dependency                           |
 |:---------------:|:--------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------:|
 |      core       |            [io.github.kaktushose.jda.commands.core](io.github.kaktushose.jda.commands.core/module-summary.html)            |      `io.github.kaktushose.jda-commands:core:<version>`       |
-| guice-extension | [io.github.kaktushose.jda.commands.guice.extension](io.github.kaktushose.jda.commands.guice.extension/module-summary.html) | `io.github.kaktushose.jda-commands:guice-extension:<version>` |
+| guice-extension | [io.github.kaktushose.jda.commands.extension.guice](io.github.kaktushose.jda.commands.extension.guice/module-summary.html) | `io.github.kaktushose.jda-commands:guice-extension:<version>` |
 |  jda-commands   |                                                   core + guice-extension                                                   |         `io.github.kaktushose:jda-commands:<version>`         |
 
 ### jda-commands
@@ -114,7 +114,7 @@ as a dependency injection framework by providing an own implementation of
 
 ### Provide custom Injector
 If you want to use a custom [Guice Injector](https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html),
-you can provide one by using [`GuiceExtensionData`](io.github.kaktushose.jda.commands.guice.extension/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html).
+you can provide one by using [`GuiceExtensionData`](io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html).
 
 ```java
 import com.github.kaktushose.jda.commands.JDACommands;
@@ -140,12 +140,12 @@ This JDACommands Extension allows the automatic discovering of implementations o
 - [ErrorMessageFactory](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html)
 - [Descriptor](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html)
 
-To make these implementations discoverable please annotate the involved classes with [`@Implementation`](io.github.kaktushose.jda.commands.guice.extension/com/github/kaktushose/jda/commands/guice/Implementation.html).
+To make these implementations discoverable please annotate the involved classes with [`@Implementation`](io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html).
 If you're implementing a
 [TypeAdapter](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html),
 [Middleware](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html) or
 [Validator](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html)
-you have to provide additionally information in [`@Implementation`](io.github.kaktushose.jda.commands.guice.extension/com/github/kaktushose/jda/commands/guice/Implementation.html).
+you have to provide additionally information in [`@Implementation`](io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html).
 
 Please visit the docs of this class to gain more information.
 
