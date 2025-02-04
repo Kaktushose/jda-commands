@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"jda.commands"}];updateSearchResults();
