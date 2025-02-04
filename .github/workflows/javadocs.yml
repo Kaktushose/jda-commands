@@ -10,7 +10,7 @@ on:
   create:
 
 jobs:
-  build:
+  javadoc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
