@@ -132,6 +132,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     }
 
     /// the [JDAContext] to be used
+    @NotNull
     public JDAContext context() {
         return context;
     }
