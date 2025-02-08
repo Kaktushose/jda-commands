@@ -36,9 +36,12 @@ import java.util.*;
 ///
 /// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough java's [`service
 /// provider interface`][ServiceLoader], which are applied during [JDACommands] creation.
-/// Manually defined values always override loaded and default ones, except for [#middleware(Priority, Middleware)],
-/// [#adapter(Class, TypeAdapter)], [#classFinders(ClassFinder...)] or [#validator(Class, Validator)]
-/// were they will add to the user provided or default values.
+/// Values manually defined by this builder will always override loaded and default ones, except for: 
+///     - [#middleware(Priority, Middleware)]
+///     - [#adapter(Class, TypeAdapter)]
+///     - [#classFinders(ClassFinder...)]
+///     - [#validator(Class, Validator)]
+/// which will add to the default and loaded ones.
 ///
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
