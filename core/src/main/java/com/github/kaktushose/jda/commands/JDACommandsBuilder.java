@@ -27,7 +27,7 @@ import java.util.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
-/// Please note that values that can be set have a default implementation;
+/// Please note that values that can be set have a default implementation.
 /// These default implementations are sometimes based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
 /// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
 /// - [#classFinders(ClassFinder...)]
