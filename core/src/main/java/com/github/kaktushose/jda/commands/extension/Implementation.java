@@ -50,7 +50,7 @@ public record Implementation<T extends Implementation.ExtensionImplementable>(
     /// @param middleware the [Middleware] implementation
     public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionImplementable {}
 
-    /// A container type for providing [Validator]
+    /// A container type for providing [Validator]s.
     /// @param annotation the [Annotation] for which the [Validator] should be registered
     /// @param validator the [Validator] implementation
     public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionImplementable {}
