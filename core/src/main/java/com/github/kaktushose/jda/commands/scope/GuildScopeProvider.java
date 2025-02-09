@@ -10,7 +10,7 @@ import java.util.function.Function;
 ///
 /// @see DefaultGuildScopeProvider
 @FunctionalInterface
-public non-sealed interface GuildScopeProvider extends Function<CommandData, Set<Long>>, Implementation.ExtensionImplementable {
+public non-sealed interface GuildScopeProvider extends Function<CommandData, Set<Long>>, Implementation.ExtensionProvidable {
 
     /// Gets a Set of guild ids the provided command should be registered for.
     ///

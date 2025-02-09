@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 ///
 /// @see DefaultPermissionsProvider
 /// @see Permissions Permission
-public non-sealed interface PermissionsProvider extends Implementation.ExtensionImplementable {
+public non-sealed interface PermissionsProvider extends Implementation.ExtensionProvidable {
 
     /// Checks if a [User] has permissions. Compared to [#hasPermission(Member, InvocationContext)] this method will be
     /// called if the command gets executed in a non-guild context, where no member object is available.

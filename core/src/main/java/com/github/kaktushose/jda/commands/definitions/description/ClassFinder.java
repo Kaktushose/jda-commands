@@ -8,14 +8,14 @@ import java.lang.annotation.Annotation;
 import java.util.SequencedCollection;
 
 /// [ClassFinder]s search for classes annotated with a specific annotation
-public non-sealed interface ClassFinder extends Implementation.ExtensionImplementable {
+public non-sealed interface ClassFinder extends Implementation.ExtensionProvidable {
 
     /// This method searches for classes annotated with the given annotation.
     ///
     /// @param annotationClass the class of the annotation
     /// @return the found classes
     @NotNull
-    SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass);
+    SequencedCollection<Class<?>> search(@NotNull Class<? extends Annotation> annotationClass);
 
     /// This method searches for classes annotated with the given annotation, which have the given super type.
     ///
@@ -23,7 +23,8 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionImplemen
     /// @param superType the [Class], which is a supertype of the found classes
     /// @return the found classes
     @SuppressWarnings("unchecked")
-    default <T> SequencedCollection<Class<T>> search(Class<? extends Annotation> annotationClass, Class<T> superType) {
+    @NotNull
+    default <T> SequencedCollection<Class<T>> search(@NotNull Class<? extends Annotation> annotationClass, @NotNull Class<T> superType) {
         return search(annotationClass).stream()
                 .filter(superType::isAssignableFrom)
                 .map(aClass -> (Class<T>) aClass)

@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -49,7 +50,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected Collection<Extension> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
-
 
     // loadable by extension
     protected InteractionControllerInstantiator controllerInstantiator = null;
@@ -94,38 +94,38 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends Implementation.ExtensionImplementable> SequencedCollection<Map.Entry<Extension, T>> implementation(Class<T> type) {
+    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension, T>> implementations(Class<T> type) {
         return extensions()
                 .stream()
-                .flatMap(extension ->
-                        extension.providedImplementations()
-                                .stream()
-                                .filter(provider -> provider.type().isAssignableFrom(type))
-                                .flatMap(implementation -> implementation.implementations(this).stream())
-                                .map(value -> Map.entry(extension, (T) value))
-                )
-                .toList();
+                .flatMap(extension -> extension.providedImplementations().stream()
+                        .filter(implementation -> implementation.type().isAssignableFrom(type))
+                        .flatMap(implementation -> implementation.implementations(this).stream())
+                        .map(value -> Map.entry(extension, (T) value))
+                ).toList();
     }
 
-    private <T extends Implementation.ExtensionImplementable> T load(Class<T> type, T setValue, T defaultValue) {
+    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, T defaultValue) {
         if (setValue != null) return setValue;
-        SequencedCollection<Map.Entry<Extension, T>> implementations = implementation(type);
+
+        var implementations = implementations(type);
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
             throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
-        } else if (implementations.size() == 1) {
-            return implementations.getFirst().getValue();
-        } else {
-            String foundImplementations = implementations.stream()
-                    .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
-                    .collect(Collectors.joining(System.lineSeparator()));
-
-            throw new JDACBuilder.ConfigurationException(
-                    "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
-                            .formatted(type, foundImplementations)
-            );
         }
+
+        if (implementations.size() == 1) {
+            return implementations.getFirst().getValue();
+        }
+
+        String foundImplementations = implementations.stream()
+                .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
+                .collect(Collectors.joining(System.lineSeparator()));
+
+        throw new JDACBuilder.ConfigurationException(
+                "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
+                        .formatted(type, foundImplementations)
+        );
     }
 
     /// the packages provided by the user for classpath scanning
@@ -201,7 +201,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
     @NotNull
     public Collection<ClassFinder> classFinders() {
-        Collection<ClassFinder> all = implementation(ClassFinder.class)
+        Collection<ClassFinder> all = implementations(ClassFinder.class)
                 .stream()
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toSet());
@@ -225,7 +225,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
     @NotNull
     public Collection<Map.Entry<Priority, Middleware>> middlewares() {
-        Collection<Map.Entry<Priority, Middleware>> all = implementation(Implementation.MiddlewareContainer.class)
+        Collection<Map.Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
                 .stream()
                 .map(Map.Entry::getValue)
                 .map(container -> Map.entry(container.priority(), container.middleware()))
@@ -237,7 +237,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [Validator]s to be used. Can be added via an [Extension]
     @NotNull
     public Map<Class<? extends Annotation>, Validator> validators() {
-        Map<Class<? extends Annotation>, Validator> all = implementation(Implementation.ValidatorContainer.class)
+        Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));
@@ -248,7 +248,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
     @NotNull
     public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
-        Map<Class<?>, TypeAdapter<?>> all = implementation(Implementation.TypeAdapterContainer.class)
+        Map<Class<?>, TypeAdapter<?>> all = implementations(Implementation.TypeAdapterContainer.class)
                 .stream()
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toMap(Implementation.TypeAdapterContainer::type, Implementation.TypeAdapterContainer::adapter));

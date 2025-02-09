@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.extension;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionImplementable;
+import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,12 +13,12 @@ import java.util.List;
 /// Implementations of this interface, that are registered by Javas service provider interface, will be called
 /// in [JDACBuilder] to configure the framework.
 ///
-/// This class provides ways to extend the framework with own functionality:
-/// - [#providedImplementations()]: By implementing this method and returning a list of own implementations of
-/// interfaces marked with [ExtensionImplementable], you can for example provide an own implementation of [InteractionControllerInstantiator]
-/// or [Descriptor]. These implementations will override the default ones.
+/// This interface provides ways to extend the framework with own functionality:
+/// - [#providedImplementations()]: By implementing this method and returning a collection of [Implementation]s, you can
+/// for example provide an own implementation of [InteractionControllerInstantiator] or [Descriptor]. These
+/// implementations will override the default ones.
 ///
-/// If the implementation of this class needs additional configuration data, implementations have to provide an
+/// - If the [Extension] needs additional configuration data, implementations have to provide an
 /// own implementation of [Data] that the user has to register in the builder by calling [JDACBuilder#extensionData(Data...)].
 ///
 /// ### Example
@@ -53,17 +53,15 @@ import java.util.List;
 /// ```
 public interface Extension {
 
-    /// Will be called right after jda-commands loaded the Extension.
+    /// Initialises the [Extension] with to provided [Data]. Will be called right after jda-commands loaded the Extension.
     ///
     /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type returned by [#dataType()].
     void init(@Nullable Data data);
 
-    /// By implementing this method and returning a list of own implementations of interfaces marked with
-    /// [ExtensionImplementable], you can for example provide an own implementation of [InteractionClassProvider]
-    /// or [Descriptor]. These implementations will override the default ones.
+    /// Gets a collection of [Implementation]s this [Extension] provides.
     ///
-    /// @return a collection of [Implementation]s that should be used to retrieve certain implementations of an interface.
-    /// @apiNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
+    /// @return a collection of [Implementation]s
+    /// @implNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
     /// is important, you should always return the same instance.
     @NotNull
     default Collection<@NotNull Implementation<?>> providedImplementations() {
@@ -76,7 +74,7 @@ public interface Extension {
         return Void.class;
     }
 
-    /// Implementations of this interface are providing additional configuration to implementations of [Extension]
+    /// Implementations of this interface are providing additional configuration to implementations of [Extension].
     interface Data {}
 
 }

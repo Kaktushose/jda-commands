@@ -8,6 +8,9 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.Implementation;
+import com.github.kaktushose.jda.commands.extension.Implementation.MiddlewareContainer;
+import com.github.kaktushose.jda.commands.extension.Implementation.TypeAdapterContainer;
+import com.github.kaktushose.jda.commands.extension.Implementation.ValidatorContainer;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceExtensionModule;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionControllerInstantiator;
@@ -35,7 +38,7 @@ public class GuiceExtension implements Extension {
 
     private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
             com.github.kaktushose.jda.commands.guice.Implementation.class;
-    private final List<Class<? extends Implementation.ExtensionImplementable>> loadableClasses = List.of(
+    private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(
             Descriptor.class,
             ErrorMessageFactory.class,
             PermissionsProvider.class,
@@ -52,13 +55,15 @@ public class GuiceExtension implements Extension {
         this.injector = found.createChildInjector(new GuiceExtensionModule());
     }
 
+    @NotNull
     @Override
-    public @NotNull Collection<Implementation<?>> providedImplementations() {
+    public Collection<Implementation<?>> providedImplementations() {
         List<Implementation<?>> implementations = new ArrayList<>();
 
         implementations.add(Implementation.single(
                 InteractionControllerInstantiator.class,
-                _ -> new GuiceInteractionControllerInstantiator(this)));
+                _ -> new GuiceInteractionControllerInstantiator(injector)
+        ));
 
         addDynamicImplementations(implementations);
         return implementations;
@@ -69,48 +74,40 @@ public class GuiceExtension implements Extension {
         // load single types
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
-                    (Class<Implementation.ExtensionImplementable>) type,
-                    builder -> searchImplementedClasses(builder, type)
-                            .map(instance -> (Implementation.ExtensionImplementable) instance)
+                    (Class<Implementation.ExtensionProvidable>) type,
+                    builder -> instances(builder, type)
+                            .map(instance -> (Implementation.ExtensionProvidable) instance)
                             .toList()
             ));
         }
 
         // load multiple implementable types
         list.add(new Implementation<>(
-                Implementation.TypeAdapterContainer.class,
-                builder -> searchImplementedClasses(builder, TypeAdapter.class)
-                        .map(adapter -> new Implementation.TypeAdapterContainer(
-                                adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
-                                adapter)
-                        )
-                        .toList()
+                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapter.class)
+                .map(adapter -> new TypeAdapterContainer(
+                        adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
+                        adapter)
+                ).toList()
         ));
 
         list.add(new Implementation<>(
-                Implementation.ValidatorContainer.class,
-                builder -> searchImplementedClasses(builder, Validator.class)
-                        .map(validator -> new Implementation.ValidatorContainer(
-                                validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
-                                validator)
-                        )
-                        .toList()
+                ValidatorContainer.class, builder -> instances(builder, Validator.class)
+                .map(validator -> new ValidatorContainer(
+                        validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
+                        validator)
+                ).toList()
         ));
 
-        list.add(new Implementation<>(
-                Implementation.MiddlewareContainer.class,
-                builder -> searchImplementedClasses(builder, Middleware.class)
-                        .map(middleware -> new Implementation.MiddlewareContainer(
-                                middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
-                                middleware)
-                        )
-                        .toList()
+        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middleware.class)
+                .map(middleware -> new MiddlewareContainer(
+                        middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
+                        middleware)
+                ).toList()
         ));
     }
 
-    private <T> Stream<T> searchImplementedClasses(JDACBuilderData builder, Class<T> type) {
-        return builder
-                .mergedClassFinder()
+    private <T> Stream<T> instances(JDACBuilderData builder, Class<T> type) {
+        return builder.mergedClassFinder()
                 .search(IMPLEMENTATION_ANN, type)
                 .stream()
                 .map(injector::getInstance);

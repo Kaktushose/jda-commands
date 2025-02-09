@@ -10,10 +10,10 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public class GuiceInteractionControllerInstantiator implements InteractionControllerInstantiator {
 
-    private final GuiceExtension extension;
+    private final Injector injector;
 
-    public GuiceInteractionControllerInstantiator(GuiceExtension extension) {
-        this.extension = extension;
+    public GuiceInteractionControllerInstantiator(Injector injector) {
+        this.injector = injector;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class GuiceInteractionControllerInstantiator implements InteractionContro
     /// This has the effect, that each class annotated with [Interaction] will be treated as a runtime scoped singleton.
     @Override
     public InteractionControllerInstantiator forRuntime(String id, JDA jda) {
-        Injector childInjector = extension.injector().createChildInjector(new InteractionControllerInstantiatorModule(jda));
+        Injector childInjector = injector.createChildInjector(new InteractionControllerInstantiatorModule(jda));
 
         return new InteractionControllerInstantiator() {
             @Override

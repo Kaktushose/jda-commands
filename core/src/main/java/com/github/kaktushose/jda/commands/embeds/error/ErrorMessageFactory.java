@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
-import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionImplementable;
+import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -15,7 +15,7 @@ import java.util.List;
 ///
 /// @see DefaultErrorMessageFactory
 /// @see JsonErrorMessageFactory
-public non-sealed interface ErrorMessageFactory extends ExtensionImplementable {
+public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///

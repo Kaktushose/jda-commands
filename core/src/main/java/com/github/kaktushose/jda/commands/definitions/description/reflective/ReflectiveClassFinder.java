@@ -25,7 +25,7 @@ public class ReflectiveClassFinder implements ClassFinder {
     }
 
     @Override
-    public @NotNull SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
+    public @NotNull SequencedCollection<Class<?>> search(@NotNull Class<? extends Annotation> annotationClass) {
         var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);

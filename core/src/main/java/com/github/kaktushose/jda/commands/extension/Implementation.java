@@ -14,98 +14,94 @@ import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SequencedCollection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/// Instances of this class are used to provide custom implementations of classes implementing [ExtensionImplementable],
-/// please note that [TypeAdapter]s, [Middleware]s and [Validator]s are only providable by their corresponding container types:
-/// [TypeAdapterContainer], [MiddlewareContainer], [ValidatorContainer].
+/// Instances of [Implementation] are used to provide custom implementations of [ExtensionProvidable] interfaces, namely:
+/// - [ClassFinder]
+/// - [Descriptor]
+/// - [InteractionControllerInstantiator]
+/// - [ErrorMessageFactory]
+/// - [MiddlewareContainer] (wrapper type for [Middleware])
+/// - [TypeAdapterContainer] (wrapper type for [TypeAdapter])
+/// - [ValidatorContainer] (wrapper type for [Validator])
+/// - [PermissionsProvider]
+/// - [GuildScopeProvider]
 ///
-/// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACBuilder].
+/// Such instances of [Implementation] are returned by [Extension#providedImplementations()] and used by the [JDACBuilder] to
+/// configure jda-commands.
 ///
-/// If the collection returned by [java.util.function.Supplier#get()] ([#supplier()]) is empty then this implementation is discarded and thus treated as non-existent.
+/// @param type     the [Class] of the implemented interface
+/// @param supplier the [Function] used to retrieve instances of the custom implementation
+/// @implNote If the [#supplier()] returns an empty collection, then this [Implementation] is discarded and thus treated as non-existent.
 ///
-///  All extensions/ implementations can only provide one instance of an [ExtensionImplementable] interface, expect for
-/// [TypeAdapter]s, [Middleware]s and [Validator]s, which can be implemented multiple times.
-///
-/// @param type the [Class] of the implemented interface
-/// @param supplier the [java.util.function.Supplier] used to retrieve instances of the custom implementations
-public record Implementation<T extends Implementation.ExtensionImplementable>(
+/// @apiNote The [TypeAdapter]s, [Middleware]s and [Validator]s are only providable by their corresponding container types:
+///        [TypeAdapterContainer], [MiddlewareContainer] and [ValidatorContainer].
+/// @see Extension
+public record Implementation<T extends Implementation.ExtensionProvidable>(
         @NotNull Class<T> type,
         @NotNull Function<@NotNull JDACBuilderData, @NotNull SequencedCollection<@NotNull T>> supplier
 ) {
 
-    /// A marker interface that all types providable by an [Implementation] implement
-    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
+    /// A marker interface that all types providable by an [Extension] share.
+    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory,
+            MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
 
     /// A container type for providing [TypeAdapter]s.
-    /// @param type the [Class] for which the [TypeAdapter] should be registered
+    ///
+    /// @param type    the [Class] for which the [TypeAdapter] should be registered
     /// @param adapter the [TypeAdapter] implementation
-    public record TypeAdapterContainer(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) implements ExtensionImplementable {}
+    public record TypeAdapterContainer(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
 
     /// A container type for providing [Middleware]s.
-    /// @param priority the [Priority] with which the [Middleware] should be registered
+    ///
+    /// @param priority   the [Priority] with which the [Middleware] should be registered
     /// @param middleware the [Middleware] implementation
-    public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionImplementable {}
+    public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionProvidable {}
 
     /// A container type for providing [Validator]s.
+    ///
     /// @param annotation the [Annotation] for which the [Validator] should be registered
-    /// @param validator the [Validator] implementation
-    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionImplementable {}
+    /// @param validator  the [Validator] implementation
+    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionProvidable {}
 
-    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<@NotNull JDACBuilderData, @NotNull T> supplier) {
-        return new Implementation<>(
-                type,
-                (builder -> List.of(supplier.apply(builder)))
-        );
+    public static <T extends ExtensionProvidable> Implementation<T> single(@NotNull Class<T> type,
+                                                                           @NotNull Function<@NotNull JDACBuilderData,
+                                                                           @NotNull T> supplier) {
+        return new Implementation<>(type, (builder -> List.of(supplier.apply(builder))));
     }
 
-    SequencedCollection<T> implementations(JDACBuilderData builder) {
-        checkCycling(builder);
+    SequencedCollection<T> implementations(JDACBuilderData data) {
+        if (data.alreadyCalled.stream().anyMatch(provider -> provider.type.equals(type))) {
+            throw new JDACBuilder.ConfigurationException(
+                    "Cycling dependencies while getting implementations of %s! \n%s".formatted(type, format(data))
+            );
+        }
 
-        builder.alreadyCalled.add(this); // scope entry
+        data.alreadyCalled.add(this); // scope entry
 
         // other suppliers could be called here
         // Scoping this will create a simple stack of already called methods, allowing checking for cycling dependencies (Implementation#type())
-        SequencedCollection<T> apply = supplier().apply(builder);
+        SequencedCollection<T> apply = supplier().apply(data);
 
-        builder.alreadyCalled.remove(this); // scope leave
+        data.alreadyCalled.remove(this); // scope leave
         return apply;
     }
 
-    private void checkCycling(JDACBuilderData builder) {
-        boolean alreadyCalled = builder.alreadyCalled
-                .stream()
-                .anyMatch(provider -> provider.type.equals(type));
+    private record GraphEntry(Class<?> extension, Class<?> provides) {}
 
-        if (alreadyCalled) {
-            List<GraphEntry> stack = builder.alreadyCalled
-                    .reversed()
-                    .stream()
-                    .map(provider -> {
-                        var extension = builder.implementation(provider.type)
-                                .stream()
-                                .findAny()
-                                .map(Map.Entry::getKey)
-                                .orElseThrow()
-                                .getClass();
-                        return new GraphEntry(extension, provider.type);
-                    })
-                    .toList();
+    private String format(JDACBuilderData data) {
+        List<GraphEntry> stack = data.alreadyCalled.reversed().stream()
+                .map(provider -> {
+                    var extension = data.implementations(provider.type).stream().findAny().map(Map.Entry::getKey).orElseThrow().getClass();
+                    return new GraphEntry(extension, provider.type);
+                })
+                .toList();
 
-            throw new JDACBuilder.ConfigurationException("Cycling dependencies while getting implementations of %s! \n%s"
-                    .formatted(type, format(stack)));
-        }
-    }
-
-    private record GraphEntry(
-            Class<?> extension,
-            Class<?> provides
-    ) {}
-
-    private String format(List<GraphEntry> stack) {
         if (stack.size() == 1) {
             GraphEntry entry = stack.getFirst();
             return "%s provides and needs %s, thus calls itself".formatted(entry.extension.getSimpleName(), entry.provides.getSimpleName());

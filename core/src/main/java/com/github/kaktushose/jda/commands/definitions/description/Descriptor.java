@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.extension.Implementation;
 
 /// A [Descriptor] takes a [Class] as input and transforms it into a [ClassDescription].
 @FunctionalInterface
-public non-sealed interface Descriptor extends Implementation.ExtensionImplementable {
+public non-sealed interface Descriptor extends Implementation.ExtensionProvidable {
 
     /// the default [Descriptor], which builds [ClassDescription] using [java.lang.reflect]
     Descriptor REFLECTIVE = new ReflectiveDescriptor();
