@@ -2,6 +2,12 @@ plugins {
     id("io.freefair.aggregate-javadoc") version("8.12.1")
 }
 
+description = "A declarative, annotation driven interaction framework for JDA"
+
+allprojects {
+    version = "4.0.0-beta.4"
+}
+
 repositories {
     mavenCentral()
 }
@@ -46,6 +52,3 @@ tasks.withType<Javadoc>().configureEach {
 
     }
 }
-
-
-

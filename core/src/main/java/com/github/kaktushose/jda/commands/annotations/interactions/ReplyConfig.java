@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 
@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /// 1. [ConfigurableReply]
 /// 2. [ReplyConfig] method annotation
 /// 3. [ReplyConfig] class annotation
-/// 4. global [`ReplyConfig`][com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig] provided in [JDACommandsBuilder]
+/// 4. global [`ReplyConfig`][com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig] provided in [JDACBuilder]
 ///
 /// @see ReplyableEvent
 @Target({ElementType.TYPE, ElementType.METHOD})

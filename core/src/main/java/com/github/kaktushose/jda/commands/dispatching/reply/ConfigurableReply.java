@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
@@ -70,7 +70,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// - Cannot be reacted to
     /// - Cannot be retrieved
     ///
-    /// **This will override both [JDACommandsBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
     ///
     /// @param ephemeral `true` if to send ephemeral replies
     /// @return the current instance for fluent interface
@@ -85,7 +85,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
     /// its components get added to the reply before it is sent.
     ///
-    /// **This will override both [JDACommandsBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
     ///
     /// @param editReply `true` if to keep the original components
     /// @return the current instance for fluent interface
@@ -102,7 +102,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// Subsequent replies to the same slash command event or the button event cannot be edited.
     ///
-    /// **This will override both [JDACommandsBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
     ///
     /// @param keepComponents `true` if to edit the original method
     /// @return the current instance for fluent interface

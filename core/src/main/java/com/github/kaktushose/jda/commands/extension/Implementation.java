@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.extension;
 
-import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
@@ -23,29 +23,29 @@ import java.util.stream.Stream;
 /// please note that [TypeAdapter]s, [Middleware]s and [Validator]s are only providable by their corresponding container types:
 /// [TypeAdapterContainer], [MiddlewareContainer], [ValidatorContainer].
 ///
-/// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACommandsBuilder].
+/// Such instances are returned by [Extension#providedImplementations()] and used by the [JDACBuilder].
 ///
 /// If the collection returned by [java.util.function.Supplier#get()] ([#supplier()]) is empty then this implementation is discarded and thus treated as non-existent.
 ///
-/// As shown by the setter methods defined in [JDACommandsBuilder], there can be only one instance provided by *all* extensions/implementations of most interfaces.
-/// There are only 3 interfaces which can be implemented multiple times: [TypeAdapter], [Middleware] and [Validator].
+///  All extensions/ implementations can only provide one instance of an [ExtensionImplementable] interface, expect for
+/// [TypeAdapter]s, [Middleware]s and [Validator]s, which can be implemented multiple times.
 ///
 /// @param type the [Class] of the implemented interface
 /// @param supplier the [java.util.function.Supplier] used to retrieve instances of the custom implementations
 public record Implementation<T extends Implementation.ExtensionImplementable>(
         @NotNull Class<T> type,
-        @NotNull Function<@NotNull ReadonlyJDACBuilder, @NotNull SequencedCollection<@NotNull T>> supplier
+        @NotNull Function<@NotNull JDACBuilderData, @NotNull SequencedCollection<@NotNull T>> supplier
 ) {
 
     /// A marker interface that all types providable by an [Implementation] implement
-    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionClassProvider, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
+    public sealed interface ExtensionImplementable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
 
-    /// A container type for providing [TypeAdapterContainer]
+    /// A container type for providing [TypeAdapter]s.
     /// @param type the [Class] for which the [TypeAdapter] should be registered
     /// @param adapter the [TypeAdapter] implementation
     public record TypeAdapterContainer(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) implements ExtensionImplementable {}
 
-    /// A container type for providing [Middleware]
+    /// A container type for providing [Middleware]s.
     /// @param priority the [Priority] with which the [Middleware] should be registered
     /// @param middleware the [Middleware] implementation
     public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionImplementable {}
@@ -55,19 +55,19 @@ public record Implementation<T extends Implementation.ExtensionImplementable>(
     /// @param validator the [Validator] implementation
     public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionImplementable {}
 
-    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<@NotNull ReadonlyJDACBuilder, @NotNull T> supplier) {
+    public static <T extends Implementation.ExtensionImplementable> Implementation<T> single(@NotNull Class<T> type, @NotNull Function<@NotNull JDACBuilderData, @NotNull T> supplier) {
         return new Implementation<>(
                 type,
                 (builder -> List.of(supplier.apply(builder)))
         );
     }
 
-    SequencedCollection<T> implementations(ReadonlyJDACBuilder builder) {
+    SequencedCollection<T> implementations(JDACBuilderData builder) {
         checkCycling(builder);
 
         builder.alreadyCalled.add(this); // scope entry
 
-        // other Implementation#getValue() could be called in here.
+        // other suppliers could be called here
         // Scoping this will create a simple stack of already called methods, allowing checking for cycling dependencies (Implementation#type())
         SequencedCollection<T> apply = supplier().apply(builder);
 
@@ -75,7 +75,7 @@ public record Implementation<T extends Implementation.ExtensionImplementable>(
         return apply;
     }
 
-    private void checkCycling(ReadonlyJDACBuilder builder) {
+    private void checkCycling(JDACBuilderData builder) {
         boolean alreadyCalled = builder.alreadyCalled
                 .stream()
                 .anyMatch(provider -> provider.type.equals(type));
@@ -95,7 +95,7 @@ public record Implementation<T extends Implementation.ExtensionImplementable>(
                     })
                     .toList();
 
-            throw new JDACommandsBuilder.ConfigurationException("Cycling dependencies while getting implementations of %s! \n%s"
+            throw new JDACBuilder.ConfigurationException("Cycling dependencies while getting implementations of %s! \n%s"
                     .formatted(type, format(stack)));
         }
     }

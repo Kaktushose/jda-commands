@@ -20,7 +20,6 @@ public final class JDAContext {
         this.context = shardManager;
     }
 
-
     /// Constructs a new JDAContext.
     ///
     /// @param jda the [JDA] object
@@ -31,7 +30,7 @@ public final class JDAContext {
     /// Performs an operation on either the [JDA] object or on all shards.
     ///
     /// @param consumer the operation to perform
-    public void performTask(Consumer<JDA> consumer) {
+    public void performTask(@NotNull Consumer<JDA> consumer) {
         switch (context) {
             case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
             case JDA jda -> consumer.accept(jda);

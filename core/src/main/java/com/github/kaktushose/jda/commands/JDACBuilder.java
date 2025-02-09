@@ -7,7 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
@@ -15,7 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
-import com.github.kaktushose.jda.commands.extension.ReadonlyJDACBuilder;
+import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -28,19 +28,21 @@ import java.util.*;
 /// This builder is used to build instances of [JDACommands].
 ///
 /// Please note that values that can be set have a default implementation.
-/// These default implementations are sometimes based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
-/// - [#descriptor(com.github.kaktushose.jda.commands.definitions.description.Descriptor)]
+/// These following implementations are based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
+///
+/// - [#descriptor(Descriptor)]
 /// - [#classFinders(ClassFinder...)]
-/// - [#instanceProvider(InteractionClassProvider)]
+/// - [#instanceProvider(InteractionControllerInstantiator)]
 ///
 ///
-/// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough java's [`service
+/// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough Javas [`service
 /// provider interface`][ServiceLoader], which are applied during [JDACommands] creation.
-/// Values manually defined by this builder will always override loaded and default ones, except for: 
-///     - [#middleware(Priority, Middleware)]
-///     - [#adapter(Class, TypeAdapter)]
-///     - [#classFinders(ClassFinder...)]
-///     - [#validator(Class, Validator)]
+/// Values manually defined by this builder will always override loaded and default ones, except for:
+///
+/// - [#middleware(Priority, Middleware)]
+/// - [#adapter(Class, TypeAdapter)]
+/// - [#validator(Class, Validator)]
+///
 /// which will add to the default and loaded ones.
 ///
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
@@ -55,9 +57,9 @@ import java.util.*;
 ///     .start();
 /// ```
 /// @see Extension
-public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
+public final class JDACBuilder extends JDACBuilderData {
 
-    JDACommandsBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
+    JDACBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
     }
 
@@ -68,34 +70,34 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
     /// [ClassFinder#reflective(Class, String...)] too.
     ///
     @NotNull
-    public JDACommandsBuilder classFinders(@NotNull ClassFinder... classFinders) {
+    public JDACBuilder classFinders(@NotNull ClassFinder... classFinders) {
         this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
         return this;
     }
 
     /// @param descriptor the [Descriptor] to be used
     @NotNull
-    public JDACommandsBuilder descriptor(@NotNull Descriptor descriptor) {
+    public JDACBuilder descriptor(@NotNull Descriptor descriptor) {
         this.descriptor = descriptor;
         return this;
     }
 
-    /// @param localizationFunction The [LocalizationFunction] to be used to localize interactions
+    /// @param localizationFunction The [LocalizationFunction] to use
     @NotNull
-    public JDACommandsBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
+    public JDACBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
         this.localizationFunction = Objects.requireNonNull(localizationFunction);
         return this;
     }
 
-    /// @param instanceProvider the implementation of [InteractionClassProvider] to be used.
-    public JDACommandsBuilder instanceProvider(InteractionClassProvider instanceProvider) {
-        this.instanceProvider = instanceProvider;
+    /// @param instanceProvider the implementation of [InteractionControllerInstantiator] to use
+    public JDACBuilder instanceProvider(InteractionControllerInstantiator instanceProvider) {
+        this.controllerInstantiator = instanceProvider;
         return this;
     }
 
     /// @param expirationStrategy The [ExpirationStrategy] to be used
     @NotNull
-    public JDACommandsBuilder expirationStrategy(@NotNull ExpirationStrategy expirationStrategy) {
+    public JDACBuilder expirationStrategy(@NotNull ExpirationStrategy expirationStrategy) {
         this.expirationStrategy = Objects.requireNonNull(expirationStrategy);
         return this;
     }
@@ -103,7 +105,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
     /// @param priority   The [Priority] with what the [Middleware] should be registered
     /// @param middleware The to be registered [Middleware]
     @NotNull
-    public JDACommandsBuilder middleware(@NotNull Priority priority, @NotNull Middleware middleware) {
+    public JDACBuilder middleware(@NotNull Priority priority, @NotNull Middleware middleware) {
         Objects.requireNonNull(priority);
         Objects.requireNonNull(middleware);
 
@@ -114,7 +116,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
     /// @param type    The type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     @NotNull
-    public JDACommandsBuilder adapter(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
+    public JDACBuilder adapter(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(adapter);
 
@@ -125,7 +127,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
     /// @param annotation The annotation for which the given [Validator] should be called
     /// @param validator  The [Validator] to be registered
     @NotNull
-    public JDACommandsBuilder validator(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) {
+    public JDACBuilder validator(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) {
         Objects.requireNonNull(annotation);
         Objects.requireNonNull(validator);
 
@@ -135,38 +137,37 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
 
     /// @param permissionsProvider The [PermissionsProvider] that should be used
     @NotNull
-    public JDACommandsBuilder permissionsProvider(@NotNull PermissionsProvider permissionsProvider) {
+    public JDACBuilder permissionsProvider(@NotNull PermissionsProvider permissionsProvider) {
         this.permissionsProvider = Objects.requireNonNull(permissionsProvider);
         return this;
     }
 
     /// @param errorMessageFactory The [ErrorMessageFactory] that should be used
     @NotNull
-    public JDACommandsBuilder errorMessageFactory(@NotNull ErrorMessageFactory errorMessageFactory) {
+    public JDACBuilder errorMessageFactory(@NotNull ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = Objects.requireNonNull(errorMessageFactory);
         return this;
     }
 
     /// @param guildScopeProvider The [GuildScopeProvider] that should be used
     @NotNull
-    public JDACommandsBuilder guildScopeProvider(@NotNull GuildScopeProvider guildScopeProvider) {
+    public JDACBuilder guildScopeProvider(@NotNull GuildScopeProvider guildScopeProvider) {
         this.guildScopeProvider = Objects.requireNonNull(guildScopeProvider);
         return this;
     }
 
     /// @param globalReplyConfig the [ReplyConfig] to be used as a global fallback option
     @NotNull
-    public JDACommandsBuilder globalReplyConfig(@NotNull ReplyConfig globalReplyConfig) {
+    public JDACBuilder globalReplyConfig(@NotNull ReplyConfig globalReplyConfig) {
         this.globalReplyConfig = globalReplyConfig;
         return this;
     }
 
-    /// Registers instances of implementations of [Extension.Data] to be used by the according implementation
-    /// of [Extension] to configure it properly.
+    /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
     @NotNull
-    public JDACommandsBuilder extensionData(@NotNull Extension.Data... data) {
+    public JDACBuilder extensionData(@NotNull Extension.Data... data) {
         for (Extension.Data entity : data) {
             extensionData.put(entity.getClass(), entity);
         }
@@ -181,7 +182,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
     /// @param classes the classes to be filtered
     @NotNull
-    public JDACommandsBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
+    public JDACBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
         this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
         return this;
     }
@@ -194,7 +195,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
         EXCLUDE
     }
 
-    /// This method applies all found implementations of [Extension] and
+    /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
     public JDACommands start() {
@@ -208,7 +209,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
                 errorMessageFactory,
                 guildScopeProvider(),
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
-                instanceProvider(),
+                controllerInstantiator(),
                 globalReplyConfig()
                 );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
@@ -221,4 +222,7 @@ public final class JDACommandsBuilder extends ReadonlyJDACBuilder {
             super("Error while trying to configure jda-commands: " + message);
         }
     }
+
+
+
 }

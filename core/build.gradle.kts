@@ -29,8 +29,7 @@ dependencies {
 }
 
 group = "io.github.kaktushose"
-version = "4.0.0-beta.4"
-description = "jda-commands"
+description = "The base module of jda-commands"
 
 java {
     targetCompatibility = JavaVersion.VERSION_23

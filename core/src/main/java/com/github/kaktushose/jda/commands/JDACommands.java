@@ -14,7 +14,7 @@ import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
@@ -46,7 +46,7 @@ public final class JDACommands {
             ErrorMessageFactory errorMessageFactory,
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
-            InteractionClassProvider instanceProvider,
+            InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
@@ -91,18 +91,18 @@ public final class JDACommands {
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
-    /// @return a new [JDACommandsBuilder]
+    /// @return a new [JDACBuilder]
     @NotNull
-    public static JDACommandsBuilder builder(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsBuilder(new JDAContext(jda), clazz, packages);
+    public static JDACBuilder builder(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACBuilder(new JDAContext(jda), clazz, packages);
     }
 
     /// Create a new builder.
     /// @param shardManager      the corresponding [ShardManager] instance
-    /// @return a new [JDACommandsBuilder]
+    /// @return a new [JDACBuilder]
     @NotNull
-    public static JDACommandsBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
-        return new JDACommandsBuilder(new JDAContext(shardManager), clazz, packages);
+    public static JDACBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+        return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
     /**

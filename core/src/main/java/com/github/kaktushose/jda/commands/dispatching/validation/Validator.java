@@ -1,11 +1,18 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
+import com.github.kaktushose.jda.commands.JDACBuilder;
+import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.extension.Implementation;
 import org.jetbrains.annotations.NotNull;
 
-/// Generic top level interface for validators. A validator checks if a command argument fulfills the given constraint.
+/// Validators checks if a command option fulfills the given constraint.
 ///
-/// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
+/// Either register them at the [JDACBuilder#validator(Class, Validator)()] or use the [Implementation] annotation.
+///
+/// @see Constraint
 @FunctionalInterface
 public interface Validator {
 

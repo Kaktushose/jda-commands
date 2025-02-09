@@ -5,16 +5,16 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.extension.Implementation;
 import net.dv8tion.jda.api.JDA;
 
-/// An [InteractionClassProvider] is used get instances of classes annotated with [Interaction], if needed creating those.
+/// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
 ///
 /// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String, JDA)] is called,
-/// allowing the InteractionClassProvider to provide an instance that has not to be thread safe and is bound to one Runtime.
+/// allowing the InteractionControllerInstantiator to provide an instance that has not to be thread safe and is bound to one Runtime.
 ///
 /// Please also note that per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) there can be multiple
 /// classes annotated with [Interaction] but there can be only one instance per class of those per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
 /// Instances of interactions should be treated like runtime scoped singletons, so to speak.
 @FunctionalInterface
-public non-sealed interface InteractionClassProvider extends Implementation.ExtensionImplementable {
+public non-sealed interface InteractionControllerInstantiator extends Implementation.ExtensionImplementable {
 
     /// This method will be called each time an instance of a class annotated with [Interaction] is needed.
     ///
@@ -22,12 +22,12 @@ public non-sealed interface InteractionClassProvider extends Implementation.Exte
     /// @param context a context that gives additional useful information or provide some needed functionality
     <T> T instance(Class<T> clazz, Context context);
 
-    /// Called each time a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String, JDA)] is created.
+    /// Called each time a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) is created.
     ///
     /// @param id the runtime id
     /// @param jda the [JDA] instance associated with the event responsible for creating the new Runtime instance
-    /// @return a specific instance of [InteractionClassProvider] belonging to provided runtime.
-    default InteractionClassProvider forRuntime(String id, JDA jda) {
+    /// @return a specific instance of [InteractionControllerInstantiator] belonging to provided runtime.
+    default InteractionControllerInstantiator forRuntime(String id, JDA jda) {
         return this;
     }
 

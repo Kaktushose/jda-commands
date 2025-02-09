@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.extension;
 
-import com.github.kaktushose.jda.commands.JDACommandsBuilder;
+import com.github.kaktushose.jda.commands.JDACBuilder;
+import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
@@ -8,7 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.description.reflective.Ref
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
@@ -29,11 +30,13 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/// This class is used to give implementations of [Extension] access to properties involved in the creation of [com.github.kaktushose.jda.commands.JDACommands]
+/// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
 ///
-/// Please note that this class only give read not write access to the [JDACommandsBuilder]
-public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
-    public static final Logger log = LoggerFactory.getLogger(ReadonlyJDACBuilder.class);
+/// @implNote This class is used to give implementations of [Extension] access to properties involved in the creation of [JDACommands].
+///
+/// Please note that this class only gives read not write access to the [JDACBuilder].
+public sealed class JDACBuilderData permits JDACBuilder {
+    public static final Logger log = LoggerFactory.getLogger(JDACBuilderData.class);
 
     // used for cycling dependency detection
     List<Implementation<?>> alreadyCalled = new ArrayList<>();
@@ -45,11 +48,11 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     // extension stuff
     protected Collection<Extension> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
-    protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACommandsBuilder.FilterStrategy.EXCLUDE, List.of());
+    protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
 
 
     // loadable by extension
-    protected InteractionClassProvider instanceProvider = null;
+    protected InteractionControllerInstantiator controllerInstantiator = null;
 
     protected ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
@@ -69,7 +72,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
-    protected ReadonlyJDACBuilder(Class<?> baseClass, String[] packages, JDAContext context) {
+    protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
@@ -110,7 +113,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
-            throw new JDACommandsBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+            throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
         } else if (implementations.size() == 1) {
             return implementations.getFirst().getValue();
         } else {
@@ -118,7 +121,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
                     .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
                     .collect(Collectors.joining(System.lineSeparator()));
 
-            throw new JDACommandsBuilder.ConfigurationException(
+            throw new JDACBuilder.ConfigurationException(
                     "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
                             .formatted(type, foundImplementations)
             );
@@ -156,6 +159,7 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     }
 
     // will be later loadable
+
     /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
     @NotNull
     public LocalizationFunction localizationFunction() {
@@ -163,10 +167,11 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
     }
 
     // loadable
-    /// @return the [InteractionClassProvider] to be used. Can be added via an [Extension]
+
+    /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
     @NotNull
-    public InteractionClassProvider instanceProvider() {
-        return load(InteractionClassProvider.class, instanceProvider, null);
+    public InteractionControllerInstantiator controllerInstantiator() {
+        return load(InteractionControllerInstantiator.class, controllerInstantiator, null);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
@@ -204,16 +209,16 @@ public sealed class ReadonlyJDACBuilder permits JDACommandsBuilder {
         return all;
     }
 
-    /// @return an instance of [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()].
+    /// @return a [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()]
     @NotNull
     public ClassFinder mergedClassFinder() {
         Collection<ClassFinder> classFinders = classFinders();
 
         return annotationClass -> classFinders
-                 .stream()
-                 .map(classFinder -> classFinder.search(annotationClass))
-                 .flatMap(Collection::stream)
-                 .toList();
+                .stream()
+                .map(classFinder -> classFinder.search(annotationClass))
+                .flatMap(Collection::stream)
+                .toList();
 
     }
 

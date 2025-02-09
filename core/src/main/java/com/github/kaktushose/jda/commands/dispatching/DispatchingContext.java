@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionClassProvider;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import org.jetbrains.annotations.ApiStatus;
@@ -17,6 +17,6 @@ public record DispatchingContext(Middlewares middlewares,
                                  InteractionRegistry registry,
                                  TypeAdapters adapterRegistry,
                                  ExpirationStrategy expirationStrategy,
-                                 InteractionClassProvider instanceProvider,
+                                 InteractionControllerInstantiator instanceProvider,
                                  InteractionDefinition.ReplyConfig globalReplyConfig) {
 }

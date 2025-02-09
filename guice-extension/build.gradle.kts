@@ -2,8 +2,8 @@ plugins {
     id("java-library")
 }
 
-group = "com.github.kaktushose.jda-commands"
-version = "unspecified"
+group = "io.github.kaktushose.jda-commands"
+description = "An extension to JDA-Commands providing Google's Guice as a dependency injection framework"
 
 repositories {
     mavenCentral()
