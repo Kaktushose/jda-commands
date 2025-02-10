@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -226,7 +226,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../di.md" class="md-tabs__link">
+      <a href="../../di/" class="md-tabs__link">
         
   
     
@@ -337,6 +337,7 @@
   
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -372,6 +373,7 @@
   
   <span class="md-ellipsis">
     Getting Started
+    
   </span>
   
 
@@ -397,6 +399,7 @@
   
   <span class="md-ellipsis">
     Installation
+    
   </span>
   
 
@@ -418,6 +421,7 @@
   
   <span class="md-ellipsis">
     Quick Start Guide
+    
   </span>
   
 
@@ -439,6 +443,7 @@
   
   <span class="md-ellipsis">
     Runtime Concept
+    
   </span>
   
 
@@ -487,6 +492,7 @@
   
   <span class="md-ellipsis">
     Interactions
+    
   </span>
   
 
@@ -521,6 +527,7 @@
   
   <span class="md-ellipsis">
     Overview
+    
   </span>
   
 
@@ -532,6 +539,7 @@
   
   <span class="md-ellipsis">
     Overview
+    
   </span>
   
 
@@ -591,6 +599,7 @@
   
   <span class="md-ellipsis">
     Commands
+    
   </span>
   
 
@@ -612,6 +621,7 @@
   
   <span class="md-ellipsis">
     Components
+    
   </span>
   
 
@@ -633,6 +643,7 @@
   
   <span class="md-ellipsis">
     Modals
+    
   </span>
   
 
@@ -654,6 +665,7 @@
   
   <span class="md-ellipsis">
     Reply API
+    
   </span>
   
 
@@ -682,6 +694,7 @@
   
   <span class="md-ellipsis">
     Middlewares
+    
   </span>
   
 
@@ -697,11 +710,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../di.md" class="md-nav__link">
+      <a href="../../di/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Dependency Injection
+    
   </span>
   
 
@@ -722,6 +736,7 @@
   
   <span class="md-ellipsis">
     Misc
+    
   </span>
   
 
@@ -742,6 +757,7 @@
   
   <span class="md-ellipsis">
     Javadocs
+    
   </span>
   
 
@@ -763,6 +779,7 @@
               <article class="md-content__inner md-typeset">
                 
                   
+
 
   
   
@@ -800,8 +817,8 @@ interactions, for example a Slash Command that is replied to with a Button follo
 <li>In that case the method signature also defines part of the interaction.</li>
 </ol>
 <h2 id="runtime-scoped-instances">Runtime Scoped Instances<a class="headerlink" href="#runtime-scoped-instances" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands will create one instance of the interaction controller per conversation. That way you don't need to worry
-about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
+<p>JDA-Commands will create one instance of the interaction controller per conversation, which is stored in the corresponding Runtime.
+That way you don't need to worry about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
 the state of other executions. </p>
 <p>Let's say we have the following code:
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Interaction</span>
@@ -957,7 +974,7 @@ that you cannot exchange values between these two commands using class variables
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "toc.follow", "search.share", "search.suggest", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       

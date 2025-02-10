@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://kaktushose.github.io/wiki/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/di/</loc>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/commands/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/components/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/modals/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/overview/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/reply/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/installation/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/quick-start/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/runtime/</loc>
-         <lastmod>2025-01-27</lastmod>
+         <lastmod>2025-02-10</lastmod>
     </url>
 </urlset>

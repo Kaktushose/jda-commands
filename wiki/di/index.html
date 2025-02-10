@@ -8,28 +8,26 @@
       
       
       
-        <link rel="canonical" href="https://kaktushose.github.io/wiki/start/installation/">
+        <link rel="canonical" href="https://kaktushose.github.io/wiki/di/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../interactions/reply/">
       
       
-        <link rel="next" href="../quick-start/">
       
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
     
     
       
-        <title>Installation - JDA-Commands Wiki</title>
+        <title>Dependency Injection - JDA-Commands Wiki</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -56,7 +54,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setup" class="md-skip">
+        <a href="#overview" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +94,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="JDA-Commands Wiki" class="md-header__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
+    <a href=".." title="JDA-Commands Wiki" class="md-header__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              Dependency Injection
             
           </span>
         </div>
@@ -154,7 +152,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
     
@@ -169,13 +167,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../start/installation/" class="md-tabs__link">
           
   
   Getting Started
@@ -193,7 +189,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../interactions/overview/" class="md-tabs__link">
+        <a href="../interactions/overview/" class="md-tabs__link">
           
   
   Interactions
@@ -209,7 +205,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../middlewares.md" class="md-tabs__link">
+      <a href="../middlewares.md" class="md-tabs__link">
         
   
     
@@ -224,9 +220,11 @@
         
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../../di/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
     
@@ -243,7 +241,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../misc.md" class="md-tabs__link">
+      <a href="../misc.md" class="md-tabs__link">
         
   
     
@@ -302,7 +300,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="JDA-Commands Wiki" class="md-nav__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
+    <a href=".." title="JDA-Commands Wiki" class="md-nav__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
@@ -332,7 +330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -350,30 +348,25 @@
       
   
   
-    
   
   
-  
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -385,7 +378,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -396,31 +389,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Installation
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../start/installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -430,53 +402,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#intellij-plugin" class="md-nav__link">
-    <span class="md-ellipsis">
-      IntelliJ Plugin
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -489,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quick-start/" class="md-nav__link">
+      <a href="../start/quick-start/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -511,7 +436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../runtime/" class="md-nav__link">
+      <a href="../start/runtime/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -581,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/overview/" class="md-nav__link">
+      <a href="../interactions/overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -603,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/commands/" class="md-nav__link">
+      <a href="../interactions/commands/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -625,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/components/" class="md-nav__link">
+      <a href="../interactions/components/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -647,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/modals/" class="md-nav__link">
+      <a href="../interactions/modals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -669,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../interactions/reply/" class="md-nav__link">
+      <a href="../interactions/reply/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -698,7 +623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../middlewares.md" class="md-nav__link">
+      <a href="../middlewares.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -716,10 +641,31 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../di/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Dependency Injection
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -729,6 +675,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#default-dependency-injection-framework-guice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Dependency Injection Framework - Guice
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Dependency Injection Framework - Guice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-implementation-annotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      The @Implementation annotation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-dependency-injection-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom dependency injection integrations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -740,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../misc.md" class="md-nav__link">
+      <a href="../misc.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -794,50 +793,42 @@
   
 
 
-<h1 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h1>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
+<p>As noted in <a href="../interactions/overview/#runtime-scoped-instances">here</a> JDA-Commands creates one instance of an
+interaction controller class per runtime. To allow the injection of own Objects in these instances, JDA-Commands provides
+an interface to integrate a dependency injection framework.</p>
+<h2 id="default-dependency-injection-framework-guice">Default Dependency Injection Framework - Guice<a class="headerlink" href="#default-dependency-injection-framework-guice" title="Permanent link">&para;</a></h2>
+<p>If your using JDA-Commands via the "io.github.kaktushose:jda-commands:<version>" artifact, an integration for 
+<a href="https://github.com/google/guice">Google's Guice</a> is shipped by default. </p>
+<p>To customize this integration you can provide an instance of <code>io.github.kaktushose.jda.commands.guice.GuiceExtensionData</code>,
+which allows you to provide an own instance of <code>com.google.inject.Injector</code>. 
+Please visit the Guice Wiki for further information on how to customize Google Guice.</p>
+<h3 id="the-implementation-annotation">The <code>@Implementation</code> annotation<a class="headerlink" href="#the-implementation-annotation" title="Permanent link">&para;</a></h3>
+<p>JDA-Commands has many interfaces to customize specific framework behaviour. 
+If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html">@Implementation</a>
+annotation. </p>
+<p>This annotation allows the automatic instantiation and registration for implementations of following interfaces:</p>
 <ul>
-<li>Java 23 or later</li>
-<li><a href="https://github.com/discord-jda/JDA">JDA 5.x</a></li>
-<li><a href="https://jda.wiki/setup/logging/">SLF4J Implementation</a> <em>(not mandatory, but recommended)</em></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html">PermissionsProvider</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html">GuildScopeProvider</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html">ErrorMessageFactory</a></li>
+<li>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html">Descriptor</a></p>
+</li>
+<li>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html">Middleware</a> + <code>@Implementation#priority()</code> set</p>
+</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html">Validator</a> + <code>@Implementation#annotation()</code> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> + <code>@Implemenetation#clazz()</code> set</li>
 </ul>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands is distributed through Maven Central. Alternatively you can download the latest version
-<a href="https://github.com/Kaktushose/jda-commands/releases/latest">here</a>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Maven</label><label for="__tabbed_1_2">Gradle (Kotlin DSL)</label><label for="__tabbed_1_3">Gradle (Groovy DSL)</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-xml highlight"><span class="filename">pom.xml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">   </span><span class="nt">&lt;groupId&gt;</span>io.github.kaktushose<span class="nt">&lt;/groupId&gt;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">   </span><span class="nt">&lt;artifactId&gt;</span>jda-commands<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">   </span><span class="nt">&lt;version&gt;</span>v4.0.0-beta.4<span class="nt">&lt;/version&gt;</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">&lt;/dependency&gt;</span>
-</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If you're annotating an implementation of <code>Middleware</code>, <code>Validator</code> or <code>TypeAdapter</code> you have to provide additional configuration via the <code>@Implementation</code> annotation.</p>
 </div>
-<div class="tabbed-block">
-<div class="language-kotlin highlight"><span class="filename">build.gradle.kts</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">   </span><span class="n">mavenCentral</span><span class="p">()</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">   </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.github.kaktushose:jda-commands:v4.0.0-beta.4&quot;</span><span class="p">)</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-groovy highlight"><span class="filename">build.gradle</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">repositories</span><span class="w"> </span><span class="o">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">   </span><span class="n">mavenCentral</span><span class="o">()</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="o">}</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">   </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;io.github.kaktushose:jda-commands:v4.0.0-beta.4&quot;&#39;</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="o">}</span>
-</span></code></pre></div>
-</div>
-</div>
-</div>
-<h2 id="intellij-plugin">IntelliJ Plugin<a class="headerlink" href="#intellij-plugin" title="Permanent link">&para;</a></h2>
-<p>We also provide an IntelliJ Plugin that performs some Code Inspection. It validates method references, which are 
-commonly used in jda-commands. You can find it <a href="https://plugins.jetbrains.com/plugin/25977-jda-commands-inspection">here</a>.</p>
-<p><img alt="Plugin Example" src="../../assets/plugin.png" /> </p>
+<p>The annotated classes will be instantiated with help of <code>com.google.inject.Injector</code> similar to interaction controllers.</p>
+<h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
+<p>If you want to integrate another dependency injection framework, you have to provide an own 
+implementation of <code>com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator</code>.</p>
 
 
 
@@ -875,7 +866,7 @@ commonly used in jda-commands. You can find it <a href="https://plugins.jetbrain
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+          <a href="../interactions/reply/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Reply API">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -885,27 +876,11 @@ commonly used in jda-commands. You can find it <a href="https://plugins.jetbrain
                 Previous
               </span>
               <div class="md-ellipsis">
-                Home
+                Reply API
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../quick-start/" class="md-footer__link md-footer__link--next" aria-label="Next: Quick Start Guide">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Quick Start Guide
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
@@ -948,12 +923,12 @@ commonly used in jda-commands. You can find it <a href="https://plugins.jetbrain
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "toc.follow", "search.share", "search.suggest", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "toc.follow", "search.share", "search.suggest", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
       
-        <script src="../../js/open_in_new_tab.js"></script>
+        <script src="../js/open_in_new_tab.js"></script>
       
     
   </body>
