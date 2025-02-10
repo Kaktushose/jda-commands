@@ -32,8 +32,8 @@ public class GreetCommand {
 
 
 ## Runtime Scoped Instances
-JDA-Commands will create one instance of the interaction controller per conversation. That way you don't need to worry
-about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
+JDA-Commands will create one instance of the interaction controller per conversation, which is stored in the corresponding Runtime.
+That way you don't need to worry about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
 the state of other executions. 
 
 Let's say we have the following code:
