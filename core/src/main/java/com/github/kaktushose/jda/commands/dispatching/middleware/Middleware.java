@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.middleware;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.extension.Implementation;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -14,7 +13,6 @@ import java.util.function.Consumer;
 /// on execution.
 ///
 /// Either register them at the [JDACBuilder#middleware(Priority, Middleware)] or use the [Implementation] annotation.
-///
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 

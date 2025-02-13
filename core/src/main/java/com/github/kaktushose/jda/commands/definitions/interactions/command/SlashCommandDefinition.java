@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
-/// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
+/// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
 /// @param cooldown             the corresponding [CooldownDefinition]
 /// @param isAutoComplete       whether this command supports auto complete
 public record SlashCommandDefinition(

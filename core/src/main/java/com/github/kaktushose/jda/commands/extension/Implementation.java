@@ -39,34 +39,11 @@ import java.util.stream.Stream;
 ///
 /// @param type     the [Class] of the implemented interface
 /// @param supplier the [Function] used to retrieve instances of the custom implementation
-///
 /// @see Extension
 public record Implementation<T extends Implementation.ExtensionProvidable>(
         @NotNull Class<T> type,
         @NotNull Function<@NotNull JDACBuilderData, @NotNull SequencedCollection<@NotNull T>> supplier
 ) {
-
-    /// A marker interface that all types providable by an [Extension] share.
-    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory,
-            MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
-
-    /// A container type for providing [TypeAdapter]s.
-    ///
-    /// @param type    the [Class] for which the [TypeAdapter] should be registered
-    /// @param adapter the [TypeAdapter] implementation
-    public record TypeAdapterContainer(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
-
-    /// A container type for providing [Middleware]s.
-    ///
-    /// @param priority   the [Priority] with which the [Middleware] should be registered
-    /// @param middleware the [Middleware] implementation
-    public record MiddlewareContainer(@NotNull Priority priority, @NotNull Middleware middleware) implements ExtensionProvidable {}
-
-    /// A container type for providing [Validator]s.
-    ///
-    /// @param annotation the [Annotation] for which the [Validator] should be registered
-    /// @param validator  the [Validator] implementation
-    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) implements ExtensionProvidable {}
 
     public static <T extends ExtensionProvidable> Implementation<T> single(@NotNull Class<T> type,
                                                                            @NotNull Function<@NotNull JDACBuilderData,
@@ -90,8 +67,6 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
         data.alreadyCalled.remove(this); // scope leave
         return apply;
     }
-
-    private record GraphEntry(Class<?> extension, Class<?> provides) {}
 
     private String format(JDACBuilderData data) {
         List<GraphEntry> stack = data.alreadyCalled.reversed().stream()
@@ -129,4 +104,31 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
         }
         return String.join(System.lineSeparator(), lines);
     }
+
+    /// A marker interface that all types providable by an [Extension] share.
+    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory,
+            MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
+
+    /// A container type for providing [TypeAdapter]s.
+    ///
+    /// @param type    the [Class] for which the [TypeAdapter] should be registered
+    /// @param adapter the [TypeAdapter] implementation
+    public record TypeAdapterContainer(@NotNull Class<?> type,
+                                       @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
+
+    /// A container type for providing [Middleware]s.
+    ///
+    /// @param priority   the [Priority] with which the [Middleware] should be registered
+    /// @param middleware the [Middleware] implementation
+    public record MiddlewareContainer(@NotNull Priority priority,
+                                      @NotNull Middleware middleware) implements ExtensionProvidable {}
+
+    /// A container type for providing [Validator]s.
+    ///
+    /// @param annotation the [Annotation] for which the [Validator] should be registered
+    /// @param validator  the [Validator] implementation
+    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
+                                     @NotNull Validator validator) implements ExtensionProvidable {}
+
+    private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }

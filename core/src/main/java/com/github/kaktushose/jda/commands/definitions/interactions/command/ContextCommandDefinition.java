@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -18,8 +19,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 
 /// Representation of a context command.
 ///

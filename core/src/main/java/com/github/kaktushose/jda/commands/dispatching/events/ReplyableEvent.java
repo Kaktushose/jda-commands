@@ -124,7 +124,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// This may be useful if you want to send a component without using the framework.
     ///
     /// @param origin the [Class] of the method
-    /// @param menu the name of the select menu
+    /// @param menu   the name of the select menu
     /// @return the JDA [SelectMenu]
     @NotNull
     public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {

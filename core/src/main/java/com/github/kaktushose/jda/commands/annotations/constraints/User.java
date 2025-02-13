@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
-
 /// The annotated element must be the specified user or member. This constraint will use the
 /// [TypeAdapters] to determine the user or member.
 ///

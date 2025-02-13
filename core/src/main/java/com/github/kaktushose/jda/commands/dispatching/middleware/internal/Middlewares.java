@@ -48,6 +48,7 @@ public class Middlewares {
     }
 
     /// Executed the given task for all registered [Middleware]s ordered by their [Priority]
+    ///
     /// @param task The task to be executed
     public void forAllOrdered(@NotNull Consumer<Middleware> task) {
         for (Set<Middleware> value : middlewares.values()) {

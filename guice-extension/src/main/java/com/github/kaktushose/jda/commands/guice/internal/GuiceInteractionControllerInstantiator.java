@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.guice.internal;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.guice.GuiceExtension;
 import com.google.inject.Injector;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.ApiStatus;

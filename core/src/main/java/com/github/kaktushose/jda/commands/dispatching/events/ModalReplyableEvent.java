@@ -37,7 +37,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
                                   @NotNull Runtime runtime,
                                   @NotNull InteractionDefinition definition,
                                   @NotNull InteractionDefinition.ReplyConfig global
-                                  ) {
+    ) {
         super(event, registry, runtime, definition, global);
     }
 

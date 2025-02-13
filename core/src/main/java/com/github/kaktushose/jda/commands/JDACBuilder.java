@@ -64,11 +64,9 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     /// @param classFinders the to be used [ClassFinder]s
-    ///
     /// @apiNote This method overrides the underlying collection instead of adding to it.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(Class, String...)] too.
-    ///
     @NotNull
     public JDACBuilder classFinders(@NotNull ClassFinder... classFinders) {
         this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
@@ -176,23 +174,14 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
+    /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
+    /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of classes in the same package by just providing the package name.
-    ///
-    /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
-    /// @param classes the classes to be filtered
     @NotNull
     public JDACBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
         this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
         return this;
-    }
-
-    /// The two available filter strategies
-    public enum FilterStrategy {
-        /// includes the defined classes
-        INCLUDE,
-        /// excludes the defined classes
-        EXCLUDE
     }
 
     /// This method applies all found implementations of [Extension],
@@ -211,9 +200,17 @@ public final class JDACBuilder extends JDACBuilderData {
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig()
-                );
+        );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;
+    }
+
+    /// The two available filter strategies
+    public enum FilterStrategy {
+        /// includes the defined classes
+        INCLUDE,
+        /// excludes the defined classes
+        EXCLUDE
     }
 
     /// Will be thrown if anything goes wrong while configuring jda-commands.
@@ -222,7 +219,4 @@ public final class JDACBuilder extends JDACBuilderData {
             super("Error while trying to configure jda-commands: " + message);
         }
     }
-
-
-
 }

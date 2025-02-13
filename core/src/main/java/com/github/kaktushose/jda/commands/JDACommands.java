@@ -54,15 +54,6 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
     }
 
-    void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
-        log.info("Starting JDA-Commands...");
-        interactionRegistry.index(classFinder.search(Interaction.class));
-        updater.updateAllCommands();
-
-        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
-        log.info("Finished loading!");
-    }
-
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
     /// This uses reflections for some functionality.
     ///
@@ -88,6 +79,7 @@ public final class JDACommands {
     }
 
     /// Create a new builder.
+    ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
@@ -98,11 +90,21 @@ public final class JDACommands {
     }
 
     /// Create a new builder.
-    /// @param shardManager      the corresponding [ShardManager] instance
+    ///
+    /// @param shardManager the corresponding [ShardManager] instance
     /// @return a new [JDACBuilder]
     @NotNull
     public static JDACBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
         return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
+    }
+
+    void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
+        log.info("Starting JDA-Commands...");
+        interactionRegistry.index(classFinder.search(Interaction.class));
+        updater.updateAllCommands();
+
+        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
+        log.info("Finished loading!");
     }
 
     /**
@@ -140,7 +142,7 @@ public final class JDACommands {
     /// This may be useful if you want to send a component without using the framework.
     ///
     /// @param origin the [Class] of the method
-    /// @param menu the name of the button in the format `FullClassNameWithPackage.method``
+    /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [SelectMenu]
     @NotNull
     public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {

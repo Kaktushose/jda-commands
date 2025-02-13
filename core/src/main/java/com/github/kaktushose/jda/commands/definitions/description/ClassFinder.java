@@ -10,6 +10,15 @@ import java.util.SequencedCollection;
 /// [ClassFinder]s search for classes annotated with a specific annotation
 public non-sealed interface ClassFinder extends Implementation.ExtensionProvidable {
 
+    /// This provides a reflections based implementation of [ClassFinder]
+    ///
+    /// @param baseClass The [Class] providing the used [ClassLoader]
+    /// @param packages  a list of packages that should be scanned
+    @NotNull
+    static ClassFinder reflective(@NotNull Class<?> baseClass, @NotNull String... packages) {
+        return new ReflectiveClassFinder(baseClass, packages);
+    }
+
     /// This method searches for classes annotated with the given annotation.
     ///
     /// @param annotationClass the class of the annotation
@@ -20,7 +29,7 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
     /// This method searches for classes annotated with the given annotation, which have the given super type.
     ///
     /// @param annotationClass the class of the annotation
-    /// @param superType the [Class], which is a supertype of the found classes
+    /// @param superType       the [Class], which is a supertype of the found classes
     /// @return the found classes
     @SuppressWarnings("unchecked")
     @NotNull
@@ -29,14 +38,5 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
                 .filter(superType::isAssignableFrom)
                 .map(aClass -> (Class<T>) aClass)
                 .toList();
-    }
-
-    /// This provides a reflections based implementation of [ClassFinder]
-    ///
-    /// @param baseClass The [Class] providing the used [ClassLoader]
-    /// @param packages a list of packages that should be scanned
-    @NotNull
-    static ClassFinder reflective(@NotNull Class<?> baseClass, @NotNull String... packages) {
-        return new ReflectiveClassFinder(baseClass, packages);
     }
 }

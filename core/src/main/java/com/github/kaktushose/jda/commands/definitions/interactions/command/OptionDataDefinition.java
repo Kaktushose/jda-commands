@@ -118,7 +118,7 @@ public record OptionDataDefinition(
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
-                                    .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
+                            .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
                     constraints.add(ConstraintDefinition.build(validator, it));
                 });
 
