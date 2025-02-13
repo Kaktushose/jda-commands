@@ -52,7 +52,7 @@ import java.util.List;
 /// ```
 public interface Extension {
 
-    /// Initialises the [Extension] with to provided [Data]. Will be called right after jda-commands loaded the Extension.
+    /// Initialises the [Extension] with the provided [Data]. Will be called right after jda-commands loaded the Extension.
     ///
     /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type returned by [#dataType()].
     void init(@Nullable Data data);

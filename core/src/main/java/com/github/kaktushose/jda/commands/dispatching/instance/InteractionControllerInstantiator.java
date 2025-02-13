@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
 ///
-/// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation [#forRuntime(String, JDA)] is called,
+/// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation, [#forRuntime(String, JDA)] is called,
 /// allowing the InteractionControllerInstantiator to provide an instance that has not to be thread safe and is bound to one Runtime.
 ///
 /// Please also note that per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) there can be multiple
