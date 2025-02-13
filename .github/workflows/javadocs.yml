@@ -9,7 +9,7 @@ on:
   create:
 
 jobs:
-  build:
+  javadoc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,7 @@ jobs:
           java-version: '23'
       - name: Generate Documentation
         run: |
-          gradle javadoc
+          gradle jda-commands:javadoc
       - name: Find target directory
         id: target_dir
         run: |
@@ -38,7 +38,7 @@ jobs:
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
-      - name: Deploy docs
+      - name: Deploy jda-commands docs
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
