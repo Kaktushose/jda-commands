@@ -35,12 +35,11 @@ import java.util.stream.Stream;
 /// Such instances of [Implementation] are returned by [Extension#providedImplementations()] and used by the [JDACBuilder] to
 /// configure jda-commands.
 ///
+/// **Note: If the [#supplier()] returns an empty collection, then this [Implementation] is discarded and thus treated as non-existent.**
+///
 /// @param type     the [Class] of the implemented interface
 /// @param supplier the [Function] used to retrieve instances of the custom implementation
-/// @implNote If the [#supplier()] returns an empty collection, then this [Implementation] is discarded and thus treated as non-existent.
 ///
-/// @apiNote The [TypeAdapter]s, [Middleware]s and [Validator]s are only providable by their corresponding container types:
-///        [TypeAdapterContainer], [MiddlewareContainer] and [ValidatorContainer].
 /// @see Extension
 public record Implementation<T extends Implementation.ExtensionProvidable>(
         @NotNull Class<T> type,
