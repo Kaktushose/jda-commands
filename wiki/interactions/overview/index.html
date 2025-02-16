@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -817,7 +817,7 @@ interactions, for example a Slash Command that is replied to with a Button follo
 <li>In that case the method signature also defines part of the interaction.</li>
 </ol>
 <h2 id="runtime-scoped-instances">Runtime Scoped Instances<a class="headerlink" href="#runtime-scoped-instances" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands will create one instance of the interaction controller per conversation, which is stored in the corresponding Runtime.
+<p>JDA-Commands will create one instance of the interaction controller class per conversation, which is stored in the corresponding Runtime.
 That way you don't need to worry about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
 the state of other executions. </p>
 <p>Let's say we have the following code:
@@ -826,39 +826,40 @@ the state of other executions. </p>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cookie clicker&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Play cookie clicker&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cookie clicker&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Play cookie clicker&quot;</span><span class="p">)</span><span class="c1">//(1)!</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onClicker</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;onCookie&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counter</span><span class="p">);</span>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nd">@Button</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Collect&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">emoji</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;🍪&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ButtonStyle</span><span class="p">.</span><span class="na">SUCCESS</span><span class="p">)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nd">@Button</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Collect&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">emoji</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;🍪&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ButtonStyle</span><span class="p">.</span><span class="na">SUCCESS</span><span class="p">)</span><span class="c1">//(2)!</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCookie</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">counter</span><span class="p">);</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greet&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">//(1)!</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onGreet</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">}</span>
 </span></code></pre></div></p>
 <ol>
-<li>This is bad practise, you shouldn't mix conversations. This is only for explaining purposes.</li>
+<li>This will be a command called <code>/cookie clicker</code></li>
+<li>This will be a button labeled with <code>Collect 🍪</code> </li>
 </ol>
 <p>Let's see what's going on here:</p>
 <ul>
 <li>
-<p>Both <code>onClicker</code> and <code>onGreet</code> are an entrypoint for starting a new conversation. Everytime they get executed a new
-<a href="../../start/runtime/">Runtime</a> will be started that will also create an instance of <code>CookieClicker</code>. This also means 
-that you cannot exchange values between these two commands using class variables.</p>
+<p>The <code>/cookie clicker</code> command is an entrypoint for starting a new conversation. Everytime the command gets executed
+JDA will hand over a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a>
+to JDA-Commands, which is used to create a new <a href="../../start/runtime/">Runtime</a>. </p>
 </li>
 <li>
-<p><code>onCookie</code> is linked the <code>onClicker</code> and will use the same instance of <code>CookieClicker</code> as on <code>onClicker</code>.</p>
+<p>This <a href="../../start/runtime/">Runtime</a> will then create a new instance of the <code>CookieClicker</code> class. This instance is used
+to execute the <code>onClicker</code> method.</p>
 </li>
 <li>
-<p><code>onCookie</code> is only executable as long as the <a href="../../start/runtime/">Runtime</a> is alive and thus the instance of 
-<code>CookieClicker</code> exists. You can circumvent this by making <code>onCookie</code> <a href="../../start/runtime/#independent">independent</a>.</p>
+<p>When the <code>Collect 🍪</code> button gets clicked the same <a href="../../start/runtime/">Runtime</a> and thus the same instance of the 
+<code>CookieClicker</code> class will be used to execute the <code>onCookie</code> method.</p>
+</li>
+<li>
+<p>This also means the <code>Collect 🍪</code> button is only usable as long as the <a href="../../start/runtime/">Runtime</a> is alive and thus the instance of 
+the <code>CookieClicker</code> class exists. You can circumvent this by making the <code>Collect 🍪</code> button <a href="../../start/runtime/#independent">independent</a>.</p>
 </li>
 </ul>
 

@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -865,8 +865,7 @@ corresponding <code>EventHandlers</code> and manages the used virtual threads.</
 <p>is provided by JDA or if an interaction is marked as <a href="#independent"><em>independent</em></a>.</p>
 <p>Runtimes are executed in parallel, but events are processed sequentially by each <code>Runtime</code>.
 Every <code>EventHandler</code> called by a <code>Runtime</code> is executed in its own virtual thread, isolated from the runtime one.</p>
-<p>See <a href="#Lifetime"><code>Lifetime</code></a> for
-details when a <code>Runtime</code> will close.</p>
+<p>See <a href="#lifetime"><code>Lifetime</code></a> for details when a <code>Runtime</code> will close.</p>
 <h2 id="threading-model">Threading Model<a class="headerlink" href="#threading-model" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands will listen for incoming events on the <code>JDA MainWS-ReadThread</code>. It will then create a new <code>Runtime</code>
 or use an existing one, depending on the type of event <em>(see the flowchart below for details).</em> The incoming event is 
