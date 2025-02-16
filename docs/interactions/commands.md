@@ -163,11 +163,137 @@ public void onBanMember(CommandEvent event,
 #### Auto Complete
 !!! failure
     The Auto Complete API will be refactored soon. This wiki will cover Auto Complete as soon as the refactoring is done.
+
 ## Context Commands
+Both types of context commands are defined by the same [`@ContextCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html)
+annotation. The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
+The name and other metadata of the command is passed to the annotation.
+
 ### Message Context
+For message context commands the second method parameter must be a [`Message`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html)
+and the `type` must be [`Command.Type.MESSAGE`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html#MESSAGE).
+```java
+@ContextCommand(value = "Delete this message", type = Command.Type.MESSAGE)
+public void onDeleteMessage(CommandEvent event, Message target) { ... }
+```
+
 ### User Context
+For user context commands the second method parameter must be a [`User`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html)
+and the `type` must be [`Command.Type.USER`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html#USER).
+```java
+@ContextCommand(value = "Ban this user", type = Command.Type.USER)
+public void onBanMember(CommandEvent event, Message target) { ... }
+```
+
 ## Additional Settings
+Both the [`@SlashCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/SlashCommand.html) 
+annotation and the
+[`@ContextCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html)
+annotation share the following fields.
+
 ### isGuildOnly
+Sets whether a command is only usable in a guild. This only has an effect if the command is registered [globally](#scope). 
+The default value is `false`.
+=== "Slash Command"
+    ```java
+    @SlashCommand(value = "example", isGuildOnly = true)
+    public void onCommand(CommandEvent event) {...}
+    ```
+
+=== "Context Command"
+    ```java
+    @ContextCommand(value = "example", type = Command.Type.MESSAGE, isGuildOnly = true)
+    public void onCommand(CommandEvent event, Message message) {...}
+    ```
+
 ### isNSFW
+Sets whether a command can only be executed in NSFW channels. The default value is `false`.
+=== "Slash Command"
+    ```java
+    @SlashCommand(value = "example", isNSFW = true)
+    public void onCommand(CommandEvent event) {...}
+    ```
+
+=== "Context Command"
+    ```java
+    @ContextCommand(value = "example",  type = Command.Type.MESSAGE, isNSFW = true)
+    public void onCommand(CommandEvent event, Message message) {...}
+    ```
+
 ### enabledFor
-### scope
+Sets the [`Discord Permissions`](https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html)
+a command will be enabled for. By default, a command will be enabled for every permission.
+!!! danger
+    Guild admins can modify these permissions at any time! If you want to enforce permissions or secure a critical command
+    further you should use the permissions system of JDA-Commands. You can read more about it [here](TODO link).
+
+=== "Slash Command"
+    ```java
+    @SlashCommand(value = "example", enabledFor = Permission.BAN_MEMBERS)
+    public void onCommand(CommandEvent event) {...}
+    ```
+
+=== "Context Command"
+    ```java
+    @ContextCommand(value = "example", type = Command.Type.MESSAGE, enabledFor = Permission.BAN_MEMBERS)
+    public void onCommand(CommandEvent event, Message message) {...}
+    ```
+
+### scope (Guild & Global Commands)
+Sets whether a command should be registered as a `global` or as a `guild` command. The default value is `global`.
+!!! note
+    User installable apps are currently not supported by JDA-Commands.
+
+=== "Slash Command"
+    ```java
+    @SlashCommand(value = "example", scope = CommandScope.GUILD)
+    public void onCommand(CommandEvent event) {...}
+    ```
+
+=== "Context Command"
+    ```java
+    @ContextCommand(value = "example", type = Command.Type.MESSAGE, scope = CommandScope.GUILD)
+    public void onCommand(CommandEvent event, Message message) {...}
+    ```
+
+When having guild scoped commands you have to use the [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
+to tell JDA-Commands what guilds a command should be registered for. 
+
+Let's say we have a paid feature in our bot:
+!!! example
+    ```java
+    @SlashCommand(value = "paid feature", scope = CommandScope.GUILD)
+    public void onCommand(CommandEvent event) {
+        event.reply("Hello World!");
+    }
+    ```
+
+We then need to implement a [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
+to only register this command for guilds that have paid for that feature:
+!!! example
+    ```java
+    public class PremiumGuildsProvider implements GuildScopeProvider {
+
+        @Override
+        public Set<Long> apply(CommandData commandData) {
+            if (commandData.getName().equals("paid feature")) {
+                // this is the place where you could also perform a database lookup
+                return Set.of(1234567890L);
+            }
+            return Set.of();
+        }
+    }
+    ```
+
+Finally, we have to register our `PremiumGuildsProvider`. We can either pass it to the builder:
+!!! example
+    ```java
+    JDACommands.builder()
+        .guildScopeProvider(new PremiumGuildsProvider())
+        .start(jda, Main.class);
+    ```
+
+or simply annotate the `PremiumGuildsProvider` class with [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html).
+!!! note
+    Using the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html)
+    annotation requires the guice integration (shipped by default). You can read more about it [here](../di.md).   
