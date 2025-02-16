@@ -16,7 +16,6 @@ import java.lang.annotation.Target;
 ///
 ///   - First parameter must be of type [CommandEvent]
 ///   - Remaining parameter types must be registered at the [TypeAdapters]
-///   - or the second parameter is a String array
 ///
 /// ## Examples:
 /// ```
