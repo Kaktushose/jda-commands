@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
 }
 
 group = "io.github.kaktushose.jda-commands"
