@@ -44,6 +44,7 @@ extra:
 copyright: Copyright &copy; 2025 Kaktushose
 
 plugins:
+  - search
   - open-in-new-tab
 
 markdown_extensions:
