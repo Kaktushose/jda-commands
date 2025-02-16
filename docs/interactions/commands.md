@@ -6,11 +6,12 @@
 ## Slash Commands
 SlashCommands are defined by annotating a method with [`@SlashCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/SlashCommand.html).
 The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
-The name of the command is passed to the annotation.
+The name and other metadata of the command is passed to the annotation.
 ```java
-@SlashCommand("example")
+@SlashCommand(value = "example", desc = "This is an example command")
 public void onCommand(CommandEvent event) {...}
 ```
+
 ### Sub Commands & Sub Command Groups
 In contrast to JDA, JDA-Commands doesn't differentiate between slash commands, sub command groups and sub commands.
 JDA-Commands determines the type automatically based on the command names. 
@@ -29,12 +30,139 @@ public void onKickMember(CommandEvent event) {...}
 @SlashCommand("moderation ban")
 public void onBanMember(CommandEvent event) {...}
 ```
-JDA-Commands will create a tree structure of these commands:
+JDA-Commands will create a tree structure of these commands. A depth-first-search is then performed to determine which 
+commands should be registered as a slash command, a sub command or a sub command group.
+```
+├── delete
+└── moderation
+    ├── warn
+    ├── kick
+    └── ban
+```
+??? tip "Debugging"
+    JDA-Commands will log this tree on log-level `DEBUG`. This might help you with debugging, for example when command 
+    doesn't show up.
 
+In our example the following commands will be registered: 
+
+- `/delete`
+- `/moderation warn`
+- `/moderation kick`
+- `/moderation ban`
+
+To simplify things, you can also use the [`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html)
+to add a base name to all slash commands in a command controller:
+```java
+@Interaction("moderation")
+public class ModerationCommands {
+    
+    @SlashCommand("warn")
+    public void onWarnMember(CommandEvent event) {...}
+
+    @SlashCommand("kick")
+    public void onKickMember(CommandEvent event) {...}
+
+    @SlashCommand("ban")
+    public void onBanMember(CommandEvent event) {...}
+}
+```
 
 ### Command Options
-### Choices
-### AutoComplete
+You can add command options by simply adding a parameter to the method.
+```java
+@SlashCommand("ban")
+public void onBanMember(CommandEvent event, Member target, String reason, int delDays) {
+    (...)
+}
+```
+JDA-Commands will attempt to type adapt the 
+command options. By default, all primitive types, user, member and role as well as text channel entities are 
+supported. You can find a concrete list of all type adapters [here](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html).
+You can also [register your own type adapters](TODO link).
+
+The parameters will automatically be mapped to the correct option type. You can find this mapping 
+[here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
+
+#### Name & Description
+Use the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
+annotation to set a name and a description for a command option. By default, the parameter name will be used as the
+option name.
+```java
+@SlashCommand("ban")
+public void onBanMember(CommandEvent event, 
+                        @Param("The member to ban") Member target,
+                        @Param("The reason to ban the member") String reason,
+                        @Param(name = "deletion days", value = "The number of days to delete messages for") int delDays) {
+    (...)
+}
+```
+---
+!!! danger inline end
+    In order for JDA-Commands to use the parameter name as the command option name, you must enable the `-parameters`
+    compiler flag.
+
+=== "Maven"
+    ```xml title="pom.xml"
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <compilerArgs>
+                <compilerArg>-parameters</compilerArg>
+            </compilerArgs>
+        </configuration>
+    </plugin>
+    ```
+
+=== "Gradle (Kotlin DSL)"
+    ```kotlin title="build.gradle.kts"
+    tasks.withType<JavaCompile> {
+        options.compilerArgs += "-parameters"
+    }
+    ```
+
+=== "Gradle (Groovy DSL)" 
+    ```groovy title="build.gradle"
+    compileJava {
+        options.compilerArgs << '-parameters'
+    }
+    ```
+
+=== "IntelliJ"    
+    If you compile your project with IntelliJ during development go to `Settings > Compiler > Java Compiler`
+    and add the `-parameters` flag:
+
+    ![IntelliJ Settings](../assets/intellij.png)
+---
+
+#### Optional
+In order to make a command option optional, annotate the parameter with [`@Optional`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Optional.html).
+You can also pass a default value that will be used (and type adapted) if no user input is present. 
+```java
+@SlashCommand("ban")
+public void onBanMember(CommandEvent event, Member target, @Optional String reason, @Optional("7") int delDays) {
+    (...)
+}
+```
+!!! note
+    Required options must be added before non-required options.
+
+#### Choices
+Use the [`@Choices`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Choices.html)
+annotation to add choices to a command option:
+```java
+@SlashCommand("ban")
+public void onBanMember(CommandEvent event, 
+                        Member target, 
+                        @Choices({"Harassment", "Scam", "Advertising"}) String reason, 
+                        int delDays) {
+    (...)
+}
+```
+
+#### Auto Complete
+!!! failure
+    The Auto Complete API will be refactored soon. This wiki will cover Auto Complete as soon as the refactoring is done.
 ## Context Commands
 ### Message Context
 ### User Context
