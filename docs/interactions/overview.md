@@ -32,7 +32,7 @@ public class GreetCommand {
 
 
 ## Runtime Scoped Instances
-JDA-Commands will create one instance of the interaction controller per conversation, which is stored in the corresponding Runtime.
+JDA-Commands will create one instance of the interaction controller class per conversation, which is stored in the corresponding Runtime.
 That way you don't need to worry about the scope of your variables. Even if multiple users execute your interaction simultaneously, they cannot affect
 the state of other executions. 
 
@@ -43,12 +43,12 @@ public class CookieClicker {
 
     private int counter;
     
-    @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
+    @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")//(1)!
     public void onClicker(CommandEvent event) {
         event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
     }
     
-    @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
+    @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)//(2)!
     public void onCookie(ComponentEvent event) {
         event.reply("You've got %s cookie(s)!", ++counter);
     }
@@ -56,13 +56,20 @@ public class CookieClicker {
 }
 ```
 
+1. This will be a command called `/cookie clicker`
+2. This will be a button labeled with `Collect 🍪` 
+
 Let's see what's going on here:
 
-- Both `onClicker` and `onGreet` are an entrypoint for starting a new conversation. Everytime they get executed a new
-[Runtime](../start/runtime.md) will be started that will also create an instance of `CookieClicker`. This also means 
-that you cannot exchange values between these two commands using class variables.
+- The `/cookie clicker` command is an entrypoint for starting a new conversation. Everytime the command gets executed
+JDA will hand over a [`SlashCommandInteractionEvent`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html)
+to JDA-Commands, which is used to create a new [Runtime](../start/runtime.md). 
 
-- `onCookie` is linked the `onClicker` and will use the same instance of `CookieClicker` as on `onClicker`.
+- This [Runtime](../start/runtime.md) will then create a new instance of the `CookieClicker` class. This instance is used
+to execute the `onClicker` method.
 
-- `onCookie` is only executable as long as the [Runtime](../start/runtime.md) is alive and thus the instance of 
-`CookieClicker` exists. You can circumvent this by making `onCookie` [independent](../start/runtime.md#independent).
+- When the `Collect 🍪` button gets clicked the same [Runtime](../start/runtime.md) and thus the same instance of the 
+`CookieClicker` class will be used to execute the `onCookie` method.
+
+- This also means the `Collect 🍪` button is only usable as long as the [Runtime](../start/runtime.md) is alive and thus the instance of 
+the `CookieClicker` class exists. You can circumvent this by making the `Collect 🍪` button [independent](../start/runtime.md#independent).

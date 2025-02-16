@@ -17,8 +17,7 @@ is provided by JDA or if an interaction is marked as [*independent*](#independen
 Runtimes are executed in parallel, but events are processed sequentially by each `Runtime`.
 Every `EventHandler` called by a `Runtime` is executed in its own virtual thread, isolated from the runtime one.
 
-See [`Lifetime`](#Lifetime) for
-details when a `Runtime` will close.
+See [`Lifetime`](#lifetime) for details when a `Runtime` will close.
 
 ## Threading Model
 
