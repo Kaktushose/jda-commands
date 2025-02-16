@@ -12,7 +12,7 @@ public void onButton(ComponentEvent event) {...}
 ```
 
 ### style
-Buttons can have different styles:
+Sets the style of a button.
 
 ![Button Styles](https://jda.wiki/assets/images/interactions/ButtonExamples.png)
 
@@ -27,6 +27,7 @@ Buttons can have different styles:
     is not supported by JDA-Commands.
 
 ### emoji
+Sets the emoji of a button.
 !!! example
     ```java
     @Button(value = "Emoji", emoji = "🤗")
