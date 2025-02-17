@@ -1,7 +1,3 @@
-import org.jreleaser.model.Active
-import org.jreleaser.model.api.signing.Signing
-import software.amazon.awssdk.core.internal.signer.SigningMethod
-
 plugins {
     `java-library`
     jacoco
@@ -9,10 +5,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
-    }
+    mavenCentral()
 }
 
 dependencies {
