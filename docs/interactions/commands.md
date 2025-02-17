@@ -182,7 +182,7 @@ For user context commands the second method parameter must be a [`User`](https:/
 and the `type` must be [`Command.Type.USER`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html#USER).
 ```java
 @ContextCommand(value = "Ban this user", type = Command.Type.USER)
-public void onBanMember(CommandEvent event, Message target) { ... }
+public void onBanMember(CommandEvent event, User user) { ... }
 ```
 
 ## Additional Settings
@@ -192,7 +192,7 @@ annotation and the
 annotation share the following fields.
 
 ### isGuildOnly
-Sets whether a command is only usable in a guild. This only has an effect if the command is registered [globally](#scope). 
+Sets whether a command is only usable in a guild. This only has an effect if the command is registered [globally](#scope-guild-global-commands). 
 The default value is `false`.
 === "Slash Command"
     ```java

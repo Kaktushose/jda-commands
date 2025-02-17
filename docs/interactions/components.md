@@ -39,7 +39,7 @@ Buttons that have a link cannot be executed, but they are still defined like nor
 !!! example
     ```java
     @Button(value = "JDA-Commands Wiki", link = "https://kaktushose.github.io/jda-commands/wiki/")
-    public void onButton(ComponentEvent event) {...}
+    public void onButton(ComponentEvent event) { }
     ```
 
 ## Select Menus

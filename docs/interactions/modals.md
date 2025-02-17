@@ -1,8 +1,6 @@
 # Modals
-!!! note
-    This section only covers how you define modals. See the [Reply API section](./reply.md) to learn how to use them
-    in replies.
 
+## Overview
 Modals are defined by annotating a method with [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html).
 The first parameter must always be a [`ModalEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html).
 
@@ -11,12 +9,12 @@ The first parameter must always be a [`ModalEvent`](https://kaktushose.github.io
 public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
 ```
 
-## Text Input
+## Text Inputs
 You can add text inputs to a modal by adding String parameters annotated with [`@TextInput`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html).
 The label and other metadata of the text input is passed to the annotation. 
 
 !!! tip
-    Just as for command options, the parameter name will be used as the label by default. However, this requires the 
+    Just as for command options, the parameter name will be used for the label by default. However, this requires the 
     `-parameters` compiler flag to be [enabled](./commands.md#name-description). 
 
 Text Inputs can be configured with the following fields:
@@ -60,3 +58,22 @@ Sets whether the text input is required. The default value is `true`.
     @Modal("Ban reason")
     public void onModal(ModalEvent event, @TextInput(value = "Reason", required = false) String input) { ... }
     ```
+
+## Replying with Modals
+You can reply to [`CommandEvents`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html)
+and [`ComponentEvents`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html)
+with a Modal by calling [`replyModal(methodName)`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String))
+on the event.
+
+!!! example
+    ```java 
+    @SlashCommand("ban")
+    public void onCommand(CommandEvent event, User target) {
+        event.replyModal("onModal"); //(1)!
+    }
+
+    @Modal("Ban reason")
+    public void onModal(ModalEvent event, @TextInput("Reason") String input) { ... }
+    ```
+
+    1. We reference the Modal we want to send via the method name.
