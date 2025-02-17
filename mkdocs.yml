@@ -45,7 +45,7 @@ copyright: Copyright &copy; 2025 Kaktushose
 
 plugins:
   - search
-  - open-in-new-tab
+#  - open-in-new-tab
 
 markdown_extensions:
   - pymdownx.blocks.caption
@@ -81,5 +81,6 @@ nav:
       - Reply API: interactions/reply.md
   - Middlewares: middlewares.md
   - Dependency Injection: di.md
+  - Extensions: extensions.md
   - Misc: misc.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/latest/
