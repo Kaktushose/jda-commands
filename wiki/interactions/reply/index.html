@@ -702,18 +702,87 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#embeds" class="md-nav__link">
+  <a href="#reply-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Embeds
+      Reply Configuration
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#chaining-components" class="md-nav__link">
+  <a href="#components" class="md-nav__link">
     <span class="md-ellipsis">
-      Chaining Components
+      Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replying-with-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Replying with Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Action Rows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-disabling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling &amp; Disabling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keeping-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keeping Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#foreign-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Foreign Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lifetime
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embeds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Embeds
     </span>
   </a>
   
@@ -848,9 +917,132 @@
 
 
 <h1 id="reply-building">Reply Building<a class="headerlink" href="#reply-building" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.</p>
+</div>
 <h2 id="text-messages">Text Messages<a class="headerlink" href="#text-messages" title="Permanent link">&para;</a></h2>
+<p>The simplest way of sending a reply is using the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String)"><code>reply(String)</code></a>
+method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 
+original message instead of sending a new one by default.</p>
+<p>The <code>reply()</code> method also has some useful overloads, you can find a full list <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail">here</a>.</p>
+<h2 id="reply-configuration">Reply Configuration<a class="headerlink" href="#reply-configuration" title="Permanent link">&para;</a></h2>
+<p>You can change this default behaviour by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with()"><code>with()</code></a>
+before sending the reply. This will return a <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
+object to you, you can use to modify settings:</p>
+<div class="admonition example">
+<p class="admonition-title">Ephemeral Reply</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">ephemeral</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
+</span></code></pre></div>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Edit Reply</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">editReply</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
+</span></code></pre></div>
+</div>
+<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h2>
+<h3 id="replying-with-components">Replying with Components<a class="headerlink" href="#replying-with-components" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
+object is also used to attach components. You reference components by the name of the method they are defined with, just
+like we did before with <a href="../modals/#replying-with-modals">modals</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">.</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;onButton&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">//(1)!</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nd">@Button</span><span class="p">(</span><span class="s">&quot;Greet me!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onButton</span><span class="p">(</span><span class="n">ButtonEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello %s&quot;</span><span class="p">.</span><span class="na">formatted</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getUser</span><span class="p">().</span><span class="na">getAsMention</span><span class="p">()));</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>We reference the Button we want to send via the method name.</li>
+</ol>
+</div>
+<p>You can also omit the text message and only send the component by calling <code>reply()</code> with no arguments.</p>
+<h3 id="action-rows">Action Rows<a class="headerlink" href="#action-rows" title="Permanent link">&para;</a></h3>
+<p>Every call to <code>components()</code> will create a new action row. If you want more than one action row you need to call
+<code>components()</code> multiple times.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">.</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;firstButton&quot;</span><span class="p">).</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;secondButton&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<p>If you want to add multiple components to the same action row, just pass the method names to the same <code>components()</code> call.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">.</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;firstButton&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;secondButton&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>One action row supports up to 5 buttons but only 1 select menu.</p>
+</div>
+<h3 id="enabling-disabling">Enabling &amp; Disabling<a class="headerlink" href="#enabling-disabling" title="Permanent link">&para;</a></h3>
+<p>By default, all components are enabled. If you want to attach a disabled component, you need to wrap it by calling
+<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)"><code>Component.disabled(methodName)</code></a>.</p>
+<p>If you want to add multiple components to the same action row, with some of them enabled and some disabled, you need to
+wrap all of them.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">.</span><span class="na">components</span><span class="p">(</span><span class="n">Component</span><span class="p">.</span><span class="na">disabled</span><span class="p">(</span><span class="s">&quot;firstButton&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">Component</span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="s">&quot;secondButton&quot;</span><span class="p">)).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<h3 id="keeping-components">Keeping Components<a class="headerlink" href="#keeping-components" title="Permanent link">&para;</a></h3>
+<p>When working with components and especially when building menus, e.g. a pagination with buttons, it is often needed to
+keep the components attached, even when editing the original message multiple times. </p>
+<p>Normally, Discord would remove any 
+components when sending a message edit, unless they are explicitly reattached.</p>
+<p>JDA-Commands flips this behaviour and will keep your components attached by default. </p>
+<p>You can disable this by calling
+<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)"><code>keepComponents(false)</code></a>:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">keepComponents</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Message edit!&quot;</span><span class="p">);</span>
+</span></code></pre></div>
+</div>
+<p>Alternatively you can call <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#removeComponents()"><code>removeComponents()</code></a>
+which will remove all components attached to a message.</p>
+<hr />
+<div class="admonition example">
+<p class="admonition-title">Cookie Clicker Example</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Code</label><label for="__tabbed_1_2">Execution</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@Interaction</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CookieClicker</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cookie clicker&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Play cookie clicker&quot;</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onClicker</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;onCookie&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counter</span><span class="p">);</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="nd">@Button</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Collect&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">emoji</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;🍪&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ButtonStyle</span><span class="p">.</span><span class="na">SUCCESS</span><span class="p">)</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCookie</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;You&#39;ve got %s cookie(s)!&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">counter</span><span class="p">);</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><img alt="Cookie Clicker" src="../../assets/cookie-clicker.gif" /></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="foreign-components">Foreign Components<a class="headerlink" href="#foreign-components" title="Permanent link">&para;</a></h3>
+<p>You can attach components that were defined in a different class by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String)"><code>Component</code></a>
+class again.</p>
+<h3 id="lifetime">Lifetime<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h3>
 <h2 id="embeds">Embeds<a class="headerlink" href="#embeds" title="Permanent link">&para;</a></h2>
-<h2 id="chaining-components">Chaining Components<a class="headerlink" href="#chaining-components" title="Permanent link">&para;</a></h2>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.</p>
+</div>
 <h2 id="replyconfig">ReplyConfig<a class="headerlink" href="#replyconfig" title="Permanent link">&para;</a></h2>
 
 
