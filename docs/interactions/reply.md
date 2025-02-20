@@ -124,12 +124,77 @@ which will remove all components attached to a message.
 
 ### Foreign Components
 You can attach components that were defined in a different class by using the [`Component`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String))
-class again.
+class again. In addition to the method name, you must also pass the class reference in that case.
+
+!!! example
+    ```java
+    event.with()
+        .components(Component.enabled(ButtonHelpers.class, "onConfirm"), Component.enabled(ButtonHelpers.class, "onDeny"))
+        .reply("Are you sure?");
+    ```
+
+The foreign component will use the original [Runtime](../start/runtime.md) just like any other component would. If no 
+instance of the class the component is defined in (_`ButtonHelpers` in the example above_) exists yet, 
+the [Runtime](../start/runtime.md) will create one instance (and store it for potential future method calls). 
 
 ### Lifetime
+As discussed [earlier](../start/runtime.md#lifetime), Runtimes have a limited lifetime. By default, JDA-Commands will close
+a Runtime after 15 minutes have passed. 
+
+!!! danger "Component Lifetime"
+    This means all components belonging to that Runtime will stop working after 15 minutes!
+
+JDA-Commands will handle this case for you. This error message can be [customized](TODO link).
+
+![Expiration Message](../assets/expiration.png)
+
+If you want to avoid this behaviour, you have to reply with components that are `runtime-independent`. They will create a
+new `Runtime` everytime they are executed. These components will even work after a full bot restart! If you want them to not be usable anymore you need to remove
+them on your own.
+
+!!! info inline end
+    Modals cannot be independent because they always need a parent interaction that triggers them!
+
+!!! example
+    ```java
+    event.with().components(Component.independent("onButton")).reply("Hello World!");
+    ```
 
 ## Embeds
 !!! failure
     The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.
 
 ## ReplyConfig
+The [`ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
+annotation provides a way to modify the default behaviour for the `editReply`, `ephemeral` and `keepComponents` settings. 
+You can either annotate single methods or entire interaction controllers. 
+
+!!! example "ReplyConfig Annotation"
+    ```java
+    @Interaction
+    @ReplyConfig(ephemeral = true)
+    public class InteractionController {
+        
+        @SlashCommand("example")
+        @ReplyConfig(editReply = false)
+        public void onCommand(CommandEvent) {...}
+        
+    }
+    ```
+
+Alternatively, you can set a [global reply config](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig))
+at the builder:
+
+!!! example "Global ReplyConfig"
+    ```java
+    JDACommands.builder()
+        .globalReplyConfig(new ReplyConfig(true, false, false))
+        .start(jda, Main.class);
+    ```
+
+JDA-Commands will apply clashing ReplyConfigs in the following hierarchy:
+
+1. `with()#...` calls 
+2. `ReplyConfig` method annotation
+3. `ReplyConfig` class annotation
+4. global `ReplyConfig`
