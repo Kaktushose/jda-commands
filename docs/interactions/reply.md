@@ -165,7 +165,7 @@ them on your own.
     The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.
 
 ## ReplyConfig
-The [`ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
+The [`@ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
 annotation provides a way to modify the default behaviour for the `editReply`, `ephemeral` and `keepComponents` settings. 
 You can either annotate single methods or entire interaction controllers. 
 

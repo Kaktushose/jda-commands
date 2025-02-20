@@ -63,6 +63,8 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
@@ -79,7 +81,12 @@ nav:
       - Components: interactions/components.md
       - Modals: interactions/modals.md
       - Reply API: interactions/reply.md
-  - Middlewares: middlewares.md
+  - Middlewares:
+      - Overview: middlewares/overview.md
+      - Type Adapters: middlewares/typeadapter.md
+      - Validators (Parameter Constraints): middlewares/validator.md
+      - Permissions System: middlewares/permissions.md
+      - Cooldown System: middlewares/cooldown.md
   - Dependency Injection: di.md
   - Extensions: extensions.md
   - Misc: misc.md
