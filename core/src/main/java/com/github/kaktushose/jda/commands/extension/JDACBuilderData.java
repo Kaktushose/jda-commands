@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.embeds.configuration.EmbedConfiguration;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
@@ -45,6 +46,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final Class<?> baseClass;
     protected final String[] packages;
     protected final JDAContext context;
+    protected final EmbedConfiguration embedConfiguration;
 
     // extension stuff
     protected Collection<Extension> loadedExtensions = null;
@@ -76,6 +78,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
+        this.embedConfiguration = new EmbedConfiguration();
         this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
     }
 
@@ -144,6 +147,12 @@ public sealed class JDACBuilderData permits JDACBuilder {
     @NotNull
     public Class<?> baseClass() {
         return baseClass;
+    }
+
+    /// the [EmbedConfiguration] to use
+    @NotNull
+    public EmbedConfiguration embedConfig() {
+        return embedConfiguration;
     }
 
     /// @return the global [InteractionDefinition.ReplyConfig] provided by the user

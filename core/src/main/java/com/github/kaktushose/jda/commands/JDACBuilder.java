@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.embeds.configuration.EmbedConfigurationStage;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Consumer;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -181,6 +183,12 @@ public final class JDACBuilder extends JDACBuilderData {
     @NotNull
     public JDACBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
         this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
+        return this;
+    }
+
+    @NotNull
+    public JDACBuilder embeds(Consumer<EmbedConfigurationStage> config) {
+        config.accept(embedConfiguration);
         return this;
     }
 
