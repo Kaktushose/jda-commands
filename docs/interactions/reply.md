@@ -53,7 +53,7 @@ Every call to `components()` will create a new action row. If you want more than
 
 !!! example
     ```java
-    event.with.components("firstButton").components("secondButton").reply();
+    event.with().components("firstButton").components("secondButton").reply();
     ```
 
 If you want to add multiple components to the same action row, just pass the method names to the same `components()` call.

@@ -31,7 +31,7 @@ JDA-Commands comes with the following default constraints:
 ## Writing own Validators
 
 ### 1. Creating the Annotation
-Your annotation must meet the following conditions:
+First, you need to create an annotation type for your validator. Your annotation must meet the following conditions:
 
 - [x] `@Target` must be `ElementType.PARAMETER`
 - [x] `RetentionPolicy` must be `RUNTIME`
@@ -54,5 +54,40 @@ defining the valid types for this annotation.
     ```
 
 ### 2. Creating the Validator
+Secondly, you must create the actual validator by implementing the [`Validator`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html)
+interface. 
+
+The `apply(...)` method will give you the argument (command option) as well as the annotation object untyped, you must cast
+them on your own. If the constraint shall pass, you must return `true`, if it fails `false`. 
+
+!!! example
+    ```java
+    public class MaxStringLengthValidator implements Validator {
+
+        @Override
+        public boolean apply(Object argument, Object annotation, InvocationContext<?> context) {
+            MaxString maxString = (MaxString) annotation;
+            return String.valueOf(argument).length() < maxString.value();
+        }
+    
+    }
+    ```
 
 ### 3. Registration
+Lastly, you have to register your new validator.
+
+!!! example
+    === "`@Implementation` Registration"
+        ```java
+        @Implementation(annotation = MaxString.class)
+        public class MaxStringLengthValidator implements Validator {
+            ...
+        }
+        ```
+
+    === "Builder Registration" 
+        ```java
+        JDACommands.builder()
+            .validator(MaxString.class, new MaxStringLengthValidator());
+            .start(jda, Main.class);
+        ```

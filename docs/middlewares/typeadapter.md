@@ -1,6 +1,6 @@
 # Type Adapters
 [`TypeAdapters`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html)
-are used to adapt the input of a slash command to the correct type needed to invoke the method.
+are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.
 
 ## Default Type Adapters
 JDA-Commands provides the following type adapters by default:
@@ -12,6 +12,7 @@ JDA-Commands provides the following type adapters by default:
 - Channel and subtypes (e.g. StageChannel, NewsChannel, etc.)
 
 You can add any of these types as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
+for details.
 
 ## Writing Own Type Adapters
 

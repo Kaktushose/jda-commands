@@ -3,8 +3,8 @@ Middlewares run just before an interaction event gets dispatched. They are used 
 info the [`InvocationContext`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html).
 Middlewares are intended to provide a flexible system for extending the execution chain.
 
-They are executed based on their [`Priority`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html).
-The following priorities exist:
+They are executed based on their [`Priority`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html)
+in the following order:
 
 1. `PERMISSIONS`: Middlewares with this priority will **always** be executed first
 2. `HIGH`: Highest priority for custom implementations, will be executed right after internal middlewares
@@ -21,6 +21,13 @@ or use the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadoc
 !!! note
     Using the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html)
     annotation requires the guice integration (shipped by default). You can read more about it [here](../di.md).
+
+Middlewares provided by JDA-Commands include:
+
+- [Type Adapters](./typeadapter.md)
+- [Parameter Validation](./validator.md)
+- [Permissions System](./permissions.md)
+- [Command Cooldown](./cooldown.md)
 
 ## Writing own Middlewares
 
