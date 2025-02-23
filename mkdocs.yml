@@ -89,5 +89,9 @@ nav:
       - Cooldown System: middlewares/cooldown.md
   - Dependency Injection: di.md
   - Extensions: extensions.md
-  - Misc: misc.md
+  - Misc:
+      - Customizing Error Messages: misc/error-messages.md
+      - Embed API: misc/embeds.md
+      - Localization: misc/localization.md
+      - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/latest/
