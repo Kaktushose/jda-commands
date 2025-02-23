@@ -79,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#permissions" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -299,16 +304,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../misc.md" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/error-messages/" class="md-tabs__link">
+          
   
   Misc
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -800,6 +806,20 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Permissions System
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -811,6 +831,67 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-permissions-to-an-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Permissions to an Interaction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Message
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#own-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Own Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Own Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permissionsprovider-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionsProvider Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -894,9 +975,24 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../misc.md" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Misc
@@ -904,7 +1000,107 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/error-messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Error Messages
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/embeds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embed API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/localization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/reflection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Avoiding Reflections (ClassFinder & Descriptor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -949,9 +1145,137 @@
   
 
 
-  <h1>Permissions System</h1>
-
-
+<h1 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">&para;</a></h1>
+<p>When it comes to permissions there are essentially two options:</p>
+<ol>
+<li>
+<p>Use the <a href="../../interactions/commands/#enabledfor"><code>default permissions</code></a> of a slash command. This defines a set of 
+permissions of who can use a command by default. This will perform a Discord client side check. </p>
+</li>
+<li>
+<p>Use the permissions system of JDA-Commands described below. This will perform a bot side permissions check guild admins
+have no influence on.</p>
+</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Guild admins can modify the <code>default permissions</code> of a slash command at any time!  If you want to enforce permissions 
+or secure a critical command further you should use the permissions system of JDA-Commands.</p>
+</div>
+<h2 id="adding-permissions-to-an-interaction">Adding Permissions to an Interaction<a class="headerlink" href="#adding-permissions-to-an-interaction" title="Permanent link">&para;</a></h2>
+<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
+annotation to add permissions to an interaction. This isn't limited to slash commands, but can
+be any type of interaction. </p>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
+annotation takes an arbitrary amount of Strings as input. Each String defines a <code>permission</code> that must be present. By default,
+you can pass Discord Permissions, like <code>BAN_MEMBERS</code>. JDA-Commands will then check if the executor has the respective
+Discord Permission before executing the interaction. </p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Permissions</span><span class="p">(</span><span class="s">&quot;BAN_MEMBERS&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBan</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Member</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
+</span></code></pre></div>
+</div>
+<p>Instead of annotating individual interaction methods, you can also annotate the interaction controller class. Class 
+annotation permissions and method annotation permissions will be combined. </p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Permissions</span><span class="p">(</span><span class="s">&quot;ADMINISTRATOR&quot;</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AdminCommands</span><span class="w"> </span><span class="p">{...}</span>
+</span></code></pre></div>
+</div>
+<h2 id="error-message">Error Message<a class="headerlink" href="#error-message" title="Permanent link">&para;</a></h2>
+<p>If a user is lacking permissions, JDA-Commands will send an error message:</p>
+<p><img alt="Permissions Error Message" src="../../assets/permissions.png" /></p>
+<p>You can customize this error message, find more about it <a href="TODO link">here</a>.</p>
+<h2 id="own-permissions">Own Permissions<a class="headerlink" href="#own-permissions" title="Permanent link">&para;</a></h2>
+<p>You can also set up your own permission system, which goes beyond the usage of Discord Permissions. Since you only pass
+Strings, you have a lot of freedom in the design. Common design choices are:</p>
+<ul>
+<li>Domain based system, e.g. <code>guild.mod.kick</code>, <code>guild.mod.ban</code>, etc. also allowing for wildcards like <code>guild.mod.*</code></li>
+<li>Role based system, e.g. having a <code>USER</code>, <code>MODERATOR</code>, <code>ADMIN</code>, etc. role</li>
+</ul>
+<p>For our example, let's go with a role based system:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Permissions</span><span class="p">({</span><span class="s">&quot;MODERATOR&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ADMIN&quot;</span><span class="p">})</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBan</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Member</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
+</span></code></pre></div>
+</div>
+<p>The default <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
+implementation will always fail, because both <code>MODERATOR</code> and <code>ADMIN</code> are invalid, we have to provide our own implementation. </p>
+<h3 id="permissionsprovider-implementation">PermissionsProvider Implementation<a class="headerlink" href="#permissionsprovider-implementation" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
+has two almost identical <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail"><code>hasPermissions(...)</code></a> methods.</p>
+<p>The first one gives you an <code>User</code> object, the second one a 
+<code>Member</code> object. Therefore, the first method is for interactions that are not executed on a guild (e.g. DMs) and the 
+second method is for interactions that take place on a guild. Both methods also give you access to the 
+<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html"><code>InvocationContext</code></a>.</p>
+<p>This distinction does not necessarily have to be relevant. In most cases, the <em>member method</em> can simply call the <em>user method</em>.</p>
+<details class="question inline end">
+<summary>What's the difference between a Member and a User?</summary>
+<p>Discord differentiates between <code>Users</code> and <code>Members</code>, whereby a <code>User</code> represents a global Discord user, and a 
+<code>Member</code> represents a Discord user on a specific guild.</p>
+</details>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RolePermissionsProvider</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PermissionsProvider</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">admins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">1234567890L</span><span class="p">);</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">moderators</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">1234567890L</span><span class="p">,</span><span class="w"> </span><span class="mi">987654321L</span><span class="p">);</span><span class="w"> </span><span class="c1">//(1)!</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nd">@Override</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">hasPermission</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">InvocationContext</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">hasPermissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="c1">//(2)!</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">definition</span><span class="p">().</span><span class="na">permissions</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">permission</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;ADMIN&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">               </span><span class="n">hasPermissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">admins</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getIdLong</span><span class="p">());</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">               </span><span class="k">continue</span><span class="p">;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">permission</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;MODERATOR&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">                </span><span class="n">hasPermissions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moderators</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">getIdLong</span><span class="p">());</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Unknown permission: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">permission</span><span class="p">);</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">hasPermissions</span><span class="p">;</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">hasPermission</span><span class="p">(</span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">InvocationContext</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">hasPermission</span><span class="p">(</span><span class="n">member</span><span class="p">.</span><span class="na">getUser</span><span class="p">());</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>This is a very basic example. In a real world application, you should best use a database for this.</li>
+<li>This has to be <code>true</code>, so that interactions which don't have any permissions defined, don't fail. </li>
+</ol>
+</div>
+<p>Lastly, we have to register our <code>RolePermissionsProvider</code>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><code>@Implementation</code> Registration</label><label for="__tabbed_1_2">Builder Registration</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@Implementation</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RolePermissionsProvider</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PermissionsProvider</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">...</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">.</span><span class="na">permissionsProvider</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">RolePermissionsProvider</span><span class="p">());</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
 
 
 

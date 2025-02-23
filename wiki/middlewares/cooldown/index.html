@@ -79,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#slash-command-cooldown" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -299,16 +304,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../misc.md" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/error-messages/" class="md-tabs__link">
+          
   
   Misc
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -822,6 +828,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -894,9 +902,24 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../misc.md" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Misc
@@ -904,7 +927,107 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/error-messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Error Messages
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/embeds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embed API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/localization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/reflection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Avoiding Reflections (ClassFinder & Descriptor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -949,9 +1072,26 @@
   
 
 
-  <h1>Cooldown System</h1>
-
-
+<h1 id="slash-command-cooldown">Slash Command Cooldown<a class="headerlink" href="#slash-command-cooldown" title="Permanent link">&para;</a></h1>
+<div class="admonition bug inline end">
+<p class="admonition-title">Note</p>
+<p>The cooldown API is an old and rarely used feature. Thus, revisiting it isn't a top priority in JDA-Commands development. 
+If you want it to be improved, feel free to <a href="https://github.com/Kaktushose/jda-commands/issues/new">open an issue</a>.</p>
+</div>
+<p>Slash commands can have a cooldown to limit their usage. The cooldown is applied <em>globally</em>, <em>per user</em>, <em>per command</em>. 
+You can add a cooldown by annotating a slash command method with <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Cooldown.html"><code>@Cooldown</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Cooldown</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">timeUnit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">MINUTES</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">...</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<p>If a command still has a cooldown, an error message gets sent to the user.</p>
+<p><img alt="Cooldown Error Message" src="../../assets/cooldown.png" /></p>
+<p><em>You can customize this error message, find more about it <a href="TODO link">here</a>.</em></p>
 
 
 

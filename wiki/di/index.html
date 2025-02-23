@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#overview" class="md-skip">
+        <a href="#dependency-injection" class="md-skip">
           Skip to content
         </a>
       
@@ -304,16 +304,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../misc.md" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../misc/error-messages/" class="md-tabs__link">
+          
   
   Misc
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -899,29 +900,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Default Dependency Injection Framework - Guice">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jda-object" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-annotation" class="md-nav__link">
     <span class="md-ellipsis">
-      JDA Object
+      @Implementation annotation
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-implementation-annotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      The @Implementation annotation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -969,9 +955,24 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../misc.md" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Misc
@@ -979,7 +980,107 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../misc/error-messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Error Messages
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../misc/embeds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embed API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../misc/localization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../misc/reflection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Avoiding Reflections (ClassFinder & Descriptor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1024,22 +1125,30 @@
   
 
 
-<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
-<p>As noted in <a href="../interactions/overview/#runtime-scoped-instances">here</a> JDA-Commands creates one instance of an
-interaction controller class per runtime. To allow the injection of own Objects in these instances, JDA-Commands provides
-an interface to integrate a dependency injection framework.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<h1 id="dependency-injection">Dependency Injection<a class="headerlink" href="#dependency-injection" title="Permanent link">&para;</a></h1>
+<p>Dependency injection supports the dependency inversion principle by injecting dependencies into the class definitions 
+instead of hardcoding them. You'll need dependency injection when using JDA-Commands, because<br />
+most of your classes, like interaction controllers or <a href="../middlewares/overview/">middlewares</a> aren't instantiated by 
+you anymore. </p>
+<p>JDA-Commands creates one instance of an interaction controller class per <a href="../interactions/overview/#runtime-scoped-instances">runtime</a>.
+To allow the injection of own Objects in these instances, JDA-Commands provides an interface to integrate a dependency injection framework.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Since JDA-Commands is a fundamental part of your discord bot and dependency injection is deeply connected with it,
 your bot should use a dependency injection framework for all your tasks.</p>
 </div>
 <h2 id="default-dependency-injection-framework-guice">Default Dependency Injection Framework - Guice<a class="headerlink" href="#default-dependency-injection-framework-guice" title="Permanent link">&para;</a></h2>
-<p>If your using JDA-Commands via the "io.github.kaktushose:jda-commands:<version>" artifact, an integration for 
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For information on how to use Google's Guice, please visit their <a href="https://github.com/google/guice/wiki/">documentation</a>. This wiki only covers the
+configuration part. </p>
+</div>
+<p>If your using JDA-Commands via the <code>io.github.kaktushose:jda-commands:VERSION</code> artifact, an integration for 
 <a href="https://github.com/google/guice">Google's Guice</a> is shipped by default. </p>
-<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html">GuiceExtensionData</a>
-to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guice's Injector</a> </p>
+<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
+to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guice's Injector</a>.</p>
 <div class="admonition example">
-<p class="admonition-title">Example</p>
+<p class="admonition-title">Configuring Guice</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Injector</span><span class="w"> </span><span class="n">yourInjector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">YourOwnGuiceModule</span><span class="p">());</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
@@ -1047,32 +1156,33 @@ to the JDA-Commands builder, which allows you to provide an own instance of <a h
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
-<p>For further information on how to configure Google's Guice, please visit their <a href="https://github.com/google/guice/wiki/">documentation</a>.</p>
-<h3 id="jda-object">JDA Object<a class="headerlink" href="#jda-object" title="Permanent link">&para;</a></h3>
-<p>Since each interaction controller class instance is bound to one <a href="../interactions/overview/#runtime-scoped-instances">conversation</a> and thus one guild, 
-the corresponding <code>JDA</code> instance can be obtained via Guice.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
+<div class="admonition tip">
+<p class="admonition-title">JDA Object</p>
+<p>The <code>JDA</code> instance is provided by JDA-Commands and can be obtained via Guice.
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Interaction</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloWorld</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nd">@Inject</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">HelloWord</span><span class="p">(</span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">jda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GreetCommand</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GreetCommand</span><span class="p">(</span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">jda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
-</span></code></pre></div>
+</span></code></pre></div></p>
 </div>
-<h3 id="the-implementation-annotation">The <code>@Implementation</code> annotation<a class="headerlink" href="#the-implementation-annotation" title="Permanent link">&para;</a></h3>
+<h2 id="implementation-annotation"><code>@Implementation</code> annotation<a class="headerlink" href="#implementation-annotation" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands has many interfaces to customize specific framework behaviour. 
-If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html">@Implementation</a>
+If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html"><code>@Implementation</code></a>
 annotation. </p>
 <p>This annotation allows the automatic instantiation and registration for implementations of following interfaces:</p>
+<div class="admonition note inline end">
+<p class="admonition-title">Note</p>
+<p>If you're annotating an implementation of <code>Middleware</code>, <code>Validator</code> or <code>TypeAdapter</code> you have to provide additional configuration via the <code>@Implementation</code> annotation.</p>
+</div>
 <ul>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html">PermissionsProvider</a></li>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html">GuildScopeProvider</a></li>
@@ -1086,23 +1196,28 @@ annotation. </p>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html">Validator</a> + <code>@Implementation#annotation()</code> set</li>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> + <code>@Implemenetation#clazz()</code> set</li>
 </ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>If you're annotating an implementation of <code>Middleware</code>, <code>Validator</code> or <code>TypeAdapter</code> you have to provide additional configuration via the <code>@Implementation</code> annotation.</p>
-</div>
 <p>The annotated classes will be instantiated with help of <code>com.google.inject.Injector</code> similar to interaction controllers.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Implementation</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CustomGuildScopeProvider</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">GuildScopeProvider</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">CommandData</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Database</span><span class="w"> </span><span class="n">database</span><span class="p">;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">HelloWord</span><span class="p">(</span><span class="n">Database</span><span class="w"> </span><span class="n">database</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">database</span><span class="p">;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">CommandData</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">database</span><span class="p">.</span><span class="na">getGuildsForCommand</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
-<p>If you want to integrate another dependency injection framework, you have to provide an own 
-implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionControllerInstantiator.html">InteractionControllerInstantiator</a></p>
+<p>If you want to integrate another dependency injection framework, you have to provide your own 
+implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionControllerInstantiator.html">InteractionControllerInstantiator</a>.</p>
 <p>You can do this by either passing it to the builder or by creating your own <a href="../extensions/">extension</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

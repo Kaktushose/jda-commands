@@ -2,66 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://kaktushose.github.io/wiki/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/di/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/extensions/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/commands/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/components/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/modals/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/overview/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/interactions/reply/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/middlewares/cooldown/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/middlewares/overview/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/middlewares/permissions/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/middlewares/typeadapter/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/middlewares/validator/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/misc/embeds/</loc>
+         <lastmod>2025-02-23</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/misc/error-messages/</loc>
+         <lastmod>2025-02-23</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/misc/localization/</loc>
+         <lastmod>2025-02-23</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/misc/reflection/</loc>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/installation/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/quick-start/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/start/runtime/</loc>
-         <lastmod>2025-02-20</lastmod>
+         <lastmod>2025-02-23</lastmod>
     </url>
 </urlset>

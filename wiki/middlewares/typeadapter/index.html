@@ -304,16 +304,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../misc.md" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/error-messages/" class="md-tabs__link">
+          
   
   Misc
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -950,9 +951,24 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../misc.md" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Misc
@@ -960,7 +976,107 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/error-messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Error Messages
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/embeds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embed API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/localization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/reflection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Avoiding Reflections (ClassFinder & Descriptor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1007,7 +1123,7 @@
 
 <h1 id="type-adapters">Type Adapters<a class="headerlink" href="#type-adapters" title="Permanent link">&para;</a></h1>
 <p><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html"><code>TypeAdapters</code></a>
-are used to adapt the input of a slash command to the correct type needed to invoke the method.</p>
+are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.</p>
 <h2 id="default-type-adapters">Default Type Adapters<a class="headerlink" href="#default-type-adapters" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands provides the following type adapters by default:</p>
 <ul>
@@ -1017,7 +1133,8 @@ are used to adapt the input of a slash command to the correct type needed to inv
 <li>Role</li>
 <li>Channel and subtypes (e.g. StageChannel, NewsChannel, etc.)</li>
 </ul>
-<p>You can add any of these types as a parameter to your slash command methods. See <a href="../../interactions/commands/#command-options">Command Options</a></p>
+<p>You can add any of these types as a parameter to your slash command methods. See <a href="../../interactions/commands/#command-options">Command Options</a>
+for details. These default types will be mapped to the most fitting option type. You can find the mapping <a href="https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79">here</a>.</p>
 <h2 id="writing-own-type-adapters">Writing Own Type Adapters<a class="headerlink" href="#writing-own-type-adapters" title="Permanent link">&para;</a></h2>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1050,14 +1167,26 @@ are used to adapt the input of a slash command to the correct type needed to inv
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">.</span><span class="na">adapter</span><span class="p">(</span><span class="n">CustomType</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserProfileTypeAdapter</span><span class="p">());</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div></p>
 </div>
 </div>
 </div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If your type adapter is simple enough, you could also just use lambda expressions: 
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="p">.</span><span class="na">adapter</span><span class="p">(</span><span class="n">CustomType</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">raw</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomType</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">));</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</span></code></pre></div></p>
+</div>
+<p>Your own types will always be mapped to <code>OptionType.STRING</code>. If the type adapting fails (an empty <code>Optional</code> is returned)
+an error message will be sent to the user:</p>
+<p><img alt="Type Adapter Error Message" src="../../assets/adapter.png" /></p>
+<p><em>You can customize this error message, find more about it <a href="TODO link">here</a>.</em></p>
 
 
 

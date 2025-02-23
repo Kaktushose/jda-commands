@@ -304,16 +304,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../misc.md" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/error-messages/" class="md-tabs__link">
+          
   
   Misc
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -1037,9 +1038,24 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../misc.md" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Misc
@@ -1047,7 +1063,107 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/error-messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Customizing Error Messages
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/embeds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embed API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/localization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/reflection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Avoiding Reflections (ClassFinder & Descriptor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1143,7 +1259,7 @@ like we did before with <a href="../modals/#replying-with-modals">modals</a>.</p
 <code>components()</code> multiple times.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">.</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;firstButton&quot;</span><span class="p">).</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;secondButton&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;firstButton&quot;</span><span class="p">).</span><span class="na">components</span><span class="p">(</span><span class="s">&quot;secondButton&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
 <p>If you want to add multiple components to the same action row, just pass the method names to the same <code>components()</code> call.</p>
@@ -1270,9 +1386,9 @@ You can either annotate single methods or entire interaction controllers. </p>
 at the builder:</p>
 <div class="admonition example">
 <p class="admonition-title">Global ReplyConfig</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="p">.</span><span class="na">globalReplyConfig</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ReplyConfig</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">))</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
 <p>JDA-Commands will apply clashing ReplyConfigs in the following hierarchy:</p>
