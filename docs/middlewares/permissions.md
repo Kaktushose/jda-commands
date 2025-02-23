@@ -90,15 +90,11 @@ This distinction does not necessarily have to be relevant. In most cases, the _m
             boolean hasPermissions = true; //(2)!
 
             for (String permission : context.definition().permissions()) {
-                if (permission.equals("ADMIN")) {
-                   hasPermissions = admins.contains(user.getIdLong());
-                   continue;
-                } 
-                if (permission.equals("MODERATOR")) {
-                    hasPermissions = moderators.contains(user.getIdLong());
-                    continue;
+                switch (permission) {
+                    case "ADMIN" -> hasPermissions = admins.contains(user.getIdLong());
+                    case "MODERATOR" -> hasPermissions = moderators.contains(user.getIdLong());
+                    default -> System.out.println("Unknown permission: " + permission);
                 }
-                System.out.println("Unknown permission: " + permission);
             }
         
             return hasPermissions;
