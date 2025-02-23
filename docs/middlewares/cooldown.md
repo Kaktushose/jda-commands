@@ -19,4 +19,4 @@ If a command still has a cooldown, an error message gets sent to the user.
 
 ![Cooldown Error Message](../assets/cooldown.png)
 
-_You can customize this error message, find more about it [here](TODO link)._
+_You can customize this error message, find more about it [here](../misc/error-messages.md)._

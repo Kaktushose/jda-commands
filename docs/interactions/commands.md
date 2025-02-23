@@ -78,7 +78,7 @@ public void onBanMember(CommandEvent event, Member target, String reason, int de
 JDA-Commands will attempt to type adapt the 
 command options. By default, all primitive types, user, member and role as well as text channel entities are 
 supported. You can find a concrete list of all type adapters [here](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html).
-You can also [register your own type adapters](TODO link).
+You can also [register your own type adapters](../middlewares/typeadapter.md).
 
 The parameters will automatically be mapped to the correct option type. You can find this mapping 
 [here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
@@ -237,7 +237,7 @@ Sets the [`Discord Permissions`](https://docs.jda.wiki/net/dv8tion/jda/api/Permi
 a command will be enabled for. By default, a command will be enabled for every permission.
 !!! danger
     Guild admins can modify these permissions at any time! If you want to enforce permissions or secure a critical command
-    further you should use the permissions system of JDA-Commands. You can read more about it [here](TODO link).
+    further you should use the permissions system of JDA-Commands. You can read more about it [here](../middlewares/permissions.md).
 
 === "Slash Command"
     ```java

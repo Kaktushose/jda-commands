@@ -31,7 +31,7 @@ An error message is sent, if a parameter constraint fails:
 
 ![Validator Error Message](../assets/validator.png)
 
-_You can customize this error message, find more about it [here](TODO link)._
+_You can customize this error message, find more about it [here](../misc/error-messages.md)._
 
 ## Writing own Validators
 

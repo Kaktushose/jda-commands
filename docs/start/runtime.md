@@ -95,7 +95,7 @@ component is no longer available.
 
 ![Expiration Message](../assets/expiration.png)
 /// caption
-You can customize this error message, find more about it [here](TODO link).
+You can customize this error message, find more about it [here](../misc/error-messages.md).
 ///
 
 ### Independent

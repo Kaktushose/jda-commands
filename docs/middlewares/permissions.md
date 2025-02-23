@@ -41,7 +41,7 @@ If a user is lacking permissions, JDA-Commands will send an error message:
 
 ![Permissions Error Message](../assets/permissions.png)
 
-You can customize this error message, find more about it [here](TODO link).
+You can customize this error message, find more about it [here](../misc/error-messages.md).
 
 
 ## Own Permissions

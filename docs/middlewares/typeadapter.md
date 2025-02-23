@@ -67,4 +67,4 @@ an error message will be sent to the user:
 
 ![Type Adapter Error Message](../assets/adapter.png)
 
-_You can customize this error message, find more about it [here](TODO link)._
+_You can customize this error message, find more about it [here](../misc/error-messages.md)._
