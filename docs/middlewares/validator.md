@@ -5,10 +5,6 @@ with the respective annotation.
 ## Default Validators
 JDA-Commands comes with the following default constraints:
 
-- [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html):
-  The number must be greater or equal to the specified minimum.
-- [`@Max`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Max.html):
-  The number must be less or equal to the specified maximum.
 - [`@Role`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html):
   The member must have the specified guild role. 
 - [`@NotRole`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html):
@@ -22,11 +18,20 @@ JDA-Commands comes with the following default constraints:
 - [`@NotPerm`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html):
   The user or member that **doesn't** have the specified discord permission.
 
+The user and role annotations will resolve the snowflake entity dynamically using the respective [type adapter](./typeadapter.md).
+This means that you can either pass an ID or a name. 
+
 !!! example
     ```java
     @SlashCommand("ban")
-    public void onBan(CommandEvent event, @NotRole("adminRoleId") Member target) {...}
+    public void onBan(CommandEvent event, @NotRole("Admin") Member target) {...}
     ```
+
+An error message is sent, if a parameter constraint fails:
+
+![Validator Error Message](../assets/validator.png)
+
+_You can customize this error message, find more about it [here](TODO link)._
 
 ## Writing own Validators
 
@@ -87,7 +92,7 @@ Lastly, you have to register your new validator.
 
     === "Builder Registration" 
         ```java
-        JDACommands.builder()
+        JDACommands.builder(jda, Main.class)
             .validator(MaxString.class, new MaxStringLengthValidator());
-            .start(jda, Main.class);
+            .start();
         ```

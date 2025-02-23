@@ -118,7 +118,7 @@ Lastly, we have to register our `RolePermissionsProvider`.
 
     === "Builder Registration" 
         ```java
-        JDACommands.builder()
+        JDACommands.builder(jda, Main.class)
             .permissionsProvider(new RolePermissionsProvider());
-            .start(jda, Main.class);
+            .start();
         ```

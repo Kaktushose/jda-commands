@@ -48,9 +48,9 @@ You can cancel an execution by calling [`context.cancel(message)`](https://kaktu
 
 Then, either register your Middleware at the [builder](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#middleware(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)):
 ```java
-JDACommands.builder()
+JDACommands.builder(jda, Main.class)
     .middleware(Priority.NORMAL, new LoggingMiddleware());
-    .start(jda, Main.class);
+    .start();
 ```
 
 or use the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html)

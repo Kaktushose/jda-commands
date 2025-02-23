@@ -164,6 +164,18 @@ public void onBanMember(CommandEvent event,
 !!! failure
     The Auto Complete API will be refactored soon. This wiki will cover Auto Complete as soon as the refactoring is done.
 
+#### Min & Max Value
+Use the [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html)
+or [`@Max`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Max.html)
+annotation to set the minimum and maximum value for numeral options. 
+!!! example
+    ```java
+    @SlashCommand("ban")
+    public void onBanMember(CommandEvent event, Member target, String reason, @Max(7) int delDays) {
+        (...)
+    }
+    ```
+
 ## Context Commands
 Both types of context commands are defined by the same [`@ContextCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html)
 annotation. The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
@@ -288,9 +300,9 @@ to only register this command for guilds that have paid for that feature:
 Finally, we have to register our `PremiumGuildsProvider`. We can either pass it to the builder:
 !!! example
     ```java
-    JDACommands.builder()
+    JDACommands.builder(jda, Main.class)
         .guildScopeProvider(new PremiumGuildsProvider())
-        .start(jda, Main.class);
+        .start();
     ```
 
 or simply annotate the `PremiumGuildsProvider` class with [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html).

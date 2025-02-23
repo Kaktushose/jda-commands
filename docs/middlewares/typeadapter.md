@@ -12,7 +12,7 @@ JDA-Commands provides the following type adapters by default:
 - Channel and subtypes (e.g. StageChannel, NewsChannel, etc.)
 
 You can add any of these types as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
-for details.
+for details. These default types will be mapped to the most fitting option type. You can find the mapping [here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
 
 ## Writing Own Type Adapters
 
@@ -48,7 +48,23 @@ for details.
         }
         ```
         ```java
-        JDACommands.builder()
+        JDACommands.builder(jda, Main.class)
             .adapter(CustomType.class, new UserProfileTypeAdapter());
-            .start(jda, Main.class);
+            .start();
         ```
+
+!!! tip
+    If your type adapter is simple enough, you could also just use lambda expressions: 
+    ```java
+    JDACommands.builder(jda, Main.class)
+        .adapter(CustomType.class, (raw, event) -> Optional.of(new CustomType(raw, event));
+        .start();
+    ```
+
+
+Your own types will always be mapped to `OptionType.STRING`. If the type adapting fails (an empty `Optional` is returned)
+an error message will be sent to the user:
+
+![Type Adapter Error Message](../assets/adapter.png)
+
+_You can customize this error message, find more about it [here](TODO link)._

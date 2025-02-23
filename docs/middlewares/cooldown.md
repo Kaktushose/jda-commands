@@ -17,3 +17,6 @@ You can add a cooldown by annotating a slash command method with [`@Cooldown`](h
 
 If a command still has a cooldown, an error message gets sent to the user.
 
+![Cooldown Error Message](../assets/cooldown.png)
+
+_You can customize this error message, find more about it [here](TODO link)._

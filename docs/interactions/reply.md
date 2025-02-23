@@ -187,9 +187,9 @@ at the builder:
 
 !!! example "Global ReplyConfig"
     ```java
-    JDACommands.builder()
+    JDACommands.builder(jda, Main.class)
         .globalReplyConfig(new ReplyConfig(true, false, false))
-        .start(jda, Main.class);
+        .start();
     ```
 
 JDA-Commands will apply clashing ReplyConfigs in the following hierarchy:
