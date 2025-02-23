@@ -36,6 +36,14 @@ annotation permissions and method annotation permissions will be combined.
     public class AdminCommands {...}
     ```
 
+## Error Message
+If a user is lacking permissions, JDA-Commands will send an error message:
+
+![Permissions Error Message](../assets/permissions.png)
+
+You can customize this error message, find more about it [here](TODO link).
+
+
 ## Own Permissions
 You can also set up your own permission system, which goes beyond the usage of Discord Permissions. Since you only pass
 Strings, you have a lot of freedom in the design. Common design choices are:
