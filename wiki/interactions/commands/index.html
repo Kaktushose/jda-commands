@@ -1345,7 +1345,7 @@ to add a base name to all slash commands in a command controller:
 JDA-Commands will attempt to type adapt the 
 command options. By default, all primitive types, user, member and role as well as text channel entities are 
 supported. You can find a concrete list of all type adapters <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html">here</a>.
-You can also <a href="TODO link">register your own type adapters</a>.</p>
+You can also <a href="../../middlewares/typeadapter/">register your own type adapters</a>.</p>
 <p>The parameters will automatically be mapped to the correct option type. You can find this mapping 
 <a href="https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79">here</a>.</p>
 <h4 id="name-description">Name &amp; Description<a class="headerlink" href="#name-description" title="Permanent link">&para;</a></h4>
@@ -1500,7 +1500,7 @@ a command will be enabled for. By default, a command will be enabled for every p
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>Guild admins can modify these permissions at any time! If you want to enforce permissions or secure a critical command
-further you should use the permissions system of JDA-Commands. You can read more about it <a href="TODO link">here</a>.</p>
+further you should use the permissions system of JDA-Commands. You can read more about it <a href="../../middlewares/permissions/">here</a>.</p>
 </div>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Slash Command</label><label for="__tabbed_4_2">Context Command</label></div>
 <div class="tabbed-content">
