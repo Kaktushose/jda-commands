@@ -48,13 +48,6 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     @NotNull
     MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms);
 
-    /// Gets a [MessageCreateData] to send when the channel type isn't suitable for the command.
-    ///
-    /// @param context the [ErrorContext]
-    /// @return a [MessageCreateData] to send when the channel type isn't suitable for the command
-    @NotNull
-    MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context);
-
     /// Gets a [MessageCreateData] to send when the command execution failed.
     ///
     /// @param context   the [ErrorContext]

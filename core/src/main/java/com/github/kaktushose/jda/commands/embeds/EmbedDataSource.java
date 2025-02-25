@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /// An [EmbedDataSource] is used to retrieve embeds based on a unique name from various sources.
 @FunctionalInterface
@@ -18,10 +19,10 @@ public interface EmbedDataSource {
     /// Retrieves an [EmbedBuilder] based on the given name.
     ///
     /// @param embed the name of the embed to retrieve
-    /// @return an [EmbedBuilder] constructed from the retrieved embed json
+    /// @return an [Optional] holding the [EmbedBuilder] constructed from the retrieved embed json or an empty [Optional]
+    /// if no embed was found for the given name
     /// @throws ParsingException If no value is present for the specified key
-    @NotNull
-    EmbedBuilder get(@NotNull String embed);
+    @NotNull Optional<EmbedBuilder> get(@NotNull String embed);
 
     /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
     ///
@@ -60,6 +61,12 @@ public interface EmbedDataSource {
     /// @return a new [EmbedDataSource]
     @NotNull
     static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
-        return embed -> EmbedBuilder.fromData(dataObject.getObject(embed));
+        return embed -> {
+            try {
+                return Optional.of(EmbedBuilder.fromData(dataObject.getObject(embed)));
+            } catch (ParsingException _) {
+                return Optional.empty();
+            }
+        };
     }
 }

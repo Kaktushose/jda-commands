@@ -13,7 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.embeds.configuration.EmbedConfigurationStage;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
@@ -23,7 +23,6 @@ import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
@@ -188,8 +187,8 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     @NotNull
-    public JDACBuilder embeds(Consumer<EmbedConfigurationStage> config) {
-        config.accept(embedConfiguration);
+    public JDACBuilder embeds(Consumer<EmbedConfiguration> config) {
+        config.accept(embeds);
         return this;
     }
 

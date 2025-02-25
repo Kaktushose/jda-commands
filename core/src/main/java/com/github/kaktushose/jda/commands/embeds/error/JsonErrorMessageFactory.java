@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.embeds.EmbedCache;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -12,22 +12,22 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/// Subtype of [DefaultErrorMessageFactory] that can load the embeds from an [EmbedCache].
+/// Subtype of [DefaultErrorMessageFactory] that can load the embeds from a json file.
 ///
 /// @see DefaultErrorMessageFactory
-/// @see EmbedCache
+/// @see Embeds
 public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
-    private final EmbedCache embedCache;
+    private final Embeds embeds;
 
-    public JsonErrorMessageFactory(EmbedCache embedCache) {
-        this.embedCache = embedCache;
+    public JsonErrorMessageFactory(@NotNull Embeds embeds) {
+        this.embeds = embeds;
     }
 
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput) {
-        if (!embedCache.containsEmbed("typeAdaptingFailed")) {
+        if (!embeds.exists("typeAdaptingFailed")) {
             return super.getTypeAdaptingFailedMessage(context, userInput);
         }
 
@@ -50,17 +50,17 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         userInput.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
-        return embedCache.getEmbed("typeAdaptingFailed")
-                .injectValue("usage", command.displayName())
-                .injectValue("expected", expected)
-                .injectValue("actual", actual)
+        return embeds.get("typeAdaptingFailed")
+                .placeholder("usage", command.displayName())
+                .placeholder("expected", expected)
+                .placeholder("actual", actual)
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
-        if (!embedCache.containsEmbed("insufficientPermissions")) {
+        if (!embeds.exists("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
 
@@ -68,27 +68,27 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        return embedCache.getEmbed("insufficientPermissions")
-                .injectValue("name", context.definition().displayName())
-                .injectValue("permissions", permissions)
+        return embeds.get("insufficientPermissions")
+                .placeholder("name", context.definition().displayName())
+                .placeholder("permissions", permissions)
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
-        if (!embedCache.containsEmbed("constraintFailed")) {
+        if (!embeds.exists("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }
-        return embedCache.getEmbed("constraintFailed")
-                .injectValue("message", constraint.message())
+        return embeds.get("constraintFailed")
+                .placeholder("message", constraint.message())
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
-        if (!embedCache.containsEmbed("cooldown")) {
+        if (!embeds.exists("cooldown")) {
             return super.getCooldownMessage(context, ms);
         }
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
@@ -97,24 +97,15 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         long h = (seconds / (60 * 60)) % 24;
         String cooldown = String.format("%d:%02d:%02d", h, m, s);
 
-        return embedCache.getEmbed("cooldown")
-                .injectValue("cooldown", cooldown)
+        return embeds.get("cooldown")
+                .placeholder("cooldown", cooldown)
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
-        if (!embedCache.containsEmbed("wrongChannel")) {
-            return super.getWrongChannelTypeMessage(context);
-        }
-        return embedCache.getEmbed("wrongChannel").toMessageCreateData();
-    }
-
-    @NotNull
-    @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
-        if (!embedCache.containsEmbed("executionFailed")) {
+        if (!embeds.exists("executionFailed")) {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
@@ -125,17 +116,17 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
-        return embedCache.getEmbed("executionFailed")
-                .injectValue("error", error)
+        return embeds.get("executionFailed")
+                .placeholder("error", error)
                 .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
-        if (!embedCache.containsEmbed("unknownInteraction")) {
+        if (!embeds.exists("unknownInteraction")) {
             return super.getTimedOutComponentMessage(event);
         }
-        return embedCache.getEmbed("unknownInteraction").toMessageCreateData();
+        return embeds.get("unknownInteraction").toMessageCreateData();
     }
 }

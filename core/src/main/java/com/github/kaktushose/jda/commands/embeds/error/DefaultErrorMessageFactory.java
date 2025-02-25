@@ -115,17 +115,6 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Wrong Channel Type")
-                .setDescription("This command cannot be executed in this type of channels!")
-                .build()
-        ).build();
-    }
-
-    @NotNull
-    @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
         String error;
 
