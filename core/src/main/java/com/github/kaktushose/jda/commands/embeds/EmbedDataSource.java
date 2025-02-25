@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.JDACBuilder.ConfigurationException;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import org.jetbrains.annotations.NotNull;
@@ -12,17 +11,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-/// An [EmbedDataSource] is used to retrieve embeds based on a unique name from various sources.
+/// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
 @FunctionalInterface
 public interface EmbedDataSource {
 
-    /// Retrieves an [EmbedBuilder] based on the given name.
+    /// Retrieves an [Embed] based on the given name.
     ///
     /// @param embed the name of the embed to retrieve
-    /// @return an [Optional] holding the [EmbedBuilder] constructed from the retrieved embed json or an empty [Optional]
+    /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
-    /// @throws ParsingException If no value is present for the specified key
-    @NotNull Optional<EmbedBuilder> get(@NotNull String embed);
+    /// @throws ParsingException If the embed json is incorrect
+    @NotNull Optional<Embed> get(@NotNull String embed);
 
     /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
     ///
@@ -62,11 +61,10 @@ public interface EmbedDataSource {
     @NotNull
     static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
         return embed -> {
-            try {
-                return Optional.of(EmbedBuilder.fromData(dataObject.getObject(embed)));
-            } catch (ParsingException _) {
+            if (!dataObject.hasKey(embed)) {
                 return Optional.empty();
             }
+            return Optional.of(new Embed(dataObject.getObject(embed)));
         };
     }
 }

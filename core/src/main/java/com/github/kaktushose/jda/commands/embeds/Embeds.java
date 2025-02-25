@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -48,7 +47,6 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
-                .map(Embed::new)
                 .orElseThrow(() -> new IllegalStateException("Unknown embed " + embed));
     }
 
