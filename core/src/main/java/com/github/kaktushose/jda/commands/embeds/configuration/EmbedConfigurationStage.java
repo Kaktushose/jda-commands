@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds.configuration;
 
-import com.github.kaktushose.jda.commands.embeds.source.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;

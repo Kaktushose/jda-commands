@@ -23,6 +23,7 @@ import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
@@ -225,6 +226,10 @@ public final class JDACBuilder extends JDACBuilderData {
     public static class ConfigurationException extends RuntimeException {
         public ConfigurationException(String message) {
             super("Error while trying to configure jda-commands: " + message);
+        }
+
+        public ConfigurationException(String message, Throwable cause) {
+            super("Error while trying to configure jda-commands: " + message, cause);
         }
     }
 }
