@@ -7,14 +7,18 @@ import java.util.function.Supplier;
 
 public interface EmbedConfiguration {
 
+    @NotNull
     EmbedConfiguration source(@NotNull EmbedDataSource source);
 
-    default EmbedConfiguration placeholder(String key, Object value) {
-        return placeholder(key, () -> value);
+    @NotNull
+    default EmbedConfiguration placeholder(@NotNull String key, @NotNull Object value) {
+        return placeholder(key, value::toString);
     }
 
-    <T> EmbedConfiguration placeholder(String key, Supplier<T> supplier);
+    @NotNull
+    EmbedConfiguration placeholder(@NotNull String key, @NotNull Supplier<String> supplier);
 
-    EmbedConfiguration localization(Locale locale, EmbedDataSource embedDataSource);
+    @NotNull
+    EmbedConfiguration localization(@NotNull Locale locale, @NotNull EmbedDataSource embedDataSource);
 
 }

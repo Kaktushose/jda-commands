@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public record Embeds(@NotNull Collection<EmbedDataSource> sources,
-                     @NotNull Collection<Embeds.Placeholder<?>> placeholders,
+                     @NotNull Collection<Embeds.Placeholder> placeholders,
                      @NotNull Collection<Embeds.Localization> localizations)
         implements EmbedConfiguration {
 
@@ -17,17 +17,20 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
         this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
+    @NotNull
     public Embeds source(@NotNull EmbedDataSource source) {
         sources.add(source);
         return this;
     }
 
-    public <T> Embeds placeholder(String key, Supplier<T> supplier) {
-        placeholders.add(new Embeds.Placeholder<>(key, supplier));
+    @NotNull
+    public Embeds placeholder(@NotNull String key, @NotNull Supplier<String> supplier) {
+        placeholders.add(new Embeds.Placeholder(key, supplier));
         return this;
     }
 
-    public Embeds localization(Locale locale, EmbedDataSource embedDataSource) {
+    @NotNull
+    public Embeds localization(@NotNull Locale locale, @NotNull EmbedDataSource embedDataSource) {
         localizations.add(new Embeds.Localization(locale, embedDataSource));
         return this;
     }
@@ -41,7 +44,8 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
                 .isPresent();
     }
 
-    public Embed get(String embed) {
+    @NotNull
+    public Embed get(@NotNull String embed) {
         return sources.stream()
                 .map(source -> source.get(embed, placeholders))
                 .filter(Optional::isPresent)
@@ -50,7 +54,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
                 .orElseThrow(() -> new IllegalStateException("Unknown embed " + embed));
     }
 
-    record Placeholder<T>(@NotNull String key, @NotNull Supplier<T> value) {}
+    record Placeholder(@NotNull String key, @NotNull Supplier<String> value) {}
 
     record Localization(@NotNull Locale locale, @NotNull EmbedDataSource embedDataSource) {}
 

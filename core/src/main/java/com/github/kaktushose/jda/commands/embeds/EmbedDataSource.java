@@ -22,7 +22,7 @@ public interface EmbedDataSource {
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embeds.Placeholder<?>> placeholders);
+    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embeds.Placeholder> placeholders);
 
     /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
     ///

@@ -18,14 +18,14 @@ import java.util.regex.Pattern;
 
 public class Embed extends EmbedBuilder {
 
-    private final List<Embeds.Placeholder<?>> placeholders;
+    private final List<Embeds.Placeholder> placeholders;
 
-    public Embed(@NotNull EmbedBuilder embedBuilder, Collection<Embeds.Placeholder<?>> placeholders) {
+    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull Collection<Embeds.Placeholder> placeholders) {
         super(embedBuilder);
         this.placeholders = new ArrayList<>(placeholders);
     }
 
-    public Embed(@NotNull DataObject object, Collection<Embeds.Placeholder<?>> placeholders) {
+    public Embed(@NotNull DataObject object, @NotNull Collection<Embeds.Placeholder> placeholders) {
         this(EmbedBuilder.fromData(object), placeholders);
     }
 
@@ -72,13 +72,15 @@ public class Embed extends EmbedBuilder {
         }
     }
 
-    public Embed placeholder(Map<String, Object> values) {
+    @NotNull
+    public Embed placeholder(@NotNull Map<String, Object> values) {
         values.forEach(this::placeholder);
         return this;
     }
 
-    public Embed placeholder(String placeholder, Object value) {
-        placeholders.add(new Embeds.Placeholder<>(placeholder, () -> value));
+    @NotNull
+    public Embed placeholder(@NotNull String placeholder, @NotNull Object value) {
+        placeholders.add(new Embeds.Placeholder(placeholder, () -> value.toString()));
         return this;
     }
 
@@ -86,7 +88,7 @@ public class Embed extends EmbedBuilder {
     @Override
     public  MessageEmbed build() {
         String json = super.build().toData().toString();
-        for (Embeds.Placeholder<?> placeholder : placeholders) {
+        for (Embeds.Placeholder placeholder : placeholders) {
             json = json.replaceAll(
                     String.format(Pattern.quote("{%s}"), Matcher.quoteReplacement(placeholder.key())),
                     Matcher.quoteReplacement(quote(String.valueOf(placeholder.value().get())))
