@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -15,12 +18,15 @@ import java.util.regex.Pattern;
 
 public class Embed extends EmbedBuilder {
 
-    public Embed(@NotNull EmbedBuilder embedBuilder) {
+    private final List<Embeds.Placeholder<?>> placeholders;
+
+    public Embed(@NotNull EmbedBuilder embedBuilder, Collection<Embeds.Placeholder<?>> placeholders) {
         super(embedBuilder);
+        this.placeholders = new ArrayList<>(placeholders);
     }
 
-    public Embed(@NotNull DataObject object) {
-        this(EmbedBuilder.fromData(object));
+    public Embed(@NotNull DataObject object, Collection<Embeds.Placeholder<?>> placeholders) {
+        this(EmbedBuilder.fromData(object), placeholders);
     }
 
     @NotNull
@@ -72,23 +78,27 @@ public class Embed extends EmbedBuilder {
     }
 
     public Embed placeholder(String placeholder, Object value) {
-        String json = build().toData().toString().replaceAll(
-                String.format(Pattern.quote("{%s}"), Matcher.quoteReplacement(placeholder)),
-                quote(String.valueOf(value))
-        );
-        try {
-            return new Embed(DataObject.fromJson(json));
-        } catch (ParsingException exception) {
-            throw new IllegalArgumentException("""
-                    Cannot replace placeholder:
-                        {%s}
-                    with value:
-                        %s
-                    This produces invalid JSON, embeds cannot be constructed from! Reason: %s"""
-                    .formatted(placeholder, value, exception.getCause().getMessage())
+        placeholders.add(new Embeds.Placeholder<>(placeholder, () -> value));
+        return this;
+    }
+
+    @NotNull
+    @Override
+    public  MessageEmbed build() {
+        String json = super.build().toData().toString();
+        for (Embeds.Placeholder<?> placeholder : placeholders) {
+            json = json.replaceAll(
+                    String.format(Pattern.quote("{%s}"), Matcher.quoteReplacement(placeholder.key())),
+                    Matcher.quoteReplacement(quote(String.valueOf(placeholder.value().get())))
             );
         }
-
+        try {
+            return EmbedBuilder.fromData(DataObject.fromJson(json)).build();
+        } catch (ParsingException e) {
+            throw new IllegalArgumentException(
+                    "One of your placeholders produced invalid JSON! Reason:\n" + e.getCause().toString()
+            );
+        }
     }
 
     private String quote(String input) {

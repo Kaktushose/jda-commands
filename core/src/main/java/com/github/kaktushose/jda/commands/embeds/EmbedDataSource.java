@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Optional;
 
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
@@ -21,7 +22,7 @@ public interface EmbedDataSource {
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed);
+    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embeds.Placeholder<?>> placeholders);
 
     /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
     ///
@@ -60,11 +61,11 @@ public interface EmbedDataSource {
     /// @return a new [EmbedDataSource]
     @NotNull
     static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
-        return embed -> {
+        return (embed, placeholders) -> {
             if (!dataObject.hasKey(embed)) {
                 return Optional.empty();
             }
-            return Optional.of(new Embed(dataObject.getObject(embed)));
+            return Optional.of(new Embed(dataObject.getObject(embed), placeholders));
         };
     }
 }

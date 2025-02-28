@@ -34,7 +34,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
 
     public boolean exists(String embed) {
         return sources.stream()
-                .map(source -> source.get(embed))
+                .map(source -> source.get(embed, placeholders))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
@@ -43,15 +43,15 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources,
 
     public Embed get(String embed) {
         return sources.stream()
-                .map(source -> source.get(embed))
+                .map(source -> source.get(embed, placeholders))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("Unknown embed " + embed));
     }
 
-    private record Placeholder<T>(@NotNull String key, @NotNull Supplier<T> value) {}
+    record Placeholder<T>(@NotNull String key, @NotNull Supplier<T> value) {}
 
-    private record Localization(@NotNull Locale locale, @NotNull EmbedDataSource embedDataSource) {}
+    record Localization(@NotNull Locale locale, @NotNull EmbedDataSource embedDataSource) {}
 
 }
