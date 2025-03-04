@@ -65,7 +65,7 @@ public interface EmbedDataSource {
             if (!dataObject.hasKey(embed)) {
                 return Optional.empty();
             }
-            return Optional.of(new Embed(dataObject.getObject(embed), placeholders));
+            return Optional.of(new Embed(dataObject.getObject(embed), embed, placeholders));
         };
     }
 }

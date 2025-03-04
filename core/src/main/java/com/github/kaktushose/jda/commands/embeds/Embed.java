@@ -1,5 +1,8 @@
 package com.github.kaktushose.jda.commands.embeds;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.exceptions.ParsingException;
@@ -18,15 +21,18 @@ import java.util.regex.Pattern;
 
 public class Embed extends EmbedBuilder {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private final String name;
     private final List<Embeds.Placeholder> placeholders;
 
-    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull Collection<Embeds.Placeholder> placeholders) {
+    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Embeds.Placeholder> placeholders) {
         super(embedBuilder);
+        this.name = name;
         this.placeholders = new ArrayList<>(placeholders);
     }
 
-    public Embed(@NotNull DataObject object, @NotNull Collection<Embeds.Placeholder> placeholders) {
-        this(EmbedBuilder.fromData(object), placeholders);
+    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Embeds.Placeholder> placeholders) {
+        this(EmbedBuilder.fromData(object), name, placeholders);
     }
 
     @NotNull
@@ -73,6 +79,12 @@ public class Embed extends EmbedBuilder {
     }
 
     @NotNull
+    public Embed addField(@NotNull String name, @NotNull String value) {
+        addField(name, value, false);
+        return this;
+    }
+
+    @NotNull
     public Embed placeholder(@NotNull Map<String, Object> values) {
         values.forEach(this::placeholder);
         return this;
@@ -80,13 +92,13 @@ public class Embed extends EmbedBuilder {
 
     @NotNull
     public Embed placeholder(@NotNull String placeholder, @NotNull Object value) {
-        placeholders.add(new Embeds.Placeholder(placeholder, () -> value.toString()));
+        placeholders.add(new Embeds.Placeholder(placeholder, value::toString));
         return this;
     }
 
     @NotNull
     @Override
-    public  MessageEmbed build() {
+    public MessageEmbed build() {
         String json = super.build().toData().toString();
         for (Embeds.Placeholder placeholder : placeholders) {
             json = json.replaceAll(
@@ -95,11 +107,27 @@ public class Embed extends EmbedBuilder {
             );
         }
         try {
+            checkPlaceholders(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(json)).build();
-        } catch (ParsingException e) {
-            throw new IllegalArgumentException(
-                    "One of your placeholders produced invalid JSON! Reason:\n" + e.getCause().toString()
-            );
+        } catch (ParsingException | JsonProcessingException e) {
+            throw new IllegalArgumentException("One of your placeholders produced invalid JSON! Reason:\n" + e);
+        }
+    }
+
+    private void checkPlaceholders(JsonNode node) {
+        if (node.isObject()) {
+            node.forEach(this::checkPlaceholders);
+        } else if (node.isArray()) {
+            for (int i = 0; i < node.size(); i++) {
+                checkPlaceholders(node.get(i));
+            }
+        } else {
+            String value = node.asText();
+            if (value.matches("\\{([^{}]*)}") && !value.matches("\\{o:([^{}]*)}")) {
+                throw new IllegalStateException(
+                        "Placeholder '%s' in embed '%s' didn't get replaced with a value!".formatted(value, name)
+                );
+            }
         }
     }
 
