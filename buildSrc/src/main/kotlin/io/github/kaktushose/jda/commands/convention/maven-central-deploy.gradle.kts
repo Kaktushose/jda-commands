@@ -76,13 +76,6 @@ jreleaser {
     }
 }
 
-tasks.publish {
-    doLast {
-        // fix jreleaser - https://github.com/jreleaser/jreleaser/issues/1292
-        mkdir(layout.buildDirectory.dir("jreleaser"))
-    }
-}
-
 tasks.jreleaserDeploy {
     dependsOn(tasks.publish)
 }

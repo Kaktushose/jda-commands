@@ -1,7 +1,7 @@
 plugins {
-    `java-library`
-    jacoco
+    id("io.github.kaktushose.jda.commands.convention.java")
     id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
+    jacoco
 }
 
 repositories {
@@ -24,18 +24,6 @@ dependencies {
 
 group = "io.github.kaktushose.jda-commands"
 description = "The base module of jda-commands"
-
-java {
-    targetCompatibility = JavaVersion.VERSION_23
-    sourceCompatibility = JavaVersion.VERSION_23
-
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
-    }
-
-    withSourcesJar()
-    withJavadocJar()
-}
 
 tasks.test {
     useJUnitPlatform()
