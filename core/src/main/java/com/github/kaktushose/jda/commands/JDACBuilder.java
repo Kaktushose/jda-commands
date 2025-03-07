@@ -82,6 +82,12 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    @NotNull
+    public JDACBuilder embeds(@NotNull Consumer<EmbedConfiguration.Builder> config) {
+        config.accept(embedConfigBuilder);
+        return this;
+    }
+
     /// @param localizationFunction The [LocalizationFunction] to use
     @NotNull
     public JDACBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
@@ -186,12 +192,6 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    @NotNull
-    public JDACBuilder embeds(Consumer<EmbedConfiguration> config) {
-        config.accept(embeds);
-        return this;
-    }
-
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     @NotNull
@@ -207,7 +207,8 @@ public final class JDACBuilder extends JDACBuilderData {
                 guildScopeProvider(),
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
-                globalReplyConfig()
+                globalReplyConfig(),
+                embedConfiguration()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

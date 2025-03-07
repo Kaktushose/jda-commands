@@ -3,26 +3,32 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/// Implementation of [ErrorMessageFactory] with default embeds.
-///
-/// @see JsonErrorMessageFactory
-public class DefaultErrorMessageFactory implements ErrorMessageFactory {
+/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedConfiguration].
+public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory {
+
+    private final EmbedConfiguration embedConfiguration;
+
+    public DefaultErrorMessageFactory(@NotNull EmbedConfiguration embedConfiguration) {
+        this.embedConfiguration = embedConfiguration;
+    }
 
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput) {
+        if (check("typeAdaptingFailed")) {
+            return super.getTypeAdaptingFailedMessage(context, userInput);
+        }
+
         StringBuilder sbExpected = new StringBuilder();
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
 
@@ -42,83 +48,65 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         userInput.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
-        MessageEmbed embed = new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Syntax Error")
-                .setDescription(command.displayName())
-                .addField("Expected", String.format("`%s`", expected), false)
-                .addField("Actual", String.format("`%s`", actual), false)
-                .build();
-
-        return new MessageCreateBuilder().setEmbeds(embed).build();
+        return embedConfiguration.get("typeAdaptingFailed")
+                .placeholder("usage", command.displayName())
+                .placeholder("expected", expected)
+                .placeholder("actual", actual)
+                .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
+        if (check("insufficientPermissions")) {
+            return super.getInsufficientPermissionsMessage(context);
+        }
+
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
-        MessageEmbed embed = new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription(String.format("`%s` requires specific permissions to be executed",
-                        context.definition().displayName()))
-                .addField("Permissions:",
-                        String.format("`%s`", permissions), false
-                ).build();
-        return new MessageCreateBuilder().setEmbeds(embed).build();
+
+        return embedConfiguration.get("insufficientPermissions")
+                .placeholder("name", context.definition().displayName())
+                .placeholder("permissions", permissions)
+                .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Parameter Error")
-                .setDescription(String.format("```%s```", constraint.message()))
-                .build()
-        ).build();
+        if (check("constraintFailed")) {
+            return super.getConstraintFailedMessage(context, constraint);
+        }
+        return embedConfiguration.get("constraintFailed")
+                .placeholder("message", constraint.message())
+                .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
-        long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
-        long seconds = secs % 60;
-        long minutes = (secs / 60) % 60;
-        long hours = (secs / (60 * 60)) % 24;
+        if (check("cooldown")) {
+            return super.getCooldownMessage(context, ms);
+        }
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
+        long s = seconds % 60;
+        long m = (seconds / 60) % 60;
+        long h = (seconds / (60 * 60)) % 24;
+        String cooldown = String.format("%d:%02d:%02d", h, m, s);
 
-        StringBuilder cooldown = new StringBuilder();
-        if (hours > 0) {
-            cooldown.append(hours).append(hours == 1 ? " hour" : " hours");
-        }
-        if (minutes > 0) {
-            if (!cooldown.isEmpty()) {
-                cooldown.append(" ");
-            }
-            cooldown.append(minutes).append(minutes == 1 ? " minute" : " minutes");
-        }
-        if (seconds > 0) {
-            if (!cooldown.isEmpty()) {
-                cooldown.append(" ");
-            }
-            cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
-        }
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Cooldown")
-                .setDescription(String.format("You cannot use this command for %s!", cooldown))
-                .build()
-        ).build();
+        return embedConfiguration.get("cooldown")
+                .placeholder("cooldown", cooldown)
+                .toMessageCreateData();
     }
 
     @NotNull
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
-        String error;
-
-        error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
+        if (check("executionFailed")) {
+            return super.getCommandExecutionFailedMessage(context, exception);
+        }
+        String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
                 context.event().getUser(),
@@ -126,24 +114,26 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
-
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Command Execution Failed")
-                .setDescription("The command execution has unexpectedly failed. Please report the following error to the bot devs.")
-                .addField("Error Message", error, false)
-                .build()
-        ).build();
+        return embedConfiguration.get("executionFailed")
+                .placeholder("error", error)
+                .toMessageCreateData();
     }
 
     @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Unknown Interaction")
-                .setDescription("This interaction timed out and is no longer available!")
-                .build()
-        ).build();
+    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
+        if (check("unknownInteraction")) {
+            return super.getTimedOutComponentMessage(event);
+        }
+        return embedConfiguration.get("unknownInteraction").toMessageCreateData();
+    }
+
+    private boolean check(String name) {
+        return embedConfiguration.sources().stream()
+                .map(source -> source.get(name, embedConfiguration.placeholders()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny()
+                .isEmpty();
     }
 }

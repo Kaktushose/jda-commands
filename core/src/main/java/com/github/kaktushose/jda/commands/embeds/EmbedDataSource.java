@@ -16,14 +16,6 @@ import java.util.Optional;
 @FunctionalInterface
 public interface EmbedDataSource {
 
-    /// Retrieves an [Embed] based on the given name.
-    ///
-    /// @param embed the name of the embed to retrieve
-    /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
-    /// if no embed was found for the given name
-    /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embeds.Placeholder> placeholders);
-
     /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
     ///
     /// @param json the JSON payload to retrieve embeds from
@@ -68,4 +60,12 @@ public interface EmbedDataSource {
             return Optional.of(new Embed(dataObject.getObject(embed), embed, placeholders));
         };
     }
+
+    /// Retrieves an [Embed] based on the given name.
+    ///
+    /// @param embed the name of the embed to retrieve
+    /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
+    /// if no embed was found for the given name
+    /// @throws ParsingException If the embed json is incorrect
+    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embed.Placeholder> placeholders);
 }

@@ -10,28 +10,32 @@ import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Embed extends EmbedBuilder {
 
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final Logger log = LoggerFactory.getLogger(Embed.class);
     private final String name;
-    private final List<Embeds.Placeholder> placeholders;
+    private final List<Placeholder> placeholders;
 
-    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Embeds.Placeholder> placeholders) {
+    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Placeholder> placeholders) {
         super(embedBuilder);
         this.name = name;
         this.placeholders = new ArrayList<>(placeholders);
     }
 
-    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Embeds.Placeholder> placeholders) {
+    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Placeholder> placeholders) {
         this(EmbedBuilder.fromData(object), name, placeholders);
     }
 
@@ -54,30 +58,6 @@ public class Embed extends EmbedBuilder {
         };
     }
 
-    public interface Fields {
-
-        @NotNull
-        Fields removeIf(@NotNull Predicate<MessageEmbed.Field> filter);
-
-        @NotNull
-        Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter);
-
-        @NotNull
-        default Fields remove(@NotNull String value) {
-            return removeIf(field -> value.equals(field.getValue()));
-        }
-
-        @NotNull
-        default Fields removeByName(@NotNull String name) {
-            return removeIf(field -> name.equals(field.getName()));
-        }
-
-        @NotNull
-        default Fields remove(@NotNull String name, @NotNull String value) {
-            return removeIf(field -> name.equals(field.getName()) && value.equals(field.getValue()));
-        }
-    }
-
     @NotNull
     public Embed addField(@NotNull String name, @NotNull String value) {
         addField(name, value, false);
@@ -92,7 +72,7 @@ public class Embed extends EmbedBuilder {
 
     @NotNull
     public Embed placeholder(@NotNull String placeholder, @NotNull Object value) {
-        placeholders.add(new Embeds.Placeholder(placeholder, value::toString));
+        placeholders.add(new Placeholder(placeholder, value::toString));
         return this;
     }
 
@@ -100,7 +80,7 @@ public class Embed extends EmbedBuilder {
     @Override
     public MessageEmbed build() {
         String json = super.build().toData().toString();
-        for (Embeds.Placeholder placeholder : placeholders) {
+        for (Placeholder placeholder : placeholders) {
             json = json.replaceAll(
                     String.format(Pattern.quote("{%s}"), Matcher.quoteReplacement(placeholder.key())),
                     Matcher.quoteReplacement(quote(String.valueOf(placeholder.value().get())))
@@ -124,9 +104,7 @@ public class Embed extends EmbedBuilder {
         } else {
             String value = node.asText();
             if (value.matches("\\{([^{}]*)}") && !value.matches("\\{o:([^{}]*)}")) {
-                throw new IllegalStateException(
-                        "Placeholder '%s' in embed '%s' didn't get replaced with a value!".formatted(value, name)
-                );
+                log.error("Placeholder '{}' in embed '{}' didn't get replaced with a value!", value, name);
             }
         }
     }
@@ -159,4 +137,29 @@ public class Embed extends EmbedBuilder {
         return MessageEditData.fromEmbeds(build());
     }
 
+    public interface Fields {
+
+        @NotNull
+        Fields removeIf(@NotNull Predicate<MessageEmbed.Field> filter);
+
+        @NotNull
+        Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter);
+
+        @NotNull
+        default Fields remove(@NotNull String value) {
+            return removeIf(field -> value.equals(field.getValue()));
+        }
+
+        @NotNull
+        default Fields removeByName(@NotNull String name) {
+            return removeIf(field -> name.equals(field.getName()));
+        }
+
+        @NotNull
+        default Fields remove(@NotNull String name, @NotNull String value) {
+            return removeIf(field -> name.equals(field.getName()) && value.equals(field.getValue()));
+        }
+    }
+
+    public record Placeholder(@NotNull String key, @NotNull Supplier<String> value) {}
 }

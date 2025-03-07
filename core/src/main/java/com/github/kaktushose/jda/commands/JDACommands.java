@@ -16,6 +16,8 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapt
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -37,6 +39,7 @@ public final class JDACommands {
     private final JDAEventListener jdaEventListener;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
+    private final EmbedConfiguration embedConfiguration;
 
     JDACommands(
             JDAContext jdaContext,
@@ -47,11 +50,21 @@ public final class JDACommands {
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
             InteractionControllerInstantiator instanceProvider,
-            InteractionDefinition.ReplyConfig globalReplyConfig) {
+            InteractionDefinition.ReplyConfig globalReplyConfig,
+            EmbedConfiguration embedConfiguration) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
+                middlewares,
+                errorMessageFactory,
+                interactionRegistry,
+                typeAdapters,
+                expirationStrategy,
+                instanceProvider,
+                globalReplyConfig
+        ));
+        this.embedConfiguration = embedConfiguration;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -150,4 +163,10 @@ public final class JDACommands {
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
+
+    @NotNull
+    public Embed embed(@NotNull String name) {
+        return embedConfiguration.get(name);
+    }
+
 }
