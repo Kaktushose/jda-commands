@@ -72,46 +72,28 @@ JDACommands.start(jda, Main.class);
 
 ---
 
-If you want to learn more, check out the [Wiki](https://github.com/Kaktushose/jda-commands/wiki) or
-the [Javadoc](https://kaktushose.github.io/jda-commands/javadocs/latest/).
+If you want to learn more, check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or
+the [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/).
 
 ## Download
 
 You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/latest).
-
 ### Maven
-
 ```xml
-
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-```
-
-```xml
-
 <dependency>
-    <groupId>com.github.kaktushose</groupId>
-    <artifactId>jda-commands</artifactId>
-    <version>VERSION</version>
+   <groupId>io.github.kaktushose</groupId>
+   <artifactId>jda-commands</artifactId>
+   <version>v4.0.0-beta.4</version>
 </dependency>
 ```
 
 ### Gradle
-
 ```groovy
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
+repositories {
+   mavenCentral()
 }
-```
-
-```groovy
 dependencies {
-    implementation 'com.github.kaktushose:jda-commands:VERSION'
+   implementation("io.github.kaktushose:jda-commands:v4.0.0-beta.4")
 }
 ```
 
