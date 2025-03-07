@@ -17,6 +17,7 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
@@ -165,6 +166,12 @@ public final class JDACommands {
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
+    /// Gets an [Embed] based on the given name.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    /// [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
     @NotNull
     public Embed embed(@NotNull String name) {
         return embeds.get(name);

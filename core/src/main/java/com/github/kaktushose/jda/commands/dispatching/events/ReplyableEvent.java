@@ -61,6 +61,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
+    /// @param embeds     the corresponding [Embeds]
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,

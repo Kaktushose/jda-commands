@@ -22,6 +22,7 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// @param registry   the corresponding [InteractionRegistry]
     /// @param runtime    the corresponding [Runtime]
     /// @param definition the corresponding [InteractionDefinition]
+    /// @param embeds     the corresponding [Embeds]
     public ModalEvent(@NotNull ModalInteractionEvent event,
                       @NotNull InteractionRegistry registry,
                       @NotNull Runtime runtime,

@@ -168,12 +168,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return localizationFunction;
     }
 
-    /// the [Embeds] to use.
-    @NotNull
-    public Embeds embeds() {
-        return embeds;
-    }
-
     // loadable
 
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]

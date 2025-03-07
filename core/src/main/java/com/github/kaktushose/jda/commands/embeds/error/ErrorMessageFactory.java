@@ -13,7 +13,6 @@ import java.util.List;
 /// Generic interface for factory classes that provide [MessageCreateData] that should be sent for common errors that
 /// happen during an interaction execution, such as missing permissions or failing constraints.
 ///
-/// @see BuilderErrorMessageFactory
 /// @see DefaultErrorMessageFactory
 public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
 
