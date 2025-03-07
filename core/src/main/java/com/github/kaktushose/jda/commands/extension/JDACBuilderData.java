@@ -13,7 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
@@ -46,7 +46,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final Class<?> baseClass;
     protected final String[] packages;
     protected final JDAContext context;
-    protected final EmbedConfiguration.Builder embedConfigBuilder;
 
     // extension stuff
     protected Collection<Extension> loadedExtensions = null;
@@ -73,12 +72,12 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
+    protected Embeds embeds = Embeds.empty();
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
-        this.embedConfigBuilder = new EmbedConfiguration.Builder();
         this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
     }
 
@@ -169,10 +168,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return localizationFunction;
     }
 
-    /// the [EmbedConfiguration] to use.
+    /// the [Embeds] to use.
     @NotNull
-    public EmbedConfiguration embedConfiguration() {
-        return embedConfigBuilder.build();
+    public Embeds embeds() {
+        return embeds;
     }
 
     // loadable
@@ -192,7 +191,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
     @NotNull
     public ErrorMessageFactory errorMessageFactory() {
-        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory(embedConfigBuilder.build()));
+        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory(embeds));
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]

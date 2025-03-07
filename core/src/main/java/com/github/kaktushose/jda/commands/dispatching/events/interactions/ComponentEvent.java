@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -27,8 +28,9 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
                           @NotNull InteractionRegistry registry,
                           @NotNull Runtime runtime,
                           @NotNull InteractionDefinition definition,
-                          @NotNull InteractionDefinition.ReplyConfig global) {
-        super(event, registry, runtime, definition, global);
+                          @NotNull InteractionDefinition.ReplyConfig global,
+                          @NotNull Embeds embeds) {
+        super(event, registry, runtime, definition, global, embeds);
     }
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.

@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +37,10 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
                                   @NotNull InteractionRegistry registry,
                                   @NotNull Runtime runtime,
                                   @NotNull InteractionDefinition definition,
-                                  @NotNull InteractionDefinition.ReplyConfig global
-    ) {
-        super(event, registry, runtime, definition, global);
+                                  @NotNull InteractionDefinition.ReplyConfig global,
+                                  @NotNull Embeds embeds
+                                  ) {
+        super(event, registry, runtime, definition, global, embeds);
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.

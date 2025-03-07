@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedConfiguration].
+/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [Embeds].
 public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory {
 
-    private final EmbedConfiguration embedConfiguration;
+    private final Embeds embeds;
 
-    public DefaultErrorMessageFactory(@NotNull EmbedConfiguration embedConfiguration) {
-        this.embedConfiguration = embedConfiguration;
+    public DefaultErrorMessageFactory(@NotNull Embeds embeds) {
+        this.embeds = embeds;
     }
 
     @NotNull
@@ -48,7 +48,7 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
         userInput.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
-        return embedConfiguration.get("typeAdaptingFailed")
+        return embeds.get("typeAdaptingFailed")
                 .placeholder("usage", command.displayName())
                 .placeholder("expected", expected)
                 .placeholder("actual", actual)
@@ -66,7 +66,7 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        return embedConfiguration.get("insufficientPermissions")
+        return embeds.get("insufficientPermissions")
                 .placeholder("name", context.definition().displayName())
                 .placeholder("permissions", permissions)
                 .toMessageCreateData();
@@ -78,7 +78,7 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
         if (check("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }
-        return embedConfiguration.get("constraintFailed")
+        return embeds.get("constraintFailed")
                 .placeholder("message", constraint.message())
                 .toMessageCreateData();
     }
@@ -95,7 +95,7 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
         long h = (seconds / (60 * 60)) % 24;
         String cooldown = String.format("%d:%02d:%02d", h, m, s);
 
-        return embedConfiguration.get("cooldown")
+        return embeds.get("cooldown")
                 .placeholder("cooldown", cooldown)
                 .toMessageCreateData();
     }
@@ -114,7 +114,7 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
-        return embedConfiguration.get("executionFailed")
+        return embeds.get("executionFailed")
                 .placeholder("error", error)
                 .toMessageCreateData();
     }
@@ -125,12 +125,12 @@ public final class DefaultErrorMessageFactory extends BuilderErrorMessageFactory
         if (check("unknownInteraction")) {
             return super.getTimedOutComponentMessage(event);
         }
-        return embedConfiguration.get("unknownInteraction").toMessageCreateData();
+        return embeds.get("unknownInteraction").toMessageCreateData();
     }
 
     private boolean check(String name) {
-        return embedConfiguration.sources().stream()
-                .map(source -> source.get(name, embedConfiguration.placeholders()))
+        return embeds.sources().stream()
+                .map(source -> source.get(name, embeds.placeholders()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()

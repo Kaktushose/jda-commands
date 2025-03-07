@@ -17,7 +17,7 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.Embed;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfiguration;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -39,7 +39,7 @@ public final class JDACommands {
     private final JDAEventListener jdaEventListener;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
-    private final EmbedConfiguration embedConfiguration;
+    private final Embeds embeds;
 
     JDACommands(
             JDAContext jdaContext,
@@ -51,7 +51,7 @@ public final class JDACommands {
             InteractionRegistry interactionRegistry,
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
-            EmbedConfiguration embedConfiguration) {
+            Embeds embeds) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
@@ -62,9 +62,10 @@ public final class JDACommands {
                 typeAdapters,
                 expirationStrategy,
                 instanceProvider,
-                globalReplyConfig
+                globalReplyConfig,
+                embeds
         ));
-        this.embedConfiguration = embedConfiguration;
+        this.embeds = embeds;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -166,7 +167,7 @@ public final class JDACommands {
 
     @NotNull
     public Embed embed(@NotNull String name) {
-        return embedConfiguration.get(name);
+        return embeds.get(name);
     }
 
 }

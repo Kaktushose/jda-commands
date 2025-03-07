@@ -32,7 +32,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         );
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, dispatchingContext.globalReplyConfig()));
+        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 event,

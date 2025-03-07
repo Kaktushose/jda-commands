@@ -47,7 +47,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig()));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()));
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(
@@ -78,7 +78,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             var parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command, dispatchingContext.globalReplyConfig()).reply(
+                new MessageReply(event, command, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()).reply(
                         errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
                 );
                 return Optional.empty();

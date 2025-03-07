@@ -81,8 +81,8 @@ public class Embed extends EmbedBuilder {
     public MessageEmbed build() {
         String json = super.build().toData().toString();
         for (Placeholder placeholder : placeholders) {
-            json = json.replaceAll(
-                    String.format(Pattern.quote("{%s}"), Matcher.quoteReplacement(placeholder.key())),
+            String key = Pattern.quote(placeholder.key);
+            json = json.replaceAll(String.format("\\{%s}|\\{o:%s}", key, key),
                     Matcher.quoteReplacement(quote(String.valueOf(placeholder.value().get())))
             );
         }

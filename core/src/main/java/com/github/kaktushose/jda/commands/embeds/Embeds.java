@@ -5,12 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Supplier;
 
-public record EmbedConfiguration(@NotNull Collection<EmbedDataSource> sources,
-                                 @NotNull Collection<Embed.Placeholder> placeholders) {
+public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Collection<Embed.Placeholder> placeholders) {
 
-    public EmbedConfiguration {
+    public Embeds {
         sources = Collections.unmodifiableCollection(sources);
         placeholders = Collections.unmodifiableCollection(placeholders);
+    }
+
+    @NotNull
+    public static Embeds empty() {
+        return new Embeds(Collections.emptyList(), Collections.emptyList());
     }
 
     @NotNull
@@ -23,36 +27,36 @@ public record EmbedConfiguration(@NotNull Collection<EmbedDataSource> sources,
                 .orElseThrow(() -> new IllegalStateException("Unknown embed " + name));
     }
 
-    public static class Builder {
+    public static class Configuration {
 
         private final List<EmbedDataSource> sources;
         private final List<Embed.Placeholder> placeholders;
 
-        public Builder() {
+        public Configuration() {
             sources = new ArrayList<>();
             placeholders = new ArrayList<>();
         }
 
         @NotNull
-        public Builder placeholder(@NotNull String key, @NotNull Object value) {
+        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Object value) {
             return placeholder(key, value::toString);
         }
 
         @NotNull
-        public Builder source(@NotNull EmbedDataSource source) {
+        public Embeds.Configuration source(@NotNull EmbedDataSource source) {
             sources.add(source);
             return this;
         }
 
         @NotNull
-        public Builder placeholder(@NotNull String key, @NotNull Supplier<String> supplier) {
+        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Supplier<String> supplier) {
             placeholders.add(new Embed.Placeholder(key, supplier));
             return this;
         }
 
         @NotNull
-        public EmbedConfiguration build() {
-            return new EmbedConfiguration(sources, placeholders);
+        public Embeds build() {
+            return new Embeds(sources, placeholders);
         }
     }
 }

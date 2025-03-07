@@ -2,8 +2,10 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import net.dv8tion.jda.api.EmbedBuilder;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -16,6 +18,8 @@ import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.Consumer;
 
 /// Simple builder for sending text messages based on a [GenericInteractionCreateEvent].
 ///
@@ -35,6 +39,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     protected final GenericInteractionCreateEvent event;
     protected final InteractionDefinition definition;
     protected final MessageCreateBuilder builder;
+    protected final Embeds embeds;
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
@@ -46,13 +51,15 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                        @NotNull Embeds embeds) {
         this.event = event;
         this.definition = definition;
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
         this.builder = new MessageCreateBuilder();
+        this.embeds = embeds;
     }
 
     /// Constructs a new MessageReply.
@@ -65,21 +72,39 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this.ephemeral = reply.ephemeral;
         this.editReply = reply.editReply;
         this.keepComponents = reply.keepComponents;
+        this.embeds = reply.embeds;
     }
 
+    @NotNull
     public Message reply(@NotNull String message) {
         builder.setContent(message);
         return complete();
     }
 
+    @NotNull
     public Message reply(@NotNull MessageCreateData message) {
         builder.applyData(message);
         return complete();
     }
 
-    public Message reply(@NotNull EmbedBuilder builder) {
-        this.builder.setEmbeds(builder.build());
+    @NotNull
+    public Message reply(@NotNull MessageEmbed embed) {
+        this.builder.setEmbeds(embed);
         return complete();
+    }
+
+    @NotNull
+    @Override
+    public Message reply(@NotNull String name, @NotNull Consumer<Embed> embed) {
+        var loadedEmbed = embeds.get(name);
+        embed.accept(loadedEmbed);
+        return reply(loadedEmbed);
+    }
+
+    @NotNull
+    @Override
+    public Message replyEmbed(@NotNull String name) {
+        return reply(embeds.get(name));
     }
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.
