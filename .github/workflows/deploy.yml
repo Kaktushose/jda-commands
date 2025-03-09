@@ -92,12 +92,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
-        if: ${{ needs.check_if_release.outputs.release != 'true' }}
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '23'
       - name: Build and deploy
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
         env:
           JRELEASER_GPG_PASSPHRASE: $ {{ secrets.jreleaser_gpg_pass }}
           JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_USERNAME: $ {{ secrets.jreleaser_user }}
