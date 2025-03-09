@@ -86,7 +86,7 @@ jobs:
           branch: docs
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}
 
-  central:
+  maven_central:
     runs-on: ubuntu-latest
     needs: check_if_release
     steps:
