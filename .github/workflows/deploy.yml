@@ -20,7 +20,7 @@ jobs:
       - name: Check if commit is release
         id: check
         run: |
-          msg=${{ github.event.head_commit.message }}
+          msg="${{ github.event.head_commit.message }}"
           regex="^Release ([0-9]+[.][0-9]+([.][0-9]+)?)$"
           
           if [[ $msg =~ $regex ]]
