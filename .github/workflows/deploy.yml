@@ -42,7 +42,7 @@ jobs:
           project_version=$( gradle properties -q | awk '/^version:/ {print $2}' )
           if [[ "$project_version" != "${{ steps.check.outputs.release }}" ]]; then
             echo "Project version defined in gradle is unequal to release version"
-            echo "Release version: ${{ steps.check.outputs.release }}
+            echo "Release version: ${{ steps.check.outputs.release }}"
             echo "Project version: $project_version"
             exit 1
           fi
