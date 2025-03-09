@@ -30,6 +30,22 @@ jobs:
           else
             echo "release=false" >> "$GITHUB_OUTPUT"
           fi
+      - uses: actions/setup-java@v4
+        if: ${{ steps.check.outputs.release == 'true' }}
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+      - name: verify project version defined in gradle
+        id: verify
+        if: ${{ steps.check.outputs.release == 'true' }}
+        run: |
+          project_version=$( gradle properties -q | awk '/^version:/ {print $2}' )
+          if [[ "$project_version" != "${{ steps.check.outputs.release }}" ]]; then
+            echo "Project version defined in gradle is unequal to release version"
+            echo "Release version: ${{ steps.check.outputs.release }}
+            echo "Project version: $project_version"
+            exit 1
+          fi
 
   javadoc:
     runs-on: ubuntu-latest
