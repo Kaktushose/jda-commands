@@ -39,14 +39,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '23'
-      - name: Generate Documentation
-        run: |
-          gradle jda-commands:javadoc
       - name: Find target directory
         id: target_dir
         run: |
@@ -60,6 +52,16 @@ jobs:
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
+      - name: Setup Java
+        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+      - name: Generate Documentation
+        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        run: |
+          gradle jda-commands:javadoc
       - name: Deploy jda-commands docs
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
