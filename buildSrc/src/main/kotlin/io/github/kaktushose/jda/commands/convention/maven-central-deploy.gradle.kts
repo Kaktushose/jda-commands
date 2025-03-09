@@ -58,8 +58,6 @@ jreleaser {
     signing {
         active = Active.ALWAYS
         armored = true
-
-        mode = org.jreleaser.model.Signing.Mode.COMMAND
     }
 
     deploy {
