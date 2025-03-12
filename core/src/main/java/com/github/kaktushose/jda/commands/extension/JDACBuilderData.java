@@ -17,12 +17,12 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.DefaultLocalizer;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +66,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
     protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
     protected final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
+    protected Localizer localizer;
 
 
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
-    protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -160,14 +160,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return expirationStrategy;
     }
 
-    // will be later loadable
-
-    /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
-    @NotNull
-    public LocalizationFunction localizationFunction() {
-        return localizationFunction;
-    }
-
     // loadable
 
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
@@ -198,6 +190,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
     @NotNull
     public Descriptor descriptor() {
         return load(Descriptor.class, descriptor, new ReflectiveDescriptor());
+    }
+
+    public Localizer localizer() {
+        return load(Localizer.class, localizer, new DefaultLocalizer());
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]

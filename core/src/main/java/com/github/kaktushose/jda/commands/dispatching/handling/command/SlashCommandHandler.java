@@ -32,7 +32,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         );
 
         return parseArguments(command, event, runtime)
-                .map(args -> new InvocationContext<>(event, runtime.keyValueStore(), command, args))
+                .map(args -> new InvocationContext<>(event, runtime.keyValueStore(), dispatchingContext.localizer(), command, args))
                 .orElse(null);
 
     }
@@ -78,7 +78,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             var parsed = adapter.apply(raw, event);
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command, dispatchingContext.globalReplyConfig()).reply(
+                new MessageReply(event, command, dispatchingContext.globalReplyConfig(), runtime.localizer()).reply(
                         errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
                 );
                 return Optional.empty();

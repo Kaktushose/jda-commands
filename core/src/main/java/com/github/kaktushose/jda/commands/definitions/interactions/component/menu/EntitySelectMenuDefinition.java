@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
@@ -81,8 +82,8 @@ public record EntitySelectMenuDefinition(
     /// @see CustomId#independent(String)
     @NotNull
     @Override
-    public EntitySelectMenu toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+    public EntitySelectMenu toJDAEntity(I18nData locData) {
+        return toJDAEntity(CustomId.independent(definitionId()), locData);
     }
 
     /// Transforms this definition to an [EntitySelectMenu] with the given [CustomId].
@@ -91,10 +92,10 @@ public record EntitySelectMenuDefinition(
     /// @return the [EntitySelectMenu]
     @NotNull
     @Override
-    public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
+    public EntitySelectMenu toJDAEntity(@NotNull CustomId customId, I18nData locData) {
         var menu = EntitySelectMenu.create(customId.id(), selectTargets)
                 .setDefaultValues(defaultValues)
-                .setPlaceholder(placeholder)
+                .setPlaceholder(locData.translate(placeholder))
                 .setRequiredRange(minValue, maxValue);
 
         // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can assume that

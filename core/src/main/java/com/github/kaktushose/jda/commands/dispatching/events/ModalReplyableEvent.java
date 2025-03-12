@@ -8,6 +8,8 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.jetbrains.annotations.NotNull;
@@ -45,14 +47,14 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     ///
     /// @param modal the method name of the [Modal] you want to reply with
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(@NotNull String modal) {
+    public void replyModal(@NotNull String modal, Localizer.Entry... locs) {
         if (event instanceof IModalCallback callback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
-            callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).queue();
+            callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId), new I18nData(localizer, getUserLocale().toLocale(), locs))).queue();
         } else {
             throw new IllegalStateException(
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())

@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,20 +26,20 @@ import org.jetbrains.annotations.Nullable;
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-public record Component(boolean enabled, boolean independent, @NotNull String name, @Nullable Class<?> origin) {
+public record Component(boolean enabled, boolean independent, @NotNull String name, @Nullable Class<?> origin, Localizer.Entry... locs) {
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component enabled(String component) {
-        return of(true, false, component);
+    public static Component enabled(String component, Localizer.Entry... locs) {
+        return of(true, false, component, locs);
     }
 
     /// Adds disabled, runtime-bound [Component]s to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component disabled(String component) {
-        return of(false, false, component);
+    public static Component disabled(String component, Localizer.Entry... locs) {
+        return of(false, false, component, locs);
     }
 
     /// Adds an enabled, runtime-independent [Component] to the reply.
@@ -47,8 +48,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// will always get executed, even after a bot restart.
     ///
     /// @param component the name of the method that represents the component
-    public static Component independent(String component) {
-        return of(true, true, component);
+    public static Component independent(String component, Localizer.Entry... locs) {
+        return of(true, true, component, locs);
     }
 
     /// Adds an enabled [Component] to the reply that is defined in a different class. This [Component] will always be
@@ -56,8 +57,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component enabled(Class<?> origin, String component) {
-        return of(true, origin, component);
+    public static Component enabled(Class<?> origin, String component, Localizer.Entry... locs) {
+        return of(true, origin, component, locs);
     }
 
     /// Adds a disabled [Component] to the reply that is defined in a different class. This [Component] will always be
@@ -65,8 +66,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component disabled(Class<?> origin, String component) {
-        return of(false, origin, component);
+    public static Component disabled(Class<?> origin, String component, Localizer.Entry... locs) {
+        return of(false, origin, component, locs);
     }
 
     /// Adds [Component]s with the passed configuration to the reply.
@@ -74,8 +75,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
-    public static Component of(boolean enabled, boolean independent, String component) {
-        return new Component(enabled, independent, component, null);
+    public static Component of(boolean enabled, boolean independent, String component, Localizer.Entry... locs) {
+        return new Component(enabled, independent, component, null, locs);
     }
 
     /// Adds [Component]s with the passed configuration to the reply.
@@ -83,8 +84,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// @param enabled   whether the [Component] should be enabled or disabled
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component of(boolean enabled, Class<?> origin, String component) {
-        return new Component(enabled, true, component, origin);
+    public static Component of(boolean enabled, Class<?> origin, String component, Localizer.Entry... locs) {
+        return new Component(enabled, true, component, origin, locs);
     }
 
 }

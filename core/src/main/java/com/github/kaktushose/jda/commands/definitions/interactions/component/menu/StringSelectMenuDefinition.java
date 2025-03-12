@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
@@ -79,8 +80,8 @@ public record StringSelectMenuDefinition(
     /// @see CustomId#independent(String)
     @NotNull
     @Override
-    public StringSelectMenu toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+    public StringSelectMenu toJDAEntity(I18nData locData) {
+        return toJDAEntity(CustomId.independent(definitionId()), locData);
     }
 
     /// Transforms this definition to an [StringSelectMenu] with the given [CustomId].
@@ -89,14 +90,14 @@ public record StringSelectMenuDefinition(
     /// @return the [StringSelectMenu]
     @NotNull
     @Override
-    public StringSelectMenu toJDAEntity(@NotNull CustomId customId) {
+    public StringSelectMenu toJDAEntity(@NotNull CustomId customId, I18nData locData) {
         return StringSelectMenu.create(customId.id())
-                .setPlaceholder(placeholder)
+                .setPlaceholder(locData.translate(placeholder))
                 .setRequiredRange(minValue, maxValue)
-                .addOptions(selectOptions.stream().map(SelectOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
+                .addOptions(selectOptions.stream().map(definition -> definition.toJDAEntity(locData)).collect(Collectors.toSet()))
                 .setDefaultOptions(selectOptions.stream()
                         .filter(SelectOptionDefinition::isDefault)
-                        .map(SelectOptionDefinition::toJDAEntity)
+                        .map(definition -> definition.toJDAEntity(locData))
                         .collect(Collectors.toSet())
                 )
                 .build();
@@ -145,9 +146,9 @@ public record StringSelectMenuDefinition(
         /// Transforms this definition into a [SelectOption].
         @NotNull
         @Override
-        public SelectOption toJDAEntity() {
-            return SelectOption.of(label, value)
-                    .withDescription(description)
+        public SelectOption toJDAEntity(I18nData locData) {
+            return SelectOption.of(locData.translate(label), locData.translate(value))
+                    .withDescription(locData.translate(description))
                     .withEmoji(emoji);
         }
     }

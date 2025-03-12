@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -193,12 +194,12 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
             log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
             switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
-                    var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
+                    var button = buttonDefinition.toJDAEntity(new I18nData(localizer, locale, component.locs())).withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
                     items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
                 }
                 case SelectMenuDefinition<?> menuDefinition -> {
-                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
+                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()), new I18nData(localizer, locale, component.locs()));
                     items.add(menu.withDisabled(!component.enabled()));
                 }
             }
