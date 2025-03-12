@@ -17,9 +17,10 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.JDACLocalizationFunction;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -77,13 +78,6 @@ public final class JDACBuilder extends JDACBuilderData {
     @NotNull
     public JDACBuilder descriptor(@NotNull Descriptor descriptor) {
         this.descriptor = descriptor;
-        return this;
-    }
-
-    /// @param localizationFunction The [LocalizationFunction] to use
-    @NotNull
-    public JDACBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
-        this.localizationFunction = Objects.requireNonNull(localizationFunction);
         return this;
     }
 
@@ -190,6 +184,7 @@ public final class JDACBuilder extends JDACBuilderData {
     public JDACommands start() {
 
         ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+        Localizer localizer = localizer();
         JDACommands jdaCommands = new JDACommands(
                 context(),
                 expirationStrategy(),
@@ -197,9 +192,10 @@ public final class JDACBuilder extends JDACBuilderData {
                 new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
                 guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
+                new InteractionRegistry(new Validators(validators()), new JDACLocalizationFunction(localizer), descriptor()),
                 controllerInstantiator(),
-                globalReplyConfig()
+                globalReplyConfig(),
+                localizer
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -53,6 +54,7 @@ public final class Runtime implements Closeable {
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
     private final InteractionControllerInstantiator instanceProvider;
+    private final Localizer localizer;
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext, JDA jda) {
@@ -64,6 +66,7 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(dispatchingContext);
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
+        this.localizer = dispatchingContext.localizer();
 
         this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id, jda);
 
@@ -112,6 +115,10 @@ public final class Runtime implements Closeable {
     @NotNull
     public String id() {
         return id;
+    }
+
+    public Localizer localizer() {
+        return localizer;
     }
 
     public void queueEvent(GenericInteractionCreateEvent event) {

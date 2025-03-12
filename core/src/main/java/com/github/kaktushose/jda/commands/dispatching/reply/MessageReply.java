@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -16,6 +17,8 @@ import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Locale;
 
 /// Simple builder for sending text messages based on a [GenericInteractionCreateEvent].
 ///
@@ -35,6 +38,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     protected final GenericInteractionCreateEvent event;
     protected final InteractionDefinition definition;
     protected final MessageCreateBuilder builder;
+    protected final Locale locale;
+    protected final Localizer localizer;
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
@@ -46,13 +51,16 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                        @NotNull Localizer localizer) {
         this.event = event;
         this.definition = definition;
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
         this.builder = new MessageCreateBuilder();
+        this.locale = event.getUserLocale().toLocale();
+        this.localizer = localizer;
     }
 
     /// Constructs a new MessageReply.
@@ -65,10 +73,12 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this.ephemeral = reply.ephemeral;
         this.editReply = reply.editReply;
         this.keepComponents = reply.keepComponents;
+        this.locale = reply.locale;
+        this.localizer = reply.localizer;
     }
 
-    public Message reply(@NotNull String message) {
-        builder.setContent(message);
+    public Message reply(@NotNull String message, Localizer.Entry... locs) {
+        builder.setContent(localizer.localize(locale, message, locs));
         return complete();
     }
 

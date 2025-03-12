@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -73,8 +74,8 @@ public record ButtonDefinition(
     /// @see CustomId#independent(String)
     @NotNull
     @Override
-    public Button toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+    public Button toJDAEntity(I18nData locData) {
+        return toJDAEntity(CustomId.independent(definitionId()), locData);
     }
 
     /// Transforms this definition to an [Button] with the given [CustomId].
@@ -83,8 +84,9 @@ public record ButtonDefinition(
     /// @return the [Button]
     @NotNull
     @Override
-    public Button toJDAEntity(@NotNull CustomId customId) {
+    public Button toJDAEntity(@NotNull CustomId customId, I18nData locData) {
         String idOrUrl = Optional.ofNullable(link).orElse(customId.id());
+        String label = locData.translate(label());
         if (emoji == null) {
             return Button.of(style, idOrUrl, label);
         } else {

@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
@@ -81,10 +82,10 @@ public record ModalDefinition(
     /// @see CustomId#independent(String)
     @NotNull
     @Override
-    public Modal toJDAEntity(@NotNull CustomId customId) {
+    public Modal toJDAEntity(@NotNull CustomId customId, I18nData locData) {
         var modal = Modal.create(customId.id(), title);
 
-        textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
+        textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity(locData)));
 
         return modal.build();
     }
@@ -145,8 +146,8 @@ public record ModalDefinition(
         /// @return the [TextInput]
         @NotNull
         @Override
-        public TextInput toJDAEntity() {
-            var textInput = TextInput.create(label, label, style).setRequired(required);
+        public TextInput toJDAEntity(I18nData locData) {
+            var textInput = TextInput.create(label, locData.translate(label), style).setRequired(required);
 
             if (minValue != -1) {
                 textInput.setMinLength(minValue);
@@ -155,10 +156,10 @@ public record ModalDefinition(
                 textInput.setMaxLength(maxValue);
             }
             if (!placeholder.isBlank()) {
-                textInput.setPlaceholder(placeholder);
+                textInput.setPlaceholder(locData.translate(placeholder));
             }
             if (!defaultValue.isBlank()) {
-                textInput.setValue(defaultValue);
+                textInput.setValue(locData.translate(defaultValue));
             }
 
             return textInput.build();

@@ -42,7 +42,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
         }
 
         return autoComplete.map(it ->
-                new InvocationContext<>(event, runtime.keyValueStore(), it, List.of(new AutoCompleteEvent(event, registry, runtime)))
+                new InvocationContext<>(event, runtime.keyValueStore(), runtime.localizer(), it, List.of(new AutoCompleteEvent(event, registry, runtime)))
         ).orElseGet(() -> {
             log.debug("No auto complete handler found for {}", interaction.getFullCommandName());
             return null;

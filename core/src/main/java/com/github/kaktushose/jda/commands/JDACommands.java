@@ -17,6 +17,8 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
@@ -47,11 +49,12 @@ public final class JDACommands {
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
             InteractionControllerInstantiator instanceProvider,
-            InteractionDefinition.ReplyConfig globalReplyConfig) {
+            InteractionDefinition.ReplyConfig globalReplyConfig,
+            Localizer localizer) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, localizer));
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -129,10 +132,10 @@ public final class JDACommands {
     /// @param button the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [Button]
     @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    public Button getButton(@NotNull Class<?> origin, @NotNull String button, I18nData locData) {
         var id = String.valueOf((origin.getName() + button).hashCode());
         var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
-        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId()), locData);
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and the given class and transforms it
@@ -145,9 +148,9 @@ public final class JDACommands {
     /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [SelectMenu]
     @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu, I18nData locData) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
-        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()), locData);
     }
 }

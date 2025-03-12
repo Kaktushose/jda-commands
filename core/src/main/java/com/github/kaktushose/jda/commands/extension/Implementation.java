@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
@@ -106,8 +107,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     }
 
     /// A marker interface that all types providable by an [Extension] share.
-    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory,
-            MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, PermissionsProvider, GuildScopeProvider {}
+    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, Localizer, PermissionsProvider, GuildScopeProvider {}
 
     /// A container type for providing [TypeAdapter]s.
     ///

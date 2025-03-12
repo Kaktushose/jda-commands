@@ -15,6 +15,8 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -49,6 +51,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
     protected final InteractionDefinition definition;
     private final InteractionDefinition.ReplyConfig replyConfig;
+    protected final Localizer localizer;
 
     /// Constructs a new ReplyableEvent.
     ///
@@ -64,6 +67,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         super(event, interactionRegistry, runtime);
         this.replyConfig = definition.replyConfig(globalReplyConfig);
         this.definition = definition;
+        this.localizer = runtime.localizer();
     }
 
     /// Removes all components from the original message.
@@ -88,7 +92,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
     @NotNull
-    public Button getButton(@NotNull String button) {
+    public Button getButton(@NotNull String button, Localizer.Entry... locs) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -102,7 +106,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
     @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    public Button getButton(@NotNull Class<?> origin, @NotNull String button, Localizer.Entry... locs) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -114,7 +118,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param menu the name of the select menu
     /// @return the JDA [SelectMenu]
     @NotNull
-    public SelectMenu getSelectMenu(@NotNull String menu) {
+    public SelectMenu getSelectMenu(@NotNull String menu, Localizer.Entry... locs) {
         return getComponent(menu, null, SelectMenuDefinition.class);
     }
 
@@ -127,17 +131,17 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param menu   the name of the select menu
     /// @return the JDA [SelectMenu]
     @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu, Localizer.Entry... locs) {
         return getComponent(menu, origin, SelectMenuDefinition.class);
     }
 
     @NotNull
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type) {
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type, Localizer.Entry... locs) {
         var className = origin == null ? definition.classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = registry.find(type, false, it -> it.definitionId().equals(id));
-        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()), new I18nData(localizer, event.getUserLocale().toLocale(), locs));
     }
 
     /// Entry point for configuring a reply.
@@ -152,8 +156,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     }
 
     @NotNull
-    public Message reply(@NotNull String message) {
-        return newReply().reply(message);
+    public Message reply(@NotNull String message, Localizer.Entry... locs) {
+        return newReply().reply(message, locs);
     }
 
     @NotNull
@@ -168,6 +172,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private MessageReply newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition, replyConfig);
+        return new MessageReply(event, definition, replyConfig, localizer);
     }
 }
