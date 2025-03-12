@@ -57,7 +57,7 @@ public final class SlashCommandUpdater {
         commands.addAll(
                 interactionRegistry.find(ContextCommandDefinition.class, it -> it.commandConfig().scope() == scope)
                         .stream()
-                        .map(ContextCommandDefinition::toJDAEntity)
+                        .map(definition -> definition.toJDAEntity(null))
                         .toList()
         );
         return commands;

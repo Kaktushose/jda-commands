@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -72,7 +73,7 @@ public record ContextCommandDefinition(
     /// @return the [CommandData]
     @NotNull
     @Override
-    public CommandData toJDAEntity() {
+    public CommandData toJDAEntity(I18nData ignore) {
         var command = Commands.context(commandType, name);
         command.setIntegrationTypes(commandConfig.integration())
                 .setContexts(commandConfig.context())

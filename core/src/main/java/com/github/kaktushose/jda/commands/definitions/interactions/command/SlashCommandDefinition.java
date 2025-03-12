@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition.AutoCompleteRule;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -145,7 +146,7 @@ public record SlashCommandDefinition(
     /// @return the [SlashCommandData]
     @NotNull
     @Override
-    public SlashCommandData toJDAEntity() {
+    public SlashCommandData toJDAEntity(I18nData ignore) {
         SlashCommandData command = Commands.slash(
                 name,
                 description.replaceAll("N/A", "no description")
@@ -159,7 +160,7 @@ public record SlashCommandDefinition(
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
-            command.addOptions(parameter.toJDAEntity());
+            command.addOptions(parameter.toJDAEntity(null));
         });
         return command;
     }
@@ -173,7 +174,7 @@ public record SlashCommandDefinition(
                 description.replaceAll("N/A", "no description")
 
         );
-        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity()));
+        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity(null)));
         return command;
     }
 

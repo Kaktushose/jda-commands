@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.i18n.I18nData;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -164,7 +165,7 @@ public record OptionDataDefinition(
     /// @return the [OptionData]
     @NotNull
     @Override
-    public OptionData toJDAEntity() {
+    public OptionData toJDAEntity(I18nData ignore) {
         OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
 
         OptionData optionData = new OptionData(

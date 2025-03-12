@@ -36,6 +36,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         return new InvocationContext<>(
                 event,
                 runtime.keyValueStore(),
+                runtime.localizer(),
                 modal,
                 replyConfig,
                 Collections.unmodifiableList(arguments)
