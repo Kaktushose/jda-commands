@@ -10,9 +10,12 @@ import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,6 +51,102 @@ public class Embed extends EmbedBuilder {
     /// @param placeholders the global [Placeholder]s as defined in [Embeds]
     public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Placeholder> placeholders) {
         this(EmbedBuilder.fromData(object), name, placeholders);
+    }
+
+    /// Sets the Title of the embed.
+    ///
+    /// @param title the title of the embed
+    @NotNull
+    public Embed title(@Nullable String title) {
+        setTitle(title);
+        return this;
+    }
+
+    /// Sets the Title of the embed.
+    ///
+    /// @param title the title of the embed
+    /// @param url   Makes the title into a hyperlink pointed at this url.
+    @NotNull
+    public Embed title(@Nullable String title, @Nullable String url) {
+        setTitle(title, url);
+        return this;
+    }
+
+    /// Sets the Description of the embed.
+    @NotNull
+    public Embed description(@Nullable CharSequence description) {
+        setDescription(description);
+        return this;
+    }
+
+    /// Sets the Color of the embed.
+    @NotNull
+    public Embed color(int color) {
+        setColor(color);
+        return this;
+    }
+
+    /// Sets the Color of the embed.
+    @NotNull
+    public Embed color(@Nullable Color color) {
+        setColor(color);
+        return this;
+    }
+
+    /// Sets the Timestamp of the embed.
+    @NotNull
+    public Embed timestamp(@Nullable TemporalAccessor accessor) {
+        setTimestamp(accessor);
+        return this;
+    }
+
+    /// Sets the Footer of the embed.
+    @NotNull
+    public Embed footer(@Nullable String footer) {
+        setFooter(footer);
+        return this;
+    }
+
+    /// Sets the Footer of the embed.
+    @NotNull
+    public Embed footer(@Nullable String footer, @Nullable String iconUrl) {
+        setFooter(footer, iconUrl);
+        return this;
+    }
+
+    /// Sets the Thumbnail of the embed.
+    @NotNull
+    public Embed thumbnail(@Nullable String url) {
+        setThumbnail(url);
+        return this;
+    }
+
+    /// Sets the Image of the embed.
+    @NotNull
+    public Embed image(@Nullable String url) {
+        setImage(url);
+        return this;
+    }
+
+    /// Sets the Author of the embed.
+    @NotNull
+    public Embed author(@Nullable String name) {
+        setAuthor(name);
+        return this;
+    }
+
+    /// Sets the Author of the embed.
+    @NotNull
+    public Embed author(@Nullable String name, @Nullable String url) {
+        setAuthor(name, url);
+        return this;
+    }
+
+    /// Sets the Author of the embed.
+    @NotNull
+    public Embed author(@Nullable String name, @Nullable String url, @Nullable String iconUrl) {
+        setAuthor(name, url, iconUrl);
+        return this;
     }
 
     /// Used to modify the fields of this embed.
@@ -219,7 +318,7 @@ public class Embed extends EmbedBuilder {
 
     /// Wrapper of an embed placeholder.
     ///
-    /// @param key the key of the placeholder
+    /// @param key   the key of the placeholder
     /// @param value the [Supplier] to get the value from the placeholder will be replaced with
     public record Placeholder(@NotNull String key, @NotNull Supplier<String> value) {}
 }
