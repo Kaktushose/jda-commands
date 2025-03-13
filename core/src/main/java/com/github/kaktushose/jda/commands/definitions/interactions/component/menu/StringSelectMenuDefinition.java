@@ -37,6 +37,18 @@ public record StringSelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
+    public StringSelectMenuDefinition(@NotNull StringSelectMenuDefinition definition, @NotNull StringSelectMenu menu) {
+        this(
+                definition.classDescription,
+                definition.methodDescription,
+                definition.permissions,
+                menu.getOptions().stream().map(SelectOptionDefinition::new).collect(Collectors.toSet()),
+                Objects.requireNonNull(menu.getPlaceholder()),
+                menu.getMinValues(),
+                menu.getMaxValues()
+        );
+    }
+
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [StringSelectMenuDefinition]
@@ -122,6 +134,10 @@ public record StringSelectMenuDefinition(
                                          @Nullable Emoji emoji,
                                          boolean isDefault
     ) implements JDAEntity<SelectOption>, Definition {
+
+        public SelectOptionDefinition(@NotNull SelectOption option) {
+            this(option.getValue(), option.getLabel(), option.getDescription(), option.getEmoji(), option.isDefault());
+        }
 
         /// Constructs a new [SelectOptionDefinition] from the given
         /// [`SelectOption`][com.github.kaktushose.jda.commands.annotations.interactions.SelectOption].

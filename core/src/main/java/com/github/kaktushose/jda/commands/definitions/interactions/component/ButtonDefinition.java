@@ -36,6 +36,18 @@ public record ButtonDefinition(
         @NotNull ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
+    public ButtonDefinition(@NotNull ButtonDefinition definition, @NotNull Button button) {
+        this(
+                definition.classDescription,
+                definition.methodDescription,
+                definition.permissions,
+                button.getLabel(),
+                button.getEmoji(),
+                button.getUrl(),
+                button.getStyle()
+        );
+    }
+
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [ButtonDefinition] holding the [StringSelectMenuDefinition]

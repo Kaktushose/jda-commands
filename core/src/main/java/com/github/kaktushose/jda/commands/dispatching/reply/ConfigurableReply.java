@@ -7,8 +7,14 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ComponentBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.EntitySelectMenuBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.StringSelectMenuBuilder;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -180,9 +186,10 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull Component... components) {
+    @SafeVarargs
+    public final ComponentReply components(@NotNull Component<? extends ComponentBuilder>... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component component : components) {
+        for (Component<? extends ComponentBuilder> component : components) {
             var className = component.origin() == null
                     ? definition.methodDescription().declaringClass().getName()
                     : component.origin().getName();
@@ -191,6 +198,9 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                     it.definitionId().equals(definitionId)
             );
             log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
+
+            // TODO @Nick consumer must be called here
+
             switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());

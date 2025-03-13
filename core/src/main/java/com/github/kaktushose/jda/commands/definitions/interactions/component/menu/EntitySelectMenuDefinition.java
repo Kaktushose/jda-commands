@@ -36,6 +36,20 @@ public record EntitySelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
+    public EntitySelectMenuDefinition(@NotNull EntitySelectMenuDefinition definition, @NotNull EntitySelectMenu menu) {
+        this(
+                definition.classDescription,
+                definition.methodDescription,
+                definition.permissions,
+                definition.selectTargets,
+                definition.defaultValues,
+                definition.channelTypes,
+                Objects.requireNonNull(menu.getPlaceholder()),
+                menu.getMinValues(),
+                menu.getMinValues()
+        );
+    }
+
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [EntitySelectMenuDefinition]

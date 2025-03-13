@@ -3,8 +3,14 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ComponentBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.EntitySelectMenuBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.StringSelectMenuBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 /// Represents a component, namely [Button], [StringSelectMenu] or [EntitySelectMenu], that should be added to a reply.
 ///
@@ -25,19 +31,23 @@ import org.jetbrains.annotations.Nullable;
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-public record Component(boolean enabled, boolean independent, @NotNull String name, @Nullable Class<?> origin) {
+public record Component<T extends ComponentBuilder>(boolean enabled,
+                           boolean independent,
+                           @NotNull String name,
+                           @Nullable Class<?> origin,
+                           @NotNull Consumer<T> consumer) {
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component enabled(String component) {
+    public static Component<ComponentBuilder> enabled(String component) {
         return of(true, false, component);
     }
 
     /// Adds disabled, runtime-bound [Component]s to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component disabled(String component) {
+    public static Component<ComponentBuilder> disabled(String component) {
         return of(false, false, component);
     }
 
@@ -47,7 +57,7 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// will always get executed, even after a bot restart.
     ///
     /// @param component the name of the method that represents the component
-    public static Component independent(String component) {
+    public static Component<ComponentBuilder> independent(String component) {
         return of(true, true, component);
     }
 
@@ -56,7 +66,7 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component enabled(Class<?> origin, String component) {
+    public static Component<ComponentBuilder> enabled(Class<?> origin, String component) {
         return of(true, origin, component);
     }
 
@@ -65,7 +75,7 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component disabled(Class<?> origin, String component) {
+    public static Component<ComponentBuilder> disabled(Class<?> origin, String component) {
         return of(false, origin, component);
     }
 
@@ -74,8 +84,8 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
-    public static Component of(boolean enabled, boolean independent, String component) {
-        return new Component(enabled, independent, component, null);
+    public static Component<ComponentBuilder> of(boolean enabled, boolean independent, String component) {
+        return new Component<>(enabled, independent, component, null, _ -> {});
     }
 
     /// Adds [Component]s with the passed configuration to the reply.
@@ -83,18 +93,30 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
     /// @param enabled   whether the [Component] should be enabled or disabled
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component of(boolean enabled, Class<?> origin, String component) {
-        return new Component(enabled, true, component, origin);
+    public static Component<ComponentBuilder> of(boolean enabled, Class<?> origin, String component) {
+        return new Component<>(enabled, true, component, origin, _ -> {});
     }
 
     /// Adds [Component]s with the passed configuration to the reply.
     ///
-    /// @param enabled   whether the [Component] should be enabled or disabled
+    /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
-    public static Component of(boolean enabled, boolean independent, Class<?> origin, String component) {
-        return new Component(enabled, independent, component, origin);
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
+    public static Component<ComponentBuilder> of(boolean enabled, boolean independent, Class<?> origin, String component) {
+        return new Component<>(enabled, independent, component, origin, _ -> {});
+    }
+
+    public static Component<ButtonBuilder> button(String component, Consumer<ButtonBuilder> consumer) {
+        return new Component<>(true, false, component, null, consumer);
+    }
+
+    public static Component<StringSelectMenuBuilder> stringSelect(String component, Consumer<StringSelectMenuBuilder> consumer) {
+        return new Component<>(true, false, component, null, consumer);
+    }
+
+    public static Component<EntitySelectMenuBuilder> entitySelect(String component, Consumer<EntitySelectMenuBuilder> consumer) {
+        return new Component<>(true, false, component, null, consumer);
     }
 
 }
