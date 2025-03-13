@@ -87,4 +87,14 @@ public record Component(boolean enabled, boolean independent, @NotNull String na
         return new Component(enabled, true, component, origin);
     }
 
+    /// Adds [Component]s with the passed configuration to the reply.
+    ///
+    /// @param enabled   whether the [Component] should be enabled or disabled
+    /// @param independent whether the [Component] should be runtime-bound or independent
+    /// @param origin    the [Class] the `component` is defined in
+    /// @param component the name of the method that represents the component
+    public static Component of(boolean enabled, boolean independent, Class<?> origin, String component) {
+        return new Component(enabled, independent, component, origin);
+    }
+
 }
