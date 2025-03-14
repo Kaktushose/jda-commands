@@ -2,7 +2,7 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-com-google-code-gson-gson = "2.10.1"
+com-fasterxml-jackson-core = "2.17.2"
 net-dv8tion-jda = "5.2.2"
 org-jetbrains-annotations = "24.0.1"
 org-junit-jupiter-junit-jupiter-api = "5.9.2"
@@ -13,7 +13,7 @@ com-google-inject-guice = "7.0.0"
 
 
 [libraries]
-com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
+com-fasterxml-jackson-core = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "com-fasterxml-jackson-core" }
 net-dv8tion-jda = { module = "net.dv8tion:JDA", version.ref = "net-dv8tion-jda" }
 org-jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "org-jetbrains-annotations" }
 org-junit-jupiter-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "org-junit-jupiter-junit-jupiter-api" }

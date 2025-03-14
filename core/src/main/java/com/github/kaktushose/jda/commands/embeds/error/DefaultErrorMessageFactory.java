@@ -1,8 +1,13 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -13,12 +18,14 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
-/// Implementation of [ErrorMessageFactory] with default embeds.
+/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///
-/// @see JsonErrorMessageFactory
-public class DefaultErrorMessageFactory implements ErrorMessageFactory {
+/// @see JDACBuilder#embeds(Function)
+public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageFactory {
 
     @NotNull
     @Override
@@ -42,6 +49,14 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         userInput.forEach(argument -> sbActual.append(argument).append(", "));
         String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
 
+        if (exists("typeAdaptingFailed")) {
+            return embeds.get("typeAdaptingFailed")
+                    .placeholder("usage", command.displayName())
+                    .placeholder("expected", expected)
+                    .placeholder("actual", actual)
+                    .toMessageCreateData();
+        }
+
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Syntax Error")
@@ -59,6 +74,14 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+
+        if (exists("insufficientPermissions")) {
+            return embeds.get("insufficientPermissions")
+                    .placeholder("name", context.definition().displayName())
+                    .placeholder("permissions", permissions)
+                    .toMessageCreateData();
+        }
+
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -73,6 +96,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
+        if (exists("constraintFailed")) {
+            return embeds.get("constraintFailed")
+                    .placeholder("message", constraint.message())
+                    .toMessageCreateData();
+        }
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -105,6 +134,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             }
             cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
         }
+
+        if (exists("cooldown")) {
+            return embeds.get("cooldown")
+                    .placeholder("cooldown", cooldown)
+                    .toMessageCreateData();
+        }
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Cooldown")
@@ -115,21 +151,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Wrong Channel Type")
-                .setDescription("This command cannot be executed in this type of channels!")
-                .build()
-        ).build();
-    }
-
-    @NotNull
-    @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
-        String error;
-
-        error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
+        String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
                 context.event().getUser(),
@@ -137,6 +160,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
+
+        if (exists("executionFailed")) {
+            return embeds.get("executionFailed")
+                    .placeholder("error", error)
+                    .toMessageCreateData();
+        }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
@@ -149,12 +178,25 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent context) {
+    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
+        if (exists("unknownInteraction")) {
+            return embeds.get("unknownInteraction").toMessageCreateData();
+        }
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")
                 .setDescription("This interaction timed out and is no longer available!")
                 .build()
         ).build();
+    }
+
+    private boolean exists(String name) {
+        return embeds.sources().stream()
+                .map(source -> source.get(name, embeds.placeholders()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny()
+                .isPresent();
     }
 }
