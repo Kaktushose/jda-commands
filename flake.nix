@@ -26,6 +26,8 @@
             javaToolchains = [
                 jdk
             ];
+
+            java = jdk;
         };
        in {
          devShells.default = pkgs.mkShell {
