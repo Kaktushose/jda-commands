@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - deployment
 
 jobs:
   check_if_release:
