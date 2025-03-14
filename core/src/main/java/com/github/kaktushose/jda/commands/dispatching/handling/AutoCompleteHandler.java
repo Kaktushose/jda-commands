@@ -27,7 +27,8 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
         Optional<AutoCompleteDefinition> autoComplete;
 
         autoComplete = registry.find(AutoCompleteDefinition.class,
-                it -> it.commands().stream().anyMatch(name -> interaction.getFullCommandName().startsWith(name))
+                it -> it.commands().stream()
+                        .anyMatch(rule -> interaction.getFullCommandName().startsWith(rule.command()))
         ).stream().findFirst();
 
         if (autoComplete.isEmpty()) {
@@ -36,7 +37,8 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
             ).stream().findFirst();
             if (command.isPresent()) {
                 autoComplete = registry.find(AutoCompleteDefinition.class,
-                        it -> it.commands().stream().anyMatch(name -> command.get().methodDescription().name().equals(name))
+                        it -> it.commands().stream()
+                                .anyMatch(rule -> command.get().methodDescription().name().equals(rule.command()))
                 ).stream().findFirst();
             }
         }
