@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
@@ -9,12 +10,9 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonBuilder;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ComponentBuilder;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.EntitySelectMenuBuilder;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.StringSelectMenuBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.EntitySelectMenuComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -24,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
 ///
@@ -186,32 +185,36 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    @SafeVarargs
-    public final ComponentReply components(@NotNull Component<? extends ComponentBuilder>... components) {
+    public final ComponentReply components(@NotNull Component<?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component<? extends ComponentBuilder> component : components) {
+        for (Component<?, ?> component : components) {
             var className = component.origin() == null
                     ? definition.methodDescription().declaringClass().getName()
                     : component.origin().getName();
             var definitionId = String.valueOf((className + component.name()).hashCode());
-            var definition = registry.find(ComponentDefinition.class, false, it ->
-                    it.definitionId().equals(definitionId)
-            );
-            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
 
-            // TODO @Nick consumer must be called here
+            switch (component) {
+                case ButtonComponent buttonComponent -> {
+                    var definition = registry.find(ButtonDefinition.class, false, it ->
+                            it.definitionId().equals(definitionId)
+                    );
 
-            switch (definition) {
-                case ButtonDefinition buttonDefinition -> {
-                    var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
+                    var button = buttonComponent.build(definition).toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
                     items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
                 }
-                case SelectMenuDefinition<?> menuDefinition -> {
-                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
+
+                case EntitySelectMenuComponent menuComponent -> {
+                    var definition = registry.find(EntitySelectMenuDefinition.class, false, it ->
+                            it.definitionId().equals(definitionId)
+                    );
+
+                    var menu = menuComponent.build(definition).toJDAEntity(createId(definition, component.independent()));
                     items.add(menu.withDisabled(!component.enabled()));
                 }
+
             }
+            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         }
         if (!items.isEmpty()) {
             builder.addComponents(ActionRow.of(items));

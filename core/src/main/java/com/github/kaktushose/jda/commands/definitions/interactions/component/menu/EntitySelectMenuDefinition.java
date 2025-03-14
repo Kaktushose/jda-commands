@@ -50,6 +50,22 @@ public record EntitySelectMenuDefinition(
         );
     }
 
+    public EntitySelectMenuDefinition with(Set<EntitySelectMenu.SelectTarget> selectTargets,
+                                          Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                          Set<ChannelType> channelTypes) {
+        return new EntitySelectMenuDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                selectTargets,
+                defaultValues,
+                channelTypes,
+                placeholder,
+                minValue,
+                maxValue
+        );
+    }
+
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [EntitySelectMenuDefinition]

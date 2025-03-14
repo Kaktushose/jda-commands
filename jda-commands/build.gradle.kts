@@ -17,16 +17,6 @@ dependencies {
     javadoc(project(":guice-extension"))
 }
 
-java {
-    targetCompatibility = JavaVersion.VERSION_23
-    sourceCompatibility = JavaVersion.VERSION_23
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
-    }
-    withSourcesJar()
-    withJavadocJar()
-}
-
 tasks.withType<Javadoc>().configureEach {
     val options = options as StandardJavadocDocletOptions
     options.overview = "src/main/javadoc/overview.md"

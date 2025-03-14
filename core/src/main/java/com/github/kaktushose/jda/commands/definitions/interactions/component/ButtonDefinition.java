@@ -36,16 +36,9 @@ public record ButtonDefinition(
         @NotNull ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
-    public ButtonDefinition(@NotNull ButtonDefinition definition, @NotNull Button button) {
-        this(
-                definition.classDescription,
-                definition.methodDescription,
-                definition.permissions,
-                button.getLabel(),
-                button.getEmoji(),
-                button.getUrl(),
-                button.getStyle()
-        );
+    public ButtonDefinition with(String label, Emoji emoji, String link, ButtonStyle style) {
+        return new ButtonDefinition(classDescription, methodDescription, permissions,
+                label, emoji, link, style);
     }
 
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
