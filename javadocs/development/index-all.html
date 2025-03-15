@@ -288,9 +288,13 @@ amount of labels.</div>
 <dd>
 <div class="block">Representation of an auto complete handler.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Set)" class="member-name-link">AutoCompleteDefinition(ClassDescription, MethodDescription, Set&lt;String&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Set)" class="member-name-link">AutoCompleteDefinition(ClassDescription, MethodDescription, Set&lt;AutoCompleteDefinition.AutoCompleteRule&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>AutoCompleteDefinition</code> record class.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/package-summary.html">com.github.kaktushose.jda.commands.definitions.interactions</a></dt>
+<dd>
+<div class="block">Representation of an auto complete rule.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/MethodBuildContext.html#autoCompleteDefinitions()" class="member-name-link">autoCompleteDefinitions()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a></dt>
 <dd>
@@ -308,6 +312,10 @@ amount of labels.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">AutoCompleteHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">AutoCompleteHandler</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#%3Cinit%3E(java.lang.String,java.util.Set)" class="member-name-link">AutoCompleteRule(String, Set&lt;String&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>AutoCompleteRule</code> record class.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:B">B</h2>
 <dl class="index">
@@ -338,7 +346,7 @@ amount of labels.</div>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>AutoCompleteDefinition</code></a> from the given class and method description.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#build(com.github.kaktushose.jda.commands.definitions.description.ParameterDescription,boolean,com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators)" class="member-name-link">build(ParameterDescription, boolean, Validators)</a> - Static method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#build(com.github.kaktushose.jda.commands.definitions.description.ParameterDescription,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators)" class="member-name-link">build(ParameterDescription, AutoCompleteDefinition, Validators)</a> - Static method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>OptionDataDefinition</code></a>.</div>
 </dd>
@@ -660,6 +668,10 @@ service provider interface.</div>
 <dd>
 <div class="block">Contains everything to resolve the guilds for guild commands.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#command()" class="member-name-link">command()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#param-command"><code>command</code></a> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/TreeNode.html#command()" class="member-name-link">command()</a> - Method in record class com.github.kaktushose.jda.commands.internal.register.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register">TreeNode</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>command</code> record component.</div>
@@ -679,10 +691,6 @@ service provider interface.</div>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#commandOptions()" class="member-name-link">commandOptions()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#param-commandOptions"><code>commandOptions</code></a> record component.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#commands()" class="member-name-link">commands()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#param-commands"><code>commands</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandScope.html" class="type-name-link" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a> - Enum Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/package-summary.html">com.github.kaktushose.jda.commands.annotations.interactions</a></dt>
 <dd>
@@ -1195,6 +1203,10 @@ should be enabled for by default.</div>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.definitions.description.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1783,6 +1795,10 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -2113,10 +2129,6 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#isAcknowledged()" class="member-name-link">isAcknowledged()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#isAutoComplete()" class="member-name-link">isAutoComplete()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#param-isAutoComplete"><code>isAutoComplete</code></a> record component.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html#isBound()" class="member-name-link">isBound()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></dt>
 <dd>
 <div class="block">Checks if the passed custom id is runtime-bound.</div>
@@ -2722,13 +2734,21 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dd>
 <div class="block">Representation of a slash command parameter.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#%3Cinit%3E(java.lang.Class,boolean,boolean,java.lang.String,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition(Class&lt;?&gt;, boolean, boolean, String, String, String, SequencedCollection&lt;Command.Choice&gt;, Collection&lt;OptionDataDefinition.ConstraintDefinition&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition(Class&lt;?&gt;, boolean, AutoCompleteDefinition, String, String, String, SequencedCollection&lt;Command.Choice&gt;, Collection&lt;OptionDataDefinition.ConstraintDefinition&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>OptionDataDefinition</code> record class.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.ConstraintDefinition.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/package-summary.html">com.github.kaktushose.jda.commands.definitions.interactions.command</a></dt>
 <dd>
 <div class="block">Representation of a parameter constraint defined by a constraint annotation.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/AutoComplete.html#options()" class="member-name-link">options()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/AutoComplete.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">AutoComplete</a></dt>
+<dd>
+<div class="block">Returns the name of the command options this autocomplete should handle</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#options()" class="member-name-link">options()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#param-options"><code>options</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#origin()" class="member-name-link">origin()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
@@ -3102,6 +3122,10 @@ require the user to have the given permissions in order to execute the command.<
 <dd>
 <div class="block">Returns the value of the <code>root</code> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#rules()" class="member-name-link">rules()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.html#param-rules"><code>rules</code></a> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/package-summary.html">com.github.kaktushose.jda.commands.dispatching</a></dt>
 <dd>
 <div class="block">A <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching"><code>Runtime</code></a> delegates the jda events to their corresponding <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling"><code>EventHandler</code></a> and manages the used virtual threads.</div>
@@ -3228,7 +3252,7 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dd>
 <div class="block">Representation of a slash command.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,boolean,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition,boolean)" class="member-name-link">SlashCommandDefinition(ClassDescription, MethodDescription, Collection&lt;String&gt;, String, CommandScope, boolean, boolean, Set&lt;Permission&gt;, LocalizationFunction, String, SequencedCollection&lt;OptionDataDefinition&gt;, SlashCommandDefinition.CooldownDefinition, boolean)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,boolean,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition)" class="member-name-link">SlashCommandDefinition(ClassDescription, MethodDescription, Collection&lt;String&gt;, String, CommandScope, boolean, boolean, Set&lt;Permission&gt;, LocalizationFunction, String, SequencedCollection&lt;OptionDataDefinition&gt;, SlashCommandDefinition.CooldownDefinition)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>SlashCommandDefinition</code> record class.</div>
 </dd>
@@ -3428,6 +3452,10 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.description.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>

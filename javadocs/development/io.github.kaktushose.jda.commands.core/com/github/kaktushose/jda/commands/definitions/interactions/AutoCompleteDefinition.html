@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#classDescription()" tabindex="0">classDescription()</a></li>
 <li><a href="#methodDescription()" tabindex="0">methodDescription()</a></li>
-<li><a href="#commands()" tabindex="0">commands()</a></li>
+<li><a href="#rules()" tabindex="0">rules()</a></li>
 </ol>
 </li>
 </ol>
@@ -101,14 +101,14 @@ loadScripts(document, 'script');</script>
 <dt>Record Components:</dt>
 <dd><code><span id="param-classDescription">classDescription</span></code> - the <a href="../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></dd>
 <dd><code><span id="param-methodDescription">methodDescription</span></code> - the <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</dd>
-<dd><code><span id="param-commands">commands</span></code> - the commands this autocomplete handler can handle</dd>
+<dd><code><span id="param-rules">rules</span></code> - the rules this autocomplete handler can handle</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></code>, <code><a href="../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code>, <code><a href="InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">AutoCompleteDefinition</span>(@NotNull <a href="../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;commands)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">AutoCompleteDefinition</span>(@NotNull <a href="../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a>&gt;&nbsp;rules)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></span></div>
 <div class="block">Representation of an auto complete handler.</div>
@@ -120,6 +120,17 @@ implements <a href="InteractionDefinition.html" title="interface in com.github.k
 <li>
 <section class="nested-class-summary" id="nested-class-summary">
 <h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="AutoCompleteDefinition.AutoCompleteRule.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Representation of an auto complete rule.</div>
+</div>
+</div>
 <div class="inherited-list">
 <h3 id="nested-classes-inherited-from-class-com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition">Nested classes/interfaces inherited from interface&nbsp;com.github.kaktushose.jda.commands.definitions.interactions.<a href="InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></h3>
 <code><a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
@@ -144,7 +155,7 @@ implements <a href="InteractionDefinition.html" title="interface in com.github.k
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Set)" class="member-name-link">AutoCompleteDefinition</a><wbr>(@NotNull <a href="../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
  @NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;commands)</code></div>
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a>&gt;&nbsp;rules)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>AutoCompleteDefinition</code> record class.</div>
 </div>
@@ -173,35 +184,35 @@ implements <a href="InteractionDefinition.html" title="interface in com.github.k
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-classDescription"><code>classDescription</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#commands()" class="member-name-link">commands</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-commands"><code>commands</code></a> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-methodDescription"><code>methodDescription</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this interaction.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rules()" class="member-name-link">rules</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-rules"><code>rules</code></a> record component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
@@ -240,13 +251,13 @@ implements <a href="InteractionDefinition.html" title="interface in com.github.k
  @NotNull
  @NotNull <a href="../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;commands)</span></div>
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a>&gt;&nbsp;rules)</span></div>
 <div class="block">Creates an instance of a <code>AutoCompleteDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>classDescription</code> - the value for the <a href="#param-classDescription"><code>classDescription</code></a> record component</dd>
 <dd><code>methodDescription</code> - the value for the <a href="#param-methodDescription"><code>methodDescription</code></a> record component</dd>
-<dd><code>commands</code> - the value for the <a href="#param-commands"><code>commands</code></a> record component</dd>
+<dd><code>rules</code> - the value for the <a href="#param-rules"><code>rules</code></a> record component</dd>
 </dl>
 </div>
 </section>
@@ -389,15 +400,15 @@ implements <a href="InteractionDefinition.html" title="interface in com.github.k
 </section>
 </li>
 <li>
-<section class="detail" id="commands()">
-<h3>commands</h3>
+<section class="detail" id="rules()">
+<h3>rules</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">commands</span>()</div>
-<div class="block">Returns the value of the <a href="#param-commands"><code>commands</code></a> record component.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a>&gt;</span>&nbsp;<span class="element-name">rules</span>()</div>
+<div class="block">Returns the value of the <a href="#param-rules"><code>rules</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <a href="#param-commands"><code>commands</code></a> record component</dd>
+<dd>the value of the <a href="#param-rules"><code>rules</code></a> record component</dd>
 </dl>
 </div>
 </section>
