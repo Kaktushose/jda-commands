@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public final class Helpers {
         raw = sanitizeMention(raw);
 
         Guild guild = event.getGuild();
-        if (guild == null) {
+        if (guild == null || guild.isDetached()) {
             return Optional.empty();
         }
         if (raw.matches("\\d+")) {
@@ -109,6 +110,12 @@ public final class Helpers {
             return true;
         }
         return false;
+    }
+
+    public static void checkDetached(IDetachableEntity entity, Class<?> origin) {
+        if (entity.isDetached()) {
+            throw new IllegalArgumentException("%s doesn't support detached entities and cannot be used for user installable apps!".formatted(origin.getName()));
+        }
     }
 
     @NotNull

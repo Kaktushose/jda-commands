@@ -28,6 +28,8 @@ public class RoleAdapter implements TypeAdapter<Role> {
         raw = Helpers.sanitizeMention(raw);
 
         Guild guild = event.getGuild();
+        Helpers.checkDetached(guild, MemberAdapter.class);
+
         if (raw.matches("\\d+")) {
             role = guild.getRoleById(raw);
         } else {
