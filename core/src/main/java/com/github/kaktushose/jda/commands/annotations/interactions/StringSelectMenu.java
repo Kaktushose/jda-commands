@@ -23,14 +23,14 @@ import java.util.List;
 ///
 /// ## Example:
 /// ```
-/// @SelectOption(label= "Pizza", value = "pizza")
-/// @SelectOption(label= "Hamburger", value = "hamburger")
-/// @SelectOption(label= "Sushi", value = "Sushi")
+/// @MenuOption(label= "Pizza", value = "pizza")
+/// @MenuOption(label= "Hamburger", value = "hamburger")
+/// @MenuOption(label= "Sushi", value = "Sushi")
 /// @StringSelectMenu("What's your favourite food?")
 /// public void onMenu(ComponentEvent event, List<String> choices) { ... }
 /// ```
 /// @see Interaction
-/// @see SelectOption
+/// @see MenuOption
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StringSelectMenu {

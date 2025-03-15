@@ -60,4 +60,6 @@ public @interface ReplyConfig {
     /// @return `true` if to edit the original method
     boolean editReply() default true;
 
+    boolean keepSelections() default true;
+
 }
