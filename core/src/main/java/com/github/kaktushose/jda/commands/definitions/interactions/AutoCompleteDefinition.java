@@ -14,11 +14,18 @@ import java.util.stream.Collectors;
 ///
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
-/// @param commands          the commands this autocomplete handler can handle
+/// @param rules          the rules this autocomplete handler can handle
 public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
                                      @NotNull MethodDescription methodDescription,
-                                     @NotNull Set<String> commands)
+                                     @NotNull Set<AutoCompleteRule> rules)
         implements InteractionDefinition {
+
+    /// Representation of an auto complete rule.
+    ///
+    /// @param command the name of the slash command or the name of the method handling the command
+    /// @param options a possibly-empty Set of the names of the options the auto complete should exclusively handle. If
+    ///                                                                                                                                        empty, the auto complete will handle every option of the given command.
+    public record AutoCompleteRule(@NotNull String command, @NotNull Set<String> options) {}
 
     /// Builds a new [AutoCompleteDefinition] from the given class and method description.
     ///
@@ -30,10 +37,13 @@ public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
         if (Helpers.checkSignature(method, List.of(AutoCompleteEvent.class))) {
             return Optional.empty();
         }
-        return method.annotation(AutoComplete.class).map(complete ->
-                new AutoCompleteDefinition(clazz, method, Arrays.stream(complete.value()).collect(Collectors.toSet()))
-        );
-
+        return method.annotation(AutoComplete.class).map(autoComplete ->
+                new AutoCompleteDefinition(clazz, method, Arrays.stream(autoComplete.value())
+                        .map(command -> new AutoCompleteRule(command, Arrays.stream(autoComplete.options())
+                                .filter(it -> !it.isBlank())
+                                .collect(Collectors.toSet()))
+                        ).collect(Collectors.toSet())
+                ));
     }
 
     @NotNull
