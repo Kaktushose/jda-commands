@@ -24,4 +24,10 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     /// The [MethodDescription] of the method this definition is bound to
     @NotNull MethodDescription methodDescription();
 
+    static <T> T override(T oldValue, T newValue) {
+        return newValue != null
+                ? newValue
+                : oldValue;
+    }
+
 }

@@ -30,7 +30,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     /// @return the [CustomId]
     @NotNull
     public static CustomId fromEvent(@NotNull GenericComponentInteractionCreateEvent event) {
-        return fromEvent(event.getComponentId());
+        return fromMerged(event.getComponentId());
     }
 
     /// Constructs a new [CustomId] from the given [ModalInteractionEvent].
@@ -39,7 +39,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     /// @return the [CustomId]
     @NotNull
     public static CustomId fromEvent(@NotNull ModalInteractionEvent event) {
-        return fromEvent(event.getModalId());
+        return fromMerged(event.getModalId());
     }
 
     /// Constructs a new [CustomId] from the given String.
@@ -47,7 +47,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     /// @param customId the custom id String
     /// @return the [CustomId]
     @NotNull
-    private static CustomId fromEvent(@NotNull String customId) {
+    public static CustomId fromMerged(@NotNull String customId) {
         if (isInvalid(customId)) {
             throw new IllegalArgumentException("Provided custom id is invalid!");
         }
@@ -73,7 +73,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
 
     /// The String representation of this custom id.
     @NotNull
-    public String id() {
+    public String merged() {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
 

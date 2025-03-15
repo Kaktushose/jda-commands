@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition.override;
+
 /// Representation of an entity select menu.
 ///
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
@@ -57,9 +59,9 @@ public record EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
                 permissions,
-                selectTargets,
-                defaultValues,
-                channelTypes,
+                override(this.selectTargets, selectTargets),
+                override(this.defaultValues, defaultValues),
+                override(this.channelTypes, channelTypes),
                 placeholder,
                 minValue,
                 maxValue
@@ -122,7 +124,7 @@ public record EntitySelectMenuDefinition(
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
-        var menu = EntitySelectMenu.create(customId.id(), selectTargets)
+        var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue);

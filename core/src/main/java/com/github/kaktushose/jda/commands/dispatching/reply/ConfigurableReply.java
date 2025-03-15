@@ -9,14 +9,20 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.EntitySelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.StringSelectComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
@@ -180,28 +186,47 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public final ComponentReply components(@NotNull Component<?, ?>... components) {
+    public final ComponentReply components(@NotNull Component<?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component<?, ?> component : components) {
+        for (Component<?, ?, ?> component : components) {
             var className = component.origin() == null
                     ? definition.methodDescription().declaringClass().getName()
                     : component.origin().getName();
             String definitionId = String.valueOf((className + component.name()).hashCode());
 
+            if (builder.getComponents()
+                    .stream()
+                    .flatMap(itemComponents -> itemComponents.getActionComponents().stream())
+                    .map(ActionComponent::getId)
+                    .filter(Objects::nonNull)
+                    .map(CustomId::fromMerged)
+                    .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
+                throw new IllegalArgumentException("Cannot add component %s#%s multiple times!".formatted(className, component.name()));
+            }
+
             var definition = findDefinition(component, definitionId);
 
-            switch (definition) {
+            ActionComponent item = switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
-                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
-                }
-                case SelectMenuDefinition<?> menuDefinition -> {
-                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
-                    items.add(menu.withDisabled(!component.enabled()));
+                    yield button.getUrl() == null ? button.withId(createId(definition, component.independent()).merged()) : button;
                 }
 
-            }
+                case SelectMenuDefinition<?> menuDefinition -> {
+                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
+                    yield menu.withDisabled(!component.enabled());
+                }
+            };
+
+            item = switch (component) {
+                case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
+                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply((EntitySelectMenu) item);
+                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply((StringSelectMenu) item);
+                case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
+            };
+
+            items.add(item);
 
             log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         }
@@ -213,8 +238,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return new ComponentReply(this);
     }
 
-    private <D extends ComponentDefinition<?>, T extends Component<T, D>> D findDefinition(Component<T, D> component, String definitionId) {
-
+    private <D extends ComponentDefinition<?>, T extends Component<T, ?, D>> D findDefinition(Component<T, ?, D> component, String definitionId) {
         // this cast is effective safe
         D definition = registry.find(component.definitionClass(), false, it ->
                 it.definitionId().equals(definitionId)

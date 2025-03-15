@@ -102,7 +102,7 @@ public record StringSelectMenuDefinition(
     @NotNull
     @Override
     public StringSelectMenu toJDAEntity(@NotNull CustomId customId) {
-        return StringSelectMenu.create(customId.id())
+        return StringSelectMenu.create(customId.merged())
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .addOptions(selectOptions.stream().map(SelectOptionDefinition::toJDAEntity).collect(Collectors.toSet()))

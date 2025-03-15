@@ -4,9 +4,10 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.EntitySelectMenuComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.*;
+import net.dv8tion.jda.api.interactions.components.ActionComponent;
+
+import java.util.function.Function;
 
 /// Represents a component, namely [Button], [StringSelectMenu] or [EntitySelectMenu], that should be added to a reply.
 ///
@@ -27,9 +28,10 @@ import com.github.kaktushose.jda.commands.dispatching.reply.component.Unspecific
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-public abstract sealed class Component<Self extends Component<Self, D>, D extends ComponentDefinition<?>> permits ButtonComponent, EntitySelectMenuComponent, UnspecificComponent {
-    protected boolean enabled = true;
-    protected boolean independent = false;
+public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, SelectMenuComponent, UnspecificComponent {
+    private boolean enabled = true;
+    private boolean independent = false;
+    private Function<T, T> callback = Function.identity();
     protected final String method;
     protected final Class<?> origin;
 
@@ -45,6 +47,11 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
 
     public Self independent(boolean independent) {
         this.independent = independent;
+        return self();
+    }
+
+    public Self modify(Function<T, T> callback) {
+        this.callback = callback;
         return self();
     }
 
@@ -64,6 +71,8 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
         return origin;
     }
 
+    protected Function<T, T> callback() {return callback;}
+
     @SuppressWarnings("unchecked")
     private Self self() {
         return (Self) this;
@@ -76,14 +85,14 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     /// Adds an enabled, runtime-bound [Component] to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> enabled(String component) {
+    public static Component<?, ?, ?> enabled(String component) {
         return of(true, false, component);
     }
 
     /// Adds disabled, runtime-bound [Component]s to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> disabled(String component) {
+    public static Component<?, ?, ?> disabled(String component) {
         return of(false, false, component);
     }
 
@@ -93,7 +102,7 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     /// will always get executed, even after a bot restart.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> independent(String component) {
+    public static Component<?, ?, ?> independent(String component) {
         return of(true, true, component);
     }
 
@@ -102,7 +111,7 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> enabled(Class<?> origin, String component) {
+    public static Component<?, ?, ?> enabled(Class<?> origin, String component) {
         return of(true, origin, component);
     }
 
@@ -111,7 +120,7 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> disabled(Class<?> origin, String component) {
+    public static Component<?, ?, ?> disabled(Class<?> origin, String component) {
         return of(false, origin, component);
     }
 
@@ -120,7 +129,7 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
-    public static Component<?, ?> of(boolean enabled, boolean independent, String component) {
+    public static Component<?, ?, ?> of(boolean enabled, boolean independent, String component) {
         return new UnspecificComponent(enabled, independent, component, null);
     }
 
@@ -129,11 +138,11 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
     /// @param enabled   whether the [Component] should be enabled or disabled
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?> of(boolean enabled, Class<?> origin, String component) {
+    public static Component<?, ?, ?> of(boolean enabled, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, true, component, origin);
     }
 
-    public static Component<?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
+    public static Component<?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, independent, component, origin);
     }
 
@@ -143,5 +152,21 @@ public abstract sealed class Component<Self extends Component<Self, D>, D extend
 
     public static ButtonComponent button(String method) {
         return button(method, null);
+    }
+
+    public static EntitySelectMenuComponent entitySelect(String method, Class<?> origin) {
+        return new EntitySelectMenuComponent(method, origin);
+    }
+
+    public static EntitySelectMenuComponent entitySelect(String method) {
+        return entitySelect(method, null);
+    }
+
+    public static StringSelectComponent stringSelect(String method, Class<?> origin) {
+        return new StringSelectComponent(method, origin);
+    }
+
+    public static StringSelectComponent stringSelect(String method) {
+        return stringSelect(method, null);
     }
 }

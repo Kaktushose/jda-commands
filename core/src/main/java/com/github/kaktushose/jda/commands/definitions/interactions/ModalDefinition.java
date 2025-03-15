@@ -82,7 +82,7 @@ public record ModalDefinition(
     @NotNull
     @Override
     public Modal toJDAEntity(@NotNull CustomId customId) {
-        var modal = Modal.create(customId.id(), title);
+        var modal = Modal.create(customId.merged(), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
 

@@ -3,10 +3,11 @@ package com.github.kaktushose.jda.commands.dispatching.reply.component;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
 
-public final class ButtonComponent extends Component<ButtonComponent, ButtonDefinition> {
+public final class ButtonComponent extends Component<ButtonComponent, Button, ButtonDefinition> {
 
     private Emoji emoji;
     private ButtonStyle buttonStyle;
