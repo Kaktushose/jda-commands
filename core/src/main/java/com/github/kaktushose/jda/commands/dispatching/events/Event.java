@@ -17,7 +17,9 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.IntegrationOwners;
 import net.dv8tion.jda.api.interactions.Interaction;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -165,5 +167,17 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     @Override
     public long getIdLong() {
         return event.getIdLong();
+    }
+
+    @Override
+    @NotNull
+    public IntegrationOwners getIntegrationOwners() {
+        return event.getIntegrationOwners();
+    }
+
+    @Override
+    @NotNull
+    public InteractionContextType getContext() {
+        return event.getContext();
     }
 }
