@@ -43,7 +43,7 @@ public class OptionDataDefinitionTest {
     @Test
     public void optional_withoutDefault_ShouldBeNull() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optional", Object.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         assertTrue(parameter.optional());
         assertNull(parameter.defaultValue());
@@ -52,7 +52,7 @@ public class OptionDataDefinitionTest {
     @Test
     public void optional_withDefault_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("optionalWithDefault", Object.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         assertTrue(parameter.optional());
         assertEquals("default", parameter.defaultValue());
@@ -61,7 +61,7 @@ public class OptionDataDefinitionTest {
     @Test
     public void constraintMin_withLimit10_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraint", int.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         var constraints = List.copyOf(parameter.constraints());
         assertEquals(1, parameter.constraints().size());
@@ -73,7 +73,7 @@ public class OptionDataDefinitionTest {
     @Test
     public void constraintMin_withLimit10Wrapped_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraintWrapped", Integer.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         var constraints = List.copyOf(parameter.constraints());
         assertEquals(1, parameter.constraints().size());
@@ -85,7 +85,7 @@ public class OptionDataDefinitionTest {
     @Test
     public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraintWithMessage", int.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), false, validatorRegistry);
+        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
         var constraints = List.copyOf(parameter.constraints());
 
         assertEquals("error message", constraints.getFirst().message());
