@@ -14,6 +14,10 @@ public final class EntitySelectMenuComponent extends Component<EntitySelectMenuC
     private Set<ChannelType> channelTypes;
     private Set<EntitySelectMenu.DefaultValue> defaultValues;
 
+    public EntitySelectMenuComponent(String method, Class<?> origin) {
+        super(method, origin);
+    }
+
     @NotNull
     public EntitySelectMenuComponent entityTypes(@NotNull Set<EntitySelectMenu.SelectTarget> types) {
         this.entityTypes = types;
@@ -30,6 +34,11 @@ public final class EntitySelectMenuComponent extends Component<EntitySelectMenuC
     public EntitySelectMenuComponent defaultValues(@NotNull EntitySelectMenu.DefaultValue... values) {
         this.defaultValues = Set.of(values);
         return this;
+    }
+
+    @Override
+    public Class<EntitySelectMenuDefinition> definitionClass() {
+        return EntitySelectMenuDefinition.class;
     }
 
     @Override

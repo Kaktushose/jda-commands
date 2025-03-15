@@ -2,17 +2,13 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.EntitySelectMenuComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -22,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
 ///
@@ -191,36 +186,42 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
             var className = component.origin() == null
                     ? definition.methodDescription().declaringClass().getName()
                     : component.origin().getName();
-            var definitionId = String.valueOf((className + component.name()).hashCode());
+            String definitionId = String.valueOf((className + component.name()).hashCode());
 
-            switch (component) {
-                case ButtonComponent buttonComponent -> {
-                    var definition = registry.find(ButtonDefinition.class, false, it ->
-                            it.definitionId().equals(definitionId)
-                    );
+            var definition = findDefinition(component, definitionId);
 
-                    var button = buttonComponent.build(definition).toJDAEntity().withDisabled(!component.enabled());
+            switch (definition) {
+                case ButtonDefinition buttonDefinition -> {
+                    var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
                     items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
                 }
-
-                case EntitySelectMenuComponent menuComponent -> {
-                    var definition = registry.find(EntitySelectMenuDefinition.class, false, it ->
-                            it.definitionId().equals(definitionId)
-                    );
-
-                    var menu = menuComponent.build(definition).toJDAEntity(createId(definition, component.independent()));
+                case SelectMenuDefinition<?> menuDefinition -> {
+                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
                     items.add(menu.withDisabled(!component.enabled()));
                 }
 
             }
+
             log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         }
+
         if (!items.isEmpty()) {
             builder.addComponents(ActionRow.of(items));
         }
 
         return new ComponentReply(this);
+    }
+
+    private <D extends ComponentDefinition<?>, T extends Component<T, D>> D findDefinition(Component<T, D> component, String definitionId) {
+
+        // this cast is effective safe
+        D definition = registry.find(component.definitionClass(), false, it ->
+                it.definitionId().equals(definitionId)
+        );
+
+        return component.build(definition);
+
     }
 
     private CustomId createId(InteractionDefinition definition, boolean staticComponent) {

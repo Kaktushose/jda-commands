@@ -13,6 +13,10 @@ public final class ButtonComponent extends Component<ButtonComponent, ButtonDefi
     private String label;
     private String url;
 
+    public ButtonComponent(String method, Class<?> origin) {
+        super(method, origin);
+    }
+
     public ButtonComponent emoji(@NotNull Emoji emoji) {
         this.emoji = emoji;
         return this;
@@ -31,6 +35,11 @@ public final class ButtonComponent extends Component<ButtonComponent, ButtonDefi
     public ButtonComponent url(@NotNull String url) {
         this.url = url;
         return this;
+    }
+
+    @Override
+    public Class<ButtonDefinition> definitionClass() {
+        return ButtonDefinition.class;
     }
 
     @Override

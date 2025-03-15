@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 
-public abstract sealed class SelectMenuBuilder<T extends SelectMenu, B extends SelectMenu.Builder<T, B>> implements ComponentBuilder
+public abstract sealed class SelectMenuBuilder<T extends SelectMenu, B extends SelectMenu.Builder<T, B>>
         permits EntitySelectMenuBuilder, StringSelectMenuBuilder {
 
     protected final B menu;

@@ -83,9 +83,4 @@ public final class StringSelectMenuBuilder extends SelectMenuBuilder<StringSelec
         menu.setDefaultOptions(values);
         return this;
     }
-
-    @Override
-    public StringSelectMenuDefinition build() {
-        return new StringSelectMenuDefinition(definition, menu.build());
-    }
 }
