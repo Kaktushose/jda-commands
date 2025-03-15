@@ -3,6 +3,8 @@ package com.github.kaktushose.jda.commands.definitions.interactions;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -23,5 +25,6 @@ public record MethodBuildContext(
         @Nullable CooldownDefinition cooldownDefinition,
         @NotNull ClassDescription clazz,
         @NotNull MethodDescription method,
-        @NotNull Collection<AutoCompleteDefinition> autoCompleteDefinitions
-) {}
+        @NotNull Collection<AutoCompleteDefinition> autoCompleteDefinitions,
+        @NotNull CommandConfig globalCommandConfig
+        ) {}

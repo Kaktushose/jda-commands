@@ -162,8 +162,9 @@ public record TreeNode(
         boolean isGuildOnly = false;
         Set<Permission> enabledPermissions = new HashSet<>();
         for (SlashCommandDefinition command : subCommands) {
-            isNSFW = isNSFW || command.nsfw();
-            isGuildOnly = isGuildOnly || command.guildOnly();
+            isNSFW = isNSFW || command.commandConfig().isNSFW();
+            isGuildOnly = isGuildOnly || true;
+            // TODO somehow combine this shit
             enabledPermissions.addAll(command.enabledPermissions());
         }
 

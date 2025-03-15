@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
@@ -30,9 +29,7 @@ import java.util.concurrent.TimeUnit;
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
-/// @param scope                the [CommandScope] of this command
-/// @param guildOnly            whether this command can only be executed in guilds
-/// @param nsfw                 whether this command is nsfw
+/// @param commandConfig        the [CommandConfig] to use
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
@@ -44,9 +41,7 @@ public record SlashCommandDefinition(
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,
-        @NotNull CommandScope scope,
-        boolean guildOnly,
-        boolean nsfw,
+        @NotNull CommandConfig commandConfig,
         @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
@@ -101,14 +96,14 @@ public record SlashCommandDefinition(
             cooldownDefinition = context.cooldownDefinition();
         }
 
+
+
         return Optional.of(new SlashCommandDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
                 name,
-                command.scope(),
-                command.isGuildOnly(),
-                command.isNSFW(),
+                Helpers.commandConfig(context),
                 enabledFor,
                 context.localizationFunction(),
                 command.desc(),
@@ -128,8 +123,9 @@ public record SlashCommandDefinition(
                 name,
                 description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(guildOnly)
-                .setNSFW(nsfw)
+        command.setIntegrationTypes(commandConfig.integration())
+                .setContexts(commandConfig.context())
+                .setNSFW(commandConfig.isNSFW())
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         commandOptions.forEach(parameter -> {

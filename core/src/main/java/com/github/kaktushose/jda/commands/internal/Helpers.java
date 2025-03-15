@@ -1,10 +1,12 @@
 package com.github.kaktushose.jda.commands.internal;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
@@ -116,6 +118,17 @@ public final class Helpers {
         if (entity.isDetached()) {
             throw new IllegalArgumentException("%s doesn't support detached entities and cannot be used for user installable apps!".formatted(origin.getName()));
         }
+    }
+
+    public static CommandDefinition.CommandConfig commandConfig(MethodBuildContext context) {
+        var clazz = context.clazz().annotation(CommandConfig.class);
+        var method = context.method().annotation(CommandConfig.class);
+
+        if (clazz.isEmpty() && method.isEmpty()) {
+            return context.globalCommandConfig();
+        }
+
+        return method.map(CommandDefinition.CommandConfig::new).orElseGet(() -> new CommandDefinition.CommandConfig(clazz.get()));
     }
 
     @NotNull

@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -27,9 +26,7 @@ import java.util.stream.Collectors;
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
 /// @param commandType          the [Command.Type] of this command
-/// @param scope                the [CommandScope] of this command
-/// @param guildOnly            whether this command can only be executed in guilds
-/// @param nsfw                 whether this command is nsfw
+/// @param commandConfig        the [CommandConfig] to use
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
@@ -38,9 +35,7 @@ public record ContextCommandDefinition(
         @NotNull Collection<String> permissions,
         @NotNull String name,
         @NotNull Command.Type commandType,
-        @NotNull CommandScope scope,
-        boolean guildOnly,
-        boolean nsfw,
+        @NotNull CommandConfig commandConfig,
         @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction
 ) implements CommandDefinition {
@@ -77,9 +72,7 @@ public record ContextCommandDefinition(
                 Helpers.permissions(context),
                 command.value(),
                 command.type(),
-                command.scope(),
-                command.isGuildOnly(),
-                command.isNSFW(),
+                Helpers.commandConfig(context),
                 enabledFor,
                 context.localizationFunction()
         ));
@@ -92,8 +85,9 @@ public record ContextCommandDefinition(
     @Override
     public CommandData toJDAEntity() {
         var command = Commands.context(commandType, name);
-        command.setGuildOnly(guildOnly)
-                .setNSFW(nsfw)
+        command.setIntegrationTypes(commandConfig.integration())
+                .setContexts(commandConfig.context())
+                .setNSFW(commandConfig.isNSFW())
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions))
                 .setLocalizationFunction(localizationFunction);
         return command;

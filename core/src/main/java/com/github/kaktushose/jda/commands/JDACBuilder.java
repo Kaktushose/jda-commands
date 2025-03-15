@@ -4,6 +4,8 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -24,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Function;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -161,6 +164,12 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    @NotNull
+    public JDACBuilder globalCommandConfig(@NotNull Function<CommandConfig.Builder, CommandConfig.Builder> config) {
+        this.globalCommandConfig = new CommandConfig(config.apply(new CommandConfig.Builder()));
+        return this;
+    }
+
     /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
@@ -199,7 +208,8 @@ public final class JDACBuilder extends JDACBuilderData {
                 guildScopeProvider(),
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
-                globalReplyConfig()
+                globalReplyConfig(),
+                globalCommandConfig()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

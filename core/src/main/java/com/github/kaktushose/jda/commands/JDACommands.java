@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
@@ -37,6 +38,7 @@ public final class JDACommands {
     private final JDAEventListener jdaEventListener;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
+    private final CommandDefinition.CommandConfig globalCommandConfig;
 
     JDACommands(
             JDAContext jdaContext,
@@ -47,11 +49,13 @@ public final class JDACommands {
             GuildScopeProvider guildScopeProvider,
             InteractionRegistry interactionRegistry,
             InteractionControllerInstantiator instanceProvider,
-            InteractionDefinition.ReplyConfig globalReplyConfig) {
+            InteractionDefinition.ReplyConfig globalReplyConfig,
+            CommandDefinition.CommandConfig globalCommandConfig) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.globalCommandConfig = globalCommandConfig;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -100,7 +104,7 @@ public final class JDACommands {
 
     void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
         log.info("Starting JDA-Commands...");
-        interactionRegistry.index(classFinder.search(Interaction.class));
+        interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener));

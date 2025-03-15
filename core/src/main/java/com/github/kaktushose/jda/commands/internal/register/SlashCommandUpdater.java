@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.ApiStatus;
@@ -44,12 +45,12 @@ public final class SlashCommandUpdater {
 
     private Set<CommandData> getCommands(CommandScope scope) {
         var tree = new CommandTree(
-                interactionRegistry.find(SlashCommandDefinition.class, it -> it.scope() == scope)
+                interactionRegistry.find(SlashCommandDefinition.class, it -> it.commandConfig().scope() == scope)
         );
         Set<CommandData> commands = new HashSet<>(tree.getCommands());
         log.debug("Generated slash command tree with CommandScope.{}:\n{}", scope, tree);
         commands.addAll(
-                interactionRegistry.find(ContextCommandDefinition.class, it -> it.scope() == scope)
+                interactionRegistry.find(ContextCommandDefinition.class, it -> it.commandConfig().scope() == scope)
                         .stream()
                         .map(ContextCommandDefinition::toJDAEntity)
                         .toList()
