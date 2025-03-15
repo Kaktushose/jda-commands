@@ -58,6 +58,10 @@ import java.lang.annotation.Target;
 ///     event.replyChoices(...);
 /// }
 /// ```
+/// You can have multiple auto complete handler for the same slash command, but each command option can only have
+/// exactly *one* handler.
+/// If an auto complete handler doesn't specify any command options, it will be registered implicitly for every command
+/// option of the given slash command(s), unless an explicit auto complete handler exists for that command option.
 /// @see SlashCommand
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
