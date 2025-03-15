@@ -87,7 +87,7 @@ public record InteractionRegistry(@NotNull Validators validators,
                 .toList();
 
         autoCompletes.stream()
-                .map(AutoCompleteDefinition::commands)
+                .map(AutoCompleteDefinition::rules)
                 .flatMap(Collection::stream)
                 .filter(rule -> commandDefinitions.stream().noneMatch(command ->
                         command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))

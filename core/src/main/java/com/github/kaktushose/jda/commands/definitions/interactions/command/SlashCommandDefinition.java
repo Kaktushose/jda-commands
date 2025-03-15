@@ -73,17 +73,16 @@ public record SlashCommandDefinition(
             return Optional.empty();
         }
 
-        var autoComplete = context.autoCompleteDefinitions().stream()
-                .map(AutoCompleteDefinition::commands)
-                .flatMap(Collection::stream)
-                .filter(it -> name.startsWith(it.command()) || it.command().equals(method.name()))
-                .findFirst();
-
+        var autoCompletes = context.autoCompleteDefinitions().stream()
+                .filter(definition -> definition.rules().stream()
+                        .map(AutoCompleteRule::command)
+                        .anyMatch(it -> it.equals(name) || it.equals(method.name()))
+                ).toList();
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, isAutoComplete(parameter, autoComplete), context.validators())
+                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter), context.validators())
                 )
                 .toList();
 
@@ -120,19 +119,19 @@ public record SlashCommandDefinition(
         ));
     }
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private static boolean isAutoComplete(ParameterDescription parameter, Optional<AutoCompleteRule> rule) {
-        // empty optional = no auto complete registered for this command
-        if (rule.isEmpty()) {
-            return false;
-        }
-        var autoComplete = rule.get();
-        // no options specified = auto complete should implicitly handle all options
-        if (autoComplete.options().isEmpty()) {
-            return true;
-        }
-        // check if rule applies to given parameter
-        return autoComplete.options().contains(parameter.name());
+    @Nullable
+    private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter) {
+        return autoCompletes.stream()
+                .filter(definition -> definition.rules().stream()
+                        .flatMap(rule -> rule.options().stream())
+                        .anyMatch(it -> it.equals(parameter.name()))
+                ).findFirst()
+                .orElseGet(() -> autoCompletes.stream()
+                        .filter(definition -> definition.rules().stream()
+                                .anyMatch(rule -> rule.options().isEmpty())
+                        ).findFirst()
+                        .orElse(null)
+                );
     }
 
     /// Transforms this definition into [SlashCommandData].

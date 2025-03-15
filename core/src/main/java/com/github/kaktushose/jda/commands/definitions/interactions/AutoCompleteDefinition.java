@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 ///
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
-/// @param commands          the commands this autocomplete handler can handle
+/// @param rules          the rules this autocomplete handler can handle
 public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
                                      @NotNull MethodDescription methodDescription,
-                                     @NotNull Set<AutoCompleteRule> commands)
+                                     @NotNull Set<AutoCompleteRule> rules)
         implements InteractionDefinition {
 
     /// Representation of an auto complete rule.
