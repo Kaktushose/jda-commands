@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /// Representation of a slash command.
 ///
@@ -82,7 +83,7 @@ public record SlashCommandDefinition(
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter), context.validators())
+                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.validators())
                 )
                 .toList();
 
@@ -120,18 +121,30 @@ public record SlashCommandDefinition(
     }
 
     @Nullable
-    private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter) {
-        return autoCompletes.stream()
+    private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter, String command) {
+        var possibleAutoCompletes = autoCompletes.stream()
                 .filter(definition -> definition.rules().stream()
                         .flatMap(rule -> rule.options().stream())
                         .anyMatch(it -> it.equals(parameter.name()))
-                ).findFirst()
-                .orElseGet(() -> autoCompletes.stream()
-                        .filter(definition -> definition.rules().stream()
-                                .anyMatch(rule -> rule.options().isEmpty())
-                        ).findFirst()
-                        .orElse(null)
-                );
+                ).toList();
+        if (possibleAutoCompletes.size() > 1) {
+            log.error("""
+                            Found multiple auto complete handler for parameter named "{}" of slash command "/{}":
+                                 -> {}
+                            Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.""",
+                    parameter.name(),
+                    command,
+                    possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
+            );
+            return null;
+        }
+        if (possibleAutoCompletes.isEmpty()) {
+            return autoCompletes.stream()
+                    .filter(definition -> definition.rules().stream()
+                            .anyMatch(rule -> rule.options().isEmpty())
+                    ).findFirst().orElse(null);
+        }
+        return possibleAutoCompletes.getFirst();
     }
 
     /// Transforms this definition into [SlashCommandData].
