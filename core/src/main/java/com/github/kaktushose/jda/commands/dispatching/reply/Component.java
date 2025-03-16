@@ -4,7 +4,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.*;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.EntitySelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.SelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 
 import java.util.function.Function;
@@ -28,12 +32,13 @@ import java.util.function.Function;
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
 ///```
-public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, SelectMenuComponent, UnspecificComponent {
+public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits SelectMenuComponent, ButtonComponent, UnspecificComponent {
     private boolean enabled = true;
     private boolean independent = false;
     private Function<T, T> callback = Function.identity();
-    protected final String method;
-    protected final Class<?> origin;
+
+    private final String method;
+    private final Class<?> origin;
 
     public Component(String method, Class<?> origin) {
         this.method = method;
@@ -74,12 +79,12 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
     protected Function<T, T> callback() {return callback;}
 
     @SuppressWarnings("unchecked")
-    private Self self() {
+    protected Self self() {
         return (Self) this;
     }
 
-    public abstract Class<D> definitionClass();
-    public abstract D build(D definition);
+    protected abstract Class<D> definitionClass();
+    protected abstract D build(D definition);
 
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
@@ -146,27 +151,27 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
         return new UnspecificComponent(enabled, independent, component, origin);
     }
 
-    public static ButtonComponent button(String method, Class<?> origin) {
+    public static ButtonComponent button(Class<?> origin, String method) {
         return new ButtonComponent(method, origin);
     }
 
     public static ButtonComponent button(String method) {
-        return button(method, null);
+        return button(null, method);
     }
 
-    public static EntitySelectMenuComponent entitySelect(String method, Class<?> origin) {
+    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String method) {
         return new EntitySelectMenuComponent(method, origin);
     }
 
     public static EntitySelectMenuComponent entitySelect(String method) {
-        return entitySelect(method, null);
+        return entitySelect(null, method);
     }
 
-    public static StringSelectComponent stringSelect(String method, Class<?> origin) {
+    public static StringSelectComponent stringSelect(Class<?> origin, String method) {
         return new StringSelectComponent(method, origin);
     }
 
     public static StringSelectComponent stringSelect(String method) {
-        return stringSelect(method, null);
+        return stringSelect(null, method);
     }
 }

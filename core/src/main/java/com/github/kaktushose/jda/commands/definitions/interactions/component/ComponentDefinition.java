@@ -10,6 +10,9 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+import java.util.function.Supplier;
+
 /// Common interface for component interaction definitions.
 ///
 /// @see ButtonDefinition
@@ -28,6 +31,18 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
         return newValue != null
                 ? newValue
                 : oldValue;
+    }
+
+    static <E, T extends Collection<E>> T override(Supplier<T> newSupp, T oldValue, T newValues) {
+        if (newValues == null) return oldValue;
+
+        if (oldValue != null) {
+            T collection = newSupp.get();
+            collection.addAll(oldValue);
+            collection.addAll(newValues);
+            return collection;
+        }
+        return newValues;
     }
 
 }

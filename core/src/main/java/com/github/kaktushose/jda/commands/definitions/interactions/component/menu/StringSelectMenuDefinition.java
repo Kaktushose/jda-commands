@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
 
-import com.github.kaktushose.jda.commands.annotations.internal.SelectOptionContainer;
+import com.github.kaktushose.jda.commands.annotations.interactions.MenuOption;
+import com.github.kaktushose.jda.commands.annotations.interactions.SelectOptionContainer;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -17,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition.override;
 
 /// Representation of a string select menu.
 ///
@@ -37,16 +40,34 @@ public record StringSelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
-    public StringSelectMenuDefinition(@NotNull StringSelectMenuDefinition definition, @NotNull StringSelectMenu menu) {
-        this(
-                definition.classDescription,
-                definition.methodDescription,
-                definition.permissions,
-                menu.getOptions().stream().map(SelectOptionDefinition::new).collect(Collectors.toSet()),
-                Objects.requireNonNull(menu.getPlaceholder()),
-                menu.getMinValues(),
-                menu.getMaxValues()
+    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
+                                           Collection<String> defaultValues,
+                                           String placeholder,
+                                           Integer minValue,
+                                           Integer maxValue) {
+        return new StringSelectMenuDefinition(
+                this.classDescription,
+                this.methodDescription,
+                this.permissions,
+                createOptions(selectOptions, defaultValues),
+                override(this.placeholder, placeholder),
+                override(this.minValue, minValue),
+                override(this.maxValue, maxValue)
         );
+    }
+
+    private Set<SelectOptionDefinition> createOptions(Set<SelectOption> selectOptions,
+                                                            Collection<String> defaultValues) {
+        return override(HashSet::new, this.selectOptions, selectOptions
+                .stream()
+                .map(SelectOptionDefinition::new)
+                .collect(Collectors.toSet()))
+                .stream()
+                .map(selectOption -> defaultValues.contains(selectOption.value())
+                        ? selectOption.withDefault()
+                        : selectOption
+                )
+                .collect(Collectors.toSet());
     }
 
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
@@ -64,8 +85,8 @@ public record StringSelectMenuDefinition(
         Set<SelectOptionDefinition> selectOptions = new HashSet<>();
 
         method.annotations().stream()
-                .filter(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::isInstance)
-                .map(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption.class::cast)
+                .filter(MenuOption.class::isInstance)
+                .map(MenuOption.class::cast)
                 .forEach(it -> selectOptions.add(SelectOptionDefinition.build(it)));
 
         method.annotations().stream()
@@ -106,11 +127,6 @@ public record StringSelectMenuDefinition(
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
                 .addOptions(selectOptions.stream().map(SelectOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
-                .setDefaultOptions(selectOptions.stream()
-                        .filter(SelectOptionDefinition::isDefault)
-                        .map(SelectOptionDefinition::toJDAEntity)
-                        .collect(Collectors.toSet())
-                )
                 .build();
     }
 
@@ -121,7 +137,7 @@ public record StringSelectMenuDefinition(
     }
 
     /// Representation of a select option for a string select menu defined by a
-    /// [`SelectOption`][com.github.kaktushose.jda.commands.annotations.interactions.SelectOption].
+    /// [`MenuOption`][MenuOption].
     ///
     /// @param value       the value of the select option
     /// @param label       the label of the select option
@@ -139,9 +155,13 @@ public record StringSelectMenuDefinition(
             this(option.getValue(), option.getLabel(), option.getDescription(), option.getEmoji(), option.isDefault());
         }
 
+        private SelectOptionDefinition withDefault() {
+            return new SelectOptionDefinition(value, label, description, emoji, true);
+        }
+
         /// Constructs a new [SelectOptionDefinition] from the given
-        /// [`SelectOption`][com.github.kaktushose.jda.commands.annotations.interactions.SelectOption].
-        public static SelectOptionDefinition build(com.github.kaktushose.jda.commands.annotations.interactions.SelectOption option) {
+        /// [`MenuOption`][MenuOption].
+        public static SelectOptionDefinition build(MenuOption option) {
             Emoji emoji;
             String emojiString = option.emoji();
             if (emojiString.isEmpty()) {
@@ -164,7 +184,8 @@ public record StringSelectMenuDefinition(
         public SelectOption toJDAEntity() {
             return SelectOption.of(label, value)
                     .withDescription(description)
-                    .withEmoji(emoji);
+                    .withEmoji(emoji)
+                    .withDefault(isDefault);
         }
     }
 }

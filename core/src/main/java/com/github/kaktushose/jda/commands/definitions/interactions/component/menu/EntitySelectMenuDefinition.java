@@ -38,33 +38,22 @@ public record EntitySelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
-    public EntitySelectMenuDefinition(@NotNull EntitySelectMenuDefinition definition, @NotNull EntitySelectMenu menu) {
-        this(
-                definition.classDescription,
-                definition.methodDescription,
-                definition.permissions,
-                definition.selectTargets,
-                definition.defaultValues,
-                definition.channelTypes,
-                Objects.requireNonNull(menu.getPlaceholder()),
-                menu.getMinValues(),
-                menu.getMinValues()
-        );
-    }
-
     public EntitySelectMenuDefinition with(Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                          Set<EntitySelectMenu.DefaultValue> defaultValues,
-                                          Set<ChannelType> channelTypes) {
+                                           Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                           Set<ChannelType> channelTypes,
+                                           String placeholder,
+                                           Integer minValue,
+                                           Integer maxValue) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
                 permissions,
-                override(this.selectTargets, selectTargets),
-                override(this.defaultValues, defaultValues),
-                override(this.channelTypes, channelTypes),
-                placeholder,
-                minValue,
-                maxValue
+                override(HashSet::new, this.selectTargets, selectTargets),
+                override(HashSet::new, this.defaultValues, defaultValues),
+                override(HashSet::new, this.channelTypes, channelTypes),
+                override(this.placeholder, placeholder),
+                override(this.minValue, minValue),
+                override(this.maxValue, maxValue)
         );
     }
 

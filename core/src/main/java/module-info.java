@@ -9,7 +9,6 @@ module io.github.kaktushose.jda.commands.core {
     requires transitive org.jetbrains.annotations;
     requires transitive jakarta.inject;
     requires java.naming;
-//    requires jsr305;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -34,6 +33,7 @@ module io.github.kaktushose.jda.commands.core {
     exports com.github.kaktushose.jda.commands.dispatching.reply;
     exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
     exports com.github.kaktushose.jda.commands.dispatching.reply.component;
+    exports com.github.kaktushose.jda.commands.dispatching.reply.component.menu;
 
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
     exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;

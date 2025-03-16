@@ -10,9 +10,9 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.Com
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.EntitySelectMenuComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.StringSelectComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.EntitySelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
@@ -22,7 +22,10 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
