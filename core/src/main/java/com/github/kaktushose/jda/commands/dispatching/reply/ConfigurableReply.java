@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.Com
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
