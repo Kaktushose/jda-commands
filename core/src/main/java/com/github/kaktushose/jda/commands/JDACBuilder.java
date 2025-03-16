@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
@@ -209,7 +208,8 @@ public final class JDACBuilder extends JDACBuilderData {
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig(),
-                globalCommandConfig()
+                globalCommandConfig(),
+                localizationFunction()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

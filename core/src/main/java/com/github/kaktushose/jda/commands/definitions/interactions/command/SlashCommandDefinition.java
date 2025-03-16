@@ -68,6 +68,16 @@ public record SlashCommandDefinition(
             return Optional.empty();
         }
 
+        String[] split = name.split(" ");
+        if (split.length > 3) {
+            log.error("Invalid command name \"{}\" for slash command \"{}.{}\". Slash commands can only have up to 3 labels.",
+                    name,
+                    context.clazz().name(),
+                    method.name()
+            );
+            return Optional.empty();
+        }
+
         boolean autoComplete = context.autoCompleteDefinitions().stream()
                 .map(AutoCompleteDefinition::commands)
                 .flatMap(Collection::stream)
@@ -140,9 +150,9 @@ public record SlashCommandDefinition(
     /// Transforms this definition into [SubcommandData].
     ///
     /// @return the [SubcommandData]
-    public SubcommandData toSubCommandData(String label) {
+    public SubcommandData toSubcommandData(String name) {
         SubcommandData command = new SubcommandData(
-                label,
+                name,
                 description.replaceAll("N/A", "no description")
 
         );

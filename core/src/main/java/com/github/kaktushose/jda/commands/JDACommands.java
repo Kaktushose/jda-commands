@@ -21,6 +21,7 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -50,10 +51,11 @@ public final class JDACommands {
             InteractionRegistry interactionRegistry,
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
-            CommandDefinition.CommandConfig globalCommandConfig) {
+            CommandDefinition.CommandConfig globalCommandConfig,
+            LocalizationFunction localizationFunction) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
         this.globalCommandConfig = globalCommandConfig;
     }
