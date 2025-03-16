@@ -121,6 +121,14 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return this;
     }
 
+    /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+    /// [#keepComponents()] `true`.
+    @NotNull
+    public ConfigurableReply keepSelections(boolean keepSelections) {
+        this.keepSelections = keepSelections;
+        return this;
+    }
+
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
     /// ## Example:
@@ -203,7 +211,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                     .filter(Objects::nonNull)
                     .map(CustomId::fromMerged)
                     .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
-                throw new IllegalArgumentException("Cannot add component %s#%s multiple times!".formatted(className, component.name()));
+                throw new IllegalArgumentException("Cannot add component \"%s.%s\" multiple times!".formatted(className, component.name()));
             }
 
             var definition = findDefinition(component, definitionId);

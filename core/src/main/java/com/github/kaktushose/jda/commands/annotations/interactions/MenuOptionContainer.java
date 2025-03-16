@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @ApiStatus.Internal
-public @interface SelectOptionContainer {
+public @interface MenuOptionContainer {
 
     MenuOption[] value();
 

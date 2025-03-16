@@ -38,7 +38,9 @@ public record ButtonDefinition(
         @NotNull ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
-    public ButtonDefinition with(String label, Emoji emoji, String link, ButtonStyle style) {
+    /// Builds a new [ButtonDefinition] with the given values
+    @NotNull
+    public ButtonDefinition with(@Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
         return new ButtonDefinition(classDescription, methodDescription, permissions,
                 override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
     }

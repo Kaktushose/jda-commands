@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 /// for [StringSelectMenu]s.
 ///
 /// @see StringSelectMenu
-@Repeatable(SelectOptionContainer.class)
+@Repeatable(MenuOptionContainer.class)
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MenuOption {

@@ -81,6 +81,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         /// Constructs a new [ReplyConfig] using the following default values:
         /// - ephemeral: `false`
         /// - keepComponents: `true`
+        /// - keepSelections: `true`
         /// - editReply: `true`
         public ReplyConfig() {
             this(false, true, true, true);

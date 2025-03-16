@@ -8,14 +8,17 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -104,8 +107,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
     /// will be called.
     ///
-    /// If editing a message and `keepComponents` is `true`, queries the original message first and adds its components
-    /// to the reply before sending it.
+    /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
     @NotNull
     protected Message complete() {
         switch (event) {
@@ -120,24 +122,27 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
         }
-        log.debug(
-                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}]",
-                definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents
-        );
         var hook = ((IDeferrableCallback) event).getHook();
+
+        log.debug(
+                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
+                definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
+        );
+        if (event instanceof ComponentInteraction interaction && keepComponents) {
+            builder.addComponents(retrieveComponents(interaction.getMessage()));
+        }
         if (editReply) {
-            if (keepComponents) {
-                builder.addComponents(retrieveComponents(hook));
-            }
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
         return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
-    private List<LayoutComponent> retrieveComponents(InteractionHook hook) {
-        List<LayoutComponent> components = hook.retrieveOriginal().complete().getComponents();
+    private List<LayoutComponent> retrieveComponents(Message original) {
+        List<LayoutComponent> components = original.getComponents();
 
-        if (!keepSelections) return components;
+        if (!keepSelections) {
+            return components;
+        }
 
         for (LayoutComponent layoutComponent : components) {
             for (ActionComponent actionComponent : layoutComponent.getActionComponents()) {
@@ -149,12 +154,12 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
                     case EntitySelectMenu selectMenu when event instanceof EntitySelectInteractionEvent selectEvent -> {
 
-                        Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
+                        Collection<DefaultValue> defaultValues = new HashSet<>();
                         Mentions mentions = selectEvent.getInteraction().getMentions();
 
-                        defaultValues.addAll(mentions.getMembers().stream().map(EntitySelectMenu.DefaultValue::from).toList());
-                        defaultValues.addAll(mentions.getChannels().stream().map(EntitySelectMenu.DefaultValue::from).toList());
-                        defaultValues.addAll(mentions.getRoles().stream().map(EntitySelectMenu.DefaultValue::from).toList());
+                        defaultValues.addAll(mentions.getMembers().stream().map(DefaultValue::from).toList());
+                        defaultValues.addAll(mentions.getChannels().stream().map(DefaultValue::from).toList());
+                        defaultValues.addAll(mentions.getRoles().stream().map(DefaultValue::from).toList());
 
                         yield selectMenu
                                 .createCopy()

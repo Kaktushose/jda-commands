@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.MenuOption;
-import com.github.kaktushose.jda.commands.annotations.interactions.SelectOptionContainer;
+import com.github.kaktushose.jda.commands.annotations.interactions.MenuOptionContainer;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -40,11 +40,13 @@ public record StringSelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
-    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
-                                           Collection<String> defaultValues,
-                                           String placeholder,
-                                           Integer minValue,
-                                           Integer maxValue) {
+    /// Builds a new [StringSelectMenuDefinition] with the given values.
+    @NotNull
+    public StringSelectMenuDefinition with(@NotNull Set<SelectOption> selectOptions,
+                                           @NotNull Collection<String> defaultValues,
+                                           @Nullable String placeholder,
+                                           @Nullable Integer minValue,
+                                           @Nullable Integer maxValue) {
         return new StringSelectMenuDefinition(
                 this.classDescription,
                 this.methodDescription,
@@ -56,8 +58,7 @@ public record StringSelectMenuDefinition(
         );
     }
 
-    private Set<SelectOptionDefinition> createOptions(Set<SelectOption> selectOptions,
-                                                            Collection<String> defaultValues) {
+    private Set<SelectOptionDefinition> createOptions(@NotNull Set<SelectOption> selectOptions, @NotNull Collection<String> defaultValues) {
         return override(HashSet::new, this.selectOptions, selectOptions
                 .stream()
                 .map(SelectOptionDefinition::new)
@@ -90,8 +91,8 @@ public record StringSelectMenuDefinition(
                 .forEach(it -> selectOptions.add(SelectOptionDefinition.build(it)));
 
         method.annotations().stream()
-                .filter(SelectOptionContainer.class::isInstance)
-                .map(SelectOptionContainer.class::cast)
+                .filter(MenuOptionContainer.class::isInstance)
+                .map(MenuOptionContainer.class::cast)
                 .flatMap(it -> Arrays.stream(it.value()))
                 .forEach(it -> selectOptions.add(SelectOptionDefinition.build(it)));
 

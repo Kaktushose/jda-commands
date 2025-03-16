@@ -52,10 +52,14 @@ import java.util.function.Function;
 /// }
 /// ```
 ///
+/// @param <S> the concrete subtype of [Component]
+/// @param <T> the type of [ActionComponent] the [ComponentDefinition] represents
+/// @param <D> the type of [ComponentDefinition] this [Component] represents
 /// @see ButtonComponent
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
-public abstract sealed class Component<S extends Component<S, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+public abstract sealed class Component<S extends Component<S, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>>
+        permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
     private boolean enabled = true;
     private boolean independent = false;
     private Function<T, T> callback = Function.identity();
@@ -82,8 +86,8 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     }
 
     /// @param callback a [Function] that allows to modify the resulting jda object.
-    /// The passed function will be called after all modifications are made by jda-commands,
-    /// shortly before the component is registered in the message
+    ///                                 The passed function will be called after all modifications are made by jda-commands,
+    ///                                 shortly before the component is registered in the message
     public S modify(Function<T, T> callback) {
         this.callback = callback;
         return self();
@@ -105,7 +109,9 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return origin;
     }
 
-    protected Function<T, T> callback() {return callback;}
+    protected Function<T, T> callback() {
+        return callback;
+    }
 
     @SuppressWarnings("unchecked")
     protected S self() {
@@ -113,6 +119,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     }
 
     protected abstract Class<D> definitionClass();
+
     protected abstract D build(D definition);
 
 
@@ -132,8 +139,8 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
 
     /// Adds an enabled, runtime-independent [Component] to the reply.
     ///
-    /// Every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). Furthermore, the component cannot expire and
-    /// will always get executed, even after a bot restart.
+    /// Every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    /// Furthermore, the component cannot expire and will always get executed, even after a bot restart.
     ///
     /// @param component the name of the method that represents the component
     public static Component<?, ?, ?> independent(String component) {
@@ -158,7 +165,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return of(false, origin, component);
     }
 
-    /// Adds [Component]s with the passed configuration to the reply.
+    /// Adds a [Component] with the passed configuration to the reply.
     ///
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
@@ -167,7 +174,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return new UnspecificComponent(enabled, independent, component, null);
     }
 
-    /// Adds [Component]s with the passed configuration to the reply.
+    /// Adds a [Component] with the passed configuration to the reply.
     ///
     /// @param enabled   whether the [Component] should be enabled or disabled
     /// @param origin    the [Class] the `component` is defined in
@@ -178,15 +185,22 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
 
     /// Adds a [Component] with the passed configuration to the reply.
     ///
-    /// @param enabled   whether the [Component] should be enabled or disabled
+    /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
     public static Component<?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, independent, component, origin);
     }
 
-    /// Adds a [ButtonComponent] with the passed configuration to the reply.
+    /// Adds a [ButtonComponent] to the reply.
+    ///
+    /// @param component the name of the method that represents the button
+    public static ButtonComponent button(String component) {
+        return button(null, component);
+    }
+
+    /// Adds a [ButtonComponent] to the reply.
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
@@ -194,29 +208,28 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return new ButtonComponent(component, origin);
     }
 
-    /// Adds a [ButtonComponent] with the passed configuration to the reply.
-    ///
-    /// @param component the name of the method that represents the component
-    public static ButtonComponent button(String component) {
-        return button(null, component);
-    }
-
-    /// Adds a [EntitySelectMenuComponent] with the passed configuration to the reply.
-    ///
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
-    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String component) {
-        return new EntitySelectMenuComponent(component, origin);
-    }
-
-    /// Adds a [EntitySelectMenuComponent] with the passed configuration to the reply.
+    /// Adds an [EntitySelectMenuComponent] to the reply.
     ///
     /// @param component the name of the method that represents the component
     public static EntitySelectMenuComponent entitySelect(String component) {
         return entitySelect(null, component);
     }
+    /// Adds an [EntitySelectMenuComponent] to the reply.
+    ///
+    /// @param origin    the [Class] the `menu` is defined in
+    /// @param component the name of the method that represents the component
+    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String component) {
+        return new EntitySelectMenuComponent(component, origin);
+    }
 
-    /// Adds a [StringSelectComponent] with the passed configuration to the reply.
+    /// Adds a [StringSelectComponent] to the reply.
+    ///
+    /// @param component the name of the method that represents the component
+    public static StringSelectComponent stringSelect(String component) {
+        return stringSelect(null, component);
+    }
+
+    /// Adds a [StringSelectComponent] to the reply.
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
@@ -224,10 +237,4 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return new StringSelectComponent(component, origin);
     }
 
-    /// Adds a [StringSelectComponent] with the passed configuration to the reply.
-    ///
-    /// @param component the name of the method that represents the component
-    public static StringSelectComponent stringSelect(String component) {
-        return stringSelect(null, component);
-    }
 }

@@ -60,6 +60,8 @@ public @interface ReplyConfig {
     /// @return `true` if to edit the original method
     boolean editReply() default true;
 
+    /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+    /// [#keepComponents()] `true`.
     boolean keepSelections() default true;
 
 }

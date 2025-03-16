@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -38,12 +39,14 @@ public record EntitySelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
-    public EntitySelectMenuDefinition with(Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                           Set<EntitySelectMenu.DefaultValue> defaultValues,
-                                           Set<ChannelType> channelTypes,
-                                           String placeholder,
-                                           Integer minValue,
-                                           Integer maxValue) {
+    /// Builds a new [EntitySelectMenuDefinition] with the given values.
+    @NotNull
+    public EntitySelectMenuDefinition with(@NotNull Set<EntitySelectMenu.SelectTarget> selectTargets,
+                                           @NotNull Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                           @NotNull Set<ChannelType> channelTypes,
+                                           @Nullable String placeholder,
+                                           @Nullable Integer minValue,
+                                           @Nullable Integer maxValue) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,

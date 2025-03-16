@@ -18,7 +18,7 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     private final Set<ChannelType> channelTypes = new HashSet<>();
     private final Set<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
 
-    public EntitySelectMenuComponent(String method, Class<?> origin) {
+    public EntitySelectMenuComponent(@NotNull String method, @NotNull Class<?> origin) {
         super(method, origin);
     }
 
@@ -70,7 +70,7 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     }
 
     @Override
-    protected EntitySelectMenuDefinition build(EntitySelectMenuDefinition definition) {
+    protected EntitySelectMenuDefinition build(@NotNull EntitySelectMenuDefinition definition) {
         return definition.with(entityTypes, defaultValues, channelTypes, placeholder, minValues, maxValues);
     }
 }
