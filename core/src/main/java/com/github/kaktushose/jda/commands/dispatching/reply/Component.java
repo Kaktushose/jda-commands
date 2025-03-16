@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectM
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.component.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.SelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.StringSelectComponent;
@@ -16,23 +16,46 @@ import java.util.function.Function;
 /// Represents a component, namely [Button], [StringSelectMenu] or [EntitySelectMenu], that should be added to a reply.
 ///
 /// Also holds the following two settings:
-/// - enabled:
+/// ### enabled:
 ///
 /// to enable or disable the component
-/// - independent:
+/// ### independent:
 ///
 /// whether the component should be executed in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) as the command it is bound to or not. If `true`,
 /// every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). Furthermore, the component cannot expire and will always
 /// get executed, even after a bot restart.
 ///
-/// ### Example:
-/// ```
+/// ## Example:
+/// ```java
 /// @SlashCommand("example command")
 /// public void onCommand(CommandEvent event) {
 ///     event.with().components(Components.of(true, false, "onButton")).reply();
 /// }
-///```
-public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits SelectMenuComponent, ButtonComponent, UnspecificComponent {
+/// ```
+///
+/// ## Component type specific implementations
+/// If using one of:
+/// - [Component#button(Class, String)]
+/// - [Component#entitySelect(Class, String)]
+/// - [Component#stringSelect(Class, String)]
+///
+/// a specific implementations is returned which allows for further modification.
+///
+/// ### Example
+/// This example overrides the buttons label with "Modified Label"
+/// ```java
+/// @SlashCommand("example command")
+/// public void onCommand(CommandEvent event) {
+///     event.with().components(Components.button("onButton")
+///                     .label("Modified Label"))
+///                 .reply();
+/// }
+/// ```
+///
+/// @see ButtonComponent
+/// @see StringSelectComponent
+/// @see EntitySelectMenuComponent
+public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
     private boolean enabled = true;
     private boolean independent = false;
     private Function<T, T> callback = Function.identity();
@@ -40,21 +63,27 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
     private final String method;
     private final Class<?> origin;
 
-    public Component(String method, Class<?> origin) {
+    protected Component(String method, Class<?> origin) {
         this.method = method;
         this.origin = origin;
     }
 
+    /// @param enabled whether the component should be enabled
+    /// @see ActionComponent#withDisabled(boolean)
     public Self enabled(boolean enabled) {
         this.enabled = enabled;
         return self();
     }
 
+    /// @param independent whether the [Component] should be runtime-bound or independent
     public Self independent(boolean independent) {
         this.independent = independent;
         return self();
     }
 
+    /// @param callback a [Function] that allows to modify the resulting jda object.
+    /// The passed function will be called after all modifications are made by jda-commands,
+    /// shortly before the component is registered in the message
     public Self modify(Function<T, T> callback) {
         this.callback = callback;
         return self();
@@ -147,31 +176,58 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
         return new UnspecificComponent(enabled, true, component, origin);
     }
 
+    /// Adds a [Component] with the passed configuration to the reply.
+    ///
+    /// @param enabled   whether the [Component] should be enabled or disabled
+    /// @param independent whether the [Component] should be runtime-bound or independent
+    /// @param origin    the [Class] the `component` is defined in
+    /// @param component the name of the method that represents the component
     public static Component<?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, independent, component, origin);
     }
 
-    public static ButtonComponent button(Class<?> origin, String method) {
-        return new ButtonComponent(method, origin);
+    /// Adds a [ButtonComponent] with the passed configuration to the reply.
+    ///
+    /// @param origin    the [Class] the `component` is defined in
+    /// @param component the name of the method that represents the component
+    public static ButtonComponent button(Class<?> origin, String component) {
+        return new ButtonComponent(component, origin);
     }
 
-    public static ButtonComponent button(String method) {
-        return button(null, method);
+    /// Adds a [ButtonComponent] with the passed configuration to the reply.
+    ///
+    /// @param component the name of the method that represents the component
+    public static ButtonComponent button(String component) {
+        return button(null, component);
     }
 
-    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String method) {
-        return new EntitySelectMenuComponent(method, origin);
+    /// Adds a [EntitySelectMenuComponent] with the passed configuration to the reply.
+    ///
+    /// @param origin    the [Class] the `component` is defined in
+    /// @param component the name of the method that represents the component
+    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String component) {
+        return new EntitySelectMenuComponent(component, origin);
     }
 
-    public static EntitySelectMenuComponent entitySelect(String method) {
-        return entitySelect(null, method);
+    /// Adds a [EntitySelectMenuComponent] with the passed configuration to the reply.
+    ///
+    /// @param component the name of the method that represents the component
+    public static EntitySelectMenuComponent entitySelect(String component) {
+        return entitySelect(null, component);
     }
 
-    public static StringSelectComponent stringSelect(Class<?> origin, String method) {
-        return new StringSelectComponent(method, origin);
+    /// Adds a [StringSelectComponent] with the passed configuration to the reply.
+    ///
+    /// @param origin    the [Class] the `component` is defined in
+    /// @param component the name of the method that represents the component
+    public static StringSelectComponent stringSelect(Class<?> origin, String component) {
+        return new StringSelectComponent(component, origin);
     }
 
-    public static StringSelectComponent stringSelect(String method) {
-        return stringSelect(null, method);
+    /// Adds a [StringSelectComponent] with the passed configuration to the reply.
+    ///
+    /// @param component the name of the method that represents the component
+    public static StringSelectComponent stringSelect(String component) {
+        return stringSelect(null, component);
     }
 }
