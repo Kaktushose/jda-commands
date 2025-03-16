@@ -88,6 +88,45 @@ public class MyExtension implements Extension<MyExtensionData> {
 public record MyExtensionData(String someOption) implements Extension.Data {}
 ```
 
+It's **very important to know** that `providedImplementations()` and the supplier of `Implementation` will be called multiple times during jda-commands startup!
+
+Thus, `providedImplementations()` must always return the same enumeration of `Implementations`s
+and that, if the identity equality is important, the supplier of `Implementation` always return the same instances.
+Jda-commands doesn't rely on identity equality, but you might have fields that store information in that class.
+It should, of course, be the same instance then each time. 
+
+`MyExtension` could look something like this in that case:
+
+```java
+public class MyExtension implements Extension<MyExtensionData> {
+
+    private MyCustomDescriptor descriptor;
+    
+    @Override
+    public void init(MyExtensionData data) {
+        if (data != null) {
+            doSomeConfig(data.someOption());
+            descriptor = new MyCustomDescriptor(this);
+        }
+    }
+
+    @Override
+    public @NotNull Collection<Implementation<?>> providedImplementations() {
+        return List.of(new Implementation.single(
+                Descriptor.class,
+                _ -> descriptor)
+        );
+    }
+
+    @Override
+    public @NotNull Class<MyExtensionData> dataType() {
+        return MyExtensionData.class;
+    }
+}
+
+public record MyExtensionData(String someOption) implements Extension.Data {}
+```
+
 ### The `Implementation` class
 The [`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html)
 class has 2 main purposes: State which class the implementation is for and providing instance(s) of custom implementations.
