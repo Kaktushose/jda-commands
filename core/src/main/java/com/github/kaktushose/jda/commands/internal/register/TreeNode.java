@@ -71,7 +71,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
-            TreeNode node = new TreeNode(rootLabel, null); // in between nodes don't have get command definition assigned
+            TreeNode node = new TreeNode(rootLabel, null); // in between nodes don't get a command definition assigned
             children.add(node);
             return node;
         });
@@ -97,6 +97,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                         command.classDescription().name(),
                         command.methodDescription().name()
                 );
+        children.remove(child.get());
         log.error("Failed to register one ore more commands", new IllegalStateException(error));
         return true;
     }
