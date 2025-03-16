@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
@@ -9,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.internal.Helpers;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
@@ -39,8 +41,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
         var input = command.commandOptions().stream()
-                .map(it -> Optional.ofNullable(event.getOption(it.name())).map(OptionMapping::getAsString))
-                .map(it -> it.orElse(null))
+                .map(it -> event.getOption(it.name()))
                 .toList();
 
         List<Object> parsedArguments = new ArrayList<>();
@@ -56,30 +57,47 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         }
 
         for (int i = 0; i < commandOptions.size(); i++) {
-            var commandOption = commandOptions.get(i);
-            var raw = input.get(i);
-            if (raw == null) {
-                if (commandOption.defaultValue() == null) {
-                    parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(commandOption.type(), null));
-                    continue;
-                } else {
-                    raw = commandOption.defaultValue();
-                }
-            }
-            log.debug("Trying to adapt input \"{}\" to type {}", raw, commandOption.type().getName());
-
-            var adapter = adapterRegistry.get(commandOption.type()).orElseThrow(() ->
+            OptionDataDefinition commandOption = commandOptions.get(i);
+            Class<?> type = commandOption.type();
+            OptionMapping optionMapping = input.get(i);
+            var adapter = adapterRegistry.get(type).orElseThrow(() ->
                     new IllegalArgumentException(
                             "No type adapter implementation found for %s. Consider implementing one or change the required type"
                                     .formatted(commandOption.type())
                     )
             );
 
-            var parsed = adapter.apply(raw, event);
+            Optional<?> parsed;
+            if (optionMapping == null) {
+                if (commandOption.defaultValue() == null) {
+                    parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(type, null));
+                    continue;
+                } else {
+                    log.debug("Trying to adapt input \"{}\" (default value) to type {}", commandOption.defaultValue(), type.getName());
+                    parsed = adapter.apply(commandOption.defaultValue(), event);
+                }
+            } else {
+                log.debug("Trying to adapt input \"{}\" to type {}", optionMapping.getAsString(), type.getName());
+                parsed = switch (optionMapping.getType()) {
+                    case USER -> {
+                        if (Member.class.isAssignableFrom(type)) {
+                            yield Optional.ofNullable(optionMapping.getAsMember());
+                        }
+                        yield Optional.of(optionMapping.getAsUser());
+                    }
+                    case ROLE -> Optional.of(optionMapping.getAsRole());
+                    case CHANNEL -> Optional.of(optionMapping.getAsChannel());
+                    default -> adapter.apply(optionMapping.getAsString(), event);
+                };
+            }
+
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
                 new MessageReply(event, command, dispatchingContext.globalReplyConfig()).reply(
-                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
+                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
+                                .stream()
+                                .map(it -> it == null ? null : it.getAsString())
+                                .toList())
                 );
                 return Optional.empty();
             }
