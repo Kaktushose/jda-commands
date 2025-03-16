@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#init(com.github.kaktushose.jda.commands.extension.Extension.Data)" tabindex="0">init(Extension.Data)</a></li>
+<li><a href="#init(T)" tabindex="0">init(T)</a></li>
 <li><a href="#providedImplementations()" tabindex="0">providedImplementations()</a></li>
 <li><a href="#dataType()" tabindex="0">dataType()</a></li>
 </ol>
@@ -75,7 +75,7 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<h1 title="Interface Extension" class="title">Interface Extension</h1>
+<h1 title="Interface Extension" class="title">Interface Extension&lt;T extends <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../../../../../../io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtension.html" title="class in com.github.kaktushose.jda.commands.guice">GuiceExtension</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Extension</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Extension&lt;T extends <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;</span></div>
 <div class="block"><p>Implementations of this interface, that are registered by Javas service provider interface, will be called
 in <a href="../JDACBuilder.html" title="class in com.github.kaktushose.jda.commands"><code>JDACBuilder</code></a> to configure the framework.</p>
 <p>This interface provides ways to extend the framework with own functionality:</p>
@@ -161,11 +161,11 @@ public record DIExtensionData(Injector providedInjector) implements Extension.Da
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;<a href="Extension.html" title="type parameter in Extension">T</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#dataType()" class="member-name-link">dataType</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#init(com.github.kaktushose.jda.commands.extension.Extension.Data)" class="member-name-link">init</a><wbr>(@Nullable <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&nbsp;data)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#init(T)" class="member-name-link">init</a><wbr>(<a href="Extension.html" title="type parameter in Extension">T</a>&nbsp;data)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Initialises the <a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a> with the provided <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a>.</div>
 </div>
@@ -189,11 +189,11 @@ public record DIExtensionData(Injector providedInjector) implements Extension.Da
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="init(com.github.kaktushose.jda.commands.extension.Extension.Data)">
-<h3>init</h3>
+<section class="detail" id="init(T)">
+<h3 id="init(com.github.kaktushose.jda.commands.extension.Extension.Data)">init</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">init</span><wbr><span class="parameters">(@Nullable
- @Nullable <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&nbsp;data)</span></div>
+ <a href="Extension.html" title="type parameter in Extension">T</a>&nbsp;data)</span></div>
 <div class="block">Initialises the <a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a> with the provided <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a>. Will be called right after jda-commands loaded the Extension.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -223,11 +223,10 @@ is important, you should always return the same instance.</dd>
 <section class="detail" id="dataType()">
 <h3>dataType</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">dataType</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="Extension.html" title="type parameter in Extension">T</a>&gt;</span>&nbsp;<span class="element-name">dataType</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the custom <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a> implementation</dd>
+<dd>the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the custom <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a> implementation or null if the extension doesn't support additional configuration</dd>
 </dl>
 </div>
 </section>
