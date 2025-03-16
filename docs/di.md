@@ -94,7 +94,7 @@ The annotated classes will be instantiated with help of `com.google.inject.Injec
 If you want to integrate another dependency injection framework, you have to provide your own 
 implementation of [InteractionControllerInstantiator](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionControllerInstantiator.html).
 
-You can do this by either passing it to the builder or by creating your own [extension](extensions.md).
+You can do this by either passing it to the builder or by creating your own [extension](extension/writing.md).
 
 !!! example
     ```java
