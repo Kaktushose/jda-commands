@@ -48,12 +48,12 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
 
     @NotNull
     public StringSelectComponent option(@NotNull String label, @NotNull String value, @NotNull Emoji emoji) {
-        return option(label, value, (String)null, emoji);
+        return option(label, value, null, emoji);
     }
 
     @NotNull
     public StringSelectComponent option(@NotNull String label, @NotNull String value, @NotNull String description) {
-        return option(label, value, description, (Emoji)null);
+        return option(label, value, description, null);
     }
 
     @NotNull

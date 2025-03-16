@@ -31,7 +31,6 @@ module io.github.kaktushose.jda.commands.core {
     exports com.github.kaktushose.jda.commands.dispatching.context;
 
     exports com.github.kaktushose.jda.commands.dispatching.reply;
-    exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
     exports com.github.kaktushose.jda.commands.dispatching.reply.component;
     exports com.github.kaktushose.jda.commands.dispatching.reply.component.menu;
 
