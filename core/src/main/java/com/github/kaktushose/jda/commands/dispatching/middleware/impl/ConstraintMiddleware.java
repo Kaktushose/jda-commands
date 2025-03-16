@@ -40,6 +40,12 @@ public class ConstraintMiddleware implements Middleware {
         log.debug("Applying parameter constraints...");
         for (int i = 0; i < arguments.size(); i++) {
             var argument = arguments.get(i);
+
+            // an argument that is null cannot be validated
+            if (argument == null) {
+                continue;
+            }
+
             var optionData = commandOptions.get(i);
             for (var constraint : optionData.constraints()) {
                 log.debug("Found constraint {} for parameter {}", constraint, optionData.type().getName());

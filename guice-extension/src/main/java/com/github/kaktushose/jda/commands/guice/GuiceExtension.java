@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 ///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
-public class GuiceExtension implements Extension {
+public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
             com.github.kaktushose.jda.commands.guice.Implementation.class;
@@ -47,9 +47,9 @@ public class GuiceExtension implements Extension {
     private Injector injector;
 
     @Override
-    public void init(@Nullable Data data) {
+    public void init(@Nullable GuiceExtensionData data) {
         Injector found = data != null
-                ? ((GuiceExtensionData) data).providedInjector()
+                ? data.providedInjector()
                 : Guice.createInjector();
 
         this.injector = found.createChildInjector(new GuiceExtensionModule());

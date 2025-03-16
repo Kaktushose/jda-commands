@@ -47,7 +47,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final JDAContext context;
 
     // extension stuff
-    protected Collection<Extension> loadedExtensions = null;
+    protected Collection<Extension<Extension.Data>> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
 
@@ -79,7 +79,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
     }
 
-    private Collection<Extension> extensions() {
+    @SuppressWarnings("unchecked")
+    private Collection<Extension<Extension.Data>> extensions() {
         if (loadedExtensions == null) {
             loadedExtensions = ServiceLoader.load(Extension.class)
                     .stream()
@@ -87,6 +88,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
                     .filter(extensionFilter)
                     .peek(provider -> log.debug("Using extension {}", provider.type()))
                     .map(ServiceLoader.Provider::get)
+                    .map(extension -> (Extension<Extension.Data>) extension)
                     .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                     .toList();
         }
@@ -94,7 +96,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension, T>> implementations(Class<T> type) {
+    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension -> extension.providedImplementations().stream()
