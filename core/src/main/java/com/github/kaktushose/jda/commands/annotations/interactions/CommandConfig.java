@@ -12,9 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandConfig {
 
-    InteractionContextType context() default InteractionContextType.GUILD;
+    InteractionContextType[] context() default InteractionContextType.GUILD;
 
-    IntegrationType integration() default IntegrationType.GUILD_INSTALL;
+    IntegrationType[] integration() default IntegrationType.GUILD_INSTALL;
 
     CommandScope scope() default CommandScope.GLOBAL;
 

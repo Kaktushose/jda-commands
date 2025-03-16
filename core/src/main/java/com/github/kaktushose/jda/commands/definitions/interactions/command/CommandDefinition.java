@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /// Common interface for command interaction definitions.
@@ -33,10 +34,19 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     /// The [LocalizationFunction] to use for this command.
     @NotNull LocalizationFunction localizationFunction();
 
-    record CommandConfig(@NotNull InteractionContextType context, @NotNull IntegrationType integration, @NotNull CommandScope scope, boolean isNSFW) {
+    record CommandConfig(@NotNull InteractionContextType[] context, @NotNull IntegrationType[] integration, @NotNull CommandScope scope, boolean isNSFW) {
+
+        public CommandConfig {
+            if (context.length == 0) {
+                context = new InteractionContextType[]{InteractionContextType.GUILD};
+            }
+            if (integration.length == 0) {
+                integration = new IntegrationType[]{IntegrationType.GUILD_INSTALL};
+            }
+        }
 
         public CommandConfig() {
-            this(InteractionContextType.GUILD, IntegrationType.GUILD_INSTALL, CommandScope.GLOBAL, false);
+            this(new InteractionContextType[0], new IntegrationType[0], CommandScope.GLOBAL, false);
         }
 
         public CommandConfig(com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig config) {
@@ -44,30 +54,35 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
         }
 
         public CommandConfig(Builder builder) {
-            this(builder.context, builder.integration, builder.scope, builder.isNSFW);
+            this(
+                    builder.context.toArray(InteractionContextType[]::new),
+                    builder.integration.toArray(IntegrationType[]::new),
+                    builder.scope,
+                    builder.isNSFW
+            );
         }
 
         public static class Builder {
 
-            private InteractionContextType context;
-            private IntegrationType integration;
+            private final Set<InteractionContextType> context;
+            private final Set<IntegrationType> integration;
             private CommandScope scope;
             private boolean isNSFW;
 
             public Builder() {
-                context = InteractionContextType.GUILD;
-                integration = IntegrationType.GUILD_INSTALL;
+                context = new HashSet<>();
+                integration = new HashSet<>();
                 scope = CommandScope.GLOBAL;
                 isNSFW = false;
             }
 
             public Builder context(InteractionContextType context) {
-                this.context = context;
+                this.context.add(context);
                 return this;
             }
 
             public Builder integration(IntegrationType integration) {
-                this.integration = integration;
+                this.integration.add(integration);
                 return this;
             }
 
