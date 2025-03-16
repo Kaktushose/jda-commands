@@ -50,12 +50,12 @@ import java.util.List;
 ///
 /// public record DIExtensionData(Injector providedInjector) implements Extension.Data {}
 /// ```
-public interface Extension {
+public interface Extension<T extends Extension.Data> {
 
     /// Initialises the [Extension] with the provided [Data]. Will be called right after jda-commands loaded the Extension.
     ///
     /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type returned by [#dataType()].
-    void init(@Nullable Data data);
+    void init(@Nullable T data);
 
     /// Gets a collection of [Implementation]s this [Extension] provides.
     ///
@@ -67,10 +67,9 @@ public interface Extension {
         return List.of();
     }
 
-    /// @return the [Class] of the custom [Data] implementation
-    @NotNull
-    default Class<?> dataType() {
-        return Void.class;
+    /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
+    default Class<T> dataType() {
+        return null;
     }
 
     /// Implementations of this interface are providing additional configuration to implementations of [Extension].
