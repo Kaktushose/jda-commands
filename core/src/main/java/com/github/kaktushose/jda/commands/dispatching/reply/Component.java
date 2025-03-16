@@ -55,7 +55,7 @@ import java.util.function.Function;
 /// @see ButtonComponent
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
-public abstract sealed class Component<Self extends Component<Self, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+public abstract sealed class Component<S extends Component<S, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>> permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
     private boolean enabled = true;
     private boolean independent = false;
     private Function<T, T> callback = Function.identity();
@@ -70,13 +70,13 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
 
     /// @param enabled whether the component should be enabled
     /// @see ActionComponent#withDisabled(boolean)
-    public Self enabled(boolean enabled) {
+    public S enabled(boolean enabled) {
         this.enabled = enabled;
         return self();
     }
 
     /// @param independent whether the [Component] should be runtime-bound or independent
-    public Self independent(boolean independent) {
+    public S independent(boolean independent) {
         this.independent = independent;
         return self();
     }
@@ -84,7 +84,7 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
     /// @param callback a [Function] that allows to modify the resulting jda object.
     /// The passed function will be called after all modifications are made by jda-commands,
     /// shortly before the component is registered in the message
-    public Self modify(Function<T, T> callback) {
+    public S modify(Function<T, T> callback) {
         this.callback = callback;
         return self();
     }
@@ -108,8 +108,8 @@ public abstract sealed class Component<Self extends Component<Self, T, D>, T ext
     protected Function<T, T> callback() {return callback;}
 
     @SuppressWarnings("unchecked")
-    protected Self self() {
-        return (Self) this;
+    protected S self() {
+        return (S) this;
     }
 
     protected abstract Class<D> definitionClass();

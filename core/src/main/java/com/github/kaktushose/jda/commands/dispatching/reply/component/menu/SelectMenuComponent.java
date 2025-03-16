@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 ///
 /// @see EntitySelectMenuComponent
 /// @see StringSelectComponent
-public sealed abstract class SelectMenuComponent<Self extends SelectMenuComponent<Self, T, D>, T extends SelectMenu, D extends SelectMenuDefinition<T>> extends Component<Self, T, D> permits StringSelectComponent, EntitySelectMenuComponent {
+public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S, T, D>, T extends SelectMenu, D extends SelectMenuDefinition<T>> extends Component<S, T, D> permits StringSelectComponent, EntitySelectMenuComponent {
 
     protected String placeholder;
 
@@ -23,25 +23,25 @@ public sealed abstract class SelectMenuComponent<Self extends SelectMenuComponen
     }
 
     /// @see SelectMenu.Builder#setPlaceholder(String)
-    public Self placeholder(String placeholder) {
+    public S placeholder(String placeholder) {
         this.placeholder = placeholder;
         return self();
     }
 
     /// @see SelectMenu.Builder#setMinValues(int)
-    public Self minValues(int minValue) {
+    public S minValues(int minValue) {
         this.minValues = minValue;
         return self();
     }
 
     /// @see SelectMenu.Builder#setMaxValues(int)
-    public Self maxValues(int maxValue) {
+    public S maxValues(int maxValue) {
         this.maxValues = maxValue;
         return self();
     }
 
     /// @see SelectMenu.Builder#setRequiredRange(int, int)
-    public Self requiresRange(int min, int max) {
+    public S requiresRange(int min, int max) {
         minValues(min);
         maxValues(max);
         return self();
