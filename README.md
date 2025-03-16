@@ -2,7 +2,6 @@
 [![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.4-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
 
 # JDA-Commands
