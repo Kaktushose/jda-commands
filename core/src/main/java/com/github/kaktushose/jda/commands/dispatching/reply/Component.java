@@ -4,11 +4,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
 import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.internal.UnspecificComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.EntitySelectMenuComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.SelectMenuComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.component.menu.StringSelectComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 
 import java.util.function.Function;

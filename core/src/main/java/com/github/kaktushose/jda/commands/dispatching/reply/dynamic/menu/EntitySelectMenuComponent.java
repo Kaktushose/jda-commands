@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.reply.component.menu;
+package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;

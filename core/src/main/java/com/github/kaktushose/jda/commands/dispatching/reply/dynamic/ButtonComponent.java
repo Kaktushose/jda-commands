@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.reply.component;
+package com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;

@@ -1,9 +1,7 @@
-package com.github.kaktushose.jda.commands.dispatching.reply.component.menu;
+package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.dispatching.reply.component.internal;
+package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
