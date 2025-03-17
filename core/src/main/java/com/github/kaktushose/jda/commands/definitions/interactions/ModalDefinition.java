@@ -6,12 +6,14 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -29,6 +31,17 @@ public record ModalDefinition(
         @NotNull String title,
         @NotNull SequencedCollection<TextInputDefinition> textInputs
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
+
+    /// Builds a new [ModalDefinition] with the given values.
+    public ModalDefinition with(String title, List<TextInputDefinition> textInputs) {
+        return new ModalDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                ComponentDefinition.override(this.title, title),
+                ComponentDefinition.override(ArrayList::new, this.textInputs, textInputs)
+        );
+    }
 
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
     ///
@@ -98,9 +111,10 @@ public record ModalDefinition(
     /// Representation of a modal text input defined by
     /// [`TextInput`][com.github.kaktushose.jda.commands.annotations.interactions.TextInput]
     public record TextInputDefinition(
+            @NotNull ParameterDescription parameter,
             @NotNull String label,
-            @NotNull String placeholder,
-            @NotNull String defaultValue,
+            @Nullable String placeholder,
+            @Nullable String defaultValue,
             int minValue,
             int maxValue,
             @NotNull TextInputStyle style,
@@ -125,6 +139,7 @@ public record ModalDefinition(
             var textInput = optional.get();
 
             return Optional.of(new TextInputDefinition(
+                    parameter,
                     textInput.value().isEmpty() ? parameter.name() : textInput.value(),
                     textInput.placeholder(),
                     textInput.defaultValue(),
@@ -133,6 +148,23 @@ public record ModalDefinition(
                     textInput.style(),
                     textInput.required()
             ));
+        }
+
+        /// Builds a new [TextInputDefinition] from the given [TextInput.Builder].
+        ///
+        /// @param textInput the [TextInput] to build the [TextInputDefinition] from
+        /// @return the new [TextInputDefinition]
+        public TextInputDefinition with(@NotNull TextInput.Builder textInput) {
+            return new TextInputDefinition(
+                    parameter,
+                    textInput.getLabel(),
+                    textInput.getPlaceholder(),
+                    textInput.getValue(),
+                    textInput.getMinLength(),
+                    textInput.getMaxLength(),
+                    textInput.getStyle(),
+                    textInput.isRequired()
+            );
         }
 
         @Override
@@ -146,6 +178,14 @@ public record ModalDefinition(
         @NotNull
         @Override
         public TextInput toJDAEntity() {
+            return toBuilder().build();
+        }
+
+        /// Transforms this definition into a [TextInput.Builder].
+        ///
+        /// @return the [TextInput.Builder]
+        @NotNull
+        public TextInput.Builder toBuilder() {
             var textInput = TextInput.create(label, label, style).setRequired(required);
 
             if (minValue != -1) {
@@ -154,14 +194,13 @@ public record ModalDefinition(
             if (maxValue != -1) {
                 textInput.setMaxLength(maxValue);
             }
-            if (!placeholder.isBlank()) {
+            if (placeholder != null && !placeholder.isBlank()) {
                 textInput.setPlaceholder(placeholder);
             }
-            if (!defaultValue.isBlank()) {
+            if (defaultValue != null && !defaultValue.isBlank()) {
                 textInput.setValue(defaultValue);
             }
-
-            return textInput.build();
+            return textInput;
         }
     }
 }
