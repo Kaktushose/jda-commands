@@ -77,7 +77,7 @@ public record SlashCommandDefinition(
         var autoCompletes = context.autoCompleteDefinitions().stream()
                 .filter(definition -> definition.rules().stream()
                         .map(AutoCompleteRule::command)
-                        .anyMatch(it -> it.equals(name) || it.equals(method.name()))
+                        .anyMatch(it -> name.startsWith(it) || it.equals(method.name()))
                 ).toList();
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
