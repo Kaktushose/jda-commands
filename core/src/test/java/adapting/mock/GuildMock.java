@@ -871,6 +871,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @NotNull RestAction<GuildVoiceState> retrieveMemberVoiceStateById(long id) {
+        return null;
+    }
+
     @NotNull
     @Override
     public VerificationLevel getVerificationLevel() {
@@ -936,5 +941,10 @@ public class GuildMock implements Guild {
     @Override
     public long getIdLong() {
         return 0;
+    }
+
+    @Override
+    public boolean isDetached() {
+        return false;
     }
 }

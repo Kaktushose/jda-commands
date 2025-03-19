@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.IntegrationOwners;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -72,6 +74,16 @@ public class SlashCommandInteractionMock implements SlashCommandInteraction {
     @NotNull
     @Override
     public List<Entitlement> getEntitlements() {
+        return null;
+    }
+
+    @Override
+    public @NotNull InteractionContextType getContext() {
+        return null;
+    }
+
+    @Override
+    public @NotNull IntegrationOwners getIntegrationOwners() {
         return null;
     }
 
