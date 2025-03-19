@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
@@ -71,6 +72,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
+    protected Embeds embeds = Embeds.empty();
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -185,7 +187,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
     @NotNull
     public ErrorMessageFactory errorMessageFactory() {
-        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory());
+        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory(embeds));
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]

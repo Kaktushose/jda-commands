@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -18,5 +19,6 @@ public record DispatchingContext(Middlewares middlewares,
                                  TypeAdapters adapterRegistry,
                                  ExpirationStrategy expirationStrategy,
                                  InteractionControllerInstantiator instanceProvider,
-                                 InteractionDefinition.ReplyConfig globalReplyConfig) {
+                                 InteractionDefinition.ReplyConfig globalReplyConfig,
+                                 Embeds embeds) {
 }
