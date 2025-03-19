@@ -5,7 +5,9 @@ import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition.AutoCompleteRule;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
@@ -22,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /// Representation of a slash command.
 ///
@@ -35,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
 /// @param cooldown             the corresponding [CooldownDefinition]
-/// @param isAutoComplete       whether this command supports auto complete
 public record SlashCommandDefinition(
         @NotNull ClassDescription classDescription,
         @NotNull MethodDescription methodDescription,
@@ -46,8 +48,7 @@ public record SlashCommandDefinition(
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
         @NotNull SequencedCollection<OptionDataDefinition> commandOptions,
-        @NotNull CooldownDefinition cooldown,
-        boolean isAutoComplete
+        @NotNull CooldownDefinition cooldown
 ) implements CommandDefinition {
 
     /// Builds a new [SlashCommandDefinition] from the given [MethodBuildContext].
@@ -78,15 +79,17 @@ public record SlashCommandDefinition(
             return Optional.empty();
         }
 
-        boolean autoComplete = context.autoCompleteDefinitions().stream()
-                .map(AutoCompleteDefinition::commands)
-                .flatMap(Collection::stream)
-                .anyMatch(it -> name.startsWith(it) || it.equals(method.name()));
-
+        var autoCompletes = context.autoCompleteDefinitions().stream()
+                .filter(definition -> definition.rules().stream()
+                        .map(AutoCompleteRule::command)
+                        .anyMatch(it -> name.startsWith(it) || it.equals(method.name()))
+                ).toList();
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
-                .map(parameter -> OptionDataDefinition.build(parameter, autoComplete, context.validators()))
+                .map(parameter ->
+                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.validators())
+                )
                 .toList();
 
         Set<Permission> enabledFor = Set.of(command.enabledFor());
@@ -106,8 +109,6 @@ public record SlashCommandDefinition(
             cooldownDefinition = context.cooldownDefinition();
         }
 
-
-
         return Optional.of(new SlashCommandDefinition(
                 context.clazz(),
                 method,
@@ -118,9 +119,35 @@ public record SlashCommandDefinition(
                 context.localizationFunction(),
                 command.desc(),
                 commandOptions,
-                cooldownDefinition,
-                autoComplete
+                cooldownDefinition
         ));
+    }
+
+    @Nullable
+    private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter, String command) {
+        var possibleAutoCompletes = autoCompletes.stream()
+                .filter(definition -> definition.rules().stream()
+                        .flatMap(rule -> rule.options().stream())
+                        .anyMatch(it -> it.equals(parameter.name()))
+                ).toList();
+        if (possibleAutoCompletes.size() > 1) {
+            log.error("""
+                            Found multiple auto complete handler for parameter named "{}" of slash command "/{}":
+                                 -> {}
+                            Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.""",
+                    parameter.name(),
+                    command,
+                    possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
+            );
+            return null;
+        }
+        if (possibleAutoCompletes.isEmpty()) {
+            return autoCompletes.stream()
+                    .filter(definition -> definition.rules().stream()
+                            .anyMatch(rule -> rule.options().isEmpty())
+                    ).findFirst().orElse(null);
+        }
+        return possibleAutoCompletes.getFirst();
     }
 
     /// Transforms this definition into [SlashCommandData].

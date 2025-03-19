@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
+import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.entities.Member;
@@ -36,7 +37,7 @@ import static java.util.Map.entry;
 ///
 /// @param type         the [Class] type of the parameter
 /// @param optional     whether this parameter is optional
-/// @param autoComplete whether this parameter supports autocomplete
+/// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
 /// @param defaultValue the default value of this parameter or `null`
 /// @param name         the name of the parameter
 /// @param description  the description of the parameter
@@ -45,7 +46,7 @@ import static java.util.Map.entry;
 public record OptionDataDefinition(
         @NotNull Class<?> type,
         boolean optional,
-        boolean autoComplete,
+        @Nullable AutoCompleteDefinition autoComplete,
         @Nullable String defaultValue,
         @NotNull String name,
         @NotNull String description,
@@ -96,12 +97,12 @@ public record OptionDataDefinition(
     /// Builds a new [OptionDataDefinition].
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
+    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     @NotNull
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
-                                             boolean autoComplete,
+                                             @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
         var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
         var defaultValue = "";
@@ -183,7 +184,7 @@ public record OptionDataDefinition(
 
         optionData.addChoices(choices);
         if (optionType.canSupportChoices() && choices.isEmpty()) {
-            optionData.setAutoComplete(autoComplete);
+            optionData.setAutoComplete(autoComplete != null);
         }
 
         constraints.stream().filter(constraint ->

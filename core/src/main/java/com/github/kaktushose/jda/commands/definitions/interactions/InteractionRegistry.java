@@ -89,11 +89,11 @@ public record InteractionRegistry(@NotNull Validators validators,
                 .toList();
 
         autoCompletes.stream()
-                .map(AutoCompleteDefinition::commands)
+                .map(AutoCompleteDefinition::rules)
                 .flatMap(Collection::stream)
-                .filter(name -> commandDefinitions.stream().noneMatch(command ->
-                        command.name().startsWith(name) || command.methodDescription().name().equals(name))
-                ).forEach(s -> log.warn("No Command found for auto complete {}", s));
+                .filter(rule -> commandDefinitions.stream().noneMatch(command ->
+                        command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))
+                ).forEach(s -> log.warn("No slash commands found matching {}", s));
 
 
         return interactionDefinitions;
