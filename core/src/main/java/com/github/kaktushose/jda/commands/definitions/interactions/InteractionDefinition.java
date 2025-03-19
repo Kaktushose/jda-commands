@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
@@ -55,23 +54,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// @apiNote The [PermissionsMiddleware] will validate the provided permissions.
     @NotNull
     Collection<String> permissions();
-
-    /// The [ReplyConfig] that should be used when sending replies.
-    ///
-    /// @implNote This will first attempt to use the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]
-    /// annotation of the method and then of the class. If neither is present will fall back to the global [ReplyConfig] provided by [JDACBuilder]
-    @NotNull
-    default ReplyConfig replyConfig(@NotNull ReplyConfig globalFallback) {
-        var clazz = classDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
-        var method = methodDescription().annotation(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig.class);
-
-        if (clazz.isEmpty() && method.isEmpty()) {
-            return globalFallback;
-        }
-
-        return method.map(ReplyConfig::new).orElseGet(() -> new ReplyConfig(clazz.get()));
-
-    }
 
     /// Stores the configuration values for sending replies. This acts as a representation of
     /// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
@@ -152,8 +134,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             private ReplyConfig build() {
                 return new ReplyConfig(ephemeral, keepComponents, editReply);
             }
-
         }
-
     }
 }

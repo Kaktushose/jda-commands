@@ -1,9 +1,13 @@
 package com.github.kaktushose.jda.commands.internal;
 
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
@@ -17,8 +21,10 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Function;
 
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
@@ -120,15 +126,65 @@ public final class Helpers {
         }
     }
 
-    public static CommandDefinition.CommandConfig commandConfig(MethodBuildContext context) {
-        var clazz = context.clazz().annotation(CommandConfig.class);
-        var method = context.method().annotation(CommandConfig.class);
+    /// The [InteractionDefinition.ReplyConfig] that should be used when sending replies.
+    ///
+    /// @param definition the [`interaction definition`][Invokable] to build the [InteractionDefinition.ReplyConfig] from
+    /// @param fallback   the [InteractionDefinition.ReplyConfig] to use as a fallback
+    /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If
+    /// neither is present will fall back to the global [InteractionDefinition.ReplyConfig] provided by [JDACBuilder].
+    @NotNull
+    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Invokable definition, @NotNull InteractionDefinition.ReplyConfig fallback) {
+        return computeConfig(
+                ReplyConfig.class,
+                definition.classDescription(),
+                definition.methodDescription(),
+                InteractionDefinition.ReplyConfig::new,
+                fallback
+        );
+    }
 
-        if (clazz.isEmpty() && method.isEmpty()) {
-            return context.globalCommandConfig();
+    /// The [CommandDefinition.CommandConfig] that should be used when registering commands.
+    ///
+    /// @param context the [MethodBuildContext] to build the [CommandDefinition.CommandConfig] from
+    /// @implNote This will first attempt to use the [CommandConfig] annotation of the method and then of the class. If
+    /// neither is present will fall back to the global [CommandDefinition.CommandConfig] provided by [JDACBuilder].
+    public static CommandDefinition.CommandConfig commandConfig(MethodBuildContext context) {
+        return computeConfig(
+                CommandConfig.class,
+                context.clazz(),
+                context.method(),
+                CommandDefinition.CommandConfig::new,
+                context.globalCommandConfig()
+        );
+    }
+
+    /// Computes a config like [ReplyConfig] or [CommandConfig].
+    ///
+    /// This will first attempt to use the config annotation of  the method and then of the class. If neither is present
+    /// will fall back to the provided fallback.
+    ///
+    /// @param annotation the [Annotation] defining the config
+    /// @param clazz a [ClassDescription] where the annotation could be present
+    /// @param method a [MethodDescription] where the annotation could be present
+    /// @param mapper a [Function] to map the annotation to the representing data class
+    /// @param fallback the fallback to use if no annotations are present
+    /// @param <A> the annotation type of the config
+    /// @param <C> the data class representing the config/ annotation
+    /// @return C
+    @NotNull
+    private static <A extends Annotation, C> C computeConfig(@NotNull Class<A> annotation,
+                                                             @NotNull ClassDescription clazz,
+                                                             @NotNull MethodDescription method,
+                                                             @NotNull Function<A, C> mapper,
+                                                             @NotNull C fallback) {
+        var clazzAnn = clazz.annotation(annotation);
+        var methodAnn = method.annotation(annotation);
+
+        if (clazzAnn.isEmpty() && methodAnn.isEmpty()) {
+            return fallback;
         }
 
-        return method.map(CommandDefinition.CommandConfig::new).orElseGet(() -> new CommandDefinition.CommandConfig(clazz.get()));
+        return methodAnn.map(mapper).orElseGet(() -> mapper.apply(clazzAnn.get()));
     }
 
     @NotNull
