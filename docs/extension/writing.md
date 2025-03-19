@@ -1,16 +1,21 @@
-# Writing an extension
-The main component of the extension api is the so called
+# Writing an Extension
+
+## Entrypoint
+
+The entrypoint of the Extension API is the so called
 [`Extension`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html)
-interface, which your extension's "entry class" must implement:
+interface, which your extensions _"entry class"_ must implement:
 
 ```java
 public class MyExtension implements Extension<?> {}
 ```
 
-Furthermore, each entry class must override `Extension`'s `init(T data)` method,
-which will be called when loading the extension. It can be used to configure extension specific options with help of
+### `Extension.Data`
+
+Furthermore, each entry class must override the [`Extension#init(T data)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#init(T)) method,
+which will be called when JDA-Commands loads the extension. It can be used to configure extension specific options with help of
 an own implementation of
-[`Extension.Data`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.Data.html)
+[`Extension.Data`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.Data.html).
 
 ```java
 public class MyExtension implements Extension<Void> {
@@ -43,23 +48,22 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ## Providing Implementations
 Currently, extensions support to provide custom implementations of any class extending
-[`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html)
+[`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html),
 that is:
 
-- ClassFinder
-- Descriptor
-- InteractionControllerInstantiator
-- ErrorMessageFactory
-- Implementation.MiddlewareContainer (wrapper type for Middleware)
-- Implementation.TypeAdapterContainer (wrapper type for TypeAdapter)
-- Implementation.ValidatorContainer (wrapper type for Validator)
-- PermissionsProvider
-- GuildScopeProvider
+- `ClassFinder`
+- `Descriptor`
+- `InteractionControllerInstantiator`
+- `ErrorMessageFactory`
+- `Implementation.MiddlewareContainer` (wrapper type for `Middleware`)
+- `Implementation.TypeAdapterContainer` (wrapper type for `TypeAdapter`)
+- `Implementation.ValidatorContainer` (wrapper type for `Validator`)
+- `PermissionsProvider`
+- `GuildScopeProvider`
 
-To provide custom implementations we have to implement `Extensions`'s `providedImplementations()` method.
-This method returns a collection of all implementations wrapped in an instance of
-[`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html)
-that an extension provides.
+To provide custom implementations we have to implement the [`Extensions#providedImplementations()`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#providedImplementations()) method.
+This method returns a collection of all implementations that an extension provides, wrapped in an instance of
+[`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html).
 
 ```java
 public class MyExtension implements Extension<MyExtensionData> {
@@ -88,11 +92,15 @@ public class MyExtension implements Extension<MyExtensionData> {
 public record MyExtensionData(String someOption) implements Extension.Data {}
 ```
 
-It's **very important to know** that `providedImplementations()` and the supplier of `Implementation` will be called multiple times during jda-commands startup!
+### Identity Equality
+!!! warning
+    `providedImplementations()` and the supplier of `Implementation` will be called
+    multiple times during JDA-Commands startup!
 
-Thus, `providedImplementations()` must always return the same enumeration of `Implementations`s
-and that, if the identity equality is important, the supplier of `Implementation` always return the same instances.
-Jda-commands doesn't rely on identity equality, but you might have fields that store information in that class.
+Thus, `providedImplementations()` must always return the same enumeration of `Implementation`s. If the identity 
+equality is important, the supplier of `Implementation` must also always return the same instances.
+
+JDA-Commands doesn't rely on identity equality, but you might have fields that store information in that class.
 It should, of course, be the same instance then each time. 
 
 `MyExtension` could look something like this in that case:
@@ -129,31 +137,31 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ### The `Implementation` class
 The [`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html)
-class has 2 main purposes: State which class the implementation is for and providing instance(s) of custom implementations.
+class has 2 main purposes: State which class the custom implementation is for and providing instance(s) of those custom implementations.
 
-To provide a custom implementation you have to create an instance of `Implementation`, with
+To provide a custom implementation you have to create an instance of [`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html) and provide
 
-- the **type** [(that is a class/interface extending ExtensionProvidable)](#providing-implementations) of this Extension
-- a **supplier** in form of `java.util.fuction.Function` that takes
+1. the `type` of this Extension [(that is a class/interface extending ExtensionProvidable](#providing-implementations))
+2. a `supplier` in form of `java.util.fuction.Function` that takes
   [`JDACBuilderData`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html)
-  as an argument returns a list of instances of custom implementations for the specific type
+  as an argument and returns a list of instances of custom implementations for the specific type
 
-Example for ClassFinder:
-```java
+
+```java title="Example for ClassFinder"
 new Implemenation(
         ClassFinder.class,
         builderData -> List.of(new CustomClassFinderOne(), new CustomClassFinderSecond(builderData.descriptor()))
 )
 ```
 
-It's also important, that only:
+It's also important that only the following types support multiple instances:
 
-- ClassFinder
-- Implementation.MiddlewareContainer (wrapper type for Middleware)
-- Implementation.TypeAdapterContainer (wrapper type for TypeAdapter)
-- Implementation.ValidatorContainer (wrapper type for Validator)
+- `ClassFinder`
+- `Implementation.MiddlewareContainer` (wrapper type for Middleware)
+- `Implementation.TypeAdapterContainer` (wrapper type for TypeAdapter)
+- `Implementation.ValidatorContainer` (wrapper type for Validator)
 
-support multiple instances. For all other types
+For all other types
 [`single(Class<T>,Function<JDACBuilderData,T> supplier)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html#single(java.lang.Class,java.util.function.Function))
 should be used.
 
@@ -161,19 +169,29 @@ The provided instance of `JDACBuilderData` only supports read access to the buil
 part of the framework as a dependency. It's important to have in mind, that calls to this object will check all registered
 extensions for the needed implementation, thus cycling dependencies will result in an exception.
 
-!!! note 
+!!! tip
     If the list returned by **supplier** is empty, this implementation will be treated as non-existent, 
     which is useful for dynamic registration of custom implementation.
 
 ## Registration
-Custom extensions are found with help of java's [ServiceLoader api](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html).
+Custom extensions are found with help of Javas [ServiceLoader API](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html).
 
-To register the above `MyExtension` we have to create a file in our "resources" directory in the subdirectory "META-INF" called
-"com.github.kaktushose.jda.commands.extension.Extension" with the full class name of our class "MyExtension" as the content:
-"my.package.MyClass":
+To register the above `MyExtension` we have to create a file in our `resources\META-INF` directory called
+`com.github.kaktushose.jda.commands.extension.Extension`.
 
-```text title="com.github.kaktushose.jda.commands.extension.Extension"
-my.package.MyClass
+```
+src
+└── main
+    └── resources
+        └── META-INF
+            └── com.github.kaktushose.jda.commands.extension.Extension
 ```
 
-The extension can now be found by jda-commands and loaded.
+The full class name of our class `MyExtension` (e.g. `my.package.MyExtension`) must be the content of this file.
+
+!!! example
+    ```text title="com.github.kaktushose.jda.commands.extension.Extension"
+    my.package.MyExtension
+    ```
+
+The extension can now be found and loaded by JDA-Commands.

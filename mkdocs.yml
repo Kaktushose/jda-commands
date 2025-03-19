@@ -90,8 +90,8 @@ nav:
   - Dependency Injection: di.md
   - Extensions:
       - Overview: extension/overview.md
-      - Writing: extension/writing.md
-      - Configuring: extension/configuring.md
+      - Writing Extensions: extension/writing.md
+      - Configuration: extension/configuring.md
   - Misc:
       - Customizing Error Messages: misc/error-messages.md
       - Embed API: misc/embeds.md
