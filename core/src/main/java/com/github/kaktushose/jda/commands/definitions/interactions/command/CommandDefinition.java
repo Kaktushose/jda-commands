@@ -11,8 +11,10 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /// Common interface for command interaction definitions.
 ///
@@ -34,8 +36,15 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     /// The [LocalizationFunction] to use for this command.
     @NotNull LocalizationFunction localizationFunction();
 
-    record CommandConfig(@NotNull InteractionContextType[] context, @NotNull IntegrationType[] integration, @NotNull CommandScope scope, boolean isNSFW) {
+    /// Stores the configuration values for registering commands. This acts as a representation of
+    /// [com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig]
+    ///
+    /// @see com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig
+    record CommandConfig(@NotNull InteractionContextType[] context, @NotNull IntegrationType[] integration,
+                         @NotNull CommandScope scope, boolean isNSFW) {
 
+        /// Compact constructor ensuring that [#context] and [#integration] is always set. If empty defaults to
+        /// [InteractionContextType#GUILD] and [IntegrationType#GUILD_INSTALL].
         public CommandConfig {
             if (context.length == 0) {
                 context = new InteractionContextType[]{InteractionContextType.GUILD};
@@ -45,23 +54,30 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             }
         }
 
+        /// Constructs a new CommandConfig using the following default values:
+        /// - [InteractionContextType#GUILD]
+        /// - [IntegrationType#GUILD_INSTALL]
+        /// - [CommandScope#GLOBAL]
+        /// - isNSFW: `false`
         public CommandConfig() {
             this(new InteractionContextType[0], new IntegrationType[0], CommandScope.GLOBAL, false);
         }
 
+        /// Constructs a new CommandConfig.
+        ///
+        /// @param config the [`@CommandConfig`][com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig] to represent
         public CommandConfig(com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig config) {
             this(config.context(), config.integration(), config.scope(), config.isNSFW());
         }
 
-        public CommandConfig(Builder builder) {
-            this(
-                    builder.context.toArray(InteractionContextType[]::new),
-                    builder.integration.toArray(IntegrationType[]::new),
-                    builder.scope,
-                    builder.isNSFW
-            );
+        /// Constructs a new CommandConfig after the given [Consumer] modified the [Builder].
+        public static CommandConfig of(Consumer<Builder> callback) {
+            Builder builder = new Builder();
+            callback.accept(builder);
+            return builder.build();
         }
 
+        /// Builder for [CommandConfig].
         public static class Builder {
 
             private final Set<InteractionContextType> context;
@@ -69,6 +85,7 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             private CommandScope scope;
             private boolean isNSFW;
 
+            /// Constructs a new Builder.
             public Builder() {
                 context = new HashSet<>();
                 integration = new HashSet<>();
@@ -76,24 +93,47 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
                 isNSFW = false;
             }
 
-            public Builder context(InteractionContextType context) {
-                this.context.add(context);
+            /// The [InteractionContextType]s to use. This method will override this builders default
+            /// value [InteractionContextType#GUILD].
+            ///
+            /// @param context the [InteractionContextType]s to use
+            @NotNull
+            public Builder context(@NotNull InteractionContextType... context) {
+                this.context.addAll(Arrays.asList(context));
                 return this;
             }
 
-            public Builder integration(IntegrationType integration) {
-                this.integration.add(integration);
+            /// The [IntegrationType]s to use. This method will override this builders default
+            /// value [IntegrationType#GUILD_INSTALL].
+            ///
+            /// @param integration the [IntegrationType]s to use
+            @NotNull
+            public Builder integration(@NotNull IntegrationType... integration) {
+                this.integration.addAll(Arrays.asList(integration));
                 return this;
             }
 
-            public Builder scope(CommandScope scope) {
+            /// @param scope the [CommandScope] to use
+            @NotNull
+            public Builder scope(@NotNull CommandScope scope) {
                 this.scope = scope;
                 return this;
             }
 
-            public Builder nsfw(boolean NSFW) {
-                isNSFW = NSFW;
+            /// @param nsfw `true` if the configured command(s) can only be executed in NSFW channels
+            @NotNull
+            public Builder nsfw(boolean nsfw) {
+                isNSFW = nsfw;
                 return this;
+            }
+
+            private CommandConfig build() {
+                return new CommandConfig(
+                        context.toArray(InteractionContextType[]::new),
+                        integration.toArray(IntegrationType[]::new),
+                        scope,
+                        isNSFW
+                );
             }
         }
     }

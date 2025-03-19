@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 /// Common interface for all definitions that represent an interaction.
 ///
@@ -86,11 +87,73 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             this(false, true, true);
         }
 
+        /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
+        public static ReplyConfig of(Consumer<Builder> callback) {
+            Builder builder = new Builder();
+            callback.accept(builder);
+            return builder.build();
+        }
+
         /// Constructs a new ReplyConfig.
         ///
         /// @param replyConfig the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(@NotNull com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
             this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.editReply());
         }
+
+        /// Builder for [ReplyConfig].
+        public static class Builder {
+
+            private boolean ephemeral;
+            private boolean keepComponents;
+            private boolean editReply;
+
+            /// Constructs a new Builder.
+            public Builder() {
+                keepComponents = true;
+                editReply = true;
+            }
+
+            /// Whether to send ephemeral replies. Default value is `false`.
+            ///
+            /// Ephemeral messages have some limitations and will be removed once the user restarts their client.
+            /// Limitations:
+            /// - Cannot contain any files/ attachments
+            /// - Cannot be reacted to
+            /// - Cannot be retrieved
+            @NotNull
+            public Builder ephemeral(boolean ephemeral) {
+                this.ephemeral = ephemeral;
+                return this;
+            }
+
+            /// Whether to keep the original components when editing a message. Default value is `true`.
+            ///
+            /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
+            /// its components get added to the reply before it is sent.
+            @NotNull
+            public Builder keepComponents(boolean keepComponents) {
+                this.keepComponents = keepComponents;
+                return this;
+            }
+
+            /// Whether to edit the original message or to send a new one. Default value is `true`.
+            ///
+            /// The original message is the message, from which this event (interaction) originates.
+            /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+            ///
+            /// Subsequent replies to the same slash command event or the button event cannot be edited.
+            @NotNull
+            public Builder editReply(boolean editReply) {
+                this.editReply = editReply;
+                return this;
+            }
+
+            private ReplyConfig build() {
+                return new ReplyConfig(ephemeral, keepComponents, editReply);
+            }
+
+        }
+
     }
 }

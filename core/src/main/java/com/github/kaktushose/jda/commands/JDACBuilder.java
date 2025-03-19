@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -164,8 +163,8 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     @NotNull
-    public JDACBuilder globalCommandConfig(@NotNull Function<CommandConfig.Builder, CommandConfig.Builder> config) {
-        this.globalCommandConfig = new CommandConfig(config.apply(new CommandConfig.Builder()));
+    public JDACBuilder globalCommandConfig(@NotNull CommandConfig config) {
+        this.globalCommandConfig = config;
         return this;
     }
 
