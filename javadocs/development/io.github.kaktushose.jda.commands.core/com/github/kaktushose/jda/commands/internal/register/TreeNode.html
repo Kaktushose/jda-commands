@@ -65,7 +65,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E()" tabindex="0">TreeNode()</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)" tabindex="0">TreeNode(String, SlashCommandDefinition)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition,java.util.List)" tabindex="0">TreeNode(String, SlashCommandDefinition, List)</a></li>
 </ol>
@@ -74,12 +73,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#addChild(java.lang.String%5B%5D,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)" tabindex="0">addChild(String[], SlashCommandDefinition)</a></li>
 <li><a href="#getChild(java.lang.String)" tabindex="0">getChild(String)</a></li>
-<li><a href="#getName()" tabindex="0">getName()</a></li>
-<li><a href="#getChildren()" tabindex="0">getChildren()</a></li>
-<li><a href="#hasChildren()" tabindex="0">hasChildren()</a></li>
-<li><a href="#getCommand()" tabindex="0">getCommand()</a></li>
-<li><a href="#getNames()" tabindex="0">getNames()</a></li>
-<li><a href="#getCommandData()" tabindex="0">getCommandData()</a></li>
+<li><a href="#toSlashCommandData(net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" tabindex="0">toSlashCommandData(LocalizationFunction)</a></li>
 <li><a href="#iterator()" tabindex="0">iterator()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
@@ -133,19 +127,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">TreeNode</a>()</code></div>
-<div class="col-last even-row-color">
-<div class="block">Constructs an empty TreeNode.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)" class="member-name-link">TreeNode</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)" class="member-name-link">TreeNode</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Nullable <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&nbsp;command)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-last even-row-color">
 <div class="block">Constructs a new TreeNode.</div>
 </div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition,java.util.List)" class="member-name-link">TreeNode</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition,java.util.List)" class="member-name-link">TreeNode</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&nbsp;command,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register">TreeNode</a>&gt;&nbsp;children)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Creates an instance of a <code>TreeNode</code> record class.</div>
 </div>
 </div>
@@ -166,8 +156,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addChild(java.lang.String%5B%5D,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)" class="member-name-link">addChild</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;labels,
  @NotNull <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&nbsp;command)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> either as a child of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> or to one of its children based on the
-amount of labels.</div>
+<div class="block">Attempts to add a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> either as a child of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> or to one of its children based on the
+given labels.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register">TreeNode</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#children()" class="member-name-link">children</a>()</code></div>
@@ -189,36 +179,6 @@ amount of labels.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> based on its name.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register">TreeNode</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChildren()" class="member-name-link">getChildren</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets all children <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>s.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCommand()" class="member-name-link">getCommand</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCommandData()" class="member-name-link">getCommandData</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets all <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">of the leaf nodes</a>.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the name of the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNames()" class="member-name-link">getNames</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets all names of the leaf nodes.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasChildren()" class="member-name-link">hasChildren</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets whether this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> has children.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -232,9 +192,14 @@ amount of labels.</div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>name</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSlashCommandData(net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" class="member-name-link">toSlashCommandData</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localization)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Transforms this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -257,15 +222,6 @@ amount of labels.</div>
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;()">
-<h3>TreeNode</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TreeNode</span>()</div>
-<div class="block">Constructs an empty TreeNode. Should only be used for root nodes.</div>
-</div>
-</section>
-</li>
 <li>
 <section class="detail" id="&lt;init&gt;(java.lang.String,com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition)">
 <h3>TreeNode</h3>
@@ -316,17 +272,18 @@ amount of labels.</div>
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;labels,
  @NotNull
  @NotNull <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&nbsp;command)</span></div>
-<div class="block"><p>Adds a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> either as a child of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> or to one of its children based on the
-amount of labels.</p>
-<p>For instance <code>labels[0]</code> will be added as a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> to this
-<a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>, <code>labels[1]</code> will be added as a child to the child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> created from
-<code>labels[0]</code> and so on.</p>
-<p>This guarantees to create a <a href="CommandTree.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>CommandTree</code></a> that respects Subcommands and SubcommandGroups.</p>
-</div>
+<div class="block">Attempts to add a child <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> either as a child of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> or to one of its children based on the
+given labels.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>labels</code> - an Array of all labels, can be empty</dd>
 <dd><code>command</code> - the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> to add</dd>
+<dt>Implementation Note:</dt>
+<dd><p>Traverses the tree based on the given labels. If more than one label is passed, creates a group note
+with label[0] as the name and passes the remaining label[1,2] to that note. This process is repeated until only
+one label is passed which will be added as a leaf node.</p>
+<p>This guarantees to create a <a href="CommandTree.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>CommandTree</code></a> that respects Subcommands and SubcommandGroups.</p>
+</dd>
 </dl>
 </div>
 </section>
@@ -347,81 +304,14 @@ amount of labels.</p>
 </section>
 </li>
 <li>
-<section class="detail" id="getName()">
-<h3>getName</h3>
+<section class="detail" id="toSlashCommandData(net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)">
+<h3>toSlashCommandData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
-<div class="block">Gets the name of the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the name of the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a></dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a></span>&nbsp;<span class="element-name">toSlashCommandData</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localization)</span></div>
+<div class="block"><p>Transforms this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a>.</p>
+<p>The children of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> will be added to the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a> either as <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SubcommandGroupData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SubcommandGroupData</code></a> or
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SubcommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SubcommandData</code></a> depending on whether the children of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> also have children.</p>
 </div>
-</section>
-</li>
-<li>
-<section class="detail" id="getChildren()">
-<h3>getChildren</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register">TreeNode</a>&gt;</span>&nbsp;<span class="element-name">getChildren</span>()</div>
-<div class="block">Gets all children <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>s.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>all children <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>s</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="hasChildren()">
-<h3>hasChildren</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasChildren</span>()</div>
-<div class="block">Gets whether this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> has children.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd><code>true</code> if this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a> has children</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getCommand()">
-<h3>getCommand</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a>&gt;</span>&nbsp;<span class="element-name">getCommand</span>()</div>
-<div class="block">Gets the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> of this <a href="TreeNode.html" title="class in com.github.kaktushose.jda.commands.internal.register"><code>TreeNode</code></a>. Returns an empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> if one or more
-children exist or if the <a href="../../definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>SlashCommandDefinition</code></a> is <code>null</code>.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>an <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> holding the result</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getNames()">
-<h3>getNames</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getNames</span>()</div>
-<div class="block">Gets all names of the leaf nodes.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of all names of the leaf nodes.</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getCommandData()">
-<h3>getCommandData</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a>&gt;</span>&nbsp;<span class="element-name">getCommandData</span>()</div>
-<div class="block">Gets all <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">of the leaf nodes</a>.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a></dd>
-</dl>
 </div>
 </section>
 </li>

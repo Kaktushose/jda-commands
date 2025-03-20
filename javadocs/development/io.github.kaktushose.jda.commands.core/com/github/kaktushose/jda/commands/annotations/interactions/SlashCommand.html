@@ -65,11 +65,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#annotation-interface-element-detail" tabindex="0">Element Details</a>
 <ol class="toc-list">
 <li><a href="#value()" tabindex="0">value</a></li>
-<li><a href="#isGuildOnly()" tabindex="0">isGuildOnly</a></li>
 <li><a href="#desc()" tabindex="0">desc</a></li>
-<li><a href="#isNSFW()" tabindex="0">isNSFW</a></li>
 <li><a href="#enabledFor()" tabindex="0">enabledFor</a></li>
-<li><a href="#scope()" tabindex="0">scope</a></li>
 </ol>
 </li>
 </ol>
@@ -144,24 +141,9 @@ public void onCommand(CommandEvent event, String[] arguments) {}
 <div class="col-last odd-row-color">
 <div class="block">Returns an array of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a>s this command should be enabled for by default.</div>
 </div>
-<div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#isGuildOnly()" class="member-name-link">isGuildOnly</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns whether this command is only usable in a guild.</div>
-</div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#isNSFW()" class="member-name-link">isNSFW</a></code></div>
-<div class="col-last odd-row-color">
-<div class="block">Returns whether this command can only be executed in NSFW channels.</div>
-</div>
-<div class="col-first even-row-color"><code><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></code></div>
-<div class="col-second even-row-color"><code><a href="#scope()" class="member-name-link">scope</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Returns whether this command should be registered as a global or as a guild command.</div>
-</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
-<div class="col-last odd-row-color">
 <div class="block">Returns the name of the command.</div>
 </div>
 </div>
@@ -194,24 +176,6 @@ public void onCommand(CommandEvent event, String[] arguments) {}
 </section>
 </li>
 <li>
-<section class="detail" id="isGuildOnly()">
-<h3>isGuildOnly</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isGuildOnly</span></div>
-<div class="block">Returns whether this command is only usable in a guild.
-This only has an effect if this command is registered globally.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd><code>true</code> if this command is only usable in a guild</dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>false</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="desc()">
 <h3>desc</h3>
 <div class="horizontal-scroll">
@@ -224,23 +188,6 @@ This only has an effect if this command is registered globally.</div>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>"N/A"</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="isNSFW()">
-<h3>isNSFW</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isNSFW</span></div>
-<div class="block">Returns whether this command can only be executed in NSFW channels.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd><code>true</code> if this command can only be executed in NSFW channels</dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>false</code></dd>
 </dl>
 </div>
 </section>
@@ -267,29 +214,6 @@ modify this at any time.</div>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>{UNKNOWN}</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="scope()">
-<h3>scope</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></span>&nbsp;<span class="element-name">scope</span></div>
-<div class="block">Returns whether this command should be registered as a global or as a guild command.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>whether this command should be registered as a global or as a guild command</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="tag-list">
-<li><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions"><code>CommandScope</code></a></li>
-</ul>
-</dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>GLOBAL</code></dd>
 </dl>
 </div>
 </section>

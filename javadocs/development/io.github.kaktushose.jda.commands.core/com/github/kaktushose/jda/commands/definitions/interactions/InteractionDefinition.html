@@ -69,7 +69,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#definitionId()" tabindex="0">definitionId()</a></li>
 <li><a href="#newInstance()" tabindex="0">newInstance()</a></li>
 <li><a href="#permissions()" tabindex="0">permissions()</a></li>
-<li><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">replyConfig(InteractionDefinition.ReplyConfig)</a></li>
 </ol>
 </li>
 </ol>
@@ -168,11 +167,6 @@ extends <a href="../Definition.html" title="interface in com.github.kaktushose.j
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this interaction.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">replyConfig</a><wbr>(@NotNull <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;globalFallback)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">The <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> that should be used when sending replies.</div>
-</div>
 </div>
 </div>
 </div>
@@ -239,22 +233,6 @@ name combined.</div>
 <dl class="notes">
 <dt>API Note:</dt>
 <dd>The <a href="../../dispatching/middleware/impl/PermissionsMiddleware.html" title="class in com.github.kaktushose.jda.commands.dispatching.middleware.impl"><code>PermissionsMiddleware</code></a> will validate the provided permissions.</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="replyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">
-<h3>replyConfig</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></span>&nbsp;<span class="element-name">replyConfig</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;globalFallback)</span></div>
-<div class="block">The <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> that should be used when sending replies.</div>
-<dl class="notes">
-<dt>Implementation Note:</dt>
-<dd>This will first attempt to use the <a href="../../annotations/interactions/ReplyConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>ReplyConfig</code></a>
-annotation of the method and then of the class. If neither is present will fall back to the global <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> provided by <a href="../../JDACBuilder.html" title="class in com.github.kaktushose.jda.commands"><code>JDACBuilder</code></a></dd>
 </dl>
 </div>
 </section>
