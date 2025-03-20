@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"io.github.kaktushose.jda.commands.core"},{"l":"io.github.kaktushose.jda.commands.extension.guice"}];updateSearchResults();
