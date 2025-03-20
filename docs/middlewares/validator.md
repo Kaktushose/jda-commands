@@ -5,17 +5,17 @@ with the respective annotation.
 ## Default Validators
 JDA-Commands comes with the following default constraints:
 
-- [`@Role`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html):
+- [`@Role`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html):
   The member must have the specified guild role. 
-- [`@NotRole`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html):
+- [`@NotRole`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html):
   The member must **not** have the specified guild role. 
-- [`@User`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/User.html):
+- [`@User`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/User.html):
   Must be the specified user or member
-- [`@NotUser`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotUser.html):
+- [`@NotUser`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotUser.html):
   Must **not** be the specified user or member.
-- [`@Perm`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html):
+- [`@Perm`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html):
   The user or member that have the specified discord permission.
-- [`@NotPerm`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html):
+- [`@NotPerm`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html):
   The user or member that **doesn't** have the specified discord permission.
 
 The user and role annotations will resolve the snowflake entity dynamically using the respective [type adapter](./typeadapter.md).
@@ -23,7 +23,7 @@ This means that you can either pass an ID or a name.
 
 !!! example
     ```java
-    @SlashCommand("ban")
+    @Command("ban")
     public void onBan(CommandEvent event, @NotRole("Admin") Member target) {...}
     ```
 
@@ -40,7 +40,7 @@ First, you need to create an annotation type for your validator. Your annotation
 
 - [x] `@Target` must be `ElementType.PARAMETER`
 - [x] `RetentionPolicy` must be `RUNTIME`
-- [x] Must be annotated with [`@Constraint`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/constraints/Constraint.html)
+- [x] Must be annotated with [`@Constraint`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Constraint.html)
 defining the valid types for this annotation. 
 - [x] Must contain a `message()` field for the error message
 
@@ -59,7 +59,7 @@ defining the valid types for this annotation.
     ```
 
 ### 2. Creating the Validator
-Secondly, you must create the actual validator by implementing the [`Validator`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html)
+Secondly, you must create the actual validator by implementing the [`Validator`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html)
 interface. 
 
 The `apply(...)` method will give you the argument (command option) as well as the annotation object untyped, you must cast

@@ -48,8 +48,8 @@ after its creation. This time span is oriented towards the lifespan of the
 ### Explicit
 
 You can disable the default behaviour by setting the 
-[`ExpirationStrategy`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html) to 
-[`EXPLICIT`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html).
+[`ExpirationStrategy`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html) to 
+[`EXPLICIT`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html).
 
 
 ```java title="Main.java" 
@@ -58,12 +58,12 @@ JDACommands.builder(jda, Main.class)
         .start();
 ```
 
-This will prevent any `Runtime` from closing until [`closeRuntime`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime())
+This will prevent any `Runtime` from closing until [`closeRuntime`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime())
 is explicitly called.
 
 !!! example
     ```java title="GreetCommand.java" hl_lines="4"
-    @SlashCommand("greet")
+    @Command("greet")
     public void onCommand(CommandEvent event) {
         event.reply("Hello World!");
         event.closeRuntime();
@@ -110,7 +110,7 @@ them on your own.
 
 !!! example
     ```java title="GreetCommand.java"
-    @SlashCommand("greet")
+    @Command("greet")
     public void onCommand(CommandEvent event) {
         event.with().components(Component.independent("onButton")).reply("Hello World!");
     }

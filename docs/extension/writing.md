@@ -15,7 +15,7 @@ public class MyExtension implements Extension<?> {}
 Furthermore, each entry class must override the [`Extension#init(T data)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#init(T)) method,
 which will be called when JDA-Commands loads the extension. It can be used to configure extension specific options with help of
 an own implementation of
-[`Extension.Data`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.Data.html).
+[`Extension.Data`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.Data.html).
 
 ```java
 public class MyExtension implements Extension<Void> {
@@ -48,7 +48,7 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ## Providing Implementations
 Currently, extensions support to provide custom implementations of any class extending
-[`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html),
+[`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html),
 that is:
 
 - `ClassFinder`

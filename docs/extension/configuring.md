@@ -16,7 +16,7 @@ to the JDA-Commands builder. In case of our `MyExtension` example, that would be
 ## Filtering found Extensions
 Filtering extensions is crucial for resolving cycling dependencies.
 To filter which extensions we want to include in our application, we can utilize the
-[`JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#filterExtensions(com.github.kaktushose.jda.commands.JDACBuilder.FilterStrategy,java.lang.String...))
+[`JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#filterExtensions(com.github.kaktushose.jda.commands.JDACBuilder.FilterStrategy,java.lang.String...))
 method. You need to pass the following two parameters:
 
 1. [`JDACBuilder.FilterStrategy`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.FilterStrategy.html),

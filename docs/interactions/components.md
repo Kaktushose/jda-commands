@@ -3,8 +3,8 @@
     This section only covers how you define components. See the [Reply API section](./reply.md) to learn how to use them
     in replies.
 ## Buttons
-Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
+Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 
+The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
 The label and other metadata of the button is passed to the annotation.
 ```java
 @Button("example")
@@ -44,14 +44,14 @@ Buttons that have a link cannot be executed, but they are still defined like nor
 
 ## Select Menus
 ### String Select Menus
-String Select Menus are defined by annotating a method with [`@StringSelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html).
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
+String Select Menus are defined by annotating a method with [`@StringSelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html).
+The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
 The second parameter must be a [`List`](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html).
 
 The placeholder and other metadata of the String Select Menu is passed to the annotation. 
 
 Select Options are defined by annotating the method with
-[`@SelectOption`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/SelectOption.html).
+[`@SelectOption`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/SelectOption.html).
 
 !!! example
     ```java
@@ -77,8 +77,8 @@ String Select Menus support up to 25 options. You can set the minimum and maximu
     ```
 
 ### Entity Select Menus
-Entity Select Menus are defined by annotating a method with [`@EntitySelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html).
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
+Entity Select Menus are defined by annotating a method with [`@EntitySelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html).
+The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
 The second parameter must be of type [`Mentions`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/Mentions.html).
 
 !!! example

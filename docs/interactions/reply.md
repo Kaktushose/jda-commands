@@ -3,15 +3,15 @@
     All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.
 
 ## Text Messages
-The simplest way of sending a reply is using the [`reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String))
+The simplest way of sending a reply is using the [`reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String))
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 
 original message instead of sending a new one by default.
 
-The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
+The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
 
 ## Reply Configuration
-You can change this default behaviour by calling [`with()`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with())
-before sending the reply. This will return a [`ConfigurableReply`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html)
+You can change this default behaviour by calling [`with()`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with())
+before sending the reply. This will return a [`ConfigurableReply`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html)
 object to you, you can use to modify settings:
 
 !!! example "Ephemeral Reply"
@@ -26,13 +26,13 @@ object to you, you can use to modify settings:
 
 ## Components
 ### Replying with Components
-The [`ConfigurableReply`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html)
+The [`ConfigurableReply`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html)
 object is also used to attach components. You reference components by the name of the method they are defined with, just
 like we did before with [modals](./modals.md#replying-with-modals).
 
 !!! example
     ```java
-    @SlashCommand("greet")
+    @Command("greet")
     public void onCommand(CommandEvent event) {
         event.with.components("onButton").reply("Hello World!"); //(1)!
     }
@@ -68,7 +68,7 @@ If you want to add multiple components to the same action row, just pass the met
 
 ### Enabling & Disabling
 By default, all components are enabled. If you want to attach a disabled component, you need to wrap it by calling
-[`Component.disabled(methodName)`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)).
+[`Component.disabled(methodName)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)).
 
 
 If you want to add multiple components to the same action row, with some of them enabled and some disabled, you need to
@@ -89,13 +89,13 @@ components when sending a message edit, unless they are explicitly reattached.
 JDA-Commands flips this behaviour and will keep your components attached by default. 
 
 You can disable this by calling
-[`keepComponents(false)`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)):
+[`keepComponents(false)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)):
 !!! example
     ```java
     event.with().keepComponents(false).reply("Message edit!");
     ```
 
-Alternatively you can call [`removeComponents()`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#removeComponents())
+Alternatively you can call [`removeComponents()`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#removeComponents())
 which will remove all components attached to a message.
 
 ---
@@ -107,7 +107,7 @@ which will remove all components attached to a message.
         
             private int counter;
             
-            @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")
+            @Command(value = "cookie clicker", desc = "Play cookie clicker")
             public void onClicker(CommandEvent event) {
                 event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
             }
@@ -123,7 +123,7 @@ which will remove all components attached to a message.
         ![Cookie Clicker](../assets/cookie-clicker.gif)
 
 ### Foreign Components
-You can attach components that were defined in a different class by using the [`Component`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String))
+You can attach components that were defined in a different class by using the [`Component`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String))
 class again. In addition to the method name, you must also pass the class reference in that case.
 
 !!! example
@@ -165,7 +165,7 @@ them on your own.
     The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.
 
 ## ReplyConfig
-The [`@ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
+The [`@ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
 annotation provides a way to modify the default behaviour for the `editReply`, `ephemeral` and `keepComponents` settings. 
 You can either annotate single methods or entire interaction controllers. 
 
@@ -175,14 +175,14 @@ You can either annotate single methods or entire interaction controllers.
     @ReplyConfig(ephemeral = true)
     public class InteractionController {
         
-        @SlashCommand("example")
+        @Command("example")
         @ReplyConfig(editReply = false)
         public void onCommand(CommandEvent) {...}
         
     }
     ```
 
-Alternatively, you can set a [global reply config](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig))
+Alternatively, you can set a [global reply config](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig))
 at the builder:
 
 !!! example "Global ReplyConfig"

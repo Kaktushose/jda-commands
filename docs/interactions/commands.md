@@ -4,11 +4,11 @@
     [JDA wiki](https://jda.wiki/using-jda/interactions/) first. We assume that the basic structure of interactions is known.
 
 ## Slash Commands
-SlashCommands are defined by annotating a method with [`@SlashCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/SlashCommand.html).
-The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
+SlashCommands are defined by annotating a method with [`@Command`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Command.html).
+The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
 The name and other metadata of the command is passed to the annotation.
 ```java
-@SlashCommand(value = "example", desc = "This is an example command")
+@Command(value = "example", desc = "This is an example command")
 public void onCommand(CommandEvent event) {...}
 ```
 
@@ -18,16 +18,16 @@ JDA-Commands determines the type automatically based on the command names.
 
 Let's say we have the following commands in our moderation bot:
 ```java
-@SlashCommand("delete")
+@Command("delete")
 public void onDeleteMessages(CommandEvent event) {...}
 
-@SlashCommand("moderation warn")
+@Command("moderation warn")
 public void onWarnMember(CommandEvent event) {...}
 
-@SlashCommand("moderation kick")
+@Command("moderation kick")
 public void onKickMember(CommandEvent event) {...}
 
-@SlashCommand("moderation ban")
+@Command("moderation ban")
 public void onBanMember(CommandEvent event) {...}
 ```
 JDA-Commands will create a tree structure of these commands. A depth-first-search is then performed to determine which 
@@ -50,19 +50,19 @@ In our example the following commands will be registered:
 - `/moderation kick`
 - `/moderation ban`
 
-To simplify things, you can also use the [`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html)
+To simplify things, you can also use the [`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html)
 to add a base name to all slash commands in a command controller:
 ```java
 @Interaction("moderation")
 public class ModerationCommands {
     
-    @SlashCommand("warn")
+    @Command("warn")
     public void onWarnMember(CommandEvent event) {...}
 
-    @SlashCommand("kick")
+    @Command("kick")
     public void onKickMember(CommandEvent event) {...}
 
-    @SlashCommand("ban")
+    @Command("ban")
     public void onBanMember(CommandEvent event) {...}
 }
 ```
@@ -70,25 +70,25 @@ public class ModerationCommands {
 ### Command Options
 You can add command options by simply adding a parameter to the method.
 ```java
-@SlashCommand("ban")
+@Command("ban")
 public void onBanMember(CommandEvent event, Member target, String reason, int delDays) {
     (...)
 }
 ```
 JDA-Commands will attempt to type adapt the 
 command options. By default, all primitive types, user, member and role as well as text channel entities are 
-supported. You can find a concrete list of all type adapters [here](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html).
+supported. You can find a concrete list of all type adapters [here](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html).
 You can also [register your own type adapters](../middlewares/typeadapter.md).
 
 The parameters will automatically be mapped to the correct option type. You can find this mapping 
 [here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
 
 #### Name & Description
-Use the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
+Use the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
 annotation to set a name and a description for a command option. By default, the parameter name will be used as the
 option name.
 ```java
-@SlashCommand("ban")
+@Command("ban")
 public void onBanMember(CommandEvent event, 
                         @Param("The member to ban") Member target,
                         @Param("The reason to ban the member") String reason,
@@ -136,10 +136,10 @@ public void onBanMember(CommandEvent event,
 ---
 
 #### Optional
-In order to make a command option optional, annotate the parameter with [`@Optional`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Optional.html).
+In order to make a command option optional, annotate the parameter with [`@Optional`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Optional.html).
 You can also pass a default value that will be used (and type adapted) if no user input is present. 
 ```java
-@SlashCommand("ban")
+@Command("ban")
 public void onBanMember(CommandEvent event, Member target, @Optional String reason, @Optional("7") int delDays) {
     (...)
 }
@@ -148,10 +148,10 @@ public void onBanMember(CommandEvent event, Member target, @Optional String reas
     Required options must be added before non-required options.
 
 #### Choices
-Use the [`@Choices`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Choices.html)
+Use the [`@Choices`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Choices.html)
 annotation to add choices to a command option:
 ```java
-@SlashCommand("ban")
+@Command("ban")
 public void onBanMember(CommandEvent event, 
                         Member target, 
                         @Choices({"Harassment", "Scam", "Advertising"}) String reason, 
@@ -172,12 +172,12 @@ The slash commands can either be referenced by the:
     If referenced by the command name, the handler will handle any command whose name starts with the given name:
     !!! example
         ```java
-        @SlashCommand("favourite fruit")
+        @Command("favourite fruit")
             public void fruitCommand(CommandEvent event, String fruit) {
             event.reply("You've chosen: %s", fruit);
         }
 
-        @SlashCommand("favourite vegetable")
+        @Command("favourite vegetable")
         public void vegetableCommand(CommandEvent event, String vegetable) {
             event.reply("You've chosen: %s", vegetable);
         }
@@ -205,7 +205,7 @@ The slash commands can either be referenced by the:
 
     !!! example
         ```java
-        @SlashCommand("favourite fruit")
+        @Command("favourite fruit")
         public void fruitCommand(CommandEvent event, String fruit) {
             event.reply("You've chosen: %s", fruit);
         }
@@ -227,7 +227,7 @@ auto complete enabled. If you want to avoid that, you have to explicitly state t
 
 !!! example
     ```java
-    @SlashCommand("favourite food")
+    @Command("favourite food")
     public void foodCommand(CommandEvent event, String fruit, String vegetable) {
         event.reply("You've chosen: %s and %s", fruit, vegetable);
     }
@@ -243,27 +243,27 @@ one handler. An auto complete handler that explicitly supports a command option 
 that is implicitly registered.
 
 #### Min & Max Value
-Use the [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html)
-or [`@Max`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Max.html)
+Use the [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html)
+or [`@Max`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Max.html)
 annotation to set the minimum and maximum value for numeral options. 
 !!! example
     ```java
-    @SlashCommand("ban")
+    @Command("ban")
     public void onBanMember(CommandEvent event, Member target, String reason, @Max(7) int delDays) {
         (...)
     }
     ```
 
 ## Context Commands
-Both types of context commands are defined by the same [`@ContextCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html)
-annotation. The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
+Both types of context commands are defined by the same [`@Command`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Command.html)
+annotation. The first parameter must always be a [`CommandEvent`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html).
 The name and other metadata of the command is passed to the annotation.
 
 ### Message Context
 For message context commands the second method parameter must be a [`Message`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html)
 and the `type` must be [`Command.Type.MESSAGE`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html#MESSAGE).
 ```java
-@ContextCommand(value = "Delete this message", type = Command.Type.MESSAGE)
+@Command(value = "Delete this message", type = Command.Type.MESSAGE)
 public void onDeleteMessage(CommandEvent event, Message target) { ... }
 ```
 
@@ -271,7 +271,7 @@ public void onDeleteMessage(CommandEvent event, Message target) { ... }
 For user context commands the second method parameter must be a [`User`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html)
 and the `type` must be [`Command.Type.USER`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html#USER).
 ```java
-@ContextCommand(value = "Ban this user", type = Command.Type.USER)
+@Command(value = "Ban this user", type = Command.Type.USER)
 public void onBanMember(CommandEvent event, User user) { ... }
 ```
 
@@ -302,17 +302,11 @@ a command will be enabled for. By default, a command will be enabled for every p
     Guild admins can modify these permissions at any time! If you want to enforce permissions or secure a critical command
     further you should use the permissions system of JDA-Commands. You can read more about it [here](../middlewares/permissions.md).
 
-=== "Slash Command"
-    ```java
-    @SlashCommand(value = "example", enabledFor = Permission.BAN_MEMBERS)
-    public void onCommand(CommandEvent event) {...}
-    ```
-
-=== "Context Command"
-    ```java
-    @ContextCommand(value = "example", type = Command.Type.MESSAGE, enabledFor = Permission.BAN_MEMBERS)
-    public void onCommand(CommandEvent event, Message message) {...}
-    ```
+```java
+@CommandConfig(enabledFor = Permission.BAN_MEMBERS)
+@Command(value = "example")
+public void onCommand(CommandEvent event) {...}
+```
 
 ### context
 Sets the [InteractionContextTypes](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html)
@@ -320,7 +314,7 @@ of a command. The default value is [`InteractionContextType#GUILD`](https://docs
 
 ```java
 @CommandConfig(context = {InteractionContextType#GUILD, InteractionContextType#BOT_DM})
-@SlashCommand(value = "example")
+@Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```
 
@@ -330,7 +324,7 @@ of a command. The default value is [`IntegrationType#GUILD_INSTALL`](https://doc
 
 ```java
 @CommandConfig(integration = {IntegrationType#GUILD_INSTALL, IntegrationType#USER_INSTALL})
-@SlashCommand(value = "example")
+@Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```
 
@@ -339,7 +333,7 @@ Sets whether a command can only be executed in NSFW channels. The default value 
 
 ```java
 @CommandConfig(isNSFW = true)
-@SlashCommand(value = "example")
+@Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```
 
@@ -348,24 +342,24 @@ Sets whether a command should be registered as a `global` or as a `guild` comman
 
 ```java
 @CommandConfig(scope = CommandScope.GUILD)
-@SlashCommand(value = "example")
+@Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```
 
-When having guild scoped commands you have to use the [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
+When having guild scoped commands you have to use the [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
 to tell JDA-Commands what guilds a command should be registered for. 
 
 Let's say we have a paid feature in our bot:
 !!! example
     ```java
     @CommandConfig(scope = CommandScope.GUILD)
-    @SlashCommand(value = "paid feature")
+    @Command(value = "paid feature")
     public void onCommand(CommandEvent event) {
         event.reply("Hello World!");
     }
     ```
 
-We then need to implement a [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
+We then need to implement a [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
 to only register this command for guilds that have paid for that feature:
 !!! example
     ```java
@@ -390,7 +384,7 @@ Finally, we have to register our `PremiumGuildsProvider`. We can either pass it 
         .start();
     ```
 
-or simply annotate the `PremiumGuildsProvider` class with [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html).
+or simply annotate the `PremiumGuildsProvider` class with [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html).
 !!! note
-    Using the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/Implementation.html)
+    Using the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html)
     annotation requires the guice integration (shipped by default). You can read more about it [here](../di.md).   

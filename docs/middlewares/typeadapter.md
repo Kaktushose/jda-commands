@@ -1,5 +1,5 @@
 # Type Adapters
-[`TypeAdapters`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html)
+[`TypeAdapters`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html)
 are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.
 
 ## Default Type Adapters
@@ -19,7 +19,7 @@ for details. These default types will be mapped to the most fitting option type.
 !!! example
     === "Command"
         ```java
-        @SlashCommand("example")
+        @Command("example")
         public void onCommand(CommandEvent event, CustomType object) {
             ...
         }

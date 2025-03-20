@@ -5,7 +5,7 @@
 
 ## Structure
 In JDA-Commands you define interactions as methods. These methods must be contained in a class annotated with 
-[`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html),
+[`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html),
 which is also referred to as the _interaction controller_. 
 
 Each method controls one interaction. The interaction data gets defined by annotations and sometimes by the method signature. 
@@ -19,7 +19,7 @@ JDA-Commands will call the method when the interaction gets executed by a user.
 @Interaction//(1)!
 public class GreetCommand {
     
-    @SlashCommand(value = "greet user", desc = "Play cookie clicker")//(2)!
+    @Command(value = "greet user", desc = "Play cookie clicker")//(2)!
     public void onGreet(CommandEvent event, @Param("The user you want to greet") User user) {//(3)!
         event.reply("Hello %s", user.getAsMention());
     }
@@ -43,7 +43,7 @@ public class CookieClicker {
 
     private int counter;
     
-    @SlashCommand(value = "cookie clicker", desc = "Play cookie clicker")//(1)!
+    @Command(value = "cookie clicker", desc = "Play cookie clicker")//(1)!
     public void onClicker(CommandEvent event) {
         event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
     }

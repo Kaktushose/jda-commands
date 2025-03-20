@@ -45,7 +45,7 @@ to the JDA-Commands builder, which allows you to provide an own instance of [Gui
             this.jda = jda;
         }
 
-        @SlashCommand("greet")
+        @Command("greet")
         public void onCommand(CommandEvent event) { ... }
     }
     ```
@@ -60,14 +60,14 @@ This annotation allows the automatic instantiation and registration for implemen
 !!! note inline end
     If you're annotating an implementation of `Middleware`, `Validator` or `TypeAdapter` you have to provide additional configuration via the `@Implementation` annotation.
 
-- [PermissionsProvider](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
-- [GuildScopeProvider](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
-- [ErrorMessageFactory](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html)
-- [Descriptor](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html)
+- [PermissionsProvider](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
+- [GuildScopeProvider](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
+- [ErrorMessageFactory](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html)
+- [Descriptor](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html)
 
-- [Middleware](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html) + `@Implementation#priority()` set
-- [Validator](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html) + `@Implementation#annotation()` set
-- [TypeAdapter](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html) + `@Implemenetation#clazz()` set
+- [Middleware](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html) + `@Implementation#priority()` set
+- [Validator](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html) + `@Implementation#annotation()` set
+- [TypeAdapter](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html) + `@Implemenetation#clazz()` set
 
 The annotated classes will be instantiated with help of `com.google.inject.Injector` similar to interaction controllers.
 
