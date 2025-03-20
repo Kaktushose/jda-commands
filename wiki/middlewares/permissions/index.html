@@ -1257,17 +1257,17 @@ have no influence on.</p>
 or secure a critical command further you should use the permissions system of JDA-Commands.</p>
 </div>
 <h2 id="adding-permissions-to-an-interaction">Adding Permissions to an Interaction<a class="headerlink" href="#adding-permissions-to-an-interaction" title="Permanent link">&para;</a></h2>
-<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
+<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
 annotation to add permissions to an interaction. This isn't limited to slash commands, but can
 be any type of interaction. </p>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
 annotation takes an arbitrary amount of Strings as input. Each String defines a <code>permission</code> that must be present. By default,
 you can pass Discord Permissions, like <code>BAN_MEMBERS</code>. JDA-Commands will then check if the executor has the respective
 Discord Permission before executing the interaction. </p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Permissions</span><span class="p">(</span><span class="s">&quot;BAN_MEMBERS&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBan</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Member</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div>
 </div>
@@ -1294,19 +1294,19 @@ Strings, you have a lot of freedom in the design. Common design choices are:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Permissions</span><span class="p">({</span><span class="s">&quot;MODERATOR&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ADMIN&quot;</span><span class="p">})</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;moderation ban&quot;</span><span class="p">)</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBan</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Member</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div>
 </div>
-<p>The default <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
+<p>The default <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
 implementation will always fail, because both <code>MODERATOR</code> and <code>ADMIN</code> are invalid, we have to provide our own implementation. </p>
 <h3 id="permissionsprovider-implementation">PermissionsProvider Implementation<a class="headerlink" href="#permissionsprovider-implementation" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
-has two almost identical <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail"><code>hasPermissions(...)</code></a> methods.</p>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a>
+has two almost identical <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail"><code>hasPermissions(...)</code></a> methods.</p>
 <p>The first one gives you an <code>User</code> object, the second one a 
 <code>Member</code> object. Therefore, the first method is for interactions that are not executed on a guild (e.g. DMs) and the 
 second method is for interactions that take place on a guild. Both methods also give you access to the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html"><code>InvocationContext</code></a>.</p>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html"><code>InvocationContext</code></a>.</p>
 <p>This distinction does not necessarily have to be relevant. In most cases, the <em>member method</em> can simply call the <em>user method</em>.</p>
 <details class="question inline end">
 <summary>What's the difference between a Member and a User?</summary>

@@ -1216,7 +1216,7 @@
 
 
 <h1 id="type-adapters">Type Adapters<a class="headerlink" href="#type-adapters" title="Permanent link">&para;</a></h1>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html"><code>TypeAdapters</code></a>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html"><code>TypeAdapters</code></a>
 are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.</p>
 <h2 id="default-type-adapters">Default Type Adapters<a class="headerlink" href="#default-type-adapters" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands provides the following type adapters by default:</p>
@@ -1235,7 +1235,7 @@ for details. These default types will be mapped to the most fitting option type.
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Command</label><label for="__tabbed_1_2">Type Adapter (<code>@Implementation</code> Registration)</label><label for="__tabbed_1_3">Type Adapter (Builder Registration)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@SlashCommand</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">CustomType</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">...</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
