@@ -1,7 +1,6 @@
 plugins {
     id("io.github.kaktushose.jda.commands.convention.java")
     id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
-    jacoco
 }
 
 repositories {
@@ -27,17 +26,4 @@ description = "The base module of jda-commands"
 
 tasks.test {
     useJUnitPlatform()
-
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
-
-
-tasks.jacocoTestReport {
-    reports {
-        xml.required = true
-    }
-    dependsOn(tasks.test) // tests are required to run before generating the report
-}
-
-
-

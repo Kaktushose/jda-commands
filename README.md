@@ -1,5 +1,5 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.2.2-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.4-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.3.0-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.5-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
@@ -14,7 +14,7 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 | jda-commands                                                               | JDA | Text Commands | Interactions |
 |----------------------------------------------------------------------------|-----|---------------|--------------|
-| [4.0.0-beta.4](https://github.com/Kaktushose/jda-commands/releases/latest) | 5   | ❌             | ✅            |
+| [4.0.0-beta.5](https://github.com/Kaktushose/jda-commands/releases/latest) | 5   | ❌             | ✅            |
 | [3.0.0](https://github.com/Kaktushose/jda-commands/releases/tag/v3.0.0)    | 5   | ✅             | ❌            |
 | [2.2.0](https://github.com/Kaktushose/jda-commands/releases/tag/v.2.0.0)   | 4   | ✅             | ❌            |
 
@@ -82,7 +82,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 <dependency>
    <groupId>io.github.kaktushose</groupId>
    <artifactId>jda-commands</artifactId>
-   <version>4.0.0-beta.4</version>
+   <version>4.0.0-beta.5</version>
 </dependency>
 ```
 
@@ -92,7 +92,7 @@ repositories {
    mavenCentral()
 }
 dependencies {
-   implementation("io.github.kaktushose:jda-commands:4.0.0-beta.4")
+   implementation("io.github.kaktushose:jda-commands:4.0.0-beta.5")
 }
 ```
 
