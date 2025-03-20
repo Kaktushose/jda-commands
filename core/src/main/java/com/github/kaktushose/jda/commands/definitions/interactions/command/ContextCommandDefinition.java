@@ -1,12 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -17,7 +15,6 @@ import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFuncti
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /// Representation of a context command.
 ///
@@ -27,7 +24,6 @@ import java.util.stream.Collectors;
 /// @param name                 the name of the command
 /// @param commandType          the [Command.Type] of this command
 /// @param commandConfig        the [CommandConfig] to use
-/// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
         @NotNull ClassDescription classDescription,
@@ -36,7 +32,6 @@ public record ContextCommandDefinition(
         @NotNull String name,
         @NotNull Command.Type commandType,
         @NotNull CommandConfig commandConfig,
-        @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction
 ) implements CommandDefinition {
 
@@ -46,7 +41,7 @@ public record ContextCommandDefinition(
     @NotNull
     public static Optional<ContextCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
-        ContextCommand command = method.annotation(ContextCommand.class).orElseThrow();
+        var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
 
         var type = switch (command.type()) {
             case USER -> User.class;
@@ -61,11 +56,6 @@ public record ContextCommandDefinition(
             return Optional.empty();
         }
 
-        Set<Permission> enabledFor = Arrays.stream(command.enabledFor()).collect(Collectors.toSet());
-        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
-            enabledFor.clear();
-        }
-
         return Optional.of(new ContextCommandDefinition(
                 context.clazz(),
                 method,
@@ -73,7 +63,6 @@ public record ContextCommandDefinition(
                 command.value(),
                 command.type(),
                 Helpers.commandConfig(context),
-                enabledFor,
                 context.localizationFunction()
         ));
     }
@@ -88,7 +77,7 @@ public record ContextCommandDefinition(
         command.setIntegrationTypes(commandConfig.integration())
                 .setContexts(commandConfig.context())
                 .setNSFW(commandConfig.isNSFW())
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions))
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
                 .setLocalizationFunction(localizationFunction);
         return command;
     }

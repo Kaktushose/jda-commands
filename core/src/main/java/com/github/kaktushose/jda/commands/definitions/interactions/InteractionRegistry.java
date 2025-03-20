@@ -132,11 +132,13 @@ public record InteractionRegistry(@NotNull Validators validators,
 
             Optional<? extends Definition> definition = Optional.empty();
             // index commands
-            if (method.annotation(SlashCommand.class).isPresent()) {
-                definition = SlashCommandDefinition.build(context);
-            }
-            if (method.annotation(ContextCommand.class).isPresent()) {
-                definition = ContextCommandDefinition.build(context);
+            if (method.annotation(Command.class).isPresent()) {
+                Command command = method.annotation(Command.class).get();
+                definition = switch (command.type()) {
+                    case SLASH -> SlashCommandDefinition.build(context);
+                    case USER, MESSAGE -> ContextCommandDefinition.build(context);
+                    case UNKNOWN -> Optional.empty();
+                };
             }
 
             // index components

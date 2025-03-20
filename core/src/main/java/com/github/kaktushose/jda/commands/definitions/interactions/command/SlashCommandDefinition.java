@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -11,8 +11,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
 /// @param commandConfig        the [CommandConfig] to use
-/// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
@@ -44,7 +41,6 @@ public record SlashCommandDefinition(
         @NotNull Collection<String> permissions,
         @NotNull String name,
         @NotNull CommandConfig commandConfig,
-        @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
         @NotNull SequencedCollection<OptionDataDefinition> commandOptions,
@@ -58,7 +54,7 @@ public record SlashCommandDefinition(
     public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
-        var command = method.annotation(SlashCommand.class).orElseThrow();
+        var command = method.annotation(Command.class).orElseThrow();
 
         String name = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
@@ -92,11 +88,6 @@ public record SlashCommandDefinition(
                 )
                 .toList();
 
-        Set<Permission> enabledFor = Set.of(command.enabledFor());
-        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
-            enabledFor = Set.of();
-        }
-
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
         commandOptions.forEach(it -> signature.add(it.type()));
@@ -115,7 +106,6 @@ public record SlashCommandDefinition(
                 Helpers.permissions(context),
                 name,
                 Helpers.commandConfig(context),
-                enabledFor,
                 context.localizationFunction(),
                 command.desc(),
                 commandOptions,
@@ -164,7 +154,7 @@ public record SlashCommandDefinition(
                 .setContexts(commandConfig.context())
                 .setNSFW(commandConfig.isNSFW())
                 .setLocalizationFunction(localizationFunction)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
         commandOptions.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
@@ -195,8 +185,8 @@ public record SlashCommandDefinition(
 
     @NotNull
     @Override
-    public Command.Type commandType() {
-        return Command.Type.SLASH;
+    public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
+        return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
     }
 
     /// Representation of a cooldown definition defined by [Cooldown].

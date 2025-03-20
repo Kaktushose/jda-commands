@@ -2,46 +2,60 @@ package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.commands.Command.Type;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// Methods annotated with SlashCommand will be registered as a slash command at startup.
+/// Methods annotated with Command will be registered as a slash command at startup.
 ///
-/// Therefore, the method must be declared inside a class that is annotated with [Interaction].
-/// Furthermore, the method signature has to meet the following conditions:
+/// Therefore, the method must be declared inside a class that is annotated with [Interaction]. Both slash commands and
+/// context commands are registered via this annotation.
+/// # 1. Slash Commands
+/// The method signature has to meet the following conditions:
 ///
 ///   - First parameter must be of type [CommandEvent]
 ///   - Remaining parameter types must be registered at the [TypeAdapters]
 ///
 /// ## Examples:
 /// ```
-/// @SlashCommand("greet")
+/// @Command("greet")
 /// public void onCommand(CommandEvent event) {
 ///     event.reply("Hello World!");
 /// }
 ///
-/// @SlashCommand(value="moderation ban", desc="Bans a member", enabledFor=Permission.BAN_MEMBERS)
+/// @Command(value="moderation ban", desc="Bans a member", enabledFor=Permission.BAN_MEMBERS)
 /// public void onCommand(CommandEvent event, @Param("The member to ban") Member target, @Optional("no reason given") String reason) { ... }
 ///
-/// @SlashCommand(value = "favourite fruit")
+/// @Command(value = "favourite fruit")
 /// public void onCommand(CommandEvent event, @Choices({"Apple", "Banana", "Orange"}) String fruit) {
 ///     event.reply("You've chosen: %s", fruit);
 /// }
+/// ```
+/// # Context Commands
+/// The method signature has to meet the following conditions:
 ///
-/// @SlashCommand("example command") {
-/// public void onCommand(CommandEvent event, String[] arguments) {}
-/// }
+///   - First parameter must be of type [CommandEvent]
+///   - Second parameter must either be a [User] or a [Message]
+///
+/// ## Examples:
+/// ```
+/// @Command(value = "message context command", type = Type.MESSAGE)
+/// public void onCommand(CommandEvent event, Message target) { ... }
+///
+/// @Command(value = "user context command", type = Type.USER)
+/// public void onCommand(CommandEvent event, User target) { ... }
 /// ```
 /// @see Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SlashCommand {
+public @interface Command {
 
     /// Returns the name of the command.
     ///
@@ -53,13 +67,9 @@ public @interface SlashCommand {
     /// @return the description of the command
     String desc() default "N/A";
 
-    /// Returns an array of [Permission]s this command should be enabled for by default. Note that guild admins can
-    /// modify this at any time.
+    /// Gets the type of this command.
     ///
-    /// @return an array of permissions this command will be enabled for by default
-    /// @see Permissions Permission
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
-    Permission[] enabledFor() default Permission.UNKNOWN;
+    /// @return the type of the command
+    Type type() default Type.SLASH;
 
 }

@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 
@@ -46,5 +47,14 @@ public @interface CommandConfig {
     ///
     /// @return `true` if the configured command(s) can only be executed in NSFW channels
     boolean isNSFW() default false;
+
+    /// Returns an array of [Permission] this command
+    /// should be enabled for by default. Note that guild admins can modify this at any time.
+    ///
+    /// @return an array of permissions this command will be enabled for by default
+    /// @see Permissions Permission
+    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
+    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
+    Permission[] enabledFor() default Permission.UNKNOWN;
 
 }

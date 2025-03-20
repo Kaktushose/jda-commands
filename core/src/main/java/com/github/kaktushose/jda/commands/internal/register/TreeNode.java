@@ -159,7 +159,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         Set<Permission> permissions = permissionsRaw == null
                 ? EnumSet.noneOf(Permission.class)
                 : Permission.getPermissions(permissionsRaw);
-        permissions.addAll(definition.enabledPermissions());
+        permissions.addAll(Arrays.asList(definition.commandConfig().enabledPermissions()));
 
         Set<InteractionContextType> context = new HashSet<>(root.getContexts());
         context.addAll(Arrays.asList(definition.commandConfig().context()));
