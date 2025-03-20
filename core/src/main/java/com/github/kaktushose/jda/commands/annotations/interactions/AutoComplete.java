@@ -9,9 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// Methods annotated with AutoComplete will be registered as a handler for [AutoCompleteEvent]s for the given
-/// [SlashCommand]s.
+/// [Command]s.
 ///
-/// The [SlashCommand]s can either be referenced by:
+/// The [Command]s can either be referenced by:
 /// 1. Command Name
 ///
 ///     If referenced by the command name the handler will handle any command that's name starts with the given name:
@@ -62,7 +62,7 @@ import java.lang.annotation.Target;
 /// exactly *one* handler.
 /// If an auto complete handler doesn't specify any command options, it will be registered implicitly for every command
 /// option of the given slash command(s), unless an explicit auto complete handler exists for that command option.
-/// @see SlashCommand
+/// @see Command
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutoComplete {

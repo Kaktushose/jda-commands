@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -11,7 +11,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -55,7 +54,7 @@ public record SlashCommandDefinition(
     public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
-        var command = method.annotation(SlashCommand.class).orElseThrow();
+        var command = method.annotation(Command.class).orElseThrow();
 
         String name = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
@@ -186,8 +185,8 @@ public record SlashCommandDefinition(
 
     @NotNull
     @Override
-    public Command.Type commandType() {
-        return Command.Type.SLASH;
+    public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
+        return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
     }
 
     /// Representation of a cooldown definition defined by [Cooldown].

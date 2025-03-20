@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.ContextCommand;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
@@ -42,7 +41,7 @@ public record ContextCommandDefinition(
     @NotNull
     public static Optional<ContextCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
-        ContextCommand command = method.annotation(ContextCommand.class).orElseThrow();
+        var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
 
         var type = switch (command.type()) {
             case USER -> User.class;
