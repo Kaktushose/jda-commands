@@ -276,39 +276,24 @@ public void onBanMember(CommandEvent event, User user) { ... }
 ```
 
 ## Additional Settings
-Both the [`@SlashCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/SlashCommand.html) 
-annotation and the
-[`@ContextCommand`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/annotations/interactions/ContextCommand.html)
-annotation share the following fields.
+Use the [`@CommandConfig`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html)
+annotation to configure the following settings. You can either annotate a command method directly or annotate the
+interaction controller class. It is also possible to set a 
+[global command config](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#globalCommandConfig(com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)) 
+at the builder:
 
-### isGuildOnly
-Sets whether a command is only usable in a guild. This only has an effect if the command is registered [globally](#scope-guild-global-commands). 
-The default value is `false`.
-=== "Slash Command"
+!!! example "Global CommandConfig"
     ```java
-    @SlashCommand(value = "example", isGuildOnly = true)
-    public void onCommand(CommandEvent event) {...}
+    JDACommands.builder(jda, Main.class)
+        .globalCommandConfig(CommandConfig.of(config -> config.nsfw(true))
+        .start();
     ```
 
-=== "Context Command"
-    ```java
-    @ContextCommand(value = "example", type = Command.Type.MESSAGE, isGuildOnly = true)
-    public void onCommand(CommandEvent event, Message message) {...}
-    ```
+JDA-Commands will apply clashing CommandConfigs in the following hierarchy:
 
-### isNSFW
-Sets whether a command can only be executed in NSFW channels. The default value is `false`.
-=== "Slash Command"
-    ```java
-    @SlashCommand(value = "example", isNSFW = true)
-    public void onCommand(CommandEvent event) {...}
-    ```
-
-=== "Context Command"
-    ```java
-    @ContextCommand(value = "example",  type = Command.Type.MESSAGE, isNSFW = true)
-    public void onCommand(CommandEvent event, Message message) {...}
-    ```
+1. `CommandConfig` method annotation
+2. `CommandConfig` class annotation
+3. global `CommandConfig`
 
 ### enabledFor
 Sets the [`Discord Permissions`](https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html)
@@ -329,22 +314,43 @@ a command will be enabled for. By default, a command will be enabled for every p
     public void onCommand(CommandEvent event, Message message) {...}
     ```
 
+### context
+Sets the [InteractionContextTypes](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html)
+of a command. The default value is [`InteractionContextType#GUILD`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html#GUILD).
+
+```java
+@CommandConfig(context = {InteractionContextType#GUILD, InteractionContextType#BOT_DM})
+@SlashCommand(value = "example")
+public void onCommand(CommandEvent event) {...}
+```
+
+### integration
+Sets the [IntegrationTypes](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html)
+of a command. The default value is [`IntegrationType#GUILD_INSTALL`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html#GUILD_INSTALL).
+
+```java
+@CommandConfig(integration = {IntegrationType#GUILD_INSTALL, IntegrationType#USER_INSTALL})
+@SlashCommand(value = "example")
+public void onCommand(CommandEvent event) {...}
+```
+
+### isNSFW
+Sets whether a command can only be executed in NSFW channels. The default value is `false`.
+
+```java
+@CommandConfig(isNSFW = true)
+@SlashCommand(value = "example")
+public void onCommand(CommandEvent event) {...}
+```
+
 ### scope (Guild & Global Commands)
 Sets whether a command should be registered as a `global` or as a `guild` command. The default value is `global`.
-!!! note
-    User installable apps are currently not supported by JDA-Commands.
 
-=== "Slash Command"
-    ```java
-    @SlashCommand(value = "example", scope = CommandScope.GUILD)
-    public void onCommand(CommandEvent event) {...}
-    ```
-
-=== "Context Command"
-    ```java
-    @ContextCommand(value = "example", type = Command.Type.MESSAGE, scope = CommandScope.GUILD)
-    public void onCommand(CommandEvent event, Message message) {...}
-    ```
+```java
+@CommandConfig(scope = CommandScope.GUILD)
+@SlashCommand(value = "example")
+public void onCommand(CommandEvent event) {...}
+```
 
 When having guild scoped commands you have to use the [`GuildScopeProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/jda.commands/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
 to tell JDA-Commands what guilds a command should be registered for. 
@@ -352,7 +358,8 @@ to tell JDA-Commands what guilds a command should be registered for.
 Let's say we have a paid feature in our bot:
 !!! example
     ```java
-    @SlashCommand(value = "paid feature", scope = CommandScope.GUILD)
+    @CommandConfig(scope = CommandScope.GUILD)
+    @SlashCommand(value = "paid feature")
     public void onCommand(CommandEvent event) {
         event.reply("Hello World!");
     }
