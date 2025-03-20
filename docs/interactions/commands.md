@@ -161,8 +161,86 @@ public void onBanMember(CommandEvent event,
 ```
 
 #### Auto Complete
-!!! failure
-    The Auto Complete API will be refactored soon. This wiki will cover Auto Complete as soon as the refactoring is done.
+You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
+[`@AutoComplete`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/AutoComplete.html).
+Auto Complete handlers are always bound to one or more slash commands. 
+
+The slash commands can either be referenced by the:
+
+1. Command Name
+
+    If referenced by the command name, the handler will handle any command whose name starts with the given name:
+    !!! example
+        ```java
+        @SlashCommand("favourite fruit")
+            public void fruitCommand(CommandEvent event, String fruit) {
+            event.reply("You've chosen: %s", fruit);
+        }
+
+        @SlashCommand("favourite vegetable")
+        public void vegetableCommand(CommandEvent event, String vegetable) {
+            event.reply("You've chosen: %s", vegetable);
+        }
+
+        @AutoComplete("favourite") //(1)!
+        public void onFavouriteAutoComplete(AutoCompleteEvent event) {
+            event.replyChoices(...);
+        }
+        ```
+
+        1. This auto complete handler will receive auto complete events for both `/favourite fruit` and `/favourite vegetable`
+
+    It is also possible to reference the commands by their full name:
+    !!! example
+        ```java
+        @AutoComplete({"favourite fruit", "favourite vegtable"})
+        public void onFavouriteAutoComplete(AutoCompleteEvent event) {
+            event.replyChoices(...);
+        }
+        ```
+
+2. Method Name
+
+    If referenced by the method name the handler will only handle the slash command of the given method:
+
+    !!! example
+        ```java
+        @SlashCommand("favourite fruit")
+        public void fruitCommand(CommandEvent event, String fruit) {
+            event.reply("You've chosen: %s", fruit);
+        }
+
+        @AutoComplete("fruitCommand") //(1)!
+        public void onFruitAutoComplete(AutoCompleteEvent event) {
+            event.replyChoices(...);
+        }    
+        ```
+        
+        1. This auto complete handler will **only** receive auto complete events for `/favourite fruit`!
+
+!!! warning
+    If an auto complete handler doesn't specify any command options, it will be registered implicitly for every command
+    option of the given slash command(s)!
+
+So far we haven't specified which command options should have auto complete, resulting in every command option having 
+auto complete enabled. If you want to avoid that, you have to explicitly state the command options the handler supports:
+
+!!! example
+    ```java
+    @SlashCommand("favourite food")
+    public void foodCommand(CommandEvent event, String fruit, String vegetable) {
+        event.reply("You've chosen: %s and %s", fruit, vegetable);
+    }
+    
+    @AutoComplete(vale = "foodCommand", options = "fruit")
+    public void onFruitAutoComplete(AutoCompleteEvent event) {
+        event.replyChoices(...);
+    }
+    ```
+
+You can have multiple auto complete handler for the same slash command, but each command option can only have exactly 
+one handler. An auto complete handler that explicitly supports a command option will always be called over a handler 
+that is implicitly registered.
 
 #### Min & Max Value
 Use the [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/development/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html)
