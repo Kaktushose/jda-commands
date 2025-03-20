@@ -67,7 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(net.dv8tion.jda.api.interactions.InteractionContextType%5B%5D,net.dv8tion.jda.api.interactions.IntegrationType%5B%5D,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean)" tabindex="0">CommandConfig(InteractionContextType[], IntegrationType[], CommandScope, boolean)</a></li>
+<li><a href="#%3Cinit%3E(net.dv8tion.jda.api.interactions.InteractionContextType%5B%5D,net.dv8tion.jda.api.interactions.IntegrationType%5B%5D,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,net.dv8tion.jda.api.Permission%5B%5D)" tabindex="0">CommandConfig(InteractionContextType[], IntegrationType[], CommandScope, boolean, Permission[])</a></li>
 <li><a href="#%3Cinit%3E()" tabindex="0">CommandConfig()</a></li>
 <li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig)" tabindex="0">CommandConfig(CommandConfig)</a></li>
 </ol>
@@ -82,6 +82,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#integration()" tabindex="0">integration()</a></li>
 <li><a href="#scope()" tabindex="0">scope()</a></li>
 <li><a href="#isNSFW()" tabindex="0">isNSFW()</a></li>
+<li><a href="#enabledPermissions()" tabindex="0">enabledPermissions()</a></li>
 </ol>
 </li>
 </ol>
@@ -103,7 +104,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">CommandDefinition.CommandConfig</span>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">InteractionContextType</a>[]&nbsp;context, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]&nbsp;integration, @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope, boolean&nbsp;isNSFW)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">CommandDefinition.CommandConfig</span>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">InteractionContextType</a>[]&nbsp;context, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]&nbsp;integration, @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope, boolean&nbsp;isNSFW, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]&nbsp;enabledPermissions)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Stores the configuration values for registering commands. This acts as a representation of
 <a href="../../../annotations/interactions/CommandConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>CommandConfig</code></a></div>
@@ -152,10 +153,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">
 <div class="block">Constructs a new CommandConfig.</div>
 </div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.dv8tion.jda.api.interactions.InteractionContextType%5B%5D,net.dv8tion.jda.api.interactions.IntegrationType%5B%5D,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean)" class="member-name-link">CommandConfig</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">InteractionContextType</a>[]&nbsp;context,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.dv8tion.jda.api.interactions.InteractionContextType%5B%5D,net.dv8tion.jda.api.interactions.IntegrationType%5B%5D,com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,net.dv8tion.jda.api.Permission%5B%5D)" class="member-name-link">CommandConfig</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">InteractionContextType</a>[]&nbsp;context,
  @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]&nbsp;integration,
  @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope,
- boolean&nbsp;isNSFW)</code></div>
+ boolean&nbsp;isNSFW,
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]&nbsp;enabledPermissions)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Compact constructor ensuring that <code>context</code> and <code>integration</code> is always set.</div>
 </div>
@@ -178,39 +180,44 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>context</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enabledPermissions()" class="member-name-link">enabledPermissions</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>enabledPermissions</code> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#integration()" class="member-name-link">integration</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#integration()" class="member-name-link">integration</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>integration</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNSFW()" class="member-name-link">isNSFW</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNSFW()" class="member-name-link">isNSFW</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>isNSFW</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(java.util.function.Consumer)" class="member-name-link">of</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="CommandDefinition.CommandConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig.Builder</a>&gt;&nbsp;callback)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(java.util.function.Consumer)" class="member-name-link">of</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="CommandDefinition.CommandConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig.Builder</a>&gt;&nbsp;callback)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new CommandConfig after the given <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link"><code>Consumer</code></a> modified the <a href="CommandDefinition.CommandConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>CommandDefinition.CommandConfig.Builder</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scope()" class="member-name-link">scope</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scope()" class="member-name-link">scope</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>scope</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -231,7 +238,7 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(net.dv8tion.jda.api.interactions.InteractionContextType[],net.dv8tion.jda.api.interactions.IntegrationType[],com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean)">
+<section class="detail" id="&lt;init&gt;(net.dv8tion.jda.api.interactions.InteractionContextType[],net.dv8tion.jda.api.interactions.IntegrationType[],com.github.kaktushose.jda.commands.annotations.interactions.CommandScope,boolean,net.dv8tion.jda.api.Permission[])">
 <h3>CommandConfig</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CommandConfig</span><wbr><span class="parameters">(@NotNull
@@ -240,7 +247,9 @@ loadScripts(document, 'script');</script>
  @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]&nbsp;integration,
  @NotNull
  @NotNull <a href="../../../annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a>&nbsp;scope,
- boolean&nbsp;isNSFW)</span></div>
+ boolean&nbsp;isNSFW,
+ @NotNull
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]&nbsp;enabledPermissions)</span></div>
 <div class="block">Compact constructor ensuring that <code>context</code> and <code>integration</code> is always set. If empty defaults to
 <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html#GUILD" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>InteractionContextType.GUILD</code></a> and <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html#GUILD_INSTALL" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>IntegrationType.GUILD_INSTALL</code></a>.</div>
 </div>
@@ -390,6 +399,20 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>isNSFW</code> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="enabledPermissions()">
+<h3>enabledPermissions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]</span>&nbsp;<span class="element-name">enabledPermissions</span>()</div>
+<div class="block">Returns the value of the <code>enabledPermissions</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>enabledPermissions</code> record component</dd>
 </dl>
 </div>
 </section>

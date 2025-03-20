@@ -83,7 +83,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color class-summary class-summary-tab6"><a href="AutoComplete.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">AutoComplete</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab6">
 <div class="block">Methods annotated with AutoComplete will be registered as a handler for <a href="../../dispatching/events/interactions/AutoCompleteEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions"><code>AutoCompleteEvent</code></a>s for the given
-<a href="SlashCommand.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>SlashCommand</code></a>s.</div>
+<a href="Command.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Command</code></a>s.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab6"><a href="Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">Button</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab6">
@@ -93,17 +93,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color class-summary class-summary-tab6">
 <div class="block">Annotation used to add choices to parameters.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="CommandConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">CommandConfig</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="Command.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">Command</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab6">
+<div class="block">Methods annotated with Command will be registered as a slash command at startup.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab6"><a href="CommandConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">CommandConfig</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab6">
 <div class="block">Used to configure the registration of commands.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab3"><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab3">
+<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab3">
 <div class="block">Enum describing the two possible scopes a command can be registered for.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="ContextCommand.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">ContextCommand</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab6">
-<div class="block">Methods annotated with ContextMenu will be registered as a context menu command.</div>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab6"><a href="Cooldown.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">Cooldown</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab6">
@@ -144,16 +144,12 @@ require the user to have the given permissions in order to execute the command.<
 <div class="block">Used to define <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/SelectOption.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link"><code>SelectOptions</code></a>
 for <a href="StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a>s.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="SlashCommand.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">SlashCommand</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">StringSelectMenu</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab6">
-<div class="block">Methods annotated with SlashCommand will be registered as a slash command at startup.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab6"><a href="StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">StringSelectMenu</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab6">
 <div class="block">Methods annotated with StringSelectMenu will be registered as a StringSelectMenu at startup.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab6"><a href="TextInput.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">TextInput</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab6">
+<div class="col-first even-row-color class-summary class-summary-tab6"><a href="TextInput.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">TextInput</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab6">
 <div class="block">Annotation used to add TextInputs to <a href="Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>s.</div>
 </div>
 </div>

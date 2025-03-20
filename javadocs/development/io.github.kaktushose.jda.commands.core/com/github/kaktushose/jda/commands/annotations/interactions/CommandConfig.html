@@ -68,6 +68,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#integration()" tabindex="0">integration</a></li>
 <li><a href="#scope()" tabindex="0">scope</a></li>
 <li><a href="#isNSFW()" tabindex="0">isNSFW</a></li>
+<li><a href="#enabledFor()" tabindex="0">enabledFor</a></li>
 </ol>
 </li>
 </ol>
@@ -112,19 +113,25 @@ will be used instead.</p>
 <div class="col-last even-row-color">
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>InteractionContextType</code></a>s to use.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]</code></div>
-<div class="col-second odd-row-color"><code><a href="#integration()" class="member-name-link">integration</a></code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#enabledFor()" class="member-name-link">enabledFor</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">Returns an array of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a> this command
+should be enabled for by default.</div>
+</div>
+<div class="col-first even-row-color"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">IntegrationType</a>[]</code></div>
+<div class="col-second even-row-color"><code><a href="#integration()" class="member-name-link">integration</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/IntegrationType.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>IntegrationType</code></a>s to use.</div>
 </div>
-<div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#isNSFW()" class="member-name-link">isNSFW</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#isNSFW()" class="member-name-link">isNSFW</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Whether the configured command(s) can only be executed in NSFW channels.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#scope()" class="member-name-link">scope</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code><a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></code></div>
+<div class="col-second even-row-color"><code><a href="#scope()" class="member-name-link">scope</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The <a href="CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions"><code>CommandScope</code></a> to use.</div>
 </div>
 </div>
@@ -203,6 +210,32 @@ will be used instead.</p>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>false</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="enabledFor()">
+<h3>enabledFor</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>[]</span>&nbsp;<span class="element-name">enabledFor</span></div>
+<div class="block">Returns an array of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a> this command
+should be enabled for by default. Note that guild admins can modify this at any time.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>an array of permissions this command will be enabled for by default</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="Permissions.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">Permission</a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/DefaultMemberPermissions.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">DefaultMemberPermissions.ENABLED</a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/DefaultMemberPermissions.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">DefaultMemberPermissions.DISABLED</a></li>
+</ul>
+</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>{UNKNOWN}</code></dd>
 </dl>
 </div>
 </section>

@@ -69,7 +69,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#commandConfig()" tabindex="0">commandConfig()</a></li>
 <li><a href="#commandType()" tabindex="0">commandType()</a></li>
-<li><a href="#enabledPermissions()" tabindex="0">enabledPermissions()</a></li>
 <li><a href="#localizationFunction()" tabindex="0">localizationFunction()</a></li>
 </ol>
 </li>
@@ -156,19 +155,14 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Type</code></a> of this command.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#enabledPermissions()" class="member-name-link">enabledPermissions</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a>s this command will be enabled for.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> to use for this command.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The name of the command.</div>
 </div>
 </div>
@@ -223,16 +217,6 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Type</a></span>&nbsp;<span class="element-name">commandType</span>()</div>
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Type</code></a> of this command.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="enabledPermissions()">
-<h3>enabledPermissions</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;</span>&nbsp;<span class="element-name">enabledPermissions</span>()</div>
-<div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a>s this command will be enabled for.</div>
 </div>
 </section>
 </li>

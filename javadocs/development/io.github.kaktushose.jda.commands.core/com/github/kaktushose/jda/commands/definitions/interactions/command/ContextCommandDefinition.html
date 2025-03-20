@@ -67,7 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" tabindex="0">ContextCommandDefinition(ClassDescription, MethodDescription, Collection, String, Command.Type, CommandDefinition.CommandConfig, Set, LocalizationFunction)</a></li>
+<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" tabindex="0">ContextCommandDefinition(ClassDescription, MethodDescription, Collection, String, Command.Type, CommandDefinition.CommandConfig, LocalizationFunction)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -84,7 +84,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#commandType()" tabindex="0">commandType()</a></li>
 <li><a href="#commandConfig()" tabindex="0">commandConfig()</a></li>
-<li><a href="#enabledPermissions()" tabindex="0">enabledPermissions()</a></li>
 <li><a href="#localizationFunction()" tabindex="0">localizationFunction()</a></li>
 </ol>
 </li>
@@ -110,7 +109,6 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-name">name</span></code> - the name of the command</dd>
 <dd><code><span id="param-commandType">commandType</span></code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Type</code></a> of this command</dd>
 <dd><code><span id="param-commandConfig">commandConfig</span></code> - the <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>CommandDefinition.CommandConfig</code></a> to use</dd>
-<dd><code><span id="param-enabledPermissions">enabledPermissions</span></code> - a possibly-empty <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>Permission</code></a>s this command will be enabled for</dd>
 <dd><code><span id="param-localizationFunction">localizationFunction</span></code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> to use for this command</dd>
 </dl>
 <dl class="notes">
@@ -118,7 +116,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></code>, <code><a href="../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code>, <code><a href="../../features/JDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">JDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">CommandData</a>&gt;</code>, <code><a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></code>, <code><a href="../InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ContextCommandDefinition</span>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Type</a>&nbsp;commandType, @NotNull <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;&nbsp;enabledPermissions, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ContextCommandDefinition</span>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Type</a>&nbsp;commandType, @NotNull <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></span></div>
 <div class="block">Representation of a context command.</div>
@@ -155,13 +153,12 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" class="member-name-link">ContextCommandDefinition</a><wbr>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" class="member-name-link">ContextCommandDefinition</a><wbr>(@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
  @NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Type</a>&nbsp;commandType,
  @NotNull <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;&nbsp;enabledPermissions,
  @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>ContextCommandDefinition</code> record class.</div>
@@ -205,49 +202,44 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enabledPermissions()" class="member-name-link">enabledPermissions</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-enabledPermissions"><code>enabledPermissions</code></a> record component.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-localizationFunction"><code>localizationFunction</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-methodDescription"><code>methodDescription</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-permissions"><code>permissions</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">CommandData</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">CommandData</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Transforms this definition into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>CommandData</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -274,7 +266,7 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,java.util.Set,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)">
+<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.interactions.commands.Command.Type,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)">
 <h3>ContextCommandDefinition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ContextCommandDefinition</span><wbr><span class="parameters">(@NotNull
@@ -290,8 +282,6 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
  @NotNull
  @NotNull <a href="CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig,
  @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;&nbsp;enabledPermissions,
- @NotNull
  @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction)</span></div>
 <div class="block">Creates an instance of a <code>ContextCommandDefinition</code> record class.</div>
 <dl class="notes">
@@ -302,7 +292,6 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
 <dd><code>commandType</code> - the value for the <a href="#param-commandType"><code>commandType</code></a> record component</dd>
 <dd><code>commandConfig</code> - the value for the <a href="#param-commandConfig"><code>commandConfig</code></a> record component</dd>
-<dd><code>enabledPermissions</code> - the value for the <a href="#param-enabledPermissions"><code>enabledPermissions</code></a> record component</dd>
 <dd><code>localizationFunction</code> - the value for the <a href="#param-localizationFunction"><code>localizationFunction</code></a> record component</dd>
 </dl>
 </div>
@@ -500,22 +489,6 @@ implements <a href="CommandDefinition.html" title="interface in com.github.kaktu
 <dd><code><a href="CommandDefinition.html#commandConfig()">commandConfig</a></code>&nbsp;in interface&nbsp;<code><a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></code></dd>
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-commandConfig"><code>commandConfig</code></a> record component</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="enabledPermissions()">
-<h3>enabledPermissions</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/Permission.html" title="class or interface in net.dv8tion.jda.api" class="external-link">Permission</a>&gt;</span>&nbsp;<span class="element-name">enabledPermissions</span>()</div>
-<div class="block">Returns the value of the <a href="#param-enabledPermissions"><code>enabledPermissions</code></a> record component.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="CommandDefinition.html#enabledPermissions()">enabledPermissions</a></code>&nbsp;in interface&nbsp;<code><a href="CommandDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition</a></code></dd>
-<dt>Returns:</dt>
-<dd>the value of the <a href="#param-enabledPermissions"><code>enabledPermissions</code></a> record component</dd>
 </dl>
 </div>
 </section>
