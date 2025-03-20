@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import net.dv8tion.jda.api.Permission;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -52,14 +51,5 @@ public @interface SlashCommand {
     ///
     /// @return the description of the command
     String desc() default "N/A";
-
-    /// Returns an array of [Permission]s this command should be enabled for by default. Note that guild admins can
-    /// modify this at any time.
-    ///
-    /// @return an array of permissions this command will be enabled for by default
-    /// @see Permissions Permission
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
-    Permission[] enabledFor() default Permission.UNKNOWN;
 
 }

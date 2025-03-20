@@ -11,9 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 /// Common interface for command interaction definitions.
@@ -30,9 +28,6 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     /// The [Command.Type] of this command.
     @NotNull Command.Type commandType();
 
-    /// A possibly-empty [Set] of [Permission]s this command will be enabled for.
-    @NotNull Set<Permission> enabledPermissions();
-
     /// The [LocalizationFunction] to use for this command.
     @NotNull LocalizationFunction localizationFunction();
 
@@ -41,7 +36,7 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     ///
     /// @see com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig
     record CommandConfig(@NotNull InteractionContextType[] context, @NotNull IntegrationType[] integration,
-                         @NotNull CommandScope scope, boolean isNSFW) {
+                         @NotNull CommandScope scope, boolean isNSFW, @NotNull Permission[] enabledPermissions) {
 
         /// Compact constructor ensuring that [#context] and [#integration] is always set. If empty defaults to
         /// [InteractionContextType#GUILD] and [IntegrationType#GUILD_INSTALL].
@@ -52,6 +47,11 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             if (integration.length == 0) {
                 integration = new IntegrationType[]{IntegrationType.GUILD_INSTALL};
             }
+            // Permission.UNKNOWN is the default value in the @CommandConfig annotation indicating DefaultMemberPermissions.ENABLED
+            // which must be represented as an empty array
+            if (enabledPermissions.length == 1 && enabledPermissions[0] == Permission.UNKNOWN) {
+                enabledPermissions = new Permission[0];
+            }
         }
 
         /// Constructs a new CommandConfig using the following default values:
@@ -60,14 +60,14 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
         /// - [CommandScope#GLOBAL]
         /// - isNSFW: `false`
         public CommandConfig() {
-            this(new InteractionContextType[0], new IntegrationType[0], CommandScope.GLOBAL, false);
+            this(new InteractionContextType[0], new IntegrationType[0], CommandScope.GLOBAL, false, new Permission[0]);
         }
 
         /// Constructs a new CommandConfig.
         ///
         /// @param config the [`@CommandConfig`][com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig] to represent
         public CommandConfig(com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig config) {
-            this(config.context(), config.integration(), config.scope(), config.isNSFW());
+            this(config.context(), config.integration(), config.scope(), config.isNSFW(), config.enabledFor());
         }
 
         /// Constructs a new CommandConfig after the given [Consumer] modified the [Builder].
@@ -82,6 +82,7 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
 
             private final Set<InteractionContextType> context;
             private final Set<IntegrationType> integration;
+            private final Set<Permission> enabledPermissions;
             private CommandScope scope;
             private boolean isNSFW;
 
@@ -91,6 +92,7 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
                 integration = new HashSet<>();
                 scope = CommandScope.GLOBAL;
                 isNSFW = false;
+                enabledPermissions = new HashSet<>();
             }
 
             /// The [InteractionContextType]s to use. This method will override this builders default
@@ -99,7 +101,16 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// @param context the [InteractionContextType]s to use
             @NotNull
             public Builder context(@NotNull InteractionContextType... context) {
-                this.context.addAll(Arrays.asList(context));
+                return context(Arrays.asList(context));
+            }
+
+            /// The [InteractionContextType]s to use. This method will override this builders default
+            /// value [InteractionContextType#GUILD].
+            ///
+            /// @param context the [InteractionContextType]s to use
+            @NotNull
+            public Builder context(@NotNull Collection<InteractionContextType> context) {
+                this.context.addAll(context);
                 return this;
             }
 
@@ -109,7 +120,16 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// @param integration the [IntegrationType]s to use
             @NotNull
             public Builder integration(@NotNull IntegrationType... integration) {
-                this.integration.addAll(Arrays.asList(integration));
+                return integration(Arrays.asList(integration));
+            }
+
+            /// The [IntegrationType]s to use. This method will override this builders default
+            /// value [IntegrationType#GUILD_INSTALL].
+            ///
+            /// @param integration the [IntegrationType]s to use
+            @NotNull
+            public Builder integration(@NotNull Collection<IntegrationType> integration) {
+                this.integration.addAll(integration);
                 return this;
             }
 
@@ -127,12 +147,26 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
                 return this;
             }
 
+            /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
+            @NotNull
+            public Builder enabledPermissions(@NotNull Permission... permissions) {
+                return enabledPermissions(Arrays.asList(permissions));
+            }
+
+            /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
+            @NotNull
+            public Builder enabledPermissions(@NotNull Collection<Permission> permissions) {
+                enabledPermissions.addAll(permissions);
+                return this;
+            }
+
             private CommandConfig build() {
                 return new CommandConfig(
                         context.toArray(InteractionContextType[]::new),
                         integration.toArray(IntegrationType[]::new),
                         scope,
-                        isNSFW
+                        isNSFW,
+                        enabledPermissions.toArray(Permission[]::new)
                 );
             }
         }

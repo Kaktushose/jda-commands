@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -37,15 +36,6 @@ public @interface ContextCommand {
     ///
     /// @return the name of the command
     String value() default "";
-
-    /// Returns an array of [Permission] this command
-    /// should be enabled for by default. Note that guild admins can modify this at any time.
-    ///
-    /// @return an array of permissions this command will be enabled for by default
-    /// @see Permissions Permission
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
-    /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
-    Permission[] enabledFor() default Permission.UNKNOWN;
 
     /// Gets the type of this command.
     ///
