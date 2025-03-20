@@ -2,59 +2,35 @@ package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /// A tree data structure representing slash commands sorted into Subcommands and SubcommandGroups. Each [TreeNode]
-/// can have _n_ children, however the maximum level is _3_ due to Discords limitations on SubcommandGroups.
+/// can have _n_ children, however the maximum depth is _3_ due to Discords limitations on SubcommandGroups.
 ///
 /// @see TreeNode
 /// @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
 @ApiStatus.Internal
-public record CommandTree(
-        TreeNode root
-) {
+public record CommandTree(TreeNode root) {
 
-    /// Constructs an empty CommandTree.
-    public CommandTree() {
-        this(new TreeNode());
-    }
-
-    /// Constructs a new CommandTree.
+    /// Constructs a new CommandTree from the given [SlashCommandDefinition]s.
+    ///
+    /// The labels of the [SlashCommandDefinition]s will be sanitized to match the regex `^[\w-]+$`. Furthermore, if the
+    /// label consists of more than three spaces any additional space will be replaced with `_` due to Discords
+    /// limitations on SubcommandGroups.
     public CommandTree(Collection<SlashCommandDefinition> commands) {
-        this(new TreeNode());
-        addAll(commands);
+        this(new TreeNode("", null, new ArrayList<>()));
+        commands.forEach(command -> root.addChild(resolveLabel(command.name()), command));
     }
 
-    /// Adds a [SlashCommandDefinition] to the [CommandTree]. The label of the [SlashCommandDefinition] will be
-    /// sanitized to match the regex `^[\w-]+$`. Furthermore, if the label consists of more than three spaces any
-    /// additional space will be replaced with `_` due to Discords limitations on SubcommandGroups.
-    ///
-    /// @param command the [SlashCommandDefinition] to add
-    public void add(SlashCommandDefinition command) {
-        root.addChild(resolveLabel(command.name()), command);
-    }
-
-    /// Adds all [SlashCommandDefinition]s of the [Collection] to the [CommandTree].
-    ///
-    /// @param commands a [Collection] of [SlashCommandDefinition]s to add
-    /// @see #add(SlashCommandDefinition)
-    public void addAll(Collection<SlashCommandDefinition> commands) {
-        commands.forEach(this::add);
-    }
-
+    /// Takes an arbitrary String as input and sanitizes it to conform to Discords limitations
     private String[] resolveLabel(String label) {
         String[] split = label.split(" ", 3);
-        if (split.length > 3) {
-            split[4] = split[4].replaceAll(" ", "_");
-        }
         for (int i = 0; i < split.length; i++) {
             for (char c : split[i].toCharArray()) {
-                if (String.valueOf(c).equals(" ")) {
-                    split[i] = split[i].replace(String.valueOf(c), "_");
-                }
                 if (!String.valueOf(c).matches("^[\\w-]+$")) {
                     split[i] = split[i].replace(String.valueOf(c), "");
                 }
@@ -64,20 +40,14 @@ public record CommandTree(
         return split;
     }
 
-    /// Gets all [SlashCommandData].This will only return the [SlashCommandData] of the leaf nodes.
+    /// Transforms this CommandTree to [SlashCommandData] based on the tree structure.
     ///
-    /// @return a [List] of [SlashCommandData]
-    public List<SlashCommandData> getCommands() {
-        return root.getCommandData();
-    }
-
-    /// Gets the sanitized labels of all [SlashCommandData] returned by [#getCommands()].
-    /// The labels will match the regex `^[\w-]+$`. Furthermore, if the label consists of more than three spaces
-    /// any additional space will be replaced with `_` due to Discords limitations on SubcommandGroups.
+    /// More formally, a depth-first-search is performed to determine which commands should be registered as a slash
+    /// command, a sub command group or a sub command.
     ///
-    /// @return a [List] of labels
-    public List<String> getNames() {
-        return root.getNames();
+    /// @return a [Collection] of [SlashCommandData]
+    public Collection<SlashCommandData> getSlashCommandData(LocalizationFunction localizationFunction) {
+        return root.children().stream().map(node -> node.toSlashCommandData(localizationFunction)).toList();
     }
 
     @Override

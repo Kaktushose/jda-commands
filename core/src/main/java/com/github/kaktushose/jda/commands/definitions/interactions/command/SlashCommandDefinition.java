@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
 import com.github.kaktushose.jda.commands.definitions.Definition;
@@ -33,9 +32,7 @@ import java.util.stream.Collectors;
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
-/// @param scope                the [CommandScope] of this command
-/// @param guildOnly            whether this command can only be executed in guilds
-/// @param nsfw                 whether this command is nsfw
+/// @param commandConfig        the [CommandConfig] to use
 /// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
@@ -46,9 +43,7 @@ public record SlashCommandDefinition(
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,
-        @NotNull CommandScope scope,
-        boolean guildOnly,
-        boolean nsfw,
+        @NotNull CommandConfig commandConfig,
         @NotNull Set<Permission> enabledPermissions,
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
@@ -71,6 +66,16 @@ public record SlashCommandDefinition(
 
         if (name.isEmpty()) {
             Checks.notBlank(name, "Command name");
+            return Optional.empty();
+        }
+
+        String[] split = name.split(" ");
+        if (split.length > 3) {
+            log.error("Invalid command name \"{}\" for slash command \"{}.{}\". Slash commands can only have up to 3 labels.",
+                    name,
+                    context.clazz().name(),
+                    method.name()
+            );
             return Optional.empty();
         }
 
@@ -109,9 +114,7 @@ public record SlashCommandDefinition(
                 method,
                 Helpers.permissions(context),
                 name,
-                command.scope(),
-                command.isGuildOnly(),
-                command.isNSFW(),
+                Helpers.commandConfig(context),
                 enabledFor,
                 context.localizationFunction(),
                 command.desc(),
@@ -157,8 +160,9 @@ public record SlashCommandDefinition(
                 name,
                 description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(guildOnly)
-                .setNSFW(nsfw)
+        command.setIntegrationTypes(commandConfig.integration())
+                .setContexts(commandConfig.context())
+                .setNSFW(commandConfig.isNSFW())
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
         commandOptions.forEach(parameter -> {
@@ -173,9 +177,9 @@ public record SlashCommandDefinition(
     /// Transforms this definition into [SubcommandData].
     ///
     /// @return the [SubcommandData]
-    public SubcommandData toSubCommandData(String label) {
+    public SubcommandData toSubcommandData(String name) {
         SubcommandData command = new SubcommandData(
-                label,
+                name,
                 description.replaceAll("N/A", "no description")
 
         );

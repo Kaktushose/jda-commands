@@ -286,4 +286,9 @@ public class TextChannelMock implements TextChannel {
     public ThreadChannelPaginationAction retrieveArchivedPrivateJoinedThreadChannels() {
         return null;
     }
+
+    @Override
+    public boolean isDetached() {
+        return false;
+    }
 }

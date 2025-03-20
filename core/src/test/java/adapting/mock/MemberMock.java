@@ -306,4 +306,9 @@ public class MemberMock implements Member {
     public String getDefaultAvatarId() {
         return null;
     }
+
+    @Override
+    public boolean isDetached() {
+        return false;
+    }
 }

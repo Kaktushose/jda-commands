@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -62,7 +63,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
                              InteractionDefinition definition,
                              InteractionDefinition.ReplyConfig globalReplyConfig) {
         super(event, interactionRegistry, runtime);
-        this.replyConfig = definition.replyConfig(globalReplyConfig);
+        this.replyConfig = Helpers.replyConfig(definition, globalReplyConfig);
         this.definition = definition;
     }
 

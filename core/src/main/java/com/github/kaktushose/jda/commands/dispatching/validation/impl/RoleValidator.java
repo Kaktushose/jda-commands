@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 import com.github.kaktushose.jda.commands.dispatching.adapter.impl.RoleAdapter;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public class RoleValidator implements Validator {
 
         Optional<Role> optional = new RoleAdapter().apply(roleAnnotation.value(), context.event());
         Member member = (Member) argument;
-
+        Helpers.checkDetached(member, RoleValidator.class);
         return optional.filter(role -> member.getRoles().contains(role)).isPresent();
     }
 }

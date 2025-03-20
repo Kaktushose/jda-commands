@@ -38,17 +38,6 @@ public @interface ContextCommand {
     /// @return the name of the command
     String value() default "";
 
-    /// Returns whether this command is only usable in a guild.
-    /// This only has an effect if this command is registered globally.
-    ///
-    /// @return `true` if this command is only usable in a guild
-    boolean isGuildOnly() default false;
-
-    /// Returns whether this command can only be executed in NSFW channels.
-    ///
-    /// @return `true` if this command can only be executed in NSFW channels
-    boolean isNSFW() default false;
-
     /// Returns an array of [Permission] this command
     /// should be enabled for by default. Note that guild admins can modify this at any time.
     ///
@@ -57,12 +46,6 @@ public @interface ContextCommand {
     /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.ENABLED
     /// @see net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions DefaultMemberPermissions.DISABLED
     Permission[] enabledFor() default Permission.UNKNOWN;
-
-    /// Returns whether this command should be registered as a global or as a guild command.
-    ///
-    /// @return whether this command should be registered as a global or as a guild command
-    /// @see CommandScope
-    CommandScope scope() default CommandScope.GLOBAL;
 
     /// Gets the type of this command.
     ///

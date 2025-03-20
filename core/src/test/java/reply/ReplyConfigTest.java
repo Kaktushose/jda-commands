@@ -4,9 +4,11 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,10 +40,11 @@ public class ReplyConfigTest {
                         SlashCommandDefinition.CooldownDefinition.build(null),
                         description,
                         description.methods().stream().filter(it -> it.name().equals(method)).findFirst().get(),
-                        Set.of()
+                        Set.of(),
+                        new CommandDefinition.CommandConfig()
                 )
         ).orElseThrow();
-        return definition.replyConfig(replyConfig);
+        return Helpers.replyConfig(definition, replyConfig);
     }
 
     @Test

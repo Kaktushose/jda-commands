@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
@@ -45,13 +46,13 @@ public record InteractionRegistry(@NotNull Validators validators,
     /// Scans all given classes and registers the interactions defined in them.
     ///
     /// @param classes the [Class]es to build the interactions from
-    public void index(Iterable<Class<?>> classes) {
+    public void index(Iterable<Class<?>> classes, CommandDefinition.CommandConfig globalCommandConfig) {
         int oldSize = definitions.size();
 
         int count = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found controller: {}", clazz.getName());
-            definitions.addAll(indexInteractionClass(descriptor.describe(clazz)));
+            definitions.addAll(indexInteractionClass(descriptor.describe(clazz), globalCommandConfig));
             count++;
         }
 
@@ -60,7 +61,7 @@ public record InteractionRegistry(@NotNull Validators validators,
                 definitions.size() - oldSize);
     }
 
-    private Collection<Definition> indexInteractionClass(ClassDescription clazz) {
+    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
@@ -77,7 +78,8 @@ public record InteractionRegistry(@NotNull Validators validators,
                 interaction,
                 permissions,
                 cooldown,
-                autoCompletes
+                autoCompletes,
+                globalCommandConfig
         );
 
         // validate auto completes
@@ -112,7 +114,8 @@ public record InteractionRegistry(@NotNull Validators validators,
                                                    Interaction interaction,
                                                    Set<String> permissions,
                                                    CooldownDefinition cooldown,
-                                                   Collection<AutoCompleteDefinition> autocompletes) {
+                                                   Collection<AutoCompleteDefinition> autocompletes,
+                                                   CommandDefinition.CommandConfig globalCommandConfig) {
         Set<Definition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
@@ -123,7 +126,8 @@ public record InteractionRegistry(@NotNull Validators validators,
                     cooldown,
                     clazz,
                     method,
-                    autocompletes
+                    autocompletes,
+                    globalCommandConfig
             );
 
             Optional<? extends Definition> definition = Optional.empty();
