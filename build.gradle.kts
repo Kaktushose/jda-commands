@@ -1,5 +1,5 @@
 allprojects {
-    version = "0.0.0-beta.4"
+    version = "4.0.0-beta.4"
 }
 
 subprojects {
