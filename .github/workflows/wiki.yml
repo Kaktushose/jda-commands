@@ -14,6 +14,12 @@ jobs:
         with:
           python-version: 3.x
       - run: |
+          git checkout gh-pages
+          git fetch
+          git branch --set-upstream-to=origin/gh-pages
+          git pull
+          git checkout wiki
+          
           pip install -r requirements.txt
           
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -32,7 +38,4 @@ jobs:
       - name: Deploy Wiki
         run: |
           git checkout gh-pages
-          git fetch
-          git branch --set-upstream-to=origin/gh-pages
-          git pull --rebase
           git push
