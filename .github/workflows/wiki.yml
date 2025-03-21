@@ -8,14 +8,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - run: pip install -r requirements.txt
-      - run: mkdocs build
+      - run: |
+          pip install -r requirements.txt
+          
+          msg="${{ github.event.head_commit.message }}"
+          regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?)$"
+          
+          if [[ $msg =~ $regex ]]
+          then
+            mike deploy -u ${BASH_REMATCH[1]} latest
+            mike set-default ${BASH_REMATCH[1]}
+          else
+            mike deploy snapshot
+          fi
       - name: Deploy Wiki
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./site
-          branch: docs
-          target-folder: wiki/
+        run: |
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          git push

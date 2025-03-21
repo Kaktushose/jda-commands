@@ -1,5 +1,5 @@
 site_name: JDA-Commands Wiki
-site_url: https://kaktushose.github.io/wiki
+site_url: https://kaktushose.github.io/wiki/
 
 theme:
   features:
@@ -40,6 +40,8 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/kaktushose
+  version:
+    provider: mike
 
 copyright: Copyright &copy; 2025 Kaktushose
 
