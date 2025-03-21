@@ -89,6 +89,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             private boolean ephemeral;
             private boolean keepComponents;
+            private boolean keepSelections;
             private boolean editReply;
 
             /// Constructs a new Builder.
@@ -120,6 +121,14 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 return this;
             }
 
+            /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+            /// [#keepComponents()] `true`.
+            @NotNull
+            public Builder keepSelections(boolean keepSelections) {
+                this.keepSelections = keepSelections;
+                return this;
+            }
+
             /// Whether to edit the original message or to send a new one. Default value is `true`.
             ///
             /// The original message is the message, from which this event (interaction) originates.
@@ -133,7 +142,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             }
 
             private ReplyConfig build() {
-                return new ReplyConfig(ephemeral, keepComponents, editReply);
+                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply);
             }
         }
     }
