@@ -122,7 +122,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     }
 
     /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
-    /// [#keepComponents()] `true`.
+    /// [#keepComponents(boolean)] `true`.
     @NotNull
     public ConfigurableReply keepSelections(boolean keepSelections) {
         this.keepSelections = keepSelections;
