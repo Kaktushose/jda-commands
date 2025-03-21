@@ -340,7 +340,7 @@ You're not viewing the latest version.
   
   
     <li class="md-tabs__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-tabs__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-tabs__link">
         
   
     
@@ -1202,7 +1202,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-nav__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1255,7 +1255,7 @@ configuration part. </p>
 </div>
 <p>If your using JDA-Commands via the <code>io.github.kaktushose:jda-commands:VERSION</code> artifact, an integration for 
 <a href="https://github.com/google/guice">Google's Guice</a> is shipped by default. </p>
-<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
+<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
 to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guice's Injector</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Configuring Guice</p>
@@ -1286,7 +1286,7 @@ to the JDA-Commands builder, which allows you to provide an own instance of <a h
 </div>
 <h2 id="implementation-annotation"><code>@Implementation</code> annotation<a class="headerlink" href="#implementation-annotation" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands has many interfaces to customize specific framework behaviour. 
-If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html"><code>@Implementation</code></a>
+If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html"><code>@Implementation</code></a>
 annotation. </p>
 <p>This annotation allows the automatic instantiation and registration for implementations of following interfaces:</p>
 <div class="admonition note inline end">
@@ -1294,17 +1294,17 @@ annotation. </p>
 <p>If you're annotating an implementation of <code>Middleware</code>, <code>Validator</code> or <code>TypeAdapter</code> you have to provide additional configuration via the <code>@Implementation</code> annotation.</p>
 </div>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html">PermissionsProvider</a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html">GuildScopeProvider</a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html">ErrorMessageFactory</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html">PermissionsProvider</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html">GuildScopeProvider</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html">ErrorMessageFactory</a></li>
 <li>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html">Descriptor</a></p>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html">Descriptor</a></p>
 </li>
 <li>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html">Middleware</a> + <code>@Implementation#priority()</code> set</p>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html">Middleware</a> + <code>@Implementation#priority()</code> set</p>
 </li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html">Validator</a> + <code>@Implementation#annotation()</code> set</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> + <code>@Implemenetation#clazz()</code> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html">Validator</a> + <code>@Implementation#annotation()</code> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> + <code>@Implemenetation#clazz()</code> set</li>
 </ul>
 <p>The annotated classes will be instantiated with help of <code>com.google.inject.Injector</code> similar to interaction controllers.</p>
 <div class="admonition example">
@@ -1327,7 +1327,7 @@ annotation. </p>
 </div>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
 <p>If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionControllerInstantiator.html">InteractionControllerInstantiator</a>.</p>
+implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionControllerInstantiator.html">InteractionControllerInstantiator</a>.</p>
 <p>You can do this by either passing it to the builder or by creating your own <a href="../extension/writing/">extension</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

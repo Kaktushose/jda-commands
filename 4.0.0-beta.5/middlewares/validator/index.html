@@ -340,7 +340,7 @@ You're not viewing the latest version.
   
   
     <li class="md-tabs__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-tabs__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-tabs__link">
         
   
     
@@ -1231,7 +1231,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-nav__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1270,17 +1270,17 @@ with the respective annotation. </p>
 <h2 id="default-validators">Default Validators<a class="headerlink" href="#default-validators" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands comes with the following default constraints:</p>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html"><code>@Role</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html"><code>@Role</code></a>:
   The member must have the specified guild role. </li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html"><code>@NotRole</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html"><code>@NotRole</code></a>:
   The member must <strong>not</strong> have the specified guild role. </li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/User.html"><code>@User</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/User.html"><code>@User</code></a>:
   Must be the specified user or member</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotUser.html"><code>@NotUser</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotUser.html"><code>@NotUser</code></a>:
   Must <strong>not</strong> be the specified user or member.</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html"><code>@Perm</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html"><code>@Perm</code></a>:
   The user or member that have the specified discord permission.</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html"><code>@NotPerm</code></a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html"><code>@NotPerm</code></a>:
   The user or member that <strong>doesn't</strong> have the specified discord permission.</li>
 </ul>
 <p>The user and role annotations will resolve the snowflake entity dynamically using the respective <a href="../typeadapter/">type adapter</a>.
@@ -1300,7 +1300,7 @@ This means that you can either pass an ID or a name. </p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>@Target</code> must be <code>ElementType.PARAMETER</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>RetentionPolicy</code> must be <code>RUNTIME</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Must be annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Constraint.html"><code>@Constraint</code></a>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Must be annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Constraint.html"><code>@Constraint</code></a>
 defining the valid types for this annotation. </li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Must contain a <code>message()</code> field for the error message</li>
 </ul>
@@ -1319,7 +1319,7 @@ defining the valid types for this annotation. </li>
 </span></code></pre></div>
 </div>
 <h3 id="2-creating-the-validator">2. Creating the Validator<a class="headerlink" href="#2-creating-the-validator" title="Permanent link">&para;</a></h3>
-<p>Secondly, you must create the actual validator by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html"><code>Validator</code></a>
+<p>Secondly, you must create the actual validator by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html"><code>Validator</code></a>
 interface. </p>
 <p>The <code>apply(...)</code> method will give you the argument (command option) as well as the annotation object untyped, you must cast
 them on your own. If the constraint shall pass, you must return <code>true</code>, if it fails <code>false</code>. </p>

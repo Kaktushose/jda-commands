@@ -340,7 +340,7 @@ You're not viewing the latest version.
   
   
     <li class="md-tabs__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-tabs__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-tabs__link">
         
   
     
@@ -1285,7 +1285,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-nav__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1324,13 +1324,13 @@ You're not viewing the latest version.
 <p>All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.</p>
 </div>
 <h2 id="text-messages">Text Messages<a class="headerlink" href="#text-messages" title="Permanent link">&para;</a></h2>
-<p>The simplest way of sending a reply is using the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String)"><code>reply(String)</code></a>
+<p>The simplest way of sending a reply is using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String)"><code>reply(String)</code></a>
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 
 original message instead of sending a new one by default.</p>
-<p>The <code>reply()</code> method also has some useful overloads, you can find a full list <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail">here</a>.</p>
+<p>The <code>reply()</code> method also has some useful overloads, you can find a full list <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail">here</a>.</p>
 <h2 id="reply-configuration">Reply Configuration<a class="headerlink" href="#reply-configuration" title="Permanent link">&para;</a></h2>
-<p>You can change this default behaviour by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with()"><code>with()</code></a>
-before sending the reply. This will return a <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
+<p>You can change this default behaviour by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with()"><code>with()</code></a>
+before sending the reply. This will return a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
 object to you, you can use to modify settings:</p>
 <div class="admonition example">
 <p class="admonition-title">Ephemeral Reply</p>
@@ -1344,7 +1344,7 @@ object to you, you can use to modify settings:</p>
 </div>
 <h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h2>
 <h3 id="replying-with-components">Replying with Components<a class="headerlink" href="#replying-with-components" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a>
 object is also used to attach components. You reference components by the name of the method they are defined with, just
 like we did before with <a href="../modals/#replying-with-modals">modals</a>.</p>
 <div class="admonition example">
@@ -1384,7 +1384,7 @@ like we did before with <a href="../modals/#replying-with-modals">modals</a>.</p
 </div>
 <h3 id="enabling-disabling">Enabling &amp; Disabling<a class="headerlink" href="#enabling-disabling" title="Permanent link">&para;</a></h3>
 <p>By default, all components are enabled. If you want to attach a disabled component, you need to wrap it by calling
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)"><code>Component.disabled(methodName)</code></a>.</p>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#disabled(java.lang.String)"><code>Component.disabled(methodName)</code></a>.</p>
 <p>If you want to add multiple components to the same action row, with some of them enabled and some disabled, you need to
 wrap all of them.</p>
 <div class="admonition example">
@@ -1399,13 +1399,13 @@ keep the components attached, even when editing the original message multiple ti
 components when sending a message edit, unless they are explicitly reattached.</p>
 <p>JDA-Commands flips this behaviour and will keep your components attached by default. </p>
 <p>You can disable this by calling
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)"><code>keepComponents(false)</code></a>:</p>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)"><code>keepComponents(false)</code></a>:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">keepComponents</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Message edit!&quot;</span><span class="p">);</span>
 </span></code></pre></div>
 </div>
-<p>Alternatively you can call <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#removeComponents()"><code>removeComponents()</code></a>
+<p>Alternatively you can call <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#removeComponents()"><code>removeComponents()</code></a>
 which will remove all components attached to a message.</p>
 <hr />
 <div class="admonition example">
@@ -1437,7 +1437,7 @@ which will remove all components attached to a message.</p>
 </div>
 </div>
 <h3 id="foreign-components">Foreign Components<a class="headerlink" href="#foreign-components" title="Permanent link">&para;</a></h3>
-<p>You can attach components that were defined in a different class by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String)"><code>Component</code></a>
+<p>You can attach components that were defined in a different class by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String)"><code>Component</code></a>
 class again. In addition to the method name, you must also pass the class reference in that case.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1476,7 +1476,7 @@ them on your own.</p>
 <p>The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.</p>
 </div>
 <h2 id="replyconfig">ReplyConfig<a class="headerlink" href="#replyconfig" title="Permanent link">&para;</a></h2>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html"><code>@ReplyConfig</code></a>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html"><code>@ReplyConfig</code></a>
 annotation provides a way to modify the default behaviour for the <code>editReply</code>, <code>ephemeral</code> and <code>keepComponents</code> settings. 
 You can either annotate single methods or entire interaction controllers. </p>
 <div class="admonition example">
@@ -1492,7 +1492,7 @@ You can either annotate single methods or entire interaction controllers. </p>
 </span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>Alternatively, you can set a <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">global reply config</a>
+<p>Alternatively, you can set a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">global reply config</a>
 at the builder:</p>
 <div class="admonition example">
 <p class="admonition-title">Global ReplyConfig</p>

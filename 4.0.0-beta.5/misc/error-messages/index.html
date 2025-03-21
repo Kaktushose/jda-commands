@@ -340,7 +340,7 @@ You're not viewing the latest version.
   
   
     <li class="md-tabs__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-tabs__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-tabs__link">
         
   
     
@@ -1189,7 +1189,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-nav__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1232,7 +1232,7 @@ You're not viewing the latest version.
 <li>Timed Out Component Message (see <a href="../../start/runtime/#components-and-modals">Runtime Concept</a>)</li>
 <li>Type Adapting Failed Message (see <a href="../../middlewares/typeadapter/">Type Adapters</a>)</li>
 </ul>
-<p>You can customize these error messages by providing an implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html"><code>ErrorMessageFactory</code></a>.
+<p>You can customize these error messages by providing an implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html"><code>ErrorMessageFactory</code></a>.
 You have to register it at the JDA-Commands Builder:
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="na">errorMessageFactory</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">OwnErrorMessageFactory</span><span class="p">());</span>
@@ -1244,8 +1244,8 @@ Or use the <code>@Implementation</code> annotation (requires the <a href="../../
 </span></code></pre></div></p>
 <h2 id="jsonerrormessagefactory">JsonErrorMessageFactory<a class="headerlink" href="#jsonerrormessagefactory" title="Permanent link">&para;</a></h2>
 <p>To make things easier, these error message can also be loaded from a JSON file. Therefore, you have to enable the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html"><code>JsonErrorMessageFactory</code></a>.
-The <code>JsonErrorMessageFactory</code> takes an <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedCache.html"><code>EmbedCache</code></a> as input.</p>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html"><code>JsonErrorMessageFactory</code></a>.
+The <code>JsonErrorMessageFactory</code> takes an <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedCache.html"><code>EmbedCache</code></a> as input.</p>
 <p><div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">.</span><span class="na">errorMessageFactory</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">JsonErrorMessageFactory</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EmbedCache</span><span class="p">(</span><span class="s">&quot;/path/to/json/embeds.json&quot;</span><span class="p">)));</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>

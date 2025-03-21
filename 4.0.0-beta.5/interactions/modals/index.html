@@ -340,7 +340,7 @@ You're not viewing the latest version.
   
   
     <li class="md-tabs__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-tabs__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-tabs__link">
         
   
     
@@ -1258,7 +1258,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/" class="md-nav__link">
+      <a href="https://kaktushose.github.io/jda-commands/javadocs/4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1293,13 +1293,13 @@ You're not viewing the latest version.
 
 <h1 id="modals">Modals<a class="headerlink" href="#modals" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Modals are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html"><code>@Modal</code></a>.
-The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html"><code>ModalEvent</code></a>.</p>
+<p>Modals are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html"><code>@Modal</code></a>.
+The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html"><code>ModalEvent</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;My Modal&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <h2 id="text-inputs">Text Inputs<a class="headerlink" href="#text-inputs" title="Permanent link">&para;</a></h2>
-<p>You can add text inputs to a modal by adding String parameters annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html"><code>@TextInput</code></a>.
+<p>You can add text inputs to a modal by adding String parameters annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html"><code>@TextInput</code></a>.
 The label and other metadata of the text input is passed to the annotation. </p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1349,9 +1349,9 @@ The default value is <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interact
 </span></code></pre></div>
 </div>
 <h2 id="replying-with-modals">Replying with Modals<a class="headerlink" href="#replying-with-modals" title="Permanent link">&para;</a></h2>
-<p>You can reply to <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html"><code>CommandEvents</code></a>
-and <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvents</code></a>
-with a Modal by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String)"><code>replyModal(methodName)</code></a>
+<p>You can reply to <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html"><code>CommandEvents</code></a>
+and <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvents</code></a>
+with a Modal by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String)"><code>replyModal(methodName)</code></a>
 on the event.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
