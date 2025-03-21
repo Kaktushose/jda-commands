@@ -67,8 +67,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
-        this.builder = new MessageCreateBuilder();
         this.keepSelections = replyConfig.keepSelections();
+        this.builder = new MessageCreateBuilder();
     }
 
     /// Constructs a new MessageReply.

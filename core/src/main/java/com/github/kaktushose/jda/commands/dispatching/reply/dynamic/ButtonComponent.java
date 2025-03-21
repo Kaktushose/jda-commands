@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, ButtonDefinition> {
@@ -15,12 +16,12 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     private String label;
     private String url;
 
-    public ButtonComponent(String method, Class<?> origin) {
+    public ButtonComponent(@NotNull String method, @Nullable Class<?> origin) {
         super(method, origin);
     }
 
     /// @see Button#withEmoji(Emoji) 
-    public ButtonComponent emoji(@NotNull Emoji emoji) {
+    public ButtonComponent emoji(@Nullable Emoji emoji) {
         this.emoji = emoji;
         return this;
     }

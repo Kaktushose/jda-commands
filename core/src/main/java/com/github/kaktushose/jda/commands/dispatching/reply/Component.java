@@ -10,7 +10,10 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntityS
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /// Represents a component, namely [Button], [StringSelectMenu] or [EntitySelectMenu], that should be added to a reply.
@@ -39,12 +42,12 @@ import java.util.function.Function;
 /// - [Component#entitySelect(Class, String)]
 /// - [Component#stringSelect(Class, String)]
 ///
-/// a specific implementations is returned which allows for further modification.
+/// a specific implementation is returned which allows for further modification.
 ///
 /// ### Example
 /// This example overrides the buttons label with "Modified Label"
 /// ```java
-/// @SlashCommand("example command")
+/// @Command("example command")
 /// public void onCommand(CommandEvent event) {
 ///     event.with().components(Components.button("onButton")
 ///                     .label("Modified Label"))
@@ -67,7 +70,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     private final String method;
     private final Class<?> origin;
 
-    protected Component(String method, Class<?> origin) {
+    protected Component(@NotNull String method, @Nullable Class<?> origin) {
         this.method = method;
         this.origin = origin;
     }
@@ -105,8 +108,8 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return method;
     }
 
-    protected Class<?> origin() {
-        return origin;
+    protected Optional<Class<?>> origin() {
+        return Optional.ofNullable(origin);
     }
 
     protected Function<T, T> callback() {
@@ -203,28 +206,28 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// Adds a [ButtonComponent] to the reply.
     ///
     /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
+    /// @param component the name of the method that represents the button
     public static ButtonComponent button(Class<?> origin, String component) {
         return new ButtonComponent(component, origin);
     }
 
     /// Adds an [EntitySelectMenuComponent] to the reply.
     ///
-    /// @param component the name of the method that represents the component
+    /// @param component the name of the method that represents the entity select menu
     public static EntitySelectMenuComponent entitySelect(String component) {
         return entitySelect(null, component);
     }
     /// Adds an [EntitySelectMenuComponent] to the reply.
     ///
     /// @param origin    the [Class] the `menu` is defined in
-    /// @param component the name of the method that represents the component
+    /// @param component the name of the method that represents the entity select menu
     public static EntitySelectMenuComponent entitySelect(Class<?> origin, String component) {
         return new EntitySelectMenuComponent(component, origin);
     }
 
     /// Adds a [StringSelectComponent] to the reply.
     ///
-    /// @param component the name of the method that represents the component
+    /// @param component the name of the method that represents the string select menu
     public static StringSelectComponent stringSelect(String component) {
         return stringSelect(null, component);
     }
@@ -232,7 +235,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// Adds a [StringSelectComponent] to the reply.
     ///
     /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
+    /// @param component the name of the method that represents the string select menu
     public static StringSelectComponent stringSelect(Class<?> origin, String component) {
         return new StringSelectComponent(component, origin);
     }

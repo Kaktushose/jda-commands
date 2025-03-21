@@ -25,7 +25,7 @@ public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S
     protected Integer minValues;
     protected Integer maxValues;
 
-    public SelectMenuComponent(@NotNull String method, @NotNull Class<?> origin) {
+    public SelectMenuComponent(@NotNull String method, @Nullable Class<?> origin) {
         super(method, origin);
     }
 

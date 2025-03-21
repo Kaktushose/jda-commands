@@ -199,9 +199,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     public final ComponentReply components(@NotNull Component<?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?> component : components) {
-            var className = component.origin() == null
-                    ? definition.methodDescription().declaringClass().getName()
-                    : component.origin().getName();
+            var className = component.origin().map(Class::getName)
+                    .orElseGet(() -> definition.methodDescription().declaringClass().getName());
             String definitionId = String.valueOf((className + component.name()).hashCode());
 
             if (builder.getComponents()

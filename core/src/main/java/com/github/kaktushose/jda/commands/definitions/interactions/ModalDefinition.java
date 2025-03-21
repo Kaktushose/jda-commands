@@ -33,7 +33,7 @@ public record ModalDefinition(
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
     /// Builds a new [ModalDefinition] with the given values.
-    public ModalDefinition with(String title, List<TextInputDefinition> textInputs) {
+    public ModalDefinition with(@Nullable String title, @Nullable List<TextInputDefinition> textInputs) {
         return new ModalDefinition(
                 classDescription,
                 methodDescription,

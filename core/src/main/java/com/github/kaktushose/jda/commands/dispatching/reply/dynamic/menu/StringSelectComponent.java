@@ -20,7 +20,7 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     private final Set<SelectOption> selectOptions = new HashSet<>();
     private final Collection<String> defaultValues = new HashSet<>();
 
-    public StringSelectComponent(@NotNull String method, @NotNull Class<?> origin) {
+    public StringSelectComponent(@NotNull String method, @Nullable Class<?> origin) {
         super(method, origin);
     }
 
@@ -58,7 +58,7 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
         return option(label, value, null, emoji);
     }
 
-    /// @see StringSelectMenu.Builder#addOption(String, String, String, Emoji)
+    /// @see StringSelectMenu.Builder#addOption(String, String, String)
     @NotNull
     public StringSelectComponent option(@NotNull String label, @NotNull String value, @NotNull String description) {
         return option(label, value, description, null);

@@ -41,9 +41,9 @@ public record EntitySelectMenuDefinition(
 
     /// Builds a new [EntitySelectMenuDefinition] with the given values.
     @NotNull
-    public EntitySelectMenuDefinition with(@NotNull Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                           @NotNull Set<EntitySelectMenu.DefaultValue> defaultValues,
-                                           @NotNull Set<ChannelType> channelTypes,
+    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
+                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                           @Nullable Set<ChannelType> channelTypes,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue) {

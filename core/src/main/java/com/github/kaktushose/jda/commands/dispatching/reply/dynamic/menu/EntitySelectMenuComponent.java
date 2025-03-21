@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,7 +19,7 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     private final Set<ChannelType> channelTypes = new HashSet<>();
     private final Set<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
 
-    public EntitySelectMenuComponent(@NotNull String method, @NotNull Class<?> origin) {
+    public EntitySelectMenuComponent(@NotNull String method, @Nullable Class<?> origin) {
         super(method, origin);
     }
 
