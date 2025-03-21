@@ -99,7 +99,7 @@ jobs:
           python-version: 3.x
       - name: Build & Deploy Wiki
         if: ${{ needs.check_if_release.outputs.release == 'true' }}
-      - run: |
+        run: |
           git fetch
           git checkout gh-pages
           git branch --set-upstream-to=origin/gh-pages
