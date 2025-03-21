@@ -3,7 +3,7 @@
 ## Overview
 
 One of the core concepts in JDA-Commands is the so-called `Runtime`. It will be mentioned frequently here and in the 
-[Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/). A `Runtime` delegates the JDA events to their 
+[Javadocs](https://kaktushose.github.io/jda-commands/javadocs/4/). A `Runtime` delegates the JDA events to their 
 corresponding `EventHandlers` and manages the used virtual threads.
 
 A new `Runtime` is created each time a:
@@ -48,8 +48,8 @@ after its creation. This time span is oriented towards the lifespan of the
 ### Explicit
 
 You can disable the default behaviour by setting the 
-[`ExpirationStrategy`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html) to 
-[`EXPLICIT`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html).
+[`ExpirationStrategy`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html) to 
+[`EXPLICIT`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html).
 
 
 ```java title="Main.java" 
@@ -58,7 +58,7 @@ JDACommands.builder(jda, Main.class)
         .start();
 ```
 
-This will prevent any `Runtime` from closing until [`closeRuntime`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime())
+This will prevent any `Runtime` from closing until [`closeRuntime`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime())
 is explicitly called.
 
 !!! example

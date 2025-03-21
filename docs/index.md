@@ -63,7 +63,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
 
 You might also find the following resources helpful:
 
-- [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/)
+- [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/4/)
 - [Release Notes](https://github.com/Kaktushose/jda-commands/releases)
 - [JDA Wiki](https://jda.wiki/)
 

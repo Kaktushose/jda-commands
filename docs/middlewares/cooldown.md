@@ -4,7 +4,7 @@
     If you want it to be improved, feel free to [open an issue](https://github.com/Kaktushose/jda-commands/issues/new).
 
 Slash commands can have a cooldown to limit their usage. The cooldown is applied _globally_, _per user_, _per command_. 
-You can add a cooldown by annotating a slash command method with [`@Cooldown`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Cooldown.html).
+You can add a cooldown by annotating a slash command method with [`@Cooldown`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Cooldown.html).
 
 !!! example
     ```java

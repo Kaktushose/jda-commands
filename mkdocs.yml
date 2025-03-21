@@ -101,4 +101,4 @@ nav:
       - Embed API: misc/embeds.md
       - Localization: misc/localization.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
-  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/latest/
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/

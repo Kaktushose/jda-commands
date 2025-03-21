@@ -5,7 +5,7 @@
 
 ## Structure
 In JDA-Commands you define interactions as methods. These methods must be contained in a class annotated with 
-[`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html),
+[`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html),
 which is also referred to as the _interaction controller_. 
 
 Each method controls one interaction. The interaction data gets defined by annotations and sometimes by the method signature. 

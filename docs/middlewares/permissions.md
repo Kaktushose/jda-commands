@@ -12,11 +12,11 @@ have no influence on.
     or secure a critical command further you should use the permissions system of JDA-Commands.
 
 ## Adding Permissions to an Interaction
-Use the [`@Permissions`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html)
+Use the [`@Permissions`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html)
 annotation to add permissions to an interaction. This isn't limited to slash commands, but can
 be any type of interaction. 
 
-The [`@Permissions`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html)
+The [`@Permissions`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Permissions.html)
 annotation takes an arbitrary amount of Strings as input. Each String defines a `permission` that must be present. By default,
 you can pass Discord Permissions, like `BAN_MEMBERS`. JDA-Commands will then check if the executor has the respective
 Discord Permission before executing the interaction. 
@@ -60,17 +60,17 @@ For our example, let's go with a role based system:
     public void onBan(CommandEvent event, Member target) {...}
     ```
 
-The default [`PermissionsProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
+The default [`PermissionsProvider`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
 implementation will always fail, because both `MODERATOR` and `ADMIN` are invalid, we have to provide our own implementation. 
 
 ### PermissionsProvider Implementation
-The [`PermissionsProvider`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
-has two almost identical [`hasPermissions(...)`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail) methods.
+The [`PermissionsProvider`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html)
+has two almost identical [`hasPermissions(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail) methods.
 
 The first one gives you an `User` object, the second one a 
 `Member` object. Therefore, the first method is for interactions that are not executed on a guild (e.g. DMs) and the 
 second method is for interactions that take place on a guild. Both methods also give you access to the 
-[`InvocationContext`](https://kaktushose.github.io/jda-commands/javadocs/latest/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html).
+[`InvocationContext`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html).
 
 This distinction does not necessarily have to be relevant. In most cases, the _member method_ can simply call the _user method_.
 
