@@ -14,8 +14,8 @@ jobs:
         with:
           python-version: 3.x
       - run: |
-          git checkout gh-pages
           git fetch
+          git checkout gh-pages
           git branch --set-upstream-to=origin/gh-pages
           git pull
           git checkout wiki
