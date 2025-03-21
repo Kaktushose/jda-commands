@@ -31,6 +31,7 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+  custom_dir: overrides
 
 repo_name: JDA-Commands
 repo_url: https://github.com/kaktushose/jda-commands
