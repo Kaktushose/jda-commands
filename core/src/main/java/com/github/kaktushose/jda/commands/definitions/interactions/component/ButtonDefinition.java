@@ -17,6 +17,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition.override;
+
 /// Representation of a button.
 ///
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
@@ -35,6 +37,13 @@ public record ButtonDefinition(
         @Nullable String link,
         @NotNull ButtonStyle style
 ) implements ComponentDefinition<Button> {
+
+    /// Builds a new [ButtonDefinition] with the given values
+    @NotNull
+    public ButtonDefinition with(@Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
+        return new ButtonDefinition(classDescription, methodDescription, permissions,
+                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
+    }
 
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
     ///
@@ -84,7 +93,7 @@ public record ButtonDefinition(
     @NotNull
     @Override
     public Button toJDAEntity(@NotNull CustomId customId) {
-        String idOrUrl = Optional.ofNullable(link).orElse(customId.id());
+        String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
         if (emoji == null) {
             return Button.of(style, idOrUrl, label);
         } else {

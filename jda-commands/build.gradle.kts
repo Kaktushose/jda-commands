@@ -16,7 +16,7 @@ repositories {
 dependencies {
     javadoc(project(":core"))
     javadoc(project(":guice-extension"))
-
+    
     api(project(":core"))
     api(project(":guice-extension"))
 }
@@ -26,7 +26,7 @@ tasks.withType<Javadoc>().configureEach {
     options.overview = "src/main/javadoc/overview.md"
     options.links = listOf(
         "https://google.github.io/guice/api-docs/7.0.0/javadoc/",
-        "https://kaktushose.github.io/jda-commands/javadocs/latest/",
+        "https://kaktushose.github.io/jda-commands/javadocs/4/",
         "https://docs.jda.wiki/"
     )
 

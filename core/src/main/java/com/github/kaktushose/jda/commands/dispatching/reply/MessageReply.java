@@ -3,19 +3,33 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
+import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 /// Simple builder for sending text messages based on a [GenericInteractionCreateEvent].
 ///
@@ -38,6 +52,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
+    protected boolean keepSelections;
 
     /// Constructs a new MessageReply.
     ///
@@ -52,6 +67,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
+        this.keepSelections = replyConfig.keepSelections();
         this.builder = new MessageCreateBuilder();
     }
 
@@ -65,6 +81,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         this.ephemeral = reply.ephemeral;
         this.editReply = reply.editReply;
         this.keepComponents = reply.keepComponents;
+        this.keepSelections = reply.keepSelections;
     }
 
     public Message reply(@NotNull String message) {
@@ -90,8 +107,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
     /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
     /// will be called.
     ///
-    /// If editing a message and `keepComponents` is `true`, queries the original message first and adds its components
-    /// to the reply before sending it.
+    /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
     @NotNull
     protected Message complete() {
         switch (event) {
@@ -106,18 +122,58 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
         }
-        log.debug(
-                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}]",
-                definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents
-        );
         var hook = ((IDeferrableCallback) event).getHook();
+
+        log.debug(
+                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
+                definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
+        );
+        if (event instanceof ComponentInteraction interaction && keepComponents) {
+            builder.addComponents(retrieveComponents(interaction.getMessage()));
+        }
         if (editReply) {
-            if (keepComponents) {
-                builder.addComponents(hook.retrieveOriginal().complete().getComponents());
-            }
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
         return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
+    }
+
+    private List<LayoutComponent> retrieveComponents(Message original) {
+        List<LayoutComponent> components = original.getComponents();
+
+        if (!keepSelections) {
+            return components;
+        }
+
+        for (LayoutComponent layoutComponent : components) {
+            for (ActionComponent actionComponent : layoutComponent.getActionComponents()) {
+                ActionComponent newComponent = switch (actionComponent) {
+                    case StringSelectMenu selectMenu when event instanceof StringSelectInteractionEvent selectEvent -> selectMenu
+                            .createCopy()
+                            .setDefaultValues(selectEvent.getValues())
+                            .build();
+
+                    case EntitySelectMenu selectMenu when event instanceof EntitySelectInteractionEvent selectEvent -> {
+
+                        Collection<DefaultValue> defaultValues = new HashSet<>();
+                        Mentions mentions = selectEvent.getInteraction().getMentions();
+
+                        defaultValues.addAll(mentions.getMembers().stream().map(DefaultValue::from).toList());
+                        defaultValues.addAll(mentions.getChannels().stream().map(DefaultValue::from).toList());
+                        defaultValues.addAll(mentions.getRoles().stream().map(DefaultValue::from).toList());
+
+                        yield selectMenu
+                                .createCopy()
+                                .setDefaultValues(defaultValues)
+                                .build();
+                    }
+
+                    default -> actionComponent;
+                };
+
+                layoutComponent.updateComponent(actionComponent, newComponent);
+            }
+        }
+        return components;
     }
 
     private void deferReply(@NotNull IReplyCallback callback) {

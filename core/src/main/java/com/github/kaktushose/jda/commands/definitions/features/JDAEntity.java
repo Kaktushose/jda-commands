@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition.SelectOptionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
 import org.jetbrains.annotations.NotNull;
 
 /// Indicates that the implementing [Definition] can be transformed into a JDA entity.
@@ -21,10 +21,10 @@ import org.jetbrains.annotations.NotNull;
 /// @see SlashCommandDefinition
 /// @see ContextCommandDefinition
 /// @see OptionDataDefinition
-/// @see SelectOptionDefinition
+/// @see MenuOptionDefinition
 /// @see TextInputDefinition
 public sealed interface JDAEntity<T> extends Definition
-        permits ComponentDefinition, TextInputDefinition, CommandDefinition, OptionDataDefinition, SelectOptionDefinition {
+        permits ComponentDefinition, TextInputDefinition, CommandDefinition, OptionDataDefinition, MenuOptionDefinition {
 
     /// Transforms this [Definition] into a JDA entity of the given type [T].
     ///

@@ -59,14 +59,15 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
     ///
     /// @see com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig ReplyConfig
-    record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean editReply) {
+    record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean keepSelections, boolean editReply) {
 
         /// Constructs a new [ReplyConfig] using the following default values:
         /// - ephemeral: `false`
         /// - keepComponents: `true`
+        /// - keepSelections: `true`
         /// - editReply: `true`
         public ReplyConfig() {
-            this(false, true, true);
+            this(false, true, true, true);
         }
 
         /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
@@ -80,7 +81,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         ///
         /// @param replyConfig the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(@NotNull com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
-            this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.editReply());
+            this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.keepSelections(), replyConfig.editReply());
         }
 
         /// Builder for [ReplyConfig].
@@ -88,6 +89,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             private boolean ephemeral;
             private boolean keepComponents;
+            private boolean keepSelections;
             private boolean editReply;
 
             /// Constructs a new Builder.
@@ -119,6 +121,14 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 return this;
             }
 
+            /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+            /// [#keepComponents()] `true`.
+            @NotNull
+            public Builder keepSelections(boolean keepSelections) {
+                this.keepSelections = keepSelections;
+                return this;
+            }
+
             /// Whether to edit the original message or to send a new one. Default value is `true`.
             ///
             /// The original message is the message, from which this event (interaction) originates.
@@ -132,7 +142,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             }
 
             private ReplyConfig build() {
-                return new ReplyConfig(ephemeral, keepComponents, editReply);
+                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply);
             }
         }
     }
