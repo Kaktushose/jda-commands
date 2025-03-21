@@ -81,6 +81,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#ephemeral(boolean)" tabindex="0">ephemeral(boolean)</a></li>
 <li><a href="#editReply(boolean)" tabindex="0">editReply(boolean)</a></li>
 <li><a href="#keepComponents(boolean)" tabindex="0">keepComponents(boolean)</a></li>
+<li><a href="#keepSelections(boolean)" tabindex="0">keepSelections(boolean)</a></li>
 <li><a href="#builder(java.util.function.Consumer)" tabindex="0">builder(Consumer)</a></li>
 <li><a href="#components(java.lang.String...)" tabindex="0">components(String...)</a></li>
 <li><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" tabindex="0">components(Component...)</a></li>
@@ -151,7 +152,7 @@ public class ExampleCommand {
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.reply.MessageReply">Fields inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.reply.<a href="MessageReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">MessageReply</a></h3>
-<code><a href="MessageReply.html#builder">builder</a>, <a href="MessageReply.html#definition">definition</a>, <a href="MessageReply.html#editReply">editReply</a>, <a href="MessageReply.html#ephemeral">ephemeral</a>, <a href="MessageReply.html#event">event</a>, <a href="MessageReply.html#keepComponents">keepComponents</a>, <a href="MessageReply.html#log">log</a></code></div>
+<code><a href="MessageReply.html#builder">builder</a>, <a href="MessageReply.html#definition">definition</a>, <a href="MessageReply.html#editReply">editReply</a>, <a href="MessageReply.html#ephemeral">ephemeral</a>, <a href="MessageReply.html#event">event</a>, <a href="MessageReply.html#keepComponents">keepComponents</a>, <a href="MessageReply.html#keepSelections">keepSelections</a>, <a href="MessageReply.html#log">log</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -191,8 +192,8 @@ public class ExampleCommand {
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Access the underlying <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateBuilder.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateBuilder</code></a> for configuration steps not covered by <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" class="member-name-link">components</a><wbr>(@NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>...&nbsp;components)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" class="member-name-link">components</a><wbr>(@NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;...&nbsp;components)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionRow.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link"><code>ActionRow</code></a> to the reply and adds the passed <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to it.</div>
 </div>
@@ -215,6 +216,11 @@ public class ExampleCommand {
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepComponents(boolean)" class="member-name-link">keepComponents</a><wbr>(boolean&nbsp;keepComponents)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to edit the original message or to send a new one.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepSelections(boolean)" class="member-name-link">keepSelections</a><wbr>(boolean&nbsp;keepSelections)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
 </div>
 </div>
 </div>
@@ -372,6 +378,17 @@ replied to with a text message and a button, the original message is that very r
 </section>
 </li>
 <li>
+<section class="detail" id="keepSelections(boolean)">
+<h3>keepSelections</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">keepSelections</span><wbr><span class="parameters">(boolean&nbsp;keepSelections)</span></div>
+<div class="block">Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+<a href="#keepComponents(boolean)"><code>keepComponents(boolean)</code></a> <code>true</code>.</div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="builder(java.util.function.Consumer)">
 <h3>builder</h3>
 <div class="horizontal-scroll">
@@ -431,10 +448,9 @@ public class ExampleCommand {
 <h3>components</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></span>&nbsp;<span class="element-name">components</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>...&nbsp;components)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="ComponentReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ComponentReply</a></span>&nbsp;<span class="element-name">components</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;...&nbsp;components)</span></div>
 <div class="block"><p>Adds an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionRow.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link"><code>ActionRow</code></a> to the reply and adds the passed <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to it.</p>
-<p><strong>The components must be defined in the same class where this method gets called!</strong></p>
 <h6 id="example--heading3">Example:</h6>
 <pre><code>@Interaction
 public class ExampleCommand {

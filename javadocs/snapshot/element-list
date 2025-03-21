@@ -2,7 +2,6 @@ module:io.github.kaktushose.jda.commands.core
 com.github.kaktushose.jda.commands
 com.github.kaktushose.jda.commands.annotations.constraints
 com.github.kaktushose.jda.commands.annotations.interactions
-com.github.kaktushose.jda.commands.annotations.internal
 com.github.kaktushose.jda.commands.definitions
 com.github.kaktushose.jda.commands.definitions.description
 com.github.kaktushose.jda.commands.definitions.description.reflective
@@ -27,6 +26,9 @@ com.github.kaktushose.jda.commands.dispatching.middleware
 com.github.kaktushose.jda.commands.dispatching.middleware.impl
 com.github.kaktushose.jda.commands.dispatching.middleware.internal
 com.github.kaktushose.jda.commands.dispatching.reply
+com.github.kaktushose.jda.commands.dispatching.reply.dynamic
+com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal
+com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu
 com.github.kaktushose.jda.commands.dispatching.validation
 com.github.kaktushose.jda.commands.dispatching.validation.impl
 com.github.kaktushose.jda.commands.dispatching.validation.internal

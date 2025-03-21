@@ -73,6 +73,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#ephemeral" tabindex="0">ephemeral</a></li>
 <li><a href="#editReply" tabindex="0">editReply</a></li>
 <li><a href="#keepComponents" tabindex="0">keepComponents</a></li>
+<li><a href="#keepSelections" tabindex="0">keepSelections</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -161,9 +162,12 @@ send an arbitrary amount of message replies to the text channel the <a href="htt
 <div class="col-first odd-row-color"><code>protected boolean</code></div>
 <div class="col-second odd-row-color"><code><a href="#keepComponents" class="member-name-link">keepComponents</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected static final org.slf4j.Logger</code></div>
-<div class="col-second even-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-first even-row-color"><code>protected boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#keepSelections" class="member-name-link">keepSelections</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected static final org.slf4j.Logger</code></div>
+<div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -295,6 +299,14 @@ send an arbitrary amount of message replies to the text channel the <a href="htt
 </div>
 </section>
 </li>
+<li>
+<section class="detail" id="keepSelections">
+<h3>keepSelections</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">keepSelections</span></div>
+</div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -417,8 +429,7 @@ send an arbitrary amount of message replies to the text channel the <a href="htt
 acknowledged and will acknowledge it if necessary before sending or editing a message. After that,
 <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/WebhookClient.html#sendMessage(net.dv8tion.jda.api.utils.messages.MessageCreateData)" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>WebhookClient.sendMessage(MessageCreateData)</code></a> or respectively <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionHook.html#editOriginal(net.dv8tion.jda.api.utils.messages.MessageEditData)" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>InteractionHook.editOriginal(MessageEditData)</code></a>
 will be called.</p>
-<p>If editing a message and <code>keepComponents</code> is <code>true</code>, queries the original message first and adds its components
-to the reply before sending it.</p>
+<p>If <code>keepComponents</code> is <code>true</code>, queries the original message first and adds its components to the reply before sending it.</p>
 </dd>
 </dl>
 </div>

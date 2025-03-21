@@ -72,6 +72,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#replyModal(java.lang.String)" tabindex="0">replyModal(String)</a></li>
+<li><a href="#replyModal(java.lang.String,java.util.function.Function)" tabindex="0">replyModal(String, Function)</a></li>
 </ol>
 </li>
 </ol>
@@ -169,6 +170,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyModal(java.lang.String,java.util.function.Function)" class="member-name-link">replyModal</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="../reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a>,<wbr><a href="../reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a>&gt;&nbsp;callback)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>.</div>
+</div>
 </div>
 </div>
 </div>
@@ -244,6 +251,25 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>modal</code> - the method name of the <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> you want to reply with</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if no <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> with the given name was found</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="replyModal(java.lang.String,java.util.function.Function)">
+<h3>replyModal</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">replyModal</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="../reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a>,<wbr><a href="../reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a>&gt;&nbsp;callback)</span></div>
+<div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>. This will open a popup on the target user's Discord client.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>modal</code> - the method name of the <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> you want to reply with</dd>
+<dd><code>callback</code> - a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link"><code>Function</code></a> to dynamically modify the <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> before replying with it</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if no <a href="../../annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> with the given name was found</dd>
 </dl>

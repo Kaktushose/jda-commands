@@ -72,6 +72,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#with(java.util.Set,java.util.Collection,java.lang.String,java.lang.Integer,java.lang.Integer)" tabindex="0">with(Set, Collection, String, Integer, Integer)</a></li>
 <li><a href="#build(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" tabindex="0">build(MethodBuildContext)</a></li>
 <li><a href="#toJDAEntity()" tabindex="0">toJDAEntity()</a></li>
 <li><a href="#toJDAEntity(com.github.kaktushose.jda.commands.definitions.interactions.CustomId)" tabindex="0">toJDAEntity(CustomId)</a></li>
@@ -107,7 +108,7 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-classDescription">classDescription</span></code> - the <a href="../../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></dd>
 <dd><code><span id="param-methodDescription">methodDescription</span></code> - the <a href="../../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</dd>
 <dd><code><span id="param-permissions">permissions</span></code> - a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this menu</dd>
-<dd><code><span id="param-selectOptions">selectOptions</span></code> - the <a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">SelectOptions</a> of this menu</dd>
+<dd><code><span id="param-selectOptions">selectOptions</span></code> - the <a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">SelectOptions</a> of this menu</dd>
 <dd><code><span id="param-placeholder">placeholder</span></code> - the placeholder text of this menu</dd>
 <dd><code><span id="param-minValue">minValue</span></code> - the minimum amount of choices</dd>
 <dd><code><span id="param-maxValue">maxValue</span></code> - the maximum amount of choices</dd>
@@ -117,7 +118,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></code>, <code><a href="../../../features/CustomIdJDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">CustomIdJDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">StringSelectMenu</a>&gt;</code>, <code><a href="../../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></code>, <code><a href="../../../features/JDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">JDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">StringSelectMenu</a>&gt;</code>, <code><a href="../ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component">ComponentDefinition</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">StringSelectMenu</a>&gt;</code>, <code><a href="SelectMenuDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">StringSelectMenu</a>&gt;</code>, <code><a href="../../InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">StringSelectMenuDefinition</span>(@NotNull <a href="../../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a>&gt;&nbsp;selectOptions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder, int&nbsp;minValue, int&nbsp;maxValue)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">StringSelectMenuDefinition</span>(@NotNull <a href="../../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription, @NotNull <a href="../../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a>&gt;&nbsp;selectOptions, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder, int&nbsp;minValue, int&nbsp;maxValue)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="SelectMenuDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">StringSelectMenu</a>&gt;</span></div>
 <div class="block">Representation of a string select menu.</div>
@@ -135,10 +136,9 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="StringSelectMenuDefinition.SelectOptionDefinition.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a></code></div>
+<div class="col-second even-row-color"><code><a href="StringSelectMenuDefinition.MenuOptionDefinition.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Representation of a select option for a string select menu defined by a
-<a href="../../../../annotations/interactions/SelectOption.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>SelectOption</code></a>.</div>
+<div class="block">Representation of a select option for a string select menu defined by a <a href="../../../../annotations/interactions/MenuOption.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>MenuOption</code></a>.</div>
 </div>
 </div>
 <div class="inherited-list">
@@ -166,7 +166,7 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.description.ClassDescription,com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection,java.util.Set,java.lang.String,int,int)" class="member-name-link">StringSelectMenuDefinition</a><wbr>(@NotNull <a href="../../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a>&nbsp;classDescription,
  @NotNull <a href="../../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a>&gt;&nbsp;selectOptions,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a>&gt;&nbsp;selectOptions,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder,
  int&nbsp;minValue,
  int&nbsp;maxValue)</code></div>
@@ -237,7 +237,7 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-placeholder"><code>placeholder</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#selectOptions()" class="member-name-link">selectOptions</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-selectOptions"><code>selectOptions</code></a> record component.</div>
@@ -256,6 +256,15 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="StringSelectMenuDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with(java.util.Set,java.util.Collection,java.lang.String,java.lang.Integer,java.lang.Integer)" class="member-name-link">with</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/SelectOption.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">SelectOption</a>&gt;&nbsp;selectOptions,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;defaultValues,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minValue,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxValue)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Builds a new <a href="StringSelectMenuDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu"><code>StringSelectMenuDefinition</code></a> with the given values.</div>
 </div>
 </div>
 </div>
@@ -291,7 +300,7 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
  @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a>&gt;&nbsp;selectOptions,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a>&gt;&nbsp;selectOptions,
  @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder,
  int&nbsp;minValue,
@@ -318,6 +327,25 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="with(java.util.Set,java.util.Collection,java.lang.String,java.lang.Integer,java.lang.Integer)">
+<h3>with</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="StringSelectMenuDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition</a></span>&nbsp;<span class="element-name">with</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/SelectOption.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">SelectOption</a>&gt;&nbsp;selectOptions,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;defaultValues,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minValue,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxValue)</span></div>
+<div class="block">Builds a new <a href="StringSelectMenuDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu"><code>StringSelectMenuDefinition</code></a> with the given values.</div>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="build(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)">
 <h3>build</h3>
@@ -491,7 +519,7 @@ implements <a href="SelectMenuDefinition.html" title="interface in com.github.ka
 <h3>selectOptions</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.SelectOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.SelectOptionDefinition</a>&gt;</span>&nbsp;<span class="element-name">selectOptions</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="StringSelectMenuDefinition.MenuOptionDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.component.menu">StringSelectMenuDefinition.MenuOptionDefinition</a>&gt;</span>&nbsp;<span class="element-name">selectOptions</span>()</div>
 <div class="block">Returns the value of the <a href="#param-selectOptions"><code>selectOptions</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

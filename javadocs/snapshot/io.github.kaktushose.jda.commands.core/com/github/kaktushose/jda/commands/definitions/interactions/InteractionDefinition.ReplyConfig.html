@@ -69,7 +69,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E()" tabindex="0">ReplyConfig()</a></li>
 <li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig)" tabindex="0">ReplyConfig(ReplyConfig)</a></li>
-<li><a href="#%3Cinit%3E(boolean,boolean,boolean)" tabindex="0">ReplyConfig(boolean, boolean, boolean)</a></li>
+<li><a href="#%3Cinit%3E(boolean,boolean,boolean,boolean)" tabindex="0">ReplyConfig(boolean, boolean, boolean, boolean)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -80,6 +80,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#ephemeral()" tabindex="0">ephemeral()</a></li>
 <li><a href="#keepComponents()" tabindex="0">keepComponents()</a></li>
+<li><a href="#keepSelections()" tabindex="0">keepSelections()</a></li>
 <li><a href="#editReply()" tabindex="0">editReply()</a></li>
 </ol>
 </li>
@@ -102,7 +103,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">InteractionDefinition.ReplyConfig</span>(boolean&nbsp;ephemeral, boolean&nbsp;keepComponents, boolean&nbsp;editReply)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">InteractionDefinition.ReplyConfig</span>(boolean&nbsp;ephemeral, boolean&nbsp;keepComponents, boolean&nbsp;keepSelections, boolean&nbsp;editReply)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Stores the configuration values for sending replies. This acts as a representation of
 <a href="../../annotations/interactions/ReplyConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>ReplyConfig</code></a>.</div>
@@ -147,8 +148,9 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> using the following default values:</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(boolean,boolean,boolean)" class="member-name-link">ReplyConfig</a><wbr>(boolean&nbsp;ephemeral,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(boolean,boolean,boolean,boolean)" class="member-name-link">ReplyConfig</a><wbr>(boolean&nbsp;ephemeral,
  boolean&nbsp;keepComponents,
+ boolean&nbsp;keepSelections,
  boolean&nbsp;editReply)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Creates an instance of a <code>ReplyConfig</code> record class.</div>
@@ -196,14 +198,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>keepComponents</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(java.util.function.Consumer)" class="member-name-link">of</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="InteractionDefinition.ReplyConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig.Builder</a>&gt;&nbsp;callback)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepSelections()" class="member-name-link">keepSelections</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>keepSelections</code> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(java.util.function.Consumer)" class="member-name-link">of</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="InteractionDefinition.ReplyConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig.Builder</a>&gt;&nbsp;callback)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new ReplyConfig after the given <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link"><code>Consumer</code></a> modified the <a href="InteractionDefinition.ReplyConfig.Builder.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig.Builder</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -232,6 +239,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li>ephemeral: <code>false</code></li>
 <li>keepComponents: <code>true</code></li>
+<li>keepSelections: <code>true</code></li>
 <li>editReply: <code>true</code></li>
 </ul>
 </div>
@@ -253,17 +261,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(boolean,boolean,boolean)">
+<section class="detail" id="&lt;init&gt;(boolean,boolean,boolean,boolean)">
 <h3>ReplyConfig</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ReplyConfig</span><wbr><span class="parameters">(boolean&nbsp;ephemeral,
  boolean&nbsp;keepComponents,
+ boolean&nbsp;keepSelections,
  boolean&nbsp;editReply)</span></div>
 <div class="block">Creates an instance of a <code>ReplyConfig</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>ephemeral</code> - the value for the <code>ephemeral</code> record component</dd>
 <dd><code>keepComponents</code> - the value for the <code>keepComponents</code> record component</dd>
+<dd><code>keepSelections</code> - the value for the <code>keepSelections</code> record component</dd>
 <dd><code>editReply</code> - the value for the <code>editReply</code> record component</dd>
 </dl>
 </div>
@@ -355,6 +365,19 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>keepComponents</code> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="keepSelections()">
+<h3>keepSelections</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">keepSelections</span>()</div>
+<div class="block">Returns the value of the <code>keepSelections</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>keepSelections</code> record component</dd>
 </dl>
 </div>
 </section>
