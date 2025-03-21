@@ -1,4 +1,4 @@
-name: Javadocs Deployment
+name: Release Deployment
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
         id: check
         run: |
           msg="${{ github.event.head_commit.message }}"
-          regex="^Release ([0-9]+[.][0-9]+([.][0-9]+)?)$"
+          regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?)$"
           
           if [[ $msg =~ $regex ]]
           then
@@ -63,7 +63,7 @@ jobs:
             major=$( echo "${{ needs.check_if_release.outputs.version }}" | grep -o '[0-9]*' | head -1 )
             echo "name=$major" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
-            echo "name=development" >> "$GITHUB_OUTPUT"
+            echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
@@ -82,8 +82,37 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./jda-commands/build/docs/javadoc
-          branch: docs
+          branch: gh-pages
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}
+
+  wiki:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Python
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Build & Deploy Wiki
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
+        run: |
+          git fetch
+          git checkout gh-pages
+          git branch --set-upstream-to=origin/gh-pages
+          git pull
+          git checkout wiki
+          
+          pip install -r requirements.txt
+          
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          
+          mike deploy -u ${{ steps.check.outputs.version }} wiki
+          mike set-default ${{ steps.check.outputs.version }}
 
   maven_central:
     runs-on: ubuntu-latest

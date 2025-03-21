@@ -194,4 +194,9 @@ public class RoleMock implements Role {
     public long getIdLong() {
         return id;
     }
+
+    @Override
+    public boolean isDetached() {
+        return false;
+    }
 }

@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
@@ -29,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -70,6 +73,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
+    protected CommandConfig globalCommandConfig = new CommandConfig();
     protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
@@ -152,6 +156,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
     @NotNull
     public InteractionDefinition.ReplyConfig globalReplyConfig() {
         return globalReplyConfig;
+    }
+
+    public CommandConfig globalCommandConfig() {
+        return globalCommandConfig;
     }
 
     /// @return the [ExpirationStrategy] to be used

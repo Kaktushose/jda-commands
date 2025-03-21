@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /// Annotation used to add a name and description to slash command parameters.
 ///
-/// @see SlashCommand
+/// @see Command
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Param {

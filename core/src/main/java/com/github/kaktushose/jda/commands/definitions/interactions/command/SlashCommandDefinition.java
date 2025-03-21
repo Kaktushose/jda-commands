@@ -1,8 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
+import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -12,8 +11,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -33,10 +30,7 @@ import java.util.stream.Collectors;
 /// @param methodDescription    the [MethodDescription] of the method this definition is bound to
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
-/// @param scope                the [CommandScope] of this command
-/// @param guildOnly            whether this command can only be executed in guilds
-/// @param nsfw                 whether this command is nsfw
-/// @param enabledPermissions   a possibly-empty [Set] of [Permission]s this command will be enabled for
+/// @param commandConfig        the [CommandConfig] to use
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
@@ -46,10 +40,7 @@ public record SlashCommandDefinition(
         @NotNull MethodDescription methodDescription,
         @NotNull Collection<String> permissions,
         @NotNull String name,
-        @NotNull CommandScope scope,
-        boolean guildOnly,
-        boolean nsfw,
-        @NotNull Set<Permission> enabledPermissions,
+        @NotNull CommandConfig commandConfig,
         @NotNull LocalizationFunction localizationFunction,
         @NotNull String description,
         @NotNull SequencedCollection<OptionDataDefinition> commandOptions,
@@ -63,7 +54,7 @@ public record SlashCommandDefinition(
     public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
-        var command = method.annotation(SlashCommand.class).orElseThrow();
+        var command = method.annotation(Command.class).orElseThrow();
 
         String name = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
@@ -74,10 +65,20 @@ public record SlashCommandDefinition(
             return Optional.empty();
         }
 
+        String[] split = name.split(" ");
+        if (split.length > 3) {
+            log.error("Invalid command name \"{}\" for slash command \"{}.{}\". Slash commands can only have up to 3 labels.",
+                    name,
+                    context.clazz().name(),
+                    method.name()
+            );
+            return Optional.empty();
+        }
+
         var autoCompletes = context.autoCompleteDefinitions().stream()
                 .filter(definition -> definition.rules().stream()
                         .map(AutoCompleteRule::command)
-                        .anyMatch(it -> it.equals(name) || it.equals(method.name()))
+                        .anyMatch(it -> name.startsWith(it) || it.equals(method.name()))
                 ).toList();
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
@@ -86,11 +87,6 @@ public record SlashCommandDefinition(
                         OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.validators())
                 )
                 .toList();
-
-        Set<Permission> enabledFor = Set.of(command.enabledFor());
-        if (enabledFor.size() == 1 && enabledFor.contains(Permission.UNKNOWN)) {
-            enabledFor = Set.of();
-        }
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
@@ -109,10 +105,7 @@ public record SlashCommandDefinition(
                 method,
                 Helpers.permissions(context),
                 name,
-                command.scope(),
-                command.isGuildOnly(),
-                command.isNSFW(),
-                enabledFor,
+                Helpers.commandConfig(context),
                 context.localizationFunction(),
                 command.desc(),
                 commandOptions,
@@ -157,10 +150,11 @@ public record SlashCommandDefinition(
                 name,
                 description.replaceAll("N/A", "no description")
         );
-        command.setGuildOnly(guildOnly)
-                .setNSFW(nsfw)
+        command.setIntegrationTypes(commandConfig.integration())
+                .setContexts(commandConfig.context())
+                .setNSFW(commandConfig.isNSFW())
                 .setLocalizationFunction(localizationFunction)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(enabledPermissions));
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
         commandOptions.forEach(parameter -> {
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
@@ -173,9 +167,9 @@ public record SlashCommandDefinition(
     /// Transforms this definition into [SubcommandData].
     ///
     /// @return the [SubcommandData]
-    public SubcommandData toSubCommandData(String label) {
+    public SubcommandData toSubcommandData(String name) {
         SubcommandData command = new SubcommandData(
-                label,
+                name,
                 description.replaceAll("N/A", "no description")
 
         );
@@ -191,8 +185,8 @@ public record SlashCommandDefinition(
 
     @NotNull
     @Override
-    public Command.Type commandType() {
-        return Command.Type.SLASH;
+    public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
+        return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
     }
 
     /// Representation of a cooldown definition defined by [Cooldown].

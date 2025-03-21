@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 /// The default value will be handled as a normal input and thus the [TypeAdapters] will try to parse it.
 /// If the parsing fails the command will still be executed but with empty or possible `null` values.
 ///
-/// @see SlashCommand
+/// @see Command
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Optional {

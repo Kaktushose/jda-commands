@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -161,6 +162,12 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    @NotNull
+    public JDACBuilder globalCommandConfig(@NotNull CommandConfig config) {
+        this.globalCommandConfig = config;
+        return this;
+    }
+
     /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
@@ -199,7 +206,9 @@ public final class JDACBuilder extends JDACBuilderData {
                 guildScopeProvider(),
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
-                globalReplyConfig()
+                globalReplyConfig(),
+                globalCommandConfig(),
+                localizationFunction()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;
