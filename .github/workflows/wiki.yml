@@ -34,5 +34,5 @@ jobs:
           git checkout gh-pages
           git fetch
           git branch --set-upstream-to=origin/gh-pages
-          git pull
+          git pull --rebase
           git push
