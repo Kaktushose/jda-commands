@@ -30,7 +30,7 @@ jobs:
           
           if [[ $msg =~ $regex ]]
           then
-            mike deploy -u ${BASH_REMATCH[1]} latest
+            mike deploy -u ${BASH_REMATCH[1]} wiki
             mike set-default ${BASH_REMATCH[1]}
           else
             mike deploy snapshot

@@ -42,6 +42,7 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/kaktushose
   version:
+    default: wiki
     provider: mike
 
 copyright: Copyright &copy; 2025 Kaktushose
