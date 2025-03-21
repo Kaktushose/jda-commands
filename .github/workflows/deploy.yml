@@ -83,7 +83,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./jda-commands/build/docs/javadoc
-          branch: docs
+          branch: gh-pages
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}
 
   maven_central:
