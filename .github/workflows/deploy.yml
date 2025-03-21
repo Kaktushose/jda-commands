@@ -64,7 +64,7 @@ jobs:
             major=$( echo "${{ needs.check_if_release.outputs.version }}" | grep -o '[0-9]*' | head -1 )
             echo "name=$major" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
-            echo "name=development" >> "$GITHUB_OUTPUT"
+            echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
