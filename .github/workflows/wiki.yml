@@ -30,4 +30,6 @@ jobs:
             mike deploy snapshot
           fi
       - name: Deploy Wiki
-        run: git push
+        run: |
+          git checkout gh-pages
+          git push
