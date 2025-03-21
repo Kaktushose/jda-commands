@@ -16,6 +16,9 @@ jobs:
       - run: |
           pip install -r requirements.txt
           
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          
           msg="${{ github.event.head_commit.message }}"
           regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?)$"
           
@@ -27,7 +30,4 @@ jobs:
             mike deploy snapshot
           fi
       - name: Deploy Wiki
-        run: |
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git config --global user.name github-actions[bot]
-          git push
+        run: git push
