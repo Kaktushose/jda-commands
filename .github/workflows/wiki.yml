@@ -32,4 +32,5 @@ jobs:
       - name: Deploy Wiki
         run: |
           git checkout gh-pages
+          git pull
           git push --set-upstream origin gh-pages
