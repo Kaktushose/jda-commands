@@ -3,5 +3,12 @@
     "version": "snapshot",
     "title": "snapshot",
     "aliases": []
+  },
+  {
+    "version": "4.0.0-beta.5",
+    "title": "4.0.0-beta.5",
+    "aliases": [
+      "latest"
+    ]
   }
 ]
