@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,9 @@ public final class JDAEventListener extends ListenerAdapter {
         this.context = context;
     }
 
+
     @Override
+    @SubscribeEvent
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
         checkRuntimesAlive();
 
