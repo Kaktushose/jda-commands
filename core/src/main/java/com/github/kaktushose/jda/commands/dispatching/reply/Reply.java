@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
@@ -42,16 +41,6 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     default Message reply(@NotNull String format, @NotNull Object... args) {
         return reply(format.formatted(args));
     }
-
-    /// Acknowledgement of this event with a text message.
-    ///
-    /// @param message the [MessageCreateData] to send
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull MessageCreateData message);
 
     /// Acknowledgement of this event with a text message.
     ///

@@ -2,13 +2,13 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
@@ -43,7 +43,7 @@ import java.util.List;
 ///
 /// @see ConfigurableReply
 /// @see ReplyableEvent
-public sealed class MessageReply implements Reply permits ConfigurableReply {
+public sealed class MessageReply implements Reply permits ConfigurableReply, MessageCreateDataReply {
 
     protected static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final GenericInteractionCreateEvent event;
@@ -86,11 +86,6 @@ public sealed class MessageReply implements Reply permits ConfigurableReply {
 
     public Message reply(@NotNull String message) {
         builder.setContent(message);
-        return complete();
-    }
-
-    public Message reply(@NotNull MessageCreateData message) {
-        builder.applyData(message);
         return complete();
     }
 

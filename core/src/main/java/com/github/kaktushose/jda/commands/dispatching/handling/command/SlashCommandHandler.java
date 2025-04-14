@@ -8,7 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapt
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -93,7 +93,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command, dispatchingContext.globalReplyConfig()).reply(
+                MessageCreateDataReply.reply(event, command, dispatchingContext.globalReplyConfig(),
                         errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
                                 .stream()
                                 .map(it -> it == null ? null : it.getAsString())
