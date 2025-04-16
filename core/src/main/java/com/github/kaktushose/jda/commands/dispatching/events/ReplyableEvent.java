@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -23,6 +24,7 @@ import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -152,13 +154,21 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return new ConfigurableReply(newReply(), registry, runtimeId());
     }
 
-    @NotNull
-    public Message reply(@NotNull String message) {
-        return newReply().reply(message);
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// @param message the [MessageCreateData] to send
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
+    public Message reply(@NotNull MessageCreateData message) {
+        log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
+        return MessageCreateDataReply.reply(event, definition, replyConfig, message);
     }
 
     @NotNull
-    public Message reply(@NotNull MessageCreateData message) {
+    public Message reply(@NotNull String message) {
         return newReply().reply(message);
     }
 
