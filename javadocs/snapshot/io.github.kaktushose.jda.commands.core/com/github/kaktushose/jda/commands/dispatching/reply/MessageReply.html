@@ -85,7 +85,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#reply(java.lang.String)" tabindex="0">reply(String)</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.EmbedBuilder)" tabindex="0">reply(EmbedBuilder)</a></li>
 <li><a href="#complete()" tabindex="0">complete()</a></li>
 </ol>
@@ -108,13 +107,13 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></dd>
+<dd><code><a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code>, <code><a href="internal/MessageCreateDataReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">MessageCreateDataReply</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public sealed class </span><span class="element-name type-name-label">MessageReply</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></span>
-<span class="permits">permits <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></span></div>
+<span class="permits">permits <a href="ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a>, <a href="internal/MessageCreateDataReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">MessageCreateDataReply</a></span></div>
 <div class="block"><p>Simple builder for sending text messages based on a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>.</p>
 <p>More formally, can be used to
 send an arbitrary amount of message replies to the text channel the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> was executed in.</p>
@@ -216,11 +215,6 @@ send an arbitrary amount of message replies to the text channel the <a href="htt
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.EmbedBuilder)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;builder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Acknowledgement of this event with a text message.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
 </div>
@@ -370,25 +364,6 @@ send an arbitrary amount of message replies to the text channel the <a href="htt
 <dd><code><a href="Reply.html#reply(java.lang.String)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>message</code> - the message to send</dd>
-<dt>Returns:</dt>
-<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">
-<h3>reply</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">Reply</a></code></span></div>
-<div class="block">Acknowledgement of this event with a text message.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>message</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send</dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 </dl>
