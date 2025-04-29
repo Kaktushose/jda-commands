@@ -17,10 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
@@ -49,29 +47,42 @@ public record InteractionRegistry(@NotNull Validators validators,
     public void index(Iterable<Class<?>> classes, CommandDefinition.CommandConfig globalCommandConfig) {
         int oldSize = definitions.size();
 
+        var autoCompletes = indexAutoCompletes(classes);
+        definitions.addAll(autoCompletes);
+
         int count = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found controller: {}", clazz.getName());
-            definitions.addAll(indexInteractionClass(descriptor.describe(clazz), globalCommandConfig));
+            definitions.addAll(indexInteractionClass(descriptor.describe(clazz), globalCommandConfig, autoCompletes));
             count++;
         }
+
+        // validate auto completes
+        var commandDefinitions = definitions.stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
+                .toList();
+        autoCompletes.stream()
+                .map(AutoCompleteDefinition::rules)
+                .flatMap(Collection::stream)
+                .filter(rule -> commandDefinitions.stream().noneMatch(command ->
+                        command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))
+                ).forEach(s -> log.warn("No slash commands found matching {}", s));
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 count,
                 definitions.size() - oldSize);
     }
 
-    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig) {
+    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
         // get controller level cooldown and use it if no command level cooldown is present
         CooldownDefinition cooldown = clazz.annotation(Cooldown.class).map(CooldownDefinition::build).orElse(null);
 
-        var autoCompletes = autoCompleteDefinitions(clazz);
-
         // index interactions
-        var interactionDefinitions = interactionDefinitions(
+        return interactionDefinitions(
                 clazz,
                 validators,
                 localizationFunction,
@@ -81,22 +92,14 @@ public record InteractionRegistry(@NotNull Validators validators,
                 autoCompletes,
                 globalCommandConfig
         );
+    }
 
-        // validate auto completes
-        var commandDefinitions = interactionDefinitions.stream()
-                .filter(SlashCommandDefinition.class::isInstance)
-                .map(SlashCommandDefinition.class::cast)
-                .toList();
-
-        autoCompletes.stream()
-                .map(AutoCompleteDefinition::rules)
-                .flatMap(Collection::stream)
-                .filter(rule -> commandDefinitions.stream().noneMatch(command ->
-                        command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))
-                ).forEach(s -> log.warn("No slash commands found matching {}", s));
-
-
-        return interactionDefinitions;
+    private Collection<AutoCompleteDefinition> indexAutoCompletes(Iterable<Class<?>> classes) {
+        var result = new ArrayList<AutoCompleteDefinition>();
+        for (Class<?> clazz : classes) {
+            result.addAll(autoCompleteDefinitions(descriptor.describe(clazz)));
+        }
+        return result;
     }
 
     private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
