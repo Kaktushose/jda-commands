@@ -114,6 +114,7 @@ jobs:
           mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
           mike set-default ${{ needs.check_if_release.outputs.version }}
       - name: Deploy Wiki
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
         run: |
           git checkout gh-pages
           git push
