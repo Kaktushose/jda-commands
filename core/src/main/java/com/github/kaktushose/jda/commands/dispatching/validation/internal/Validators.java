@@ -18,12 +18,7 @@ public class Validators {
     ///
     ///   - [MinimumValidator]
     ///   - [MaximumValidator]
-    ///   - [RoleValidator]
-    ///   - [NotRoleValidator]
     ///   - [PermissionValidator]
-    ///   - [NotPermissionValidator]
-    ///   - [UserValidator]
-    ///   - [NotUserValidator]
     public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
@@ -32,12 +27,7 @@ public class Validators {
                 Max.class, new MaximumValidator(),
 
                 // jda specific
-                Role.class, new RoleValidator(),
-                NotRole.class, new NotRoleValidator(),
-                Perm.class, new PermissionValidator(),
-                NotPerm.class, new NotPermissionValidator(),
-                User.class, new UserValidator(),
-                NotUser.class, new NotUserValidator()
+                Perm.class, new PermissionValidator()
         ));
         this.validators = Collections.unmodifiableMap(validatorMap);
     }
