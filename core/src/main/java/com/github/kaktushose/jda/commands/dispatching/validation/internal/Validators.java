@@ -27,7 +27,8 @@ public class Validators {
                 Max.class, new MaximumValidator(),
 
                 // jda specific
-                Perm.class, new PermissionValidator()
+                Perm.class, new PermissionValidator(),
+                NotPerm.class, new NotPermissionValidator()
         ));
         this.validators = Collections.unmodifiableMap(validatorMap);
     }
