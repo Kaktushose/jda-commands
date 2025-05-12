@@ -1,7 +1,10 @@
-package com.github.kaktushose.jda.commands.guice;
+package com.github.kaktushose.jda.commands.guice.annotation;
 
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -21,6 +24,12 @@ import java.lang.annotation.Target;
 /// - [GuildScopeProvider]
 /// - [ErrorMessageFactory]
 /// - [Descriptor]
+///
+/// Additionally, the following classes can be also automatically registered via their dedicated annotations.
+///
+/// - [Middleware] (via @[Middlewares])
+/// - [TypeAdapter] (via @[TypeAdapters])
+/// - [Validator] (via @[Validators])
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Scope

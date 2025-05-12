@@ -1,9 +1,9 @@
 package com.github.kaktushose.jda.commands.guice.internal;
 
-import com.github.kaktushose.jda.commands.guice.Implementation;
-import com.github.kaktushose.jda.commands.guice.Middlewares;
-import com.github.kaktushose.jda.commands.guice.TypeAdapters;
-import com.github.kaktushose.jda.commands.guice.Validators;
+import com.github.kaktushose.jda.commands.guice.annotation.Implementation;
+import com.github.kaktushose.jda.commands.guice.annotation.Middlewares;
+import com.github.kaktushose.jda.commands.guice.annotation.TypeAdapters;
+import com.github.kaktushose.jda.commands.guice.annotation.Validators;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import org.jetbrains.annotations.ApiStatus;

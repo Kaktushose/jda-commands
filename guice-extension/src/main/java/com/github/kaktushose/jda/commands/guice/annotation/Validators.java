@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.guice;
+package com.github.kaktushose.jda.commands.guice.annotation;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;

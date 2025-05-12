@@ -12,6 +12,9 @@ import com.github.kaktushose.jda.commands.extension.Implementation.MiddlewareCon
 import com.github.kaktushose.jda.commands.extension.Implementation.TypeAdapterContainer;
 import com.github.kaktushose.jda.commands.extension.Implementation.ValidatorContainer;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
+import com.github.kaktushose.jda.commands.guice.annotation.Middlewares;
+import com.github.kaktushose.jda.commands.guice.annotation.TypeAdapters;
+import com.github.kaktushose.jda.commands.guice.annotation.Validators;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceExtensionModule;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -30,15 +33,13 @@ import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
 ///
-/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
-/// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
+/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][com.github.kaktushose.jda.commands.guice.annotation.Implementation].
+/// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.annotation.Implementation].
 ///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
-            com.github.kaktushose.jda.commands.guice.Implementation.class;
     private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(
             Descriptor.class,
             ErrorMessageFactory.class,
@@ -76,7 +77,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionProvidable>) type,
-                    builder -> instances(builder, IMPLEMENTATION_ANN, type)
+                    builder -> instances(builder, com.github.kaktushose.jda.commands.guice.annotation.Implementation.class, type)
                             .map(instance -> (Implementation.ExtensionProvidable) instance)
                             .toList()
             ));
@@ -117,10 +118,5 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     @Override
     public @NotNull Class<GuiceExtensionData> dataType() {
         return GuiceExtensionData.class;
-    }
-
-    @NotNull
-    public Injector injector() {
-        return injector;
     }
 }
