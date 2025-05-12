@@ -5,26 +5,19 @@ with the respective annotation.
 ## Default Validators
 JDA-Commands comes with the following default constraints:
 
-- [`@Role`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Role.html):
-  The member must have the specified guild role. 
-- [`@NotRole`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotRole.html):
-  The member must **not** have the specified guild role. 
-- [`@User`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/User.html):
-  Must be the specified user or member
-- [`@NotUser`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotUser.html):
-  Must **not** be the specified user or member.
+- [`@Min`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Min.html):
+  The number must be less or equal to the specified maximum.
+- [`@Max`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Max.html):
+  The number must be greater or equal to the specified minimum.
 - [`@Perm`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html):
   The user or member that have the specified discord permission.
 - [`@NotPerm`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html):
   The user or member that **doesn't** have the specified discord permission.
 
-The user and role annotations will resolve the snowflake entity dynamically using the respective [type adapter](./typeadapter.md).
-This means that you can either pass an ID or a name. 
-
 !!! example
     ```java
     @Command("ban")
-    public void onBan(CommandEvent event, @NotRole("Admin") Member target) {...}
+    public void onBan(CommandEvent event, @NotPerm("ADMINISTRATOR") Member target) {...}
     ```
 
 An error message is sent, if a parameter constraint fails:
