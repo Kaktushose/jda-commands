@@ -22,6 +22,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -75,7 +76,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionProvidable>) type,
-                    builder -> instances(builder, type)
+                    builder -> instances(builder, IMPLEMENTATION_ANN, type)
                             .map(instance -> (Implementation.ExtensionProvidable) instance)
                             .toList()
             ));
@@ -83,32 +84,32 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         // load multiple implementable types
         list.add(new Implementation<>(
-                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapter.class)
+                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapters.class, TypeAdapter.class)
                 .map(adapter -> new TypeAdapterContainer(
-                        adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
+                        adapter.getClass().getAnnotation(TypeAdapters.class).clazz(),
                         adapter)
                 ).toList()
         ));
 
         list.add(new Implementation<>(
-                ValidatorContainer.class, builder -> instances(builder, Validator.class)
+                ValidatorContainer.class, builder -> instances(builder, Validators.class, Validator.class)
                 .map(validator -> new ValidatorContainer(
-                        validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
+                        validator.getClass().getAnnotation(Validators.class).annotation(),
                         validator)
                 ).toList()
         ));
 
-        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middleware.class)
+        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middlewares.class, Middleware.class)
                 .map(middleware -> new MiddlewareContainer(
-                        middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
+                        middleware.getClass().getAnnotation(Middlewares.class).priority(),
                         middleware)
                 ).toList()
         ));
     }
 
-    private <T> Stream<T> instances(JDACBuilderData builder, Class<T> type) {
+    private <T> Stream<T> instances(JDACBuilderData builder, Class<? extends Annotation> annotation, Class<T> type) {
         return builder.mergedClassFinder()
-                .search(IMPLEMENTATION_ANN, type)
+                .search(annotation, type)
                 .stream()
                 .map(injector::getInstance);
     }
