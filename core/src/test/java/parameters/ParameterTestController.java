@@ -17,14 +17,6 @@ public class ParameterTestController {
 
     }
 
-    public void constraint(@Min(10) int i) {
-
-    }
-
-    public void constraintWrapped(@Min(10) Integer i) {
-
-    }
-
     public void constraintWithMessage(@Min(value = 10, message = "error message") int i) {
 
     }

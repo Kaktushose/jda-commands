@@ -16,16 +16,11 @@ public class Validators {
 
     /// Constructs a new Validators. This will register the following [Validator]s by default:
     ///
-    ///   - [MinimumValidator]
-    ///   - [MaximumValidator]
     ///   - [PermissionValidator]
+    ///   - [NotPermissionValidator]
     public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
-                // default types
-                Min.class, new MinimumValidator(),
-                Max.class, new MaximumValidator(),
-
                 // jda specific
                 Perm.class, new PermissionValidator(),
                 NotPerm.class, new NotPermissionValidator()
