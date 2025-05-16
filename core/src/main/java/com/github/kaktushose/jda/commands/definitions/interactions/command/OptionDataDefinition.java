@@ -117,6 +117,7 @@ public record OptionDataDefinition(
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
+                .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));

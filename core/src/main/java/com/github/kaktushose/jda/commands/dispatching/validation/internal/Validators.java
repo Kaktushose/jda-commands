@@ -16,28 +16,14 @@ public class Validators {
 
     /// Constructs a new Validators. This will register the following [Validator]s by default:
     ///
-    ///   - [MinimumValidator]
-    ///   - [MaximumValidator]
-    ///   - [RoleValidator]
-    ///   - [NotRoleValidator]
     ///   - [PermissionValidator]
     ///   - [NotPermissionValidator]
-    ///   - [UserValidator]
-    ///   - [NotUserValidator]
     public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
-                // default types
-                Min.class, new MinimumValidator(),
-                Max.class, new MaximumValidator(),
-
                 // jda specific
-                Role.class, new RoleValidator(),
-                NotRole.class, new NotRoleValidator(),
                 Perm.class, new PermissionValidator(),
-                NotPerm.class, new NotPermissionValidator(),
-                User.class, new UserValidator(),
-                NotUser.class, new NotUserValidator()
+                NotPerm.class, new NotPermissionValidator()
         ));
         this.validators = Collections.unmodifiableMap(validatorMap);
     }

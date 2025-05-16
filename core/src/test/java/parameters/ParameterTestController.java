@@ -1,7 +1,10 @@
 package parameters;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
+import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 
 public class ParameterTestController {
 
@@ -17,15 +20,7 @@ public class ParameterTestController {
 
     }
 
-    public void constraint(@Min(10) int i) {
-
-    }
-
-    public void constraintWrapped(@Min(10) Integer i) {
-
-    }
-
-    public void constraintWithMessage(@Min(value = 10, message = "error message") int i) {
+    public void constraintWithMessage(@Perm(value = "10", message = "error message") Member member) {
 
     }
 }
