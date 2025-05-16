@@ -3,6 +3,7 @@ package parameters;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import net.dv8tion.jda.api.entities.Member;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +59,7 @@ public class OptionDataDefinitionTest {
 
     @Test
     public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("constraintWithMessage", int.class);
+        Method method = controller.getDeclaredMethod("constraintWithMessage", Member.class);
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
         var constraints = List.copyOf(parameter.constraints());
 
