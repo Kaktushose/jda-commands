@@ -12,6 +12,9 @@ import com.github.kaktushose.jda.commands.extension.Implementation.MiddlewareCon
 import com.github.kaktushose.jda.commands.extension.Implementation.TypeAdapterContainer;
 import com.github.kaktushose.jda.commands.extension.Implementation.ValidatorContainer;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
+import com.github.kaktushose.jda.commands.guice.annotation.Middlewares;
+import com.github.kaktushose.jda.commands.guice.annotation.TypeAdapters;
+import com.github.kaktushose.jda.commands.guice.annotation.Validators;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceExtensionModule;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -22,6 +25,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,15 +33,13 @@ import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
 ///
-/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
-/// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
+/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][com.github.kaktushose.jda.commands.guice.annotation.Implementation].
+/// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.annotation.Implementation].
 ///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
-            com.github.kaktushose.jda.commands.guice.Implementation.class;
     private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(
             Descriptor.class,
             ErrorMessageFactory.class,
@@ -75,7 +77,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionProvidable>) type,
-                    builder -> instances(builder, type)
+                    builder -> instances(builder, com.github.kaktushose.jda.commands.guice.annotation.Implementation.class, type)
                             .map(instance -> (Implementation.ExtensionProvidable) instance)
                             .toList()
             ));
@@ -83,32 +85,32 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         // load multiple implementable types
         list.add(new Implementation<>(
-                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapter.class)
+                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapters.class, TypeAdapter.class)
                 .map(adapter -> new TypeAdapterContainer(
-                        adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
+                        adapter.getClass().getAnnotation(TypeAdapters.class).clazz(),
                         adapter)
                 ).toList()
         ));
 
         list.add(new Implementation<>(
-                ValidatorContainer.class, builder -> instances(builder, Validator.class)
+                ValidatorContainer.class, builder -> instances(builder, Validators.class, Validator.class)
                 .map(validator -> new ValidatorContainer(
-                        validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
+                        validator.getClass().getAnnotation(Validators.class).annotation(),
                         validator)
                 ).toList()
         ));
 
-        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middleware.class)
+        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middlewares.class, Middleware.class)
                 .map(middleware -> new MiddlewareContainer(
-                        middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
+                        middleware.getClass().getAnnotation(Middlewares.class).priority(),
                         middleware)
                 ).toList()
         ));
     }
 
-    private <T> Stream<T> instances(JDACBuilderData builder, Class<T> type) {
+    private <T> Stream<T> instances(JDACBuilderData builder, Class<? extends Annotation> annotation, Class<T> type) {
         return builder.mergedClassFinder()
-                .search(IMPLEMENTATION_ANN, type)
+                .search(annotation, type)
                 .stream()
                 .map(injector::getInstance);
     }
@@ -116,10 +118,5 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     @Override
     public @NotNull Class<GuiceExtensionData> dataType() {
         return GuiceExtensionData.class;
-    }
-
-    @NotNull
-    public Injector injector() {
-        return injector;
     }
 }

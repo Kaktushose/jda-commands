@@ -7,6 +7,7 @@ module io.github.kaktushose.jda.commands.extension.guice {
     requires org.slf4j;
 
     exports com.github.kaktushose.jda.commands.guice;
+    exports com.github.kaktushose.jda.commands.guice.annotation;
 
     provides com.github.kaktushose.jda.commands.extension.Extension with com.github.kaktushose.jda.commands.guice.GuiceExtension;
 }
