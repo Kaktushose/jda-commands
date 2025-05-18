@@ -137,10 +137,9 @@ public void onBanMember(CommandEvent event,
 
 #### Optional
 In order to make a command option optional, annotate the parameter with [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html).
-You can also pass a default value that will be used (and type adapted) if no user input is present. 
 ```java
 @Command("ban")
-public void onBanMember(CommandEvent event, Member target, @Param(optional = true) String reason, @Param(optional = true, fallback = "7") int delDays) {
+public void onBanMember(CommandEvent event, Member target, @Param(optional = true) String reason, @Param(optional = true) int delDays) {
     (...)
 }
 ```
