@@ -11,6 +11,8 @@ jobs:
     outputs:
       release: ${{ steps.check.outputs.release }}
       version: ${{ steps.check.outputs.version }}
+      version_major: ${{ steps.check.outputs.version_major }}
+      title: ${{ steps.check.outputs.title }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,20 +22,19 @@ jobs:
         id: check
         run: |
           msg="${{ github.event.head_commit.message }}"
-          regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?)$"
+          regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?) *(: *(.*))?$"
           
           if [[ $msg =~ $regex ]]
           then
             echo "release=true" >> "$GITHUB_OUTPUT"
             echo "version=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "version_major=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
+            echo "title=${BASH_REMATCH[14]}" >> "$GITHUB_OUTPUT"
           else
             echo "release=false" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/setup-java@v4
+      - uses: gradle/actions/setup-gradle@v4
         if: ${{ steps.check.outputs.release == 'true' }}
-        with:
-          distribution: 'temurin'
-          java-version: '23'
       - name: verify project version defined in gradle
         id: verify
         if: ${{ steps.check.outputs.release == 'true' }}
@@ -60,8 +61,7 @@ jobs:
           branch=${GITHUB_REF#refs/heads/}
           
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
-            major=$( echo "${{ needs.check_if_release.outputs.version }}" | grep -o '[0-9]*' | head -1 )
-            echo "name=$major" >> "$GITHUB_OUTPUT"
+            echo "name=${{ needs.check_if_release.outputs.version_major }}" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
             echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
@@ -101,10 +101,10 @@ jobs:
         if: ${{ needs.check_if_release.outputs.release == 'true' }}
         run: |
           git fetch
-          git checkout gh-pages
+          git switch gh-pages
           git branch --set-upstream-to=origin/gh-pages
           git pull
-          git checkout wiki
+          git switch wiki
           
           pip install -r requirements.txt
           
@@ -116,7 +116,7 @@ jobs:
       - name: Deploy Wiki
         if: ${{ needs.check_if_release.outputs.release == 'true' }}
         run: |
-          git checkout gh-pages
+          git switch gh-pages
           git push
 
   maven_central:
@@ -140,3 +140,45 @@ jobs:
           JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.jreleaser_password }}
         run: |
           gradle jreleaserDeploy
+
+  create-gh-draft-release:
+    runs-on: ubuntu-latest
+    needs: [ check_if_release, maven_central ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: softprops/action-gh-release@v2
+        if: ${{ needs.check_if_release.outputs.release == 'true' }}
+        with:
+          draft: true
+          name: "\U0001f680 v${{ needs.check_if_release.outputs.version }} | ${{ needs.check_if_release.outputs.title }}"
+          tag_name: "v${{ needs.check_if_release.outputs.version }}"
+          generate_release_notes: true
+          body: |
+            ## :telescope: Overview
+            TBD
+            
+            ## :page_facing_up: Docs
+            You can find the wiki for this version [here](https://kaktushose.github.io/jda-commands/${{ needs.check_if_release.outputs.version }}/).
+            
+            To visit this version's javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
+            
+            ## :package: Download / Usage
+            ### Gradle
+            ```kotlin
+            repositories {
+              mavenCentral()
+            }
+            
+            dependencies {
+              implementation("io.github.kaktushose:jda-commands:${{ needs.check_if_release.outputs.version }}")
+            }
+            ```
+            
+            ### Maven
+            ```xml
+            <dependency>
+              <groupId>io.github.kaktushose</groupId>
+              <artifactId>jda-commands</artifactId>
+              <version>${{ needs.check_if_release.outputs.version }}</version>
+            </dependency>
+            ```
