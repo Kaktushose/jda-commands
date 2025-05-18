@@ -69,6 +69,12 @@ loadScripts(document, 'script');</script>
 <li><a href="#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.ModalInteractionEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">ModalEvent(ModalInteractionEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig)</a></li>
 </ol>
 </li>
+<li><a href="#method-detail" tabindex="0">Method Details</a>
+<ol class="toc-list">
+<li><a href="#deferReply(boolean)" tabindex="0">deferReply(boolean)</a></li>
+<li><a href="#deferEdit()" tabindex="0">deferEdit()</a></li>
+</ol>
+</li>
 </ol>
 </nav>
 <main role="main">
@@ -141,9 +147,29 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
+<div id="method-summary-table">
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Method</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deferEdit()" class="member-name-link">deferEdit</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">No-op acknowledgement of this interaction.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deferReply(boolean)" class="member-name-link">deferReply</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
+</div>
+</div>
+</div>
+</div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.events.<a href="../ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></h3>
-<code><a href="../ReplyableEvent.html#getButton(java.lang.Class,java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getButton(java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#removeComponents()">removeComponents</a>, <a href="../ReplyableEvent.html#reply(java.lang.String)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.EmbedBuilder)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a>, <a href="../ReplyableEvent.html#with()">with</a></code></div>
+<code><a href="../ReplyableEvent.html#deferReply()">deferReply</a>, <a href="../ReplyableEvent.html#getButton(java.lang.Class,java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getButton(java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#removeComponents()">removeComponents</a>, <a href="../ReplyableEvent.html#reply(java.lang.String)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.EmbedBuilder)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a>, <a href="../ReplyableEvent.html#with()">with</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.events.Event">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.events.<a href="../Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></h3>
 <code><a href="../Event.html#closeRuntime()">closeRuntime</a>, <a href="../Event.html#getChannel()">getChannel</a>, <a href="../Event.html#getChannelIdLong()">getChannelIdLong</a>, <a href="../Event.html#getContext()">getContext</a>, <a href="../Event.html#getEntitlements()">getEntitlements</a>, <a href="../Event.html#getGuild()">getGuild</a>, <a href="../Event.html#getIdLong()">getIdLong</a>, <a href="../Event.html#getIntegrationOwners()">getIntegrationOwners</a>, <a href="../Event.html#getJDA()">getJDA</a>, <a href="../Event.html#getMember()">getMember</a>, <a href="../Event.html#getToken()">getToken</a>, <a href="../Event.html#getTypeRaw()">getTypeRaw</a>, <a href="../Event.html#getUser()">getUser</a>, <a href="../Event.html#getUserLocale()">getUserLocale</a>, <a href="../Event.html#interactionInstance(java.lang.Class)">interactionInstance</a>, <a href="../Event.html#isAcknowledged()">isAcknowledged</a>, <a href="../Event.html#jdaEvent()">jdaEvent</a>, <a href="../Event.html#kv()">kv</a>, <a href="../Event.html#runtimeId()">runtimeId</a></code></div>
@@ -192,6 +218,64 @@ loadScripts(document, 'script');</script>
 <dd><code>runtime</code> - the corresponding <a href="../../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching"><code>Runtime</code></a></dd>
 <dd><code>definition</code> - the corresponding <a href="../../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a></dd>
 </dl>
+</div>
+</section>
+</li>
+</ul>
+</section>
+</li>
+<!-- ============ METHOD DETAIL ========== -->
+<li>
+<section class="method-details" id="method-detail">
+<h2>Method Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="deferReply(boolean)">
+<h3>deferReply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deferReply</span><wbr><span class="parameters">(boolean&nbsp;ephemeral)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../ReplyableEvent.html#deferReply(boolean)">ReplyableEvent</a></code></span></div>
+<div class="block"><p>Acknowledge this interaction and defer the reply to a later time.</p>
+<p>This will send a <code>&lt;Bot&gt; is thinking...</code> message in chat that will be updated later. This will use the passed
+boolean to set the ephemeral flag. If your initial deferred message is ephemeral it
+cannot be made non-ephemeral later. Use <a href="../ReplyableEvent.html#deferReply()"><code>ReplyableEvent.deferReply()</code></a> to use the <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> for
+the ephemeral flag.</p>
+<p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
+<p>When the acknowledgement is sent after the interaction expired, you will receive</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>ErrorResponse.UNKNOWN_INTERACTION</pre>
+</details>
+.
+<p>Use <a href="../ReplyableEvent.html#reply(java.lang.String)"><code>ReplyableEvent.reply(String)</code></a> to reply directly.</p>
+</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../ReplyableEvent.html#deferReply(boolean)">deferReply</a></code>&nbsp;in class&nbsp;<code><a href="../ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/ModalInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">ModalInteractionEvent</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>ephemeral</code> - yes</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="deferEdit()">
+<h3>deferEdit</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deferEdit</span>()</div>
+<div class="block"><p>No-op acknowledgement of this interaction.</p>
+<p>This tells discord you intend to update the message that the triggering component is a part of instead of
+sending a reply message. You are not required to actually update the message, this will simply acknowledge that
+you accepted the interaction.</p>
+<p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
+<p>When the acknowledgement is sent after the interaction expired, you will receive</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>ErrorResponse.UNKNOWN_INTERACTION</pre>
+</details>
+.
+<p>Use <a href="../ReplyableEvent.html#reply(java.lang.String)"><code>ReplyableEvent.reply(String)</code></a> to edit it directly.</p>
+</div>
 </div>
 </section>
 </li>

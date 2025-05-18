@@ -76,6 +76,8 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#deferReply()" tabindex="0">deferReply()</a></li>
+<li><a href="#deferReply(boolean)" tabindex="0">deferReply(boolean)</a></li>
 <li><a href="#removeComponents()" tabindex="0">removeComponents()</a></li>
 <li><a href="#getButton(java.lang.String)" tabindex="0">getButton(String)</a></li>
 <li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
@@ -182,12 +184,22 @@ implements <a href="../reply/Reply.html" title="interface in com.github.kaktusho
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deferReply()" class="member-name-link">deferReply</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deferReply(boolean)" class="member-name-link">deferReply</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/buttons/Button.html" title="class or interface in net.dv8tion.jda.api.interactions.components.buttons" class="external-link">Button</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;button)</code></div>
@@ -310,6 +322,53 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="deferReply()">
+<h3>deferReply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deferReply</span>()</div>
+<div class="block"><p>Acknowledge this interaction and defer the reply to a later time.</p>
+<p>This will send a <code>&lt;Bot&gt; is thinking...</code> message in chat that will be updated later. This will use the respective
+<a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> to set the ephemeral flag. If your initial deferred message is ephemeral it
+cannot be made non-ephemeral later. Use <a href="#deferReply(boolean)"><code>deferReply(boolean)</code></a> to override the <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a>.</p>
+<p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
+<p>When the acknowledgement is sent after the interaction expired, you will receive</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>ErrorResponse.UNKNOWN_INTERACTION</pre>
+</details>
+.
+<p>Use <a href="#reply(java.lang.String)"><code>reply(String)</code></a> to reply directly.</p>
+</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="deferReply(boolean)">
+<h3>deferReply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deferReply</span><wbr><span class="parameters">(boolean&nbsp;ephemeral)</span></div>
+<div class="block"><p>Acknowledge this interaction and defer the reply to a later time.</p>
+<p>This will send a <code>&lt;Bot&gt; is thinking...</code> message in chat that will be updated later. This will use the passed
+boolean to set the ephemeral flag. If your initial deferred message is ephemeral it
+cannot be made non-ephemeral later. Use <a href="#deferReply()"><code>deferReply()</code></a> to use the <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> for
+the ephemeral flag.</p>
+<p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
+<p>When the acknowledgement is sent after the interaction expired, you will receive</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>ErrorResponse.UNKNOWN_INTERACTION</pre>
+</details>
+.
+<p>Use <a href="#reply(java.lang.String)"><code>reply(String)</code></a> to reply directly.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ephemeral</code> - yes</dd>
+</dl>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="removeComponents()">
 <h3>removeComponents</h3>
