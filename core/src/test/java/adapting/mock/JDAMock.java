@@ -207,6 +207,11 @@ public class JDAMock implements JDA {
         return null;
     }
 
+    @Override
+    public @NotNull CommandEditAction editCommandById(@NotNull Command.Type type, @NotNull String id) {
+        return null;
+    }
+
     @NotNull
     @Override
     public RestAction<Void> deleteCommandById(@NotNull String s) {

@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +79,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String)] to reply directly.
     public void deferReply() {
@@ -94,7 +95,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String)] to reply directly.
     ///

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.jetbrains.annotations.NotNull;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
@@ -55,7 +56,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String)] to edit it directly.
     public void deferEdit() {

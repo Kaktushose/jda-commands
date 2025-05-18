@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.jetbrains.annotations.NotNull;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [ModalInteractionEvent].
@@ -43,7 +44,7 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String)] to edit it directly.
     public void deferEdit() {

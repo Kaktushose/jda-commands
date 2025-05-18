@@ -1,4 +1,4 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.3.0-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.5.1-important)](https://github.com/DV8FromTheWorld/JDA#download)
 [![Generic badge](https://img.shields.io/badge/Download-4.0.0--beta.5-green.svg)](https://github.com/Kaktushose/jda-commands/releases/latest)
 [![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/deploy.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/deploy.yml)
