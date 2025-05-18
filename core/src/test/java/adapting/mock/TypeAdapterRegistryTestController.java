@@ -27,7 +27,7 @@ public class TypeAdapterRegistryTestController {
     }
 
     @Command("4")
-    public void optionalDefault(CommandEvent event, @Param(optional = true, fallback = OPTIONAL_DEFAULT) String s) {
+    public void optionalDefault(CommandEvent event, @Param(optional = true) String s) {
 
     }
 

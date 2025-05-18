@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,12 +27,5 @@ public @interface Param {
     ///
     ///  @return `true` if this command option is optional
     boolean optional() default false;
-
-    /// Returns the fallback value to use if this command option is optional and no value was passed. The default value
-    /// will be handled as a normal String input and thus the [TypeAdapters] will try to parse it.
-    /// If the parsing fails the command will still be executed but with empty or possible `null` values.
-    ///
-    /// @return the default value
-    String fallback() default "";
 
 }

@@ -38,7 +38,6 @@ import static java.util.Map.entry;
 /// @param type         the [Class] type of the parameter
 /// @param optional     whether this parameter is optional
 /// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-/// @param defaultValue the default value of this parameter or `null`
 /// @param name         the name of the parameter
 /// @param description  the description of the parameter
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
@@ -47,7 +46,6 @@ public record OptionDataDefinition(
         @NotNull Class<?> type,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
-        @Nullable String defaultValue,
         @NotNull String name,
         @NotNull String description,
         @NotNull SequencedCollection<Command.Choice> choices,
@@ -118,7 +116,6 @@ public record OptionDataDefinition(
         // Param
         String name = parameter.name();
         String description = "empty description";
-        String optionalFallback = "";
         boolean isOptional = false;
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
@@ -126,10 +123,8 @@ public record OptionDataDefinition(
             name = ann.name().isEmpty() ? name : param.get().name();
             description = ann.value();
             isOptional = ann.optional();
-            optionalFallback = ann.fallback();
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
-        optionalFallback = optionalFallback.isBlank() ? null : optionalFallback;
 
         // Options
         List<Command.Choice> commandChoices = new ArrayList<>();
@@ -151,7 +146,6 @@ public record OptionDataDefinition(
                 parameter.type(),
                 isOptional,
                 autoComplete,
-                optionalFallback,
                 name,
                 description,
                 commandChoices,

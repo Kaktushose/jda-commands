@@ -14,7 +14,7 @@ public class ParameterTestController {
 
     }
 
-    public void optionalWithDefault(@Param(optional = true, fallback = "default") Object argument) {
+    public void optionalWithDefault(@Param(optional = true) Object argument) {
 
     }
 
