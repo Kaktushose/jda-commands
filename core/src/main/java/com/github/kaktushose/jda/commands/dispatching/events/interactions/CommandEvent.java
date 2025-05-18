@@ -39,4 +39,8 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
         return type.cast(event);
     }
 
+    @Override
+    public void deferReply(boolean ephemeral) {
+        event.deferReply(ephemeral).complete();
+    }
 }
