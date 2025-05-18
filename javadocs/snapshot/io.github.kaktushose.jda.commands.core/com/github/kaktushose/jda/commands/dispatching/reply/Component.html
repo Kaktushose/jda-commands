@@ -102,10 +102,10 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<h1 title="Class Component" class="title">Class Component&lt;S extends Component&lt;S,<wbr>T,<wbr>D&gt;,<wbr>T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link">ActionComponent</a>,<wbr>D extends <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component">ComponentDefinition</a>&lt;T&gt;&gt;</h1>
+<h1 title="Class Component" class="title">Class Component&lt;S extends Component&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;,<wbr>T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link">ActionComponent</a>,<wbr>B,<wbr>D extends <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component">ComponentDefinition</a>&lt;T&gt;&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.github.kaktushose.jda.commands.dispatching.reply.Component&lt;S,<wbr>T,<wbr>D&gt;</div>
+<div class="inheritance">com.github.kaktushose.jda.commands.dispatching.reply.Component&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
@@ -113,6 +113,7 @@ loadScripts(document, 'script');</script>
 <dt>Type Parameters:</dt>
 <dd><code>S</code> - the concrete subtype of <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a></dd>
 <dd><code>T</code> - the type of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link"><code>ActionComponent</code></a> the <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component"><code>ComponentDefinition</code></a> represents</dd>
+<dd><code>B</code> - the type of builder the [ActionComponent uses]</dd>
 <dd><code>D</code> - the type of <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component"><code>ComponentDefinition</code></a> this <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> represents</dd>
 </dl>
 <dl class="notes">
@@ -120,9 +121,9 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></code>, <code><a href="dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a></code>, <code><a href="dynamic/internal/UnspecificComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal">UnspecificComponent</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name type-name-label">Component&lt;S extends Component&lt;S,<wbr>T,<wbr>D&gt;,<wbr>T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link">ActionComponent</a>,<wbr>D extends <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component">ComponentDefinition</a>&lt;T&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name type-name-label">Component&lt;S extends Component&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;,<wbr>T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link">ActionComponent</a>,<wbr>B,<wbr>D extends <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions.component">ComponentDefinition</a>&lt;T&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>
-<span class="permits">permits <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a>, <a href="dynamic/internal/UnspecificComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal">UnspecificComponent</a>, <a href="dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;S,<wbr>T,<wbr>D&gt;</span></div>
+<span class="permits">permits <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a>, <a href="dynamic/internal/UnspecificComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal">UnspecificComponent</a>, <a href="dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;</span></div>
 <div class="block"><p>Represents a component, namely <a href="../../annotations/interactions/Button.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Button</code></a>, <a href="../../annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="../../annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a>, that should be added to a reply.</p>
 <p>Also holds the following two settings:</p>
 <h4 id="enabled--heading">enabled:</h4>
@@ -210,19 +211,19 @@ public void onCommand(CommandEvent event) {
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ButtonComponent</code></a> to the reply.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a><wbr>&lt;<a href="Component.html" title="type parameter in Component">T</a>,<wbr><a href="Component.html" title="type parameter in Component">T</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a><wbr>&lt;<a href="Component.html" title="type parameter in Component">B</a>,<wbr><a href="Component.html" title="type parameter in Component">B</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#callback()" class="member-name-link">callback</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;<a href="Component.html" title="type parameter in Component">D</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#definitionClass()" class="member-name-link">definitionClass</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.Class,java.lang.String)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a disabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.String)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds disabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
@@ -233,13 +234,13 @@ public void onCommand(CommandEvent event) {
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Component.html" title="type parameter in Component">S</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enabled(boolean)" class="member-name-link">enabled</a><wbr>(boolean&nbsp;enabled)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.Class,java.lang.String)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.String)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
@@ -261,18 +262,18 @@ public void onCommand(CommandEvent event) {
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Component.html" title="type parameter in Component">S</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent(boolean)" class="member-name-link">independent</a><wbr>(boolean&nbsp;independent)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled, runtime-independent <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Component.html" title="type parameter in Component">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(java.util.function.Function)" class="member-name-link">modify</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">T</a>,<wbr><a href="Component.html" title="type parameter in Component">T</a>&gt;&nbsp;callback)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(java.util.function.Function)" class="member-name-link">modify</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">B</a>,<wbr><a href="Component.html" title="type parameter in Component">B</a>&gt;&nbsp;callback)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.Class,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
@@ -280,14 +281,14 @@ public void onCommand(CommandEvent event) {
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,java.lang.Class,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
@@ -381,7 +382,7 @@ public void onCommand(CommandEvent event) {
 <section class="detail" id="modify(java.util.function.Function)">
 <h3>modify</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Component.html" title="type parameter in Component">S</a></span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">T</a>,<wbr><a href="Component.html" title="type parameter in Component">T</a>&gt;&nbsp;callback)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Component.html" title="type parameter in Component">S</a></span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">B</a>,<wbr><a href="Component.html" title="type parameter in Component">B</a>&gt;&nbsp;callback)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>callback</code> - a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link"><code>Function</code></a> that allows to modify the resulting jda object.</dd>
@@ -425,7 +426,7 @@ public void onCommand(CommandEvent event) {
 <section class="detail" id="callback()">
 <h3>callback</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">T</a>,<wbr><a href="Component.html" title="type parameter in Component">T</a>&gt;</span>&nbsp;<span class="element-name">callback</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="Component.html" title="type parameter in Component">B</a>,<wbr><a href="Component.html" title="type parameter in Component">B</a>&gt;</span>&nbsp;<span class="element-name">callback</span>()</div>
 </div>
 </section>
 </li>
@@ -457,7 +458,7 @@ public void onCommand(CommandEvent event) {
 <section class="detail" id="enabled(java.lang.String)">
 <h3>enabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds an enabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -470,7 +471,7 @@ public void onCommand(CommandEvent event) {
 <section class="detail" id="disabled(java.lang.String)">
 <h3>disabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds disabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -483,7 +484,7 @@ public void onCommand(CommandEvent event) {
 <section class="detail" id="independent(java.lang.String)">
 <h3>independent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block"><p>Adds an enabled, runtime-independent <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</p>
 <p>Every component interaction will create a new <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.
 Furthermore, the component cannot expire and will always get executed, even after a bot restart.</p>
@@ -499,7 +500,7 @@ Furthermore, the component cannot expire and will always get executed, even afte
 <section class="detail" id="enabled(java.lang.Class,java.lang.String)">
 <h3>enabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds an enabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class. This <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> will always be
 runtime-independent.</div>
@@ -515,7 +516,7 @@ runtime-independent.</div>
 <section class="detail" id="disabled(java.lang.Class,java.lang.String)">
 <h3>disabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds a disabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class. This <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> will always be
 runtime-independent.</div>
@@ -531,7 +532,7 @@ runtime-independent.</div>
 <section class="detail" id="of(boolean,boolean,java.lang.String)">
 <h3>of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
@@ -548,7 +549,7 @@ runtime-independent.</div>
 <section class="detail" id="of(boolean,java.lang.Class,java.lang.String)">
 <h3>of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
@@ -565,7 +566,7 @@ runtime-independent.</div>
 <section class="detail" id="of(boolean,boolean,java.lang.Class,java.lang.String)">
 <h3>of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
