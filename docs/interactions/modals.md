@@ -77,3 +77,18 @@ on the event.
     ```
 
     1. We reference the Modal we want to send via the method name.
+
+### Dynamic Modals
+Sometimes you want to modify a Modal dynamically at runtime. You can do so by calling
+[`replyModal(methodName, function)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,java.util.function.Function)).
+
+!!! example
+    ```java
+    event.replyModal("onModal", modal -> modal.title("Cool Title!"));
+    ```
+
+If you want to, you can also use the native JDA builder:
+!!! example
+    ```java
+    event.replyModal("onModal", modal -> modal.modify(jdaBuilder -> jdaBuilder.setTitle("Boring Title!")));
+    ```

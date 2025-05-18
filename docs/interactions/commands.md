@@ -136,11 +136,10 @@ public void onBanMember(CommandEvent event,
 ---
 
 #### Optional
-In order to make a command option optional, annotate the parameter with [`@Optional`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Optional.html).
-You can also pass a default value that will be used (and type adapted) if no user input is present. 
+In order to make a command option optional, annotate the parameter with [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html).
 ```java
 @Command("ban")
-public void onBanMember(CommandEvent event, Member target, @Optional String reason, @Optional("7") int delDays) {
+public void onBanMember(CommandEvent event, Member target, @Param(optional = true) String reason, @Param(optional = true) int delDays) {
     (...)
 }
 ```
@@ -155,6 +154,17 @@ annotation to add choices to a command option:
 public void onBanMember(CommandEvent event, 
                         Member target, 
                         @Choices({"Harassment", "Scam", "Advertising"}) String reason, 
+                        int delDays) {
+    (...)
+}
+```
+The example above will use the given String for both the `name` and the `value`. You can use the `name:value` format to
+specify both:
+```java
+@Command("ban")
+public void onBanMember(CommandEvent event, 
+                        Member target, 
+                        @Choices({"Harassment:reason_1", "Scam:reason_2", "Advertising::reason_3"}) String reason, 
                         int delDays) {
     (...)
 }
