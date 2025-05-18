@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Optio
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
@@ -71,20 +72,23 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     )
             );
 
-            Optional<?> parsed = Optional.ofNullable(optionMapping)
-                    .map(mapping ->  {
-                        log.debug("Trying to adapt input \"{}\" to type {}", mapping.getAsString(), type.getName());
-                         return switch (mapping.getType()) {
-                            case USER -> {
-                                if (Member.class.isAssignableFrom(type)) {
-                                    yield mapping.getAsMember();
-                                }
-                                yield mapping.getAsUser();
+            if (optionMapping == null) {
+                parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(type, null));
+                continue;
+            }
+
+            log.debug("Trying to adapt input \"{}\" to type {}", optionMapping.getAsString(), type.getName());
+            Optional<?> parsed = Optional.of(optionMapping)
+                    .map(mapping -> switch (mapping.getType()) {
+                        case USER -> {
+                            if (Member.class.isAssignableFrom(type)) {
+                                yield mapping.getAsMember();
                             }
-                            case ROLE -> mapping.getAsRole();
-                            case CHANNEL -> mapping.getAsChannel();
-                            default -> adapter.apply(mapping.getAsString(), event);
-                        };
+                            yield mapping.getAsUser();
+                        }
+                        case ROLE -> mapping.getAsRole();
+                        case CHANNEL -> mapping.getAsChannel();
+                        default -> adapter.apply(mapping.getAsString(), event);
                     });
 
             if (parsed.isEmpty()) {
