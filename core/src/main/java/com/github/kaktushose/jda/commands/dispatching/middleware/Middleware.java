@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 /// on execution.
 ///
 /// Register them at the [JDACBuilder#middleware(Priority, Middleware)]  or use the
-/// [`@Implementation.Validator`][io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html]
+/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html)
 /// annotation of the guice extension.
 ///
 /// ### Example
