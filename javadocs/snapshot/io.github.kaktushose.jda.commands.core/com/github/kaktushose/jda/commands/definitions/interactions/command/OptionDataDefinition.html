@@ -66,7 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" tabindex="0">OptionDataDefinition(Class, boolean, AutoCompleteDefinition, String, String, String, SequencedCollection, Collection)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" tabindex="0">OptionDataDefinition(Class, boolean, AutoCompleteDefinition, String, String, SequencedCollection, Collection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -80,7 +80,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#type()" tabindex="0">type()</a></li>
 <li><a href="#optional()" tabindex="0">optional()</a></li>
 <li><a href="#autoComplete()" tabindex="0">autoComplete()</a></li>
-<li><a href="#defaultValue()" tabindex="0">defaultValue()</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#description()" tabindex="0">description()</a></li>
 <li><a href="#choices()" tabindex="0">choices()</a></li>
@@ -106,7 +105,6 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-type">type</span></code> - the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> type of the parameter</dd>
 <dd><code><span id="param-optional">optional</span></code> - whether this parameter is optional</dd>
 <dd><code><span id="param-autoComplete">autoComplete</span></code> - he <a href="../AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>AutoCompleteDefinition</code></a> for this option or <code>null</code> if no auto complete was defined</dd>
-<dd><code><span id="param-defaultValue">defaultValue</span></code> - the default value of this parameter or <code>null</code></dd>
 <dd><code><span id="param-name">name</span></code> - the name of the parameter</dd>
 <dd><code><span id="param-description">description</span></code> - the description of the parameter</dd>
 <dd><code><span id="param-choices">choices</span></code> - a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link"><code>SequencedCollection</code></a> of possible <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Choice</code></a>s for this parameter</dd>
@@ -117,7 +115,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></code>, <code><a href="../../features/JDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">JDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">OptionData</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">OptionDataDefinition</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type, boolean&nbsp;optional, @Nullable <a href="../AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete, @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;defaultValue, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Choice</a>&gt;&nbsp;choices, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="OptionDataDefinition.ConstraintDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a>&gt;&nbsp;constraints)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">OptionDataDefinition</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type, boolean&nbsp;optional, @Nullable <a href="../AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Choice</a>&gt;&nbsp;choices, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="OptionDataDefinition.ConstraintDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a>&gt;&nbsp;constraints)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="../../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>, <a href="../../features/JDAEntity.html" title="interface in com.github.kaktushose.jda.commands.definitions.features">JDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">OptionData</a>&gt;</span></div>
 <div class="block">Representation of a slash command parameter.</div>
@@ -150,10 +148,9 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
  boolean&nbsp;optional,
  @Nullable <a href="../AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;defaultValue,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Choice</a>&gt;&nbsp;choices,
@@ -197,54 +194,49 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-constraints"><code>constraints</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#defaultValue()" class="member-name-link">defaultValue</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#description()" class="member-name-link">description</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-defaultValue"><code>defaultValue</code></a> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#description()" class="member-name-link">description</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-description"><code>description</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optional()" class="member-name-link">optional</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#optional()" class="member-name-link">optional</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-optional"><code>optional</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">OptionData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">OptionData</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Transforms this definition into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>OptionData</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-type"><code>type</code></a> record component.</div>
 </div>
 </div>
@@ -268,7 +260,7 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)">
+<section class="detail" id="&lt;init&gt;(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)">
 <h3>OptionDataDefinition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OptionDataDefinition</span><wbr><span class="parameters">(@NotNull
@@ -276,8 +268,6 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
  boolean&nbsp;optional,
  @Nullable
  @Nullable <a href="../AutoCompleteDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete,
- @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;defaultValue,
  @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull
@@ -292,7 +282,6 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
 <dd><code>type</code> - the value for the <a href="#param-type"><code>type</code></a> record component</dd>
 <dd><code>optional</code> - the value for the <a href="#param-optional"><code>optional</code></a> record component</dd>
 <dd><code>autoComplete</code> - the value for the <a href="#param-autoComplete"><code>autoComplete</code></a> record component</dd>
-<dd><code>defaultValue</code> - the value for the <a href="#param-defaultValue"><code>defaultValue</code></a> record component</dd>
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
 <dd><code>description</code> - the value for the <a href="#param-description"><code>description</code></a> record component</dd>
 <dd><code>choices</code> - the value for the <a href="#param-choices"><code>choices</code></a> record component</dd>
@@ -447,20 +436,6 @@ implements <a href="../../Definition.html" title="interface in com.github.kaktus
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-autoComplete"><code>autoComplete</code></a> record component</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="defaultValue()">
-<h3>defaultValue</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">defaultValue</span>()</div>
-<div class="block">Returns the value of the <a href="#param-defaultValue"><code>defaultValue</code></a> record component.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the value of the <a href="#param-defaultValue"><code>defaultValue</code></a> record component</dd>
 </dl>
 </div>
 </section>

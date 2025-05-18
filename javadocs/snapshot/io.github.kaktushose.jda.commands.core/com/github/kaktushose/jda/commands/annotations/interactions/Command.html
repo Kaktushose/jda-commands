@@ -103,7 +103,7 @@ public void onCommand(CommandEvent event) {
 }
 
 @Command(value=&quot;moderation ban&quot;, desc=&quot;Bans a member&quot;, enabledFor=Permission.BAN_MEMBERS)
-public void onCommand(CommandEvent event, @Param(&quot;The member to ban&quot;) Member target, @Optional(&quot;no reason given&quot;) String reason) { ... }
+public void onCommand(CommandEvent event, @Param(&quot;The member to ban&quot;) Member target, @Param(optional = true, fallback = &quot;no reason given&quot;) String reason) { ... }
 
 @Command(value = &quot;favourite fruit&quot;)
 public void onCommand(CommandEvent event, @Choices({&quot;Apple&quot;, &quot;Banana&quot;, &quot;Orange&quot;}) String fruit) {
