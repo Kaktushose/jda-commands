@@ -12,7 +12,19 @@ import java.util.function.Consumer;
 /// more info the [InvocationContext]. Middlewares can have different [Priorities][Priority] dictating their priority
 /// on execution.
 ///
-/// Either register them at the [JDACBuilder#middleware(Priority, Middleware)] or use the [Implementation] annotation.
+/// ### Example
+/// ```java
+/// @Middleware(priority = Priority.NORMAL)
+/// public class CustomMiddleware implements Middleware {
+///     private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
+///
+///     @Override
+///     public void accept(InvocationContext<?> context) {
+///         log.info("run custom middleware");
+///     }
+/// }
+/// ```
+/// Register them at the [JDACBuilder#middleware(Priority, Middleware)].
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 
