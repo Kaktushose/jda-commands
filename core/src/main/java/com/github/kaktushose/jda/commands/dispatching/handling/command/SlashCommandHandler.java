@@ -88,7 +88,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                         }
                         case ROLE -> mapping.getAsRole();
                         case CHANNEL -> mapping.getAsChannel();
-                        default -> adapter.apply(mapping.getAsString(), event);
+                        default -> adapter.apply(mapping.getAsString(), event).orElse(null);
                     });
 
             if (parsed.isEmpty()) {
