@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import org.jetbrains.annotations.ApiStatus;
@@ -36,6 +37,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                                         event,
                                         runtime.keyValueStore(),
                                         definition,
+                                        Helpers.replyConfig(slashCommandDefinition, dispatchingContext.globalReplyConfig()),
                                         List.of(new AutoCompleteEvent(event, registry, runtime))
                                 )
                         ).orElseGet(() -> {

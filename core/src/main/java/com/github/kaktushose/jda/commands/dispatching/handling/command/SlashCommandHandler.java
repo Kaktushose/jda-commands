@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
@@ -34,21 +35,25 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         );
 
         return parseArguments(command, event, runtime)
-                .map(args -> new InvocationContext<>(event, runtime.keyValueStore(), command, args))
-                .orElse(null);
-
+                .map(args -> new InvocationContext<>(
+                        event,
+                        runtime.keyValueStore(),
+                        command,
+                        Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
+                        args)
+                ).orElse(null);
     }
 
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
         var input = command.commandOptions().stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
         List<Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig()));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig));
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(
@@ -93,7 +98,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                MessageCreateDataReply.reply(event, command, dispatchingContext.globalReplyConfig(),
+                MessageCreateDataReply.reply(event, command, replyConfig,
                         errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
                                 .stream()
                                 .map(it -> it == null ? null : it.getAsString())
