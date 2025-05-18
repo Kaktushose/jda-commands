@@ -30,7 +30,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
     public void cancel(@NotNull MessageCreateData errorMessage) {
-        MessageCreateDataReply.reply(event, definition, replyConfig, errorMessage);
+        var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
+        MessageCreateDataReply.reply(event, definition, errorReplyConfig, errorMessage);
 
         Thread.currentThread().interrupt();
     }
