@@ -25,13 +25,8 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
 
     @Override
     protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(@NotNull GenericComponentInteractionCreateEvent genericEvent, @NotNull Runtime runtime) {
-        // ignore non jda-commands events
-        if (CustomId.isInvalid(genericEvent.getComponentId())) {
-            return null;
-        }
-
         var component = registry.find(ComponentDefinition.class, true, it ->
-                it.definitionId().equals(CustomId.fromEvent(genericEvent).definitionId())
+                it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
 
         List<Object> arguments = switch (genericEvent) {

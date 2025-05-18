@@ -1,9 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
 /// Representation of a custom id used in modals, buttons or select menus.
@@ -22,24 +19,6 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
         if (!runtimeId.matches("[0-9a-fA-F-]{36}") && !runtimeId.equals(INDEPENDENT_ID)) {
             throw new IllegalArgumentException("Invalid runtime id! Must either be a UUID or \"%s\"".formatted(INDEPENDENT_ID));
         }
-    }
-
-    /// Constructs a new [CustomId] from the given [GenericInteractionCreateEvent].
-    ///
-    /// @param event the [GenericInteractionCreateEvent]
-    /// @return the [CustomId]
-    @NotNull
-    public static CustomId fromEvent(@NotNull GenericComponentInteractionCreateEvent event) {
-        return fromMerged(event.getComponentId());
-    }
-
-    /// Constructs a new [CustomId] from the given [ModalInteractionEvent].
-    ///
-    /// @param event the [ModalInteractionEvent]
-    /// @return the [CustomId]
-    @NotNull
-    public static CustomId fromEvent(@NotNull ModalInteractionEvent event) {
-        return fromMerged(event.getModalId());
     }
 
     /// Constructs a new [CustomId] from the given String.
