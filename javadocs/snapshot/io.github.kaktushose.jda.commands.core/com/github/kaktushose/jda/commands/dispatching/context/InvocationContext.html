@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,java.util.SequencedCollection)" tabindex="0">InvocationContext(T, KeyValueStore, InteractionDefinition, SequencedCollection)</a></li>
+<li><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)" tabindex="0">InvocationContext(T, KeyValueStore, InteractionDefinition, InteractionDefinition.ReplyConfig, SequencedCollection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -77,6 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#event()" tabindex="0">event()</a></li>
 <li><a href="#keyValueStore()" tabindex="0">keyValueStore()</a></li>
 <li><a href="#definition()" tabindex="0">definition()</a></li>
+<li><a href="#replyConfig()" tabindex="0">replyConfig()</a></li>
 <li><a href="#arguments()" tabindex="0">arguments()</a></li>
 </ol>
 </li>
@@ -101,6 +102,7 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-event">event</span></code> - the underlying jda event</dd>
 <dd><code><span id="param-keyValueStore">keyValueStore</span></code> - the <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>KeyValueStore</code></a> belonging to this interaction over its whole lifetime</dd>
 <dd><code><span id="param-definition">definition</span></code> - the <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a> defining this interaction (referring to the user defined method)</dd>
+<dd><code><span id="param-replyConfig">replyConfig</span></code> - the <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> to use</dd>
 <dd><code><span id="param-arguments">arguments</span></code> - the arguments used to call the final user defined method via <a href="../../definitions/features/internal/Invokable.html#invoke(java.lang.Object,com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)"><code>Invokable.invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)</code></a></dd>
 </dl>
 <dl class="notes">
@@ -108,7 +110,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InvocationContext&lt;T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>(<a href="InvocationContext.html" title="type parameter in InvocationContext">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event, @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore, @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InvocationContext&lt;T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>(<a href="InvocationContext.html" title="type parameter in InvocationContext">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event, @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore, @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition, <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig, @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></span></div>
 <div class="block">Bundles data that is important for the execution of an interaction, especially for invoking the user defined method.</div>
@@ -124,9 +126,10 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,java.util.SequencedCollection)" class="member-name-link">InvocationContext</a><wbr>(<a href="InvocationContext.html" title="type parameter in InvocationContext">T</a>&nbsp;event,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)" class="member-name-link">InvocationContext</a><wbr>(<a href="InvocationContext.html" title="type parameter in InvocationContext">T</a>&nbsp;event,
  @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore,
  @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
+ <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>InvocationContext</code> record class.</div>
@@ -180,9 +183,14 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-keyValueStore"><code>keyValueStore</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyConfig()" class="member-name-link">replyConfig</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-replyConfig"><code>replyConfig</code></a> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -203,8 +211,8 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,java.util.SequencedCollection)">
-<h3 id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,java.util.SequencedCollection)">InvocationContext</h3>
+<section class="detail" id="&lt;init&gt;(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)">
+<h3 id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)">InvocationContext</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InvocationContext</span><wbr><span class="parameters">(@NotNull
  <a href="InvocationContext.html" title="type parameter in InvocationContext">T</a>&nbsp;event,
@@ -213,6 +221,8 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
  @NotNull
  @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
  @NotNull
+ <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
+ @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</span></div>
 <div class="block">Creates an instance of a <code>InvocationContext</code> record class.</div>
 <dl class="notes">
@@ -220,6 +230,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <dd><code>event</code> - the value for the <a href="#param-event"><code>event</code></a> record component</dd>
 <dd><code>keyValueStore</code> - the value for the <a href="#param-keyValueStore"><code>keyValueStore</code></a> record component</dd>
 <dd><code>definition</code> - the value for the <a href="#param-definition"><code>definition</code></a> record component</dd>
+<dd><code>replyConfig</code> - the value for the <a href="#param-replyConfig"><code>replyConfig</code></a> record component</dd>
 <dd><code>arguments</code> - the value for the <a href="#param-arguments"><code>arguments</code></a> record component</dd>
 </dl>
 </div>
@@ -338,6 +349,20 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <dd><code><a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html#definition()">definition</a></code>&nbsp;in interface&nbsp;<code><a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></code></dd>
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-definition"><code>definition</code></a> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="replyConfig()">
+<h3>replyConfig</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></span>&nbsp;<span class="element-name">replyConfig</span>()</div>
+<div class="block">Returns the value of the <a href="#param-replyConfig"><code>replyConfig</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-replyConfig"><code>replyConfig</code></a> record component</dd>
 </dl>
 </div>
 </section>
