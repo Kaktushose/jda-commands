@@ -87,8 +87,28 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Validator</span></div>
-<div class="block"><p>Validators checks if a command option fulfills the given constraint.</p>
-<p>Either register them at the [JDACBuilder#validator(Class, Validator)()] or use the <a href="../../extension/Implementation.html" title="class in com.github.kaktushose.jda.commands.extension"><code>Implementation</code></a> annotation.</p>
+<div class="block"><p>Validators check if a command option fulfills the given constraint.</p>
+<p>Register them at the [JDACBuilder#validator(Class, Validator)()] or use the
+<a href="../../../../../../../../io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html"><code>@Implementation.Validator</code></a>
+annotation of the guice extension.</p>
+<h4 id="example-heading">Example</h4>
+<pre><code class="language-java">@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(String.class)
+public @interface MaxString {
+    int value();
+    String message() default &quot;The given String is too long&quot;;
+}
+
+public class MaxStringLengthValidator implements Validator {
+
+    @Override
+    public boolean apply(Object argument, Object annotation, InvocationContext&lt;? context) {
+        MaxString maxString = (MaxString) annotation;
+        return String.valueOf(argument).length() &lt; maxString.value();
+    }
+}
+</code></pre>
 </div>
 <dl class="notes">
 <dt>See Also:</dt>

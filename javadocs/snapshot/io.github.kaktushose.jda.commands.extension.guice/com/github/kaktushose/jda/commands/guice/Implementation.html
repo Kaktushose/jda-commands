@@ -61,14 +61,7 @@ loadScripts(document, 'script');</script>
 <button class="hide-sidebar"><span>Hide sidebar&nbsp;</span>&#10094;</button><button class="show-sidebar">&#10095;<span>&nbsp;Show sidebar</span></button>
 <ol class="toc-list">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#annotation-interface-optional-element-summary" tabindex="0">Optional Element Summary</a></li>
-<li><a href="#annotation-interface-element-detail" tabindex="0">Element Details</a>
-<ol class="toc-list">
-<li><a href="#priority()" tabindex="0">priority</a></li>
-<li><a href="#annotation()" tabindex="0">annotation</a></li>
-<li><a href="#clazz()" tabindex="0">clazz</a></li>
-</ol>
-</li>
+<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 </ol>
 </nav>
 <main role="main">
@@ -87,125 +80,55 @@ loadScripts(document, 'script');</script>
 <p>A class annotated with <a href="Implementation.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>Implementation</code></a> will be automatically searched for with help of the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html" title="interface in com.github.kaktushose.jda.commands.definitions.description"><code>ClassFinder</code></a>s
 and instantiated by guice. Following types are candidates for automatic registration.</p>
 <ul>
-<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a></li>
-<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a></li>
-<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a></li>
 <li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions"><code>PermissionsProvider</code></a></li>
 <li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope"><code>GuildScopeProvider</code></a></li>
 <li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error"><code>ErrorMessageFactory</code></a></li>
 <li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description"><code>Descriptor</code></a></li>
 </ul>
-<h4 id="example-heading">Example</h4>
-<pre><code class="language-java">@Implementation(priority = Priority.NORMAL)
-public class CustomMiddleware implements Middleware {
-    private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
-
-    @Override
-    public void accept(InvocationContext&lt;?&gt; context) {
-        log.info(&quot;run custom middleware&quot;);
-    }
-}
-</code></pre>
+<p>Additionally, the following classes can be also automatically registered via their dedicated annotations.</p>
+<ul>
+<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a> (via <a href="Implementation.Middleware.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>@Implementation.Middleware</code></a>)</li>
+<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> (via <a href="Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>@Implementation.TypeAdapter</code></a>)</li>
+<li><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> (via <a href="Implementation.Validator.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>@Implementation.Validator</code></a>)</li>
+</ul>
 </div>
 </div>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- =========== ANNOTATION INTERFACE OPTIONAL MEMBER SUMMARY =========== -->
+<!-- ======== NESTED CLASS SUMMARY ======== -->
 <li>
-<section class="member-summary" id="annotation-interface-optional-element-summary">
-<h2>Optional Element Summary</h2>
-<div class="caption"><span>Optional Elements</span></div>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Optional Element</div>
+<div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#annotation()" class="member-name-link">annotation</a></code></div>
+<div class="col-first even-row-color"><code>static @interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="Implementation.Middleware.html" class="type-name-link" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.Middleware</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Gets the annotation the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> should be mapped to.</div>
+<div class="block">A class annotated with <a href="Implementation.Middleware.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>Implementation.Middleware</code></a> will be automatically searched for and instantiated as a
+<a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a> by guice.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#clazz()" class="member-name-link">clazz</a></code></div>
+<div class="col-first odd-row-color"><code>static @interface&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="Implementation.TypeAdapter.html" class="type-name-link" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.TypeAdapter</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> to register a <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> with.</div>
+<div class="block">A class annotated with <a href="Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>Implementation.TypeAdapter</code></a> will be automatically searched for and instantiated as a
+<a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> by guice.</div>
 </div>
-<div class="col-first even-row-color"><code><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></code></div>
-<div class="col-second even-row-color"><code><a href="#priority()" class="member-name-link">priority</a></code></div>
+<div class="col-first even-row-color"><code>static @interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="Implementation.Validator.html" class="type-name-link" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.Validator</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Gets the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a> to register the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a> with.</div>
+<div class="block">A class annotated with <a href="Implementation.Validator.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>Implementation.Validator</code></a> will be automatically searched for and instantiated as a
+<a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> by guice.</div>
 </div>
 </div>
 </section>
 </li>
 </ul>
 </section>
-<section class="details" id="annotation-interface-element-detail">
-<ul class="details-list">
-<!-- ============ ANNOTATION INTERFACE MEMBER DETAIL =========== -->
-<li>
-<section class="member-details">
-<h2>Element Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="priority()">
-<h3>priority</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></span>&nbsp;<span class="element-name">priority</span></div>
-<div class="block">Gets the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a> to register the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a> with. If this implementation is not a subtype of <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>,
-this field can be ignored.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a></dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>NORMAL</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="annotation()">
-<h3>annotation</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;</span>&nbsp;<span class="element-name">annotation</span></div>
-<div class="block">Gets the annotation the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> should be mapped to. If this class is not a subtype of <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a>,
-this field can be ignored.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the annotation the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> should be mapped to</dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>com.github.kaktushose.jda.commands.annotations.constraints.Constraint.class</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="clazz()">
-<h3>clazz</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">clazz</span></div>
-<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> to register a <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> with. If this implementation is not a subtype of <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a>,
-this field can be ignored.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the class the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> should be mapped to</dd>
-</dl>
-<dl class="notes">
-<dt>Default:</dt>
-<dd><code>java.lang.Object.class</code></dd>
-</dl>
-</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
-</ul>
-</section>
+<section class="details" id="annotation-interface-element-detail"></section>
 <!-- ========= END OF CLASS DATA ========= -->
 </main>
 </div>
