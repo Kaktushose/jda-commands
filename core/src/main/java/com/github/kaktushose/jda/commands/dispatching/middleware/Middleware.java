@@ -12,6 +12,10 @@ import java.util.function.Consumer;
 /// more info the [InvocationContext]. Middlewares can have different [Priorities][Priority] dictating their priority
 /// on execution.
 ///
+/// Register them at the [JDACBuilder#middleware(Priority, Middleware)]  or use the
+/// [`@Implementation.Validator`][io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html]
+/// annotation of the guice extension.
+///
 /// ### Example
 /// ```java
 /// @Middleware(priority = Priority.NORMAL)
@@ -24,7 +28,6 @@ import java.util.function.Consumer;
 ///     }
 /// }
 /// ```
-/// Register them at the [JDACBuilder#middleware(Priority, Middleware)].
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 

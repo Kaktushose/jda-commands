@@ -7,7 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 /// Validators check if a command option fulfills the given constraint.
 ///
-/// Register them at the [JDACBuilder#validator(Class, Validator)()].
+/// Register them at the [JDACBuilder#validator(Class, Validator)()] or use the
+/// [`@Implementation.Validator`][io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html]
+/// annotation of the guice extension.
 ///
 /// ### Example
 /// ```java
