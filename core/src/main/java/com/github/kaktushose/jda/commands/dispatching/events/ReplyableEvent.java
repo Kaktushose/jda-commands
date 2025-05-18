@@ -69,6 +69,37 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         this.definition = definition;
     }
 
+    /// Acknowledge this interaction and defer the reply to a later time.
+    ///
+    /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the respective
+    /// [InteractionDefinition.ReplyConfig] to set the ephemeral flag. If your initial deferred message is ephemeral it
+    /// cannot be made non-ephemeral later. Use [#deferReply(boolean)] to override the [InteractionDefinition.ReplyConfig].
+    ///
+    /// **You only have 3 seconds to acknowledge an interaction!**
+    ///
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    ///
+    /// Use [#reply(String)] to reply directly.
+    public void deferReply() {
+        deferReply(replyConfig.ephemeral());
+    }
+
+    /// Acknowledge this interaction and defer the reply to a later time.
+    ///
+    /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the passed
+    /// boolean to set the ephemeral flag. If your initial deferred message is ephemeral it
+    /// cannot be made non-ephemeral later. Use [#deferReply()] to use the [InteractionDefinition.ReplyConfig] for
+    /// the ephemeral flag.
+    ///
+    /// **You only have 3 seconds to acknowledge an interaction!**
+    ///
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    ///
+    /// Use [#reply(String)] to reply directly.
+    ///
+    /// @param ephemeral yes
+    public abstract void deferReply(boolean ephemeral);
+
     /// Removes all components from the original message.
     ///
     /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.

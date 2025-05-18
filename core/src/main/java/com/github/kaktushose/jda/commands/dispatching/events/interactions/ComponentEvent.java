@@ -40,4 +40,24 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
         return type.cast(event);
     }
+
+    @Override
+    public void deferReply(boolean ephemeral) {
+        event.deferReply(ephemeral).complete();
+    }
+
+    /// No-op acknowledgement of this interaction.
+    ///
+    /// This tells discord you intend to update the message that the triggering component is a part of instead of
+    /// sending a reply message. You are not required to actually update the message, this will simply acknowledge that
+    /// you accepted the interaction.
+    ///
+    /// **You only have 3 seconds to acknowledge an interaction!**
+    ///
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse.UNKNOWN_INTERACTION][#UNKNOWN_INTERACTION].
+    ///
+    /// Use [#reply(String)] to edit it directly.
+    public void deferEdit() {
+        event.deferEdit().complete();
+    }
 }
