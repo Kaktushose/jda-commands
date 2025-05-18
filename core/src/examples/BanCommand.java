@@ -29,7 +29,7 @@ public class BanCommand {
     @SlashCommand(value = "ban", desc = "Bans a Member", enabledFor = Permission.BAN_MEMBERS, isGuildOnly = true)
     public void onSlashBanMember(CommandEvent event,
                             @Param("The member to ban") Member target,
-                            @Param("The history of messages that will be deleted") @Optional("0") int delDays) {
+                            @Param("The history of messages that will be deleted", optional = true, fallback = "0") int delDays) {
         this.delDays = delDays;
         this.target = target;
         event.replyModal("onReason");

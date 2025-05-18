@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 /// }
 ///
 /// @Command(value="moderation ban", desc="Bans a member", enabledFor=Permission.BAN_MEMBERS)
-/// public void onCommand(CommandEvent event, @Param("The member to ban") Member target, @Optional("no reason given") String reason) { ... }
+/// public void onCommand(CommandEvent event, @Param("The member to ban") Member target, @Param(optional = true, fallback = "no reason given") String reason) { ... }
 ///
 /// @Command(value = "favourite fruit")
 /// public void onCommand(CommandEvent event, @Choices({"Apple", "Banana", "Orange"}) String fruit) {
