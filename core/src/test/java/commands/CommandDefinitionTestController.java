@@ -42,12 +42,12 @@ public class CommandDefinitionTestController {
     }
 
     @Command("h")
-    public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
+    public void argsAfterOptional(CommandEvent event, @Param(optional = true) String s, int i) {
 
     }
 
     @Command("i")
-    public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
+    public void optionalAfterOptional(CommandEvent event, @Param(optional = true) String s, @Param(optional = true) int i) {
 
     }
 

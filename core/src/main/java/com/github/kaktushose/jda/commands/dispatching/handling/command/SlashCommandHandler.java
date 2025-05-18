@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Optio
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
@@ -72,29 +71,21 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     )
             );
 
-            Optional<?> parsed;
-            if (optionMapping == null) {
-                if (commandOption.defaultValue() == null) {
-                    parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(type, null));
-                    continue;
-                } else {
-                    log.debug("Trying to adapt input \"{}\" (default value) to type {}", commandOption.defaultValue(), type.getName());
-                    parsed = adapter.apply(commandOption.defaultValue(), event);
-                }
-            } else {
-                log.debug("Trying to adapt input \"{}\" to type {}", optionMapping.getAsString(), type.getName());
-                parsed = switch (optionMapping.getType()) {
-                    case USER -> {
-                        if (Member.class.isAssignableFrom(type)) {
-                            yield Optional.ofNullable(optionMapping.getAsMember());
-                        }
-                        yield Optional.of(optionMapping.getAsUser());
-                    }
-                    case ROLE -> Optional.of(optionMapping.getAsRole());
-                    case CHANNEL -> Optional.of(optionMapping.getAsChannel());
-                    default -> adapter.apply(optionMapping.getAsString(), event);
-                };
-            }
+            Optional<?> parsed = Optional.ofNullable(optionMapping)
+                    .map(mapping ->  {
+                        log.debug("Trying to adapt input \"{}\" to type {}", mapping.getAsString(), type.getName());
+                         return switch (mapping.getType()) {
+                            case USER -> {
+                                if (Member.class.isAssignableFrom(type)) {
+                                    yield mapping.getAsMember();
+                                }
+                                yield mapping.getAsUser();
+                            }
+                            case ROLE -> mapping.getAsRole();
+                            case CHANNEL -> mapping.getAsChannel();
+                            default -> adapter.apply(mapping.getAsString(), event);
+                        };
+                    });
 
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");

@@ -38,7 +38,6 @@ import static java.util.Map.entry;
 /// @param type         the [Class] type of the parameter
 /// @param optional     whether this parameter is optional
 /// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-/// @param defaultValue the default value of this parameter or `null`
 /// @param name         the name of the parameter
 /// @param description  the description of the parameter
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
@@ -47,7 +46,6 @@ public record OptionDataDefinition(
         @NotNull Class<?> type,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
-        @Nullable String defaultValue,
         @NotNull String name,
         @NotNull String description,
         @NotNull SequencedCollection<Command.Choice> choices,
@@ -104,15 +102,6 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-        var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
-        var defaultValue = "";
-        if (optional.isPresent()) {
-            defaultValue = optional.get().value();
-        }
-        if (defaultValue.isEmpty()) {
-            defaultValue = null;
-        }
-
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
@@ -127,15 +116,18 @@ public record OptionDataDefinition(
         // Param
         String name = parameter.name();
         String description = "empty description";
+        boolean isOptional = false;
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
-            name = param.get().name().isEmpty() ? name : param.get().name();
-            description = param.get().value();
+            Param ann = param.get();
+            name = ann.name().isEmpty() ? name : param.get().name();
+            description = ann.value();
+            isOptional = ann.optional();
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
 
-        List<Command.Choice> commandChoices = new ArrayList<>();
         // Options
+        List<Command.Choice> commandChoices = new ArrayList<>();
         var choices = parameter.annotation(Choices.class);
         if (choices.isPresent()) {
             for (String option : choices.get().value()) {
@@ -152,9 +144,8 @@ public record OptionDataDefinition(
         }
         return new OptionDataDefinition(
                 parameter.type(),
-                optional.isPresent(),
+                isOptional,
                 autoComplete,
-                defaultValue,
                 name,
                 description,
                 commandChoices,

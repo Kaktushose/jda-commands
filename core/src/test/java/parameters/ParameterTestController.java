@@ -1,10 +1,8 @@
 package parameters;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
-import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
+import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 
 public class ParameterTestController {
 
@@ -12,11 +10,11 @@ public class ParameterTestController {
 
     }
 
-    public void optional(@Optional Object argument) {
+    public void optional(@Param(optional = true) Object argument) {
 
     }
 
-    public void optionalWithDefault(@Optional("default") Object argument) {
+    public void optionalWithDefault(@Param(optional = true) Object argument) {
 
     }
 

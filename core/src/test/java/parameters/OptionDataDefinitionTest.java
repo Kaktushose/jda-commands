@@ -45,7 +45,6 @@ public class OptionDataDefinitionTest {
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         assertTrue(parameter.optional());
-        assertNull(parameter.defaultValue());
     }
 
     @Test
@@ -54,7 +53,6 @@ public class OptionDataDefinitionTest {
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         assertTrue(parameter.optional());
-        assertEquals("default", parameter.defaultValue());
     }
 
     @Test

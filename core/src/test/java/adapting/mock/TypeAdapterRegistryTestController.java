@@ -1,9 +1,9 @@
 package adapting.mock;
 
 import adapting.CustomType;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
-import com.github.kaktushose.jda.commands.annotations.interactions.Optional;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 
 @Interaction
@@ -22,12 +22,12 @@ public class TypeAdapterRegistryTestController {
     }
 
     @Command("3")
-    public void optionalNull(CommandEvent event, @Optional int i) {
+    public void optionalNull(CommandEvent event, @Param(optional = true) int i) {
 
     }
 
     @Command("4")
-    public void optionalDefault(CommandEvent event, @Optional(OPTIONAL_DEFAULT) String s) {
+    public void optionalDefault(CommandEvent event, @Param(optional = true) String s) {
 
     }
 
