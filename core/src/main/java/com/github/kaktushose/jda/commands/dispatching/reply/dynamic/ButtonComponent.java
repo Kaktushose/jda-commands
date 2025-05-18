@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
-public final class ButtonComponent extends Component<ButtonComponent, Button, ButtonDefinition> {
+public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition> {
 
     private Emoji emoji;
     private ButtonStyle buttonStyle;

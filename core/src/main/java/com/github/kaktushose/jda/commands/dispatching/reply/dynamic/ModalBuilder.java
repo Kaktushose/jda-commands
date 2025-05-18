@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class ModalBuilder {
     private final List<TextInputDefinition> components = new ArrayList<>(MAX_COMPONENTS);
     private final ModalDefinition modalDefinition;
     private String title;
-    private Function<Modal, Modal> callback = Function.identity();
+    private Function<Modal.Builder, Modal.Builder> callback = Function.identity();
 
     /// Constructs a new [ModalBuilder].
     ///
@@ -72,7 +71,7 @@ public class ModalBuilder {
     /// @param callback a [Function] that allows to modify the resulting jda object.
     ///                 The passed function will be called after all modifications are made by jda-commands,
     ///                 shortly before the component is registered in the message
-    public ModalBuilder modify(Function<Modal, Modal> callback) {
+    public ModalBuilder modify(Function<Modal.Builder, Modal.Builder> callback) {
         this.callback = callback;
         return this;
     }
@@ -80,7 +79,7 @@ public class ModalBuilder {
     /// Builds the [Modal].
     public Modal build() {
         var definition = modalDefinition.with(title, components);
-        return callback.apply(definition.toJDAEntity(customId));
+        return callback.apply(definition.toJDAEntity(customId).createCopy()).build();
     }
 
 }

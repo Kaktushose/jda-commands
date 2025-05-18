@@ -57,15 +57,16 @@ import java.util.function.Function;
 ///
 /// @param <S> the concrete subtype of [Component]
 /// @param <T> the type of [ActionComponent] the [ComponentDefinition] represents
+/// @param <B> the type of builder the [ActionComponent uses]
 /// @param <D> the type of [ComponentDefinition] this [Component] represents
 /// @see ButtonComponent
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
-public abstract sealed class Component<S extends Component<S, T, D>, T extends ActionComponent, D extends ComponentDefinition<T>>
+public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
     private boolean enabled = true;
     private boolean independent = false;
-    private Function<T, T> callback = Function.identity();
+    private Function<B, B> callback = Function.identity();
 
     private final String method;
     private final Class<?> origin;
@@ -91,7 +92,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// @param callback a [Function] that allows to modify the resulting jda object.
     ///                                 The passed function will be called after all modifications are made by jda-commands,
     ///                                 shortly before the component is registered in the message
-    public S modify(Function<T, T> callback) {
+    public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
     }
@@ -112,7 +113,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
         return Optional.ofNullable(origin);
     }
 
-    protected Function<T, T> callback() {
+    protected Function<B, B> callback() {
         return callback;
     }
 
@@ -129,14 +130,14 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// Adds an enabled, runtime-bound [Component] to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> enabled(String component) {
+    public static Component<?, ?, ?, ?> enabled(String component) {
         return of(true, false, component);
     }
 
     /// Adds disabled, runtime-bound [Component]s to the reply.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> disabled(String component) {
+    public static Component<?, ?, ?, ?> disabled(String component) {
         return of(false, false, component);
     }
 
@@ -146,7 +147,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// Furthermore, the component cannot expire and will always get executed, even after a bot restart.
     ///
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> independent(String component) {
+    public static Component<?, ?, ?, ?> independent(String component) {
         return of(true, true, component);
     }
 
@@ -155,7 +156,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> enabled(Class<?> origin, String component) {
+    public static Component<?, ?, ?, ?> enabled(Class<?> origin, String component) {
         return of(true, origin, component);
     }
 
@@ -164,7 +165,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     ///
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> disabled(Class<?> origin, String component) {
+    public static Component<?, ?, ?, ?> disabled(Class<?> origin, String component) {
         return of(false, origin, component);
     }
 
@@ -173,7 +174,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
-    public static Component<?, ?, ?> of(boolean enabled, boolean independent, String component) {
+    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, String component) {
         return new UnspecificComponent(enabled, independent, component, null);
     }
 
@@ -182,7 +183,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// @param enabled   whether the [Component] should be enabled or disabled
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the component
-    public static Component<?, ?, ?> of(boolean enabled, Class<?> origin, String component) {
+    public static Component<?, ?, ?, ?> of(boolean enabled, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, true, component, origin);
     }
 
@@ -192,7 +193,7 @@ public abstract sealed class Component<S extends Component<S, T, D>, T extends A
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
-    public static Component<?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
+    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component) {
         return new UnspecificComponent(enabled, independent, component, origin);
     }
 

@@ -196,9 +196,9 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public final ComponentReply components(@NotNull Component<?, ?, ?>... components) {
+    public final ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component<?, ?, ?> component : components) {
+        for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
                     .orElseGet(() -> definition.methodDescription().declaringClass().getName());
             String definitionId = String.valueOf((className + component.name()).hashCode());
@@ -230,8 +230,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
             item = switch (component) {
                 case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
-                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply((EntitySelectMenu) item);
-                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply((StringSelectMenu) item);
+                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
+                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
                 case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
             };
 
@@ -247,7 +247,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return new ComponentReply(this);
     }
 
-    private <D extends ComponentDefinition<?>, T extends Component<T, ?, D>> D findDefinition(Component<T, ?, D> component, String definitionId) {
+    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId) {
         // this cast is effective safe
         D definition = registry.find(component.definitionClass(), false, it ->
                 it.definitionId().equals(definitionId)

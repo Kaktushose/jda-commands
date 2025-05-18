@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
-public final class UnspecificComponent extends Component<UnspecificComponent, ActionComponent, ComponentDefinition<ActionComponent>> {
+public final class UnspecificComponent extends Component<UnspecificComponent, ActionComponent, ActionComponent, ComponentDefinition<ActionComponent>> {
 
     public UnspecificComponent(boolean enabled, boolean independent, @NotNull String component, @Nullable Class<?> origin) {
         super(component, origin);
