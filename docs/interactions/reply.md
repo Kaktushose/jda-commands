@@ -160,6 +160,18 @@ them on your own.
     event.with().components(Component.independent("onButton")).reply("Hello World!");
     ```
 
+### Dynamic Components
+Just like with Modals, you can dynamically modify components too. Use the [`Component`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#enabled(java.lang.Class,java.lang.String))
+class to access a builder object, which wraps the JDA builder. Alternatively, you can access the native JDA builder by
+calling `#modify`.
+
+!!! example
+    ```java
+    event.with().components(Component.button("onButton").label("New Label")).reply("Hello World!");
+
+    event.with().components(Component.stringMenu("onMenu").modify(jdaBuilder -> ...).reply("Hello World!");
+    ```
+
 ## Embeds
 !!! failure
     The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.
