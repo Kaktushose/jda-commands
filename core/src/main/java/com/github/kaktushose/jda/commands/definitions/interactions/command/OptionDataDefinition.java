@@ -104,15 +104,6 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-        var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
-        var defaultValue = "";
-        if (optional.isPresent()) {
-            defaultValue = optional.get().value();
-        }
-        if (defaultValue.isEmpty()) {
-            defaultValue = null;
-        }
-
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
@@ -127,15 +118,21 @@ public record OptionDataDefinition(
         // Param
         String name = parameter.name();
         String description = "empty description";
+        String optionalFallback = "";
+        boolean isOptional = false;
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
-            name = param.get().name().isEmpty() ? name : param.get().name();
-            description = param.get().value();
+            Param ann = param.get();
+            name = ann.name().isEmpty() ? name : param.get().name();
+            description = ann.value();
+            isOptional = ann.optional();
+            optionalFallback = ann.fallback();
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
+        optionalFallback = optionalFallback.isBlank() ? null : optionalFallback;
 
-        List<Command.Choice> commandChoices = new ArrayList<>();
         // Options
+        List<Command.Choice> commandChoices = new ArrayList<>();
         var choices = parameter.annotation(Choices.class);
         if (choices.isPresent()) {
             for (String option : choices.get().value()) {
@@ -152,9 +149,9 @@ public record OptionDataDefinition(
         }
         return new OptionDataDefinition(
                 parameter.type(),
-                optional.isPresent(),
+                isOptional,
                 autoComplete,
-                defaultValue,
+                optionalFallback,
                 name,
                 description,
                 commandChoices,
