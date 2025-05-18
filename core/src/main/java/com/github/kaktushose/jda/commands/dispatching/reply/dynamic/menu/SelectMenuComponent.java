@@ -12,11 +12,12 @@ import org.jetbrains.annotations.Nullable;
 ///
 /// @param <S> the concrete subtype of [SelectMenuComponent]
 /// @param <T> the type of [SelectMenu] the [SelectMenuDefinition] represents
+/// @param <B> the type of [SelectMenu.Builder]
 /// @param <D> the type of [SelectMenuDefinition] this [SelectMenuComponent] represents
 /// @see EntitySelectMenuComponent
 /// @see StringSelectComponent
-public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S, T, D>,
-        T extends SelectMenu, D extends SelectMenuDefinition<T>> extends Component<S, T, D>
+public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S, T, B, D>,
+        T extends SelectMenu, B extends SelectMenu.Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
         permits StringSelectComponent, EntitySelectMenuComponent {
 
     protected String placeholder;
