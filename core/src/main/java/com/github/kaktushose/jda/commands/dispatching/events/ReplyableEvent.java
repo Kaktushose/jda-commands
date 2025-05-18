@@ -59,13 +59,14 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
+    /// @param replyConfig         the [InteractionDefinition.ReplyConfig] to use
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig globalReplyConfig) {
+                             InteractionDefinition.ReplyConfig replyConfig) {
         super(event, interactionRegistry, runtime);
-        this.replyConfig = Helpers.replyConfig(definition, globalReplyConfig);
+        this.replyConfig = replyConfig;
         this.definition = definition;
     }
 

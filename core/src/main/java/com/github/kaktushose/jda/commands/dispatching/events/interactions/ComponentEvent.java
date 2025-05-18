@@ -19,16 +19,17 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event      the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the corresponding [Runtime]
-    /// @param definition the corresponding [InteractionDefinition]
+    /// @param event       the [GenericComponentInteractionCreateEvent] this event holds
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the corresponding [Runtime]
+    /// @param definition  the corresponding [InteractionDefinition]
+    /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public ComponentEvent(@NotNull GenericComponentInteractionCreateEvent event,
                           @NotNull InteractionRegistry registry,
                           @NotNull Runtime runtime,
                           @NotNull InteractionDefinition definition,
-                          @NotNull InteractionDefinition.ReplyConfig global) {
-        super(event, registry, runtime, definition, global);
+                          @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+        super(event, registry, runtime, definition, replyConfig);
     }
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
