@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
@@ -814,6 +814,21 @@ You're not viewing the latest version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Replying with Modals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-modals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic Modals
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1419,6 +1434,20 @@ on the event.</p>
 <ol>
 <li>We reference the Modal we want to send via the method name.</li>
 </ol>
+</div>
+<h3 id="dynamic-modals">Dynamic Modals<a class="headerlink" href="#dynamic-modals" title="Permanent link">&para;</a></h3>
+<p>Sometimes you want to modify a Modal dynamically at runtime. You can do so by calling
+<a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,java.util.function.Function)"><code>replyModal(methodName, function)</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">modal</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modal</span><span class="p">.</span><span class="na">title</span><span class="p">(</span><span class="s">&quot;Cool Title!&quot;</span><span class="p">));</span>
+</span></code></pre></div>
+</div>
+<p>If you want to, you can also use the native JDA builder:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">modal</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modal</span><span class="p">.</span><span class="na">modify</span><span class="p">(</span><span class="n">jdaBuilder</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">jdaBuilder</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">&quot;Boring Title!&quot;</span><span class="p">)));</span>
+</span></code></pre></div>
 </div>
 
 
