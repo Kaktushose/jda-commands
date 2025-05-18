@@ -159,6 +159,17 @@ public void onBanMember(CommandEvent event,
     (...)
 }
 ```
+The example above will use the given String for both the `name` and the `value`. You can use the `name:value` format to
+specify both:
+```java
+@Command("ban")
+public void onBanMember(CommandEvent event, 
+                        Member target, 
+                        @Choices({"Harassment:reason_1", "Scam:reason_2", "Advertising::reason_3"}) String reason, 
+                        int delDays) {
+    (...)
+}
+```
 
 #### Auto Complete
 You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
