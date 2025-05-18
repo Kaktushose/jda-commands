@@ -120,8 +120,8 @@ public record OptionDataDefinition(
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
             Param ann = param.get();
-            name = ann.name().isEmpty() ? name : param.get().name();
-            description = ann.value();
+            name = ann.name().isEmpty() ? name : ann.name();
+            description = ann.value().isEmpty() ? description : ann.value();
             isOptional = ann.optional();
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
