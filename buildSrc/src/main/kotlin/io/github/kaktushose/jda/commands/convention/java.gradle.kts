@@ -9,11 +9,11 @@ plugins {
 }
 
 java {
-    targetCompatibility = JavaVersion.VERSION_23
-    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_24
+    sourceCompatibility = JavaVersion.VERSION_24
 
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 
     withSourcesJar()

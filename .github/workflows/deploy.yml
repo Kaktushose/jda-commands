@@ -37,7 +37,7 @@ jobs:
         if: ${{ steps.check.outputs.release == 'true' }}
         with:
           distribution: temurin
-          java-version: 23
+          java-version: 24
       - uses: gradle/actions/setup-gradle@v4
         if: ${{ steps.check.outputs.release == 'true' }}
       - name: verify project version defined in gradle
@@ -76,7 +76,7 @@ jobs:
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         with:
           distribution: temurin
-          java-version: 23
+          java-version: 24
       - uses: gradle/actions/setup-gradle@v4
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
       - name: Generate Documentation
@@ -132,7 +132,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 23
+          java-version: 24
       - uses: gradle/actions/setup-gradle@v4
       - name: Build and deploy
         env:

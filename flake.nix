@@ -19,7 +19,7 @@
         system,
         ...
       }: let
-        javaVersion = 23;
+        javaVersion = 24;
 
         jdk = pkgs."temurin-bin-${toString javaVersion}";
         gradle = pkgs.gradle.override {
@@ -31,7 +31,7 @@
         };
        in {
          devShells.default = pkgs.mkShell {
-           name = "Jack";
+           name = "JDA-Commands";
            packages = with pkgs; [git jdk gradle maven];
          };
        };
