@@ -93,7 +93,6 @@ public record ModalDefinition(
     /// @return the [Modal]
     /// @see CustomId#independent(String)
     @NotNull
-    @Override
     public Modal toJDAEntity(@NotNull CustomId customId) {
         var modal = Modal.create(customId.merged(), title);
 

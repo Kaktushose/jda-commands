@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition.AutoCompleteRule;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.i18n.I18nData;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -146,7 +145,7 @@ public record SlashCommandDefinition(
     /// @return the [SlashCommandData]
     @NotNull
     @Override
-    public SlashCommandData toJDAEntity(I18nData ignore) {
+    public SlashCommandData toJDAEntity() {
         SlashCommandData command = Commands.slash(
                 name,
                 description.replaceAll("N/A", "no description")
@@ -160,7 +159,7 @@ public record SlashCommandDefinition(
             if (CommandEvent.class.isAssignableFrom(parameter.type())) {
                 return;
             }
-            command.addOptions(parameter.toJDAEntity(null));
+            command.addOptions(parameter.toJDAEntity());
         });
         return command;
     }
@@ -174,7 +173,7 @@ public record SlashCommandDefinition(
                 description.replaceAll("N/A", "no description")
 
         );
-        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity(null)));
+        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity()));
         return command;
     }
 

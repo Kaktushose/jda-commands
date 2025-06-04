@@ -45,7 +45,6 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
         return new InvocationContext<>(
                 genericEvent,
                 runtime.keyValueStore(),
-                runtime.localizer(),
                 component,
                 replyConfig,
                 arguments

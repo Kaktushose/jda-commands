@@ -18,10 +18,10 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -52,11 +52,11 @@ public final class JDACommands {
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
             CommandDefinition.CommandConfig globalCommandConfig,
-            LocalizationFunction localizationFunction) {
+            Localizer localizer) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizer);
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, localizer));
         this.globalCommandConfig = globalCommandConfig;
     }
 

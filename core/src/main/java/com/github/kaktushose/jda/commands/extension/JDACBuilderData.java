@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -19,19 +18,17 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -63,6 +60,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected ErrorMessageFactory errorMessageFactory = null;
     protected GuildScopeProvider guildScopeProvider = null;
     protected Descriptor descriptor = null;
+    protected Localizer localizer = null;
 
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;
@@ -70,11 +68,9 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
     protected final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
 
-
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
-    protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -170,10 +166,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     // will be later loadable
 
-    /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
+    /// @return the [Localizer] to be used. Can be added via an [Extension]
     @NotNull
-    public LocalizationFunction localizationFunction() {
-        return localizationFunction;
+    public Localizer localizer() {
+        return load(Localizer.class, localizer, null);
     }
 
     // loadable
