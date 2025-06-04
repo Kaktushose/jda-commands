@@ -1,4 +1,5 @@
 /// The base module of jda-commands.
+///
 module io.github.kaktushose.jda.commands.core {
     requires com.google.gson;
     requires net.dv8tion.jda;
@@ -8,6 +9,8 @@ module io.github.kaktushose.jda.commands.core {
 
     requires transitive org.jetbrains.annotations;
     requires transitive jakarta.inject;
+    requires transitive dev.goldmensch.fluava;
+
     requires java.naming;
 
     // base package

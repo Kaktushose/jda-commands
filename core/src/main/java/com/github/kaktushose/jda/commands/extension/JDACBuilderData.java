@@ -18,17 +18,20 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import dev.goldmensch.fluava.Fluava;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -106,18 +109,22 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 ).toList();
     }
 
-    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, T defaultValue) {
+    private final Map<Class<?>, Object> loadedCache = new HashMap<>();
+
+    @SuppressWarnings("unchecked")
+    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, Supplier<T> defaultValue) {
         if (setValue != null) return setValue;
+        if (loadedCache.containsKey(type)) return (T) loadedCache.get(type);
 
         var implementations = implementations(type);
 
         if (implementations.isEmpty()) {
-            if (defaultValue != null) return defaultValue;
+            if (defaultValue != null) return (T) loadedCache.computeIfAbsent(type, _ -> defaultValue.get());
             throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
         }
 
         if (implementations.size() == 1) {
-            return implementations.getFirst().getValue();
+            return (T) loadedCache.computeIfAbsent(type, _ -> implementations.getFirst().getValue());
         }
 
         String foundImplementations = implementations.stream()
@@ -164,44 +171,43 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return expirationStrategy;
     }
 
-    // will be later loadable
 
-    /// @return the [Localizer] to be used. Can be added via an [Extension]
-    @NotNull
-    public Localizer localizer() {
-        return load(Localizer.class, localizer, null);
-    }
-
-    // loadable
-
+    // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
     @NotNull
     public InteractionControllerInstantiator controllerInstantiator() {
         return load(InteractionControllerInstantiator.class, controllerInstantiator, null);
     }
 
+    // loadable - defaults
+    /// @return the [Localizer] to be used. Can be added via an [Extension]
+    @NotNull
+    public Localizer localizer() {
+        return load(Localizer.class, localizer, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
+    }
+
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
     @NotNull
     public PermissionsProvider permissionsProvider() {
-        return load(PermissionsProvider.class, permissionsProvider, new DefaultPermissionsProvider());
+        return load(PermissionsProvider.class, permissionsProvider, DefaultPermissionsProvider::new);
     }
 
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
     @NotNull
     public ErrorMessageFactory errorMessageFactory() {
-        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory());
+        return load(ErrorMessageFactory.class, errorMessageFactory, DefaultErrorMessageFactory::new);
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]
     @NotNull
     public GuildScopeProvider guildScopeProvider() {
-        return load(GuildScopeProvider.class, guildScopeProvider, new DefaultGuildScopeProvider());
+        return load(GuildScopeProvider.class, guildScopeProvider, DefaultGuildScopeProvider::new);
     }
 
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
     @NotNull
     public Descriptor descriptor() {
-        return load(Descriptor.class, descriptor, new ReflectiveDescriptor());
+        return load(Descriptor.class, descriptor, ReflectiveDescriptor::new);
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
