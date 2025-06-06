@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -207,7 +206,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
     @NotNull
     public Descriptor descriptor() {
-        return load(Descriptor.class, descriptor, ReflectiveDescriptor::new);
+        return load(Descriptor.class, descriptor, () -> Descriptor.REFLECTIVE);
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]

@@ -18,8 +18,8 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
-import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import org.jetbrains.annotations.NotNull;
@@ -198,6 +198,7 @@ public final class JDACBuilder extends JDACBuilderData {
     public JDACommands start() {
 
         ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+        I18n i18n = new I18n(descriptor(), localizer());
         JDACommands jdaCommands = new JDACommands(
                 context(),
                 expirationStrategy(),
@@ -205,11 +206,11 @@ public final class JDACBuilder extends JDACBuilderData {
                 new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
                 guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), new JDACLocalizationFunction(localizer), descriptor()),
+                new InteractionRegistry(new Validators(validators()), i18n.localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig(),
                 globalCommandConfig(),
-                localizer()
+                i18n
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

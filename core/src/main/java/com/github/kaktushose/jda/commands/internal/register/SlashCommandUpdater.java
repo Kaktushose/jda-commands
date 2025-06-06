@@ -6,8 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
-import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -36,11 +34,11 @@ public final class SlashCommandUpdater {
     public SlashCommandUpdater(JDAContext jdaContext,
                                GuildScopeProvider guildScopeProvider,
                                InteractionRegistry registry,
-                               Localizer localizer) {
+                               LocalizationFunction function) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
-        this.localizationFunction = new JDACLocalizationFunction(localizer);
+        this.localizationFunction = function;
     }
 
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and

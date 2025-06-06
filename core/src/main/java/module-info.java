@@ -12,6 +12,7 @@ module io.github.kaktushose.jda.commands.core {
     requires transitive dev.goldmensch.fluava;
 
     requires java.naming;
+    requires org.apache.commons.collections4;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -19,6 +20,7 @@ module io.github.kaktushose.jda.commands.core {
     // annotations
     exports com.github.kaktushose.jda.commands.annotations.constraints;
     exports com.github.kaktushose.jda.commands.annotations.interactions;
+    exports com.github.kaktushose.jda.commands.annotations.i18n;
 
     // definitions
     exports com.github.kaktushose.jda.commands.definitions;

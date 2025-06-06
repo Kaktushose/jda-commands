@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.i18n.internal;
 
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +10,9 @@ import java.util.Map;
 
 public final class JDACLocalizationFunction implements LocalizationFunction {
 
-    private final Localizer localizer;
+    private final I18n localizer;
 
-    public JDACLocalizationFunction(Localizer localizer) {
+    public JDACLocalizationFunction(I18n localizer) {
         this.localizer = localizer;
     }
 
