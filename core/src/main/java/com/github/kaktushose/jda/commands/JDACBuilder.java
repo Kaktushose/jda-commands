@@ -18,9 +18,10 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -81,10 +82,10 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// @param localizationFunction The [LocalizationFunction] to use
+    /// @param localizer The [Localizer] to use
     @NotNull
-    public JDACBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
-        this.localizationFunction = Objects.requireNonNull(localizationFunction);
+    public JDACBuilder localizer(@NotNull Localizer localizer) {
+        this.localizer = Objects.requireNonNull(localizer);
         return this;
     }
 
@@ -197,6 +198,7 @@ public final class JDACBuilder extends JDACBuilderData {
     public JDACommands start() {
 
         ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+        I18n i18n = new I18n(descriptor(), localizer());
         JDACommands jdaCommands = new JDACommands(
                 context(),
                 expirationStrategy(),
@@ -204,11 +206,11 @@ public final class JDACBuilder extends JDACBuilderData {
                 new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
                 guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
+                new InteractionRegistry(new Validators(validators()), i18n.localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig(),
                 globalCommandConfig(),
-                localizationFunction()
+                i18n
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;
