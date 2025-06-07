@@ -65,15 +65,16 @@ public class TypeAdapters {
                 .from(MEMBER, uni((source, _) -> lossless(source)))
                 .from(ROLE, uni((source, _) -> lossless(source)));
 
+        TypeFormat format = new TypeFormat(OptionType.CHANNEL);
         proteus.from(CHANNEL)
-                .into(Type.of(GuildChannel.class), uni((source, _) -> lossless(source)))
-                .into(Type.of(AudioChannel.class), channel(GuildChannelUnion::asAudioChannel))
-                .into(Type.of(GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel))
-                .into(Type.of(NewsChannel.class), channel(GuildChannelUnion::asNewsChannel))
-                .into(Type.of(StageChannel.class), channel(GuildChannelUnion::asStageChannel))
-                .into(Type.of(TextChannel.class), channel(GuildChannelUnion::asTextChannel))
-                .into(Type.of(ThreadChannel.class), channel(GuildChannelUnion::asThreadChannel))
-                .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel));
+                .into(Type.of(format, GuildChannel.class), uni((source, _) -> lossless(source)))
+                .into(Type.of(format, AudioChannel.class), channel(GuildChannelUnion::asAudioChannel))
+                .into(Type.of(format, GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel))
+                .into(Type.of(format, NewsChannel.class), channel(GuildChannelUnion::asNewsChannel))
+                .into(Type.of(format, StageChannel.class), channel(GuildChannelUnion::asStageChannel))
+                .into(Type.of(format, TextChannel.class), channel(GuildChannelUnion::asTextChannel))
+                .into(Type.of(format, ThreadChannel.class), channel(GuildChannelUnion::asThreadChannel))
+                .into(Type.of(format, VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel));
 
         typeAdapters.forEach(((entry, adapter) ->
                 proteus.register((Type<Object>) entry.getKey(), (Type<Object>) entry.getValue(), (Mapper.UniMapper<Object, Object>) adapter))
