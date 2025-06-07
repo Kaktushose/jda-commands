@@ -81,7 +81,11 @@ public @interface Implementation {
         /// @return the class the [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]
         /// should be mapped to
         @NotNull
-        Class<?> clazz();
+        Class<?> source();
+
+        // TODO docs
+        @NotNull
+        Class<?> target();
 
     }
 

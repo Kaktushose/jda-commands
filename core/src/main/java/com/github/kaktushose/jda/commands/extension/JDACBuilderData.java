@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -23,6 +22,7 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -66,9 +66,9 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;
-    protected final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
+    protected final Set<Entry<Priority, Middleware>> middlewares = new HashSet<>();
     protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
-    protected final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
+    protected final Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters = new HashMap<>();
 
 
     // only user settable
@@ -100,7 +100,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
+    <T extends ExtensionProvidable> SequencedCollection<Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension -> extension.providedImplementations().stream()
@@ -213,7 +213,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     public Collection<ClassFinder> classFinders() {
         Collection<ClassFinder> all = implementations(ClassFinder.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .collect(Collectors.toSet());
         all.addAll(classFinders);
         return all;
@@ -234,10 +234,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
     @NotNull
-    public Collection<Map.Entry<Priority, Middleware>> middlewares() {
-        Collection<Map.Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
+    public Collection<Entry<Priority, Middleware>> middlewares() {
+        Collection<Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .map(container -> Map.entry(container.priority(), container.middleware()))
                 .collect(Collectors.toSet());
         all.addAll(middlewares);
@@ -249,7 +249,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     public Map<Class<? extends Annotation>, Validator> validators() {
         Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));
         all.putAll(validators);
         return all;
@@ -257,11 +257,12 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
     @NotNull
-    public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
-        Map<Class<?>, TypeAdapter<?>> all = implementations(Implementation.TypeAdapterContainer.class)
+    @SuppressWarnings("unchecked")
+    public Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters() {
+        Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> all = implementations(Implementation.TypeAdapterContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toMap(Implementation.TypeAdapterContainer::type, Implementation.TypeAdapterContainer::adapter));
+                .map(Entry::getValue)
+                .collect(Collectors.toMap((it -> Map.entry(it.source(), it.target())), Implementation.TypeAdapterContainer::adapter));
         all.putAll(typeAdapters);
         return all;
     }

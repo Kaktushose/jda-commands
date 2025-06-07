@@ -5,6 +5,7 @@ module io.github.kaktushose.jda.commands.core {
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
+    requires io.github.kaktushose.proteus;
 
     requires transitive org.jetbrains.annotations;
     requires transitive jakarta.inject;
@@ -35,7 +36,6 @@ module io.github.kaktushose.jda.commands.core {
     exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
-    exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
     exports com.github.kaktushose.jda.commands.dispatching.events;
     exports com.github.kaktushose.jda.commands.dispatching.events.interactions;

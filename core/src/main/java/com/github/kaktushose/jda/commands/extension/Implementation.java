@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -111,10 +112,14 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
 
     /// A container type for providing [TypeAdapter]s.
     ///
-    /// @param type    the [Class] for which the [TypeAdapter] should be registered
+    /// @param source the [Type] of the value to convert
+    /// @param target the [Type] to convert into
     /// @param adapter the [TypeAdapter] implementation
-    public record TypeAdapterContainer(@NotNull Class<?> type,
-                                       @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
+    /// @param <S>    the source type
+    /// @param <T>    the target type
+    public record TypeAdapterContainer<S, T>(@NotNull Type<S> source,
+                                             @NotNull Type<T> target,
+                                             @NotNull TypeAdapter<S, T> adapter) implements ExtensionProvidable {}
 
     /// A container type for providing [Middleware]s.
     ///

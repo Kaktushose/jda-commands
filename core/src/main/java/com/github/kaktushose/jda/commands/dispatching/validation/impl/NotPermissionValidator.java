@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
-import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.internal.Helpers;
