@@ -66,6 +66,7 @@ public class TypeAdapters {
                 .from(ROLE, uni((source, _) -> lossless(source)));
 
         proteus.from(CHANNEL)
+                .into(Type.of(GuildChannel.class), uni((source, _) -> lossless(source)))
                 .into(Type.of(AudioChannel.class), channel(GuildChannelUnion::asAudioChannel))
                 .into(Type.of(GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel))
                 .into(Type.of(NewsChannel.class), channel(GuildChannelUnion::asNewsChannel))
