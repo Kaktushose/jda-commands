@@ -50,16 +50,6 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// @param message the [MessageCreateData] to send
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull MessageCreateData message);
-
-    /// Acknowledgement of this event with a text message.
-    ///
     /// @param builder the [EmbedBuilder] to send
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get

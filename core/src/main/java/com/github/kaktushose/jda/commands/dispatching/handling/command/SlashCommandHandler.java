@@ -53,7 +53,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig), dispatchingContext.embeds());
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(
@@ -93,7 +93,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                MessageCreateDataReply.reply(event, command, replyConfig, dispatchingContext.embeds(),
+                MessageCreateDataReply.reply(event, command, replyConfig,
                         errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
                                 .stream()
                                 .map(it -> it == null ? null : it.getAsString())

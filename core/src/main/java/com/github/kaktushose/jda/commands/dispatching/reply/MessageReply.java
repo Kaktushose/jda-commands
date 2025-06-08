@@ -99,8 +99,14 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         return complete();
     }
 
-    public Message reply(@NotNull EmbedBuilder builder) {
+    public @NotNull Message reply(@NotNull EmbedBuilder builder) {
         this.builder.setEmbeds(builder.build());
+        return complete();
+    }
+
+    @NotNull
+    public Message reply(@NotNull MessageEmbed embed) {
+        this.builder.setEmbeds(embed);
         return complete();
     }
 

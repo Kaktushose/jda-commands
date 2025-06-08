@@ -220,7 +220,9 @@ public final class JDACBuilder extends JDACBuilderData {
                 new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig(),
-                localizationFunction()
+                globalCommandConfig(),
+                localizationFunction(),
+                embeds
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

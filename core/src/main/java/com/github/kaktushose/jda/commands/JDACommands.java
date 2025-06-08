@@ -56,11 +56,21 @@ public final class JDACommands {
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
             CommandDefinition.CommandConfig globalCommandConfig,
-            LocalizationFunction localizationFunction, Embeds embeds) {
+            LocalizationFunction localizationFunction,
+            Embeds embeds) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
+                middlewares,
+                errorMessageFactory,
+                interactionRegistry,
+                typeAdapters,
+                expirationStrategy,
+                instanceProvider,
+                globalReplyConfig,
+                embeds
+        ));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
     }
