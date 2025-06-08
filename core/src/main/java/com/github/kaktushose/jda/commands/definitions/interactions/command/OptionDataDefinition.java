@@ -113,7 +113,6 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-
         Class<?> type = MethodType.methodType(parameter.type()).wrap().returnType();
 
         // index constraints

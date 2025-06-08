@@ -57,8 +57,7 @@ import java.util.*;
 ///     .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
 ///     .start();
-///```
-///
+/// ```
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
