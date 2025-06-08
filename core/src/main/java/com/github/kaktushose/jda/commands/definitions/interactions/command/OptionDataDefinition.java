@@ -11,6 +11,8 @@ import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
@@ -53,7 +55,18 @@ public record OptionDataDefinition(
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
-    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
+    private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(
+            entry(OptionType.BOOLEAN, Boolean.class),
+            entry(OptionType.INTEGER, Long.class),
+            entry(OptionType.NUMBER, Double.class),
+            entry(OptionType.USER, User.class),
+            entry(OptionType.ROLE, Role.class),
+            entry(OptionType.MENTIONABLE, IMentionable.class),
+            entry(OptionType.CHANNEL, GuildChannelUnion.class),
+            entry(OptionType.ATTACHMENT, Message.Attachment.class)
+    );
+
+    private static final Map<Class<?>, OptionType> CLASS_TO_OPTION_TYPE = Map.ofEntries(
             entry(Boolean.class, OptionType.BOOLEAN),
             entry(Short.class, OptionType.INTEGER),
             entry(Integer.class, OptionType.INTEGER),
@@ -118,7 +131,7 @@ public record OptionDataDefinition(
         String name = parameter.name();
         String description = "empty description";
         boolean isOptional = false;
-        OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
+        OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(type, OptionType.STRING);
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
             Param annotation = param.get();
@@ -147,6 +160,17 @@ public record OptionDataDefinition(
                 commandChoices.add(new Command.Choice(parsed[0], parsed[1]));
             }
         }
+
+        if (!Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(type))) {
+            throw new IllegalStateException(
+                    "Cannot create option data! " +
+                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
+                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName()) +
+                    "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
+                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName())
+            );
+        }
+
         return new OptionDataDefinition(
                 parameter.type(),
                 optionType,
