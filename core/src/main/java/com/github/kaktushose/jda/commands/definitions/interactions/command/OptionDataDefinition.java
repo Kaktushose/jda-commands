@@ -56,6 +56,7 @@ public record OptionDataDefinition(
 ) implements Definition, JDAEntity<OptionData> {
 
     private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(
+            entry(OptionType.STRING, String.class),
             entry(OptionType.BOOLEAN, Boolean.class),
             entry(OptionType.INTEGER, Long.class),
             entry(OptionType.NUMBER, Double.class),
