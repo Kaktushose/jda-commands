@@ -29,6 +29,8 @@ public class MemberAdapter implements TypeAdapter<Member> {
         raw = Helpers.sanitizeMention(raw);
 
         Guild guild = event.getGuild();
+        Helpers.checkDetached(guild, MemberAdapter.class);
+
         if (raw.matches("\\d+")) {
             try {
                 member = guild.retrieveMemberById(raw).complete();

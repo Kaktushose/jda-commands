@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /// Annotation used to add choices to parameters.
 ///
-/// @see SlashCommand
+/// @see Command
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Choices {

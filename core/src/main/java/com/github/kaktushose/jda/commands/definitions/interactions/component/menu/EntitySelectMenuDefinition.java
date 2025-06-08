@@ -10,8 +10,11 @@ import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+
+import static com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition.override;
 
 /// Representation of an entity select menu.
 ///
@@ -35,6 +38,27 @@ public record EntitySelectMenuDefinition(
         int minValue,
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
+
+    /// Builds a new [EntitySelectMenuDefinition] with the given values.
+    @NotNull
+    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
+                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                           @Nullable Set<ChannelType> channelTypes,
+                                           @Nullable String placeholder,
+                                           @Nullable Integer minValue,
+                                           @Nullable Integer maxValue) {
+        return new EntitySelectMenuDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                override(HashSet::new, this.selectTargets, selectTargets),
+                override(HashSet::new, this.defaultValues, defaultValues),
+                override(HashSet::new, this.channelTypes, channelTypes),
+                override(this.placeholder, placeholder),
+                override(this.minValue, minValue),
+                override(this.maxValue, maxValue)
+        );
+    }
 
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
     ///
@@ -92,7 +116,7 @@ public record EntitySelectMenuDefinition(
     @NotNull
     @Override
     public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
-        var menu = EntitySelectMenu.create(customId.id(), selectTargets)
+        var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue);

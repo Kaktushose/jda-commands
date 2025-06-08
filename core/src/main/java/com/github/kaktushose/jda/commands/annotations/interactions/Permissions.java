@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 /// interaction methods (commands, components or modals) annotated with Permission will
 /// require the user to have the given permissions in order to execute the command.
 ///
-/// @apiNote This annotation should not be confused with [SlashCommand#enabledFor()] or [ContextCommand#enabledFor()].
+/// @apiNote This annotation should not be confused with [CommandConfig#enabledFor()].
 /// The `enabledFor` permissions will be client-side checked by Discord directly, while the [Permissions] annotation
 /// will be used for the own permission system of jda-commands.
 /// @implNote The [PermissionsMiddleware] will validate the permissions during the middleware phase of the execution

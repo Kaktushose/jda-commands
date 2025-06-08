@@ -22,22 +22,20 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
     @Override
     protected InvocationContext<ModalInteractionEvent> prepare(@NotNull ModalInteractionEvent event, @NotNull Runtime runtime) {
-        // ignore non jda-commands events
-        if (CustomId.isInvalid(event.getModalId())) {
-            return null;
-        }
-
         var modal = registry.find(ModalDefinition.class, true, it ->
-                it.definitionId().equals(CustomId.fromEvent(event).definitionId())
+                it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, dispatchingContext.globalReplyConfig());
+
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()));
+        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, replyConfig, dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 event,
                 runtime.keyValueStore(),
                 modal,
+                replyConfig,
                 Collections.unmodifiableList(arguments)
         );
     }

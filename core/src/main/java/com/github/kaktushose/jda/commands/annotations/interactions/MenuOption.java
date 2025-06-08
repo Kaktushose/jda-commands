@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.internal.SelectOptionContainer;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.lang.annotation.*;
@@ -9,10 +8,10 @@ import java.lang.annotation.*;
 /// for [StringSelectMenu]s.
 ///
 /// @see StringSelectMenu
-@Repeatable(SelectOptionContainer.class)
+@Repeatable(MenuOptionContainer.class)
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SelectOption {
+public @interface MenuOption {
 
     /// Gets the label of an option.
     ///
@@ -36,7 +35,7 @@ public @interface SelectOption {
 
     /// Gets whether this option is a default option.
     ///
-    /// @return `true` if this SelectOption is a default option
+    /// @return `true` if this MenuOption is a default option
     boolean isDefault() default false;
 
 }

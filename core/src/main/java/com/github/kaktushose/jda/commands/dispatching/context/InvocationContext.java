@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.context;
 
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
@@ -16,12 +17,14 @@ import java.util.SequencedCollection;
 /// @param <T>           The used type of [GenericInteractionCreateEvent]
 /// @param event         the underlying jda event
 /// @param keyValueStore the [KeyValueStore] belonging to this interaction over its whole lifetime
-/// @param arguments     the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
 /// @param definition    the [InteractionDefinition] defining this interaction (referring to the user defined method)
+/// @param replyConfig   the [InteractionDefinition.ReplyConfig] to use
+/// @param arguments     the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         @NotNull T event,
         @NotNull KeyValueStore keyValueStore,
         @NotNull InteractionDefinition definition,
+        @NotNull InteractionDefinition.ReplyConfig replyConfig,
         @NotNull SequencedCollection<Object> arguments
 ) implements ErrorContext {
     /// Stops further execution of this invocation at the next suitable moment.
@@ -29,7 +32,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
     public void cancel(@NotNull MessageCreateData errorMessage) {
-        new MessageReply(event, definition, new InteractionDefinition.ReplyConfig(), Embeds.empty()).reply(errorMessage);
+        var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
+        MessageCreateDataReply.reply(event, definition, errorReplyConfig, Embeds.empty(), errorMessage);
 
         Thread.currentThread().interrupt();
     }

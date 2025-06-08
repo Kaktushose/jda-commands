@@ -8,7 +8,9 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,26 +29,19 @@ public final class JDAEventListener extends ListenerAdapter {
         this.context = context;
     }
 
+
     @Override
+    @SubscribeEvent
     public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
         checkRuntimesAlive();
 
         Runtime runtime = switch (jdaEvent) {
-            // always create new one (starter)
+            // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
                  CommandAutoCompleteInteractionEvent _ ->
                     runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
-
-            // always fetch runtime (bound to runtime)
-            case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isBound() ->
-                    runtimes.get(CustomId.fromEvent(event).runtimeId());
-            case ModalInteractionEvent event when CustomId.fromEvent(event).isBound() ->
-                    runtimes.get(CustomId.fromEvent(event).runtimeId());
-
-            // independent components always get their own runtime
-            case GenericComponentInteractionCreateEvent event when CustomId.fromEvent(event).isIndependent() ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
-            default -> null;
+            // check events with custom id (components or modals)
+            default -> onCustomIdEvent(jdaEvent);
         };
 
         if (runtime == null) {
@@ -67,9 +62,29 @@ public final class JDAEventListener extends ListenerAdapter {
         runtime.queueEvent(jdaEvent);
     }
 
+    @Nullable
+    private Runtime onCustomIdEvent(GenericInteractionCreateEvent jdaEvent) {
+        String customIdRaw = switch (jdaEvent) {
+            case GenericComponentInteractionCreateEvent event -> event.getComponentId();
+            case ModalInteractionEvent event -> event.getModalId();
+            default -> null;
+        };
+        if (customIdRaw == null || CustomId.isInvalid(customIdRaw)) {
+            return null;
+        }
+        CustomId customId = CustomId.fromMerged(customIdRaw);
+        return switch (jdaEvent) {
+            // always fetch runtime (bound to runtime)
+            case GenericComponentInteractionCreateEvent _, ModalInteractionEvent _ when customId.isBound() ->
+                    runtimes.get(customId.runtimeId());
+            // independent components always get their own runtime
+            case GenericComponentInteractionCreateEvent _ when customId.isIndependent() ->
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
+            default -> null;
+        };
+    }
+
     private void checkRuntimesAlive() {
         runtimes.values().removeIf(Runtime::isClosed);
     }
-
-
 }

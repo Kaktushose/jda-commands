@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.unions.DefaultGuildChannelUnion;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import net.dv8tion.jda.api.entities.guild.SecurityIncidentActions;
+import net.dv8tion.jda.api.entities.guild.SecurityIncidentDetections;
 import net.dv8tion.jda.api.entities.sticker.GuildSticker;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.entities.templates.Template;
@@ -105,6 +107,11 @@ public class GuildMock implements Guild {
     @NotNull
     @Override
     public AuditableRestAction<Integer> prune(int i, boolean b, @NotNull Role... roles) {
+        return null;
+    }
+
+    @Override
+    public @NotNull AuditableRestAction<Void> modifySecurityIncidents(@NotNull SecurityIncidentActions incidents) {
         return null;
     }
 
@@ -348,6 +355,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @NotNull CommandEditAction editCommandById(@NotNull Command.Type type, @NotNull String id) {
+        return null;
+    }
+
     @NotNull
     @Override
     public RestAction<Void> deleteCommandById(@NotNull String s) {
@@ -561,6 +573,16 @@ public class GuildMock implements Guild {
     }
 
     @Override
+    public @NotNull SecurityIncidentActions getSecurityIncidentActions() {
+        return null;
+    }
+
+    @Override
+    public @NotNull SecurityIncidentDetections getSecurityIncidentDetections() {
+        return null;
+    }
+
+    @Override
     public boolean isMember(@NotNull UserSnowflake userSnowflake) {
         return false;
     }
@@ -763,6 +785,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @NotNull RestAction<List<ScheduledEvent>> retrieveScheduledEvents(boolean includeUserCount) {
+        return null;
+    }
+
     @NotNull
     @Override
     public SortedSnowflakeCacheView<StageChannel> getStageChannelCache() {
@@ -871,6 +898,11 @@ public class GuildMock implements Guild {
         return null;
     }
 
+    @Override
+    public @NotNull CacheRestAction<GuildVoiceState> retrieveMemberVoiceStateById(long id) {
+        return null;
+    }
+
     @NotNull
     @Override
     public VerificationLevel getVerificationLevel() {
@@ -936,5 +968,10 @@ public class GuildMock implements Guild {
     @Override
     public long getIdLong() {
         return 0;
+    }
+
+    @Override
+    public boolean isDetached() {
+        return false;
     }
 }

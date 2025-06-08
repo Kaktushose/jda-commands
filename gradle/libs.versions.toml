@@ -3,7 +3,7 @@
 
 [versions]
 com-fasterxml-jackson-core = "2.17.2"
-net-dv8tion-jda = "5.2.2"
+net-dv8tion-jda = "5.5.1"
 org-jetbrains-annotations = "24.0.1"
 org-junit-jupiter-junit-jupiter-api = "5.9.2"
 org-junit-jupiter-junit-jupiter-engine = "5.9.2"

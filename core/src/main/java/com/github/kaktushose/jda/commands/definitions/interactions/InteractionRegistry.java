@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
@@ -16,10 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
@@ -45,56 +44,62 @@ public record InteractionRegistry(@NotNull Validators validators,
     /// Scans all given classes and registers the interactions defined in them.
     ///
     /// @param classes the [Class]es to build the interactions from
-    public void index(Iterable<Class<?>> classes) {
+    public void index(Iterable<Class<?>> classes, CommandDefinition.CommandConfig globalCommandConfig) {
         int oldSize = definitions.size();
+
+        var autoCompletes = indexAutoCompletes(classes);
+        definitions.addAll(autoCompletes);
 
         int count = 0;
         for (Class<?> clazz : classes) {
             log.debug("Found controller: {}", clazz.getName());
-            definitions.addAll(indexInteractionClass(descriptor.describe(clazz)));
+            definitions.addAll(indexInteractionClass(descriptor.describe(clazz), globalCommandConfig, autoCompletes));
             count++;
         }
+
+        // validate auto completes
+        var commandDefinitions = definitions.stream()
+                .filter(SlashCommandDefinition.class::isInstance)
+                .map(SlashCommandDefinition.class::cast)
+                .toList();
+        autoCompletes.stream()
+                .map(AutoCompleteDefinition::rules)
+                .flatMap(Collection::stream)
+                .filter(rule -> commandDefinitions.stream().noneMatch(command ->
+                        command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))
+                ).forEach(s -> log.warn("No slash commands found matching {}", s));
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 count,
                 definitions.size() - oldSize);
     }
 
-    private Collection<Definition> indexInteractionClass(ClassDescription clazz) {
+    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
         // get controller level cooldown and use it if no command level cooldown is present
         CooldownDefinition cooldown = clazz.annotation(Cooldown.class).map(CooldownDefinition::build).orElse(null);
 
-        var autoCompletes = autoCompleteDefinitions(clazz);
-
         // index interactions
-        var interactionDefinitions = interactionDefinitions(
+        return interactionDefinitions(
                 clazz,
                 validators,
                 localizationFunction,
                 interaction,
                 permissions,
                 cooldown,
-                autoCompletes
+                autoCompletes,
+                globalCommandConfig
         );
+    }
 
-        // validate auto completes
-        var commandDefinitions = interactionDefinitions.stream()
-                .filter(SlashCommandDefinition.class::isInstance)
-                .map(SlashCommandDefinition.class::cast)
-                .toList();
-
-        autoCompletes.stream()
-                .map(AutoCompleteDefinition::commands)
-                .flatMap(Collection::stream)
-                .filter(name -> commandDefinitions.stream().noneMatch(command ->
-                        command.name().startsWith(name) || command.methodDescription().name().equals(name))
-                ).forEach(s -> log.warn("No Command found for auto complete {}", s));
-
-
-        return interactionDefinitions;
+    private Collection<AutoCompleteDefinition> indexAutoCompletes(Iterable<Class<?>> classes) {
+        var result = new ArrayList<AutoCompleteDefinition>();
+        for (Class<?> clazz : classes) {
+            result.addAll(autoCompleteDefinitions(descriptor.describe(clazz)));
+        }
+        return result;
     }
 
     private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
@@ -112,7 +117,8 @@ public record InteractionRegistry(@NotNull Validators validators,
                                                    Interaction interaction,
                                                    Set<String> permissions,
                                                    CooldownDefinition cooldown,
-                                                   Collection<AutoCompleteDefinition> autocompletes) {
+                                                   Collection<AutoCompleteDefinition> autocompletes,
+                                                   CommandDefinition.CommandConfig globalCommandConfig) {
         Set<Definition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
@@ -123,16 +129,19 @@ public record InteractionRegistry(@NotNull Validators validators,
                     cooldown,
                     clazz,
                     method,
-                    autocompletes
+                    autocompletes,
+                    globalCommandConfig
             );
 
             Optional<? extends Definition> definition = Optional.empty();
             // index commands
-            if (method.annotation(SlashCommand.class).isPresent()) {
-                definition = SlashCommandDefinition.build(context);
-            }
-            if (method.annotation(ContextCommand.class).isPresent()) {
-                definition = ContextCommandDefinition.build(context);
+            if (method.annotation(Command.class).isPresent()) {
+                Command command = method.annotation(Command.class).get();
+                definition = switch (command.type()) {
+                    case SLASH -> SlashCommandDefinition.build(context);
+                    case USER, MESSAGE -> ContextCommandDefinition.build(context);
+                    case UNKNOWN -> Optional.empty();
+                };
             }
 
             // index components

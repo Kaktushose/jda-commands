@@ -1,16 +1,13 @@
 package com.github.kaktushose.jda.commands.guice;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
-import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import jakarta.inject.Scope;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.*;
 
@@ -19,49 +16,110 @@ import java.lang.annotation.*;
 /// A class annotated with [Implementation] will be automatically searched for with help of the [ClassFinder]s
 /// and instantiated by guice. Following types are candidates for automatic registration.
 ///
-/// - [Middleware]
-/// - [Validator]
-/// - [TypeAdapter]
 /// - [PermissionsProvider]
 /// - [GuildScopeProvider]
 /// - [ErrorMessageFactory]
 /// - [Descriptor]
 ///
-/// ### Example
-/// ```java
-/// @Implementation(priority = Priority.NORMAL)
-/// public class CustomMiddleware implements Middleware {
-///     private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
+/// Additionally, the following classes can be also automatically registered via their dedicated annotations.
 ///
-///     @Override
-///     public void accept(InvocationContext<?> context) {
-///         log.info("run custom middleware");
-///     }
-/// }
-/// ```
+/// - [`Middleware`][com.github.kaktushose.jda.commands.dispatching.middleware.Middleware] (via [`@Implementation.Middleware`][Middleware])
+/// - [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] (via [`@Implementation.TypeAdapter`][TypeAdapter])
+/// - [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator] (via [`@Implementation.Validator`][Validator])
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Scope
 public @interface Implementation {
 
-    /// Gets the [Priority] to register the [Middleware] with. If this implementation is not a subtype of [Middleware],
-    /// this field can be ignored.
+    /// A class annotated with [Middleware] will be automatically searched for and instantiated as a
+    /// [`Middleware`][com.github.kaktushose.jda.commands.dispatching.middleware.Middleware] by guice.
     ///
-    /// @return the [Priority]
-    Priority priority() default Priority.NORMAL;
-
-    /// Gets the annotation the [Validator] should be mapped to. If this class is not a subtype of [Validator],
-    /// this field can be ignored.
+    /// ### Example
+    /// ```java
+    /// @Middleware(priority = Priority.NORMAL)
+    /// public class CustomMiddleware implements Middleware {
+    ///     private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
     ///
-    /// @return the annotation the [Validator] should be mapped to
-    Class<? extends Annotation> annotation() default Constraint.class;
+    ///     @Override
+    ///     public void accept(InvocationContext<?> context) {
+    ///         log.info("run custom middleware");
+    ///     }
+    /// }
+    /// ```
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Scope
+    @interface Middleware {
 
+        /// Gets the [Priority] to register the [`Middleware`][com.github.kaktushose.jda.commands.dispatching.middleware.Middleware] with.
+        ///
+        /// @return the [Priority]
+        Priority priority() default Priority.NORMAL;
 
-    /// Gets the [Class] to register a [TypeAdapter] with. If this implementation is not a subtype of [TypeAdapter],
-    /// this field can be ignored.
+    }
+
+    /// A class annotated with [TypeAdapter] will be automatically searched for and instantiated as a
+    /// [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] by guice.
     ///
-    /// @return the class the [TypeAdapter] should be mapped to
-    Class<?> clazz() default Object.class;
+    /// ### Example
+    /// ```java
+    /// @TypeAdapter(clazz = CustomType.class)
+    /// public class CustomTypeAdapter implements TypeAdapter<CustomType> {
+    ///
+    ///     public Optional<CustomType> apply(String raw, GenericInteractionCreateEvent event) {
+    ///         return Optional.of(new CustomType(raw, event));
+    ///     }///
+    /// }
+    /// ```
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Scope
+    @interface TypeAdapter {
 
+        /// Gets the [Class] to register a [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] with.
+        ///
+        /// @return the class the [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]
+        /// should be mapped to
+        @NotNull
+        Class<?> clazz();
 
+    }
+
+    /// A class annotated with [Validator] will be automatically searched for and instantiated as a
+    /// [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator] by guice.
+    ///
+    /// ### Example
+    /// ```java
+    /// @Target(ElementType.PARAMETER)
+    /// @Retention(RetentionPolicy.RUNTIME)
+    /// @Constraint(String.class)
+    /// public @interface MaxString {
+    ///     int value();
+    ///     String message() default "The given String is too long";
+    /// }
+    ///
+    /// @Validator(annotation = MaxString.class)
+    /// public class MaxStringLengthValidator implements Validator {
+    ///
+    ///     @Override
+    ///    public boolean apply(Object argument, Object annotation, InvocationContext<? context) {
+    ///         MaxString maxString = (MaxString) annotation;
+    ///         return String.valueOf(argument).length() < maxString.value();
+    ///     }
+    /// }
+    /// ```
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Scope
+    @interface Validator {
+
+        /// Gets the annotation the [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator]
+        /// should be mapped to.
+        ///
+        /// @return the annotation the [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator]
+        /// should be mapped to
+        @NotNull
+        Class<? extends Annotation> annotation();
+
+    }
 }

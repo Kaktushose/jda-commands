@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -48,7 +51,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final JDAContext context;
 
     // extension stuff
-    protected Collection<Extension> loadedExtensions = null;
+    protected Collection<Extension<Extension.Data>> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
 
@@ -71,6 +74,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
+    protected CommandConfig globalCommandConfig = new CommandConfig();
     protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
     protected Embeds embeds = Embeds.empty();
 
@@ -81,7 +85,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
     }
 
-    private Collection<Extension> extensions() {
+    @SuppressWarnings("unchecked")
+    private Collection<Extension<Extension.Data>> extensions() {
         if (loadedExtensions == null) {
             loadedExtensions = ServiceLoader.load(Extension.class)
                     .stream()
@@ -89,6 +94,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
                     .filter(extensionFilter)
                     .peek(provider -> log.debug("Using extension {}", provider.type()))
                     .map(ServiceLoader.Provider::get)
+                    .map(extension -> (Extension<Extension.Data>) extension)
                     .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                     .toList();
         }
@@ -96,7 +102,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension, T>> implementations(Class<T> type) {
+    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension -> extension.providedImplementations().stream()
@@ -152,6 +158,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
     @NotNull
     public InteractionDefinition.ReplyConfig globalReplyConfig() {
         return globalReplyConfig;
+    }
+
+    public CommandConfig globalCommandConfig() {
+        return globalCommandConfig;
     }
 
     /// @return the [ExpirationStrategy] to be used

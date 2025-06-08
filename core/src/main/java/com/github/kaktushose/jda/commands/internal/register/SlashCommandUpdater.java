@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,17 @@ public final class SlashCommandUpdater {
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;
+    private final LocalizationFunction localizationFunction;
 
     /// Constructs a new SlashCommandUpdater.
-    public SlashCommandUpdater(JDAContext jdaContext, GuildScopeProvider guildScopeProvider, InteractionRegistry registry) {
+    public SlashCommandUpdater(JDAContext jdaContext,
+                               GuildScopeProvider guildScopeProvider,
+                               InteractionRegistry registry,
+                               LocalizationFunction localizationFunction) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
+        this.localizationFunction = localizationFunction;
     }
 
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
@@ -44,12 +50,12 @@ public final class SlashCommandUpdater {
 
     private Set<CommandData> getCommands(CommandScope scope) {
         var tree = new CommandTree(
-                interactionRegistry.find(SlashCommandDefinition.class, it -> it.scope() == scope)
+                interactionRegistry.find(SlashCommandDefinition.class, it -> it.commandConfig().scope() == scope)
         );
-        Set<CommandData> commands = new HashSet<>(tree.getCommands());
+        Set<CommandData> commands = new HashSet<>(tree.getSlashCommandData(localizationFunction));
         log.debug("Generated slash command tree with CommandScope.{}:\n{}", scope, tree);
         commands.addAll(
-                interactionRegistry.find(ContextCommandDefinition.class, it -> it.scope() == scope)
+                interactionRegistry.find(ContextCommandDefinition.class, it -> it.commandConfig().scope() == scope)
                         .stream()
                         .map(ContextCommandDefinition::toJDAEntity)
                         .toList()

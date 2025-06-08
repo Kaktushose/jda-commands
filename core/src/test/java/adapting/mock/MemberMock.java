@@ -11,12 +11,11 @@ import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.Formatter;
+import java.util.*;
 import java.util.List;
 
 @SuppressWarnings("DataFlowIssue")
@@ -202,6 +201,11 @@ public class MemberMock implements Member {
         return null;
     }
 
+    @Override
+    public @NotNull @Unmodifiable Set<Role> getUnsortedRoles() {
+        return Set.of();
+    }
+
     @Nullable
     @Override
     public Color getColor() {
@@ -305,5 +309,10 @@ public class MemberMock implements Member {
     @Override
     public String getDefaultAvatarId() {
         return null;
+    }
+
+    @Override
+    public boolean isDetached() {
+        return false;
     }
 }

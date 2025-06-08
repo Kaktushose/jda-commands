@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 /// The common interface for all interaction definitions and their sub parts, such as parameters or text inputs, etc.
 public sealed interface Definition permits CustomIdJDAEntity, Invokable, JDAEntity, InteractionDefinition,
         ModalDefinition.TextInputDefinition, OptionDataDefinition, OptionDataDefinition.ConstraintDefinition,
-        SlashCommandDefinition.CooldownDefinition, StringSelectMenuDefinition.SelectOptionDefinition {
+        SlashCommandDefinition.CooldownDefinition, StringSelectMenuDefinition.MenuOptionDefinition {
 
     /// The id for this definition. Per default this is the hash code of the [Object#toString()] method.
     @NotNull

@@ -1,3 +1,7 @@
+allprojects {
+    version = "4.0.0-beta.7"
+}
+
 subprojects {
     tasks.withType<Javadoc> {
         val options = options as StandardJavadocDocletOptions

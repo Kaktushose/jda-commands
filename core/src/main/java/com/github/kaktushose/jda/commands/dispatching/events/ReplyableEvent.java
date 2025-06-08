@@ -15,6 +15,8 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.entities.Message;
@@ -24,6 +26,8 @@ import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.requests.ErrorResponse;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,18 +65,49 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds              the corresponding [Embeds]
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig globalReplyConfig,
+                             InteractionDefinition.ReplyConfig replyConfig,
                              Embeds embeds) {
         super(event, interactionRegistry, runtime);
-        this.replyConfig = definition.replyConfig(globalReplyConfig);
+        this.replyConfig = definition.replyConfig(replyConfig);
         this.definition = definition;
         this.embeds = embeds;
     }
+
+    /// Acknowledge this interaction and defer the reply to a later time.
+    ///
+    /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the respective
+    /// [InteractionDefinition.ReplyConfig] to set the ephemeral flag. If your initial deferred message is ephemeral it
+    /// cannot be made non-ephemeral later. Use [#deferReply(boolean)] to override the [InteractionDefinition.ReplyConfig].
+    ///
+    /// **You only have 3 seconds to acknowledge an interaction!**
+    ///
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    ///
+    /// Use [#reply(String)] to reply directly.
+    public void deferReply() {
+        deferReply(replyConfig.ephemeral());
+    }
+
+    /// Acknowledge this interaction and defer the reply to a later time.
+    ///
+    /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the passed
+    /// boolean to set the ephemeral flag. If your initial deferred message is ephemeral it
+    /// cannot be made non-ephemeral later. Use [#deferReply()] to use the [InteractionDefinition.ReplyConfig] for
+    /// the ephemeral flag.
+    ///
+    /// **You only have 3 seconds to acknowledge an interaction!**
+    ///
+    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    ///
+    /// Use [#reply(String)] to reply directly.
+    ///
+    /// @param ephemeral yes
+    public abstract void deferReply(boolean ephemeral);
 
     /// Removes all components from the original message.
     ///
@@ -159,13 +194,21 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return new ConfigurableReply(newReply(), registry, runtimeId());
     }
 
-    @NotNull
-    public Message reply(@NotNull String message) {
-        return newReply().reply(message);
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// @param message the [MessageCreateData] to send
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
+    public Message reply(@NotNull MessageCreateData message) {
+        log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
+        return MessageCreateDataReply.reply(event, definition, replyConfig, message);
     }
 
     @NotNull
-    public Message reply(@NotNull MessageCreateData message) {
+    public Message reply(@NotNull String message) {
         return newReply().reply(message);
     }
 

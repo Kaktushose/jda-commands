@@ -18,18 +18,19 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event      the [GenericCommandInteractionEvent] this event holds
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the corresponding [Runtime]
-    /// @param definition the corresponding [InteractionDefinition]
+    /// @param event       the [GenericCommandInteractionEvent] this event holds
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the corresponding [Runtime]
+    /// @param definition  the corresponding [InteractionDefinition]
+    /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     /// @param embeds     the corresponding [Embeds]
     public CommandEvent(@NotNull GenericCommandInteractionEvent event,
                         @NotNull InteractionRegistry registry,
                         @NotNull Runtime runtime,
                         @NotNull InteractionDefinition definition,
-                        @NotNull InteractionDefinition.ReplyConfig global,
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig,
                         @NotNull Embeds embeds) {
-        super(event, registry, runtime, definition, global, embeds);
+        super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
     /// Returns the underlying [GenericCommandInteractionEvent] and casts it to the given type.
@@ -42,4 +43,8 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
         return type.cast(event);
     }
 
+    @Override
+    public void deferReply(boolean ephemeral) {
+        event.deferReply(ephemeral).complete();
+    }
 }

@@ -1,8 +1,10 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
+import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
@@ -39,8 +41,8 @@ public class NotPermissionValidator implements Validator {
         if (!Member.class.isAssignableFrom(argument.getClass())) {
             throw new IllegalArgumentException("The default NotPermissionValidator does only support parameters of type Member!");
         }
-
         Member member = (Member) argument;
+        Helpers.checkDetached(member, NotPermissionValidator.class);
         return !member.hasPermission(permissions);
     }
 }

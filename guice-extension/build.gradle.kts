@@ -1,5 +1,6 @@
 plugins {
-    id("java-library")
+    id("io.github.kaktushose.jda.commands.convention.java")
+    id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
 }
 
 group = "io.github.kaktushose.jda-commands"
@@ -12,16 +13,6 @@ repositories {
 dependencies {
     api(libs.com.google.inject.guice)
     api(project(":core"))
-}
-
-java {
-    targetCompatibility = JavaVersion.VERSION_23
-    sourceCompatibility = JavaVersion.VERSION_23
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
-    }
-    withSourcesJar()
-    withJavadocJar()
 }
 
 tasks.test {

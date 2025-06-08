@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,11 +48,6 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
         return reply(format.formatted(args));
     }
 
-    @NotNull
-    default Message reply(@NotNull MessageCreateBuilder builder) {
-        return reply(builder.build());
-    }
-
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message the [MessageCreateData] to send
@@ -62,7 +56,6 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    @NotNull
     Message reply(@NotNull MessageCreateData message);
 
     /// Acknowledgement of this event with a text message.

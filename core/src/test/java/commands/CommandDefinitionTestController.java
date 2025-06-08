@@ -11,59 +11,59 @@ public class CommandDefinitionTestController {
     public void noAnnotation() {
     }
 
-    @SlashCommand("a")
+    @Command("a")
     public void noArgs() {
     }
 
-    @SlashCommand("b")
+    @Command("b")
     public void noCommandEvent(int i) {
     }
 
-    @SlashCommand("c")
+    @Command("c")
     public void wrongCommandEvent(int i, CommandEvent event) {
     }
 
-    @SlashCommand("d")
+    @Command("d")
     public void commandEvent(CommandEvent event) {
     }
 
-    @SlashCommand("e")
+    @Command("e")
     public void unsupported(CommandEvent event, UnsupportedType type) {
     }
 
-    @SlashCommand("f")
+    @Command("f")
     public void arrayArgument(CommandEvent event, String[] args) {
 
     }
 
-    @SlashCommand("g")
+    @Command("g")
     public void argsAfterArray(CommandEvent event, String[] args, int i) {
 
     }
 
-    @SlashCommand("h")
-    public void argsAfterOptional(CommandEvent event, @Optional String s, int i) {
+    @Command("h")
+    public void argsAfterOptional(CommandEvent event, @Param(optional = true) String s, int i) {
 
     }
 
-    @SlashCommand("i")
-    public void optionalAfterOptional(CommandEvent event, @Optional String s, @Optional int i) {
+    @Command("i")
+    public void optionalAfterOptional(CommandEvent event, @Param(optional = true) String s, @Param(optional = true) int i) {
 
     }
 
-    @SlashCommand("m")
+    @Command("m")
     @Cooldown(value = 0, timeUnit = TimeUnit.MILLISECONDS)
     public void zeroCooldown(CommandEvent event) {
 
     }
 
-    @SlashCommand("n")
+    @Command("n")
     @Cooldown(value = 10, timeUnit = TimeUnit.MILLISECONDS)
     public void cooldown(CommandEvent event) {
 
     }
 
-    @SlashCommand("o")
+    @Command("o")
     @Permissions("permission")
     public void permission(CommandEvent event) {
 

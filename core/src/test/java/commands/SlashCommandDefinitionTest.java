@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
@@ -43,7 +44,8 @@ public class SlashCommandDefinitionTest {
                 SlashCommandDefinition.CooldownDefinition.build(null),
                 clazz,
                 method(method),
-                Set.of()
+                Set.of(),
+                new CommandDefinition.CommandConfig()
         );
     }
 

@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
@@ -7,8 +9,9 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapt
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.internal.Helpers;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,22 +35,25 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         );
 
         return parseArguments(command, event, runtime)
-                .map(args -> new InvocationContext<>(event, runtime.keyValueStore(), command, args))
-                .orElse(null);
-
+                .map(args -> new InvocationContext<>(
+                        event,
+                        runtime.keyValueStore(),
+                        command,
+                        Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
+                        args)
+                ).orElse(null);
     }
 
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
         var input = command.commandOptions().stream()
-                .map(it -> Optional.ofNullable(event.getOption(it.name())).map(OptionMapping::getAsString))
-                .map(it -> it.orElse(null))
+                .map(it -> event.getOption(it.name()))
                 .toList();
-
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
         List<Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig), dispatchingContext.embeds());
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(
@@ -56,30 +62,42 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         }
 
         for (int i = 0; i < commandOptions.size(); i++) {
-            var commandOption = commandOptions.get(i);
-            var raw = input.get(i);
-            if (raw == null) {
-                if (commandOption.defaultValue() == null) {
-                    parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(commandOption.type(), null));
-                    continue;
-                } else {
-                    raw = commandOption.defaultValue();
-                }
-            }
-            log.debug("Trying to adapt input \"{}\" to type {}", raw, commandOption.type().getName());
-
-            var adapter = adapterRegistry.get(commandOption.type()).orElseThrow(() ->
+            OptionDataDefinition commandOption = commandOptions.get(i);
+            Class<?> type = commandOption.type();
+            OptionMapping optionMapping = input.get(i);
+            var adapter = adapterRegistry.get(type).orElseThrow(() ->
                     new IllegalArgumentException(
                             "No type adapter implementation found for %s. Consider implementing one or change the required type"
                                     .formatted(commandOption.type())
                     )
             );
 
-            var parsed = adapter.apply(raw, event);
+            if (optionMapping == null) {
+                parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(type, null));
+                continue;
+            }
+
+            log.debug("Trying to adapt input \"{}\" to type {}", optionMapping.getAsString(), type.getName());
+            Optional<?> parsed = Optional.of(optionMapping)
+                    .map(mapping -> switch (mapping.getType()) {
+                        case USER -> {
+                            if (Member.class.isAssignableFrom(type)) {
+                                yield mapping.getAsMember();
+                            }
+                            yield mapping.getAsUser();
+                        }
+                        case ROLE -> mapping.getAsRole();
+                        case CHANNEL -> mapping.getAsChannel();
+                        default -> adapter.apply(mapping.getAsString(), event).orElse(null);
+                    });
+
             if (parsed.isEmpty()) {
                 log.debug("Type adapting failed!");
-                new MessageReply(event, command, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()).reply(
-                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input)
+                MessageCreateDataReply.reply(event, command, replyConfig, dispatchingContext.embeds(),
+                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
+                                .stream()
+                                .map(it -> it == null ? null : it.getAsString())
+                                .toList())
                 );
                 return Optional.empty();
             }

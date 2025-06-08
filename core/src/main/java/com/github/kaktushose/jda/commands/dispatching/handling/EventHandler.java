@@ -13,7 +13,9 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -107,10 +109,26 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+
+            // if the throwing event is a component event we should remove the component to prevent further executions
+            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
+                var message = componentEvent.getMessage();
+                // ugly workaround to check if the message is still valid after removing components or if we have to delete
+                // the entire message
+                var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
+                data.setComponents();
+                if (data.isValid()) {
+                    message.editMessageComponents().complete();
+                } else {
+                    message.delete().complete();
+                }
+            }
+
+            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
+
             if (invocation.event() instanceof IReplyCallback callback) {
                 callback.getHook().editOriginalComponents().queue();
             }
-            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
         }
     }
 }

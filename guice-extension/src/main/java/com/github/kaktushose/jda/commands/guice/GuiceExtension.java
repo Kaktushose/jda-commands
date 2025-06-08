@@ -22,6 +22,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,10 +35,8 @@ import java.util.stream.Stream;
 ///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
-public class GuiceExtension implements Extension {
+public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private static final Class<com.github.kaktushose.jda.commands.guice.Implementation> IMPLEMENTATION_ANN =
-            com.github.kaktushose.jda.commands.guice.Implementation.class;
     private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(
             Descriptor.class,
             ErrorMessageFactory.class,
@@ -47,9 +46,9 @@ public class GuiceExtension implements Extension {
     private Injector injector;
 
     @Override
-    public void init(@Nullable Data data) {
+    public void init(@Nullable GuiceExtensionData data) {
         Injector found = data != null
-                ? ((GuiceExtensionData) data).providedInjector()
+                ? data.providedInjector()
                 : Guice.createInjector();
 
         this.injector = found.createChildInjector(new GuiceExtensionModule());
@@ -75,7 +74,7 @@ public class GuiceExtension implements Extension {
         for (var type : loadableClasses) {
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionProvidable>) type,
-                    builder -> instances(builder, type)
+                    builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.class, type)
                             .map(instance -> (Implementation.ExtensionProvidable) instance)
                             .toList()
             ));
@@ -83,32 +82,32 @@ public class GuiceExtension implements Extension {
 
         // load multiple implementable types
         list.add(new Implementation<>(
-                TypeAdapterContainer.class, builder -> instances(builder, TypeAdapter.class)
+                TypeAdapterContainer.class, builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class, TypeAdapter.class)
                 .map(adapter -> new TypeAdapterContainer(
-                        adapter.getClass().getAnnotation(IMPLEMENTATION_ANN).clazz(),
+                        adapter.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class).clazz(),
                         adapter)
                 ).toList()
         ));
 
         list.add(new Implementation<>(
-                ValidatorContainer.class, builder -> instances(builder, Validator.class)
+                ValidatorContainer.class, builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.Validator.class, Validator.class)
                 .map(validator -> new ValidatorContainer(
-                        validator.getClass().getAnnotation(IMPLEMENTATION_ANN).annotation(),
+                        validator.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.Validator.class).annotation(),
                         validator)
                 ).toList()
         ));
 
-        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, Middleware.class)
+        list.add(new Implementation<>(MiddlewareContainer.class, builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.Middleware.class, Middleware.class)
                 .map(middleware -> new MiddlewareContainer(
-                        middleware.getClass().getAnnotation(IMPLEMENTATION_ANN).priority(),
+                        middleware.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.Middleware.class).priority(),
                         middleware)
                 ).toList()
         ));
     }
 
-    private <T> Stream<T> instances(JDACBuilderData builder, Class<T> type) {
+    private <T> Stream<T> instances(JDACBuilderData builder, Class<? extends Annotation> annotation, Class<T> type) {
         return builder.mergedClassFinder()
-                .search(IMPLEMENTATION_ANN, type)
+                .search(annotation, type)
                 .stream()
                 .map(injector::getInstance);
     }
@@ -116,10 +115,5 @@ public class GuiceExtension implements Extension {
     @Override
     public @NotNull Class<GuiceExtensionData> dataType() {
         return GuiceExtensionData.class;
-    }
-
-    @NotNull
-    public Injector injector() {
-        return injector;
     }
 }

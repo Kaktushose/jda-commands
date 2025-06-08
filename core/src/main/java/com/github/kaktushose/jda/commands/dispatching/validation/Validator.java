@@ -3,13 +3,33 @@ package com.github.kaktushose.jda.commands.dispatching.validation;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.extension.Implementation;
 import org.jetbrains.annotations.NotNull;
 
-/// Validators checks if a command option fulfills the given constraint.
+/// Validators check if a command option fulfills the given constraint.
 ///
-/// Either register them at the [JDACBuilder#validator(Class, Validator)()] or use the [Implementation] annotation.
+/// Register them at the [JDACBuilder#validator(Class, Validator)()] or use the
+/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html)
+/// annotation of the guice extension.
 ///
+/// ### Example
+/// ```java
+/// @Target(ElementType.PARAMETER)
+/// @Retention(RetentionPolicy.RUNTIME)
+/// @Constraint(String.class)
+/// public @interface MaxString {
+///     int value();
+///     String message() default "The given String is too long";
+/// }
+///
+/// public class MaxStringLengthValidator implements Validator {
+///
+///     @Override
+///     public boolean apply(Object argument, Object annotation, InvocationContext<? context) {
+///         MaxString maxString = (MaxString) annotation;
+///         return String.valueOf(argument).length() < maxString.value();
+///     }
+/// }
+/// ```
 /// @see Constraint
 @FunctionalInterface
 public interface Validator {

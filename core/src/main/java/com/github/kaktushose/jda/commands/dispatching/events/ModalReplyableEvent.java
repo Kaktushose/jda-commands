@@ -9,11 +9,14 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.Function;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
@@ -29,10 +32,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     /// Constructs a new ModalReplyableEvent.
     ///
-    /// @param event      the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the [Runtime] this event lives in
-    /// @param definition the [InteractionDefinition] this event belongs to
+    /// @param event       the subtype [T] of [GenericInteractionCreateEvent]
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the [Runtime] this event lives in
+    /// @param definition  the [InteractionDefinition] this event belongs to
+    /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     /// @param embeds     the corresponding [Embeds]
     protected ModalReplyableEvent(@NotNull T event,
                                   @NotNull InteractionRegistry registry,
@@ -40,7 +44,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
                                   @NotNull InteractionDefinition definition,
                                   @NotNull InteractionDefinition.ReplyConfig global,
                                   @NotNull Embeds embeds
-                                  ) {
+    ) {
         super(event, registry, runtime, definition, global, embeds);
     }
 
@@ -49,15 +53,26 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param modal the method name of the [Modal] you want to reply with
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(@NotNull String modal) {
-        if (event instanceof IModalCallback callback) {
+        replyModal(modal, Function.identity());
+    }
+
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
+    ///
+    /// @param modal    the method name of the [Modal] you want to reply with
+    /// @param callback a [Function] to dynamically modify the [Modal] before replying with it
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
+    public void replyModal(@NotNull String modal, @NotNull Function<ModalBuilder, ModalBuilder> callback) {
+        if (event instanceof IModalCallback modalCallback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
+            var builtModal = callback.apply(new ModalBuilder(new CustomId(runtimeId(), definitionId), modalDefinition)).build();
+
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
-            callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).queue();
+            modalCallback.replyModal(builtModal).queue();
         } else {
-            throw new IllegalStateException(
+            throw new IllegalArgumentException(
                     String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
             );
         }

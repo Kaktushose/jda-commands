@@ -1,11 +1,13 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -25,14 +27,11 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
 
     @Override
     protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(@NotNull GenericComponentInteractionCreateEvent genericEvent, @NotNull Runtime runtime) {
-        // ignore non jda-commands events
-        if (CustomId.isInvalid(genericEvent.getComponentId())) {
-            return null;
-        }
-
         var component = registry.find(ComponentDefinition.class, true, it ->
-                it.definitionId().equals(CustomId.fromEvent(genericEvent).definitionId())
+                it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
+
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, dispatchingContext.globalReplyConfig());
 
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
@@ -41,12 +40,13 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             default ->
                     throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, dispatchingContext.globalReplyConfig(), dispatchingContext.embeds()));
+        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 genericEvent,
                 runtime.keyValueStore(),
                 component,
+                replyConfig,
                 arguments
         );
     }

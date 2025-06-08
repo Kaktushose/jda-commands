@@ -9,9 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// Methods annotated with AutoComplete will be registered as a handler for [AutoCompleteEvent]s for the given
-/// [SlashCommand]s.
+/// [Command]s.
 ///
-/// The [SlashCommand]s can either be referenced by:
+/// The [Command]s can either be referenced by:
 /// 1. Command Name
 ///
 ///     If referenced by the command name the handler will handle any command that's name starts with the given name:
@@ -44,7 +44,25 @@ import java.lang.annotation.Target;
 ///         event.replyChoices(...);
 ///     }
 ///     ```
-/// @see SlashCommand
+///
+/// **Be aware that the example above will register *every* command option with auto complete enabled.** If you want to
+/// avoid that, you have to explicitly state the command options the handler supports:
+/// ```java
+/// @SlashCommand("favourite food")
+/// public void foodCommand(CommandEvent event, String fruit, String vegetable) {
+///     event.reply("You've chosen: %s and %s", fruit, vegetable);
+/// }
+///
+/// @AutoComplete(vale = "foodCommand", options = "fruit")
+/// public void onFruitAutoComplete(AutoCompleteEvent event) {
+///     event.replyChoices(...);
+/// }
+/// ```
+/// You can have multiple auto complete handler for the same slash command, but each command option can only have
+/// exactly *one* handler.
+/// If an auto complete handler doesn't specify any command options, it will be registered implicitly for every command
+/// option of the given slash command(s), unless an explicit auto complete handler exists for that command option.
+/// @see Command
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutoComplete {
@@ -53,5 +71,10 @@ public @interface AutoComplete {
     ///
     /// @return the slash commands
     String[] value();
+
+    /// Returns the name of the command options this autocomplete should handle
+    ///
+    /// @return the command options
+    String[] options() default "";
 
 }

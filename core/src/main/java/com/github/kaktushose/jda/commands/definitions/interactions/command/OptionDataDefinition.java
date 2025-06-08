@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
+import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.entities.Member;
@@ -36,8 +37,7 @@ import static java.util.Map.entry;
 ///
 /// @param type         the [Class] type of the parameter
 /// @param optional     whether this parameter is optional
-/// @param autoComplete whether this parameter supports autocomplete
-/// @param defaultValue the default value of this parameter or `null`
+/// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
 /// @param name         the name of the parameter
 /// @param description  the description of the parameter
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
@@ -45,8 +45,7 @@ import static java.util.Map.entry;
 public record OptionDataDefinition(
         @NotNull Class<?> type,
         boolean optional,
-        boolean autoComplete,
-        @Nullable String defaultValue,
+        @Nullable AutoCompleteDefinition autoComplete,
         @NotNull String name,
         @NotNull String description,
         @NotNull SequencedCollection<Command.Choice> choices,
@@ -96,26 +95,18 @@ public record OptionDataDefinition(
     /// Builds a new [OptionDataDefinition].
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete      whether the [ParameterDescription] should support autocomplete
+    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     @NotNull
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
-                                             boolean autoComplete,
+                                             @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-        var optional = parameter.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Optional.class);
-        var defaultValue = "";
-        if (optional.isPresent()) {
-            defaultValue = optional.get().value();
-        }
-        if (defaultValue.isEmpty()) {
-            defaultValue = null;
-        }
-
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
+                .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
@@ -125,15 +116,18 @@ public record OptionDataDefinition(
         // Param
         String name = parameter.name();
         String description = "empty description";
+        boolean isOptional = false;
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
-            name = param.get().name().isEmpty() ? name : param.get().name();
-            description = param.get().value();
+            Param ann = param.get();
+            name = ann.name().isEmpty() ? name : ann.name();
+            description = ann.value().isEmpty() ? description : ann.value();
+            isOptional = ann.optional();
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
 
-        List<Command.Choice> commandChoices = new ArrayList<>();
         // Options
+        List<Command.Choice> commandChoices = new ArrayList<>();
         var choices = parameter.annotation(Choices.class);
         if (choices.isPresent()) {
             for (String option : choices.get().value()) {
@@ -150,9 +144,8 @@ public record OptionDataDefinition(
         }
         return new OptionDataDefinition(
                 parameter.type(),
-                optional.isPresent(),
+                isOptional,
                 autoComplete,
-                defaultValue,
                 name,
                 description,
                 commandChoices,
@@ -183,7 +176,7 @@ public record OptionDataDefinition(
 
         optionData.addChoices(choices);
         if (optionType.canSupportChoices() && choices.isEmpty()) {
-            optionData.setAutoComplete(autoComplete);
+            optionData.setAutoComplete(autoComplete != null);
         }
 
         constraints.stream().filter(constraint ->

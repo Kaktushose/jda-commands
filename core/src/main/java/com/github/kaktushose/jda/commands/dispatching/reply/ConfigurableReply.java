@@ -9,14 +9,23 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
+import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
@@ -112,6 +121,14 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         return this;
     }
 
+    /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+    /// [#keepComponents(boolean)] `true`.
+    @NotNull
+    public ConfigurableReply keepSelections(boolean keepSelections) {
+        this.keepSelections = keepSelections;
+        return this;
+    }
+
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
     /// ## Example:
@@ -158,7 +175,6 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Adds an [ActionRow] to the reply and adds the passed [Component] to it.
     ///
-    /// **The components must be defined in the same class where this method gets called!**
     ///
     /// ### Example:
     /// ```
@@ -180,34 +196,65 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull Component... components) {
+    public final ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
-        for (Component component : components) {
-            var className = component.origin() == null
-                    ? definition.methodDescription().declaringClass().getName()
-                    : component.origin().getName();
-            var definitionId = String.valueOf((className + component.name()).hashCode());
-            var definition = registry.find(ComponentDefinition.class, false, it ->
-                    it.definitionId().equals(definitionId)
-            );
-            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
-            switch (definition) {
+        for (Component<?, ?, ?, ?> component : components) {
+            var className = component.origin().map(Class::getName)
+                    .orElseGet(() -> definition.methodDescription().declaringClass().getName());
+            String definitionId = String.valueOf((className + component.name()).hashCode());
+
+            if (builder.getComponents()
+                    .stream()
+                    .flatMap(itemComponents -> itemComponents.getActionComponents().stream())
+                    .map(ActionComponent::getId)
+                    .filter(Objects::nonNull)
+                    .map(CustomId::fromMerged)
+                    .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
+                throw new IllegalArgumentException("Cannot add component \"%s.%s\" multiple times!".formatted(className, component.name()));
+            }
+
+            var definition = findDefinition(component, definitionId);
+
+            ActionComponent item = switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
-                    items.add(button.getUrl() == null ? button.withId(createId(definition, component.independent()).id()) : button);
+                    yield button.getUrl() == null ? button.withId(createId(definition, component.independent()).merged()) : button;
                 }
+
                 case SelectMenuDefinition<?> menuDefinition -> {
                     var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
-                    items.add(menu.withDisabled(!component.enabled()));
+                    yield menu.withDisabled(!component.enabled());
                 }
-            }
+            };
+
+            item = switch (component) {
+                case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
+                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
+                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
+                case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
+            };
+
+            items.add(item);
+
+            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         }
+
         if (!items.isEmpty()) {
             builder.addComponents(ActionRow.of(items));
         }
 
         return new ComponentReply(this);
+    }
+
+    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId) {
+        // this cast is effective safe
+        D definition = registry.find(component.definitionClass(), false, it ->
+                it.definitionId().equals(definitionId)
+        );
+
+        return component.build(definition);
+
     }
 
     private CustomId createId(InteractionDefinition definition, boolean staticComponent) {

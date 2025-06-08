@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.permissions;
 
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -44,6 +45,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {
                 continue;
             }
+            Helpers.checkDetached(member, DefaultPermissionsProvider.class);
             if (!member.hasPermission(Permission.valueOf(s.toUpperCase()))) {
                 log.debug("{} permission is missing!", s.toUpperCase());
                 return false;
