@@ -161,16 +161,6 @@ public record OptionDataDefinition(
             }
         }
 
-        if (!Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(type))) {
-            throw new IllegalStateException(
-                    "Cannot create option data! " +
-                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
-                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName()) +
-                    "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
-                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName())
-            );
-        }
-
         return new OptionDataDefinition(
                 parameter.type(),
                 optionType,
@@ -195,6 +185,16 @@ public record OptionDataDefinition(
     @NotNull
     @Override
     public OptionData toJDAEntity() {
+        if (!Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(type))) {
+            throw new IllegalStateException(
+                    "Cannot create option data! " +
+                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
+                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName()) +
+                    "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
+                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName())
+            );
+        }
+
         OptionData optionData = new OptionData(
                 optionType,
                 name,
