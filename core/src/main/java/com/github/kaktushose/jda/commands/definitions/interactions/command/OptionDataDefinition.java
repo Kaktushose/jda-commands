@@ -171,8 +171,6 @@ public record OptionDataDefinition(
     @NotNull
     @Override
     public OptionData toJDAEntity() {
-        OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
-
         OptionData optionData = new OptionData(
                 optionType,
                 name,
