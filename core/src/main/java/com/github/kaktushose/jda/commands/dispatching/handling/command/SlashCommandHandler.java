@@ -76,7 +76,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new IllegalStateException(
-                    "Command input doesn't match command options length! Please report this error the the devs of jda-commands."
+                    "Command input doesn't match command options length! Please report this error to the devs of jda-commands."
             );
         }
 
@@ -106,7 +106,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new IllegalStateException(
-                                "Proteus Error: %s. Please report this error the the devs of jda-commands.".formatted(failure.detailedMessage())
+                                "Proteus Error: %s. Please report this error to the devs of jda-commands.".formatted(failure.detailedMessage())
                         );
                     }
                 }
@@ -134,7 +134,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error the the devs of jda-commands.".formatted(type)
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(type)
             );
         };
     }
@@ -157,7 +157,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error the the devs of jda-commands.".formatted(optionMapping)
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
             );
         };
     }

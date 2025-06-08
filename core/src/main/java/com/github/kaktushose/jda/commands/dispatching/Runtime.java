@@ -105,7 +105,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+                    throw new IllegalStateException("Should not occur. Please report this error to the devs of jda-commands.");
         }
     }
 

@@ -184,7 +184,7 @@ public record InteractionRegistry(@NotNull Validators validators,
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> internalError
-                        ? new IllegalStateException("No interaction found! Please report this error the the devs of jda-commands.")
+                        ? new IllegalStateException("No interaction found! Please report this error to the devs of jda-commands.")
                         : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
                 );
     }

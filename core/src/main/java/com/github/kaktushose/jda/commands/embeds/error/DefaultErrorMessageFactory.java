@@ -96,7 +96,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             case NUMBER -> "Double";
             case ATTACHMENT -> "Attachment";
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error the the devs of jda-commands.".formatted(optionMapping)
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
             );
         };
     }
