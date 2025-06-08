@@ -1,0 +1,148 @@
+package definitions;
+
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class SlashCommandDefinitionTest {
+
+    private static Class<?> controller;
+    private static Validators validator;
+
+    @BeforeAll
+    static void setup() {
+        controller = CommandDefinitionTestController.class;
+
+        validator = new Validators(Map.of());
+    }
+
+    private static MethodBuildContext getBuildContext(Method method) {
+        var clazz = new ReflectiveDescriptor().describe(method.getClass());
+
+        return new MethodBuildContext(
+                validator,
+                ResourceBundleLocalizationFunction.empty().build(),
+                controller.getAnnotation(Interaction.class),
+                Set.of(),
+                SlashCommandDefinition.CooldownDefinition.build(null),
+                clazz,
+                method(method),
+                Set.of(),
+                new CommandDefinition.CommandConfig()
+        );
+    }
+
+    private static MethodDescription method(Method method) {
+        if (!Modifier.isPublic(method.getModifiers())) return null;
+        List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
+                .map(SlashCommandDefinitionTest::parameter)
+                .toList();
+
+
+        return new MethodDescription(
+                method.getDeclaringClass(),
+                method.getReturnType(),
+                method.getName(),
+                parameters,
+                toList(method.getAnnotations()),
+                (instance, arguments) -> method.invoke(instance, arguments.toArray())
+        );
+    }
+
+    private static ParameterDescription parameter(Parameter parameter) {
+        return new ParameterDescription(
+                parameter.getType(),
+                parameter.getName(),
+                toList(parameter.getAnnotations())
+        );
+    }
+
+    private static <T> Collection<T> toList(T[] array) {
+        return Arrays.stream(array).toList();
+    }
+
+    @Test
+    void method_withoutAnnotation_ShouldThrowNoSuchElementException() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("noAnnotation");
+
+        assertThrows(NoSuchElementException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
+    }
+
+    @Test
+    void method_withoutArgs_ShouldReturnEmptyOptional() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("noArgs");
+
+        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+    }
+
+    @Test
+    void method_withoutCommandEvent_ShouldReturnEmptyOptional() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("noCommandEvent", int.class);
+
+        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+    }
+
+    @Test
+    void method_withCommandEventNotAtIndex0_ShouldReturnEmpty() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("commandEventWrongIndex", int.class, CommandEvent.class);
+
+        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+    }
+
+    @Test
+    void method_withCommandEvent_ShouldWork() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("commandEvent", CommandEvent.class);
+
+        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
+
+        assertTrue(definition.commandOptions().isEmpty());
+    }
+
+    @Test
+    void cooldown_zeroTimeUnits_ShouldNotBeSet() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("zeroCooldown", CommandEvent.class);
+
+        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
+
+        assertFalse(definition.cooldown().delay() > 0);
+    }
+
+    @Interaction
+    static class CommandDefinitionTestController {
+    
+        public void noAnnotation() {
+        }
+    
+        @Command("a")
+        public void noArgs() {
+        }
+    
+        @Command("b")
+        public void noCommandEvent(int i) {
+        }
+    
+        @Command("c")
+        public void commandEventWrongIndex(int i, CommandEvent event) {
+        }
+    
+        @Command("d")
+        public void commandEvent(CommandEvent event) {
+        }
+    }
+}

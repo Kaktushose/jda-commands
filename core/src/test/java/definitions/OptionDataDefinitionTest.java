@@ -1,5 +1,6 @@
-package parameters;
+package definitions;
 
+import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
@@ -16,14 +17,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OptionDataDefinitionTest {
+class OptionDataDefinitionTest {
 
     private static Class<?> controller;
     private static Validators validatorRegistry;
 
     @BeforeAll
-    public static void setup() {
-        controller = ParameterTestController.class;
+    static void setup() {
+        controller = OptionDataDefinitionTest.class;
         validatorRegistry = new Validators(Map.of());
     }
 
@@ -40,27 +41,16 @@ public class OptionDataDefinitionTest {
     }
 
     @Test
-    public void optional_withoutDefault_ShouldBeNull() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("optional", Object.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
-
-        assertTrue(parameter.optional());
-    }
-
-    @Test
-    public void optional_withDefault_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("optionalWithDefault", Object.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
-
-        assertTrue(parameter.optional());
-    }
-
-    @Test
-    public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
+    void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("constraintWithMessage", Member.class);
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
         var constraints = List.copyOf(parameter.constraints());
 
         assertEquals("error message", constraints.getFirst().message());
     }
+
+    public void constraintWithMessage(@Perm(value = "10", message = "error message") Member member) {
+
+    }
+
 }

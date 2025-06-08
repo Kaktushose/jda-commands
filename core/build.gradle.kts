@@ -17,8 +17,9 @@ dependencies {
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
 
-    testImplementation(libs.org.junit.jupiter.junit.jupiter.api)
-    testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
+    testImplementation(libs.org.junit.jupiter)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 }
 
 group = "io.github.kaktushose.jda-commands"
