@@ -23,10 +23,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
+
+    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
+            byte.class, ((byte) 0),
+            short.class, ((short) 0),
+            int.class, 0,
+            long.class, 0L,
+            double.class, 0.0d,
+            float.class, 0.0f,
+            boolean.class, false,
+            char.class, '\u0000'
+    );
 
     public SlashCommandHandler(DispatchingContext dispatchingContext) {
         super(dispatchingContext);
@@ -68,10 +80,14 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             );
         }
 
+        Proteus proteus = Proteus.global();
         for (int i = 0; i < optionDataDefinitions.size(); i++) {
-            Proteus proteus = Proteus.global();
             OptionDataDefinition optionData = optionDataDefinitions.get(i);
             OptionMapping optionMapping = optionMappings.get(i);
+            if (optionMapping == null) {
+                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.type(), null));
+                continue;
+            }
             Type<?> sourceType = toType(optionMapping);
             Type<?> targetType = Type.of(optionData.type());
 
