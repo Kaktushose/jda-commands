@@ -44,7 +44,7 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))));
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())));
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A valid member is required")));
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A member is required, but only a user got provided")));
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)))
