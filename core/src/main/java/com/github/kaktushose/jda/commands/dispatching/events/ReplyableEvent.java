@@ -16,9 +16,10 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
-import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.EmbedBuilder;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
@@ -31,6 +32,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.Consumer;
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
@@ -53,6 +56,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
     protected final InteractionDefinition definition;
     private final InteractionDefinition.ReplyConfig replyConfig;
+    private final Embeds embeds;
 
     /// Constructs a new ReplyableEvent.
     ///
@@ -60,15 +64,17 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
-    /// @param replyConfig         the [InteractionDefinition.ReplyConfig] to use
+    /// @param embeds              the corresponding [Embeds]
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig replyConfig) {
+                             InteractionDefinition.ReplyConfig replyConfig,
+                             Embeds embeds) {
         super(event, interactionRegistry, runtime);
         this.replyConfig = replyConfig;
         this.definition = definition;
+        this.embeds = embeds;
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -206,12 +212,24 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     }
 
     @NotNull
-    public Message reply(@NotNull EmbedBuilder builder) {
-        return newReply().reply(builder);
+    public Message reply(@NotNull MessageEmbed embed) {
+        return newReply().reply(embed);
+    }
+
+    @NotNull
+    @Override
+    public Message reply(@NotNull String name, @NotNull Consumer<Embed> embed) {
+        return newReply().reply(name, embed);
+    }
+
+    @NotNull
+    @Override
+    public Message replyEmbed(@NotNull String name) {
+        return newReply().replyEmbed(name);
     }
 
     private MessageReply newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition, replyConfig);
+        return new MessageReply(event, definition, replyConfig, embeds);
     }
 }

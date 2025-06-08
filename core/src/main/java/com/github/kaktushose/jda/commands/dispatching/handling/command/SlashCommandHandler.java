@@ -53,7 +53,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         log.debug("Type adapting arguments...");
         var commandOptions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (input.size() != commandOptions.size()) {
             throw new IllegalStateException(

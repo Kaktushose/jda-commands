@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -13,7 +14,7 @@ public final class MessageCreateDataReply extends MessageReply {
                                    @NotNull InteractionDefinition definition,
                                    @NotNull InteractionDefinition.ReplyConfig replyConfig,
                                    @NotNull MessageCreateData data) {
-        super(event, definition, replyConfig);
+        super(event, definition, replyConfig, Embeds.empty());
         builder.applyData(data);
     }
 

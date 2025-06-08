@@ -1,12 +1,16 @@
 package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
+import com.github.kaktushose.jda.commands.embeds.Embed;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
 ///
@@ -24,6 +28,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
+    @NotNull
     Message reply(@NotNull String message);
 
     /// Acknowledgement of this event with a text message.
@@ -38,6 +43,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     ///                                         the format string, or other illegal conditions
     ///                                                                                                                                                                                                                                                                                                is incompatible with the given arguments, insufficient arguments given
     ///                                                                                                                                                                                                                                                                                               the format string, or other illegal conditions.
+    @NotNull
     default Message reply(@NotNull String format, @NotNull Object... args) {
         return reply(format.formatted(args));
     }
@@ -50,17 +56,18 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull EmbedBuilder builder);
-
-    /// Acknowledgement of this event with a text message.
-    ///
-    /// @param embedDTO the [EmbedDTO] to send
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    default Message reply(@NotNull EmbedDTO embedDTO) {
-        return reply(embedDTO.toEmbedBuilder());
+    @NotNull
+    default Message reply(@NotNull EmbedBuilder builder) {
+        return reply(builder.build());
     }
+
+    @NotNull
+    Message reply(@NotNull MessageEmbed embed);
+
+    @NotNull
+    Message reply(@NotNull String name, @NotNull Consumer<Embed> embed);
+
+    @NotNull
+    Message replyEmbed(@NotNull String name);
+
 }

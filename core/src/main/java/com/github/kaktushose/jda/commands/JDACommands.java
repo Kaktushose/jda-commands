@@ -17,6 +17,9 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapt
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -39,6 +42,7 @@ public final class JDACommands {
     private final JDAEventListener jdaEventListener;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
+    private final Embeds embeds;
     private final CommandDefinition.CommandConfig globalCommandConfig;
 
     JDACommands(
@@ -52,12 +56,23 @@ public final class JDACommands {
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
             CommandDefinition.CommandConfig globalCommandConfig,
-            LocalizationFunction localizationFunction) {
+            LocalizationFunction localizationFunction,
+            Embeds embeds) {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
+                middlewares,
+                errorMessageFactory,
+                interactionRegistry,
+                typeAdapters,
+                expirationStrategy,
+                instanceProvider,
+                globalReplyConfig,
+                embeds
+        ));
         this.globalCommandConfig = globalCommandConfig;
+        this.embeds = embeds;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -156,4 +171,16 @@ public final class JDACommands {
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
+
+    /// Gets an [Embed] based on the given name.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    /// [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
+    @NotNull
+    public Embed embed(@NotNull String name) {
+        return embeds.get(name);
+    }
+
 }
