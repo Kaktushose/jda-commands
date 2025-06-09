@@ -7,6 +7,8 @@ repositories {
     mavenCentral()
 }
 
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
     api(libs.net.dv8tion.jda)
     api(libs.org.reflections.reflections)
@@ -18,6 +20,10 @@ dependencies {
 
 
     testImplementation(libs.org.junit.jupiter)
+    testImplementation(libs.org.mockito.core)
+    testImplementation(libs.org.mockito.junit)
+    testImplementation(libs.org.slf4j.slf4j.simple)
+    mockitoAgent(libs.org.mockito.core) { isTransitive = false }
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 }
@@ -27,4 +33,5 @@ description = "The base module of jda-commands"
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }

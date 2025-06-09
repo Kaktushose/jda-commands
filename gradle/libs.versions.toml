@@ -6,15 +6,19 @@ com-google-code-gson-gson = "2.10.1"
 net-dv8tion-jda = "5.5.1"
 org-jetbrains-annotations = "24.0.1"
 org-reflections-reflections = "0.10.2"
-org-slf4j-slf4j-api = "2.0.5"
+org-slf4j-slf4j = "2.0.5"
 com-google-inject-guice = "7.0.0"
 org-junit-jupiter = "5.13.0"
+org-mockito = "5.18.0"
 
 [libraries]
 com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
 net-dv8tion-jda = { module = "net.dv8tion:JDA", version.ref = "net-dv8tion-jda" }
 org-jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "org-jetbrains-annotations" }
 org-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "org-junit-jupiter" }
+org-mockito-core = { module = "org.mockito:mockito-core", version.ref = "org-mockito" }
+org-mockito-junit = { module = "org.mockito:mockito-junit-jupiter", version.ref = "org-mockito" }
 org-reflections-reflections = { module = "org.reflections:reflections", version.ref = "org-reflections-reflections" }
-org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
+org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j" }
+org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org-slf4j-slf4j" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
