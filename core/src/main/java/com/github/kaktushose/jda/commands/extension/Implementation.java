@@ -107,28 +107,29 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     }
 
     /// A marker interface that all types providable by an [Extension] share.
-    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, MiddlewareContainer, TypeAdapterContainer, ValidatorContainer, Localizer, PermissionsProvider, GuildScopeProvider {}
+    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, ProvidableContainer, Localizer, PermissionsProvider, GuildScopeProvider {}
+    public sealed interface ProvidableContainer extends ExtensionProvidable {}
 
     /// A container type for providing [TypeAdapter]s.
     ///
     /// @param type    the [Class] for which the [TypeAdapter] should be registered
     /// @param adapter the [TypeAdapter] implementation
     public record TypeAdapterContainer(@NotNull Class<?> type,
-                                       @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
+                                       @NotNull TypeAdapter<?> adapter) implements ProvidableContainer {}
 
     /// A container type for providing [Middleware]s.
     ///
     /// @param priority   the [Priority] with which the [Middleware] should be registered
     /// @param middleware the [Middleware] implementation
     public record MiddlewareContainer(@NotNull Priority priority,
-                                      @NotNull Middleware middleware) implements ExtensionProvidable {}
+                                      @NotNull Middleware middleware) implements ProvidableContainer {}
 
     /// A container type for providing [Validator]s.
     ///
     /// @param annotation the [Annotation] for which the [Validator] should be registered
     /// @param validator  the [Validator] implementation
     public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
-                                     @NotNull Validator validator) implements ExtensionProvidable {}
+                                     @NotNull Validator validator) implements ProvidableContainer {}
 
     private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }

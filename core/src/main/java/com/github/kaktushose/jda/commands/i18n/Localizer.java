@@ -13,11 +13,4 @@ public non-sealed interface Localizer extends Implementation.ExtensionProvidable
     }
 
     record Entry(String name, Object value) {}
-
-//    default String localize(Locale locale, String bundle, String key, Localizer.Entry... entries) {
-//        Map<String, Object> arguments = entries != null
-//                ? Arrays.stream(entries).collect(Collectors.toMap(Localizer.Entry::name, Localizer.Entry::value))
-//                : Map.of();
-//        return localize(locale, bundle, key, arguments);
-//    }
 }

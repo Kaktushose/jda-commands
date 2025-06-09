@@ -128,6 +128,11 @@ public final class JDACommands {
         updater.updateGuildCommands();
     }
 
+    @NotNull
+    public I18n i18n() {
+        return i18n;
+    }
+
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///

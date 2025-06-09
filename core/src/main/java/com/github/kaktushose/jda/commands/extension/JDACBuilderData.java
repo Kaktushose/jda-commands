@@ -18,6 +18,7 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -108,7 +110,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 ).toList();
     }
 
-    private final Map<Class<?>, Object> loadedCache = new HashMap<>();
+    private final Map<Class<?>, Object> loadedCache = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, Supplier<T> defaultValue) {
@@ -265,5 +267,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 .collect(Collectors.toMap(Implementation.TypeAdapterContainer::type, Implementation.TypeAdapterContainer::adapter));
         all.putAll(typeAdapters);
         return all;
+    }
+
+    @NotNull
+    public I18n i18n() {
+        return (I18n) loadedCache.computeIfAbsent(I18n.class, _ -> new I18n(descriptor(), localizer()));
     }
 }
