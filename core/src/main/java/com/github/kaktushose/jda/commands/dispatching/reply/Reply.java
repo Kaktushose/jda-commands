@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
 ///
 /// This interface ensures that [ReplyableEvent] and [MessageReply], which is internally used by [ReplyableEvent],
@@ -19,7 +21,8 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// @param message the message to send
+    /// @param message the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
