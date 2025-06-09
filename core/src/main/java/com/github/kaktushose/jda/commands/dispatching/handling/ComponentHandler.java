@@ -44,6 +44,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
 
         return new InvocationContext<>(
                 genericEvent,
+                dispatchingContext.i18n(),
                 runtime.keyValueStore(),
                 component,
                 replyConfig,
