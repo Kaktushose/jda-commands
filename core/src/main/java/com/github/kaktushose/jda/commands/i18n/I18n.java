@@ -133,9 +133,16 @@ public class I18n {
                 .map(this::checkFrame)
                 .filter(b -> !b.isEmpty())
                 .findAny()
-        ).orElse(DEFAULT_BUNDLE);
+        ).orElseGet(() -> {
+            String found = checkClass(last);
+            return found.isEmpty()
+                    ? DEFAULT_BUNDLE
+                    : found;
+        });
     }
 
+
+    private ClassDescription last = null;
     private String checkFrame(StackWalker.StackFrame frame) {
         Class<?> klass = frame.getDeclaringClass();
 
@@ -145,15 +152,25 @@ public class I18n {
         }
 
         ClassDescription classDescription = descriptor.describe(klass);
+
+        if (last != null && !last.clazz().equals(classDescription.clazz())) {
+            String found = checkClass(last);
+            if (!found.isEmpty()) return found;
+        }
+
+        last = classDescription;
+
         return classDescription.methods()
                 .stream()
                 .filter(method -> method.toMethodType().equals(frame.getMethodType()))
                 .findFirst()
                 .flatMap(this::readAnnotation)
-                .orElseGet(() -> cache.computeIfAbsent(klass, _ -> readAnnotation(classDescription)
-                                .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse(""))
-                        )
-                );
+                .orElse("");
+    }
+
+    private String checkClass(ClassDescription classDescription) {
+        return cache.computeIfAbsent(classDescription.clazz(), _ -> readAnnotation(classDescription)
+                                .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse("")));
     }
 
     private Optional<String> readAnnotation(Description description) {
