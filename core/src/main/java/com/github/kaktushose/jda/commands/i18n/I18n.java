@@ -8,10 +8,88 @@ import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+
+/// This class serves as an interface for application localization.
+///
+/// It is mostly a wrapper around [Localizer] but supports flexible specification of the wished for bundle.
+///
+/// To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
+/// For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
+///
+/// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
+/// [`@Bundle("mybundle")`](Bundle) annotation with following order:
+///
+/// 1. method that called [I18n#localize(Locale, String, Entry...)]
+/// 2. other called methods in the same class
+/// 2. this method's class
+/// 3. the class' package's `package-info.java` file
+///
+/// If no annotation is found, the previous method (in another class) is searched with the same pattern up to the
+/// class at the very beginning.
+///
+/// If even after this no bundle name could be found, the bundle `default` will be used.
+///
+/// ### Example
+/// `B.java`:
+/// ```java
+/// package my.app;
+/// class A {
+///     void aOne() {
+///         i18n.localize(Locale.GERMAN, "fail", Map.of())
+///     }
+///
+///     @Bundle("a_bundle")
+///     void aTwo() {
+///         aOne();
+///     }
+/// }
+/// ```
+///
+/// `B.java`:
+/// ```java
+/// package my.app.other;
+///
+/// @Bundle("b_bundle")
+/// class B {
+///     A another = new A();
+///
+///     void bOne() {
+///         a.aOne();
+///     }
+///
+///     @Bundle(mB_bundle)
+///     void bTwo() {
+///         bOne();
+///     }
+/// }
+///
+/// ```
+///
+/// `package-info.java`:
+/// ```java
+/// @Bundle("pack_bundle")
+/// package my.app;
+///
+/// ```
+///
+/// The order in which the bundle name is searched for is following:
+/// 1. method `A#aOne()`
+/// 2. method `A#aTwo()`
+/// 3. class `A`
+/// 4. `package-info.java` of package `my.app`
+/// 5. method `B#bOne()`
+/// 6. method `B#two()`
+///
+/// The found bundle would be `pack_bundle`.
+///
+/// If the [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
+/// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 public class I18n {
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
@@ -37,6 +115,18 @@ public class I18n {
 
         return localizer.localize(locale, bundle, key, arguments);
     }
+
+    public String localize(Locale locale, String key, Entry... placeholder) {
+        Map<String, Object> map = Arrays.stream(placeholder)
+                .collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value));
+        return localize(locale, key, map);
+    }
+
+    public static Entry entry(String name, Object value) {
+        return new Entry(name, value);
+    }
+
+    public record Entry(String name, Object value) {}
 
     private String findBundle() {
         return walker.walk(stream -> stream
