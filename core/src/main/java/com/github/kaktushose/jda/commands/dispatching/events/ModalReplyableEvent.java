@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
@@ -69,9 +70,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();
         } else {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
-            );
+            throw new JDACException.Internal("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName());
         }
     }
 }

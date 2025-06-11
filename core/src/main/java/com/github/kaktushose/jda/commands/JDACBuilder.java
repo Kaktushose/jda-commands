@@ -222,10 +222,4 @@ public final class JDACBuilder extends JDACBuilderData {
         EXCLUDE
     }
 
-    /// Will be thrown if anything goes wrong while configuring jda-commands.
-    public static class ConfigurationException extends RuntimeException {
-        public ConfigurationException(String message) {
-            super("Error while trying to configure jda-commands: " + message);
-        }
-    }
 }

@@ -1,13 +1,13 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -117,7 +116,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
         if (implementations.isEmpty()) {
             if (defaultValue != null) return defaultValue;
-            throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+            throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
         }
 
         if (implementations.size() == 1) {
@@ -128,7 +127,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining(System.lineSeparator()));
 
-        throw new JDACBuilder.ConfigurationException(
+        throw new JDACException.Configuration(
                 "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
                         .formatted(type, foundImplementations)
         );

@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -53,7 +54,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
 
     SequencedCollection<T> implementations(JDACBuilderData data) {
         if (data.alreadyCalled.stream().anyMatch(provider -> provider.type.equals(type))) {
-            throw new JDACBuilder.ConfigurationException(
+            throw new JDACException.Configuration(
                     "Cycling dependencies while getting implementations of %s! \n%s".formatted(type, format(data))
             );
         }
