@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.Permission;
@@ -47,10 +48,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(@NotNull String[] labels, @NotNull SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new IllegalArgumentException(
-                    "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName()) +
-                            "Please report this error the the devs of jda-commands."
-            );
+            throw new JDACException.Internal("Failed to add child command: \"%s\". Cannot add child with empty labels! ", command.displayName());
         }
 
         String rootLabel = labels[0];
@@ -64,10 +62,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new IllegalArgumentException(
-                    "Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ".formatted(command.displayName()) +
-                            "Please report this error the the devs of jda-commands."
-            );
+            throw new JDACException.Internal("Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ", command.displayName());
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
@@ -98,8 +93,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                         command.methodDescription().name()
                 );
         children.remove(child.get());
-        log.error("Failed to register one ore more commands", new IllegalStateException(error));
-        return true;
+        throw new JDACException.Configuration("Failed to register one ore more commands: %s", error);
     }
 
     /// Gets a child [TreeNode] based on its name.
@@ -145,7 +139,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Transforms this TreeNode into [SubcommandData] and adds it to the passed [SubcommandGroupData].
     private void addSubcommandData(SubcommandGroupData group) {
         if (!children.isEmpty()) {
-            throw new UnsupportedOperationException("Cannot transform node with children to SubcommandData! Please report this error the the devs of jda-commands.");
+            throw new JDACException.Internal("Cannot transform node with children to SubcommandData! Please report this error the the devs of jda-commands.");
         }
         group.addSubcommands(command.toSubcommandData(name));
     }

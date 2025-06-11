@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
@@ -37,8 +38,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
             case ButtonInteractionEvent _ -> new ArrayList<>();
-            default ->
-                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+            default -> throw new JDACException.Internal("Should not occur. Please report this error the the devs of jda-commands.");
         };
         arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig));
 
