@@ -35,7 +35,7 @@ public final class JDAContext {
             case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
             case JDA jda -> consumer.accept(jda);
             default ->
-                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+                    throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
         }
     }
 
@@ -48,7 +48,7 @@ public final class JDAContext {
             case ShardManager shardManager -> shardManager.getGuildCache();
             case JDA jda -> jda.getGuildCache();
             default ->
-                    throw new IllegalArgumentException(String.format("Cannot cast %s", context.getClass().getSimpleName()));
+                    throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
         };
     }
 }
