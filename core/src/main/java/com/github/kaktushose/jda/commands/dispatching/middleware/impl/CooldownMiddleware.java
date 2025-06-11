@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,7 @@ public class CooldownMiddleware implements Middleware {
     ///
     /// @param context the [InvocationContext] to filter
     @Override
-    public void accept(@NotNull InvocationContext<?> context) {
+    public void accept(InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command) || command.cooldown().delay() <= 0)
             return;
 

@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,7 @@ public class PermissionsMiddleware implements Middleware {
     ///
     /// @param context the [InvocationContext] to filter
     @Override
-    public void accept(@NotNull InvocationContext<?> context) {
+    public void accept(InvocationContext<?> context) {
         log.debug("Checking permissions...");
         PermissionsProvider provider = permissionsProvider;
         GenericInteractionCreateEvent event = context.event();

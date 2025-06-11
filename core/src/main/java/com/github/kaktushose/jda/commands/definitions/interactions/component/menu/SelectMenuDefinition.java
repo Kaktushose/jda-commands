@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.definitions.interactions.component.me
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
-import org.jetbrains.annotations.NotNull;
 
 /// Common interface for select menu definitions.
 ///
@@ -12,7 +11,7 @@ public sealed interface SelectMenuDefinition<T extends SelectMenu> extends Compo
         permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
 
     /// the placeholder text of this menu
-    @NotNull
+    
     String placeholder();
 
     /// the minimum amount of choices

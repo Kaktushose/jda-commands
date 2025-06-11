@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
@@ -11,10 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.Com
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -32,27 +28,16 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
     /// The id for this definition. For interaction definition this is the hash code of the full class name and method
     /// name combined.
-    @NotNull
+    
     @Override
     default String definitionId() {
         return String.valueOf((classDescription().clazz().getName() + methodDescription().name()).hashCode());
     }
 
-    /// Creates a new instance of the [Interaction] class.
-    ///
-    /// @return a new instance of the declaring class of the method this definition is bound to.
-    /// @throws InvocationTargetException if the object creation fails
-    /// @throws InstantiationException    if the object creation fails
-    /// @throws IllegalAccessException    if the object creation fails
-    @ApiStatus.Internal
-    default Object newInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
-        return classDescription().clazz().getConstructors()[0].newInstance();
-    }
-
     /// A possibly-empty [Collection] of permissions for this interaction.
     ///
     /// @apiNote The [PermissionsMiddleware] will validate the provided permissions.
-    @NotNull
+    
     Collection<String> permissions();
 
     /// Stores the configuration values for sending replies. This acts as a representation of
@@ -80,7 +65,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         /// Constructs a new ReplyConfig.
         ///
         /// @param replyConfig the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
-        public ReplyConfig(@NotNull com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
+        public ReplyConfig(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
             this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.keepSelections(), replyConfig.editReply());
         }
 
@@ -105,7 +90,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// - Cannot contain any files/ attachments
             /// - Cannot be reacted to
             /// - Cannot be retrieved
-            @NotNull
+            
             public Builder ephemeral(boolean ephemeral) {
                 this.ephemeral = ephemeral;
                 return this;
@@ -115,7 +100,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             ///
             /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
             /// its components get added to the reply before it is sent.
-            @NotNull
+            
             public Builder keepComponents(boolean keepComponents) {
                 this.keepComponents = keepComponents;
                 return this;
@@ -123,7 +108,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
             /// [#keepComponents()] `true`.
-            @NotNull
+            
             public Builder keepSelections(boolean keepSelections) {
                 this.keepSelections = keepSelections;
                 return this;
@@ -135,7 +120,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
             ///
             /// Subsequent replies to the same slash command event or the button event cannot be edited.
-            @NotNull
+            
             public Builder editReply(boolean editReply) {
                 this.editReply = editReply;
                 return this;

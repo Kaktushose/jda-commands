@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,9 +58,9 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public MessageReply(@NotNull GenericInteractionCreateEvent event,
-                        @NotNull InteractionDefinition definition,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+    public MessageReply(GenericInteractionCreateEvent event,
+                        InteractionDefinition definition,
+                        InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
         this.ephemeral = replyConfig.ephemeral();
@@ -74,7 +73,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     /// Constructs a new MessageReply.
     ///
     /// @param reply the [MessageReply] to copy
-    public MessageReply(@NotNull MessageReply reply) {
+    public MessageReply(MessageReply reply) {
         this.event = reply.event;
         this.builder = reply.builder;
         this.definition = reply.definition;
@@ -84,12 +83,12 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         this.keepSelections = reply.keepSelections;
     }
 
-    public Message reply(@NotNull String message) {
+    public Message reply(String message) {
         builder.setContent(message);
         return complete();
     }
 
-    public Message reply(@NotNull EmbedBuilder builder) {
+    public Message reply(EmbedBuilder builder) {
         this.builder.setEmbeds(builder.build());
         return complete();
     }
@@ -103,7 +102,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     /// will be called.
     ///
     /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
-    @NotNull
+    
     protected Message complete() {
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
@@ -171,13 +170,13 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         return components;
     }
 
-    private void deferReply(@NotNull IReplyCallback callback) {
+    private void deferReply(IReplyCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferReply(ephemeral).queue();
         }
     }
 
-    private void deferEdit(@NotNull IMessageEditCallback callback) {
+    private void deferEdit(IMessageEditCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferEdit().queue();
         }

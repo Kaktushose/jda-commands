@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -21,8 +21,9 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
         super(dispatchingContext);
     }
 
+    @Nullable
     @Override
-    protected InvocationContext<CommandAutoCompleteInteractionEvent> prepare(@NotNull CommandAutoCompleteInteractionEvent event, @NotNull Runtime runtime) {
+    protected InvocationContext<CommandAutoCompleteInteractionEvent> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         return registry.find(SlashCommandDefinition.class, it -> it.name().equals(interaction.getFullCommandName()))

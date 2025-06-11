@@ -9,9 +9,11 @@ import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /// Common interface for command interaction definitions.
@@ -21,22 +23,22 @@ import java.util.function.Consumer;
 public sealed interface CommandDefinition extends InteractionDefinition, JDAEntity<CommandData> permits ContextCommandDefinition, SlashCommandDefinition {
 
     /// The name of the command.
-    @NotNull String name();
+    String name();
 
-    @NotNull CommandConfig commandConfig();
+    CommandConfig commandConfig();
 
     /// The [Command.Type] of this command.
-    @NotNull Command.Type commandType();
+    Command.Type commandType();
 
     /// The [LocalizationFunction] to use for this command.
-    @NotNull LocalizationFunction localizationFunction();
+    LocalizationFunction localizationFunction();
 
     /// Stores the configuration values for registering commands. This acts as a representation of
     /// [com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig]
     ///
     /// @see com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig
-    record CommandConfig(@NotNull InteractionContextType[] context, @NotNull IntegrationType[] integration,
-                         @NotNull CommandScope scope, boolean isNSFW, @NotNull Permission[] enabledPermissions) {
+    record CommandConfig(InteractionContextType[] context, IntegrationType[] integration,
+                         CommandScope scope, boolean isNSFW, Permission[] enabledPermissions) {
 
         /// Compact constructor ensuring that [#context] and [#integration] is always set. If empty defaults to
         /// [InteractionContextType#GUILD] and [IntegrationType#GUILD_INSTALL].
@@ -99,8 +101,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [InteractionContextType#GUILD].
             ///
             /// @param context the [InteractionContextType]s to use
-            @NotNull
-            public Builder context(@NotNull InteractionContextType... context) {
+            
+            public Builder context(InteractionContextType... context) {
                 return context(Arrays.asList(context));
             }
 
@@ -108,8 +110,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [InteractionContextType#GUILD].
             ///
             /// @param context the [InteractionContextType]s to use
-            @NotNull
-            public Builder context(@NotNull Collection<InteractionContextType> context) {
+            
+            public Builder context(Collection<InteractionContextType> context) {
                 this.context.addAll(context);
                 return this;
             }
@@ -118,8 +120,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [IntegrationType#GUILD_INSTALL].
             ///
             /// @param integration the [IntegrationType]s to use
-            @NotNull
-            public Builder integration(@NotNull IntegrationType... integration) {
+            
+            public Builder integration(IntegrationType... integration) {
                 return integration(Arrays.asList(integration));
             }
 
@@ -127,35 +129,35 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [IntegrationType#GUILD_INSTALL].
             ///
             /// @param integration the [IntegrationType]s to use
-            @NotNull
-            public Builder integration(@NotNull Collection<IntegrationType> integration) {
+            
+            public Builder integration(Collection<IntegrationType> integration) {
                 this.integration.addAll(integration);
                 return this;
             }
 
             /// @param scope the [CommandScope] to use
-            @NotNull
-            public Builder scope(@NotNull CommandScope scope) {
+            
+            public Builder scope(CommandScope scope) {
                 this.scope = scope;
                 return this;
             }
 
             /// @param nsfw `true` if the configured command(s) can only be executed in NSFW channels
-            @NotNull
+            
             public Builder nsfw(boolean nsfw) {
                 isNSFW = nsfw;
                 return this;
             }
 
             /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
-            @NotNull
-            public Builder enabledPermissions(@NotNull Permission... permissions) {
+            
+            public Builder enabledPermissions(Permission... permissions) {
                 return enabledPermissions(Arrays.asList(permissions));
             }
 
             /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
-            @NotNull
-            public Builder enabledPermissions(@NotNull Collection<Permission> permissions) {
+            
+            public Builder enabledPermissions(Collection<Permission> permissions) {
                 enabledPermissions.addAll(permissions);
                 return this;
             }

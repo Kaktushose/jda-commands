@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.extension.Implementation;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
 
 /// Interface for performing permission checks.
 ///
@@ -20,13 +19,13 @@ public non-sealed interface PermissionsProvider extends Implementation.Extension
     /// @param context the corresponding [InvocationContext]
     /// @return `true` if the user has the permission to execute the command
     /// @see #hasPermission(Member, InvocationContext)
-    boolean hasPermission(@NotNull User user, @NotNull InvocationContext<?> context);
+    boolean hasPermission(User user, InvocationContext<?> context);
 
     /// Checks if a [Member] has permissions.
     ///
     /// @param member  the [Member] to perform the check against
     /// @param context the corresponding [InvocationContext]
     /// @return `true` if the user has the permission to execute the command
-    boolean hasPermission(@NotNull Member member, @NotNull InvocationContext<?> context);
+    boolean hasPermission(Member member, InvocationContext<?> context);
 
 }

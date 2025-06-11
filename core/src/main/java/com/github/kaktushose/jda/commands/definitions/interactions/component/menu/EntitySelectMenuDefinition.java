@@ -9,8 +9,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -28,19 +27,19 @@ import static com.github.kaktushose.jda.commands.definitions.interactions.compon
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 public record EntitySelectMenuDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull Set<EntitySelectMenu.SelectTarget> selectTargets,
-        @NotNull Set<EntitySelectMenu.DefaultValue> defaultValues,
-        @NotNull Set<ChannelType> channelTypes,
-        @NotNull String placeholder,
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        Set<EntitySelectMenu.SelectTarget> selectTargets,
+        Set<EntitySelectMenu.DefaultValue> defaultValues,
+        Set<ChannelType> channelTypes,
+        String placeholder,
         int minValue,
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
     /// Builds a new [EntitySelectMenuDefinition] with the given values.
-    @NotNull
+    
     public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
                                            @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
                                            @Nullable Set<ChannelType> channelTypes,
@@ -103,7 +102,7 @@ public record EntitySelectMenuDefinition(
     ///
     /// @return the [EntitySelectMenu]
     /// @see CustomId#independent(String)
-    @NotNull
+    
     @Override
     public EntitySelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -113,9 +112,9 @@ public record EntitySelectMenuDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [EntitySelectMenu]
-    @NotNull
+    
     @Override
-    public EntitySelectMenu toJDAEntity(@NotNull CustomId customId) {
+    public EntitySelectMenu toJDAEntity(CustomId customId) {
         var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
                 .setDefaultValues(defaultValues)
                 .setPlaceholder(placeholder)
@@ -130,7 +129,7 @@ public record EntitySelectMenuDefinition(
         return menu.build();
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return "Select Menu: %s".formatted(placeholder);

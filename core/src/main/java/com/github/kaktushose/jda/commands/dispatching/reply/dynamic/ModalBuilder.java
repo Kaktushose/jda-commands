@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,8 @@ public class ModalBuilder {
     }
 
     /// @see Modal.Builder#setTitle(String)
-    @NotNull
-    public ModalBuilder title(@NotNull String title) {
+    
+    public ModalBuilder title(String title) {
         this.title = title;
         return this;
     }
@@ -45,7 +44,7 @@ public class ModalBuilder {
     /// @param callback the [Function] to modify the text input
     /// @see TextInput.Builder
     /// @return this instance for fluent interface
-    public ModalBuilder textInput(@NotNull String textInput, Function<TextInput.Builder, TextInput.Builder> callback) {
+    public ModalBuilder textInput(String textInput, Function<TextInput.Builder, TextInput.Builder> callback) {
         List<TextInputDefinition> textInputs = (ArrayList<TextInputDefinition>) modalDefinition.textInputs();
         var optionalTextInput = textInputs.stream()
                 .filter(it -> it.parameter().name().equals(textInput))

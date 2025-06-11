@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
-import org.jetbrains.annotations.NotNull;
 
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
 ///
@@ -24,7 +23,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull String message);
+    Message reply(String message);
 
     /// Acknowledgement of this event with a text message.
     ///
@@ -38,7 +37,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     ///                                         the format string, or other illegal conditions
     ///                                                                                                                                                                                                                                                                                                is incompatible with the given arguments, insufficient arguments given
     ///                                                                                                                                                                                                                                                                                               the format string, or other illegal conditions.
-    default Message reply(@NotNull String format, @NotNull Object... args) {
+    default Message reply(String format, Object... args) {
         return reply(format.formatted(args));
     }
 
@@ -50,7 +49,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull EmbedBuilder builder);
+    Message reply(EmbedBuilder builder);
 
     /// Acknowledgement of this event with a text message.
     ///
@@ -60,7 +59,7 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    default Message reply(@NotNull EmbedDTO embedDTO) {
+    default Message reply(EmbedDTO embedDTO) {
         return reply(embedDTO.toEmbedBuilder());
     }
 }

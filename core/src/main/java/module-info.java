@@ -8,6 +8,7 @@ module io.github.kaktushose.jda.commands.core {
     requires io.github.kaktushose.proteus;
 
     requires transitive org.jetbrains.annotations;
+    requires transitive org.jspecify;
     requires transitive jakarta.inject;
     requires java.naming;
 

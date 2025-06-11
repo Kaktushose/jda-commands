@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import org.jetbrains.annotations.NotNull;
 
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
@@ -9,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 ///                     or the literal `independent`.
 /// @param definitionId the [Definition#definitionId()]
 /// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
-public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) {
+public record CustomId(String runtimeId, String definitionId) {
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
     public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
@@ -25,8 +24,8 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     ///
     /// @param customId the custom id String
     /// @return the [CustomId]
-    @NotNull
-    public static CustomId fromMerged(@NotNull String customId) {
+    
+    public static CustomId fromMerged(String customId) {
         if (isInvalid(customId)) {
             throw new IllegalArgumentException("Provided custom id is invalid!");
         }
@@ -38,20 +37,20 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     ///
     /// @param definitionId the definition id to construct the [CustomId] from
     /// @return a new runtime-independent [CustomId]
-    @NotNull
-    public static CustomId independent(@NotNull String definitionId) {
+    
+    public static CustomId independent(String definitionId) {
         return new CustomId(INDEPENDENT_ID, definitionId);
     }
 
     /// Checks if the passed custom id *doesn't* conform to the defined format of jda-commands.
     ///
     /// @return `true` if the passed custom id *doesn't* conform to the jda-commands format
-    public static boolean isInvalid(@NotNull String customId) {
+    public static boolean isInvalid(String customId) {
         return !(customId.matches(BOUND_CUSTOM_ID_REGEX) || customId.matches(INDEPENDENT_CUSTOM_ID_REGEX));
     }
 
     /// The String representation of this custom id.
-    @NotNull
+    
     public String merged() {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
@@ -60,7 +59,7 @@ public record CustomId(@NotNull String runtimeId, @NotNull String definitionId) 
     ///
     /// @return the runtime id
     /// @throws IllegalStateException if this custom id is runtime-independent
-    @NotNull
+    
     public String runtimeId() {
         if (isIndependent()) {
             throw new IllegalStateException("Provided custom id is runtime-independent!");

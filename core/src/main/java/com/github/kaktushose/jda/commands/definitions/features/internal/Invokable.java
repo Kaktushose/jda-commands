@@ -7,8 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     ///                                   underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
     @Nullable
-    default Object invoke(@NotNull Object instance, @NotNull InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
+    default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
         if (!EventHandler.INVOCATION_PERMITTED.get()) {
             throw new IllegalStateException("The Definition must not be invoked at this point.");
         }
@@ -42,10 +41,10 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     }
 
     /// The [ClassDescription] of the declaring class of the [#methodDescription()].
-    @NotNull
+    
     ClassDescription classDescription();
 
     /// The [MethodDescription] of the method this [Definition] is bound to.
-    @NotNull
+    
     MethodDescription methodDescription();
 }

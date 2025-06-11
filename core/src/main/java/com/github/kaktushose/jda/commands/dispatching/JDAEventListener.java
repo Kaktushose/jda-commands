@@ -9,8 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,7 @@ public final class JDAEventListener extends ListenerAdapter {
 
     @Override
     @SubscribeEvent
-    public void onGenericInteractionCreate(@NotNull GenericInteractionCreateEvent jdaEvent) {
+    public void onGenericInteractionCreate(GenericInteractionCreateEvent jdaEvent) {
         checkRuntimesAlive();
 
         Runtime runtime = switch (jdaEvent) {

@@ -11,7 +11,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.Com
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
-import org.jetbrains.annotations.NotNull;
 
 /// Indicates that the implementing [Definition] can be transformed into a JDA entity.
 ///
@@ -29,7 +28,7 @@ public sealed interface JDAEntity<T> extends Definition
     /// Transforms this [Definition] into a JDA entity of the given type [T].
     ///
     /// @return a JDA entity of type [T]
-    @NotNull
+    
     T toJDAEntity();
 
 }

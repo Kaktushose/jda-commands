@@ -22,3 +22,4 @@ org-reflections-reflections = { module = "org.reflections:reflections", version.
 org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
 io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.2" }
+org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0"}

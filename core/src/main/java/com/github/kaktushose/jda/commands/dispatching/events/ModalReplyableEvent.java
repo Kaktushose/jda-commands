@@ -11,7 +11,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +35,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param runtime     the [Runtime] this event lives in
     /// @param definition  the [InteractionDefinition] this event belongs to
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    protected ModalReplyableEvent(@NotNull T event,
-                                  @NotNull InteractionRegistry registry,
-                                  @NotNull Runtime runtime,
-                                  @NotNull InteractionDefinition definition,
-                                  @NotNull InteractionDefinition.ReplyConfig replyConfig
+    protected ModalReplyableEvent(T event,
+                                  InteractionRegistry registry,
+                                  Runtime runtime,
+                                  InteractionDefinition definition,
+                                  InteractionDefinition.ReplyConfig replyConfig
     ) {
         super(event, registry, runtime, definition, replyConfig);
     }
@@ -49,7 +48,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     ///
     /// @param modal the method name of the [Modal] you want to reply with
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(@NotNull String modal) {
+    public void replyModal(String modal) {
         replyModal(modal, Function.identity());
     }
 
@@ -58,7 +57,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param modal    the method name of the [Modal] you want to reply with
     /// @param callback a [Function] to dynamically modify the [Modal] before replying with it
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(@NotNull String modal, @NotNull Function<ModalBuilder, ModalBuilder> callback) {
+    public void replyModal(String modal, Function<ModalBuilder, ModalBuilder> callback) {
         if (event instanceof IModalCallback modalCallback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->

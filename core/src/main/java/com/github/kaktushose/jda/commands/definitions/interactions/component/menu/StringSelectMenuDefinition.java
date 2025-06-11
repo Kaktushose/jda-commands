@@ -13,8 +13,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,19 +30,19 @@ import static com.github.kaktushose.jda.commands.definitions.interactions.compon
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 public record StringSelectMenuDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull Set<MenuOptionDefinition> selectOptions,
-        @NotNull String placeholder,
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        Set<MenuOptionDefinition> selectOptions,
+        String placeholder,
         int minValue,
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
     /// Builds a new [StringSelectMenuDefinition] with the given values.
-    @NotNull
-    public StringSelectMenuDefinition with(@NotNull Set<SelectOption> selectOptions,
-                                           @NotNull Collection<String> defaultValues,
+    
+    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
+                                           Collection<String> defaultValues,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue) {
@@ -58,7 +57,7 @@ public record StringSelectMenuDefinition(
         );
     }
 
-    private Set<MenuOptionDefinition> createOptions(@NotNull Set<SelectOption> selectOptions, @NotNull Collection<String> defaultValues) {
+    private Set<MenuOptionDefinition> createOptions(Set<SelectOption> selectOptions, Collection<String> defaultValues) {
         return override(HashSet::new, this.selectOptions, selectOptions
                 .stream()
                 .map(MenuOptionDefinition::new)
@@ -111,7 +110,7 @@ public record StringSelectMenuDefinition(
     ///
     /// @return the [StringSelectMenu]
     /// @see CustomId#independent(String)
-    @NotNull
+    
     @Override
     public StringSelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -121,9 +120,9 @@ public record StringSelectMenuDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [StringSelectMenu]
-    @NotNull
+    
     @Override
-    public StringSelectMenu toJDAEntity(@NotNull CustomId customId) {
+    public StringSelectMenu toJDAEntity(CustomId customId) {
         return StringSelectMenu.create(customId.merged())
                 .setPlaceholder(placeholder)
                 .setRequiredRange(minValue, maxValue)
@@ -131,7 +130,7 @@ public record StringSelectMenuDefinition(
                 .build();
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return "Select Menu: %s".formatted(placeholder);
@@ -144,14 +143,14 @@ public record StringSelectMenuDefinition(
     /// @param description the description of the select option
     /// @param emoji       the [Emoji] of the select option or `null`
     /// @param isDefault   whether the select option is a default value
-    public record MenuOptionDefinition(@NotNull String value,
-                                       @NotNull String label,
+    public record MenuOptionDefinition(String value,
+                                       String label,
                                        @Nullable String description,
                                        @Nullable Emoji emoji,
                                        boolean isDefault
     ) implements JDAEntity<SelectOption>, Definition {
 
-        public MenuOptionDefinition(@NotNull SelectOption option) {
+        public MenuOptionDefinition(SelectOption option) {
             this(option.getValue(), option.getLabel(), option.getDescription(), option.getEmoji(), option.isDefault());
         }
 
@@ -172,14 +171,14 @@ public record StringSelectMenuDefinition(
             return new MenuOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
         }
 
-        @NotNull
+        
         @Override
         public String displayName() {
             return value;
         }
 
         /// Transforms this definition into a [SelectOption].
-        @NotNull
+        
         @Override
         public SelectOption toJDAEntity() {
             return SelectOption.of(label, value)

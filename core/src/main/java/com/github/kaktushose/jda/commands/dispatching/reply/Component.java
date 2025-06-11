@@ -10,8 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntityS
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -71,7 +70,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     private final String method;
     private final Class<?> origin;
 
-    protected Component(@NotNull String method, @Nullable Class<?> origin) {
+    protected Component(String method, @Nullable Class<?> origin) {
         this.method = method;
         this.origin = origin;
     }

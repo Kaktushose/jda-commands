@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
@@ -16,5 +16,6 @@ public interface Invoker {
     /// @throws IllegalAccessException    if this Method object is enforcing Java language access control and the
     ///                                   underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
-    @Nullable Object invoke(@NotNull Object instance, @NotNull SequencedCollection<Object> arguments) throws IllegalAccessException, InvocationTargetException;
+    @Nullable
+    Object invoke(Object instance, SequencedCollection<Object> arguments) throws IllegalAccessException, InvocationTargetException;
 }

@@ -12,9 +12,10 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /// Representation of a context command.
 ///
@@ -26,19 +27,19 @@ import java.util.*;
 /// @param commandConfig        the [CommandConfig] to use
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull String name,
-        @NotNull Command.Type commandType,
-        @NotNull CommandConfig commandConfig,
-        @NotNull LocalizationFunction localizationFunction
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        String name,
+        Command.Type commandType,
+        CommandConfig commandConfig,
+        LocalizationFunction localizationFunction
 ) implements CommandDefinition {
 
     /// Builds a new [ContextCommandDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [ContextCommandDefinition]
-    @NotNull
+    
     public static Optional<ContextCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
@@ -70,7 +71,7 @@ public record ContextCommandDefinition(
     /// Transforms this definition into [CommandData].
     ///
     /// @return the [CommandData]
-    @NotNull
+    
     @Override
     public CommandData toJDAEntity() {
         var command = Commands.context(commandType, name);
@@ -82,7 +83,7 @@ public record ContextCommandDefinition(
         return command;
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return name;
