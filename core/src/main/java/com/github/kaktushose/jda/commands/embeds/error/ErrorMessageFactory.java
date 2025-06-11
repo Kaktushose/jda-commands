@@ -3,12 +3,12 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
+import io.github.kaktushose.proteus.conversion.ConversionResult;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 
 /// Generic interface for factory classes that provide [MessageCreateData] that should be sent for common errors that
 /// happen during an interaction execution, such as missing permissions or failing constraints.
@@ -20,10 +20,10 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///
     /// @param context   the [ErrorContext]
-    /// @param userInput the input the user provided
+    /// @param failure   the [ConversionResult.Failure]
     /// @return a [MessageCreateData] to send when type adapting failed
     @NotNull
-    MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput);
+    MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure);
 
     /// Gets a [MessageCreateData] to send when a user is missing permissions.
     ///

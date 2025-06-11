@@ -76,12 +76,19 @@ public @interface Implementation {
     @Scope
     @interface TypeAdapter {
 
-        /// Gets the [Class] to register a [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] with.
+        /// Gets the [Class] this [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] will convert from.
         ///
         /// @return the class the [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]
-        /// should be mapped to
+        /// will convert from
         @NotNull
-        Class<?> clazz();
+        Class<?> source();
+
+        /// Gets the [Class] this [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter] will convert into.
+        ///
+        /// @return the class the [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]
+        /// will convert into
+        @NotNull
+        Class<?> target();
 
     }
 
