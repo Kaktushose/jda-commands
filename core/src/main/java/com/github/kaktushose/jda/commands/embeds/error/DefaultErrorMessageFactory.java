@@ -1,60 +1,109 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.proteus.conversion.ConversionResult;
+import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /// Implementation of [ErrorMessageFactory] with default embeds.
 ///
 /// @see JsonErrorMessageFactory
 public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, List<String> userInput) {
-        StringBuilder sbExpected = new StringBuilder();
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure) {
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
+        SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
+        List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
+        List<OptionMapping> optionMappings = commandOptions
+                .stream()
+                .map(it -> event.getOption(it.name()))
+                .toList();
 
-        command.commandOptions().forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
-                return;
+        String name = "**%s**".formatted(command.displayName());
+        String expected = "N/A";
+        String actual = "N/A";
+        String input = "N/A";
+        for (int i = 0; i < commandOptions.size(); i++) {
+            OptionDataDefinition commandOption = commandOptions.get(i);
+            OptionMapping optionMapping = optionMappings.get(i);
+            Type<?> into = Type.of(commandOption.type());
+            if (failure.context() != null && into.equals(failure.context().into())) {
+                name = "%s __%s__".formatted(name, commandOption.name());
+                name = "%s %s".formatted(name, commandOptions.subList(i + 1, commandOptions.size())
+                        .stream()
+                        .map(OptionDataDefinition::name)
+                        .collect(Collectors.joining(" ")));
+                expected = commandOption.type().getSimpleName();
+                actual = humanReadableType(optionMapping);
+                input = optionMapping.getAsString();
+                break;
+            } else {
+                name = "%s %s".formatted(name, commandOption.name());
             }
-            String typeName = parameter.type().getTypeName();
-            if (typeName.contains(".")) {
-                typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
-            }
-            sbExpected.append(typeName).append(", ");
-        });
-        String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
-
-        StringBuilder sbActual = new StringBuilder();
-        userInput.forEach(argument -> sbActual.append(argument).append(", "));
-        String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
-
+        }
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
-                .setTitle("Syntax Error")
-                .setDescription(command.displayName())
-                .addField("Expected", String.format("`%s`", expected), false)
-                .addField("Actual", String.format("`%s`", actual), false)
+                .setTitle("Invalid Arguments")
+                .addField("Command", "%s".formatted(name.trim()), false)
+                .addField("Expected Type", "`%s`".formatted(expected), true)
+                .addField("Provided Type", "`%s`".formatted(actual), true)
+                .addField("Raw Input", "`%s`".formatted(input), false)
+                .addField("Details", failure.message(), false)
                 .build();
 
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
-    
+    /// Gets the human-readable representation of an [OptionMapping].
+    ///
+    /// @param optionMapping the [OptionMapping] to return the human-readable representation for
+    /// @return the human-readable representation
+    @NotNull
+    protected String humanReadableType(@NotNull OptionMapping optionMapping) {
+        return switch (optionMapping.getType()) {
+            case STRING -> "String";
+            case INTEGER -> "Long";
+            case BOOLEAN -> "Boolean";
+            case USER -> {
+                Member member = optionMapping.getAsMember();
+                if (member == null) {
+                    yield "User";
+                }
+                yield "Member";
+            }
+            case CHANNEL -> "Channel";
+            case ROLE -> "Role";
+            case MENTIONABLE -> "Mentionable (Role, User, Member)";
+            case NUMBER -> "Double";
+            case ATTACHMENT -> "Attachment";
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            );
+        };
+    }
+
+    @NotNull
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(ErrorContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -69,9 +118,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(ErrorContext context, ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -80,9 +129,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getCooldownMessage(ErrorContext context, long ms) {
+    public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
         long seconds = secs % 60;
         long minutes = (secs / 60) % 60;
@@ -112,9 +161,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(ErrorContext context) {
+    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Wrong Channel Type")
@@ -123,9 +172,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
         String error;
 
         error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
@@ -146,9 +195,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
-    
+    @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent context) {
+    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent context) {
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")

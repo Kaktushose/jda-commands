@@ -18,6 +18,7 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -25,6 +26,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
@@ -83,7 +85,8 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         list.add(new Implementation<>(
                 TypeAdapterContainer.class, builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class, TypeAdapter.class)
                 .map(adapter -> new TypeAdapterContainer(
-                        adapter.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class).clazz(),
+                        Type.of(adapter.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class).source()),
+                        Type.of(adapter.getClass().getAnnotation(com.github.kaktushose.jda.commands.guice.Implementation.TypeAdapter.class).target()),
                         adapter)
                 ).toList()
         ));

@@ -11,70 +11,85 @@ import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jspecify.annotations.Nullable;
+import org.apache.commons.collections4.BidiMap;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters.PRIMITIVE_MAPPING;
 import static java.util.Map.entry;
 
-/// Representation of a slash command parameter.
+/// Representation of a slash command option.
 ///
-/// @param type         the [Class] type of the parameter
-/// @param optional     whether this parameter is optional
+/// @param type         the [Class] type of the command option
+/// @param optionType   the [OptionType] of the command option
+/// @param optional     whether this command option is optional
 /// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-/// @param name         the name of the parameter
-/// @param description  the description of the parameter
-/// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
-/// @param constraints  a [Collection] of [ConstraintDefinition]s of this parameter
+/// @param name         the name of the command option
+/// @param description  the description of the command option
+/// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this command option
+/// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
 public record OptionDataDefinition(
-        Class<?> type,
+        @NotNull Class<?> type,
+        @NotNull OptionType optionType,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
-        String name,
-        String description,
-        SequencedCollection<Command.Choice> choices,
-        Collection<ConstraintDefinition> constraints
+        @NotNull String name,
+        @NotNull String description,
+        @NotNull SequencedCollection<Command.Choice> choices,
+        @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
-    private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
-            entry(boolean.class, OptionType.BOOLEAN),
+
+    private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(
+            entry(OptionType.STRING, String.class),
+            entry(OptionType.BOOLEAN, Boolean.class),
+            entry(OptionType.INTEGER, Long.class),
+            entry(OptionType.NUMBER, Double.class),
+            entry(OptionType.USER, User.class),
+            entry(OptionType.ROLE, Role.class),
+            entry(OptionType.MENTIONABLE, IMentionable.class),
+            entry(OptionType.CHANNEL, GuildChannelUnion.class),
+            entry(OptionType.ATTACHMENT, Message.Attachment.class)
+    );
+
+    private static final Map<Class<?>, OptionType> CLASS_TO_OPTION_TYPE = Map.ofEntries(
             entry(Boolean.class, OptionType.BOOLEAN),
-            entry(short.class, OptionType.INTEGER),
             entry(Short.class, OptionType.INTEGER),
-            entry(int.class, OptionType.INTEGER),
             entry(Integer.class, OptionType.INTEGER),
-            entry(long.class, OptionType.NUMBER),
-            entry(Long.class, OptionType.NUMBER),
-            entry(float.class, OptionType.NUMBER),
+            entry(Long.class, OptionType.INTEGER),
             entry(Float.class, OptionType.NUMBER),
-            entry(double.class, OptionType.NUMBER),
             entry(Double.class, OptionType.NUMBER),
             entry(User.class, OptionType.USER),
             entry(Member.class, OptionType.USER),
+            entry(Role.class, OptionType.ROLE),
+            entry(IMentionable.class, OptionType.MENTIONABLE),
+            entry(GuildChannelUnion.class, OptionType.CHANNEL),
             entry(GuildChannel.class, OptionType.CHANNEL),
-            entry(GuildMessageChannel.class, OptionType.CHANNEL),
-            entry(ThreadChannel.class, OptionType.CHANNEL),
-            entry(TextChannel.class, OptionType.CHANNEL),
-            entry(NewsChannel.class, OptionType.CHANNEL),
             entry(AudioChannel.class, OptionType.CHANNEL),
-            entry(VoiceChannel.class, OptionType.CHANNEL),
+            entry(GuildMessageChannel.class, OptionType.CHANNEL),
+            entry(NewsChannel.class, OptionType.CHANNEL),
             entry(StageChannel.class, OptionType.CHANNEL),
-            entry(Role.class, OptionType.ROLE)
+            entry(TextChannel.class, OptionType.CHANNEL),
+            entry(ThreadChannel.class, OptionType.CHANNEL),
+            entry(VoiceChannel.class, OptionType.CHANNEL),
+            entry(Message.Attachment.class, OptionType.ATTACHMENT)
     );
 
     private static final Map<Class<?>, List<ChannelType>> CHANNEL_TYPE_RESTRICTIONS = Map.ofEntries(
@@ -97,17 +112,19 @@ public record OptionDataDefinition(
     /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
-    
-    public static OptionDataDefinition build(ParameterDescription parameter,
+    @NotNull
+    public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
-                                             Validators validatorRegistry) {
+                                             @NotNull Validators validatorRegistry) {
+        Class<?> type = wrappedType(parameter.type());
+
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
                 .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), PRIMITIVE_MAPPING.getOrDefault(parameter.type(), parameter.type()))
+                    var validator = validatorRegistry.get(it.annotationType(), type)
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
                     constraints.add(ConstraintDefinition.build(validator, it));
                 });
@@ -116,12 +133,16 @@ public record OptionDataDefinition(
         String name = parameter.name();
         String description = "empty description";
         boolean isOptional = false;
+        OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(type, OptionType.STRING);
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
-            Param ann = param.get();
-            name = ann.name().isEmpty() ? name : ann.name();
-            description = ann.value().isEmpty() ? description : ann.value();
-            isOptional = ann.optional();
+            Param annotation = param.get();
+            name = annotation.name().isEmpty() ? name : annotation.name();
+            description = annotation.value().isEmpty() ? description : annotation.value();
+            isOptional = annotation.optional();
+            if (annotation.type() != OptionType.UNKNOWN) {
+                optionType = annotation.type();
+            }
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
 
@@ -141,8 +162,10 @@ public record OptionDataDefinition(
                 commandChoices.add(new Command.Choice(parsed[0], parsed[1]));
             }
         }
+
         return new OptionDataDefinition(
                 parameter.type(),
+                optionType,
                 isOptional,
                 autoComplete,
                 name,
@@ -152,7 +175,11 @@ public record OptionDataDefinition(
         );
     }
 
-    
+    private static Class<?> wrappedType(Class<?> type) {
+        return MethodType.methodType(type).wrap().returnType();
+    }
+
+    @NotNull
     @Override
     public String displayName() {
         return name;
@@ -161,10 +188,18 @@ public record OptionDataDefinition(
     /// Transforms this definition into [OptionData].
     ///
     /// @return the [OptionData]
-    
+    @NotNull
     @Override
     public OptionData toJDAEntity() {
-        OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
+        if (!Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(type))) {
+            throw new IllegalStateException(
+                    "Cannot create option data! " +
+                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
+                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName()) +
+                    "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
+                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName())
+            );
+        }
 
         OptionData optionData = new OptionData(
                 optionType,
@@ -202,7 +237,7 @@ public record OptionDataDefinition(
         ///
         /// @param validator  the corresponding [Validator]
         /// @param annotation the corresponding annotation object
-        public static ConstraintDefinition build(Validator validator, Annotation annotation) {
+        public static ConstraintDefinition build(@NotNull Validator validator, @NotNull Annotation annotation) {
             // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
             var message = "";
             try {
@@ -216,7 +251,7 @@ public record OptionDataDefinition(
             return new ConstraintDefinition(validator, message, annotation);
         }
 
-        
+        @NotNull
         @Override
         public String displayName() {
             return validator.getClass().getName();

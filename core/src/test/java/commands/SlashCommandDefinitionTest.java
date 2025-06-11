@@ -118,19 +118,6 @@ public class SlashCommandDefinitionTest {
     }
 
     @Test
-    public void method_withUnsupportedType_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("unsupported", CommandEvent.class, UnsupportedType.class);
-
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertNotNull(definition);
-
-
-        assertEquals(1, definition.commandOptions().size());
-        assertEquals(UnsupportedType.class, definition.commandOptions().getFirst().type());
-    }
-
-    @Test
     public void method_withArgumentsAfterOptional_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("argsAfterOptional", CommandEvent.class, String.class, int.class);
 

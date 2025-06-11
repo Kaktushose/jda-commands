@@ -11,6 +11,7 @@ module io.github.kaktushose.jda.commands.extension.guice {
     requires com.google.guice;
     requires net.dv8tion.jda;
     requires org.slf4j;
+    requires io.github.kaktushose.proteus;
 
     exports com.github.kaktushose.jda.commands.guice;
 

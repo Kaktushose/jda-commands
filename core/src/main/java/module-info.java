@@ -1,18 +1,15 @@
-import org.jspecify.annotations.NullMarked;
-
 /// The base module of jda-commands.
-@NullMarked
 module io.github.kaktushose.jda.commands.core {
     requires com.google.gson;
     requires net.dv8tion.jda;
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
-    requires java.naming;
+    requires io.github.kaktushose.proteus;
 
-    requires transitive org.jspecify;
-    requires transitive jakarta.inject;
     requires transitive org.jetbrains.annotations;
+    requires transitive jakarta.inject;
+    requires java.naming;
 
     // base package
     exports com.github.kaktushose.jda.commands;
@@ -39,7 +36,6 @@ module io.github.kaktushose.jda.commands.core {
     exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
     exports com.github.kaktushose.jda.commands.dispatching.adapter;
-    exports com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
     exports com.github.kaktushose.jda.commands.dispatching.events;
     exports com.github.kaktushose.jda.commands.dispatching.events.interactions;

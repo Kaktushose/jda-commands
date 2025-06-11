@@ -10,7 +10,6 @@ org-junit-jupiter-junit-jupiter-engine = "5.9.2"
 org-reflections-reflections = "0.10.2"
 org-slf4j-slf4j-api = "2.0.5"
 com-google-inject-guice = "7.0.0"
-org-jspecify = "1.0.0"
 
 
 [libraries]
@@ -22,4 +21,4 @@ org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jup
 org-reflections-reflections = { module = "org.reflections:reflections", version.ref = "org-reflections-reflections" }
 org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
-org-jspcify = { module = "org.jspecify:jspecify", version.ref = "org-jspecify" }
+io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.2" }

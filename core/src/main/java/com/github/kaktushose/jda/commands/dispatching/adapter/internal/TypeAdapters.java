@@ -1,22 +1,25 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
-import com.github.kaktushose.jda.commands.dispatching.adapter.impl.*;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.mapping.Mapper;
+import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.function.Function;
+
+import static io.github.kaktushose.proteus.mapping.Mapper.uni;
+import static io.github.kaktushose.proteus.mapping.MappingResult.failure;
+import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 
 /// Central registry for all type adapters.
 ///
@@ -24,83 +27,52 @@ import java.util.Optional;
 @ApiStatus.Internal
 public class TypeAdapters {
 
-    public static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(
-            boolean.class, Boolean.class,
-            byte.class, Byte.class,
-            short.class, Short.class,
-            int.class, Integer.class,
-            long.class, Long.class,
-            float.class, Float.class,
-            double.class, Double.class,
-            char.class, Character.class
-    );
+    private static final Type<String> STRING = Type.of(String.class);
+    private static final Type<User> USER = Type.of(User.class);
+    private static final Type<Member> MEMBER = Type.of(Member.class);
+    private static final Type<GuildChannelUnion> CHANNEL = Type.of(GuildChannelUnion.class);
+    private static final Type<Role> ROLE = Type.of(Role.class);
+    private static final Type<IMentionable> MENTIONABLE = Type.of(IMentionable.class);
+    private static final Type<Double> NUMBER = Type.of(Double.class);
+    private final Proteus proteus;
 
-    public static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
-            byte.class, ((byte) 0),
-            short.class, ((short) 0),
-            int.class, 0,
-            long.class, 0L,
-            double.class, 0.0d,
-            float.class, 0.0f,
-            boolean.class, false,
-            char.class, '\u0000'
-    );
-    private final Map<Class<?>, TypeAdapter<?>> parameterAdapters;
+    /// Constructs a new TypeAdapters.
+    @SuppressWarnings("unchecked")
+    public TypeAdapters(@NotNull Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
+        proteus = Proteus.global();
 
-    /// Constructs a new TypeAdapters. This will register default type adapters for:
-    ///
-    ///   - all primitive data types
-    ///   - [String]
-    ///   - [String] Array
-    ///   - [Member]
-    ///   - [User]
-    ///   - [MessageChannel] and subtypes
-    ///   - [Role]
-    public TypeAdapters(Map<Class<?>, TypeAdapter<?>> parameterAdapters) {
-        HashMap<Class<?>, TypeAdapter<?>> adapterMap = new HashMap<>(parameterAdapters);
+        proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))));
 
-        // default types
-        adapterMap.put(Byte.class, new ByteAdapter());
-        adapterMap.put(Short.class, new ShortAdapter());
-        adapterMap.put(Integer.class, new IntegerAdapter());
-        adapterMap.put(Long.class, new LongAdapter());
-        adapterMap.put(Float.class, new FloatAdapter());
-        adapterMap.put(Double.class, new DoubleAdapter());
-        adapterMap.put(Character.class, new CharacterAdapter());
-        adapterMap.put(Boolean.class, new BooleanAdapter());
-        adapterMap.put(String.class, (TypeAdapter<String>) (raw, _) -> Optional.of(raw));
+        proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())));
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A member is required, but only a user got provided")));
 
-        // jda specific
-        adapterMap.put(Member.class, new MemberAdapter());
-        adapterMap.put(User.class, new UserAdapter());
-        adapterMap.put(GuildChannel.class, new GuildChannelAdapter());
-        adapterMap.put(GuildMessageChannel.class, new GuildMessageChannelAdapter());
-        adapterMap.put(ThreadChannel.class, new ThreadChannelAdapter());
-        adapterMap.put(TextChannel.class, new TextChannelAdapter());
-        adapterMap.put(NewsChannel.class, new NewsChannelAdapter());
-        adapterMap.put(AudioChannel.class, new AudioChannelAdapter());
-        adapterMap.put(VoiceChannel.class, new VoiceChannelAdapter());
-        adapterMap.put(StageChannel.class, new StageChannelAdapter());
-        adapterMap.put(Role.class, new RoleAdapter());
+        proteus.into(MENTIONABLE)
+                .from(USER, uni((source, _) -> lossless(source)))
+                .from(MEMBER, uni((source, _) -> lossless(source)))
+                .from(ROLE, uni((source, _) -> lossless(source)));
 
-        this.parameterAdapters = Collections.unmodifiableMap(adapterMap);
+        proteus.from(CHANNEL)
+                .into(Type.of(GuildChannel.class), uni((source, _) -> lossless(source)))
+                .into(Type.of(AudioChannel.class), channel(GuildChannelUnion::asAudioChannel))
+                .into(Type.of(GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel))
+                .into(Type.of(NewsChannel.class), channel(GuildChannelUnion::asNewsChannel))
+                .into(Type.of(StageChannel.class), channel(GuildChannelUnion::asStageChannel))
+                .into(Type.of(TextChannel.class), channel(GuildChannelUnion::asTextChannel))
+                .into(Type.of(ThreadChannel.class), channel(GuildChannelUnion::asThreadChannel))
+                .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel));
+
+        typeAdapters.forEach(((entry, adapter) ->
+                proteus.register((Type<Object>) entry.getKey(), (Type<Object>) entry.getValue(), (Mapper.UniMapper<Object, Object>) adapter))
+        );
     }
 
-    /// Checks if a type adapter for the given type exists.
-    ///
-    /// @param type the type to check
-    /// @return `true` if a type adapter exists
-    public boolean exists(@Nullable Class<?> type) {
-        return parameterAdapters.containsKey(PRIMITIVE_MAPPING.getOrDefault(type, type));
+    private <T extends GuildChannel> Mapper.UniMapper<GuildChannelUnion, T> channel(Function<GuildChannelUnion, T> function) {
+        return uni((source, _) -> {
+            try {
+                return lossless(function.apply(source));
+            } catch (IllegalArgumentException e) {
+                return failure(e.getMessage());
+            }
+        });
     }
-
-    /// Retrieves a type adapter.
-    ///
-    /// @param type the type to get the adapter for
-    /// @return the type adapter or an empty Optional if none found
-    public Optional<TypeAdapter<?>> get(@Nullable Class<?> type) {
-        return Optional.ofNullable(parameterAdapters.get(PRIMITIVE_MAPPING.getOrDefault(type, type)));
-    }
-
-
 }
