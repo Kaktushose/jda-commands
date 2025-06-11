@@ -67,6 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#value()" tabindex="0">value</a></li>
 <li><a href="#name()" tabindex="0">name</a></li>
 <li><a href="#optional()" tabindex="0">optional</a></li>
+<li><a href="#type()" tabindex="0">type</a></li>
 </ol>
 </li>
 </ol>
@@ -114,9 +115,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">
 <div class="block">Returns whether this command option is optional.</div>
 </div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionType</a></code></div>
+<div class="col-second even-row-color"><code><a href="#type()" class="member-name-link">type</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">Returns the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType</code></a> of this command option.</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns the description of the command option.</div>
 </div>
 </div>
@@ -179,6 +185,26 @@ at runtime making this field redundant.</div>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>false</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="type()">
+<h3>type</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionType</a></span>&nbsp;<span class="element-name">type</span></div>
+<div class="block">Returns the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType</code></a> of this command option.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType</code></a> of this command option</dd>
+<dt>Implementation Note:</dt>
+<dd>If <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html#UNKNOWN" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType.UNKNOWN</code></a> is passed (default value), jda-commands will interpolate the best fitting
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType</code></a>, resulting to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html#STRING" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType.STRING</code></a> as a fallback.</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>UNKNOWN</code></dd>
 </dl>
 </div>
 </section>

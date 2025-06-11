@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)" tabindex="0">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, List)</a></li>
+<li><a href="#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" tabindex="0">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure)</a></li>
 <li><a href="#getInsufficientPermissionsMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext)" tabindex="0">getInsufficientPermissionsMessage(ErrorMessageFactory.ErrorContext)</a></li>
 <li><a href="#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition)" tabindex="0">getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, OptionDataDefinition.ConstraintDefinition)</a></li>
 <li><a href="#getCooldownMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,long)" tabindex="0">getCooldownMessage(ErrorMessageFactory.ErrorContext, long)</a></li>
@@ -177,8 +177,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when an incoming component interaction already timed out.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)" class="member-name-link">getTypeAdaptingFailedMessage</a><wbr>(@NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userInput)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage</a><wbr>(@NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
+ io.github.kaktushose.proteus.conversion.ConversionResult.Failure&lt;?&gt;&nbsp;failure)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
 </div>
@@ -190,6 +190,9 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.embeds.error.<a href="DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></h3>
+<code><a href="DefaultErrorMessageFactory.html#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)">humanReadableType</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -221,24 +224,24 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)">
+<section class="detail" id="getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)">
 <h3>getTypeAdaptingFailedMessage</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></span>&nbsp;<span class="element-name">getTypeAdaptingFailedMessage</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
  @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userInput)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)">ErrorMessageFactory</a></code></span></div>
+ io.github.kaktushose.proteus.conversion.ConversionResult.Failure&lt;?&gt;&nbsp;failure)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)">ErrorMessageFactory</a></code></span></div>
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)">getTypeAdaptingFailedMessage</a></code>&nbsp;in interface&nbsp;<code><a href="ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></dd>
+<dd><code><a href="ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)">getTypeAdaptingFailedMessage</a></code>&nbsp;in interface&nbsp;<code><a href="ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="DefaultErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)">getTypeAdaptingFailedMessage</a></code>&nbsp;in class&nbsp;<code><a href="DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></code></dd>
+<dd><code><a href="DefaultErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)">getTypeAdaptingFailedMessage</a></code>&nbsp;in class&nbsp;<code><a href="DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>context</code> - the <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error"><code>ErrorMessageFactory.ErrorContext</code></a></dd>
-<dd><code>userInput</code> - the input the user provided</dd>
+<dd><code>failure</code> - the <code>ConversionResult.Failure</code></dd>
 <dt>Returns:</dt>
 <dd>a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting failed</dd>
 </dl>

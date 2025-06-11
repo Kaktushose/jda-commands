@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#instanceProvider(com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator)" tabindex="0">instanceProvider(InteractionControllerInstantiator)</a></li>
 <li><a href="#expirationStrategy(com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy)" tabindex="0">expirationStrategy(ExpirationStrategy)</a></li>
 <li><a href="#middleware(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)" tabindex="0">middleware(Priority, Middleware)</a></li>
-<li><a href="#adapter(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" tabindex="0">adapter(Class, TypeAdapter)</a></li>
+<li><a href="#adapter(java.lang.Class,java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" tabindex="0">adapter(Class, Class, TypeAdapter)</a></li>
 <li><a href="#validator(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.validation.Validator)" tabindex="0">validator(Class, Validator)</a></li>
 <li><a href="#permissionsProvider(com.github.kaktushose.jda.commands.permissions.PermissionsProvider)" tabindex="0">permissionsProvider(PermissionsProvider)</a></li>
 <li><a href="#errorMessageFactory(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory)" tabindex="0">errorMessageFactory(ErrorMessageFactory)</a></li>
@@ -113,7 +113,14 @@ These following implementations are based on reflections. If you want to avoid r
 Values manually defined by this builder will always override loaded and default ones, except for:</p>
 <ul>
 <li><a href="#middleware(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)"><code>middleware(Priority, Middleware)</code></a></li>
-<li><a href="#adapter(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)"><code>adapter(Class, TypeAdapter)</code></a></li>
+<li></li>
+</ul>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>#adapter(Class, TypeAdapter)</code></pre>
+</details>
+
+<ul>
 <li><a href="#validator(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.validation.Validator)"><code>validator(Class, Validator)</code></a></li>
 </ul>
 <p>which will add to the default and loaded ones.</p>
@@ -182,8 +189,9 @@ by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adapter(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
- @NotNull <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?&gt;&nbsp;adapter)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adapter(java.lang.Class,java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;source,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;target,
+ @NotNull <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&nbsp;adapter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#classFinders(com.github.kaktushose.jda.commands.definitions.description.ClassFinder...)" class="member-name-link">classFinders</a><wbr>(@NotNull <a href="definitions/description/ClassFinder.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">ClassFinder</a>...&nbsp;classFinders)</code></div>
@@ -350,17 +358,20 @@ If you want to add own <a href="definitions/description/ClassFinder.html" title=
 </section>
 </li>
 <li>
-<section class="detail" id="adapter(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)">
+<section class="detail" id="adapter(java.lang.Class,java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)">
 <h3>adapter</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></span>&nbsp;<span class="element-name">adapter</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;source,
  @NotNull
- @NotNull <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?&gt;&nbsp;adapter)</span></div>
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;target,
+ @NotNull
+ @NotNull <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&nbsp;adapter)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>type</code> - The type that the given <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> can handle</dd>
+<dd><code>source</code> - The source type that the given <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> can handle</dd>
+<dd><code>target</code> - The target type that the given <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> can handle</dd>
 <dd><code>adapter</code> - The <a href="dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> to be registered</dd>
 </dl>
 </div>

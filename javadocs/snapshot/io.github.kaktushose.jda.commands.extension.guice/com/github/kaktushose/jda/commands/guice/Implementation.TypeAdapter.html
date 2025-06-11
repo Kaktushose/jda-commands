@@ -65,7 +65,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#annotation-interface-required-element-summary" tabindex="0">Required Element Summary</a></li>
 <li><a href="#annotation-interface-element-detail" tabindex="0">Element Details</a>
 <ol class="toc-list">
-<li><a href="#clazz()" tabindex="0">clazz</a></li>
+<li><a href="#source()" tabindex="0">source</a></li>
+<li><a href="#target()" tabindex="0">target</a></li>
 </ol>
 </li>
 </ol>
@@ -112,9 +113,14 @@ public class CustomTypeAdapter implements TypeAdapter&lt;CustomType&gt; {
 <div class="table-header col-second">Required Element</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#clazz()" class="member-name-link">clazz</a></code></div>
+<div class="col-second even-row-color"><code><a href="#source()" class="member-name-link">source</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> to register a <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> with.</div>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert from.</div>
+</div>
+<div class="col-first odd-row-color"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#target()" class="member-name-link">target</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert into.</div>
 </div>
 </div>
 </section>
@@ -129,16 +135,31 @@ public class CustomTypeAdapter implements TypeAdapter&lt;CustomType&gt; {
 <h2>Element Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="clazz()">
-<h3>clazz</h3>
+<section class="detail" id="source()">
+<h3>source</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">clazz</span></div>
-<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> to register a <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> with.</div>
+</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">source</span></div>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert from.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the class the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a>
-should be mapped to</dd>
+will convert from</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="target()">
+<h3>target</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">target</span></div>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert into.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the class the <a href="../../../../../../../io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a>
+will convert into</dd>
 </dl>
 </div>
 </section>

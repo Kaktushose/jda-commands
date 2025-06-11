@@ -78,7 +78,7 @@ context.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#param-adapter"><code>adapter</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#adapter(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter(Class&lt;?&gt;, TypeAdapter&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#adapter(java.lang.Class,java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter(Class&lt;?&gt;, Class&lt;?&gt;, TypeAdapter&lt;?, ?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#adapterRegistry" class="member-name-link">adapterRegistry</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
 <dd>&nbsp;</dd>
@@ -144,86 +144,6 @@ should be mapped to.</div>
 <dd>
 <div class="block">Validates an argument.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/AudioChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/AudioChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">AudioChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/AudioChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>AudioChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/BooleanAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/BooleanAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">BooleanAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Boolean.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ByteAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ByteAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ByteAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Byte.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/CharacterAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/CharacterAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">CharacterAdapter</a></dt>
-<dd>
-<div class="block">Casts a String to a Char if and only if <code>raw.length == 1</code>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/DoubleAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/DoubleAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">DoubleAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Double.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/FloatAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/FloatAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">FloatAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Float.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>GuildChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildMessageChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildMessageChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildMessageChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildMessageChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>GuildMessageChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/IntegerAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/IntegerAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">IntegerAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to an Integer.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/LongAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/LongAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">LongAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Long.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/MemberAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/MemberAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">MemberAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/NewsChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/NewsChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">NewsChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/NewsChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>NewsChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/RoleAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/RoleAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">RoleAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Role.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Role</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ShortAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ShortAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ShortAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a Short.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/StageChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/StageChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">StageChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/StageChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>StageChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/TextChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/TextChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">TextChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/TextChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>TextChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ThreadChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ThreadChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ThreadChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/ThreadChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>ThreadChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/UserAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/UserAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">UserAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>User</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/VoiceChannelAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/VoiceChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">VoiceChannelAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/VoiceChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>VoiceChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html#apply(java.lang.String,net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">apply(String, GenericInteractionCreateEvent)</a> - Method in interface com.github.kaktushose.jda.commands.dispatching.adapter.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a></dt>
-<dd>
-<div class="block">Attempts to parse a String to the given type.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/DefaultGuildScopeProvider.html#apply(net.dv8tion.jda.api.interactions.commands.build.CommandData)" class="member-name-link">apply(CommandData)</a> - Method in class com.github.kaktushose.jda.commands.scope.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/DefaultGuildScopeProvider.html" title="class in com.github.kaktushose.jda.commands.scope">DefaultGuildScopeProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html#apply(net.dv8tion.jda.api.interactions.commands.build.CommandData)" class="member-name-link">apply(CommandData)</a> - Method in interface com.github.kaktushose.jda.commands.scope.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope">GuildScopeProvider</a></dt>
@@ -234,12 +154,6 @@ should be mapped to.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-arguments"><code>arguments</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/AudioChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">AudioChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/AudioChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>AudioChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/AudioChannelAdapter.html#%3Cinit%3E()" class="member-name-link">AudioChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/AudioChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">AudioChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Author.html#%3Cinit%3E(com.github.kaktushose.jda.commands.embeds.EmbedDTO.Author)" class="member-name-link">Author(EmbedDTO.Author)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Author.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Author</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Author.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">Author(String, String, String)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Author.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Author</a></dt>
@@ -294,12 +208,6 @@ should be mapped to.</div>
 <dd>
 <div class="block">the base class provided by the user for classpath scanning</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/BooleanAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">BooleanAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for boolean values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/BooleanAdapter.html#%3Cinit%3E()" class="member-name-link">BooleanAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/BooleanAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">BooleanAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html#BOUND_CUSTOM_ID_REGEX" class="member-name-link">BOUND_CUSTOM_ID_REGEX</a> - Static variable in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#build()" class="member-name-link">build()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
@@ -413,12 +321,6 @@ should be mapped to.</div>
 <dd>
 <div class="block">Creates an instance of a <code>ButtonDefinition</code> record class.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ByteAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ByteAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for byte values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ByteAdapter.html#%3Cinit%3E()" class="member-name-link">ByteAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ByteAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ByteAdapter</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
@@ -439,12 +341,6 @@ should be mapped to.</div>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html#channelTypes(java.util.Set)" class="member-name-link">channelTypes(Set&lt;ChannelType&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html#channelTypes(net.dv8tion.jda.api.entities.channel.ChannelType...)" class="member-name-link">channelTypes(ChannelType...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/CharacterAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">CharacterAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for character values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/CharacterAdapter.html#%3Cinit%3E()" class="member-name-link">CharacterAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/CharacterAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">CharacterAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html#checkDetached(net.dv8tion.jda.api.entities.detached.IDetachableEntity,java.lang.Class)" class="member-name-link">checkDetached(IDetachableEntity, Class&lt;?&gt;)</a> - Static method in class com.github.kaktushose.jda.commands.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html" title="class in com.github.kaktushose.jda.commands.internal">Helpers</a></dt>
 <dd>&nbsp;</dd>
@@ -528,10 +424,6 @@ should be mapped to.</div>
 <dd>
 <div class="block">Returns the value of the <code>clazz</code> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html#clazz()" class="member-name-link">clazz()</a> - Element in annotation interface com.github.kaktushose.jda.commands.guice.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.TypeAdapter</a></dt>
-<dd>
-<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> to register a <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> with.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html#clear()" class="member-name-link">clear()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></dt>
 <dd>
 <div class="block">Removes all the value mappings.</div>
@@ -595,10 +487,6 @@ that contain meta information about classes, methods und parameters, similar to 
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter</a> - package com.github.kaktushose.jda.commands.dispatching.adapter</dt>
 <dd>
 <div class="block">Generic type adapting system.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a> - package com.github.kaktushose.jda.commands.dispatching.adapter.impl</dt>
-<dd>
-<div class="block">Default implementations for frequently used types.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.internal</a> - package com.github.kaktushose.jda.commands.dispatching.adapter.internal</dt>
 <dd>&nbsp;</dd>
@@ -948,8 +836,6 @@ service provider interface.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/MethodDescription.html#param-declaringClass"><code>declaringClass</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#DEFAULT_MAPPINGS" class="member-name-link">DEFAULT_MAPPINGS</a> - Static variable in class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html#defaultChannels()" class="member-name-link">defaultChannels()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">EntitySelectMenu</a></dt>
 <dd>
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link">default values</a>
@@ -1164,12 +1050,6 @@ for users that will be shown to the user.</div>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/ModalDefinition.html#displayName()" class="member-name-link">displayName()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/ModalDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">ModalDefinition</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/ModalDefinition.TextInputDefinition.html#displayName()" class="member-name-link">displayName()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/ModalDefinition.TextInputDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">ModalDefinition.TextInputDefinition</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/DoubleAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">DoubleAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for double values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/DoubleAdapter.html#%3Cinit%3E()" class="member-name-link">DoubleAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/DoubleAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">DoubleAdapter</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
@@ -1504,10 +1384,6 @@ happen during an interaction execution, such as missing permissions or failing c
 <dd>
 <div class="block">excludes the defined classes</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#exists(java.lang.Class)" class="member-name-link">exists(Class&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
-<dd>
-<div class="block">Checks if a type adapter for the given type exists.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#expirationStrategy" class="member-name-link">expirationStrategy</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#expirationStrategy()" class="member-name-link">expirationStrategy()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
@@ -1586,12 +1462,6 @@ in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/com
 <dd>
 <div class="block">Attempts to find all <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions"><code>Definition</code></a>s of type <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/InteractionRegistry.html#find(java.lang.Class,java.util.function.Predicate)-type-param-T"><code>T</code></a> based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/FloatAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">FloatAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for float values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/FloatAdapter.html#%3Cinit%3E()" class="member-name-link">FloatAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/FloatAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">FloatAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html#%3Cinit%3E(com.github.kaktushose.jda.commands.embeds.EmbedDTO.Footer)" class="member-name-link">Footer(EmbedDTO.Footer)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Footer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">Footer(String, String)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Footer.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Footer</a></dt>
@@ -1618,10 +1488,6 @@ in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/com
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/internal/Validators.html#get(java.lang.Class,java.lang.Class)" class="member-name-link">get(Class&lt;?&gt;, Class&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.validation.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a></dt>
 <dd>
 <div class="block">Gets a <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a> based on the annotation and the type to validate.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#get(java.lang.Class)" class="member-name-link">get(Class&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
-<dd>
-<div class="block">Retrieves a type adapter.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html#get(java.lang.String,java.lang.Class)" class="member-name-link">get(String, Class&lt;? extends T&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></dt>
 <dd>
@@ -1771,13 +1637,13 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getToken()" class="member-name-link">getToken()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, List&lt;String&gt;)</a> - Method in class com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, List&lt;String&gt;)</a> - Method in interface com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure&lt;?&gt;)</a> - Method in interface com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></dt>
 <dd>
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.util.List)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, List&lt;String&gt;)</a> - Method in class com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">JsonErrorMessageFactory</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure&lt;?&gt;)</a> - Method in class com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">JsonErrorMessageFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getTypeRaw()" class="member-name-link">getTypeRaw()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
@@ -1852,18 +1718,6 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/GuiceInteractionControllerInstantiator.html#%3Cinit%3E(com.google.inject.Injector)" class="member-name-link">GuiceInteractionControllerInstantiator(Injector)</a> - Constructor for class com.github.kaktushose.jda.commands.guice.internal.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/GuiceInteractionControllerInstantiator.html" title="class in com.github.kaktushose.jda.commands.guice.internal">GuiceInteractionControllerInstantiator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandScope.html#GUILD" class="member-name-link">GUILD</a> - Enum constant in enum class com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandScope.html" title="enum class in com.github.kaktushose.jda.commands.annotations.interactions">CommandScope</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>GuildChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildChannelAdapter.html#%3Cinit%3E()" class="member-name-link">GuildChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildMessageChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildMessageChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildMessageChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.middleman" class="external-link"><code>GuildMessageChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildMessageChannelAdapter.html#%3Cinit%3E()" class="member-name-link">GuildMessageChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/GuildMessageChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">GuildMessageChannelAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#guildScopeProvider" class="member-name-link">guildScopeProvider</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
@@ -2036,6 +1890,10 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>
 <div class="block">Highest priority for custom implementation, will be executed right after internal middlewares.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType(OptionMapping)</a> - Method in class com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/DefaultErrorMessageFactory.html" title="class in com.github.kaktushose.jda.commands.embeds.error">DefaultErrorMessageFactory</a></dt>
+<dd>
+<div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
@@ -2075,7 +1933,7 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <div class="block">A class annotated with <a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice"><code>Implementation.TypeAdapter</code></a> will be automatically searched for and instantiated as a
 <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> by guice.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/package-summary.html">com.github.kaktushose.jda.commands.extension</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer&lt;S,<wbr>T&gt;</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/package-summary.html">com.github.kaktushose.jda.commands.extension</a></dt>
 <dd>
 <div class="block">A container type for providing <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a>s.</div>
 </dd>
@@ -2143,12 +2001,6 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <div class="block">Returns the value of the <code>instanceProvider</code> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#instanceProvider(com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator)" class="member-name-link">instanceProvider(InteractionControllerInstantiator)</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/IntegerAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">IntegerAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for integer values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/IntegerAdapter.html#%3Cinit%3E()" class="member-name-link">IntegerAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/IntegerAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">IntegerAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html#integration()" class="member-name-link">integration()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">CommandConfig</a></dt>
 <dd>
@@ -2478,12 +2330,6 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#log" class="member-name-link">log</a> - Static variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/LongAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">LongAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for long values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/LongAdapter.html#%3Cinit%3E()" class="member-name-link">LongAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/LongAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">LongAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html#LOW" class="member-name-link">LOW</a> - Enum constant in enum class com.github.kaktushose.jda.commands.dispatching.middleware.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></dt>
 <dd>
 <div class="block">Lowest priority, will be executed at the end</div>
@@ -2526,12 +2372,6 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html#maxValues" class="member-name-link">maxValues</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html#maxValues(int)" class="member-name-link">maxValues(int)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/MemberAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">MemberAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/MemberAdapter.html#%3Cinit%3E()" class="member-name-link">MemberAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/MemberAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">MemberAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/MenuOption.html" class="type-name-link" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">MenuOption</a> - Annotation Interface in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/package-summary.html">com.github.kaktushose.jda.commands.annotations.interactions</a></dt>
 <dd>
@@ -2808,12 +2648,6 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dd>
 <div class="block">Creates a new instance of the <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Interaction</code></a> class.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/NewsChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">NewsChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/NewsChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>NewsChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/NewsChannelAdapter.html#%3Cinit%3E()" class="member-name-link">NewsChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/NewsChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">NewsChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html#NORMAL" class="member-name-link">NORMAL</a> - Enum constant in enum class com.github.kaktushose.jda.commands.dispatching.middleware.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></dt>
 <dd>
 <div class="block">Default priority.</div>
@@ -2873,9 +2707,9 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/package-summary.html">com.github.kaktushose.jda.commands.definitions.interactions.command</a></dt>
 <dd>
-<div class="block">Representation of a slash command parameter.</div>
+<div class="block">Representation of a slash command option.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#%3Cinit%3E(java.lang.Class,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition(Class&lt;?&gt;, boolean, AutoCompleteDefinition, String, String, SequencedCollection&lt;Command.Choice&gt;, Collection&lt;OptionDataDefinition.ConstraintDefinition&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#%3Cinit%3E(java.lang.Class,net.dv8tion.jda.api.interactions.commands.OptionType,boolean,com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition,java.lang.String,java.lang.String,java.util.SequencedCollection,java.util.Collection)" class="member-name-link">OptionDataDefinition(Class&lt;?&gt;, OptionType, boolean, AutoCompleteDefinition, String, String, SequencedCollection&lt;Command.Choice&gt;, Collection&lt;OptionDataDefinition.ConstraintDefinition&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>OptionDataDefinition</code> record class.</div>
 </dd>
@@ -2890,6 +2724,10 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#options()" class="member-name-link">options()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#param-options"><code>options</code></a> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#optionType()" class="member-name-link">optionType()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html#param-optionType"><code>optionType</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#origin()" class="member-name-link">origin()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>&nbsp;</dd>
@@ -3051,8 +2889,6 @@ require the user to have the given permissions in order to execute the command.<
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html#prepare(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.dispatching.Runtime)" class="member-name-link">prepare(GenericComponentInteractionCreateEvent, Runtime)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ComponentHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#prepare(T,com.github.kaktushose.jda.commands.dispatching.Runtime)" class="member-name-link">prepare(T, Runtime)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#PRIMITIVE_MAPPING" class="member-name-link">PRIMITIVE_MAPPING</a> - Static variable in class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.MiddlewareContainer.html#priority()" class="member-name-link">priority()</a> - Method in record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.MiddlewareContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.MiddlewareContainer</a></dt>
 <dd>
@@ -3264,12 +3100,6 @@ require the user to have the given permissions in order to execute the command.<
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/MethodDescription.html#param-returnType"><code>returnType</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/RoleAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">RoleAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Role.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Role</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/RoleAdapter.html#%3Cinit%3E()" class="member-name-link">RoleAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/RoleAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">RoleAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/CommandTree.html#root()" class="member-name-link">root()</a> - Method in record class com.github.kaktushose.jda.commands.internal.register.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/CommandTree.html" title="class in com.github.kaktushose.jda.commands.internal.register">CommandTree</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>root</code> record component.</div>
@@ -3369,12 +3199,6 @@ require the user to have the given permissions in order to execute the command.<
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.html#setUrl(java.lang.String)" class="member-name-link">setUrl(String)</a> - Method in class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ShortAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ShortAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for short values.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ShortAdapter.html#%3Cinit%3E()" class="member-name-link">ShortAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ShortAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ShortAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommands.html#shutdown()" class="member-name-link">shutdown()</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></dt>
 <dd>
 <div class="block">Shuts down this JDACommands instance, making it unable to receive any events from Discord.</div>
@@ -3409,12 +3233,14 @@ require the user to have the given permissions in order to execute the command.<
 <dd>
 <div class="block">Constructs a new SlashCommandUpdater.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/StageChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">StageChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#source()" class="member-name-link">source()</a> - Method in record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a></dt>
 <dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/StageChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>StageChannel</code></a>.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#param-source"><code>source</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/StageChannelAdapter.html#%3Cinit%3E()" class="member-name-link">StageChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/StageChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">StageChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html#source()" class="member-name-link">source()</a> - Element in annotation interface com.github.kaktushose.jda.commands.guice.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.TypeAdapter</a></dt>
+<dd>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert from.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#start()" class="member-name-link">start()</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></dt>
 <dd>
 <div class="block">This method applies all found implementations of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a>,
@@ -3485,13 +3311,15 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 </dl>
 <h2 class="title" id="I:T">T</h2>
 <dl class="index">
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/internal/ExtensionFilter.html#test(java.util.ServiceLoader.Provider)" class="member-name-link">test(ServiceLoader.Provider&lt;Extension&gt;)</a> - Method in record class com.github.kaktushose.jda.commands.extension.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/internal/ExtensionFilter.html" title="class in com.github.kaktushose.jda.commands.extension.internal">ExtensionFilter</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/TextChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">TextChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#target()" class="member-name-link">target()</a> - Method in record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a></dt>
 <dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/TextChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>TextChannel</code></a>.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#param-target"><code>target</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/TextChannelAdapter.html#%3Cinit%3E()" class="member-name-link">TextChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/TextChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">TextChannelAdapter</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html#target()" class="member-name-link">target()</a> - Element in annotation interface com.github.kaktushose.jda.commands.guice.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.TypeAdapter.html" title="annotation interface in com.github.kaktushose.jda.commands.guice">Implementation.TypeAdapter</a></dt>
+<dd>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> this <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter"><code>TypeAdapter</code></a> will convert into.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/internal/ExtensionFilter.html#test(java.util.ServiceLoader.Provider)" class="member-name-link">test(ServiceLoader.Provider&lt;Extension&gt;)</a> - Method in record class com.github.kaktushose.jda.commands.extension.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/internal/ExtensionFilter.html" title="class in com.github.kaktushose.jda.commands.extension.internal">ExtensionFilter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#textInput(java.lang.String,java.util.function.Function)" class="member-name-link">textInput(String, Function&lt;TextInput.Builder, TextInput.Builder&gt;)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
 <dd>
@@ -3509,12 +3337,6 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/ModalDefinition.html#param-textInputs"><code>textInputs</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ThreadChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ThreadChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/ThreadChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>ThreadChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ThreadChannelAdapter.html#%3Cinit%3E()" class="member-name-link">ThreadChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/ThreadChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">ThreadChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Thumbnail.html#%3Cinit%3E(com.github.kaktushose.jda.commands.embeds.EmbedDTO.Thumbnail)" class="member-name-link">Thumbnail(EmbedDTO.Thumbnail)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Thumbnail.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Thumbnail</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Thumbnail.html#%3Cinit%3E(java.lang.String)" class="member-name-link">Thumbnail(String)</a> - Constructor for class com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDTO.Thumbnail.html" title="class in com.github.kaktushose.jda.commands.embeds">EmbedDTO.Thumbnail</a></dt>
@@ -3773,6 +3595,10 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Gets the type of this command.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html#type()" class="member-name-link">type()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">Param</a></dt>
+<dd>
+<div class="block">Returns the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionType</code></a> of this command option.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html#type()" class="member-name-link">type()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.description.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ParameterDescription.html#param-type"><code>type</code></a> record component.</div>
@@ -3785,15 +3611,11 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html#param-type"><code>type</code></a> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#type()" class="member-name-link">type()</a> - Method in record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#param-type"><code>type</code></a> record component.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" class="type-name-link" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter&lt;T&gt;</a> - Interface in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html" class="type-name-link" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter&lt;S,<wbr>T&gt;</a> - Interface in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter</a></dt>
 <dd>
 <div class="block">Generic top level interface for type adapting.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#%3Cinit%3E(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">TypeAdapterContainer(Class&lt;?&gt;, TypeAdapter&lt;?&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html#%3Cinit%3E(io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type,com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter)" class="member-name-link">TypeAdapterContainer(Type&lt;S&gt;, Type&lt;T&gt;, TypeAdapter&lt;S, T&gt;)</a> - Constructor for record class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.TypeAdapterContainer.html" title="class in com.github.kaktushose.jda.commands.extension">Implementation.TypeAdapterContainer</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>TypeAdapterContainer</code> record class.</div>
 </dd>
@@ -3805,7 +3627,7 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Central registry for all type adapters.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#%3Cinit%3E(java.util.Map)" class="member-name-link">TypeAdapters(Map&lt;Class&lt;?&gt;, TypeAdapter&lt;?&gt;&gt;)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html#%3Cinit%3E(java.util.Map)" class="member-name-link">TypeAdapters(Map&lt;Map.Entry&lt;Type&lt;?&gt;, Type&lt;?&gt;&gt;, TypeAdapter&lt;?, ?&gt;&gt;)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></dt>
 <dd>
 <div class="block">Constructs a new TypeAdapters.</div>
 </dd>
@@ -3833,12 +3655,6 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <div class="block">Updates all slash commands that are registered with <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ButtonComponent.html#url(java.lang.String)" class="member-name-link">url(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/UserAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">UserAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>User</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/UserAdapter.html#%3Cinit%3E()" class="member-name-link">UserAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/UserAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">UserAdapter</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:V">V</h2>
@@ -3990,12 +3806,6 @@ the order they are declared.</div>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/VoiceChannelAdapter.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">VoiceChannelAdapter</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/package-summary.html">com.github.kaktushose.jda.commands.dispatching.adapter.impl</a></dt>
-<dd>
-<div class="block">Type adapter for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/concrete/VoiceChannel.html" title="class or interface in net.dv8tion.jda.api.entities.channel.concrete" class="external-link"><code>VoiceChannel</code></a>.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/VoiceChannelAdapter.html#%3Cinit%3E()" class="member-name-link">VoiceChannelAdapter()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.adapter.impl.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/impl/VoiceChannelAdapter.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.impl">VoiceChannelAdapter</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:W">W</h2>
 <dl class="index">
