@@ -19,7 +19,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     @Override
-    protected InvocationContext<SlashCommandInteractionEvent> prepare(@NotNull SlashCommandInteractionEvent event, @NotNull Runtime runtime) {
+    protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = registry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );

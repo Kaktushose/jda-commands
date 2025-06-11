@@ -4,14 +4,16 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.type.Type;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,7 +40,7 @@ public class TypeAdapters {
 
     /// Constructs a new TypeAdapters.
     @SuppressWarnings("unchecked")
-    public TypeAdapters(@NotNull Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
+    public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
         proteus = Proteus.global();
 
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))));
