@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,7 @@ import java.util.*;
 import java.util.function.Function;
 
 /// Collection of helper methods that are used inside the framework.
+@ApiStatus.Internal
 public final class Helpers {
 
     private static final Logger log = LoggerFactory.getLogger(Helpers.class);

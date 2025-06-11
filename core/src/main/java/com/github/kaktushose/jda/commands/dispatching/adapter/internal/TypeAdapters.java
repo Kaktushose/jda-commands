@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
@@ -20,6 +21,7 @@ import java.util.Optional;
 /// Central registry for all type adapters.
 ///
 /// @see TypeAdapter
+@ApiStatus.Internal
 public class TypeAdapters {
 
     public static final Map<Class<?>, Class<?>> PRIMITIVE_MAPPING = Map.of(

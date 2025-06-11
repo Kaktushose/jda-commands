@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /// Each runtime than has its own virtual thread that takes events from this queue and executes them sequentially but
 /// each in its own (sub) virtual thread. Therefore, the virtual thread in which the user code will be called, only exists for
 /// the lifespan of one "interaction" and cannot interfere with other interactions on the same or other runtimes.
+@ApiStatus.Internal
 public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);

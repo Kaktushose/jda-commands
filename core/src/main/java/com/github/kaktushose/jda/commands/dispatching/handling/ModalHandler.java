@@ -10,11 +10,13 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
     public ModalHandler(DispatchingContext dispatchingContext) {

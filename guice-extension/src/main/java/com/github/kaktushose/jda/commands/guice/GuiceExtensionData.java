@@ -7,7 +7,6 @@ import com.google.inject.Injector;
 ///
 /// @param providedInjector The [Injector] to be used instead of creating one
 public record GuiceExtensionData(
-        
         Injector providedInjector
 ) implements Extension.Data {
 }

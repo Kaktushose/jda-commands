@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 
 /// Indicates that the implementing [Definition] is bound to a method that can be invoked.
+@ApiStatus.Internal
 public sealed interface Invokable extends Definition permits InteractionDefinition {
 
     Logger log = LoggerFactory.getLogger(Invokable.class);

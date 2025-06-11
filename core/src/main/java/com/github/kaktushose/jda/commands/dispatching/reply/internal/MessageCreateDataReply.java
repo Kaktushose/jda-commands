@@ -5,7 +5,9 @@ import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public final class MessageCreateDataReply extends MessageReply {
 
     private MessageCreateDataReply(GenericInteractionCreateEvent event,

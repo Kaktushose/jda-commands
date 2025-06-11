@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Method;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
+@ApiStatus.Internal
 public class ReflectiveDescriptor implements Descriptor {
 
     

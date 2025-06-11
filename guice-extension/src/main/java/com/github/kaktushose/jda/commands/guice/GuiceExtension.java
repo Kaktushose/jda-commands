@@ -18,6 +18,7 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -32,6 +33,7 @@ import java.util.stream.Stream;
 /// For further information please see the docs on [`@Implementation`][com.github.kaktushose.jda.commands.guice.Implementation].
 ///
 /// @see GuiceExtensionData
+@ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(

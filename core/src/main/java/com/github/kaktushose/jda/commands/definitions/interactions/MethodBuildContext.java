@@ -7,12 +7,14 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Set;
 
 /// Holds all objects needed to create an [InteractionDefinition].
+@ApiStatus.Internal
 public record MethodBuildContext(
         Validators validators,
         LocalizationFunction localizationFunction,

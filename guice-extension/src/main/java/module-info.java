@@ -6,6 +6,8 @@ import org.jspecify.annotations.NullMarked;
 module io.github.kaktushose.jda.commands.extension.guice {
     requires transitive org.jspecify;
     requires transitive io.github.kaktushose.jda.commands.core;
+    requires transitive org.jetbrains.annotations;
+
     requires com.google.guice;
     requires net.dv8tion.jda;
     requires org.slf4j;

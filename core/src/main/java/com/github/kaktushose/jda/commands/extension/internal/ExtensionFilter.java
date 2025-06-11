@@ -2,12 +2,14 @@ package com.github.kaktushose.jda.commands.extension.internal;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.extension.Extension;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;
 import java.util.ServiceLoader.Provider;
 import java.util.function.Predicate;
 
 /// A [Predicate] to test whether an [Extension] should be loaded or not.
+@ApiStatus.Internal
 public record ExtensionFilter(JDACBuilder.FilterStrategy filterStrategy, Collection<String> classes)
         implements Predicate<Provider<Extension>> {
 

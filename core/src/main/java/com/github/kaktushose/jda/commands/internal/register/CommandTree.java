@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.internal.register;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.Collection;
 ///
 /// @see TreeNode
 /// @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
+@ApiStatus.Internal
 public record CommandTree(TreeNode root) {
 
     /// Constructs a new CommandTree from the given [SlashCommandDefinition]s.

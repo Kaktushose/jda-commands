@@ -10,9 +10,11 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 
+@ApiStatus.Internal
 public final class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
     public ContextCommandHandler(DispatchingContext dispatchingContext) {

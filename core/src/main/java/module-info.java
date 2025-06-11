@@ -8,10 +8,11 @@ module io.github.kaktushose.jda.commands.core {
     requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
+    requires java.naming;
 
     requires transitive org.jspecify;
     requires transitive jakarta.inject;
-    requires java.naming;
+    requires transitive org.jetbrains.annotations;
 
     // base package
     exports com.github.kaktushose.jda.commands;
