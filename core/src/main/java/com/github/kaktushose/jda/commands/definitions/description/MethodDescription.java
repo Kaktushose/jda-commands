@@ -33,6 +33,7 @@ public record MethodDescription(
         this.invoker = invoker;
     }
 
+    /// @return the return type and parameters of this method as a [MethodType]
     public MethodType toMethodType() {
         return MethodType.methodType(returnType, parameters.stream().map(ParameterDescription::type).toArray(Class[]::new));
     }

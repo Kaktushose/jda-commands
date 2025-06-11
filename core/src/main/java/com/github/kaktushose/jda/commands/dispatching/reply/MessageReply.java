@@ -60,6 +60,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
+    /// @param i18n the [I18n] instance to use for localization
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,

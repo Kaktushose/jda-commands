@@ -10,6 +10,7 @@ import java.util.Collections;
 ///
 /// @param clazz       the [Class] this [Description] describes.
 /// @param name        the full name including packages of the class
+/// @param packageDescription the [PackageDescription] representing the package returned by [Class#getPackage()]
 /// @param annotations a [Collection] of all [Annotation]s this class is annotated with
 /// @param methods     a [Collection] of all the declared [`methods`][MethodDescription] of this class (see [Class#getDeclaredMethods()])
 public record ClassDescription(

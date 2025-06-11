@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /// The bundle annotation states which localization bundle is to be used
-/// in a certain scope. For more information refer to [com.github.kaktushose.jda.commands.i18n.I18n]
+/// in a certain scope.
+///
+/// @see com.github.kaktushose.jda.commands.i18n.I18n
 @Target({ElementType.PACKAGE, ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bundle {

@@ -33,19 +33,19 @@ import java.util.function.Consumer;
 ///
 /// ### Example:
 /// ```
-///@Interaction
-///publicclass ExampleCommand {
+///   @Interaction
+///   public class ExampleCommand {
 ///
-///@SlashCommand(value= "example command")
+///     @SlashCommand(value= "example command")
 ///     public void onCommand(CommandEvent event){
 ///         event.with().components(buttons("onButton")).reply("Hello World");
-///}
+///     }
 ///
-///@Button("Pressme!")
+///     @Button("Pressme!")
 ///     public void onButton(ComponentEvent event){
 ///         event.reply("You pressed me!");
-///}
-///}
+///     }
+///   }
 ///```
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
@@ -135,7 +135,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// ## Example:
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
-    ///```
+    /// ```
     ///
     /// @param builder the [MessageCreateBuilder] callback
     /// @return the current instance for fluent interface
@@ -153,19 +153,19 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    ///@Interaction
-    ///publicclass ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///@SlashCommand(value= "example command")
+    ///     @SlashCommand(value= "example command")
     ///     public void onCommand(CommandEvent event){
     ///         event.with().components("onButton").reply("Hello World");
-    ///}
+    ///     }
     ///
-    ///@Button("Pressme!")
+    ///     @Button("Pressme!")
     ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
-    ///}
-    ///}
+    ///     }
+    ///  }
     ///```
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
@@ -179,19 +179,19 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    ///@Interaction
-    ///publicclass ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///@SlashCommand(value= "example command")
+    ///     @SlashCommand(value= "example command")
     ///     public void onCommand(CommandEvent event){
     ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
-    ///}
+    ///     }
     ///
-    ///@Button("Pressme!")
+    ///     @Button("Pressme!")
     ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
-    ///}
-    ///}
+    ///     }
+    ///  }
     ///```
     /// @see Component
     /// @param components the [Component] to add
@@ -268,6 +268,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
                         .toList();
                 copy.getOptions().clear();
                 copy.addOptions(localized);
+                copy.setPlaceholder(localize(copy.getPlaceholder(), component));
                 yield copy.build();
             }
             default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");

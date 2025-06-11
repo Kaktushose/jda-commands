@@ -8,16 +8,13 @@ import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 /// This class serves as an interface for application localization.
 ///
-/// It is mostly a wrapper around [Localizer] but supports flexible specification of the wished for bundle.
+/// It is mostly a wrapper around [Localizer] but supports flexible specification of the bundle to be used.
 ///
 /// To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
 /// For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
@@ -62,7 +59,7 @@ import java.util.stream.Collectors;
 ///         a.aOne();
 ///     }
 ///
-///     @Bundle(mB_bundle)
+///     @Bundle("mB_bundle")
 ///     void bTwo() {
 ///         bOne();
 ///     }
@@ -90,6 +87,16 @@ import java.util.stream.Collectors;
 /// If [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
 /// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 public class I18n {
+
+
+    // skipped classes during stack scanning (Class.getName().startWith(X))
+    private static List<String> SKIPPED = List.of(
+            "com.github.kaktushose.jda.commands",
+            "net.dv8tion.jda",
+            "java."
+    );
+
+
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
 
@@ -100,6 +107,8 @@ public class I18n {
     private final Descriptor descriptor;
     private final Localizer localizer;
     private final LocalizationFunction localizationFunction = new JDACLocalizationFunction(this);
+    private final ThreadLocal<ClassDescription> last = new ThreadLocal<>();
+
 
     public I18n(Descriptor descriptor, Localizer localizer) {
         this.descriptor = descriptor;
@@ -133,31 +142,32 @@ public class I18n {
                 .filter(b -> !b.isEmpty())
                 .findAny()
         ).orElseGet(() -> {
-            String found = checkClass(last);
+            String found = checkClass(last.get());
             return found.isEmpty()
                     ? DEFAULT_BUNDLE
                     : found;
         });
     }
 
-
-    private ClassDescription last = null;
     private String checkFrame(StackWalker.StackFrame frame) {
         Class<?> klass = frame.getDeclaringClass();
 
         String name = klass.getName();
-        if (name.startsWith("com.github.kaktushose.jda.commands") || name.startsWith("net.dv8tion.jda") || name.startsWith("java.")) {
+
+        // just some optimization
+        if (SKIPPED.stream().anyMatch(name::startsWith)) {
             return "";
         }
 
         ClassDescription classDescription = descriptor.describe(klass);
 
-        if (last != null && !last.clazz().equals(classDescription.clazz())) {
-            String found = checkClass(last);
+        ClassDescription lastDes = last.get();
+        if (lastDes != null && !lastDes.clazz().equals(classDescription.clazz())) {
+            String found = checkClass(lastDes);
             if (!found.isEmpty()) return found;
         }
 
-        last = classDescription;
+        last.set(classDescription);
 
         return classDescription.methods()
                 .stream()
@@ -177,6 +187,7 @@ public class I18n {
                 .map(Bundle::value);
     }
 
+    /// @return the [LocalizationFunction] bases on this class, for use with JDA
     public LocalizationFunction localizationFunction() {
         return localizationFunction;
     }
