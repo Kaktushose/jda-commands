@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import org.apache.commons.collections4.BidiMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,6 +55,7 @@ public record OptionDataDefinition(
         @NotNull SequencedCollection<Command.Choice> choices,
         @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
+
 
     private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(
             entry(OptionType.STRING, String.class),
@@ -114,7 +116,7 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-        Class<?> type = MethodType.methodType(parameter.type()).wrap().returnType();
+        Class<?> type = wrappedType(parameter.type());
 
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
@@ -171,6 +173,10 @@ public record OptionDataDefinition(
                 commandChoices,
                 constraints
         );
+    }
+
+    private static Class<?> wrappedType(Class<?> type) {
+        return MethodType.methodType(type).wrap().returnType();
     }
 
     @NotNull
