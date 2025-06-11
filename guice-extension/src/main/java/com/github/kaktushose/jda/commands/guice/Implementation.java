@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import jakarta.inject.Scope;
@@ -20,6 +21,7 @@ import java.lang.annotation.*;
 /// - [GuildScopeProvider]
 /// - [ErrorMessageFactory]
 /// - [Descriptor]
+/// - [Localizer]
 ///
 /// Additionally, the following classes can be also automatically registered via their dedicated annotations.
 ///

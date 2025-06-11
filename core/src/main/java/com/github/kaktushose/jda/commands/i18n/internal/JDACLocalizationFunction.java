@@ -3,11 +3,13 @@ package com.github.kaktushose.jda.commands.i18n.internal;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@ApiStatus.Internal
 public final class JDACLocalizationFunction implements LocalizationFunction {
 
     private final I18n localizer;

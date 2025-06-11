@@ -128,6 +128,9 @@ public final class JDACommands {
         updater.updateGuildCommands();
     }
 
+    /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
+    ///
+    /// @return the [I18n] instance
     @NotNull
     public I18n i18n() {
         return i18n;

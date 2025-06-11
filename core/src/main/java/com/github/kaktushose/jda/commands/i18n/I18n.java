@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
 ///         i18n.localize(Locale.GERMAN, "fail", Map.of())
 ///     }
 ///
-///     @Bundle("a_bundle")
 ///     void aTwo() {
 ///         aOne();
 ///     }
@@ -88,7 +87,7 @@ import java.util.stream.Collectors;
 ///
 /// The found bundle would be `pack_bundle`.
 ///
-/// If the [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
+/// If [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
 /// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 public class I18n {
     // TODO make this configurable
