@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 ///
 /// 1. method that called [I18n#localize(Locale, String, Entry...)]
 /// 2. other called methods in the same class
-/// 2. this method's class
-/// 3. the class' package's `package-info.java` file
+/// 3. this method's class
+/// 4. the class' package's `package-info.java` file
 ///
 /// If no annotation is found, the previous method (in another class) is searched with the same pattern up to the
 /// class at the very beginning.
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 /// If even after this no bundle name could be found, the bundle `default` will be used.
 ///
 /// ### Example
-/// `B.java`:
+/// `A.java`:
 /// ```java
 /// package my.app;
 /// class A {
