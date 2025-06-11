@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,7 +27,13 @@ public @interface Param {
 
     /// Returns whether this command option is optional.
     ///
-    ///  @return `true` if this command option is optional
+    /// @return `true` if this command option is optional
     boolean optional() default false;
 
+    /// Returns the [OptionType] of this command option.
+    ///
+    /// @return the [OptionType] of this command option
+    /// @implNote If [OptionType#UNKNOWN] is passed (default value), jda-commands will interpolate the best fitting
+    /// [OptionType], resulting to [OptionType#STRING] as a fallback.
+    OptionType type() default OptionType.UNKNOWN;
 }

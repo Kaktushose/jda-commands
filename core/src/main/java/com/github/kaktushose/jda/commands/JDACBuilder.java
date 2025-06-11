@@ -21,6 +21,7 @@ import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -112,14 +113,16 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// @param type    The type that the given [TypeAdapter] can handle
+    /// @param source  The source type that the given [TypeAdapter] can handle
+    /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     @NotNull
-    public JDACBuilder adapter(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
-        Objects.requireNonNull(type);
+    public JDACBuilder adapter(@NotNull Class<?> source, @NotNull Class<?> target, @NotNull TypeAdapter<?, ?> adapter) {
+        Objects.requireNonNull(source);
+        Objects.requireNonNull(target);
         Objects.requireNonNull(adapter);
 
-        typeAdapters.put(type, adapter);
+        typeAdapters.put(Map.entry(Type.of(source), Type.of(target)), adapter);
         return this;
     }
 
