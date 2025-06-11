@@ -16,9 +16,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +35,6 @@ import java.util.function.BiConsumer;
 ///
 /// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime)]):
 /// In this step the user implemented method is called with help of the right [InteractionDefinition]
-@ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
@@ -62,7 +59,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     }
 
     @Nullable
-    protected abstract InvocationContext<T> prepare(@NotNull T event, @NotNull Runtime runtime);
+    protected abstract InvocationContext<T> prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
@@ -89,8 +86,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         invoke(context, runtime);
     }
 
-    private void invoke(@NotNull InvocationContext<T> invocation, @NotNull Runtime runtime) {
-        SequencedCollection<Object> arguments = invocation.arguments();
+    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
+        SequencedCollection<@Nullable Object> arguments = invocation.arguments();
 
         var definition = invocation.definition();
 

@@ -4,8 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -18,9 +17,9 @@ import java.util.Objects;
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
 
-    @NotNull
+    
     @Override
-    public ClassDescription describe(@NotNull Class<?> clazz) {
+    public ClassDescription describe(Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)
@@ -35,7 +34,7 @@ public class ReflectiveDescriptor implements Descriptor {
     }
 
     @Nullable
-    private MethodDescription method(@NotNull Method method) {
+    private MethodDescription method(Method method) {
         if (!Modifier.isPublic(method.getModifiers())) return null;
         List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
                 .map(this::parameter)
@@ -52,8 +51,8 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    @NotNull
-    private ParameterDescription parameter(@NotNull Parameter parameter) {
+    
+    private ParameterDescription parameter(Parameter parameter) {
         return new ParameterDescription(
                 parameter.getType(),
                 parameter.getName(),
@@ -61,8 +60,8 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    @NotNull
-    private <T> Collection<T> toList(@NotNull T[] array) {
+    
+    private <T> Collection<T> toList(T[] array) {
         return Arrays.stream(array).toList();
     }
 }

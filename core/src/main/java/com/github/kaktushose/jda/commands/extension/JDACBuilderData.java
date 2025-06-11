@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -25,13 +24,11 @@ import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -135,25 +132,25 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// the packages provided by the user for classpath scanning
-    @NotNull
+    
     public String[] packages() {
         return packages;
     }
 
     /// the [JDAContext] to be used
-    @NotNull
+    
     public JDAContext context() {
         return context;
     }
 
     /// the base class provided by the user for classpath scanning
-    @NotNull
+    
     public Class<?> baseClass() {
         return baseClass;
     }
 
     /// @return the global [InteractionDefinition.ReplyConfig] provided by the user
-    @NotNull
+    
     public InteractionDefinition.ReplyConfig globalReplyConfig() {
         return globalReplyConfig;
     }
@@ -163,7 +160,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [ExpirationStrategy] to be used
-    @NotNull
+    
     public ExpirationStrategy expirationStrategy() {
         return expirationStrategy;
     }
@@ -171,7 +168,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // will be later loadable
 
     /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public LocalizationFunction localizationFunction() {
         return localizationFunction;
     }
@@ -179,37 +176,37 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // loadable
 
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public InteractionControllerInstantiator controllerInstantiator() {
         return load(InteractionControllerInstantiator.class, controllerInstantiator, null);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public PermissionsProvider permissionsProvider() {
         return load(PermissionsProvider.class, permissionsProvider, new DefaultPermissionsProvider());
     }
 
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public ErrorMessageFactory errorMessageFactory() {
         return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory());
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public GuildScopeProvider guildScopeProvider() {
         return load(GuildScopeProvider.class, guildScopeProvider, new DefaultGuildScopeProvider());
     }
 
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
-    @NotNull
+    
     public Descriptor descriptor() {
         return load(Descriptor.class, descriptor, new ReflectiveDescriptor());
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
-    @NotNull
+    
     public Collection<ClassFinder> classFinders() {
         Collection<ClassFinder> all = implementations(ClassFinder.class)
                 .stream()
@@ -220,7 +217,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return a [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()]
-    @NotNull
+    
     public ClassFinder mergedClassFinder() {
         Collection<ClassFinder> classFinders = classFinders();
 
@@ -233,7 +230,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
-    @NotNull
+    
     public Collection<Map.Entry<Priority, Middleware>> middlewares() {
         Collection<Map.Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
                 .stream()
@@ -245,7 +242,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [Validator]s to be used. Can be added via an [Extension]
-    @NotNull
+    
     public Map<Class<? extends Annotation>, Validator> validators() {
         Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
@@ -256,7 +253,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
-    @NotNull
+    
     public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
         Map<Class<?>, TypeAdapter<?>> all = implementations(Implementation.TypeAdapterContainer.class)
                 .stream()

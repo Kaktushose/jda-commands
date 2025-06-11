@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -24,9 +23,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
         this.embedCache = embedCache;
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput) {
+    public MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, List<String> userInput) {
         if (!embedCache.containsEmbed("typeAdaptingFailed")) {
             return super.getTypeAdaptingFailedMessage(context, userInput);
         }
@@ -57,9 +56,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(ErrorContext context) {
         if (!embedCache.containsEmbed("insufficientPermissions")) {
             return super.getInsufficientPermissionsMessage(context);
         }
@@ -74,9 +73,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(ErrorContext context, ConstraintDefinition constraint) {
         if (!embedCache.containsEmbed("constraintFailed")) {
             return super.getConstraintFailedMessage(context, constraint);
         }
@@ -85,9 +84,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
+    public MessageCreateData getCooldownMessage(ErrorContext context, long ms) {
         if (!embedCache.containsEmbed("cooldown")) {
             return super.getCooldownMessage(context, ms);
         }
@@ -102,18 +101,18 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
+    public MessageCreateData getWrongChannelTypeMessage(ErrorContext context) {
         if (!embedCache.containsEmbed("wrongChannel")) {
             return super.getWrongChannelTypeMessage(context);
         }
         return embedCache.getEmbed("wrongChannel").toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
         if (!embedCache.containsEmbed("executionFailed")) {
             return super.getCommandExecutionFailedMessage(context, exception);
         }
@@ -130,9 +129,9 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
                 .toMessageCreateData();
     }
 
-    @NotNull
+    
     @Override
-    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
+    public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
         if (!embedCache.containsEmbed("unknownInteraction")) {
             return super.getTimedOutComponentMessage(event);
         }

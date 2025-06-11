@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +55,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param reply     the underlying [MessageReply]
     /// @param registry  the corresponding [InteractionRegistry]
     /// @param runtimeId the corresponding [Runtime]
-    public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
+    public ConfigurableReply(MessageReply reply, InteractionRegistry registry, String runtimeId) {
         super(reply);
         this.registry = registry;
         this.runtimeId = runtimeId;
@@ -65,7 +64,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// Constructs a new ConfigurableReply.
     ///
     /// @param reply the [ConfigurableReply] to copy
-    public ConfigurableReply(@NotNull ConfigurableReply reply) {
+    public ConfigurableReply(ConfigurableReply reply) {
         super(reply);
         this.registry = reply.registry;
         this.runtimeId = reply.runtimeId;
@@ -83,7 +82,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// @param ephemeral `true` if to send ephemeral replies
     /// @return the current instance for fluent interface
-    @NotNull
+    
     public ConfigurableReply ephemeral(boolean ephemeral) {
         this.ephemeral = ephemeral;
         return this;
@@ -98,7 +97,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// @param editReply `true` if to keep the original components
     /// @return the current instance for fluent interface
-    @NotNull
+    
     public ConfigurableReply editReply(boolean editReply) {
         this.editReply = editReply;
         return this;
@@ -115,7 +114,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// @param keepComponents `true` if to edit the original method
     /// @return the current instance for fluent interface
-    @NotNull
+    
     public ConfigurableReply keepComponents(boolean keepComponents) {
         this.keepComponents = keepComponents;
         return this;
@@ -123,7 +122,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
     /// [#keepComponents(boolean)] `true`.
-    @NotNull
+    
     public ConfigurableReply keepSelections(boolean keepSelections) {
         this.keepSelections = keepSelections;
         return this;
@@ -168,8 +167,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// ```
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
-    @NotNull
-    public ComponentReply components(@NotNull String... components) {
+    
+    public ComponentReply components(String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
@@ -195,8 +194,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
-    @NotNull
-    public final ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
+    
+    public final ComponentReply components(Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)

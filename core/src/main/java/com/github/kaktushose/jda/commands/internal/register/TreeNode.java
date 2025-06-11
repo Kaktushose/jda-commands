@@ -11,9 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +20,6 @@ import java.util.*;
 /// Single node inside the [CommandTree].
 ///
 /// @see CommandTree
-@ApiStatus.Internal
 public record TreeNode(String name, SlashCommandDefinition command, List<TreeNode> children) implements Iterable<TreeNode> {
 
     private static final Logger log = LoggerFactory.getLogger(TreeNode.class);
@@ -31,7 +28,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     ///
     /// @param name    the name of the command
     /// @param command the [SlashCommandDefinition]
-    public TreeNode(@NotNull String name, @Nullable SlashCommandDefinition command) {
+    public TreeNode(String name, @Nullable SlashCommandDefinition command) {
         this(name, command, new ArrayList<>());
     }
 
@@ -45,7 +42,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// one label is passed which will be added as a leaf node.
     ///
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
-    public void addChild(@NotNull String[] labels, @NotNull SlashCommandDefinition command) {
+    public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
             throw new IllegalArgumentException(
                     "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName()) +
@@ -173,7 +170,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                 .setIntegrationTypes(integration);
     }
 
-    @NotNull
+    
     @Override
     public Iterator<TreeNode> iterator() {
         return children.iterator();

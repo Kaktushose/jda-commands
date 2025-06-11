@@ -12,8 +12,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -25,11 +24,11 @@ import java.util.*;
 /// @param title             the title of the modal
 /// @param textInputs        the [`TextInputs`][TextInputDefinition] of this modal
 public record ModalDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull String title,
-        @NotNull SequencedCollection<TextInputDefinition> textInputs
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        String title,
+        SequencedCollection<TextInputDefinition> textInputs
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
     /// Builds a new [ModalDefinition] with the given values.
@@ -92,9 +91,9 @@ public record ModalDefinition(
     ///
     /// @return the [Modal]
     /// @see CustomId#independent(String)
-    @NotNull
+    
     @Override
-    public Modal toJDAEntity(@NotNull CustomId customId) {
+    public Modal toJDAEntity(CustomId customId) {
         var modal = Modal.create(customId.merged(), title);
 
         textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
@@ -102,7 +101,7 @@ public record ModalDefinition(
         return modal.build();
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return title;
@@ -111,13 +110,13 @@ public record ModalDefinition(
     /// Representation of a modal text input defined by
     /// [`TextInput`][com.github.kaktushose.jda.commands.annotations.interactions.TextInput]
     public record TextInputDefinition(
-            @NotNull ParameterDescription parameter,
-            @NotNull String label,
+            ParameterDescription parameter,
+            String label,
             @Nullable String placeholder,
             @Nullable String defaultValue,
             int minValue,
             int maxValue,
-            @NotNull TextInputStyle style,
+            TextInputStyle style,
             boolean required
     ) implements JDAEntity<TextInput>, Definition {
 
@@ -154,7 +153,7 @@ public record ModalDefinition(
         ///
         /// @param textInput the [TextInput] to build the [TextInputDefinition] from
         /// @return the new [TextInputDefinition]
-        public TextInputDefinition with(@NotNull TextInput.Builder textInput) {
+        public TextInputDefinition with(TextInput.Builder textInput) {
             return new TextInputDefinition(
                     parameter,
                     textInput.getLabel(),
@@ -168,14 +167,14 @@ public record ModalDefinition(
         }
 
         @Override
-        public @NotNull String displayName() {
+        public String displayName() {
             return label;
         }
 
         /// Transforms this definition into a [TextInput].
         ///
         /// @return the [TextInput]
-        @NotNull
+        
         @Override
         public TextInput toJDAEntity() {
             return toBuilder().build();
@@ -184,7 +183,7 @@ public record ModalDefinition(
         /// Transforms this definition into a [TextInput.Builder].
         ///
         /// @return the [TextInput.Builder]
-        @NotNull
+        
         public TextInput.Builder toBuilder() {
             var textInput = TextInput.create(label, label, style).setRequired(required);
 

@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -16,9 +15,9 @@ public class TextChannelAdapter implements TypeAdapter<TextChannel> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed [TextChannel] or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<TextChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<TextChannel> apply(String raw, GenericInteractionCreateEvent event) {
         if (event.getGuild() == null) {
             return Optional.empty();
         }

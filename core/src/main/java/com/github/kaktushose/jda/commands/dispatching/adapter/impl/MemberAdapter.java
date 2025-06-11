@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -18,9 +17,9 @@ public class MemberAdapter implements TypeAdapter<Member> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed [Member] or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<Member> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<Member> apply(String raw, GenericInteractionCreateEvent event) {
         if (event.getGuild() == null) {
             return Optional.empty();
         }

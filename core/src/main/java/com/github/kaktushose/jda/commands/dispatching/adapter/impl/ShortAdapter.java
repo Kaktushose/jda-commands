@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -14,9 +13,9 @@ public class ShortAdapter implements TypeAdapter<Short> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed Short or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<Short> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<Short> apply(String raw, GenericInteractionCreateEvent event) {
         try {
             return Optional.of(Short.valueOf(raw));
         } catch (NumberFormatException ignored) {

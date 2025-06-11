@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import jakarta.inject.Scope;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.*;
 
@@ -80,7 +79,7 @@ public @interface Implementation {
         ///
         /// @return the class the [`TypeAdapter`][com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]
         /// should be mapped to
-        @NotNull
+        
         Class<?> clazz();
 
     }
@@ -118,7 +117,7 @@ public @interface Implementation {
         ///
         /// @return the annotation the [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator]
         /// should be mapped to
-        @NotNull
+        
         Class<? extends Annotation> annotation();
 
     }

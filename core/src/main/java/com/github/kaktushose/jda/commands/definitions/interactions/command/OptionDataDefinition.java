@@ -22,8 +22,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -43,13 +42,13 @@ import static java.util.Map.entry;
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this parameter
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this parameter
 public record OptionDataDefinition(
-        @NotNull Class<?> type,
+        Class<?> type,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
-        @NotNull String name,
-        @NotNull String description,
-        @NotNull SequencedCollection<Command.Choice> choices,
-        @NotNull Collection<ConstraintDefinition> constraints
+        String name,
+        String description,
+        SequencedCollection<Command.Choice> choices,
+        Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
     private static final Map<Class<?>, OptionType> OPTION_TYPE_MAPPINGS = Map.ofEntries(
@@ -98,10 +97,10 @@ public record OptionDataDefinition(
     /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
-    @NotNull
-    public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
+    
+    public static OptionDataDefinition build(ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
-                                             @NotNull Validators validatorRegistry) {
+                                             Validators validatorRegistry) {
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
@@ -153,7 +152,7 @@ public record OptionDataDefinition(
         );
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return name;
@@ -162,7 +161,7 @@ public record OptionDataDefinition(
     /// Transforms this definition into [OptionData].
     ///
     /// @return the [OptionData]
-    @NotNull
+    
     @Override
     public OptionData toJDAEntity() {
         OptionType optionType = OPTION_TYPE_MAPPINGS.getOrDefault(type, OptionType.STRING);
@@ -203,7 +202,7 @@ public record OptionDataDefinition(
         ///
         /// @param validator  the corresponding [Validator]
         /// @param annotation the corresponding annotation object
-        public static ConstraintDefinition build(@NotNull Validator validator, @NotNull Annotation annotation) {
+        public static ConstraintDefinition build(Validator validator, Annotation annotation) {
             // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
             var message = "";
             try {
@@ -217,7 +216,7 @@ public record OptionDataDefinition(
             return new ConstraintDefinition(validator, message, annotation);
         }
 
-        @NotNull
+        
         @Override
         public String displayName() {
             return validator.getClass().getName();

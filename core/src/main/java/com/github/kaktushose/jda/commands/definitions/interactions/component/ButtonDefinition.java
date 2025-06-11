@@ -10,8 +10,7 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,17 +28,17 @@ import static com.github.kaktushose.jda.commands.definitions.interactions.compon
 /// @param link              the link of this button or `null`
 /// @param style             the [ButtonStyle] of this button
 public record ButtonDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull String label,
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        String label,
         @Nullable Emoji emoji,
         @Nullable String link,
-        @NotNull ButtonStyle style
+        ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
     /// Builds a new [ButtonDefinition] with the given values
-    @NotNull
+    
     public ButtonDefinition with(@Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
         return new ButtonDefinition(classDescription, methodDescription, permissions,
                 override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
@@ -80,7 +79,7 @@ public record ButtonDefinition(
     ///
     /// @return the [Button]
     /// @see CustomId#independent(String)
-    @NotNull
+    
     @Override
     public Button toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -90,9 +89,9 @@ public record ButtonDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [Button]
-    @NotNull
+    
     @Override
-    public Button toJDAEntity(@NotNull CustomId customId) {
+    public Button toJDAEntity(CustomId customId) {
         String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
         if (emoji == null) {
             return Button.of(style, idOrUrl, label);
@@ -101,7 +100,7 @@ public record ButtonDefinition(
         }
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return label.isEmpty() ? definitionId() : label;

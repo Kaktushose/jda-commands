@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
@@ -202,7 +201,7 @@ public class MemberMock implements Member {
     }
 
     @Override
-    public @NotNull @Unmodifiable Set<Role> getUnsortedRoles() {
+    public @NotNull Set<Role> getUnsortedRoles() {
         return Set.of();
     }
 

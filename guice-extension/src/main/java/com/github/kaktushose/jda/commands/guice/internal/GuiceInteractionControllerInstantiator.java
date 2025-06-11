@@ -4,9 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.google.inject.Injector;
 import net.dv8tion.jda.api.JDA;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public class GuiceInteractionControllerInstantiator implements InteractionControllerInstantiator {
 
     private final Injector injector;

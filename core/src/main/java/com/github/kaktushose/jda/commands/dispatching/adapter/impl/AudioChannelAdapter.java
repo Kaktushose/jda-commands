@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -17,9 +16,9 @@ public class AudioChannelAdapter implements TypeAdapter<AudioChannel> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed [AudioChannel] or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<AudioChannel> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<AudioChannel> apply(String raw, GenericInteractionCreateEvent event) {
         Channel channel = event.getChannel();
         if (channel == null) {
             return Optional.empty();

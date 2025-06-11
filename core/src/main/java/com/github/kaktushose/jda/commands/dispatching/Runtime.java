@@ -16,8 +16,6 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +36,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 /// Each runtime than has its own virtual thread that takes events from this queue and executes them sequentially but
 /// each in its own (sub) virtual thread. Therefore, the virtual thread in which the user code will be called, only exists for
 /// the lifespan of one "interaction" and cannot interfere with other interactions on the same or other runtimes.
-@ApiStatus.Internal
 public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
@@ -55,7 +52,7 @@ public final class Runtime implements Closeable {
     private final InteractionControllerInstantiator instanceProvider;
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext, JDA jda) {
+    private Runtime(String id, DispatchingContext dispatchingContext, JDA jda) {
         this.id = id;
         expirationStrategy = dispatchingContext.expirationStrategy();
         blockingQueue = new LinkedBlockingQueue<>();
@@ -73,7 +70,7 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    @NotNull
+    
     public static Runtime startNew(String id, DispatchingContext dispatchingContext, JDA jda) {
         var runtime = new Runtime(id, dispatchingContext, jda);
         runtime.executionThread.start();
@@ -109,7 +106,7 @@ public final class Runtime implements Closeable {
         }
     }
 
-    @NotNull
+    
     public String id() {
         return id;
     }
@@ -118,12 +115,11 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
-    @NotNull
+    
     public KeyValueStore keyValueStore() {
         return keyValueStore;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T interactionInstance(Class<T> clazz) {
         return instanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
     }

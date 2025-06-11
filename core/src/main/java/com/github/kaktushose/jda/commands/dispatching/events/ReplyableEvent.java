@@ -16,7 +16,6 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
-import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -27,8 +26,7 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,8 +121,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull String button) {
+    
+    public Button getButton(String button) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -137,8 +135,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param origin the [Class] of the method
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    
+    public Button getButton(Class<?> origin, String button) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -149,8 +147,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param menu the name of the select menu
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull String menu) {
+    
+    public SelectMenu getSelectMenu(String menu) {
         return getComponent(menu, null, SelectMenuDefinition.class);
     }
 
@@ -162,14 +160,14 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param origin the [Class] of the method
     /// @param menu   the name of the select menu
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    
+    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         return getComponent(menu, origin, SelectMenuDefinition.class);
     }
 
-    @NotNull
+    
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type) {
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
         var className = origin == null ? definition.classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = registry.find(type, false, it -> it.definitionId().equals(id));
@@ -182,7 +180,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
-    @NotNull
+    
     public ConfigurableReply with() {
         return new ConfigurableReply(newReply(), registry, runtimeId());
     }
@@ -195,18 +193,18 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(@NotNull MessageCreateData message) {
+    public Message reply(MessageCreateData message) {
         log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
         return MessageCreateDataReply.reply(event, definition, replyConfig, message);
     }
 
-    @NotNull
-    public Message reply(@NotNull String message) {
+    
+    public Message reply(String message) {
         return newReply().reply(message);
     }
 
-    @NotNull
-    public Message reply(@NotNull EmbedBuilder builder) {
+    
+    public Message reply(EmbedBuilder builder) {
         return newReply().reply(builder);
     }
 

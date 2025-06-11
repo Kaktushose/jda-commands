@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -18,9 +17,9 @@ public class UserAdapter implements TypeAdapter<User> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed [User] or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<User> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<User> apply(String raw, GenericInteractionCreateEvent event) {
         User user;
         raw = Helpers.sanitizeMention(raw);
         JDA jda = event.getJDA();

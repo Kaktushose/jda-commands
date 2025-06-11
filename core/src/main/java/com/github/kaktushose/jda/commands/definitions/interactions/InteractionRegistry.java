@@ -13,21 +13,19 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
 /// Central registry for all [InteractionDefinition]s.
-public record InteractionRegistry(@NotNull Validators validators,
-                                  @NotNull LocalizationFunction localizationFunction,
-                                  @NotNull Descriptor descriptor,
-                                  @NotNull Set<Definition> definitions
+public record InteractionRegistry(Validators validators,
+                                  LocalizationFunction localizationFunction,
+                                  Descriptor descriptor,
+                                  Set<Definition> definitions
 ) {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);

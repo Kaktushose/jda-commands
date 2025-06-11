@@ -8,11 +8,12 @@ repositories {
 }
 
 dependencies {
+    api(libs.org.jspcify)
     api(libs.net.dv8tion.jda)
     api(libs.org.reflections.reflections)
     api(libs.org.slf4j.slf4j.api)
     api(libs.com.google.code.gson.gson)
-    api(libs.org.jetbrains.annotations)
+//    api(libs.org.jetbrains.annotations)
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 

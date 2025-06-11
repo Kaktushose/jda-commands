@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.validation;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import org.jetbrains.annotations.NotNull;
 
 /// Validators check if a command option fulfills the given constraint.
 ///
@@ -40,6 +39,6 @@ public interface Validator {
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
     /// @return `true` if the argument passes the constraints
-    boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context);
+    boolean apply(Object argument, Object annotation, InvocationContext<?> context);
 
 }

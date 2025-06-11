@@ -1,4 +1,7 @@
+import org.jspecify.annotations.NullMarked;
+
 /// The base module of jda-commands.
+@NullMarked
 module io.github.kaktushose.jda.commands.core {
     requires com.google.gson;
     requires net.dv8tion.jda;
@@ -6,7 +9,7 @@ module io.github.kaktushose.jda.commands.core {
     requires java.desktop;
     requires org.slf4j;
 
-    requires transitive org.jetbrains.annotations;
+    requires transitive org.jspecify;
     requires transitive jakarta.inject;
     requires java.naming;
 

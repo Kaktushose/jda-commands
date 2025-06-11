@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import org.jetbrains.annotations.NotNull;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [ModalInteractionEvent].
 ///
@@ -23,11 +22,11 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// @param runtime     the corresponding [Runtime]
     /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ModalEvent(@NotNull ModalInteractionEvent event,
-                      @NotNull InteractionRegistry registry,
-                      @NotNull Runtime runtime,
-                      @NotNull InteractionDefinition definition,
-                      @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+    public ModalEvent(ModalInteractionEvent event,
+                      InteractionRegistry registry,
+                      Runtime runtime,
+                      InteractionDefinition definition,
+                      InteractionDefinition.ReplyConfig replyConfig) {
         super(event, registry, runtime, definition, replyConfig);
     }
 

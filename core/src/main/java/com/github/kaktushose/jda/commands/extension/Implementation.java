@@ -11,7 +11,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -41,13 +40,13 @@ import java.util.stream.Stream;
 /// @param supplier the [Function] used to retrieve instances of the custom implementation
 /// @see Extension
 public record Implementation<T extends Implementation.ExtensionProvidable>(
-        @NotNull Class<T> type,
-        @NotNull Function<@NotNull JDACBuilderData, @NotNull SequencedCollection<@NotNull T>> supplier
+        Class<T> type,
+        Function<JDACBuilderData, SequencedCollection<T>> supplier
 ) {
 
-    public static <T extends ExtensionProvidable> Implementation<T> single(@NotNull Class<T> type,
-                                                                           @NotNull Function<@NotNull JDACBuilderData,
-                                                                           @NotNull T> supplier) {
+    public static <T extends ExtensionProvidable> Implementation<T> single(Class<T> type,
+                                                                           Function<JDACBuilderData,
+                                                                           T> supplier) {
         return new Implementation<>(type, (builder -> List.of(supplier.apply(builder))));
     }
 
@@ -113,22 +112,22 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     ///
     /// @param type    the [Class] for which the [TypeAdapter] should be registered
     /// @param adapter the [TypeAdapter] implementation
-    public record TypeAdapterContainer(@NotNull Class<?> type,
-                                       @NotNull TypeAdapter<?> adapter) implements ExtensionProvidable {}
+    public record TypeAdapterContainer(Class<?> type,
+                                       TypeAdapter<?> adapter) implements ExtensionProvidable {}
 
     /// A container type for providing [Middleware]s.
     ///
     /// @param priority   the [Priority] with which the [Middleware] should be registered
     /// @param middleware the [Middleware] implementation
-    public record MiddlewareContainer(@NotNull Priority priority,
-                                      @NotNull Middleware middleware) implements ExtensionProvidable {}
+    public record MiddlewareContainer(Priority priority,
+                                      Middleware middleware) implements ExtensionProvidable {}
 
     /// A container type for providing [Validator]s.
     ///
     /// @param annotation the [Annotation] for which the [Validator] should be registered
     /// @param validator  the [Validator] implementation
-    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
-                                     @NotNull Validator validator) implements ExtensionProvidable {}
+    public record ValidatorContainer(Class<? extends Annotation> annotation,
+                                     Validator validator) implements ExtensionProvidable {}
 
     private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }

@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -17,9 +16,9 @@ public class RoleAdapter implements TypeAdapter<Role> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed [Role] or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<Role> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<Role> apply(String raw, GenericInteractionCreateEvent event) {
         if (event.getGuild() == null) {
             return Optional.empty();
         }

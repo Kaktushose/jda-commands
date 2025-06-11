@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.impl.CooldownMi
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -18,7 +17,7 @@ public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;
 
-    public Middlewares(@NotNull Collection<Map.Entry<Priority, Middleware>> userDefined, @NotNull ErrorMessageFactory errorMessageFactory, @NotNull PermissionsProvider permissionsProvider) {
+    public Middlewares(Collection<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
                 Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
@@ -39,7 +38,7 @@ public class Middlewares {
     /// Returns a set of all registered [Middleware]s, regardless of their priority.
     ///
     /// @return a set of all registered middlewares [Middleware]s
-    @NotNull
+    
     public Set<Middleware> getMiddlewares() {
         return middlewares.sequencedValues()
                 .stream()
@@ -50,7 +49,7 @@ public class Middlewares {
     /// Executed the given task for all registered [Middleware]s ordered by their [Priority]
     ///
     /// @param task The task to be executed
-    public void forAllOrdered(@NotNull Consumer<Middleware> task) {
+    public void forAllOrdered(Consumer<Middleware> task) {
         for (Set<Middleware> value : middlewares.values()) {
             value.forEach(task);
         }

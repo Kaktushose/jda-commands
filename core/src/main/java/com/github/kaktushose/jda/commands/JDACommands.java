@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFuncti
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,8 +66,7 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new JDACommands instance
-    @NotNull
-    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACommands start(JDA jda, Class<?> clazz, String... packages) {
         return builder(jda, clazz, packages).start();
     }
 
@@ -79,8 +77,7 @@ public final class JDACommands {
     /// @param clazz        a class of the classpath to scan
     /// @param packages     package(s) to exclusively scan
     /// @return a new JDACommands instance
-    @NotNull
-    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACommands start(ShardManager shardManager, Class<?> clazz, String... packages) {
         return builder(shardManager, clazz, packages).start();
     }
 
@@ -90,8 +87,7 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new [JDACBuilder]
-    @NotNull
-    public static JDACBuilder builder(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACBuilder builder(JDA jda, Class<?> clazz, String... packages) {
         return new JDACBuilder(new JDAContext(jda), clazz, packages);
     }
 
@@ -99,8 +95,7 @@ public final class JDACommands {
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @return a new [JDACBuilder]
-    @NotNull
-    public static JDACBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
         return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
@@ -134,8 +129,7 @@ public final class JDACommands {
     ///
     /// @param button the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
         var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
@@ -150,8 +144,7 @@ public final class JDACommands {
     /// @param origin the [Class] of the method
     /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));

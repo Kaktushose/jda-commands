@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 ///
 /// @implNote Uses a [CommandTree] to properly transpile all [SlashCommandDefinition]s to [SlashCommandData].
 /// @see CommandTree
-@ApiStatus.Internal
 public final class SlashCommandUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);

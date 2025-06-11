@@ -1,13 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.impl;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
-import com.github.kaktushose.jda.commands.dispatching.adapter.impl.MemberAdapter;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +24,7 @@ public class NotPermissionValidator implements Validator {
     /// @return `true` if the argument is a user or member that **doesn't** have the specified discord
     /// permission
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
+    public boolean apply(Object argument, Object annotation, InvocationContext<?> context) {
         Set<Permission> permissions = new HashSet<>();
         NotPerm perm = (NotPerm) annotation;
 

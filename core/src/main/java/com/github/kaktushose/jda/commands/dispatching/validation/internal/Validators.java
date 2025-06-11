@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.internal;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.*;
+import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
+import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.dispatching.validation.impl.*;
-import org.jetbrains.annotations.NotNull;
+import com.github.kaktushose.jda.commands.dispatching.validation.impl.NotPermissionValidator;
+import com.github.kaktushose.jda.commands.dispatching.validation.impl.PermissionValidator;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -18,7 +20,7 @@ public class Validators {
     ///
     ///   - [PermissionValidator]
     ///   - [NotPermissionValidator]
-    public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator> validators) {
+    public Validators(Map<Class<? extends Annotation>, Validator> validators) {
         HashMap<Class<? extends Annotation>, Validator> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
                 // jda specific
@@ -34,8 +36,8 @@ public class Validators {
     /// @param annotation the class of the annotation
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
-    @NotNull
-    public Optional<Validator> get(@NotNull Class<?> annotation, @NotNull Class<?> type) {
+    
+    public Optional<Validator> get(Class<?> annotation, Class<?> type) {
         Validator validator = validators.get(annotation);
 
         if (validator == null || !annotation.isAnnotationPresent(Constraint.class)) {

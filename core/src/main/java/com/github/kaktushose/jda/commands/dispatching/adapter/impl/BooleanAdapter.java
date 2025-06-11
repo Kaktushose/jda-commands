@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.impl;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -15,9 +14,9 @@ public class BooleanAdapter implements TypeAdapter<Boolean> {
     /// @param raw   the String to parse
     /// @param event the [GenericInteractionCreateEvent]
     /// @return the parsed boolean or an empty Optional if the parsing fails
-    @NotNull
+    
     @Override
-    public Optional<Boolean> apply(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
+    public Optional<Boolean> apply(String raw, GenericInteractionCreateEvent event) {
         if ("true".equalsIgnoreCase(raw) || "1".equals(raw)) {
             return Optional.of(true);
         }

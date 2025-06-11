@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionE
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import org.jetbrains.annotations.NotNull;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
 ///
@@ -25,11 +24,11 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// @param runtime     the corresponding [Runtime]
     /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ComponentEvent(@NotNull GenericComponentInteractionCreateEvent event,
-                          @NotNull InteractionRegistry registry,
-                          @NotNull Runtime runtime,
-                          @NotNull InteractionDefinition definition,
-                          @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+    public ComponentEvent(GenericComponentInteractionCreateEvent event,
+                          InteractionRegistry registry,
+                          Runtime runtime,
+                          InteractionDefinition definition,
+                          InteractionDefinition.ReplyConfig replyConfig) {
         super(event, registry, runtime, definition, replyConfig);
     }
 
