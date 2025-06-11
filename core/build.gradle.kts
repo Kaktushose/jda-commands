@@ -35,3 +35,7 @@ tasks.test {
     useJUnitPlatform()
     jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }
+
+tasks.named<JavaCompile>("compileTestJava") {
+    options.compilerArgs.add("-parameters")
+}
