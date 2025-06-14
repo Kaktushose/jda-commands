@@ -35,6 +35,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
         return new InvocationContext<>(
                 event,
+                dispatchingContext.i18n(),
                 runtime.keyValueStore(),
                 modal,
                 replyConfig,
