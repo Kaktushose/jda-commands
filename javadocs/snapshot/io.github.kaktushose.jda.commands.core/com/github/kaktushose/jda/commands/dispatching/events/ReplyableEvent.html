@@ -85,7 +85,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#getSelectMenu(java.lang.Class,java.lang.String)" tabindex="0">getSelectMenu(Class, String)</a></li>
 <li><a href="#with()" tabindex="0">with()</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
-<li><a href="#reply(java.lang.String)" tabindex="0">reply(String)</a></li>
+<li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">reply(String, I18n.Entry...)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.EmbedBuilder)" tabindex="0">reply(EmbedBuilder)</a></li>
 </ol>
 </li>
@@ -117,8 +117,13 @@ loadScripts(document, 'script');</script>
 implements <a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></span>
 <span class="permits">permits <a href="interactions/ModalEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ModalEvent</a>, <a href="ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a>&lt;T&gt;</span></div>
 <div class="block"><p>Subtype of <a href="Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a> that supports replying to the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> with text messages.</p>
-<p>You can either reply directly by using one of the <code>reply</code> methods, like <a href="#reply(java.lang.String)"><code>reply(String)</code></a>, or you can call
-<a href="#with()"><code>with()</code></a> to use a <a href="../reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a> to append components or override reply settings from the
+<p>You can either reply directly by using one of the <code>reply</code> methods, like</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>#reply(String)</code></pre>
+</details>
+, or you can call
+<p><a href="#with()"><code>with()</code></a> to use a <a href="../reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>ConfigurableReply</code></a> to append components or override reply settings from the
 <a href="../../annotations/interactions/ReplyConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>ReplyConfig</code></a>.</p>
 <p>Example:</p>
 <pre><code>public void onInteraction(ReplayableEvent&lt;?&gt; event) {
@@ -230,7 +235,8 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <div class="block">Removes all components from the original message.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.lang.String)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
@@ -254,7 +260,7 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.events.Event">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.events.<a href="Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></h3>
-<code><a href="Event.html#closeRuntime()">closeRuntime</a>, <a href="Event.html#getChannel()">getChannel</a>, <a href="Event.html#getChannelIdLong()">getChannelIdLong</a>, <a href="Event.html#getContext()">getContext</a>, <a href="Event.html#getEntitlements()">getEntitlements</a>, <a href="Event.html#getGuild()">getGuild</a>, <a href="Event.html#getIdLong()">getIdLong</a>, <a href="Event.html#getIntegrationOwners()">getIntegrationOwners</a>, <a href="Event.html#getJDA()">getJDA</a>, <a href="Event.html#getMember()">getMember</a>, <a href="Event.html#getToken()">getToken</a>, <a href="Event.html#getTypeRaw()">getTypeRaw</a>, <a href="Event.html#getUser()">getUser</a>, <a href="Event.html#getUserLocale()">getUserLocale</a>, <a href="Event.html#interactionInstance(java.lang.Class)">interactionInstance</a>, <a href="Event.html#isAcknowledged()">isAcknowledged</a>, <a href="Event.html#jdaEvent()">jdaEvent</a>, <a href="Event.html#kv()">kv</a>, <a href="Event.html#runtimeId()">runtimeId</a></code></div>
+<code><a href="Event.html#closeRuntime()">closeRuntime</a>, <a href="Event.html#getChannel()">getChannel</a>, <a href="Event.html#getChannelIdLong()">getChannelIdLong</a>, <a href="Event.html#getContext()">getContext</a>, <a href="Event.html#getEntitlements()">getEntitlements</a>, <a href="Event.html#getGuild()">getGuild</a>, <a href="Event.html#getIdLong()">getIdLong</a>, <a href="Event.html#getIntegrationOwners()">getIntegrationOwners</a>, <a href="Event.html#getJDA()">getJDA</a>, <a href="Event.html#getMember()">getMember</a>, <a href="Event.html#getToken()">getToken</a>, <a href="Event.html#getTypeRaw()">getTypeRaw</a>, <a href="Event.html#getUser()">getUser</a>, <a href="Event.html#getUserLocale()">getUserLocale</a>, <a href="Event.html#i18n()">i18n</a>, <a href="Event.html#interactionInstance(java.lang.Class)">interactionInstance</a>, <a href="Event.html#isAcknowledged()">isAcknowledged</a>, <a href="Event.html#jdaEvent()">jdaEvent</a>, <a href="Event.html#kv()">kv</a>, <a href="Event.html#runtimeId()">runtimeId</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -334,7 +340,12 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 cannot be made non-ephemeral later. Use <a href="#deferReply(boolean)"><code>deferReply(boolean)</code></a> to override the <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a>.</p>
 <p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
 <p>When the acknowledgement is sent after the interaction expired, you will receive <a href="https://docs.jda.wiki/net/dv8tion/jda/api/requests/ErrorResponse.html#UNKNOWN_INTERACTION" title="class or interface in net.dv8tion.jda.api.requests" class="external-link"><code>ErrorResponse.UNKNOWN_INTERACTION</code></a>.</p>
-<p>Use <a href="#reply(java.lang.String)"><code>reply(String)</code></a> to reply directly.</p>
+<p>Use</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>#reply(String)</code></pre>
+</details>
+ to reply directly.
 </div>
 </div>
 </section>
@@ -351,7 +362,12 @@ cannot be made non-ephemeral later. Use <a href="#deferReply()"><code>deferReply
 the ephemeral flag.</p>
 <p><strong>You only have 3 seconds to acknowledge an interaction!</strong></p>
 <p>When the acknowledgement is sent after the interaction expired, you will receive <a href="https://docs.jda.wiki/net/dv8tion/jda/api/requests/ErrorResponse.html#UNKNOWN_INTERACTION" title="class or interface in net.dv8tion.jda.api.requests" class="external-link"><code>ErrorResponse.UNKNOWN_INTERACTION</code></a>.</p>
-<p>Use <a href="#reply(java.lang.String)"><code>reply(String)</code></a> to reply directly.</p>
+<p>Use</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>#reply(String)</code></pre>
+</details>
+ to reply directly.
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -503,19 +519,21 @@ returned directly.</p>
 </section>
 </li>
 <li>
-<section class="detail" id="reply(java.lang.String)">
+<section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/Reply.html#reply(java.lang.String)">Reply</a></code></span></div>
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">Reply</a></code></span></div>
 <div class="block">Acknowledgement of this event with a text message.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../reply/Reply.html#reply(java.lang.String)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
+<dd><code><a href="../reply/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>message</code> - the message to send</dd>
+<dd><code>message</code> - the message to send or the localization key</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]</dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 </dl>

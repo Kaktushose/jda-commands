@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.lang.String,java.lang.Class)" tabindex="0">Component(String, Class)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,java.lang.Class,com.github.kaktushose.jda.commands.i18n.I18n.Entry%5B%5D)" tabindex="0">Component(String, Class, I18n.Entry[])</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -78,23 +78,24 @@ loadScripts(document, 'script');</script>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#origin()" tabindex="0">origin()</a></li>
 <li><a href="#callback()" tabindex="0">callback()</a></li>
+<li><a href="#placeholder()" tabindex="0">placeholder()</a></li>
 <li><a href="#self()" tabindex="0">self()</a></li>
 <li><a href="#definitionClass()" tabindex="0">definitionClass()</a></li>
 <li><a href="#build(D)" tabindex="0">build(D)</a></li>
-<li><a href="#enabled(java.lang.String)" tabindex="0">enabled(String)</a></li>
-<li><a href="#disabled(java.lang.String)" tabindex="0">disabled(String)</a></li>
-<li><a href="#independent(java.lang.String)" tabindex="0">independent(String)</a></li>
-<li><a href="#enabled(java.lang.Class,java.lang.String)" tabindex="0">enabled(Class, String)</a></li>
-<li><a href="#disabled(java.lang.Class,java.lang.String)" tabindex="0">disabled(Class, String)</a></li>
-<li><a href="#of(boolean,boolean,java.lang.String)" tabindex="0">of(boolean, boolean, String)</a></li>
-<li><a href="#of(boolean,java.lang.Class,java.lang.String)" tabindex="0">of(boolean, Class, String)</a></li>
-<li><a href="#of(boolean,boolean,java.lang.Class,java.lang.String)" tabindex="0">of(boolean, boolean, Class, String)</a></li>
-<li><a href="#button(java.lang.String)" tabindex="0">button(String)</a></li>
-<li><a href="#button(java.lang.Class,java.lang.String)" tabindex="0">button(Class, String)</a></li>
-<li><a href="#entitySelect(java.lang.String)" tabindex="0">entitySelect(String)</a></li>
-<li><a href="#entitySelect(java.lang.Class,java.lang.String)" tabindex="0">entitySelect(Class, String)</a></li>
-<li><a href="#stringSelect(java.lang.String)" tabindex="0">stringSelect(String)</a></li>
-<li><a href="#stringSelect(java.lang.Class,java.lang.String)" tabindex="0">stringSelect(Class, String)</a></li>
+<li><a href="#enabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">enabled(String, I18n.Entry...)</a></li>
+<li><a href="#disabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">disabled(String, I18n.Entry...)</a></li>
+<li><a href="#independent(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">independent(String, I18n.Entry...)</a></li>
+<li><a href="#enabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">enabled(Class, String, I18n.Entry...)</a></li>
+<li><a href="#disabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">disabled(Class, String, I18n.Entry...)</a></li>
+<li><a href="#of(boolean,boolean,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">of(boolean, boolean, String, I18n.Entry...)</a></li>
+<li><a href="#of(boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">of(boolean, Class, String, I18n.Entry...)</a></li>
+<li><a href="#of(boolean,boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">of(boolean, boolean, Class, String, I18n.Entry...)</a></li>
+<li><a href="#button(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">button(String, I18n.Entry...)</a></li>
+<li><a href="#button(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">button(Class, String, I18n.Entry...)</a></li>
+<li><a href="#entitySelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">entitySelect(String, I18n.Entry...)</a></li>
+<li><a href="#entitySelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">entitySelect(Class, String, I18n.Entry...)</a></li>
+<li><a href="#stringSelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">stringSelect(String, I18n.Entry...)</a></li>
+<li><a href="#stringSelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">stringSelect(Class, String, I18n.Entry...)</a></li>
 </ol>
 </li>
 </ol>
@@ -141,17 +142,26 @@ public void onCommand(CommandEvent event) {
 <h3 id="component-type-specific-implementations-heading">Component type specific implementations</h3>
 <p>If using one of:</p>
 <ul>
-<li><a href="#button(java.lang.Class,java.lang.String)"><code>button(Class, String)</code></a></li>
-<li><a href="#entitySelect(java.lang.Class,java.lang.String)"><code>entitySelect(Class, String)</code></a></li>
-<li><a href="#stringSelect(java.lang.Class,java.lang.String)"><code>stringSelect(Class, String)</code></a></li>
+<li><a href="#button(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>button(Class, String, I18n.Entry...)</code></a></li>
+<li><a href="#entitySelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>entitySelect(Class, String, I18n.Entry...)</code></a></li>
+<li><a href="#stringSelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>stringSelect(Class, String, I18n.Entry...)</code></a></li>
 </ul>
 <p>a specific implementation is returned which allows for further modification.</p>
-<h4 id="example-heading">Example</h4>
+<h4 id="example-without-localization-heading">Example without localization</h4>
 <p>This example overrides the buttons label with &quot;Modified Label&quot;</p>
 <pre><code class="language-java">@Command(&quot;example command&quot;)
 public void onCommand(CommandEvent event) {
     event.with().components(Components.button(&quot;onButton&quot;)
                     .label(&quot;Modified Label&quot;))
+                .reply();
+}
+</code></pre>
+<h4 id="example-with-localization-heading">Example with localization</h4>
+<pre><code class="language-java">@Bundle(&quot;example&quot;)
+@Command(&quot;example command&quot;)
+public void onCommand(CommandEvent event, User user) {
+    event.with().components(Components.button(&quot;onButton&quot;)
+                    .label(&quot;label&quot;, I18n.entry(&quot;name&quot;, user.getName())))
                 .reply();
 }
 </code></pre>
@@ -180,8 +190,9 @@ public void onCommand(CommandEvent event) {
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.Class)" class="member-name-link">Component</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;method,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.Class,com.github.kaktushose.jda.commands.i18n.I18n.Entry%5B%5D)" class="member-name-link">Component</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;method,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>[]&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -201,13 +212,15 @@ public void onCommand(CommandEvent event) {
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#build(D)" class="member-name-link">build</a><wbr>(<a href="#type-param-D" title="type parameter in Component">D</a>&nbsp;definition)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#button(java.lang.Class,java.lang.String)" class="member-name-link">button</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#button(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">button</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ButtonComponent</code></a> to the reply.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#button(java.lang.String)" class="member-name-link">button</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#button(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">button</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ButtonComponent</code></a> to the reply.</div>
 </div>
@@ -218,13 +231,15 @@ public void onCommand(CommandEvent event) {
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#definitionClass()" class="member-name-link">definitionClass</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.Class,java.lang.String)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a disabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.String)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#disabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">disabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds disabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
 </div>
@@ -235,24 +250,28 @@ public void onCommand(CommandEvent event) {
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enabled(boolean)" class="member-name-link">enabled</a><wbr>(boolean&nbsp;enabled)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.Class,java.lang.String)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.String)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#enabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">enabled</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#entitySelect(java.lang.Class,java.lang.String)" class="member-name-link">entitySelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#entitySelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">entitySelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> to the reply.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#entitySelect(java.lang.String)" class="member-name-link">entitySelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#entitySelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">entitySelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> to the reply.</div>
 </div>
@@ -263,7 +282,8 @@ public void onCommand(CommandEvent event) {
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent(boolean)" class="member-name-link">independent</a><wbr>(boolean&nbsp;independent)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled, runtime-independent <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </div>
@@ -274,42 +294,50 @@ public void onCommand(CommandEvent event) {
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.Class,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,boolean,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  boolean&nbsp;independent,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,java.lang.Class,java.lang.String)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">of</a><wbr>(boolean&nbsp;enabled,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#origin()" class="member-name-link">origin</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="#type-param-S" title="type parameter in Component">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#self()" class="member-name-link">self</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder()" class="member-name-link">placeholder</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.Class,java.lang.String)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="#type-param-S" title="type parameter in Component">S</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#self()" class="member-name-link">self</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.String)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 </div>
 </div>
@@ -330,13 +358,14 @@ public void onCommand(CommandEvent event) {
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.Class)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.Class,com.github.kaktushose.jda.commands.i18n.I18n.Entry[])">
 <h3>Component</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">Component</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;method,
  @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin)</span></div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>[]&nbsp;placeholder)</span></div>
 </div>
 </section>
 </li>
@@ -433,6 +462,14 @@ shortly before the component is registered in the message</dd>
 </section>
 </li>
 <li>
+<section class="detail" id="placeholder()">
+<h3>placeholder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>[]</span>&nbsp;<span class="element-name">placeholder</span>()</div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="self()">
 <h3>self</h3>
 <div class="horizontal-scroll">
@@ -457,36 +494,41 @@ shortly before the component is registered in the message</dd>
 </section>
 </li>
 <li>
-<section class="detail" id="enabled(java.lang.String)">
+<section class="detail" id="enabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>enabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds an enabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="disabled(java.lang.String)">
+<section class="detail" id="disabled(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>disabled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds disabled, runtime-bound <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a>s to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="independent(java.lang.String)">
+<section class="detail" id="independent(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>independent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block"><p>Adds an enabled, runtime-independent <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply.</p>
 <p>Every component interaction will create a new <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.
 Furthermore, the component cannot expire and will always get executed, even after a bot restart.</p>
@@ -494,84 +536,94 @@ Furthermore, the component cannot expire and will always get executed, even afte
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="enabled(java.lang.Class,java.lang.String)">
+<section class="detail" id="enabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>enabled</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">enabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds an enabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class. This <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> will always be
 runtime-independent.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="disabled(java.lang.Class,java.lang.String)">
+<section class="detail" id="disabled(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>disabled</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">disabled</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a disabled <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> to the reply that is defined in a different class. This <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> will always be
 runtime-independent.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="of(boolean,boolean,java.lang.String)">
+<section class="detail" id="of(boolean,boolean,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  boolean&nbsp;independent,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>enabled</code> - whether the <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> should be enabled or disabled</dd>
 <dd><code>independent</code> - whether the <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> should be runtime-bound or independent</dd>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="of(boolean,java.lang.Class,java.lang.String)">
+<section class="detail" id="of(boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>enabled</code> - whether the <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> should be enabled or disabled</dd>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="of(boolean,boolean,java.lang.Class,java.lang.String)">
+<section class="detail" id="of(boolean,boolean,java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(boolean&nbsp;enabled,
  boolean&nbsp;independent,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> with the passed configuration to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -579,90 +631,103 @@ runtime-independent.</div>
 <dd><code>independent</code> - whether the <a href="Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>Component</code></a> should be runtime-bound or independent</dd>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the component</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="button(java.lang.String)">
+<section class="detail" id="button(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>button</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></span>&nbsp;<span class="element-name">button</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></span>&nbsp;<span class="element-name">button</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ButtonComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the button</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="button(java.lang.Class,java.lang.String)">
+<section class="detail" id="button(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>button</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></span>&nbsp;<span class="element-name">button</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ButtonComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the button</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="entitySelect(java.lang.String)">
+<section class="detail" id="entitySelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>entitySelect</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></span>&nbsp;<span class="element-name">entitySelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></span>&nbsp;<span class="element-name">entitySelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds an <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the entity select menu</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="entitySelect(java.lang.Class,java.lang.String)">
+<section class="detail" id="entitySelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>entitySelect</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></span>&nbsp;<span class="element-name">entitySelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds an <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>menu</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the entity select menu</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="stringSelect(java.lang.String)">
+<section class="detail" id="stringSelect(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>stringSelect</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></span>&nbsp;<span class="element-name">stringSelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></span>&nbsp;<span class="element-name">stringSelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the name of the method that represents the string select menu</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="stringSelect(java.lang.Class,java.lang.String)">
+<section class="detail" id="stringSelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>stringSelect</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">StringSelectComponent</a></span>&nbsp;<span class="element-name">stringSelect</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the string select menu</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]</dd>
 </dl>
 </div>
 </section>

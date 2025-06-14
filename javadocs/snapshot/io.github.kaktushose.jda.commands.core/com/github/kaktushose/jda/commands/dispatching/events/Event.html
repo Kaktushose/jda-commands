@@ -96,6 +96,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#getIdLong()" tabindex="0">getIdLong()</a></li>
 <li><a href="#getIntegrationOwners()" tabindex="0">getIntegrationOwners()</a></li>
 <li><a href="#getContext()" tabindex="0">getContext()</a></li>
+<li><a href="#i18n()" tabindex="0">i18n()</a></li>
 </ol>
 </li>
 </ol>
@@ -238,28 +239,31 @@ content.</p>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">DiscordLocale</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUserLocale()" class="member-name-link">getUserLocale</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;I&gt;&nbsp;I</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;I&gt;&nbsp;interactionClass)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;I&gt;&nbsp;I</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;I&gt;&nbsp;interactionClass)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an instance of a class annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Interaction</code></a>,
 that is bound to the underlying <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isAcknowledged()" class="member-name-link">isAcknowledged</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-T" title="type parameter in Event">T</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jdaEvent()" class="member-name-link">jdaEvent</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isAcknowledged()" class="member-name-link">isAcknowledged</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-T" title="type parameter in Event">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jdaEvent()" class="member-name-link">jdaEvent</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the underlying <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> of this event</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#kv()" class="member-name-link">kv</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#kv()" class="member-name-link">kv</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the <a href="../context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>KeyValueStore</code></a> of this <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the id of the <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> this event is dispatched in.</div>
 </div>
 </div>
@@ -585,6 +589,15 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html#getContext()" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">getContext</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="i18n()">
+<h3>i18n</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
 </div>
 </section>
 </li>
