@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.features.internal.Invokabl
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ import java.util.SequencedCollection;
 /// @param arguments     the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         @NotNull T event,
+        @NotNull I18n i18n,
         @NotNull KeyValueStore keyValueStore,
         @NotNull InteractionDefinition definition,
         @NotNull InteractionDefinition.ReplyConfig replyConfig,
@@ -31,7 +33,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @implNote This will interrupt the current event thread
     public void cancel(@NotNull MessageCreateData errorMessage) {
         var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
-        MessageCreateDataReply.reply(event, definition, errorReplyConfig, errorMessage);
+        MessageCreateDataReply.reply(event, i18n, definition, errorReplyConfig, errorMessage);
 
         Thread.currentThread().interrupt();
     }

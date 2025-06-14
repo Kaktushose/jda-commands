@@ -16,7 +16,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -197,12 +197,12 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(@NotNull MessageCreateData message) {
         log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
-        return MessageCreateDataReply.reply(event, definition, replyConfig, message);
+        return MessageCreateDataReply.reply(event, i18n(), definition, replyConfig, message);
     }
 
     @NotNull
-    public Message reply(@NotNull String message) {
-        return newReply().reply(message);
+    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+        return newReply().reply(message, placeholder);
     }
 
     @NotNull
@@ -212,6 +212,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private MessageReply newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition, replyConfig);
+        return new MessageReply(event, definition, i18n(), replyConfig);
     }
 }

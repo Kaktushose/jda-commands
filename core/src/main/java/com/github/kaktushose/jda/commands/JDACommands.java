@@ -18,10 +18,10 @@ import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrat
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -40,6 +40,7 @@ public final class JDACommands {
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
     private final CommandDefinition.CommandConfig globalCommandConfig;
+    private final I18n i18n;
 
     JDACommands(
             JDAContext jdaContext,
@@ -52,11 +53,12 @@ public final class JDACommands {
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
             CommandDefinition.CommandConfig globalCommandConfig,
-            LocalizationFunction localizationFunction) {
+            I18n i18n) {
+        this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, i18n));
         this.globalCommandConfig = globalCommandConfig;
     }
 
@@ -124,6 +126,14 @@ public final class JDACommands {
     /// Updates all slash commands that are registered with [CommandScope#GUILD]
     public void updateGuildCommands() {
         updater.updateGuildCommands();
+    }
+
+    /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
+    ///
+    /// @return the [I18n] instance
+    @NotNull
+    public I18n i18n() {
+        return i18n;
     }
 
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
