@@ -56,7 +56,7 @@ public class ConstraintMiddleware implements Middleware {
                 Validator<Object, Annotation> validator = (Validator<Object, Annotation>) constraint.validator();
                 validator.apply(argument, constraint.annotation().value(), new Validator.Context(context, errorMessageFactory));
 
-                if (Thread.interrupted()) return;
+                if (context.cancelled()) return;
             }
         }
         log.debug("All constraints passed");

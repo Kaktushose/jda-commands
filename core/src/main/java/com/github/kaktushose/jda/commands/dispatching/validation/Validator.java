@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,12 +62,14 @@ public interface Validator<T, A extends Annotation> {
             return invocationContext;
         }
 
-        public MessageCreateData failMessage(String content) {
-            return errorMessageFactory.getConstraintFailedMessage(invocationContext, content);
+        public MessageCreateData failMessage(String content, I18n.Entry... placeholder) {
+            String localized = invocationContext.i18n().localize(invocationContext.event().getUserLocale().toLocale(), content, placeholder);
+
+            return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }
 
-        public void cancel(String failMessage) {
-            invocationContext.cancel(failMessage(failMessage));
+        public void cancel(String failMessage, I18n.Entry... placeholder) {
+            invocationContext.cancel(failMessage(failMessage, placeholder));
         }
     }
 

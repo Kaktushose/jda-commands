@@ -19,9 +19,4 @@ public @interface NotPerm {
     ///
     /// @return the discord permission(s) the element must not have.
     String[] value();
-
-    /// Returns the error message that will be displayed if the constraint fails.
-    ///
-    /// @return the error message
-    String message() default "Member or User has at least one permission that isn't allowed";
 }
