@@ -33,19 +33,19 @@ import java.util.function.Consumer;
 ///
 /// ### Example:
 /// ```
-///   @Interaction
-///   public class ExampleCommand {
+/// @Interaction
+/// public class ExampleCommand {
 ///
 ///     @SlashCommand(value= "example command")
 ///     public void onCommand(CommandEvent event){
 ///         event.with().components(buttons("onButton")).reply("Hello World");
 ///     }
 ///
-///     @Button("Pressme!")
+///     @Button("Press me!")
 ///     public void onButton(ComponentEvent event){
 ///         event.reply("You pressed me!");
 ///     }
-///   }
+/// }
 ///```
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
