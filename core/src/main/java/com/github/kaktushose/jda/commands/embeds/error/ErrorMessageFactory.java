@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import net.dv8tion.jda.api.entities.Message;
@@ -35,7 +34,6 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     /// Gets a [MessageCreateData] to send when a parameter constraint fails.
     ///
     /// @param context    the [ErrorContext]
-    /// @param constraint the corresponding [ConstraintDefinition] that failed
     /// @return a [MessageCreateData] to send when a parameter constraint fails
     @NotNull
     MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message);

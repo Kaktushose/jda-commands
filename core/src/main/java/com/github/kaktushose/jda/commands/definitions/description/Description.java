@@ -14,7 +14,7 @@ import java.util.Optional;
 /// @see ClassDescription
 /// @see MethodDescription
 /// @see ParameterDescription
-public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, ParameterDescription {
+public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
 
     /// a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
     @NotNull

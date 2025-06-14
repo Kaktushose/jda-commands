@@ -27,8 +27,16 @@ public class ReflectiveDescriptor implements Descriptor {
         return new ClassDescription(
                 clazz,
                 clazz.getName(),
+                packageDescription(clazz.getPackage()),
                 annotationList(clazz.getAnnotations()),
                 methods
+        );
+    }
+
+    private PackageDescription packageDescription(Package p) {
+        return new PackageDescription(
+                p.getName(),
+                annotationList(p.getAnnotations())
         );
     }
 

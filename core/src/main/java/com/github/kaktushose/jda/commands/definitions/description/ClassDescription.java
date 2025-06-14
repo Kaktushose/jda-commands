@@ -15,12 +15,14 @@ import java.util.Collections;
 public record ClassDescription(
         @NotNull Class<?> clazz,
         @NotNull String name,
+        @NotNull PackageDescription packageDescription,
         @NotNull Collection<AnnotationDescription<?>> annotations,
         @NotNull Collection<MethodDescription> methods
 ) implements Description {
-    public ClassDescription(@NotNull Class<?> clazz, @NotNull String name, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Collection<MethodDescription> methods) {
+    public ClassDescription(@NotNull Class<?> clazz, @NotNull String name, @NotNull PackageDescription packageDescription, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Collection<MethodDescription> methods) {
         this.clazz = clazz;
         this.name = name;
+        this.packageDescription = packageDescription;
         this.annotations = Collections.unmodifiableCollection(annotations);
         this.methods = Collections.unmodifiableCollection(methods);
     }
