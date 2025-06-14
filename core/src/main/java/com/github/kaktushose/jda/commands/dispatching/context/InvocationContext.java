@@ -37,4 +37,9 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 
         Thread.currentThread().interrupt();
     }
+
+    /// @return if the current invocation is cancelled
+    public boolean cancelled() {
+        return Thread.currentThread().isInterrupted();
+    }
 }

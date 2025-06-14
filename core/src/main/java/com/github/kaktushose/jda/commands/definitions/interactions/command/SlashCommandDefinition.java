@@ -80,6 +80,7 @@ public record SlashCommandDefinition(
                         .map(AutoCompleteRule::command)
                         .anyMatch(it -> name.startsWith(it) || it.equals(method.name()))
                 ).toList();
+
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))

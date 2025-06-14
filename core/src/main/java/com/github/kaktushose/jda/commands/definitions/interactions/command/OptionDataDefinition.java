@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
@@ -23,14 +24,11 @@ import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.apache.commons.collections4.BidiMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -53,7 +51,7 @@ public record OptionDataDefinition(
         @NotNull String name,
         @NotNull String description,
         @NotNull SequencedCollection<Command.Choice> choices,
-        @NotNull Collection<ConstraintDefinition> constraints
+        @NotNull Collection<ConstraintDefinition<?>> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
 
@@ -106,6 +104,7 @@ public record OptionDataDefinition(
             ))
     );
 
+
     /// Builds a new [OptionDataDefinition].
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
@@ -119,14 +118,14 @@ public record OptionDataDefinition(
         Class<?> type = wrappedType(parameter.type());
 
         // index constraints
-        List<ConstraintDefinition> constraints = new ArrayList<>();
+        List<ConstraintDefinition<?>> constraints = new ArrayList<>();
         parameter.annotations().stream()
-                .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
-                .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
+                .filter(it -> it.annotation(Constraint.class).isPresent())
+                .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), type)
+                    var validator = validatorRegistry.get(it, type)
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
-                    constraints.add(ConstraintDefinition.build(validator, it));
+                    constraints.add(new ConstraintDefinition<>(validator, it));
                 });
 
         // Param
@@ -214,12 +213,12 @@ public record OptionDataDefinition(
         }
 
         constraints.stream().filter(constraint ->
-                constraint.annotation() instanceof Min
-        ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.annotation()).value()));
+                constraint.annotation().value() instanceof Min
+        ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.annotation().value()).value()));
 
         constraints.stream().filter(constraint ->
-                constraint.annotation() instanceof Max
-        ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation()).value()));
+                constraint.annotation().value() instanceof Max
+        ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation().value()).value()));
 
         java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(type)).ifPresent(optionData::setChannelTypes);
 
@@ -229,27 +228,8 @@ public record OptionDataDefinition(
     /// Representation of a parameter constraint defined by a constraint annotation.
     ///
     /// @param validator  the corresponding [Validator]
-    /// @param message    the message to display if the constraint fails
     /// @param annotation the corresponding annotation object
-    public record ConstraintDefinition(Validator validator, String message, Object annotation) implements Definition {
-
-        /// Builds a new  [ConstraintDefinition].
-        ///
-        /// @param validator  the corresponding [Validator]
-        /// @param annotation the corresponding annotation object
-        public static ConstraintDefinition build(@NotNull Validator validator, @NotNull Annotation annotation) {
-            // annotation object is always different, so we cannot cast it. Thus, we need to get the custom error message via reflection
-            var message = "";
-            try {
-                Method method = annotation.getClass().getDeclaredMethod("message");
-                message = (String) method.invoke(annotation);
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException _) {
-            }
-            if (message.isEmpty()) {
-                message = "Parameter validation failed";
-            }
-            return new ConstraintDefinition(validator, message, annotation);
-        }
+    public record ConstraintDefinition<A extends Annotation>(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
 
         @NotNull
         @Override
