@@ -1,6 +1,7 @@
 package commands;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
@@ -10,14 +11,17 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,7 +65,7 @@ public class SlashCommandDefinitionTest {
                 method.getReturnType(),
                 method.getName(),
                 parameters,
-                toList(method.getAnnotations()),
+                annotationList(method.getAnnotations()),
                 (instance, arguments) -> method.invoke(instance, arguments.toArray())
         );
     }
@@ -70,12 +74,22 @@ public class SlashCommandDefinitionTest {
         return new ParameterDescription(
                 parameter.getType(),
                 parameter.getName(),
-                toList(parameter.getAnnotations())
+                annotationList(parameter.getAnnotations())
         );
     }
 
-    private static <T> Collection<T> toList(T[] array) {
-        return Arrays.stream(array).toList();
+
+    private static List<AnnotationDescription<?>> annotationList(Annotation[] array) {
+        return Arrays.stream(array)
+                .map(SlashCommandDefinitionTest::annotation)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    // only add annotations one level deep
+    private static AnnotationDescription<?> annotation(@NotNull Annotation annotation) {
+        return new AnnotationDescription<>(annotation, Arrays.stream(annotation.annotationType().getAnnotations())
+                .map(ann -> new AnnotationDescription<>(ann, List.of()))
+                .collect(Collectors.toUnmodifiableList()));
     }
 
     @Test

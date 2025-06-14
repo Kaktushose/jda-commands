@@ -133,7 +133,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     /// @param annotation the [Annotation] for which the [Validator] should be registered
     /// @param validator  the [Validator] implementation
     public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
-                                     @NotNull Validator validator) implements ExtensionProvidable {}
+                                     @NotNull Validator<?, ?> validator) implements ExtensionProvidable {}
 
     private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }

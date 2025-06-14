@@ -38,7 +38,7 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     /// @param constraint the corresponding [ConstraintDefinition] that failed
     /// @return a [MessageCreateData] to send when a parameter constraint fails
     @NotNull
-    MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint);
+    MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message);
 
     /// Gets a [Message] to send when a command still has a cooldown.
     ///

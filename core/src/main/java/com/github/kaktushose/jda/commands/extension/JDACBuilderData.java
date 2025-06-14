@@ -67,7 +67,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;
     protected final Set<Entry<Priority, Middleware>> middlewares = new HashSet<>();
-    protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
+    protected final Map<Class<? extends Annotation>, Validator<?, ?>> validators = new HashMap<>();
     protected final Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters = new HashMap<>();
 
 
@@ -246,8 +246,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [Validator]s to be used. Can be added via an [Extension]
     @NotNull
-    public Map<Class<? extends Annotation>, Validator> validators() {
-        Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
+    public Map<Class<? extends Annotation>, Validator<?, ?>> validators() {
+        Map<Class<? extends Annotation>, Validator<?, ?>> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
                 .map(Entry::getValue)
                 .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));

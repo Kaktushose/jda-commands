@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -94,12 +93,12 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
         if (!embedCache.containsEmbed("constraintFailed")) {
-            return super.getConstraintFailedMessage(context, constraint);
+            return super.getConstraintFailedMessage(context, message);
         }
         return embedCache.getEmbed("constraintFailed")
-                .injectValue("message", constraint.message())
+                .injectValue("message", message)
                 .toMessageCreateData();
     }
 

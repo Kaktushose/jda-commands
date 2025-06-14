@@ -20,10 +20,10 @@ public record MethodDescription(
         @NotNull Class<?> returnType,
         @NotNull String name,
         @NotNull SequencedCollection<ParameterDescription> parameters,
-        @NotNull Collection<Annotation> annotations,
+        @NotNull Collection<AnnotationDescription<?>> annotations,
         @NotNull Invoker invoker
 ) implements Description {
-    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<Annotation> annotations, @NotNull Invoker invoker) {
+    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Invoker invoker) {
         this.declaringClass = declaringClass;
         this.returnType = returnType;
         this.name = name;

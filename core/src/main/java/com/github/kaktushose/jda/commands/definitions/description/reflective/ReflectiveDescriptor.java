@@ -1,19 +1,17 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
-import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
-import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.definitions.description.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
@@ -29,7 +27,7 @@ public class ReflectiveDescriptor implements Descriptor {
         return new ClassDescription(
                 clazz,
                 clazz.getName(),
-                toList(clazz.getAnnotations()),
+                annotationList(clazz.getAnnotations()),
                 methods
         );
     }
@@ -47,7 +45,7 @@ public class ReflectiveDescriptor implements Descriptor {
                 method.getReturnType(),
                 method.getName(),
                 parameters,
-                toList(method.getAnnotations()),
+                annotationList(method.getAnnotations()),
                 (instance, arguments) -> method.invoke(instance, arguments.toArray())
         );
     }
@@ -57,12 +55,20 @@ public class ReflectiveDescriptor implements Descriptor {
         return new ParameterDescription(
                 parameter.getType(),
                 parameter.getName(),
-                toList(parameter.getAnnotations())
+                annotationList(parameter.getAnnotations())
         );
     }
 
-    @NotNull
-    private <T> Collection<T> toList(@NotNull T[] array) {
-        return Arrays.stream(array).toList();
+    private List<AnnotationDescription<?>> annotationList(Annotation[] array) {
+        return Arrays.stream(array)
+                .map(this::annotation)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    // only add annotations one level deep
+    private AnnotationDescription<?> annotation(@NotNull Annotation annotation) {
+        return new AnnotationDescription<>(annotation, Arrays.stream(annotation.annotationType().getAnnotations())
+                .map(ann -> new AnnotationDescription<>(ann, List.of()))
+                .collect(Collectors.toUnmodifiableList()));
     }
 }
