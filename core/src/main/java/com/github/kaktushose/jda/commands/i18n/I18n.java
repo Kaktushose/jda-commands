@@ -121,7 +121,7 @@ public class I18n {
                 ? split[0].trim()
                 : findBundle();
 
-        return localizer.localize(locale, bundle, key, arguments);
+        return localizer.localize(locale, bundle, split[0], arguments);
     }
 
     public String localize(Locale locale, String key, Entry... placeholder) {
