@@ -10,6 +10,8 @@ org-slf4j-slf4j = "2.0.5"
 com-google-inject-guice = "7.0.0"
 org-junit-jupiter = "5.13.0"
 org-mockito = "5.18.0"
+dev-goldmensch-fluava = "0.1.2"
+
 
 [libraries]
 com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
@@ -22,3 +24,5 @@ org-reflections-reflections = { module = "org.reflections:reflections", version.
 org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j" }
 org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org-slf4j-slf4j" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
+io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.2" }
+dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }

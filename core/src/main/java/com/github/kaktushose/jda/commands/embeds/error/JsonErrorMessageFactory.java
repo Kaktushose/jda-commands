@@ -1,16 +1,22 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedCache;
+import io.github.kaktushose.proteus.conversion.ConversionResult;
+import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /// Subtype of [DefaultErrorMessageFactory] that can load the embeds from an [EmbedCache].
 ///
@@ -26,34 +32,46 @@ public class JsonErrorMessageFactory extends DefaultErrorMessageFactory {
 
     @NotNull
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull List<String> userInput) {
+    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure) {
         if (!embedCache.containsEmbed("typeAdaptingFailed")) {
-            return super.getTypeAdaptingFailedMessage(context, userInput);
+            return super.getTypeAdaptingFailedMessage(context, failure);
         }
-
-        StringBuilder sbExpected = new StringBuilder();
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
+        SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
+        List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
+        List<OptionMapping> optionMappings = commandOptions
+                .stream()
+                .map(it -> event.getOption(it.name()))
+                .toList();
 
-        command.commandOptions().forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
-                return;
+        String name = "**%s**".formatted(command.displayName());
+        String expected = "N/A";
+        String actual = "N/A";
+        String input = "N/A";
+        for (int i = 0; i < commandOptions.size(); i++) {
+            OptionDataDefinition commandOption = commandOptions.get(i);
+            OptionMapping optionMapping = optionMappings.get(i);
+            Type<?> into = Type.of(commandOption.type());
+            if (failure.context() != null && into.equals(failure.context().into())) {
+                name = "%s __%s__".formatted(name, commandOption.name());
+                name = "%s %s".formatted(name, commandOptions.subList(i + 1, commandOptions.size())
+                        .stream()
+                        .map(OptionDataDefinition::name)
+                        .collect(Collectors.joining(" ")));
+                expected = commandOption.type().getSimpleName();
+                actual = humanReadableType(optionMapping);
+                input = optionMapping.getAsString();
+                break;
+            } else {
+                name = "%s %s".formatted(name, commandOption.name());
             }
-            String typeName = parameter.type().getTypeName();
-            if (typeName.contains(".")) {
-                typeName = typeName.substring(typeName.lastIndexOf(".") + 1);
-            }
-            sbExpected.append(typeName).append(", ");
-        });
-        String expected = sbExpected.toString().isEmpty() ? " " : sbExpected.substring(0, sbExpected.length() - 2);
-
-        StringBuilder sbActual = new StringBuilder();
-        userInput.forEach(argument -> sbActual.append(argument).append(", "));
-        String actual = sbActual.toString().isEmpty() ? " " : sbActual.substring(0, sbActual.length() - 2);
-
+        }
         return embedCache.getEmbed("typeAdaptingFailed")
-                .injectValue("usage", command.displayName())
+                .injectValue("command", command)
                 .injectValue("expected", expected)
                 .injectValue("actual", actual)
+                .injectValue("input", input)
+                .injectValue("details", failure.message())
                 .toMessageCreateData();
     }
 

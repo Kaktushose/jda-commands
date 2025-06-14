@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -35,17 +36,17 @@ import java.util.function.Consumer;
 /// @Interaction
 /// public class ExampleCommand {
 ///
-///     @SlashCommand(value = "example command")
-///     public void onCommand(CommandEvent event) {
+///     @SlashCommand(value= "example command")
+///     public void onCommand(CommandEvent event){
 ///         event.with().components(buttons("onButton")).reply("Hello World");
 ///     }
 ///
 ///     @Button("Press me!")
-///     public void onButton(ComponentEvent event) {
+///     public void onButton(ComponentEvent event){
 ///         event.reply("You pressed me!");
 ///     }
 /// }
-/// ```
+///```
 public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
 
     protected final InteractionRegistry registry;
@@ -152,20 +153,20 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    /// @Interaction
-    /// public class ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///     @SlashCommand(value = "example command")
-    ///     public void onCommand(CommandEvent event) {
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
     ///         event.with().components("onButton").reply("Hello World");
     ///     }
     ///
-    ///     @Button("Press me!")
-    ///     public void onButton(ComponentEvent event) {
+    ///     @Button("Pressme!")
+    ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }
-    /// }
-    /// ```
+    ///  }
+    ///```
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
@@ -178,20 +179,20 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    /// @Interaction
-    /// public class ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///     @SlashCommand(value = "example command")
-    ///     public void onCommand(CommandEvent event) {
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
     ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
     ///     }
     ///
-    ///     @Button("Press me!")
-    ///     public void onButton(ComponentEvent event) {
+    ///     @Button("Pressme!")
+    ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }
-    /// }
-    /// ```
+    ///  }
+    ///```
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
@@ -230,10 +231,14 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
             item = switch (component) {
                 case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
-                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
-                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
+                case EntitySelectMenuComponent entitySelectMenuComponent ->
+                        entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
+                case StringSelectComponent stringSelectComponent ->
+                        stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
                 case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
             };
+
+            item = localize(item, component);
 
             items.add(item);
 
@@ -245,6 +250,33 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         }
 
         return new ComponentReply(this);
+    }
+
+    private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {
+        return switch (item) {
+            case Button button -> button.withLabel(localize(button.getLabel(), component));
+            case EntitySelectMenu menu -> {
+                menu.createCopy().setPlaceholder(localize(menu.getPlaceholder(), component));
+                yield menu;
+            }
+            case StringSelectMenu menu -> {
+                StringSelectMenu.Builder copy = menu.createCopy();
+                List<SelectOption> localized = copy.getOptions()
+                        .stream()
+                        .map(option -> option.withDescription(localize(option.getDescription(), component))
+                                .withLabel(localize(option.getLabel(), component)))
+                        .toList();
+                copy.getOptions().clear();
+                copy.addOptions(localized);
+                copy.setPlaceholder(localize(copy.getPlaceholder(), component));
+                yield copy.build();
+            }
+            default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
+        };
+    }
+
+    private String localize(String key, Component<?, ?, ?, ?> component) {
+        return i18n.localize(event.getUserLocale().toLocale(), key, component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId) {

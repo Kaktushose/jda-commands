@@ -5,24 +5,40 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Optio
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.entities.Member;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.conversion.ConversionResult;
+import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
+
+    private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
+            byte.class, ((byte) 0),
+            short.class, ((short) 0),
+            int.class, 0,
+            long.class, 0L,
+            double.class, 0.0d,
+            float.class, 0.0f,
+            boolean.class, false,
+            char.class, '\u0000'
+    );
 
     public SlashCommandHandler(DispatchingContext dispatchingContext) {
         super(dispatchingContext);
@@ -37,6 +53,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         return parseArguments(command, event, runtime)
                 .map(args -> new InvocationContext<>(
                         event,
+                        dispatchingContext.i18n(),
                         runtime.keyValueStore(),
                         command,
                         Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
@@ -44,67 +61,106 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 ).orElse(null);
     }
 
+    @SuppressWarnings("unchecked")
     private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
-        var input = command.commandOptions().stream()
+        List<OptionMapping> optionMappings = command
+                .commandOptions()
+                .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
         List<Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
-        var commandOptions = List.copyOf(command.commandOptions());
+        var optionDataDefinitions = List.copyOf(command.commandOptions());
         parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig));
 
-        if (input.size() != commandOptions.size()) {
+        if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new IllegalStateException(
-                    "Command input doesn't match command options length! Please report this error the the devs of jda-commands."
+                    "Command input doesn't match command options length! Please report this error to the devs of jda-commands."
             );
         }
 
-        for (int i = 0; i < commandOptions.size(); i++) {
-            OptionDataDefinition commandOption = commandOptions.get(i);
-            Class<?> type = commandOption.type();
-            OptionMapping optionMapping = input.get(i);
-            var adapter = adapterRegistry.get(type).orElseThrow(() ->
-                    new IllegalArgumentException(
-                            "No type adapter implementation found for %s. Consider implementing one or change the required type"
-                                    .formatted(commandOption.type())
-                    )
-            );
-
+        Proteus proteus = Proteus.global();
+        for (int i = 0; i < optionDataDefinitions.size(); i++) {
+            OptionDataDefinition optionData = optionDataDefinitions.get(i);
+            OptionMapping optionMapping = optionMappings.get(i);
             if (optionMapping == null) {
-                parsedArguments.add(TypeAdapters.DEFAULT_MAPPINGS.getOrDefault(type, null));
+                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.type(), null));
                 continue;
             }
+            Type<?> sourceType = toType(optionMapping);
+            Type<?> targetType = Type.of(optionData.type());
 
-            log.debug("Trying to adapt input \"{}\" to type {}", optionMapping.getAsString(), type.getName());
-            Optional<?> parsed = Optional.of(optionMapping)
-                    .map(mapping -> switch (mapping.getType()) {
-                        case USER -> {
-                            if (Member.class.isAssignableFrom(type)) {
-                                yield mapping.getAsMember();
-                            }
-                            yield mapping.getAsUser();
+            log.debug("Trying to adapt input '{}' as type '{}' to type '{}'", optionMapping, sourceType, targetType);
+            ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType, (Type<Object>) targetType);
+
+            switch (result) {
+                case ConversionResult.Success<?>(Object success, boolean _) -> parsedArguments.add(success);
+                case ConversionResult.Failure<?> failure -> {
+                    switch (failure.errorType()) {
+                        case MAPPING_FAILED -> {
+                            log.debug("Type adapting failed!");
+                            MessageCreateDataReply.reply(event, dispatchingContext.i18n(), command, replyConfig,
+                                    errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
+                            );
+                            return Optional.empty();
                         }
-                        case ROLE -> mapping.getAsRole();
-                        case CHANNEL -> mapping.getAsChannel();
-                        default -> adapter.apply(mapping.getAsString(), event).orElse(null);
-                    });
-
-            if (parsed.isEmpty()) {
-                log.debug("Type adapting failed!");
-                MessageCreateDataReply.reply(event, command, replyConfig,
-                        errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), input
-                                .stream()
-                                .map(it -> it == null ? null : it.getAsString())
-                                .toList())
-                );
-                return Optional.empty();
+                        case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new IllegalStateException(
+                                "Proteus Error: %s. Please report this error to the devs of jda-commands.".formatted(failure.detailedMessage())
+                        );
+                    }
+                }
             }
-
-            parsedArguments.add(parsed.get());
-            log.debug("Added \"{}\" to the argument list", parsed.get());
         }
         return Optional.of(parsedArguments);
     }
+
+    private Type<?> toType(OptionMapping optionMapping) {
+        OptionType type = optionMapping.getType();
+        return switch (type) {
+            case STRING -> Type.of(String.class);
+            case INTEGER -> Type.of(Long.class);
+            case BOOLEAN -> Type.of(Boolean.class);
+            case USER -> {
+                Member member = optionMapping.getAsMember();
+                if (member == null) {
+                    yield Type.of(User.class);
+                }
+                yield Type.of(Member.class);
+            }
+            case CHANNEL -> Type.of(GuildChannelUnion.class);
+            case ROLE -> Type.of(Role.class);
+            case MENTIONABLE -> Type.of(IMentionable.class);
+            case NUMBER -> Type.of(Double.class);
+            case ATTACHMENT -> Type.of(Message.Attachment.class);
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(type)
+            );
+        };
+    }
+
+    private Object toValue(OptionMapping optionMapping) {
+        return switch (optionMapping.getType()) {
+            case STRING -> optionMapping.getAsString();
+            case INTEGER -> optionMapping.getAsLong();
+            case BOOLEAN -> optionMapping.getAsBoolean();
+            case USER -> {
+                Member member = optionMapping.getAsMember();
+                if (member == null) {
+                    yield optionMapping.getAsUser();
+                }
+                yield member;
+            }
+            case CHANNEL -> optionMapping.getAsChannel();
+            case ROLE -> optionMapping.getAsRole();
+            case MENTIONABLE -> optionMapping.getAsMentionable();
+            case NUMBER -> optionMapping.getAsDouble();
+            case ATTACHMENT -> optionMapping.getAsAttachment();
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            );
+        };
+    }
+
 }

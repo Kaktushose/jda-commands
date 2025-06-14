@@ -2,11 +2,14 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.embeds.EmbedDTO;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
 ///
@@ -18,13 +21,14 @@ public sealed interface Reply permits MessageReply, ReplyableEvent {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// @param message the message to send
+    /// @param message the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull String message);
+    Message reply(@NotNull String message, I18n.Entry... placeholder);
 
     /// Acknowledgement of this event with a text message.
     ///
