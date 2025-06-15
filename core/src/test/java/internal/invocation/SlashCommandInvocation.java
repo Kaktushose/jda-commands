@@ -1,59 +1,35 @@
 package internal.invocation;
 
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.IEventManager;
-import net.dv8tion.jda.api.interactions.DiscordLocale;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.requests.restaction.WebhookMessageEditAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class SlashCommandInvocation {
+public final class SlashCommandInvocation extends Invocation<SlashCommandInteractionEvent> {
 
-    private final IEventManager eventManager;
-    private final SlashCommandInteractionEvent event;
-    private final CompletableFuture<MessageCreateData> reply = new CompletableFuture<>();
     private final Map<String, OptionMapping> optionMappings = new HashMap<>();
-    private User user;
 
     public SlashCommandInvocation(IEventManager eventManager, String command) {
-        this.eventManager = eventManager;
+        super(eventManager, SlashCommandInteractionEvent.class);
 
-        event = mock(SlashCommandInteractionEvent.class);
         when(event.getFullCommandName()).thenReturn(command);
-        when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
-        when(event.deferReply(anyBoolean())).thenReturn(mock(ReplyCallbackAction.class));
-
-        user = mock(User.class);
-        when(event.getUser()).then((_) -> user);
-
-        InteractionHook hook = mock(InteractionHook.class);
-        when(event.getHook()).thenReturn(hook);
-        lenient().when(hook.sendMessage(any(MessageCreateData.class))).then(invocation -> {
-            reply.complete(MessageCreateData.fromEditData(invocation.getArgument(0)));
-            return mock(WebhookMessageEditAction.class);
-        });
-        lenient().when(hook.editOriginal(any(MessageEditData.class))).then(invocation -> {
-            reply.complete(MessageCreateData.fromEditData(invocation.getArgument(0)));
-            return mock(WebhookMessageEditAction.class);
-        });
-
-        lenient().when(event.getUserLocale()).thenReturn(DiscordLocale.ENGLISH_US);
-        lenient().when(event.getGuildLocale()).thenReturn(DiscordLocale.ENGLISH_US);
+        lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
+        lenient().when(event.deferReply(anyBoolean())).thenReturn(mock(ReplyCallbackAction.class));
     }
 
     public SlashCommandInvocation option(String name, OptionMapping mapping) {
@@ -64,32 +40,6 @@ public class SlashCommandInvocation {
     public SlashCommandInvocation channel(MessageChannelUnion channel) {
         when(event.getChannel()).thenReturn(channel);
         return this;
-    }
-
-    public SlashCommandInvocation guildLocale(DiscordLocale locale) {
-        when(event.getGuildLocale()).thenReturn(locale);
-        return this;
-    }
-
-    public SlashCommandInvocation userLocale(DiscordLocale locale) {
-        when(event.getUserLocale()).thenReturn(locale);
-        return this;
-    }
-
-    public SlashCommandInvocation guild(Guild guild) {
-        when(event.getGuild()).thenReturn(guild);
-        return this;
-    }
-
-    public SlashCommandInvocation member(Member member) {
-        user = member.getUser();
-        when(event.getMember()).thenReturn(member);
-        return this;
-    }
-
-    public CompletableFuture<MessageCreateData> invoke() {
-        eventManager.handle(event);
-        return reply;
     }
 
     public static class Option {

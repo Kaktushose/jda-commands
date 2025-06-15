@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import internal.invocation.ButtonInvocation;
 import internal.invocation.SlashCommandInvocation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -44,13 +45,12 @@ public class TestScenario {
         return new Builder(Mockito.mock(JDA.class), klass).create();
     }
 
-
     public SlashCommandInvocation slash(String command) {
         return new SlashCommandInvocation(eventManager, command);
     }
 
-    public IEventManager eventManager() {
-        return eventManager;
+    public ButtonInvocation button(String customId) {
+        return new ButtonInvocation(eventManager, customId);
     }
 
     public Collection<CommandData> commands() {
