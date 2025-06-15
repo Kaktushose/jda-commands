@@ -24,19 +24,17 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import io.github.kaktushose.proteus.type.Type;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -124,12 +122,12 @@ public sealed class JDACBuilderData permits JDACBuilder {
         var implementations = implementations(type);
 
         if (implementations.isEmpty()) {
-            if (defaultValue != null) return (T) loadedCache.computeIfAbsent(type, _ -> defaultValue.get());
+            if (defaultValue != null) return (T) loadedCache.compute(type, (_, _) -> defaultValue.get());
             throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
         }
 
         if (implementations.size() == 1) {
-            return (T) loadedCache.computeIfAbsent(type, _ -> implementations.getFirst().getValue());
+            return (T) loadedCache.compute(type, (_, _) -> implementations.getFirst().getValue());
         }
 
         String foundImplementations = implementations.stream()

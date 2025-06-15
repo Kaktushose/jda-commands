@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.definitions.description.AnnotationDesc
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.NotPermissionValidator;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.PermissionValidator;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -48,9 +50,11 @@ public class Validators {
         }
 
         Constraint constraint = annotation.annotation(Constraint.class).orElseThrow();
-        if (Arrays.stream(constraint.value()).noneMatch(t -> t.isAssignableFrom(type))) {
-            return Optional.empty();
-        }
+
+        boolean typesCompatible = Arrays.stream(constraint.value())
+                .anyMatch(klass -> Proteus.global().existsPath(Type.of(type), Type.of(klass)));
+
+        if (!typesCompatible) return Optional.empty();
 
         return Optional.of(validator);
     }
