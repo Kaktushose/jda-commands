@@ -29,12 +29,13 @@ public class OptionDataDefinitionTest {
         validatorRegistry = new Validators(Map.of());
     }
 
-    private static ParameterDescription parameter(@NotNull Parameter parameter) {
+    @NotNull
+    private ParameterDescription parameter(@NotNull Parameter parameter) {
         Class<?>[] arguments = {};
         if (parameter.getParameterizedType() instanceof ParameterizedType type) {
             arguments = Arrays.stream(type.getActualTypeArguments())
                     .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)
-                    .map(Class.class::cast)
+                    .map(it -> it instanceof Class<?> klass ? klass : null)
                     .toArray(Class[]::new);
         }
 
