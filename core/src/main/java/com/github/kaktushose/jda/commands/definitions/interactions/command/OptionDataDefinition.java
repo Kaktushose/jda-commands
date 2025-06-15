@@ -27,7 +27,6 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
 import java.util.*;
 
@@ -51,7 +50,7 @@ public record OptionDataDefinition(
         @NotNull String name,
         @NotNull String description,
         @NotNull SequencedCollection<Command.Choice> choices,
-        @NotNull Collection<ConstraintDefinition<?>> constraints
+        @NotNull Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
 
@@ -118,14 +117,14 @@ public record OptionDataDefinition(
         Class<?> type = wrappedType(parameter.type());
 
         // index constraints
-        List<ConstraintDefinition<?>> constraints = new ArrayList<>();
+        List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotation(Constraint.class).isPresent())
                 .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it, type)
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
-                    constraints.add(new ConstraintDefinition<>(validator, it));
+                    constraints.add(new ConstraintDefinition(validator, it));
                 });
 
         // Param
@@ -229,7 +228,7 @@ public record OptionDataDefinition(
     ///
     /// @param validator  the corresponding [Validator]
     /// @param annotation the corresponding annotation object
-    public record ConstraintDefinition<A extends Annotation>(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
+    public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
 
         @NotNull
         @Override

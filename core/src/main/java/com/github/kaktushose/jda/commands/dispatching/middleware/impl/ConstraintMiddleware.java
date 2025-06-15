@@ -50,6 +50,8 @@ public class ConstraintMiddleware implements Middleware {
         arguments.removeIf(Event.class::isInstance);
         var commandOptions = List.copyOf(command.commandOptions());
 
+        Validator.Context validatorContext = new Validator.Context(context, errorMessageFactory);
+
         log.debug("Applying parameter constraints...");
         for (int i = 0; i < arguments.size(); i++) {
 
@@ -81,7 +83,7 @@ public class ConstraintMiddleware implements Middleware {
                                 ))
                         );
 
-                validator.apply(converted, constraint.annotation().value(), new Validator.Context(context, errorMessageFactory));
+                validator.apply(converted, constraint.annotation().value(), validatorContext);
 
                 if (context.cancelled()) return;
             }

@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
 import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
+import com.github.kaktushose.jda.commands.dispatching.middleware.impl.ConstraintMiddleware;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.NotPermissionValidator;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.PermissionValidator;
@@ -15,6 +16,8 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 
 /// Central registry for all [Validator]s.
+///
+/// @implNote The business logic for checking a command's options is implemented by [ConstraintMiddleware]
 ///
 /// @see Validator
 public class Validators {
