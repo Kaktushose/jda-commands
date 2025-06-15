@@ -10,6 +10,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Optional;
 
 /// Methods annotated with Command will be registered as a slash command at startup.
 ///
@@ -20,6 +21,14 @@ import java.lang.annotation.Target;
 ///
 ///   - First parameter must be of type [CommandEvent]
 ///   - Remaining parameter types must be registered at the [TypeAdapters]
+///
+/// ### Optional parameter
+/// Beside defining parameters with [Param#optional()] set to true, it's also possible to wrap it in an [Optional]
+/// with the appropriated type set as the generic type parameter. (Example: `@Param(optional = true) String one` -> `Optional<String> one`.
+///
+/// JDA-Commands will register this parameter as optional to discord. If the option isn't provided by the user, [Optional#empty()] is passed.
+///
+///
 ///
 /// ## Examples:
 /// ```

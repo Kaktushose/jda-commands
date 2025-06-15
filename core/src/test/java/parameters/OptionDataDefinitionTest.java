@@ -4,11 +4,13 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.entities.Member;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -27,9 +29,18 @@ public class OptionDataDefinitionTest {
         validatorRegistry = new Validators(Map.of());
     }
 
-    private static ParameterDescription parameter(Parameter parameter) {
+    private static ParameterDescription parameter(@NotNull Parameter parameter) {
+        Class<?>[] arguments = {};
+        if (parameter.getParameterizedType() instanceof ParameterizedType type) {
+            arguments = Arrays.stream(type.getActualTypeArguments())
+                    .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)
+                    .map(Class.class::cast)
+                    .toArray(Class[]::new);
+        }
+
         return new ParameterDescription(
                 parameter.getType(),
+                arguments,
                 parameter.getName(),
                 toList(parameter.getAnnotations())
         );
