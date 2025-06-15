@@ -20,9 +20,4 @@ public @interface Perm {
     ///
     /// @return the discord permission(s) the element must have.
     String[] value();
-
-    /// Returns the error message that will be displayed if the constraint fails.
-    ///
-    /// @return the error message
-    String message() default "Member or User is missing at least one permission that is required";
 }

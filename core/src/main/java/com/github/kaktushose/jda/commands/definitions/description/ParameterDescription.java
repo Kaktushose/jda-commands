@@ -14,9 +14,9 @@ import java.util.Collections;
 public record ParameterDescription(
         @NotNull Class<?> type,
         @NotNull String name,
-        @NotNull Collection<Annotation> annotations
+        @NotNull Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(@NotNull Class<?> type, @NotNull String name, @NotNull Collection<Annotation> annotations) {
+    public ParameterDescription(@NotNull Class<?> type, @NotNull String name, @NotNull Collection<AnnotationDescription<?>> annotations) {
         this.type = type;
         this.name = name;
         this.annotations = Collections.unmodifiableCollection(annotations);

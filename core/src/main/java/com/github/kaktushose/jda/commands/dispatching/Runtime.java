@@ -132,7 +132,6 @@ public final class Runtime implements Closeable {
         return i18n;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T interactionInstance(Class<T> clazz) {
         return instanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
     }
