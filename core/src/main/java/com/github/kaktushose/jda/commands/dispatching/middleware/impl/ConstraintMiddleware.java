@@ -48,7 +48,7 @@ public class ConstraintMiddleware implements Middleware {
 
             var optionData = commandOptions.get(i);
             for (var constraint : optionData.constraints()) {
-                log.debug("Found constraint {} for parameter {}", constraint, optionData.type().getName());
+                log.debug("Found constraint {} for parameter {}", constraint, optionData.declaredType().getName());
                 if (!constraint.validator().apply(argument, constraint.annotation(), context)) {
                     context.cancel(errorMessageFactory.getConstraintFailedMessage(context, constraint));
                     log.debug("Constraint failed!");

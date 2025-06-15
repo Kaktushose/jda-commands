@@ -45,14 +45,14 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         for (int i = 0; i < commandOptions.size(); i++) {
             OptionDataDefinition commandOption = commandOptions.get(i);
             OptionMapping optionMapping = optionMappings.get(i);
-            Type<?> into = Type.of(commandOption.type());
+            Type<?> into = Type.of(commandOption.declaredType());
             if (failure.context() != null && into.equals(failure.context().into())) {
                 name = "%s __%s__".formatted(name, commandOption.name());
                 name = "%s %s".formatted(name, commandOptions.subList(i + 1, commandOptions.size())
                         .stream()
                         .map(OptionDataDefinition::name)
                         .collect(Collectors.joining(" ")));
-                expected = commandOption.type().getSimpleName();
+                expected = commandOption.declaredType().getSimpleName();
                 actual = humanReadableType(optionMapping);
                 input = optionMapping.getAsString();
                 break;
