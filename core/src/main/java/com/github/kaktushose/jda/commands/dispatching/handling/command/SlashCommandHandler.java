@@ -93,7 +93,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Type<?> sourceType = toType(optionMapping);
             Type<?> targetType = Type.of(optionData.resolvedType());
 
-            log.debug("Trying to adapt input '{}' as declaredType '{}' to declaredType '{}'", optionMapping, sourceType, targetType);
+            log.debug("Trying to adapt input '{}' as type '{}' to type '{}'", optionMapping, sourceType, targetType);
             ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType, (Type<Object>) targetType);
 
             switch (result) {

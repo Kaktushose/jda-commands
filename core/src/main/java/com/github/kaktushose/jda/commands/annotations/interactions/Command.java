@@ -20,9 +20,9 @@ import java.util.Optional;
 /// The method signature has to meet the following conditions:
 ///
 ///   - First parameter must be of type [CommandEvent]
-///   - Remaining parameter types must be registered at the [TypeAdapters]
+///   - Remaining parameter types must be registered at the [TypeAdapters]. Please note that [Optional] are handled special, see next headline.
 ///
-/// ### Optional parameter
+/// ### [Optional] as parameter type
 /// Beside defining parameters with [Param#optional()] set to true, it's also possible to wrap it in an [Optional]
 /// with the appropriated type set as the generic type parameter. (Example: `@Param(optional = true) String one` -> `Optional<String> one`.
 ///

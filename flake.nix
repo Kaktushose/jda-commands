@@ -25,6 +25,7 @@
         gradle = pkgs.gradle.override {
             javaToolchains = [
                 jdk
+                pkgs.temurin-bin
             ];
 
             java = jdk;
@@ -33,6 +34,7 @@
          devShells.default = pkgs.mkShell {
            name = "JDA-Commands";
            packages = with pkgs; [git jdk gradle maven];
+           JDK24 = jdk;
          };
        };
     };

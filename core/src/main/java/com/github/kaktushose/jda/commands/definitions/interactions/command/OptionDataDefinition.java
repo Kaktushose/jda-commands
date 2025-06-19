@@ -204,7 +204,7 @@ public record OptionDataDefinition(
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
             throw new IllegalStateException(
                     "Cannot create option data! " +
-                    "There is no declaredType adapting path to convert from OptionType '%s' (underlying declaredType: '%s') to '%s'. "
+                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
                             .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName()) +
                     "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
                             .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName())
