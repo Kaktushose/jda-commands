@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.lang.Class,java.lang.String,java.util.Collection)" tabindex="0">ParameterDescription(Class, String, Collection)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.Class,java.lang.Class%5B%5D,java.lang.String,java.util.Collection)" tabindex="0">ParameterDescription(Class, Class[], String, Collection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -74,6 +74,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#type()" tabindex="0">type()</a></li>
+<li><a href="#typeArguments()" tabindex="0">typeArguments()</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#annotations()" tabindex="0">annotations()</a></li>
 </ol>
@@ -93,7 +94,9 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Record Components:</dt>
-<dd><code><span id="param-type">type</span></code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> representing the type of this parameter</dd>
+<dd><code><span id="param-type">type</span></code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> representing the declaredType of this parameter</dd>
+<dd><code><span id="param-typeArguments">typeArguments</span></code> - the generic type arguments of the type (<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/ParameterizedType.html#getActualTypeArguments()" title="class or interface in java.lang.reflect" class="external-link"><code>ParameterizedType.getActualTypeArguments()</code></a>).
+They only represent the first layer and are all raw types represented as <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> instances or null if wildcard/no class.</dd>
 <dd><code><span id="param-name">name</span></code> - the name of the parameter</dd>
 <dd><code><span id="param-annotations">annotations</span></code> - a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of all <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a>s this parameter is annotated with</dd>
 </dl>
@@ -103,7 +106,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ParameterDescription</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotations)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ParameterDescription</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt; @NotNull []&nbsp;typeArguments, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotations)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="Description.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Description</a></span></div>
 <div class="block">A <a href="Description.html" title="interface in com.github.kaktushose.jda.commands.definitions.description"><code>Description</code></a> that describes a parameter.</div>
@@ -119,7 +122,8 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,java.lang.String,java.util.Collection)" class="member-name-link">ParameterDescription</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,java.lang.Class%5B%5D,java.lang.String,java.util.Collection)" class="member-name-link">ParameterDescription</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;[]&nbsp;typeArguments,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotations)</code></div>
 <div class="col-last even-row-color">
@@ -169,6 +173,11 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-type"><code>type</code></a> record component.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt; @NotNull []</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#typeArguments()" class="member-name-link">typeArguments</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-typeArguments"><code>typeArguments</code></a> record component.</div>
+</div>
 </div>
 </div>
 </div>
@@ -190,11 +199,13 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.Class,java.lang.String,java.util.Collection)">
+<section class="detail" id="&lt;init&gt;(java.lang.Class,java.lang.Class[],java.lang.String,java.util.Collection)">
 <h3>ParameterDescription</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ParameterDescription</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;[]&nbsp;typeArguments,
  @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull
@@ -203,6 +214,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>type</code> - the value for the <a href="#param-type"><code>type</code></a> record component</dd>
+<dd><code>typeArguments</code> - the value for the <a href="#param-typeArguments"><code>typeArguments</code></a> record component</dd>
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
 <dd><code>annotations</code> - the value for the <a href="#param-annotations"><code>annotations</code></a> record component</dd>
 </dl>
@@ -274,6 +286,20 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-type"><code>type</code></a> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="typeArguments()">
+<h3>typeArguments</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt; @NotNull []</span>&nbsp;<span class="element-name">typeArguments</span>()</div>
+<div class="block">Returns the value of the <a href="#param-typeArguments"><code>typeArguments</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-typeArguments"><code>typeArguments</code></a> record component</dd>
 </dl>
 </div>
 </section>

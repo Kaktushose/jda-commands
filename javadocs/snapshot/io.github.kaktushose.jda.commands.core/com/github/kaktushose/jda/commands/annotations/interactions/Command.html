@@ -94,8 +94,12 @@ context commands are registered via this annotation.</p>
 <p>The method signature has to meet the following conditions:</p>
 <ul>
 <li>First parameter must be of type <a href="../../dispatching/events/interactions/CommandEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions"><code>CommandEvent</code></a></li>
-<li>Remaining parameter types must be registered at the <a href="../../dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal"><code>TypeAdapters</code></a></li>
+<li>Remaining parameter types must be registered at the <a href="../../dispatching/adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal"><code>TypeAdapters</code></a>. Please note that <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> are handled special, see next headline.</li>
 </ul>
+<h4 id="-as-parameter-type-heading"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> as parameter type</h4>
+<p>Beside defining parameters with <a href="Param.html#optional()"><code>Param.optional()</code></a> set to true, it's also possible to wrap it in an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>
+with the appropriated type set as the generic type parameter. (Example: <code>@Param(optional = true) String one</code> -&gt; <code>Optional&lt;String&gt; one</code>.</p>
+<p>JDA-Commands will register this parameter as optional to discord. If the option isn't provided by the user, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> is passed.</p>
 <h3 id="examples--heading">Examples:</h3>
 <pre><code>@Command(&quot;greet&quot;)
 public void onCommand(CommandEvent event) {

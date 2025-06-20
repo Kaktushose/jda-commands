@@ -177,10 +177,17 @@ at runtime making this field redundant.</div>
 <h3>optional</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">optional</span></div>
-<div class="block">Returns whether this command option is optional.</div>
+<div class="block">Returns whether this command option is optional.
+If the parameter class is an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> this is automatically set to true.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if this command option is optional</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="Command.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Command</code></a></li>
+</ul>
+</dd>
 </dl>
 <dl class="notes">
 <dt>Default:</dt>
