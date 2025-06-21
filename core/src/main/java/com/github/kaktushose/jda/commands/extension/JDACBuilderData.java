@@ -25,8 +25,6 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import dev.goldmensch.fluava.Fluava;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -34,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -114,32 +111,45 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 ).toList();
     }
 
-    private final Map<Class<?>, Object> loadedCache = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
+            Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)),
+            PermissionsProvider.class, DefaultPermissionsProvider::new,
+            ErrorMessageFactory.class, DefaultErrorMessageFactory::new,
+            GuildScopeProvider.class, DefaultGuildScopeProvider::new,
+            Descriptor.class, () -> Descriptor.REFLECTIVE
+    );
+
+    private final ClassValue<Object> loader = new ClassValue<>() {
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Object computeValue(@NotNull Class<?> type) {
+            var implementations = implementations((Class<? extends ExtensionProvidable>) type);
+
+            if (implementations.isEmpty()) {
+                if (defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                return defaults.get(type);
+            }
+
+            if (implementations.size() == 1) {
+                return implementations.getFirst().getValue();
+            }
+
+            String foundImplementations = implementations.stream()
+                    .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.joining(System.lineSeparator()));
+
+            throw new JDACBuilder.ConfigurationException(
+                    "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
+                            .formatted(type, foundImplementations)
+            );
+        }
+    };
+
 
     @SuppressWarnings("unchecked")
-    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, Supplier<T> defaultValue) {
+    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue) {
         if (setValue != null) return setValue;
-        if (loadedCache.containsKey(type)) return (T) loadedCache.get(type);
-
-        var implementations = implementations(type);
-
-        if (implementations.isEmpty()) {
-            if (defaultValue != null) return (T) loadedCache.computeIfAbsent(type, _ -> defaultValue.get());
-            throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
-        }
-
-        if (implementations.size() == 1) {
-            return (T) loadedCache.computeIfAbsent(type, _ -> implementations.getFirst().getValue());
-        }
-
-        String foundImplementations = implementations.stream()
-                .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
-                .collect(Collectors.joining(System.lineSeparator()));
-
-        throw new JDACBuilder.ConfigurationException(
-                "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
-                        .formatted(type, foundImplementations)
-        );
+        return (T) loader.get(type);
     }
 
     /// the packages provided by the user for classpath scanning
@@ -181,38 +191,38 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
     @NotNull
     public InteractionControllerInstantiator controllerInstantiator() {
-        return load(InteractionControllerInstantiator.class, controllerInstantiator, null);
+        return load(InteractionControllerInstantiator.class, controllerInstantiator);
     }
 
     // loadable - defaults
     /// @return the [Localizer] to be used. Can be added via an [Extension]
     @NotNull
     public Localizer localizer() {
-        return load(Localizer.class, localizer, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
+        return load(Localizer.class, localizer);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
     @NotNull
     public PermissionsProvider permissionsProvider() {
-        return load(PermissionsProvider.class, permissionsProvider, DefaultPermissionsProvider::new);
+        return load(PermissionsProvider.class, permissionsProvider);
     }
 
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
     @NotNull
     public ErrorMessageFactory errorMessageFactory() {
-        return load(ErrorMessageFactory.class, errorMessageFactory, DefaultErrorMessageFactory::new);
+        return load(ErrorMessageFactory.class, errorMessageFactory);
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]
     @NotNull
     public GuildScopeProvider guildScopeProvider() {
-        return load(GuildScopeProvider.class, guildScopeProvider, DefaultGuildScopeProvider::new);
+        return load(GuildScopeProvider.class, guildScopeProvider);
     }
 
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
     @NotNull
     public Descriptor descriptor() {
-        return load(Descriptor.class, descriptor, () -> Descriptor.REFLECTIVE);
+        return load(Descriptor.class, descriptor);
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
@@ -274,8 +284,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
+    private I18n i18n = null;
     @NotNull
     public I18n i18n() {
-        return (I18n) loadedCache.computeIfAbsent(I18n.class, _ -> new I18n(descriptor(), localizer()));
+        return i18n != null
+                ? i18n
+                : (i18n = new I18n(descriptor(), localizer()));
     }
 }
