@@ -37,7 +37,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             double.class, 0.0d,
             float.class, 0.0f,
             boolean.class, false,
-            char.class, '\u0000'
+            char.class, '\u0000',
+            Optional.class, Optional.empty()
     );
 
     public SlashCommandHandler(DispatchingContext dispatchingContext) {
@@ -86,17 +87,23 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             OptionDataDefinition optionData = optionDataDefinitions.get(i);
             OptionMapping optionMapping = optionMappings.get(i);
             if (optionMapping == null) {
-                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.type(), null));
+                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.declaredType(), null));
                 continue;
             }
             Type<?> sourceType = toType(optionMapping);
-            Type<?> targetType = Type.of(optionData.type());
+            Type<?> targetType = Type.of(optionData.resolvedType());
 
             log.debug("Trying to adapt input '{}' as type '{}' to type '{}'", optionMapping, sourceType, targetType);
             ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType, (Type<Object>) targetType);
 
             switch (result) {
-                case ConversionResult.Success<?>(Object success, boolean _) -> parsedArguments.add(success);
+                case ConversionResult.Success<?>(Object success, boolean _) -> {
+                    if (optionData.declaredType().equals(Optional.class)) {
+                        parsedArguments.add(Optional.of(success));
+                    } else {
+                        parsedArguments.add(success);
+                    }
+                }
                 case ConversionResult.Failure<?> failure -> {
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {

@@ -26,7 +26,6 @@
             javaToolchains = [
                 jdk
                 pkgs.temurin-bin
-
             ];
 
             java = jdk;
