@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class MockTest {
 
-    private static final String COMMAND_NAME = "test";
     private TestScenario scenario;
 
     @BeforeEach
@@ -25,9 +24,9 @@ class MockTest {
 
     @Test
     void test() {
-        ModalEventReply modalReply = scenario.slash(COMMAND_NAME).invokeModal();
+        ModalEventReply modalReply = scenario.slash("modal test").invokeModal();
 
-        EventReply messageReply = modalReply.submit().input("a").input("b").input("c").invoke();
+        EventReply messageReply = modalReply.submit().input("a", "b", "c").invoke();
 
         assertEquals("abc", messageReply.content());
     }
@@ -35,12 +34,12 @@ class MockTest {
     @Interaction
     public static class TestController {
 
-        @Command(COMMAND_NAME)
+        @Command("modal test")
         public void onCommand(CommandEvent event) {
             event.replyModal("onModal");
         }
 
-        @Modal("Hello")
+        @Modal("Modal Name")
         public void onModal(ModalEvent event, @TextInput("first") String first, @TextInput("second") String second, @TextInput("third") String third) {
             event.reply(first + second + third);
         }

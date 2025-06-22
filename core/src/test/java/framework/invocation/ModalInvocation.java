@@ -32,4 +32,12 @@ public final class ModalInvocation extends Invocation<ModalInteractionEvent> {
         modalMappings.add(mapping);
         return this;
     }
+
+    public ModalInvocation input(String... values) {
+        for (String value : values) {
+            input(value);
+        }
+        return this;
+    }
+
 }
