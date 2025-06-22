@@ -20,7 +20,7 @@ public class ReflectiveDescriptor implements Descriptor {
     @NotNull
     @Override
     public ClassDescription describe(@NotNull Class<?> clazz) {
-        List<MethodDescription> methods = Arrays.stream(clazz.getMethods())
+        List<MethodDescription> methods = Arrays.stream(clazz.getDeclaredMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)
                 .toList();

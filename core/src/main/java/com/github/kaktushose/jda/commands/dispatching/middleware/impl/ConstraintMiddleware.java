@@ -67,9 +67,7 @@ public class ConstraintMiddleware implements Middleware {
                 log.debug("Found constraint {} for parameter {}", constraint, optionData.declaredType().getName());
                 Validator<Object, Annotation> validator = (Validator<Object, Annotation>) constraint.validator();
 
-                // TODO remove this, when proteus is upgraded
-                Proteus.global().register(Type.of(Member.class), Type.of(Member.class), Mapper.uni((member, _) -> MappingResult.lossless(member)));
-
+                // TODO better exception
                 Constraint constraintAnn = constraint.annotation().annotation(Constraint.class).orElseThrow();
                 Class<?>[] supportedTypes = constraintAnn.value();
                 Object converted = Arrays.stream(supportedTypes)

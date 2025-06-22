@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -182,7 +183,7 @@ public class I18n {
                 .orElse("");
     }
 
-    private String checkClass(ClassDescription classDescription) {
+    private String checkClass(@Nullable ClassDescription classDescription) {
         if (classDescription == null) return "";
         return cache.computeIfAbsent(classDescription.clazz(), _ -> readAnnotation(classDescription)
                                 .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse("")));

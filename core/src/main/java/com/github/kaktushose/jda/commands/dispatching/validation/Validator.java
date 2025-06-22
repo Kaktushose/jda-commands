@@ -1,6 +1,9 @@
 package com.github.kaktushose.jda.commands.dispatching.validation;
 
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
+import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
@@ -11,7 +14,7 @@ import java.lang.annotation.Annotation;
 
 /// Validators check if a command option fulfills the given constraint.
 ///
-/// Register them at the [com.github.kaktushose.jda.commands.JDACBuilder#validator(Class, Validator)()] or use the
+/// Register them at the [JDACBuilder#validator(Class, Validator)()] or use the
 /// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html)
 /// annotation of the guice extension.
 ///
@@ -34,6 +37,11 @@ import java.lang.annotation.Annotation;
 ///     }
 /// }
 /// ```
+///
+/// ### [Perm] and [NotPerm] Validators localization
+/// The fail messages of the two default [Validator]s for [Perm] and [NotPerm]
+/// can be localized with the localization keys `validator.noperm.fail` and
+/// `validator.perm.fail` respectively.
 /// @see Constraint
 @FunctionalInterface
 public interface Validator<T, A extends Annotation> {
@@ -41,7 +49,7 @@ public interface Validator<T, A extends Annotation> {
     /// Validates an argument.
     ///
     /// If the parameter doesn't pass the validation, you can cancel this interaction by invoking
-    /// [InvocationContext#cancel(MessageCreateData)] with an appropriated error message.
+    /// [Context#fail(String, I18n.Entry...)] with an appropriated error message.
     ///
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
