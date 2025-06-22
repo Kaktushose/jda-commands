@@ -1,5 +1,6 @@
 package framework.invocation;
 
+import framework.reply.EventReply;
 import framework.TestScenario.Context;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
@@ -8,8 +9,12 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionType;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
+import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 
 import java.util.HashMap;
@@ -20,16 +25,28 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public final class SlashCommandInvocation extends Invocation<SlashCommandInteractionEvent> {
+public final class SlashCommandInvocation extends ModalReplyableInvocation<SlashCommandInteractionEvent> {
 
     private final Map<String, OptionMapping> optionMappings = new HashMap<>();
 
     public SlashCommandInvocation(Context context, String command) {
-        super(context, SlashCommandInteractionEvent.class);
+        super(context, SlashCommandInteractionEvent.class, InteractionType.COMMAND);
 
         when(event.getFullCommandName()).thenReturn(command);
         lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
         lenient().when(event.deferReply(anyBoolean())).thenReturn(mock(ReplyCallbackAction.class));
+
+        lenient().when(event.getInteraction()).thenReturn(mock(SlashCommandInteraction.class));
+
+        lenient().when(event.replyModal(any(Modal.class))).then(invocation -> {
+            modal.complete(invocation.getArgument(0));
+            return mock(ModalCallbackAction.class);
+        });
+    }
+
+    @Override
+    public EventReply invoke() {
+        return super.invoke();
     }
 
     public SlashCommandInvocation option(String name, OptionMapping mapping) {

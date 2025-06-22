@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import framework.invocation.ButtonInvocation;
 import framework.invocation.EntitySelectInvocation;
 import framework.invocation.SlashCommandInvocation;

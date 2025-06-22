@@ -1,4 +1,4 @@
-package framework;
+package framework.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import framework.TestScenario.Context;
@@ -6,6 +6,7 @@ import framework.invocation.ButtonInvocation;
 import framework.invocation.EntitySelectInvocation;
 import framework.invocation.Invocation;
 import framework.invocation.StringSelectInvocation;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -20,21 +21,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class EventReply {
+public final class EventReply extends AbstractReply {
 
-    private final Invocation<?> invocation;
-    private final Context context;
     private final MessageData reply;
     private final List<ActionComponent> components;
 
     public EventReply(Invocation<?> invocation, Context context, MessageData data) {
-        this.invocation = invocation;
-        this.context = context;
+        super(invocation, context);
         reply = data;
         components = reply.getComponents().stream()
                 .map(LayoutComponent::getActionComponents)
                 .flatMap(Collection::stream)
                 .toList();
+    }
+
+    public String content() {
+        return reply.getContent();
+    }
+
+    public List<MessageEmbed> embeds() {
+        return reply.getEmbeds();
     }
 
     public ButtonInvocation button(String button) {

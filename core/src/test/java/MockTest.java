@@ -1,20 +1,21 @@
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import framework.EventReply;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import framework.reply.EventReply;
 import framework.TestScenario;
+import framework.reply.ModalEventReply;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class MockTest {
 
     private static final String COMMAND_NAME = "test";
-    private static final String BUTTON_NAME = "Press me";
     private TestScenario scenario;
 
     @BeforeEach
@@ -24,14 +25,11 @@ class MockTest {
 
     @Test
     void test() {
-        EventReply reply = scenario.slash(COMMAND_NAME).invoke();
-        System.out.println(reply.asCreateData().toData().toPrettyString());
+        ModalEventReply modalReply = scenario.slash(COMMAND_NAME).invokeModal();
 
-        reply = reply.button("onButton").invoke();
-        System.out.println(reply.asCreateData().toData().toPrettyString());
+        EventReply messageReply = modalReply.submit().input("a").input("b").input("c").invoke();
 
-        reply = reply.stringSelect("onMenu").values("pizza").invoke();
-        System.out.println(reply.asCreateData().toData().toPrettyString());
+        assertEquals("abc", messageReply.content());
     }
 
     @Interaction
@@ -39,20 +37,12 @@ class MockTest {
 
         @Command(COMMAND_NAME)
         public void onCommand(CommandEvent event) {
-            event.with().components("onButton").reply("Hello World!");
+            event.replyModal("onModal");
         }
 
-        @Button(BUTTON_NAME)
-        public void onButton(ComponentEvent event) {
-            event.with().components("onMenu").reply("You pressed me!");
-        }
-
-        @MenuOption(label = "Pizza", value = "pizza")
-        @MenuOption(label = "Hamburger", value = "hamburger")
-        @MenuOption(label = "Sushi", value = "Sushi")
-        @StringSelectMenu("What's your favourite food?")
-        public void onMenu(ComponentEvent event, List<String> choices) {
-            event.reply(choices.get(0));
+        @Modal("Hello")
+        public void onModal(ModalEvent event, @TextInput("first") String first, @TextInput("second") String second, @TextInput("third") String third) {
+            event.reply(first + second + third);
         }
     }
 }
