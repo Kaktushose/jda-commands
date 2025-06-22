@@ -17,7 +17,6 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import org.jetbrains.annotations.NotNull;
-import org.mockito.Mockito;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -25,12 +24,12 @@ import java.util.function.Consumer;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 public class TestScenario {
 
     private final IEventManager eventManager;
     private final List<CommandData> commands;
+    private SlashCommandInvocation slashCommandInvocation;
 
     public TestScenario(IEventManager eventManager, List<CommandData> commands) {
         this.eventManager = eventManager;
@@ -38,19 +37,20 @@ public class TestScenario {
     }
 
     public static Builder with(Class<?> klass) {
-        return new Builder(Mockito.mock(JDA.class), klass);
+        return new Builder(mock(JDA.class), klass);
     }
 
     public static TestScenario create(Class<?> klass) {
-        return new Builder(Mockito.mock(JDA.class), klass).create();
+        return new Builder(mock(JDA.class), klass).create();
     }
 
     public SlashCommandInvocation slash(String command) {
-        return new SlashCommandInvocation(eventManager, command);
+        slashCommandInvocation = new SlashCommandInvocation(eventManager, command);
+        return slashCommandInvocation;
     }
 
     public ButtonInvocation button(String customId) {
-        return new ButtonInvocation(eventManager, customId);
+        return new ButtonInvocation(eventManager, customId, slashCommandInvocation.lastMessage());
     }
 
     public Collection<CommandData> commands() {
@@ -69,7 +69,8 @@ public class TestScenario {
 
         private final JDA jda;
         private final JDACBuilder jdacBuilder;
-        private Consumer<JDACBuilder> consumer = (_) -> {};
+        private Consumer<JDACBuilder> consumer = (_) -> {
+        };
 
         public Builder(@NotNull JDA jda, @NotNull Class<?> klass) {
             this.jda = jda;

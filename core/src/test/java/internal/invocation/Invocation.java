@@ -24,6 +24,7 @@ public abstract sealed class Invocation<T extends IReplyCallback> permits SlashC
     protected final IEventManager eventManager;
     protected final T event;
     protected final CompletableFuture<MessageCreateData> reply = new CompletableFuture<>();
+    private MessageCreateData lastMessage;
     private User user;
 
     public Invocation(IEventManager eventManager, Class<T> eventClass) {
@@ -42,6 +43,7 @@ public abstract sealed class Invocation<T extends IReplyCallback> permits SlashC
             return mock(WebhookMessageEditAction.class);
         });
         lenient().when(hook.editOriginal(any(MessageEditData.class))).then(invocation -> {
+            lastMessage = MessageCreateData.fromEditData(invocation.getArgument(0));
             reply.complete(MessageCreateData.fromEditData(invocation.getArgument(0)));
             return mock(WebhookMessageEditAction.class);
         });
@@ -74,5 +76,9 @@ public abstract sealed class Invocation<T extends IReplyCallback> permits SlashC
     public CompletableFuture<MessageCreateData> invoke() {
         eventManager.handle((GenericInteractionCreateEvent) event);
         return reply;
+    }
+
+    public MessageCreateData lastMessage() {
+        return lastMessage;
     }
 }

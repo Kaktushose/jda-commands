@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import internal.TestScenario;
+import internal.invocation.SlashCommandInvocation;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,14 +27,14 @@ class MockTest {
 
     @Test
     void test() {
-        CompletableFuture<MessageCreateData> reply = scenario.slash(COMMAND_NAME).invoke();
-
+        SlashCommandInvocation invocation = scenario.slash(COMMAND_NAME);
+        CompletableFuture<MessageCreateData> reply = invocation.invoke();
         MessageCreateData message = reply.join();
 
         System.out.println(message.toData().toPrettyString());
-        System.out.println(message.getComponents().get(0).getActionComponents().get(0).getId());
 
         reply = scenario.button(message.getComponents().get(0).getActionComponents().get(0).getId()).invoke();
+
         System.out.println(reply.join().toData().toPrettyString());
     }
 
@@ -47,8 +48,7 @@ class MockTest {
 
         @Button(BUTTON_NAME)
         public void onButton(ComponentEvent event) {
-            // TODO fix crash with keepComponents true
-            event.with().keepComponents(false).reply("You pressed me!");
+            event.with().reply("You pressed me!");
         }
     }
 }
