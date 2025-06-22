@@ -3,35 +3,38 @@
 are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.
 
 ## Default Type Adapters
-JDA-Commands provides the following type adapters by default:
+JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) for its type adapting system. Proteus supports all
+widening and narrowing primitive conversions as defined by the Java Language Specification. Additionally, JDA-Commands
+has implemented default type adapters for JDAs [`GuildChannel`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html)
+and its subtypes.
 
-- all primitive types and their respective wrapper types
-- User
-- Member
-- Role
-- Channel and subtypes (e.g. StageChannel, NewsChannel, etc.)
-
-You can add any of these types as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
-for details. These default types will be mapped to the most fitting option type. You can find the mapping [here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
+Thus, you can add all primitive types and their respective wrapper types as well as any underlying type of the 
+[`OptionType`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html) enum
+as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
+for details.
 
 ## Writing Own Type Adapters
+As mentioned above, JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) under the hood for type adapting.
+The [`TypeAdapter`]() interface is simply a subtype of Proteus' [`UniMapper`](https://kaktushose.github.io/proteus/javadocs/snapshot/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html).
+The following example only covers the registration part for JDA-Commands. Please refer to the [`documentation`](https://kaktushose.github.io/proteus/wiki/)
+of Proteus for implementation details. 
 
 !!! example
     === "Command"
         ```java
         @Command("example")
-        public void onCommand(CommandEvent event, CustomType object) {
+        public void onCommand(CommandEvent event, UserProfile profile) {
             ...
         }
         ```
 
     === "Type Adapter (`@Implementation` Registration)"
         ```java
-        @Implementation(clazz = CustomType.class)
-        public class UserProfileTypeAdapter implements TypeAdapter<CustomType> {
+        @Implementation.TypeAdapter(source = String.class, target = UserProfile.class)
+        public class UserProfileTypeAdapter implements TypeAdapter<String, UserProfile> {
             
-            public Optional<CustomType> apply(String raw, GenericInteractionCreateEvent event) {
-                return Optional.of(new CustomType(raw, event));
+            public MappingResult<UserProfile> from(String source, MappingContext<String, UserProfile> context) {
+                return MappingResult.lossless(new UserProfile(source));
             }
 
         }
@@ -39,17 +42,17 @@ for details. These default types will be mapped to the most fitting option type.
 
     === "Type Adapter (Builder Registration)"
         ```java
-        public class UserProfileTypeAdapter implements TypeAdapter<CustomType> {
+        public class UserProfileTypeAdapter implements TypeAdapter<String, UserProfile> {
             
-            public Optional<CustomType> apply(String raw, GenericInteractionCreateEvent event) {
-                return Optional.of(new CustomType(raw, event));
+            public MappingResult<CustomType> from(String source, MappingContext<String, UserProfile> context) {
+                return MappingResult.lossless(new UserProfile(source));
             }
 
         }
         ```
         ```java
         JDACommands.builder(jda, Main.class)
-            .adapter(CustomType.class, new UserProfileTypeAdapter());
+            .adapter(String.class, UserProfile.class, new UserProfileTypeAdapter());
             .start();
         ```
 
@@ -57,13 +60,27 @@ for details. These default types will be mapped to the most fitting option type.
     If your type adapter is simple enough, you could also just use lambda expressions: 
     ```java
     JDACommands.builder(jda, Main.class)
-        .adapter(CustomType.class, (raw, event) -> Optional.of(new CustomType(raw, event));
+        .adapter(String.class, UserProfile.class, (source, _) -> MappingResult.lossless(new UserProfile(source)));
         .start();
     ```
 
 
-Your own types will always be mapped to `OptionType.STRING`. If the type adapting fails (an empty `Optional` is returned)
-an error message will be sent to the user:
+Your own types will be mapped to `OptionType.STRING` by default. You can
+override this mapping by using the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
+annotation.
+!!! example
+    ```java
+    @Command("example")
+    public void onCommand(CommandEvent event, @Param(type = OptionType.USER) UserProfile profile) {
+        ...
+    }
+    ```
+For our example this would also mean that we would need to update the `UserProfileTypeAdapter` to use `User` instead of
+`String` as its source type. 
+
+## Error Messages
+
+If the type adapting fails an error message will be sent to the user:
 
 ![Type Adapter Error Message](../assets/adapter.png)
 

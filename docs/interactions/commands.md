@@ -75,13 +75,22 @@ public void onBanMember(CommandEvent event, Member target, String reason, int de
     (...)
 }
 ```
-JDA-Commands will attempt to type adapt the 
-command options. By default, all primitive types, user, member and role as well as text channel entities are 
-supported. You can find a concrete list of all type adapters [here](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html).
+JDA-Commands will attempt to type adapt the command options. You can find a concrete list of all supported type adapters 
+[here](../middlewares/typeadapter.md#default-type-adapters).
+
 You can also [register your own type adapters](../middlewares/typeadapter.md).
 
-The parameters will automatically be mapped to the correct option type. You can find this mapping 
-[here](https://github.com/Kaktushose/jda-commands/blob/main/jda-commands/src/main/java/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.java#L57-L79).
+#### OptionType
+The parameters will automatically be mapped to the best fitting [`OptionType`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html),
+defaulting to `OptionType#STRING`. You can 
+override this mapping by using the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
+annotation. 
+```java
+@Command("ban")
+public void onBanMember(CommandEvent event, @Param(type = OptionType.USER) IMentionable target) {
+    (...)
+}
+```
 
 #### Name & Description
 Use the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
@@ -143,6 +152,15 @@ public void onBanMember(CommandEvent event, Member target, @Param(optional = tru
     (...)
 }
 ```
+
+Alternatively, you can wrap the parameter in an [`Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html).
+```java
+@Command("ban")
+public void onBanMember(CommandEvent event, Member target, Optional<String> reason, Optional<Integer> delDays) {
+    (...)
+}
+```
+
 !!! note
     Required options must be added before non-required options.
 

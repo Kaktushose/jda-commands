@@ -1,29 +1,29 @@
 # Localization
-JDA-Commands provides the [`I18n`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html),
-which is used as the main interface to do localization. This class is also free to use by users of the framework.
+JDA-Commands provides the [`I18n`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html) class,
+which is used as the main entrypoint for localization. This class can be used by users of the framework to localize their messages.
 
 ## Localization Messages
-Localization messages are identified by their corresponding key. A key's content can be freely chosen but might be limited by
-restrictions introduced by the used implementation of [`Localizer`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html).
+Localization messages are identified by their corresponding key. A key can be freely chosen but might be limited by
+the restrictions of the used [`Localizer`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html) implementation.
 
 If a certain message for a key isn't found, the key is returned as the messages value.
 
-## Implicit localization
+## Implicit Localization
 Instead of using the localization API manually through the `I18n` class, JDA-Commands allows for implicit usage of
 localization keys in many common places. These include:
 
 - Component API including the corresponding annotations like [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html),
  [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html) etc.
 - Reply API, for example the string content of a message [`Reply#reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String))
-- (slash commands are supported trough JDA's [`LocalizationFunction`](#localizationfunction-jda))
+- (Slash commands are supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda))
 
-JDA-Commands will first try to find a localization message **based on the provided String (as the key**) and the **users locale** retrieved by
-[`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
+JDA-Commands will first try to find a localization message based on the provided String (as the key) and the users locale
+retrieved by [`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
 and if not found, will use the String directly as the content.
 
 !!! warning
-    Localization of instances of [`MessageCreateData`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html) is not supported implicitly.
-    To localize such messages you have to manually use `I18n#localize(Locale, String, I18n.Entry...)`.
+    Localization of [`MessageCreateData`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html) is not supported implicitly.
+    To localize such messages you have to manually use [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)).
 
 ### Example
 ```java
@@ -42,89 +42,87 @@ public class ComponentTest {
 In this example, the bundle `component` will be searched 
 
 ## Bundles
-Localization bundles are a known concept from java's [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html). JDA-Commands supports different bundles of
-localization files by adding them to the localization key or using our [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html).
+Localization bundles are a known concept from Javas [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html). JDA-Commands supports different bundles of
+localization files by adding them to the localization key or using the [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
+annotation.
 
-### Via key
+### Via Key
 To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
 For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
 
-### Via annotation
+### Via Annotation
 
 If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
-[`@Bundle("mybundle")`][https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html] annotation with following order:
+[`@Bundle`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
+annotation with following order:
 
-1. method that called [I18n#localize(Locale, String, Entry...)]
-2. other called methods in the same class
-3. this method's class
-4. the class' package's `package-info.java` file
+1. Method that called [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...))
+2. Other called methods in the same class
+3. This methods class
+4. The class' packages `package-info.java` file
 
 If no annotation is found, the previous method (in another class) is searched with the same pattern up to the
 class at the very beginning.
 
-**If even after this no bundle name could be found, the bundle `default` will be used.**
-
-#### Example
-`A.java`:
-```java
-package my.app;
-class A {
-    void aOne() {
-        i18n.localize(Locale.GERMAN, "fail", Map.of());
+??? example "Detailed Example"
+    `A.java`:
+    ```java
+    package my.app;
+    class A {
+        void aOne() {
+            i18n.localize(Locale.GERMAN, "fail", Map.of());
+        }
+    
+        void aTwo() {
+            aOne();
+        }
     }
+    ```
 
-    void aTwo() {
-        aOne();
+    `B.java`:
+    ```java
+    package my.app.other;
+    
+    @Bundle("b_bundle")
+    class B {
+        A another = new A();
+
+        void bOne() {
+            a.aOne();
+        }
+
+        @Bundle(mB_bundle)
+        void bTwo() {
+            bOne();
+        }
     }
-}
-```
+    ```
 
-`B.java`:
-```java
-package my.app.other;
+    `package-info.java`:
+    ```java
+    @Bundle("pack_bundle")
+    package my.app;
+    ```
 
-@Bundle("b_bundle")
-class B {
-    A another = new A();
+    The order in which the bundle name is searched for is following:
 
-    void bOne() {
-        a.aOne();
-    }
+    1. method `A#aOne()`
+    2. method `A#aTwo()`
+    3. class `A`
+    4. `package-info.java` of package `my.app`
+    5. method `B#bOne()`
+    6. method `B#two()`
 
-    @Bundle(mB_bundle)
-    void bTwo() {
-        bOne();
-    }
-}
+    The found bundle would be `pack_bundle`.
 
-```
+    If `I18n#localize(Locale, String, I18n.Entry...)`
+    would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 
-`package-info.java`:
-```java
-@Bundle("pack_bundle")
-package my.app;
+### Default Bundle
+If no bundle is found with the above techniques, a bundle called `default` will be used.
 
-```
-
-The order in which the bundle name is searched for is following:
-
-1. method `A#aOne()`
-2. method `A#aTwo()`
-3. class `A`
-4. `package-info.java` of package `my.app`
-5. method `B#bOne()`
-6. method `B#two()`
-
-The found bundle would be `pack_bundle`.
-
-If `I18n#localize(Locale, String, I18n.Entry...)`
-would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
-
-### Default bundle
-If no bundle is found with the above techniques, the bundle called `default` will be used.
-
-## Default implementation
-By default, JDA-Commands supports localization with help of the amazing [fluava](https://github.com/Goldmensch/fluava) library that implements project fluent for java.
+## Default Implementation
+By default, JDA-Commands supports localization with help of the [Fluava](https://github.com/Goldmensch/fluava) library, a [Project Fluent](https://projectfluent.org/) implementation for Java.
 You can provide an own instance of the [`Fluava`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling
 the appropriate builder method.
 
@@ -141,38 +139,43 @@ the appropriate builder method.
     is German.
 
 ### Localization Keys
-Since project fluent doesn't support dots (`.`) in localization keys, the fluava integration will change
-all dots to dashes (`-`). For example, `my.key` will become `my-get`. This change also effects all jda slash command localization keys.
+Since [`Project Fluent`](https://projectfluent.org/) doesn't support dots (`.`) in localization keys, the [Fluava](https://github.com/Goldmensch/fluava) 
+integration will change all dots to dashes (`-`). For example, `my.key` will become `my-get`. This change also effects 
+all JDA Slash Command localization keys.
 
 ### Localization files
-Fluava supports the loading and discovery of bundles on the classpath (resource directory) similar to java's [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html)
+[Fluava](https://github.com/Goldmensch/fluava) supports the loading and discovery of bundles on the classpath 
+(resource directory) similar to Javas [`ResourceBundle`](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html)
 but with a slightly more flexible structure.
 
-The classpath will be lazily searched for a fluent file given a specific locale according to following order:
+The classpath will be lazily searched for a fluent file given a specific locale with the following order:
 
-1. BASE_LANGUAGE_COUNTRY_VARIANT.ftl
-2. BASE/LANGUAGE_COUNTRY_VARIANT.ftl
-3. BASE_LANGUAGE_COUNTRY.ftl
-4. BASE/LANGUAGE_COUNTRY.ftl
-5. BASE_LANGUAGE.ftl
-6. BASE/LANGUAGE.ftl
+1. `BASE_LANGUAGE_COUNTRY_VARIANT.ftl`
+2. `BASE/LANGUAGE_COUNTRY_VARIANT.ftl`
+3. `BASE_LANGUAGE_COUNTRY.ftl`
+4. `BASE/LANGUAGE_COUNTRY.ftl`
+5. `BASE_LANGUAGE.ftl`
+6. `BASE/LANGUAGE.ftl`
 
 If a key isn't found in any of the above files, the same procedure will be done for the given "fallback" locale.
 
 A resource folder structure could for example look like this:
 
 ```
-- component /
-    - de.ftl
-    - en.ftl
-- default_de.ftl
-- default_en.ftl
+src/
+├─ main/
+│  ├─ resources/
+│  │  ├─ component/
+│  │  │  ├─ de.ftl
+│  │  │  ├─ en.ftl
+│  │  ├─ default_de.ftl
+│  │  ├─ default_en.ftl
 ```
 
-Such a structure has the two bundles `component` and `default` and a locale specific file for German und English for each bundle.
+Such a structure has the two bundles `component` and `default` and a locale specific file for German and English for each bundle.
 
 ## LocalizationFunction (JDA)
 JDA uses the [`LocalizationFunction`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html) for localizing slash commands.
-We implement this interface based on our `I18n` class as describes above.
+We implement this interface based on our `I18n` class as described above.
 
 See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
