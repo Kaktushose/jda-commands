@@ -1,5 +1,6 @@
-package internal.invocation;
+package framework.invocation;
 
+import framework.TestScenario.Context;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
@@ -7,7 +8,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
@@ -24,8 +24,8 @@ public final class SlashCommandInvocation extends Invocation<SlashCommandInterac
 
     private final Map<String, OptionMapping> optionMappings = new HashMap<>();
 
-    public SlashCommandInvocation(IEventManager eventManager, String command) {
-        super(eventManager, SlashCommandInteractionEvent.class);
+    public SlashCommandInvocation(Context context, String command) {
+        super(context, SlashCommandInteractionEvent.class);
 
         when(event.getFullCommandName()).thenReturn(command);
         lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));

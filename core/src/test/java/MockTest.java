@@ -1,17 +1,14 @@
-import com.github.kaktushose.jda.commands.annotations.interactions.Button;
-import com.github.kaktushose.jda.commands.annotations.interactions.Command;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import internal.TestScenario;
-import internal.invocation.SlashCommandInvocation;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import framework.EventReply;
+import framework.TestScenario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class MockTest {
@@ -27,15 +24,14 @@ class MockTest {
 
     @Test
     void test() {
-        SlashCommandInvocation invocation = scenario.slash(COMMAND_NAME);
-        CompletableFuture<MessageCreateData> reply = invocation.invoke();
-        MessageCreateData message = reply.join();
+        EventReply reply = scenario.slash(COMMAND_NAME).invoke();
+        System.out.println(reply.asCreateData().toData().toPrettyString());
 
-        System.out.println(message.toData().toPrettyString());
+        reply = reply.button("onButton").invoke();
+        System.out.println(reply.asCreateData().toData().toPrettyString());
 
-        reply = scenario.button(message.getComponents().get(0).getActionComponents().get(0).getId()).invoke();
-
-        System.out.println(reply.join().toData().toPrettyString());
+        reply = reply.stringSelect("onMenu").values("pizza").invoke();
+        System.out.println(reply.asCreateData().toData().toPrettyString());
     }
 
     @Interaction
@@ -48,7 +44,15 @@ class MockTest {
 
         @Button(BUTTON_NAME)
         public void onButton(ComponentEvent event) {
-            event.with().reply("You pressed me!");
+            event.with().components("onMenu").reply("You pressed me!");
+        }
+
+        @MenuOption(label = "Pizza", value = "pizza")
+        @MenuOption(label = "Hamburger", value = "hamburger")
+        @MenuOption(label = "Sushi", value = "Sushi")
+        @StringSelectMenu("What's your favourite food?")
+        public void onMenu(ComponentEvent event, List<String> choices) {
+            event.reply(choices.get(0));
         }
     }
 }

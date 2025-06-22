@@ -1,4 +1,4 @@
-package internal;
+package framework;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.JDACommands;
@@ -6,8 +6,10 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import internal.invocation.ButtonInvocation;
-import internal.invocation.SlashCommandInvocation;
+import framework.invocation.ButtonInvocation;
+import framework.invocation.EntitySelectInvocation;
+import framework.invocation.SlashCommandInvocation;
+import framework.invocation.StringSelectInvocation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.IEventManager;
@@ -18,7 +20,10 @@ import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -27,13 +32,10 @@ import static org.mockito.Mockito.*;
 
 public class TestScenario {
 
-    private final IEventManager eventManager;
-    private final List<CommandData> commands;
-    private SlashCommandInvocation slashCommandInvocation;
+    private final Context context;
 
-    public TestScenario(IEventManager eventManager, List<CommandData> commands) {
-        this.eventManager = eventManager;
-        this.commands = commands;
+    public TestScenario(Context context) {
+        this.context = context;
     }
 
     public static Builder with(Class<?> klass) {
@@ -45,20 +47,23 @@ public class TestScenario {
     }
 
     public SlashCommandInvocation slash(String command) {
-        slashCommandInvocation = new SlashCommandInvocation(eventManager, command);
-        return slashCommandInvocation;
+        return new SlashCommandInvocation(context, command);
     }
 
-    public ButtonInvocation button(String customId) {
-        return new ButtonInvocation(eventManager, customId, slashCommandInvocation.lastMessage());
+    public ButtonInvocation button(String button) {
+        return new ButtonInvocation(context, button, null);
     }
 
-    public Collection<CommandData> commands() {
-        return List.copyOf(commands);
+    public StringSelectInvocation stringSelect(String menu) {
+        return new StringSelectInvocation(context, menu, null);
+    }
+
+    public EntitySelectInvocation entitySelect(String menu) {
+        return new EntitySelectInvocation(context, menu, null);
     }
 
     public Optional<SlashCommandData> command(String command) {
-        return commands.stream()
+        return context.commands().stream()
                 .filter(SlashCommandData.class::isInstance)
                 .map(SlashCommandData.class::cast)
                 .filter(it -> it.getName().equals(command))
@@ -68,12 +73,14 @@ public class TestScenario {
     public static final class Builder {
 
         private final JDA jda;
+        private final Class<?> klass;
         private final JDACBuilder jdacBuilder;
         private Consumer<JDACBuilder> consumer = (_) -> {
         };
 
         public Builder(@NotNull JDA jda, @NotNull Class<?> klass) {
             this.jda = jda;
+            this.klass = klass;
             jdacBuilder = JDACommands.builder(jda, klass)
                     .classFinders(ClassFinder.explicit(klass))
                     .instanceProvider(new InteractionControllerInstantiator() {
@@ -126,9 +133,17 @@ public class TestScenario {
             });
 
             consumer.accept(jdacBuilder);
-            jdacBuilder.start();
+            JDACommands jdaCommands = jdacBuilder.start();
 
-            return new TestScenario(eventManager, commands);
+            return new TestScenario(new Context(eventManager, klass, jdaCommands, commands));
+        }
+    }
+
+    public record Context(IEventManager eventManager, Class<?> klass, JDACommands jdaCommands,
+                          List<CommandData> commands) {
+
+        public Context {
+            commands = Collections.unmodifiableList(commands);
         }
     }
 }
