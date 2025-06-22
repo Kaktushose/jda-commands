@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
@@ -119,10 +120,10 @@ public record OptionDataDefinition(
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
-                .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
-                .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
+                .filter(it -> it.annotation(Constraint.class).isPresent())
+                .filter(it -> !(it.annotation(Min.class).isPresent() || it.annotation(Max.class).isPresent()))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it.annotationType(), resolvedType)
+                    var validator = validatorRegistry.get(it, resolvedType)
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
                     constraints.add(new ConstraintDefinition(validator, it));
                 });
