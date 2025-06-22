@@ -5,7 +5,7 @@ import framework.invocation.Invocation;
 import framework.invocation.ModalInvocation;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 
-public final class ModalEventReply extends AbstractReply {
+public final class ModalEventReply extends EventReply {
 
     private final Modal modal;
 

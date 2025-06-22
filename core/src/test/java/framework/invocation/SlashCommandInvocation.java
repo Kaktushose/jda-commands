@@ -1,6 +1,6 @@
 package framework.invocation;
 
-import framework.reply.EventReply;
+import framework.reply.MessageEventReply;
 import framework.TestScenario.Context;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
@@ -45,7 +45,7 @@ public final class SlashCommandInvocation extends ModalReplyableInvocation<Slash
     }
 
     @Override
-    public EventReply invoke() {
+    public MessageEventReply invoke() {
         return super.invoke();
     }
 

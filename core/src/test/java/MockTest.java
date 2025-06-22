@@ -1,10 +1,9 @@
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import framework.reply.EventReply;
+import framework.reply.MessageEventReply;
 import framework.TestScenario;
 import framework.reply.ModalEventReply;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +25,7 @@ class MockTest {
     void test() {
         ModalEventReply modalReply = scenario.slash("modal test").invokeModal();
 
-        EventReply messageReply = modalReply.submit().input("a", "b", "c").invoke();
+        MessageEventReply messageReply = modalReply.submit().input("a", "b", "c").invoke();
 
         assertEquals("abc", messageReply.content());
     }

@@ -1,6 +1,6 @@
 package framework.invocation;
 
-import framework.reply.EventReply;
+import framework.reply.MessageEventReply;
 import framework.TestScenario.Context;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -85,10 +85,10 @@ public abstract sealed class Invocation<T extends IReplyCallback> permits ModalI
     }
 
     /// Used when an event is replied to with a message or a component.
-    public EventReply invoke() {
+    public MessageEventReply invoke() {
         context.eventManager().handle((GenericInteractionCreateEvent) event);
         try {
-            return new EventReply(this, context, reply.get(5, TimeUnit.SECONDS));
+            return new MessageEventReply(this, context, reply.get(5, TimeUnit.SECONDS));
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
