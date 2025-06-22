@@ -8,6 +8,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -60,8 +61,17 @@ public class ReflectiveDescriptor implements Descriptor {
 
     @NotNull
     private ParameterDescription parameter(@NotNull Parameter parameter) {
+        Class<?>[] arguments = {};
+        if (parameter.getParameterizedType() instanceof ParameterizedType type) {
+            arguments = Arrays.stream(type.getActualTypeArguments())
+                    .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)
+                    .map(it -> it instanceof Class<?> klass ? klass : null)
+                    .toArray(Class[]::new);
+        }
+
         return new ParameterDescription(
                 parameter.getType(),
+                arguments,
                 parameter.getName(),
                 annotationList(parameter.getAnnotations())
         );

@@ -19,6 +19,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -70,9 +71,18 @@ public class SlashCommandDefinitionTest {
         );
     }
 
-    private static ParameterDescription parameter(Parameter parameter) {
+    private static ParameterDescription parameter(@NotNull Parameter parameter) {
+        Class<?>[] arguments = {};
+        if (parameter.getParameterizedType() instanceof ParameterizedType type) {
+            arguments = Arrays.stream(type.getActualTypeArguments())
+                    .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)
+                    .map(Class.class::cast)
+                    .toArray(Class[]::new);
+        }
+
         return new ParameterDescription(
                 parameter.getType(),
+                arguments,
                 parameter.getName(),
                 annotationList(parameter.getAnnotations())
         );
@@ -156,8 +166,8 @@ public class SlashCommandDefinitionTest {
 
         assertEquals(2, definition.commandOptions().size());
         var parameters = List.copyOf(definition.commandOptions());
-        assertEquals(String.class, parameters.get(0).type());
-        assertEquals(int.class, parameters.get(1).type());
+        assertEquals(String.class, parameters.get(0).declaredType());
+        assertEquals(int.class, parameters.get(1).declaredType());
     }
 
     @Test

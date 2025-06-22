@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Param;
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
@@ -34,7 +33,8 @@ import static java.util.Map.entry;
 
 /// Representation of a slash command option.
 ///
-/// @param type         the [Class] type of the command option
+/// @param declaredType the [Class] declaredType of the command option
+/// @param resolvedType the type after wrapping primitive types and unwrapping [Optional]
 /// @param optionType   the [OptionType] of the command option
 /// @param optional     whether this command option is optional
 /// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
@@ -43,7 +43,8 @@ import static java.util.Map.entry;
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this command option
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
 public record OptionDataDefinition(
-        @NotNull Class<?> type,
+        @NotNull Class<?> declaredType,
+        @NotNull Class<?> resolvedType,
         @NotNull OptionType optionType,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
@@ -103,7 +104,6 @@ public record OptionDataDefinition(
             ))
     );
 
-
     /// Builds a new [OptionDataDefinition].
     ///
     /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
@@ -114,15 +114,15 @@ public record OptionDataDefinition(
     public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              @NotNull Validators validatorRegistry) {
-        Class<?> type = wrappedType(parameter.type());
+        Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
-                .filter(it -> it.annotation(Constraint.class).isPresent())
-                .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
+                .filter(it -> it.annotationType().isAnnotationPresent(Constraint.class))
+                .filter(it -> !(it.annotationType().isAssignableFrom(Min.class) || it.annotationType().isAssignableFrom(Max.class)))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it, type)
+                    var validator = validatorRegistry.get(it.annotationType(), resolvedType)
                             .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
                     constraints.add(new ConstraintDefinition(validator, it));
                 });
@@ -131,13 +131,13 @@ public record OptionDataDefinition(
         String name = parameter.name();
         String description = "empty description";
         boolean isOptional = false;
-        OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(type, OptionType.STRING);
+        OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
             Param annotation = param.get();
             name = annotation.name().isEmpty() ? name : annotation.name();
             description = annotation.value().isEmpty() ? description : annotation.value();
-            isOptional = annotation.optional();
+            isOptional = annotation.optional() | parameter.type().equals(Optional.class);
             if (annotation.type() != OptionType.UNKNOWN) {
                 optionType = annotation.type();
             }
@@ -163,6 +163,7 @@ public record OptionDataDefinition(
 
         return new OptionDataDefinition(
                 parameter.type(),
+                resolvedType,
                 optionType,
                 isOptional,
                 autoComplete,
@@ -173,7 +174,15 @@ public record OptionDataDefinition(
         );
     }
 
-    private static Class<?> wrappedType(Class<?> type) {
+    private static Class<?> resolveType(Class<?> type, ParameterDescription description) {
+        if (type.equals(Optional.class)) {
+            Class<?> unwrapped = description.typeArguments()[0];
+            if (unwrapped == null) {
+                throw new IllegalArgumentException("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
+            }
+            return unwrapped;
+        }
+
         return MethodType.methodType(type).wrap().returnType();
     }
 
@@ -189,13 +198,13 @@ public record OptionDataDefinition(
     @NotNull
     @Override
     public OptionData toJDAEntity() {
-        if (!Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(type))) {
+        if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
             throw new IllegalStateException(
                     "Cannot create option data! " +
                     "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
-                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName()) +
+                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName()) +
                     "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
-                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), type.getName())
+                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName())
             );
         }
 
@@ -219,7 +228,7 @@ public record OptionDataDefinition(
                 constraint.annotation().value() instanceof Max
         ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation().value()).value()));
 
-        java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(type)).ifPresent(optionData::setChannelTypes);
+        java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(declaredType)).ifPresent(optionData::setChannelTypes);
 
         return optionData;
     }
