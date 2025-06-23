@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
@@ -20,8 +21,8 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     private final Set<SelectOption> selectOptions = new HashSet<>();
     private final Collection<String> defaultValues = new HashSet<>();
 
-    public StringSelectComponent(@NotNull String method, @Nullable Class<?> origin) {
-        super(method, origin);
+    public StringSelectComponent(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+        super(method, origin, placeholder);
     }
 
     /// @see StringSelectMenu.Builder#addOptions(Collection) 

@@ -13,6 +13,8 @@ dependencies {
     api(libs.org.slf4j.slf4j.api)
     api(libs.com.fasterxml.jackson.core)
     api(libs.org.jetbrains.annotations)
+    api(libs.io.github.kaktushose.proteus)
+    api(libs.dev.goldmensch.fluava)
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 

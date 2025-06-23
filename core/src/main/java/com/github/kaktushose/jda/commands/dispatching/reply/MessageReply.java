@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
@@ -55,6 +56,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     protected final InteractionDefinition definition;
     protected final MessageCreateBuilder builder;
     protected final Embeds embeds;
+    protected final I18n i18n;
     protected boolean ephemeral;
     protected boolean editReply;
     protected boolean keepComponents;
@@ -64,13 +66,16 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
+    /// @param i18n the [I18n] instance to use for localization
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
+                        @NotNull I18n i18n,
                         @NotNull InteractionDefinition.ReplyConfig replyConfig,
                         @NotNull Embeds embeds) {
         this.event = event;
         this.definition = definition;
+        this.i18n = i18n;
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
@@ -91,11 +96,12 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         this.keepComponents = reply.keepComponents;
         this.keepSelections = reply.keepSelections;
         this.embeds = reply.embeds;
+        this.i18n = reply.i18n;
     }
 
     @NotNull
-    public Message reply(@NotNull String message) {
-        builder.setContent(message);
+    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+        builder.setContent(i18n.localize(event.getUserLocale().toLocale(), message, placeholder));
         return complete();
     }
 

@@ -38,12 +38,13 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
             case ButtonInteractionEvent _ -> new ArrayList<>();
             default ->
-                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+                    throw new IllegalStateException("Should not occur. Please report this error to the devs of jda-commands.");
         };
         arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 genericEvent,
+                dispatchingContext.i18n(),
                 runtime.keyValueStore(),
                 component,
                 replyConfig,

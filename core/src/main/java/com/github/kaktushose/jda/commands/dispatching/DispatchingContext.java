@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import org.jetbrains.annotations.ApiStatus;
 
 /// A collection of classes relevant for [EventHandler]s.
@@ -20,5 +21,6 @@ public record DispatchingContext(Middlewares middlewares,
                                  ExpirationStrategy expirationStrategy,
                                  InteractionControllerInstantiator instanceProvider,
                                  InteractionDefinition.ReplyConfig globalReplyConfig,
-                                 Embeds embeds) {
+                                 Embeds embeds,
+                                 I18n i18n) {
 }

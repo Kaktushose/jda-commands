@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -53,6 +54,8 @@ public final class Runtime implements Closeable {
     private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
     private final InteractionControllerInstantiator instanceProvider;
+    private final I18n i18n;
+
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext, JDA jda) {
@@ -64,6 +67,7 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(dispatchingContext);
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
+        i18n = dispatchingContext.i18n();
 
         this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id, jda);
 
@@ -105,7 +109,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new IllegalStateException("Should not occur. Please report this error the the devs of jda-commands.");
+                    throw new IllegalStateException("Should not occur. Please report this error to the devs of jda-commands.");
         }
     }
 
@@ -121,6 +125,11 @@ public final class Runtime implements Closeable {
     @NotNull
     public KeyValueStore keyValueStore() {
         return keyValueStore;
+    }
+
+    @NotNull
+    public I18n i18n() {
+        return i18n;
     }
 
     @SuppressWarnings("unchecked")
