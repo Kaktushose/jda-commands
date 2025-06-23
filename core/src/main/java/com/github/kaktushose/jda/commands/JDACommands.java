@@ -63,7 +63,17 @@ public final class JDACommands {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, i18n));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
+                middlewares,
+                errorMessageFactory,
+                interactionRegistry,
+                typeAdapters,
+                expirationStrategy,
+                instanceProvider,
+                globalReplyConfig,
+                embeds,
+                i18n
+        ));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
     }
@@ -178,7 +188,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
-    /// [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
+    ///                                                                                                    [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
     @NotNull
     public Embed embed(@NotNull String name) {
         return embeds.get(name);
