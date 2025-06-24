@@ -6,11 +6,14 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.ProteusBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -33,7 +36,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.*;
 
-public record TestScenario(Context context) {
+public class TestScenario {
+
+    private final Context context;
+
+    private TestScenario(Context context) {
+        this.context = context;
+    }
 
     public static Builder with(Class<?> klass) {
         return new Builder(mock(JDA.class), klass);
@@ -73,6 +82,10 @@ public record TestScenario(Context context) {
 
     public ContextCommandInvocation<Message> context(String command, Message target) {
         return new ContextCommandInvocation<>(context, command, target);
+    }
+
+    public AutoCompleteInvocation autoComplete(String command, String option) {
+        return new AutoCompleteInvocation(context, command, option);
     }
 
     public static final class Builder {

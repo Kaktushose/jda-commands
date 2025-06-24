@@ -4,6 +4,7 @@ module io.github.kaktushose.jda.commands.testing {
     requires net.dv8tion.jda;
     requires org.jetbrains.annotations;
     requires org.mockito;
+    requires io.github.kaktushose.proteus;
 
     exports io.github.kaktushose.jdac.testing;
 

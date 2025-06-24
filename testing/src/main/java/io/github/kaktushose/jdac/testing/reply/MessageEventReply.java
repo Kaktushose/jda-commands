@@ -6,6 +6,7 @@ import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.internal.ReplyableInvocation;
 import io.github.kaktushose.jdac.testing.reply.internal.EventReply;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
@@ -27,7 +28,7 @@ public final class MessageEventReply extends EventReply {
     private final MessageData reply;
     private final List<ActionComponent> components;
 
-    public MessageEventReply(Invocation<?> invocation, Context context, MessageData data) {
+    public MessageEventReply(ReplyableInvocation<?> invocation, Context context, MessageData data) {
         super(invocation, context);
         reply = data;
         components = reply.getComponents().stream()

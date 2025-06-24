@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.testing.invocation;
 
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
 import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
+import io.github.kaktushose.jdac.testing.invocation.internal.ReplyableInvocation;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public final class ModalInvocation extends Invocation<ModalInteractionEvent> {
+public final class ModalInvocation extends ReplyableInvocation<ModalInteractionEvent> {
 
     private final List<ModalMapping> modalMappings;
 

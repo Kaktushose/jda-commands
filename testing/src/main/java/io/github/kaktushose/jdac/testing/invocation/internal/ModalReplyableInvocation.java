@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public abstract sealed class ModalReplyableInvocation<T extends IReplyCallback> extends Invocation<T>
+public abstract sealed class ModalReplyableInvocation<T extends IReplyCallback> extends ReplyableInvocation<T>
         permits CommandInvocation, ComponentInvocation {
 
     protected final CompletableFuture<Modal> modal;

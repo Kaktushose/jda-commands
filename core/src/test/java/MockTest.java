@@ -25,7 +25,7 @@ class MockTest {
     void test() {
         ModalEventReply modalReply = scenario.slash("modal test").invokeModal();
 
-        MessageEventReply messageReply = modalReply.submit().input("a", "b", "c").invoke();
+        MessageEventReply messageReply = modalReply.submit().input("a", "b", "c").complete();
 
         assertEquals("abc", messageReply.content());
     }
