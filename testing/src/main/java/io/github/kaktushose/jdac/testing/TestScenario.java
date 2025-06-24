@@ -1,4 +1,4 @@
-package framework;
+package io.github.kaktushose.jdac.testing;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.JDACommands;
@@ -6,11 +6,10 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import framework.invocation.ButtonInvocation;
-import framework.invocation.EntitySelectInvocation;
-import framework.invocation.SlashCommandInvocation;
-import framework.invocation.StringSelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.ButtonInvocation;
+import io.github.kaktushose.jdac.testing.invocation.EntitySelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.SlashCommandInvocation;
+import io.github.kaktushose.jdac.testing.invocation.StringSelectInvocation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.IEventManager;

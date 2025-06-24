@@ -1,7 +1,7 @@
-package framework.invocation;
+package io.github.kaktushose.jdac.testing.invocation;
 
-import framework.TestScenario;
-import framework.reply.ModalEventReply;
+import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;

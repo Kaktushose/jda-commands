@@ -1,9 +1,9 @@
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import framework.reply.MessageEventReply;
-import framework.TestScenario;
-import framework.reply.ModalEventReply;
+import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
+import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
-package framework.reply;
+package io.github.kaktushose.jdac.testing.reply;
 
-import framework.TestScenario;
-import framework.invocation.Invocation;
+import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.Invocation;
 
 public abstract sealed class EventReply permits MessageEventReply, ModalEventReply {
 

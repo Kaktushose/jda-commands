@@ -1,6 +1,6 @@
-package framework.invocation;
+package io.github.kaktushose.jdac.testing.invocation;
 
-import framework.TestScenario.Context;
+import io.github.kaktushose.jdac.testing.TestScenario.Context;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;

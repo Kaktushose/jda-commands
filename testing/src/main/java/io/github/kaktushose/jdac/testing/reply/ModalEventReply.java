@@ -1,8 +1,8 @@
-package framework.reply;
+package io.github.kaktushose.jdac.testing.reply;
 
-import framework.TestScenario.Context;
-import framework.invocation.Invocation;
-import framework.invocation.ModalInvocation;
+import io.github.kaktushose.jdac.testing.TestScenario.Context;
+import io.github.kaktushose.jdac.testing.invocation.Invocation;
+import io.github.kaktushose.jdac.testing.invocation.ModalInvocation;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 
 public final class ModalEventReply extends EventReply {

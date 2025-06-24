@@ -20,14 +20,8 @@ dependencies {
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
-
-    testImplementation(libs.org.junit.jupiter)
-    testImplementation(libs.org.mockito.core)
-    testImplementation(libs.org.mockito.junit)
-    testImplementation(libs.org.slf4j.slf4j.simple)
+    testImplementation(project(":testing"))
     mockitoAgent(libs.org.mockito.core) { isTransitive = false }
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
 }
 
 group = "io.github.kaktushose.jda-commands"
