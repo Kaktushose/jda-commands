@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.testing.invocation.commands;
 
+import io.github.kaktushose.jdac.testing.invocation.internal.CommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.internal.ModalReplyableInvocation;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
@@ -26,37 +27,20 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public final class SlashCommandInvocation extends ModalReplyableInvocation<SlashCommandInteractionEvent> {
+public final class SlashCommandInvocation extends CommandInvocation<SlashCommandInteractionEvent> {
 
     private final Map<String, OptionMapping> optionMappings = new HashMap<>();
 
     public SlashCommandInvocation(Context context, String command) {
-        super(context, SlashCommandInteractionEvent.class, InteractionType.COMMAND);
-
-        when(event.getFullCommandName()).thenReturn(command);
-        lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
-        lenient().when(event.deferReply(anyBoolean())).thenReturn(mock(ReplyCallbackAction.class));
+        super(context, command, SlashCommandInteractionEvent.class);
 
         lenient().when(event.getInteraction()).thenReturn(mock(SlashCommandInteraction.class));
 
-        lenient().when(event.replyModal(any(Modal.class))).then(invocation -> {
-            modal.complete(invocation.getArgument(0));
-            return mock(ModalCallbackAction.class);
-        });
-    }
-
-    @Override
-    public MessageEventReply invoke() {
-        return super.invoke();
+        lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
     }
 
     public SlashCommandInvocation option(String name, OptionMapping mapping) {
         optionMappings.put(name, mapping);
-        return this;
-    }
-
-    public SlashCommandInvocation channel(MessageChannelUnion channel) {
-        when(event.getChannel()).thenReturn(channel);
         return this;
     }
 

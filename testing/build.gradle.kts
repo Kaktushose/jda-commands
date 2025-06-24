@@ -7,6 +7,8 @@ repositories {
     mavenCentral()
 }
 
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
     api(project(":core"))
     api(project(":guice-extension"))
@@ -15,4 +17,15 @@ dependencies {
     api(libs.org.mockito.junit)
     api(libs.org.slf4j.slf4j.simple)
     api("org.junit.platform:junit-platform-launcher")
+
+    mockitoAgent(libs.org.mockito.core) { isTransitive = false }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
+}
+
+tasks.named<JavaCompile>("compileTestJava") {
+    options.compilerArgs.add("-parameters")
 }

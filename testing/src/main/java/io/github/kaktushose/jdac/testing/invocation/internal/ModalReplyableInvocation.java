@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.testing.invocation.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
-import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
 import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public abstract sealed class ModalReplyableInvocation<T extends IReplyCallback> extends Invocation<T>
-        permits SlashCommandInvocation, ComponentInvocation {
+        permits CommandInvocation, ComponentInvocation {
 
     protected final CompletableFuture<Modal> modal;
 

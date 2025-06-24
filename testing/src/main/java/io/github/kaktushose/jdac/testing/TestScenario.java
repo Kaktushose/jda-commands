@@ -6,13 +6,15 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
-import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -31,13 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.*;
 
-public class TestScenario {
-
-    private final Context context;
-
-    public TestScenario(Context context) {
-        this.context = context;
-    }
+public record TestScenario(Context context) {
 
     public static Builder with(Class<?> klass) {
         return new Builder(mock(JDA.class), klass);
@@ -69,6 +65,14 @@ public class TestScenario {
                 .map(SlashCommandData.class::cast)
                 .filter(it -> it.getName().equals(command))
                 .findFirst();
+    }
+
+    public ContextCommandInvocation<User> context(String command, User target) {
+        return new ContextCommandInvocation<>(context, command, target);
+    }
+
+    public ContextCommandInvocation<Message> context(String command, Message target) {
+        return new ContextCommandInvocation<>(context, command, target);
     }
 
     public static final class Builder {
