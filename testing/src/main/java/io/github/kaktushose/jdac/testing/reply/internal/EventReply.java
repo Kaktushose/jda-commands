@@ -1,7 +1,9 @@
-package io.github.kaktushose.jdac.testing.reply;
+package io.github.kaktushose.jdac.testing.reply.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
-import io.github.kaktushose.jdac.testing.invocation.Invocation;
+import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
+import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
+import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 
 public abstract sealed class EventReply permits MessageEventReply, ModalEventReply {
 

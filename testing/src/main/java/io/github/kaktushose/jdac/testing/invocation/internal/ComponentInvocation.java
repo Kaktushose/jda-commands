@@ -1,6 +1,9 @@
-package io.github.kaktushose.jdac.testing.invocation;
+package io.github.kaktushose.jdac.testing.invocation.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
+import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
+import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;

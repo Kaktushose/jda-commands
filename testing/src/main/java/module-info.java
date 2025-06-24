@@ -6,6 +6,10 @@ module io.github.kaktushose.jda.commands.testing {
     requires org.mockito;
 
     exports io.github.kaktushose.jdac.testing;
+
     exports io.github.kaktushose.jdac.testing.reply;
+
     exports io.github.kaktushose.jdac.testing.invocation;
+    exports io.github.kaktushose.jdac.testing.invocation.components;
+    exports io.github.kaktushose.jdac.testing.invocation.commands;
 }

@@ -1,5 +1,6 @@
-package io.github.kaktushose.jdac.testing.invocation;
+package io.github.kaktushose.jdac.testing.invocation.internal;
 
+import io.github.kaktushose.jdac.testing.invocation.ModalInvocation;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
 import net.dv8tion.jda.api.entities.Guild;

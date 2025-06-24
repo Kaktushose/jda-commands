@@ -1,6 +1,7 @@
-package io.github.kaktushose.jdac.testing.invocation;
+package io.github.kaktushose.jdac.testing.invocation.components;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.internal.ComponentInvocation;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.Nullable;

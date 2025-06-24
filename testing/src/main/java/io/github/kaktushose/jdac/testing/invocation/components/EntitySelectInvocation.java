@@ -1,6 +1,7 @@
-package io.github.kaktushose.jdac.testing.invocation;
+package io.github.kaktushose.jdac.testing.invocation.components;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.internal.ComponentInvocation;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectInteraction;

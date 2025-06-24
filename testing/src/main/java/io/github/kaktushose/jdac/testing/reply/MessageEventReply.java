@@ -2,10 +2,11 @@ package io.github.kaktushose.jdac.testing.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
-import io.github.kaktushose.jdac.testing.invocation.ButtonInvocation;
-import io.github.kaktushose.jdac.testing.invocation.EntitySelectInvocation;
-import io.github.kaktushose.jdac.testing.invocation.Invocation;
-import io.github.kaktushose.jdac.testing.invocation.StringSelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
+import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
+import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
+import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
+import io.github.kaktushose.jdac.testing.reply.internal.EventReply;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
