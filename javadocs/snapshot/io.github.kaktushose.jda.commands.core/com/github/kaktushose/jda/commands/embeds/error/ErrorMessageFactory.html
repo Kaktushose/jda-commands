@@ -67,7 +67,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#getTypeAdaptingFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" tabindex="0">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure)</a></li>
 <li><a href="#getInsufficientPermissionsMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext)" tabindex="0">getInsufficientPermissionsMessage(ErrorMessageFactory.ErrorContext)</a></li>
-<li><a href="#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition)" tabindex="0">getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, OptionDataDefinition.ConstraintDefinition)</a></li>
+<li><a href="#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)" tabindex="0">getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</a></li>
 <li><a href="#getCooldownMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,long)" tabindex="0">getCooldownMessage(ErrorMessageFactory.ErrorContext, long)</a></li>
 <li><a href="#getWrongChannelTypeMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext)" tabindex="0">getWrongChannelTypeMessage(ErrorMessageFactory.ErrorContext)</a></li>
 <li><a href="#getCommandExecutionFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.Throwable)" tabindex="0">getCommandExecutionFailedMessage(ErrorMessageFactory.ErrorContext, Throwable)</a></li>
@@ -144,8 +144,8 @@ happen during an interaction execution, such as missing permissions or failing c
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when the command execution failed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition)" class="member-name-link">getConstraintFailedMessage</a><wbr>(@NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
- @NotNull <a href="../../definitions/interactions/command/OptionDataDefinition.ConstraintDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a>&nbsp;constraint)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)" class="member-name-link">getConstraintFailedMessage</a><wbr>(@NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a parameter constraint fails.</div>
 </div>
@@ -228,19 +228,17 @@ happen during an interaction execution, such as missing permissions or failing c
 </section>
 </li>
 <li>
-<section class="detail" id="getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition)">
+<section class="detail" id="getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)">
 <h3>getConstraintFailedMessage</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></span>&nbsp;<span class="element-name">getConstraintFailedMessage</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
- @NotNull
- @NotNull <a href="../../definitions/interactions/command/OptionDataDefinition.ConstraintDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">OptionDataDefinition.ConstraintDefinition</a>&nbsp;constraint)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</span></div>
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a parameter constraint fails.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>context</code> - the <a href="ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error"><code>ErrorMessageFactory.ErrorContext</code></a></dd>
-<dd><code>constraint</code> - the corresponding <a href="../../definitions/interactions/command/OptionDataDefinition.ConstraintDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>OptionDataDefinition.ConstraintDefinition</code></a> that failed</dd>
 <dt>Returns:</dt>
 <dd>a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a parameter constraint fails</dd>
 </dl>

@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Implementation.ValidatorContainer</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation, @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&nbsp;validator)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Implementation.ValidatorContainer</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation, @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="Implementation.ProvidableContainer.html" title="interface in com.github.kaktushose.jda.commands.extension">Implementation.ProvidableContainer</a></span></div>
 <div class="block">A container type for providing <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation"><code>Validator</code></a>s.</div>
@@ -123,7 +123,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.validation.Validator)" class="member-name-link">ValidatorContainer</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
- @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&nbsp;validator)</code></div>
+ @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>ValidatorContainer</code> record class.</div>
 </div>
@@ -161,7 +161,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a><wbr>&lt;?,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator()" class="member-name-link">validator</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-validator"><code>validator</code></a> record component.</div>
@@ -190,7 +190,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ValidatorContainer</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
  @NotNull
- @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&nbsp;validator)</span></div>
+ @NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator)</span></div>
 <div class="block">Creates an instance of a <code>ValidatorContainer</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -274,7 +274,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <h3>validator</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a></span>&nbsp;<span class="element-name">validator</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;</span>&nbsp;<span class="element-name">validator</span>()</div>
 <div class="block">Returns the value of the <a href="#param-validator"><code>validator</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
