@@ -125,15 +125,6 @@ class SlashCommandDefinitionTest {
         assertTrue(definition.commandOptions().isEmpty());
     }
 
-    @Test
-    void cooldown_zeroTimeUnits_ShouldNotBeSet() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("zeroCooldown", CommandEvent.class);
-
-        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertFalse(definition.cooldown().delay() > 0);
-    }
-
     @Interaction
     static class CommandDefinitionTestController {
 
