@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.testing.invocation.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
@@ -28,7 +29,7 @@ public abstract sealed class ModalReplyableInvocation<T extends IReplyCallback> 
         try {
             return new ModalEventReply(this, context, modal.get(5, TimeUnit.SECONDS));
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
+            throw new InvocationException(e);
         }
     }
 }

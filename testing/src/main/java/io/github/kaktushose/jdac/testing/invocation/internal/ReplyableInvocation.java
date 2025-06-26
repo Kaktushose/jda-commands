@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.testing.invocation.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.invocation.ModalInvocation;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -53,7 +54,7 @@ public sealed class ReplyableInvocation<T extends IReplyCallback> extends Invoca
         try {
             return new MessageEventReply(this, context, reply.get(5, TimeUnit.SECONDS));
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
+            throw new InvocationException(e);
         }
     }
 

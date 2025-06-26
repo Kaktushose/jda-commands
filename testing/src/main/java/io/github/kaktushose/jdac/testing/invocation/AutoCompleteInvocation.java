@@ -51,7 +51,7 @@ public final class AutoCompleteInvocation extends Invocation<CommandAutoComplete
         try {
             return result.get(5, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
+            throw new InvocationException(e);
         }
     }
 
