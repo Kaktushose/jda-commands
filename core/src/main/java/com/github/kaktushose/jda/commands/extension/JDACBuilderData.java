@@ -128,8 +128,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
             var implementations = implementations((Class<? extends ExtensionProvidable>) type);
 
             if (implementations.isEmpty()) {
-                if (defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
-                return defaults.get(type);
+                if (!defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                return defaults.get(type).get();
             }
 
             if (implementations.size() == 1) {
