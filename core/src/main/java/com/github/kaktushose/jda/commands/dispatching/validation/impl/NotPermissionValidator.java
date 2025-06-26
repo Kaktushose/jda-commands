@@ -14,34 +14,29 @@ import java.util.Set;
 /// A [Validator] implementation that checks the [NotPerm] constraint.
 ///
 /// @see NotPerm
-public class NotPermissionValidator implements Validator {
+public class NotPermissionValidator implements Validator<Member, NotPerm> {
 
     /// Validates an argument. The argument must be a user or member that **doesn't** have the specified discord
     /// permission.
     ///
-    /// @param argument   the argument to validate
-    /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
-    /// @return `true` if the argument is a user or member that **doesn't** have the specified discord
     /// permission
     @Override
-    public boolean apply(@NotNull Object argument, @NotNull Object annotation, @NotNull InvocationContext<?> context) {
+    public void apply(@NotNull Member member, @NotNull NotPerm perm, @NotNull Context context) {
         Set<Permission> permissions = new HashSet<>();
-        NotPerm perm = (NotPerm) annotation;
 
         try {
             for (String permission : perm.value()) {
                 permissions.add(Permission.valueOf(permission));
             }
         } catch (IllegalArgumentException ignored) {
-            return true;
+            return;
         }
 
-        if (!Member.class.isAssignableFrom(argument.getClass())) {
-            throw new IllegalArgumentException("The default NotPermissionValidator does only support parameters of type Member!");
-        }
-        Member member = (Member) argument;
+
         Helpers.checkDetached(member, NotPermissionValidator.class);
-        return !member.hasPermission(permissions);
+        if (member.hasPermission(permissions)) {
+            context.fail("validator.noperm.fail@Member has at least one permission that isn't allowed");
+        }
     }
 }

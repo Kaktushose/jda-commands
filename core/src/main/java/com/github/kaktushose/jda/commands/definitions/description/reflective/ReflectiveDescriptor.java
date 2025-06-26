@@ -2,13 +2,17 @@ package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
 import com.github.kaktushose.jda.commands.definitions.description.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
@@ -18,13 +22,14 @@ public class ReflectiveDescriptor implements Descriptor {
     public ClassDescription describe(@NotNull Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getDeclaredMethods())
                 .map(this::method)
+                .filter(Objects::nonNull)
                 .toList();
 
         return new ClassDescription(
                 clazz,
                 clazz.getName(),
                 packageDescription(clazz.getPackage()),
-                toList(clazz.getAnnotations()),
+                annotationList(clazz.getAnnotations()),
                 methods
         );
     }
@@ -32,12 +37,13 @@ public class ReflectiveDescriptor implements Descriptor {
     private PackageDescription packageDescription(Package p) {
         return new PackageDescription(
                 p.getName(),
-                toList(p.getAnnotations())
+                annotationList(p.getAnnotations())
         );
     }
 
-
+    @Nullable
     private MethodDescription method(@NotNull Method method) {
+        if (!Modifier.isPublic(method.getModifiers())) return null;
         List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
                 .map(this::parameter)
                 .toList();
@@ -48,7 +54,7 @@ public class ReflectiveDescriptor implements Descriptor {
                 method.getReturnType(),
                 method.getName(),
                 parameters,
-                toList(method.getAnnotations()),
+                annotationList(method.getAnnotations()),
                 (instance, arguments) -> method.invoke(instance, arguments.toArray())
         );
     }
@@ -67,12 +73,20 @@ public class ReflectiveDescriptor implements Descriptor {
                 parameter.getType(),
                 arguments,
                 parameter.getName(),
-                toList(parameter.getAnnotations())
+                annotationList(parameter.getAnnotations())
         );
     }
 
-    @NotNull
-    private <T> Collection<T> toList(@NotNull T[] array) {
-        return Arrays.stream(array).toList();
+    private List<AnnotationDescription<?>> annotationList(Annotation[] array) {
+        return Arrays.stream(array)
+                .map(this::annotation)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    // only add annotations one level deep
+    private AnnotationDescription<?> annotation(@NotNull Annotation annotation) {
+        return new AnnotationDescription<>(annotation, Arrays.stream(annotation.annotationType().getAnnotations())
+                .map(ann -> new AnnotationDescription<>(ann, List.of()))
+                .collect(Collectors.toUnmodifiableList()));
     }
 }

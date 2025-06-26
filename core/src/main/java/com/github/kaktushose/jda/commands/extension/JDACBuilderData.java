@@ -26,14 +26,15 @@ import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -70,7 +71,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;
     protected final Set<Entry<Priority, Middleware>> middlewares = new HashSet<>();
-    protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
+    protected final Map<Class<? extends Annotation>, Validator<?, ?>> validators = new HashMap<>();
     protected final Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters = new HashMap<>();
 
     // only user settable
@@ -263,8 +264,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [Validator]s to be used. Can be added via an [Extension]
     @NotNull
-    public Map<Class<? extends Annotation>, Validator> validators() {
-        Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
+    public Map<Class<? extends Annotation>, Validator<?, ?>> validators() {
+        Map<Class<? extends Annotation>, Validator<?, ?>> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
                 .map(Entry::getValue)
                 .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));
