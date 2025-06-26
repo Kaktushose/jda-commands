@@ -10,22 +10,16 @@ repositories {
 val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
-    api(libs.net.dv8tion.jda)
-    api(libs.org.reflections.reflections)
-    api(libs.org.slf4j.slf4j.api)
-    api(libs.com.google.code.gson.gson)
-    api(libs.org.jetbrains.annotations)
-    api(libs.io.github.kaktushose.proteus)
-    api(libs.dev.goldmensch.fluava)
+    api(project(":core"))
+    api(project(":guice-extension"))
+    api(libs.org.junit.jupiter)
+    api(libs.org.mockito.core)
+    api(libs.org.mockito.junit)
+    api(libs.org.slf4j.slf4j.simple)
+    api("org.junit.platform:junit-platform-launcher")
 
-    compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
-
-    testImplementation(project(":testing"))
     mockitoAgent(libs.org.mockito.core) { isTransitive = false }
 }
-
-group = "io.github.kaktushose.jda-commands"
-description = "The base module of jda-commands"
 
 tasks.test {
     useJUnitPlatform()

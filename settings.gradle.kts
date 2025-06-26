@@ -7,4 +7,5 @@
 rootProject.name = "jda-commands"
 include("core")
 include("guice-extension")
+include("testing")
 include("jda-commands")

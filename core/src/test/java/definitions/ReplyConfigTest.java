@@ -1,5 +1,6 @@
-package reply;
+package definitions;
 
+import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
@@ -7,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
@@ -18,15 +20,15 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ReplyConfigTest {
+class ReplyConfigTest {
 
     private static Class<?> defaultController;
     private static Class<?> customController;
 
     @BeforeAll
-    public static void setup() {
-        defaultController = DefaultController.class;
-        customController = CustomController.class;
+    static void setup() {
+        defaultController = MethodLevelReplyConfig.class;
+        customController = ClassLevelReplyConfig.class;
     }
 
     private ReplyConfig getReplyConfig(Class<?> clazz, String method, ReplyConfig replyConfig) {
@@ -48,7 +50,7 @@ public class ReplyConfigTest {
     }
 
     @Test
-    public void defaultController_withDefaultMethod_ShouldUseGlobalValues() throws NoSuchMethodException {
+    void defaultController_withDefaultMethod_ShouldUseGlobalValues() {
         var fallback = new ReplyConfig();
         var config = getReplyConfig(defaultController, "defaultValues", fallback);
 
@@ -59,7 +61,7 @@ public class ReplyConfigTest {
     }
 
     @Test
-    public void defaultController_withCustomMethod_ShouldUseMethodValues() throws NoSuchMethodException {
+    void defaultController_withCustomMethod_ShouldUseMethodValues() {
         var config = getReplyConfig(defaultController, "customValues", new ReplyConfig());
 
         assertTrue(config.ephemeral());
@@ -68,7 +70,7 @@ public class ReplyConfigTest {
     }
 
     @Test
-    public void customController_withDefaultMethod_ShouldUseControllerValues() throws NoSuchMethodException {
+    void customController_withDefaultMethod_ShouldUseControllerValues() {
         var config = getReplyConfig(customController, "defaultValues", new ReplyConfig());
         assertTrue(config.ephemeral());
         assertFalse(config.editReply());
@@ -76,7 +78,7 @@ public class ReplyConfigTest {
     }
 
     @Test
-    public void customController_withSameCustomMethod_ShouldBeEquals() throws NoSuchMethodException {
+    void customController_withSameCustomMethod_ShouldBeEquals() {
         var first = getReplyConfig(customController, "defaultValues", new ReplyConfig());
         var second = getReplyConfig(customController, "sameValues", new ReplyConfig());
 
@@ -86,11 +88,47 @@ public class ReplyConfigTest {
     }
 
     @Test
-    public void customController_withDifferentCustomMethod_ShouldUseMethodValues() throws NoSuchMethodException {
+    void customController_withDifferentCustomMethod_ShouldUseMethodValues() {
         var config = getReplyConfig(customController, "customValues", new ReplyConfig());
         assertFalse(config.ephemeral());
         assertTrue(config.editReply());
         assertTrue(config.keepComponents());
     }
 
+    @Interaction
+    static class MethodLevelReplyConfig {
+
+        @Button
+        public void defaultValues(ComponentEvent event) {
+
+        }
+
+        @Button
+        @com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig(ephemeral = true, editReply = false, keepComponents = false)
+        public void customValues(ComponentEvent event) {
+
+        }
+    }
+
+    @Interaction
+    @com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig(ephemeral = true, editReply = false, keepComponents = false)
+    static class ClassLevelReplyConfig {
+
+        @Button
+        public void defaultValues(ComponentEvent event) {
+
+        }
+
+        @Button
+        @com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig(ephemeral = true, editReply = false, keepComponents = false)
+        public void sameValues(ComponentEvent event) {
+
+        }
+
+        @Button
+        @com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig
+        public void customValues(ComponentEvent event) {
+
+        }
+    }
 }
