@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
 import com.github.kaktushose.jda.commands.embeds.Embed;
@@ -60,7 +61,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                         .map(OptionDataDefinition::name)
                         .collect(Collectors.joining(" ")));
                 expected = commandOption.declaredType().getSimpleName();
-                actual = humanReadableType(optionMapping);
+                actual = Helpers.humanReadableType(optionMapping);
                 input = optionMapping.getAsString();
                 break;
             } else {
@@ -87,34 +88,6 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                 .build();
 
         return new MessageCreateBuilder().setEmbeds(embed).build();
-    }
-
-    /// Gets the human-readable representation of an [OptionMapping].
-    ///
-    /// @param optionMapping the [OptionMapping] to return the human-readable representation for
-    /// @return the human-readable representation
-    @NotNull
-    protected String humanReadableType(@NotNull OptionMapping optionMapping) {
-        return switch (optionMapping.getType()) {
-            case STRING -> "String";
-            case INTEGER -> "Long";
-            case BOOLEAN -> "Boolean";
-            case USER -> {
-                Member member = optionMapping.getAsMember();
-                if (member == null) {
-                    yield "User";
-                }
-                yield "Member";
-            }
-            case CHANNEL -> "Channel";
-            case ROLE -> "Role";
-            case MENTIONABLE -> "Mentionable (Role, User, Member)";
-            case NUMBER -> "Double";
-            case ATTACHMENT -> "Attachment";
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
-            );
-        };
     }
 
     @NotNull
