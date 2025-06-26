@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /// Indicates that an annotation type can be used for parameter validation. When implementing custom validators, the
 /// annotation type must be annotated with this annotation.
 ///
-/// @see com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators Validators
+/// @see com.github.kaktushose.jda.commands.dispatching.validation.Validator
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Constraint {

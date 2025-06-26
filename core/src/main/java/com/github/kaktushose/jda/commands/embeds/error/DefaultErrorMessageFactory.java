@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.embeds.error;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition.ConstraintDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -117,17 +116,16 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
 
     @NotNull
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, @NotNull ConstraintDefinition constraint) {
+    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
         if (exists("constraintFailed")) {
             return embeds.get("constraintFailed")
                     .placeholder("message", constraint.message())
                     .toMessageCreateData();
         }
-
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
-                .setDescription(String.format("```%s```", constraint.message()))
+                .setDescription(String.format("```%s```", message))
                 .build()
         ).build();
     }

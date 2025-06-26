@@ -22,5 +22,5 @@ org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jup
 org-reflections-reflections = { module = "org.reflections:reflections", version.ref = "org-reflections-reflections" }
 org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
-io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.2" }
+io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }

@@ -1,5 +1,6 @@
 package parameters;
 
+import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
@@ -8,15 +9,16 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OptionDataDefinitionTest {
 
@@ -43,12 +45,21 @@ public class OptionDataDefinitionTest {
                 parameter.getType(),
                 arguments,
                 parameter.getName(),
-                toList(parameter.getAnnotations())
+                annotationList(parameter.getAnnotations())
         );
     }
 
-    private static <T> Collection<T> toList(T[] array) {
-        return Arrays.stream(array).toList();
+    private static List<AnnotationDescription<?>> annotationList(Annotation[] array) {
+        return Arrays.stream(array)
+                .map(OptionDataDefinitionTest::annotation)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    // only add annotations one level deep
+    private static AnnotationDescription<?> annotation(@NotNull Annotation annotation) {
+        return new AnnotationDescription<>(annotation, Arrays.stream(annotation.annotationType().getAnnotations())
+                .map(ann -> new AnnotationDescription<>(ann, List.of()))
+                .collect(Collectors.toUnmodifiableList()));
     }
 
     @Test
@@ -65,14 +76,5 @@ public class OptionDataDefinitionTest {
         OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
 
         assertTrue(parameter.optional());
-    }
-
-    @Test
-    public void constraint_withMessage_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("constraintWithMessage", Member.class);
-        OptionDataDefinition parameter = OptionDataDefinition.build(parameter(method.getParameters()[0]), null, validatorRegistry);
-        var constraints = List.copyOf(parameter.constraints());
-
-        assertEquals("error message", constraints.getFirst().message());
     }
 }

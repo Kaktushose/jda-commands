@@ -12,16 +12,15 @@ import java.util.Collections;
 /// @param name        the full name including packages of the class
 /// @param packageDescription the [PackageDescription] representing the package returned by [Class#getPackage()]
 /// @param annotations a [Collection] of all [Annotation]s this class is annotated with
-/// @param methods     a [Collection] of all the declared [`methods`][MethodDescription] of this class (see [Class#getDeclaredMethods()])
+/// @param methods     a [Collection] of all the public [`methods`][MethodDescription] of this class
 public record ClassDescription(
         @NotNull Class<?> clazz,
         @NotNull String name,
         @NotNull PackageDescription packageDescription,
-        @NotNull Collection<Annotation> annotations,
+        @NotNull Collection<AnnotationDescription<?>> annotations,
         @NotNull Collection<MethodDescription> methods
 ) implements Description {
-
-    public ClassDescription(@NotNull Class<?> clazz, @NotNull String name, @NotNull PackageDescription packageDescription, Collection<Annotation> annotations, @NotNull Collection<MethodDescription> methods) {
+    public ClassDescription(@NotNull Class<?> clazz, @NotNull String name, @NotNull PackageDescription packageDescription, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Collection<MethodDescription> methods) {
         this.clazz = clazz;
         this.name = name;
         this.packageDescription = packageDescription;

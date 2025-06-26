@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -115,13 +116,18 @@ public class I18n {
         this.localizer = localizer;
     }
 
+    // default split (@) is undocumented and will be replaced in the future by solution with ScopedValues
     public String localize(Locale locale, String key, Map<String, Object> arguments) {
-        String[] split = key.split("#", 1);
+        String[] split = key.split("#", 2);
         String bundle = split.length == 2
                 ? split[0].trim()
                 : findBundle();
 
-        return localizer.localize(locale, bundle, split[0], arguments);
+        String[] defaultSplit = key.split("@", 2);
+
+        String localized = localizer.localize(locale, bundle, split[0], arguments);
+        if (defaultSplit.length == 2 && localized.equals(split[0])) return defaultSplit[1];
+        return localized;
     }
 
     public String localize(Locale locale, String key, Entry... placeholder) {
@@ -177,7 +183,8 @@ public class I18n {
                 .orElse("");
     }
 
-    private String checkClass(ClassDescription classDescription) {
+    private String checkClass(@Nullable ClassDescription classDescription) {
+        if (classDescription == null) return "";
         return cache.computeIfAbsent(classDescription.clazz(), _ -> readAnnotation(classDescription)
                                 .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse("")));
     }
