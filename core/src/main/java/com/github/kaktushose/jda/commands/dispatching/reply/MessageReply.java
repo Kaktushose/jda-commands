@@ -2,11 +2,14 @@ package com.github.kaktushose.jda.commands.dispatching.reply;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
@@ -27,6 +30,8 @@ import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.Consumer;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -50,6 +55,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     protected final GenericInteractionCreateEvent event;
     protected final InteractionDefinition definition;
     protected final MessageCreateBuilder builder;
+    protected final Embeds embeds;
     protected final I18n i18n;
     protected boolean ephemeral;
     protected boolean editReply;
@@ -65,7 +71,8 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
     public MessageReply(@NotNull GenericInteractionCreateEvent event,
                         @NotNull InteractionDefinition definition,
                         @NotNull I18n i18n,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                        @NotNull Embeds embeds) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
@@ -74,6 +81,7 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         this.keepComponents = replyConfig.keepComponents();
         this.keepSelections = replyConfig.keepSelections();
         this.builder = new MessageCreateBuilder();
+        this.embeds = embeds;
     }
 
     /// Constructs a new MessageReply.
@@ -87,17 +95,39 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         this.editReply = reply.editReply;
         this.keepComponents = reply.keepComponents;
         this.keepSelections = reply.keepSelections;
+        this.embeds = reply.embeds;
         this.i18n = reply.i18n;
     }
 
+    @NotNull
     public Message reply(@NotNull String message, I18n.Entry... placeholder) {
         builder.setContent(i18n.localize(event.getUserLocale().toLocale(), message, placeholder));
         return complete();
     }
 
-    public Message reply(@NotNull EmbedBuilder builder) {
+    public @NotNull Message reply(@NotNull EmbedBuilder builder) {
         this.builder.setEmbeds(builder.build());
         return complete();
+    }
+
+    @NotNull
+    public Message reply(@NotNull MessageEmbed embed) {
+        this.builder.setEmbeds(embed);
+        return complete();
+    }
+
+    @NotNull
+    @Override
+    public Message reply(@NotNull String name, @NotNull Consumer<Embed> embed) {
+        var loadedEmbed = embeds.get(name);
+        embed.accept(loadedEmbed);
+        return reply(loadedEmbed);
+    }
+
+    @NotNull
+    @Override
+    public Message replyEmbed(@NotNull String name) {
+        return reply(embeds.get(name));
     }
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.

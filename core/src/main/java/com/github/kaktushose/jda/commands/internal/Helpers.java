@@ -13,9 +13,11 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -32,42 +34,32 @@ public final class Helpers {
 
     private static final Logger log = LoggerFactory.getLogger(Helpers.class);
 
-    /// Sanitizes a String containing a raw mention. This will remove all markdown characters namely
-    /// _`<`, `@`, `#`, `&`, `!`, `>`_.
-    /// For instance: `<@!393843637437464588>` gets sanitized to `393843637437464588`.
+    /// Gets the human-readable representation of an [OptionMapping].
     ///
-    /// @param mention the raw String to sanitize
-    /// @return the sanitized String
+    /// @param optionMapping the [OptionMapping] to return the human-readable representation for
+    /// @return the human-readable representation
     @NotNull
-    public static String sanitizeMention(@NotNull String mention) {
-        if (mention.matches("<[@#][&!]?([0-9]{4,})>")) {
-            return mention.replaceAll("<[@#][&!]?", "").replace(">", "");
-        }
-        return mention;
-    }
-
-    /// Attempts to resolve a [GuildChannel] based on user input.
-    ///
-    /// @param raw   the String the [GuildChannel] should be resolved from
-    /// @param event the corresponding [GenericInteractionCreateEvent]
-    /// @return an [Optional] holding the resolved [GuildChannel] or an empty [Optional] if the resolving failed
-    @NotNull
-    public static Optional<GuildChannel> resolveGuildChannel(@NotNull String raw, @NotNull GenericInteractionCreateEvent event) {
-        GuildChannel guildChannel;
-        raw = sanitizeMention(raw);
-
-        Guild guild = event.getGuild();
-        if (guild == null || guild.isDetached()) {
-            return Optional.empty();
-        }
-        if (raw.matches("\\d+")) {
-            guildChannel = guild.getGuildChannelById(raw);
-        } else {
-            String finalRaw = raw;
-            guildChannel = guild.getChannels().stream().filter(it -> it.getName().equalsIgnoreCase(finalRaw))
-                    .findFirst().orElse(null);
-        }
-        return Optional.ofNullable(guildChannel);
+    public static String humanReadableType(@NotNull OptionMapping optionMapping) {
+        return switch (optionMapping.getType()) {
+            case STRING -> "String";
+            case INTEGER -> "Long";
+            case BOOLEAN -> "Boolean";
+            case USER -> {
+                Member member = optionMapping.getAsMember();
+                if (member == null) {
+                    yield "User";
+                }
+                yield "Member";
+            }
+            case CHANNEL -> "Channel";
+            case ROLE -> "Role";
+            case MENTIONABLE -> "Mentionable (Role, User, Member)";
+            case NUMBER -> "Double";
+            case ATTACHMENT -> "Attachment";
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
+                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            );
+        };
     }
 
     /// Extracts the permissions from a [MethodBuildContext]. This combines the permissions of the method and the class.
