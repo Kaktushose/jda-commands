@@ -10,12 +10,14 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,9 +67,18 @@ class SlashCommandDefinitionTest {
         );
     }
 
-    private static ParameterDescription parameter(Parameter parameter) {
+    private static ParameterDescription parameter(@NotNull Parameter parameter) {
+        Class<?>[] arguments = {};
+        if (parameter.getParameterizedType() instanceof ParameterizedType type) {
+            arguments = Arrays.stream(type.getActualTypeArguments())
+                    .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)
+                    .map(Class.class::cast)
+                    .toArray(Class[]::new);
+        }
+
         return new ParameterDescription(
                 parameter.getType(),
+                arguments,
                 parameter.getName(),
                 toList(parameter.getAnnotations())
         );
@@ -125,24 +136,25 @@ class SlashCommandDefinitionTest {
 
     @Interaction
     static class CommandDefinitionTestController {
-    
+
         public void noAnnotation() {
         }
-    
+
         @Command("a")
         public void noArgs() {
         }
-    
+
         @Command("b")
         public void noCommandEvent(int i) {
         }
-    
+
         @Command("c")
         public void commandEventWrongIndex(int i, CommandEvent event) {
         }
-    
+
         @Command("d")
         public void commandEvent(CommandEvent event) {
         }
     }
+
 }

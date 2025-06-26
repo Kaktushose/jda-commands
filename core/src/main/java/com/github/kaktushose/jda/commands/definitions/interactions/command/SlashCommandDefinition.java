@@ -90,7 +90,7 @@ public record SlashCommandDefinition(
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
-        commandOptions.forEach(it -> signature.add(it.type()));
+        commandOptions.forEach(it -> signature.add(it.declaredType()));
         if (Helpers.checkSignature(method, signature)) {
             return Optional.empty();
         }
@@ -156,7 +156,7 @@ public record SlashCommandDefinition(
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
         commandOptions.forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.declaredType())) {
                 return;
             }
             command.addOptions(parameter.toJDAEntity());
