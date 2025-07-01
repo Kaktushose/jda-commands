@@ -132,6 +132,9 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
+    /// @implNote This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
+    /// are also manipulated by the Reply API, like content or embeds, may lead to unexpected behaviour.
+    ///
     /// ## Example:
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
