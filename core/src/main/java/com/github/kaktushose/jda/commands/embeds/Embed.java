@@ -61,6 +61,16 @@ public class Embed extends EmbedBuilder {
         return this;
     }
 
+
+    /// Gets the name of this embed. This isn't a field that get displayed but only the name this embed is referenced
+    /// by in the [EmbedDataSource].
+    ///
+    /// @return the name of this embed
+    public String name() {
+        return name;
+    }
+
+
     /// Sets the Title of the embed.
     ///
     /// @param title the title of the embed
@@ -221,8 +231,8 @@ public class Embed extends EmbedBuilder {
         return this;
     }
 
-    /// Returns a [MessageEmbed] just like [EmbedBuilder#build()], but will also replace the placeholders a value has
-    /// been provided for.
+    /// Returns a [MessageEmbed] just like [EmbedBuilder#build()], but will also localize this embed based on the
+    /// [#locale(Locale)] and [`placeholders`][#placeholder(String, Object)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
     @NotNull

@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.embeds.Embed.Placeholder;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
+import dev.goldmensch.fluava.Fluava;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -79,11 +81,22 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
     ///   }
     /// }
     /// ```
+    /// # Localization
+    /// The Embed API supports localization via the [I18n] class. The embed fields can either contain a localization key
+    /// a direct localization message in a format supported by the [Localizer] implementation.
     ///
-    /// Global Placeholders
-    /// You can define placeholders inside the JSON object. They must follow the format: `{key}`. Placeholders that don't
-    /// get replaced will log an error, unless they are optional, denoted by an `:o` prefix: `{o:key}`. Use
-    /// [#placeholder(String, Object)] to define placeholders that will be globally available for any [Embed].
+    /// For the default [Localizer] implementation, which uses [Fluava], this could look like this:
+    /// ```json
+    /// {
+    ///   "example": {
+    ///     "title": "example-title", // localization key
+    ///     "description": "Hello {$user}!" // localization message
+    ///   }
+    /// }
+    /// ```
+    ///
+    /// # Global Placeholders
+    /// Use [#placeholder(String, Object)] to define placeholders that will be globally available for any [Embed].
     public static class Configuration {
 
         private final List<EmbedDataSource> sources;
