@@ -230,6 +230,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return newReply().replyEmbed(name);
     }
 
+    public Message replyEmbed(@NotNull String name, Consumer<Embed> consumer) {
+        return newReply().replyEmbed(name, consumer);
+    }
+
     private MessageReply newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
         return new MessageReply(event, definition, i18n(), replyConfig, embeds);

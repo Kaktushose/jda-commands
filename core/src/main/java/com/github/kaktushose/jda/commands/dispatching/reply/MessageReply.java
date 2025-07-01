@@ -130,6 +130,13 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         return reply(embeds.get(name));
     }
 
+    @NotNull
+    public Message replyEmbed(@NotNull String name, Consumer<Embed> consumer) {
+        Embed embed = embeds.get(name);
+        consumer.accept(embed);
+        return reply(embed);
+    }
+
     /// Sends the reply to Discord and blocks the current thread until the message was sent.
     ///
     /// @return the [Message] that got created

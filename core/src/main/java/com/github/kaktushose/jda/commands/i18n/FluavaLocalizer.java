@@ -2,9 +2,11 @@ package com.github.kaktushose.jda.commands.i18n;
 
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
+import dev.goldmensch.fluava.Resource;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// The default variant of [Localizer], which implements it with help of the amazing
@@ -43,7 +45,14 @@ public final class FluavaLocalizer implements Localizer {
     public String localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
         String formattedKey = key.replace('.', '-');
         String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, formattedKey, arguments);
-        if (result.equals(formattedKey)) return key;
+        if (result.equals(formattedKey)) {
+            String combined = "key=%s".formatted(key);
+            Optional<Resource> resource = fluava.of(combined, Locale.ENGLISH).toOptional();
+            if (resource.isEmpty()) {
+                return key;
+            }
+            return resource.get().message("key").apply(arguments);
+        }
         return result;
     }
 }
