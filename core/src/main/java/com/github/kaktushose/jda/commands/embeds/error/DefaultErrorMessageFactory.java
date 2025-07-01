@@ -3,15 +3,12 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
-import com.github.kaktushose.jda.commands.embeds.Embed;
-import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
-import com.github.kaktushose.jda.commands.embeds.Embeds;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -24,14 +21,13 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///
-/// @see JDACBuilder#embeds(Function)
+/// @see JDACBuilder#embeds(Consumer)
 public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageFactory {
 
     @NotNull
@@ -68,7 +64,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
             }
         }
 
-        if (exists("typeAdaptingFailed")) {
+        if (embeds.exists("typeAdaptingFailed")) {
             return embeds.get("typeAdaptingFailed")
                     .placeholder("usage", command.displayName())
                     .placeholder("expected", expected)
@@ -96,7 +92,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        if (exists("insufficientPermissions")) {
+        if (embeds.exists("insufficientPermissions")) {
             return embeds.get("insufficientPermissions")
                     .placeholder("name", context.definition().displayName())
                     .placeholder("permissions", permissions)
@@ -117,9 +113,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
-        if (exists("constraintFailed")) {
+        if (embeds.exists("constraintFailed")) {
             return embeds.get("constraintFailed")
-                    .placeholder("message", constraint.message())
+                    .placeholder("message", message)
                     .toMessageCreateData();
         }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
@@ -155,7 +151,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
             cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
         }
 
-        if (exists("cooldown")) {
+        if (embeds.exists("cooldown")) {
             return embeds.get("cooldown")
                     .placeholder("cooldown", cooldown)
                     .toMessageCreateData();
@@ -181,7 +177,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                 exception.getClass().getName()
         );
 
-        if (exists("executionFailed")) {
+        if (embeds.exists("executionFailed")) {
             return embeds.get("executionFailed")
                     .placeholder("error", error)
                     .toMessageCreateData();
@@ -199,7 +195,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     @NotNull
     @Override
     public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
-        if (exists("unknownInteraction")) {
+        if (embeds.exists("unknownInteraction")) {
             return embeds.get("unknownInteraction").toMessageCreateData();
         }
 
@@ -209,14 +205,5 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                 .setDescription("This interaction timed out and is no longer available!")
                 .build()
         ).build();
-    }
-
-    private boolean exists(String name) {
-        return embeds.sources().stream()
-                .map(source -> source.get(name, embeds.placeholders()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findAny()
-                .isPresent();
     }
 }

@@ -1,7 +1,10 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.embeds.Embed.Placeholder;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -11,17 +14,22 @@ import java.util.function.Supplier;
 ///
 /// @param sources the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global [Placeholder]s
-public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Collection<Placeholder> placeholders) {
+public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Collection<Placeholder> placeholders, @Nullable I18n i18n) {
 
     public Embeds {
         sources = Collections.unmodifiableCollection(sources);
         placeholders = Collections.unmodifiableCollection(placeholders);
+
+        if (i18n == null && !sources.isEmpty()) {
+            throw new IllegalStateException("I18n instance cannot be null if EmbedDataSources are present!");
+        }
     }
 
     /// Constructs an empty [Embeds] container with no [EmbedDataSource]s or [Placeholder]s registered.
     @NotNull
+    @ApiStatus.Internal
     public static Embeds empty() {
-        return new Embeds(Collections.emptyList(), Collections.emptyList());
+        return new Embeds(Collections.emptyList(), Collections.emptyList(), null);
     }
 
     /// Gets an [Embed] based on the given name. Will apply all [#placeholders()].
@@ -33,11 +41,24 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
     @NotNull
     public Embed get(@NotNull String name) {
         return sources.stream()
-                .map(source -> source.get(name, placeholders))
+                .map(source -> source.get(name, placeholders, Objects.requireNonNull(i18n)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown embed " + name));
+    }
+
+    /// Checks whether an [Embed] with the given name exists in one of the [#sources()].
+    ///
+    /// @param name the name of the [Embed]
+    /// @return `true` if the embed exists
+    public boolean exists(String name) {
+        return sources.stream()
+                .map(source -> source.get(name, List.of(), Objects.requireNonNull(i18n)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny()
+                .isPresent();
     }
 
     /// Builder for configuring the Embed API of JDA-Commands.
@@ -67,9 +88,11 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
 
         private final List<EmbedDataSource> sources;
         private final List<Placeholder> placeholders;
+        private final I18n i18n;
 
         /// Constructs a new embed configuration builder.
-        public Configuration() {
+        public Configuration(I18n i18n) {
+            this.i18n = i18n;
             sources = new ArrayList<>();
             placeholders = new ArrayList<>();
         }
@@ -92,7 +115,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
         /// @param supplier the [Supplier] to get the value from
         /// @return this instance for fluent interface
         @NotNull
-        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Supplier<String> supplier) {
+        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Supplier<Object> supplier) {
             placeholders.add(new Placeholder(key, supplier));
             return this;
         }
@@ -112,7 +135,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
         /// @implNote Turns this builder into an immutable [Embeds] instance.
         @NotNull
         public Embeds build() {
-            return new Embeds(sources, placeholders);
+            return new Embeds(sources, placeholders, i18n);
         }
     }
 }

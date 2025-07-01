@@ -3,9 +3,11 @@ package com.github.kaktushose.jda.commands.embeds;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -16,14 +18,11 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /// Subclass of [EmbedBuilder] that supports placeholders and easier manipulation of fields.
 public class Embed extends EmbedBuilder {
@@ -32,16 +31,20 @@ public class Embed extends EmbedBuilder {
     private static final Logger log = LoggerFactory.getLogger(Embed.class);
     private final String name;
     private final List<Placeholder> placeholders;
+    private final I18n i18n;
+    private Locale locale;
 
     /// Constructs a new [Embed].
     ///
     /// @param embedBuilder the underlying [EmbedBuilder] to use
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global [Placeholder]s as defined in [Embeds]
-    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Placeholder> placeholders) {
+    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n) {
         super(embedBuilder);
         this.name = name;
         this.placeholders = new ArrayList<>(placeholders);
+        this.i18n = i18n;
+        locale = Locale.ENGLISH;
     }
 
     /// Constructs a new [Embed].
@@ -49,8 +52,13 @@ public class Embed extends EmbedBuilder {
     /// @param object       the [DataObject] to construct the underlying [EmbedBuilder] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global [Placeholder]s as defined in [Embeds]
-    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Placeholder> placeholders) {
-        this(EmbedBuilder.fromData(object), name, placeholders);
+    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n) {
+        this(EmbedBuilder.fromData(object), name, placeholders, i18n);
+    }
+
+    public Embed locale(Locale locale) {
+        this.locale = locale;
+        return this;
     }
 
     /// Sets the Title of the embed.
@@ -198,7 +206,18 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     @NotNull
     public Embed placeholder(@NotNull String key, @NotNull Object value) {
-        placeholders.add(new Placeholder(key, value::toString));
+        placeholders.add(new Placeholder(key, () -> value));
+        return this;
+    }
+
+    /// Replace the placeholder with the given name with the given value.
+    ///
+    /// @param key      the key of the placeholder
+    /// @param supplier the [Supplier] to get the value from
+    /// @return this instance for fluent interface
+    @NotNull
+    public Embed placeholder(@NotNull String key, @NotNull Supplier<Object> supplier) {
+        placeholders.add(new Placeholder(key, supplier));
         return this;
     }
 
@@ -210,51 +229,38 @@ public class Embed extends EmbedBuilder {
     @Override
     public MessageEmbed build() {
         String json = super.build().toData().toString();
-        for (Placeholder placeholder : placeholders) {
-            String key = Pattern.quote(placeholder.key);
-            json = json.replaceAll(String.format("\\{%s}|\\{o:%s}", key, key),
-                    Matcher.quoteReplacement(quote(String.valueOf(placeholder.value().get())))
-            );
-        }
         try {
-            checkPlaceholders(mapper.readTree(json));
-            return EmbedBuilder.fromData(DataObject.fromJson(json)).build();
-        } catch (ParsingException | JsonProcessingException e) {
-            throw new IllegalArgumentException("One of your placeholders produced invalid JSON! Reason:\n" + e);
+            JsonNode node = localize(mapper.readTree(json));
+            return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e);
         }
     }
 
-    private void checkPlaceholders(JsonNode node) {
-        if (node.isObject()) {
-            node.forEach(this::checkPlaceholders);
-        } else if (node.isArray()) {
-            for (int i = 0; i < node.size(); i++) {
-                checkPlaceholders(node.get(i));
+    private JsonNode localize(JsonNode node) {
+        if (node instanceof ObjectNode objectNode) {
+            Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
+            while (iterator.hasNext()) {
+                Map.Entry<String, JsonNode> entry = iterator.next();
+                JsonNode child = entry.getValue();
+                JsonNode newChild = localize(child);
+                if (newChild.isTextual()) {
+                    var entries = placeholders.stream().collect(Collectors.toUnmodifiableMap(
+                            Placeholder::key,
+                            it -> it.value.get()
+                    ));
+                    objectNode.put(entry.getKey(), i18n.localize(locale, newChild.asText(), entries));
+                } else {
+                    objectNode.set(entry.getKey(), newChild);
+                }
             }
-        } else {
-            String value = node.asText();
-            if (value.matches("\\{([^{}]*)}") && !value.matches("\\{o:([^{}]*)}")) {
-                log.error("Placeholder '{}' in embed '{}' didn't get replaced with a value!", value, name);
+        } else if (node instanceof ArrayNode arrayNode) {
+            for (int i = 0; i < arrayNode.size(); i++) {
+                JsonNode child = arrayNode.get(i);
+                arrayNode.set(i, localize(child));
             }
         }
-    }
-
-    private String quote(String input) {
-        StringBuilder escaped = new StringBuilder();
-        for (char c : input.toCharArray()) {
-            String append = switch (c) {
-                case '"' -> "\\\"";
-                case '\\' -> "\\\\";
-                case '\b' -> "\\b";
-                case '\f' -> "\\f";
-                case '\n' -> "\\n";
-                case '\r' -> "\\r";
-                case '\t' -> "\\t";
-                default -> c < 32 || c > 126 ? String.format("\\u%04x", (int) c) : String.valueOf(c);
-            };
-            escaped.append(append);
-        }
-        return escaped.toString();
+        return node;
     }
 
     /// Transforms this embed into [MessageCreateData].
@@ -320,5 +326,5 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param key   the key of the placeholder
     /// @param value the [Supplier] to get the value from the placeholder will be replaced with
-    public record Placeholder(@NotNull String key, @NotNull Supplier<String> value) {}
+    public record Placeholder(@NotNull String key, @NotNull Supplier<Object> value) {}
 }

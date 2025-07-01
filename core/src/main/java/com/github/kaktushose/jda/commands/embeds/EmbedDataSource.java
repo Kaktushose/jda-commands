@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.JDACBuilder.ConfigurationException;
+import com.github.kaktushose.jda.commands.embeds.Embed.Placeholder;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import org.jetbrains.annotations.NotNull;
@@ -53,19 +55,21 @@ public interface EmbedDataSource {
     /// @return a new [EmbedDataSource]
     @NotNull
     static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
-        return (embed, placeholders) -> {
+        return (embed, placeholders, i18n) -> {
             if (!dataObject.hasKey(embed)) {
                 return Optional.empty();
             }
-            return Optional.of(new Embed(dataObject.getObject(embed), embed, placeholders));
+            return Optional.of(new Embed(dataObject.getObject(embed), embed, placeholders, i18n));
         };
     }
 
     /// Retrieves an [Embed] based on the given name.
     ///
-    /// @param embed the name of the embed to retrieve
+    /// @param embed        the name of the embed to retrieve
+    /// @param placeholders a [Collection] of [Placeholder]s to use
+    /// @param i18n         the [I18n] instance to use
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed, Collection<Embed.Placeholder> placeholders);
+    @NotNull Optional<Embed> get(@NotNull String embed, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n);
 }

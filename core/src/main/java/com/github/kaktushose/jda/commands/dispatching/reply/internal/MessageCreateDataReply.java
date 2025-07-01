@@ -7,8 +7,10 @@ import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+@ApiStatus.Internal
 public final class MessageCreateDataReply extends MessageReply {
 
     private MessageCreateDataReply(@NotNull GenericInteractionCreateEvent event,

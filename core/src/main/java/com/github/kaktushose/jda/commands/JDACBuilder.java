@@ -14,7 +14,6 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.Embeds.Configuration;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
@@ -28,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -87,11 +86,12 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Configuration step for the Embed API of JDA-Commands.
     ///
-    /// Use the given [Configuration] to declare placeholders or data sources. [Configuration#build()] must be called at
-    /// the end of configuration.
+    /// Use the given [Configuration] to declare placeholders or data sources.
     @NotNull
-    public JDACBuilder embeds(@NotNull Function<Configuration, Embeds> config) {
-        this.embeds = config.apply(new Configuration());
+    public JDACBuilder embeds(@NotNull Consumer<Configuration> config) {
+        Configuration configuration = new Configuration(i18n());
+        config.accept(configuration);
+        this.embeds = configuration.build();
         return this;
     }
 

@@ -10,7 +10,7 @@ org-junit-jupiter-junit-jupiter-engine = "5.9.2"
 org-reflections-reflections = "0.10.2"
 org-slf4j-slf4j-api = "2.0.5"
 com-google-inject-guice = "7.0.0"
-dev-goldmensch-fluava = "0.1.2"
+dev-goldmensch-fluava = "0.1.4"
 
 
 [libraries]

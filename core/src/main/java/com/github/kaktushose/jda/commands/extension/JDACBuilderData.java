@@ -27,7 +27,6 @@ import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.fluava.Fluava;
-import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +78,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
     protected Embeds embeds = Embeds.empty();
+
+    private I18n i18n = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -287,11 +288,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    private I18n i18n = null;
     @NotNull
     public I18n i18n() {
-        return i18n != null
-                ? i18n
-                : (i18n = new I18n(descriptor(), localizer()));
+        return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
 }
