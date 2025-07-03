@@ -13,13 +13,10 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
-import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.Reply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -28,14 +25,12 @@ import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Consumer;
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
@@ -192,50 +187,29 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @see ConfigurableReply
     @NotNull
     public ConfigurableReply with() {
-        return new ConfigurableReply(newReply(), registry, runtimeId());
-    }
-
-    /// Acknowledgement of this event with a text message.
-    ///
-    /// @param message the [MessageCreateData] to send
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(@NotNull MessageCreateData message) {
-        log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
-        return MessageCreateDataReply.reply(event, i18n(), definition, replyConfig, message);
+        return new ConfigurableReply(event, definition, i18n(), newReply(), registry, runtimeId());
     }
 
     @NotNull
+    @Override
     public Message reply(@NotNull String message, I18n.Entry... placeholder) {
         return newReply().reply(message, placeholder);
     }
 
     @NotNull
-    public Message reply(@NotNull MessageEmbed embed) {
-        return newReply().reply(embed);
+    @Override
+    public Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional) {
+        return newReply().reply(first, additional);
     }
 
     @NotNull
     @Override
-    public Message reply(@NotNull String name, @NotNull Consumer<Embed> embed) {
-        return newReply().reply(name, embed);
+    public Message reply(@NotNull MessageCreateData data) {
+        return newReply().reply(data);
     }
 
-    @NotNull
-    @Override
-    public Message replyEmbed(@NotNull String name) {
-        return newReply().replyEmbed(name);
-    }
-
-    public Message replyEmbed(@NotNull String name, Consumer<Embed> consumer) {
-        return newReply().replyEmbed(name, consumer);
-    }
-
-    private MessageReply newReply() {
+    private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition, i18n(), replyConfig, embeds);
+        return new ReplyAction(event, definition, i18n(), replyConfig, embeds);
     }
 }

@@ -13,6 +13,10 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonCompon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
@@ -22,6 +26,8 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +35,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
+/// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
+/// messages and changing the [InteractionDefinition.ReplyConfig].
 ///
 /// ### Example:
 /// ```
@@ -46,30 +53,50 @@ import java.util.function.Consumer;
 ///         event.reply("You pressed me!");
 ///     }
 /// }
-///```
-public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
+/// ```
+public sealed class ConfigurableReply permits ComponentReply {
 
+    private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
+    protected final GenericInteractionCreateEvent event;
+    protected final InteractionDefinition definition;
+    protected final I18n i18n;
     protected final InteractionRegistry registry;
     protected final String runtimeId;
+    protected final ReplyAction replyAction;
+
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param reply     the underlying [MessageReply]
-    /// @param registry  the corresponding [InteractionRegistry]
-    /// @param runtimeId the corresponding [Runtime]
-    public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
-        super(reply);
+    /// @param event       the [GenericInteractionCreateEvent] that should be responded to
+    /// @param definition  the [InteractionDefinition] belonging to the event
+    /// @param i18n        the corresponding [I18n] instance
+    /// @param replyAction the underlying [ReplyAction]
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtimeId   the corresponding [Runtime]
+    public ConfigurableReply(@NotNull GenericInteractionCreateEvent event,
+                             @NotNull InteractionDefinition definition,
+                             @NotNull I18n i18n,
+                             @NotNull ReplyAction replyAction,
+                             @NotNull InteractionRegistry registry,
+                             @NotNull String runtimeId) {
+        this.event = event;
+        this.definition = definition;
+        this.i18n = i18n;
+        this.replyAction = replyAction;
         this.registry = registry;
         this.runtimeId = runtimeId;
     }
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param reply the [ConfigurableReply] to copy
-    public ConfigurableReply(@NotNull ConfigurableReply reply) {
-        super(reply);
-        this.registry = reply.registry;
-        this.runtimeId = reply.runtimeId;
+    /// @param configurableReply the [ConfigurableReply] to copy
+    public ConfigurableReply(@NotNull ConfigurableReply configurableReply) {
+        this.event = configurableReply.event;
+        this.definition = configurableReply.definition;
+        this.i18n = configurableReply.i18n;
+        this.replyAction = configurableReply.replyAction;
+        this.registry = configurableReply.registry;
+        this.runtimeId = configurableReply.runtimeId;
     }
 
     /// Whether to send ephemeral replies. Default value is `false`.
@@ -86,7 +113,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply ephemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
+        replyAction.ephemeral(ephemeral);
         return this;
     }
 
@@ -101,7 +128,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply editReply(boolean editReply) {
-        this.editReply = editReply;
+        replyAction.editReply(editReply);
         return this;
     }
 
@@ -118,7 +145,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply keepComponents(boolean keepComponents) {
-        this.keepComponents = keepComponents;
+        replyAction.keepComponents(keepComponents);
         return this;
     }
 
@@ -126,25 +153,28 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// [#keepComponents(boolean)] `true`.
     @NotNull
     public ConfigurableReply keepSelections(boolean keepSelections) {
-        this.keepSelections = keepSelections;
+        replyAction.keepSelections(keepSelections);
         return this;
     }
 
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
+    /// @param builder the [MessageCreateBuilder] callback
+    /// @return the current instance for fluent interface
     /// @implNote This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
     /// are also manipulated by the Reply API, like content or embeds, may lead to unexpected behaviour.
     ///
     /// ## Example:
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
-    /// ```
-    ///
-    /// @param builder the [MessageCreateBuilder] callback
-    /// @return the current instance for fluent interface
+    ///```
     public ConfigurableReply builder(Consumer<MessageCreateBuilder> builder) {
-        builder.accept(this.builder);
+        replyAction.builder(builder);
         return this;
+    }
+
+    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+        return replyAction.reply(message, placeholder);
     }
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
@@ -200,14 +230,14 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public final ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
+    public ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
                     .orElseGet(() -> definition.methodDescription().declaringClass().getName());
             String definitionId = String.valueOf((className + component.name()).hashCode());
 
-            if (builder.getComponents()
+            if (replyAction.components()
                     .stream()
                     .flatMap(itemComponents -> itemComponents.getActionComponents().stream())
                     .map(ActionComponent::getId)
@@ -249,9 +279,8 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         }
 
         if (!items.isEmpty()) {
-            builder.addComponents(ActionRow.of(items));
+            replyAction.addComponents(ActionRow.of(items));
         }
-
         return new ComponentReply(this);
     }
 

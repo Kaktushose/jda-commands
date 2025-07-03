@@ -8,7 +8,8 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -108,7 +109,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
-                            MessageCreateDataReply.reply(event, dispatchingContext.i18n(), command, replyConfig,
+                            new ReplyAction(event, command, dispatchingContext.i18n(), replyConfig, Embeds.empty()).reply(
                                     errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
                             );
                             return Optional.empty();
