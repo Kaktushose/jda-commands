@@ -77,8 +77,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
-    protected Embeds embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n());
 
+    protected Embeds embeds = null;
     private I18n i18n = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
@@ -286,6 +286,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 .collect(Collectors.toMap((it -> Map.entry(it.source(), it.target())), Implementation.TypeAdapterContainer::adapter));
         all.putAll(typeAdapters);
         return all;
+    }
+
+    @NotNull
+    public Embeds embeds() {
+        return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
     }
 
     @NotNull

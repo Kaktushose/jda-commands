@@ -230,7 +230,7 @@ public final class JDACBuilder extends JDACBuilderData {
                 globalReplyConfig(),
                 globalCommandConfig(),
                 i18n(),
-                embeds
+                embeds()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

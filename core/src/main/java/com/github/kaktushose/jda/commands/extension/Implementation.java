@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
@@ -20,7 +19,6 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.SequencedCollection;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,7 +31,6 @@ import java.util.stream.Stream;
 /// - [MiddlewareContainer] (wrapper type for [Middleware])
 /// - [TypeAdapterContainer] (wrapper type for [TypeAdapter])
 /// - [ValidatorContainer] (wrapper type for [Validator])
-/// - [EmbedConfigurationContainer] (wrapper type for [EmbedConfig])
 /// - [PermissionsProvider]
 /// - [GuildScopeProvider]
 ///
@@ -111,7 +108,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     }
 
     /// A marker interface that all types providable by an [Extension] share.
-    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, ProvidableContainer, EmbedConfigurationContainer, Localizer, PermissionsProvider, GuildScopeProvider {}
+    public sealed interface ExtensionProvidable permits ClassFinder, Descriptor, InteractionControllerInstantiator, ErrorMessageFactory, ProvidableContainer, Localizer, PermissionsProvider, GuildScopeProvider {}
     public sealed interface ProvidableContainer extends ExtensionProvidable {}
 
     /// A container type for providing [TypeAdapter]s.
@@ -138,12 +135,6 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     /// @param validator  the [Validator] implementation
     public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
                                      @NotNull Validator<?, ?> validator) implements ProvidableContainer {}
-
-    /// A container type for providing an [EmbedConfig].
-    ///
-    /// @param config the [Consumer] accepting the [EmbedConfig]
-    public record EmbedConfigurationContainer(Consumer<EmbedConfig> config) implements ExtensionProvidable {}
-
 
     private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }
