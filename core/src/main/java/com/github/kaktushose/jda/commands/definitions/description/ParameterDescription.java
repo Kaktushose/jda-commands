@@ -14,14 +14,14 @@ import java.util.Collections;
 /// @param name        the name of the parameter
 /// @param typeArguments the generic type arguments of the type ([ParameterizedType#getActualTypeArguments()]).
 ///        They only represent the first layer and are all raw types represented as [Class] instances or null if wildcard/no class.
-/// @param annotations a [Collection] of all [Annotation]s this parameter is annotated with
+/// @param annotations a [Collection] of all [AnnotationDescription]s this parameter is annotated with
 public record ParameterDescription(
         @NotNull Class<?> type,
         @Nullable Class<?> @NotNull [] typeArguments,
         @NotNull String name,
-        @NotNull Collection<Annotation> annotations
+        @NotNull Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(@NotNull Class<?> type, @NotNull Class<?>[] typeArguments, @NotNull String name, @NotNull Collection<Annotation> annotations) {
+    public ParameterDescription(@NotNull Class<?> type, @NotNull Class<?>[] typeArguments, @NotNull String name, @NotNull Collection<AnnotationDescription<?>> annotations) {
         this.type = type;
         this.name = name;
         this.typeArguments = typeArguments;
