@@ -15,6 +15,8 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.Reply;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
@@ -179,6 +181,17 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
+    /// Gets an [Embed] based on the given name.
+    ///
+    /// @param name the name of the [Embed]
+    ///
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][Embeds.Configuration#source(EmbedDataSource)]
+    @NotNull
+    public Embed embed(String name) {
+        return embeds.get(name);
+    }
+
     /// Entry point for configuring a reply.
     ///
     /// Returns a new [ConfigurableReply] that can be used to append components or override reply settings.
@@ -187,7 +200,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @see ConfigurableReply
     @NotNull
     public ConfigurableReply with() {
-        return new ConfigurableReply(event, definition, i18n(), newReply(), registry, runtimeId());
+        return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
     }
 
     @NotNull
@@ -210,6 +223,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(event, definition, i18n(), replyConfig, embeds);
+        return new ReplyAction(event, definition, i18n(), replyConfig);
     }
 }

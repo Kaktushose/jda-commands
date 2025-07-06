@@ -187,8 +187,7 @@ public final class JDACommands {
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
-    ///                                                                                                    [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][Embeds.Configuration#source(EmbedDataSource)]
     @NotNull
     public Embed embed(@NotNull String name) {
         return embeds.get(name);

@@ -6,13 +6,13 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 
-/// Subtype of [ConfigurableReply] that allows replying only with a name without a message.
-public final class ComponentReply extends ConfigurableReply {
+/// Subtype of [ConfigurableReply] that allows replying without message content ([#reply()]).
+public final class SendableReply extends ConfigurableReply {
 
-    /// Constructs a new ComponentReply.
+    /// Constructs a new SendableReply.
     ///
     /// @param reply the underlying [ConfigurableReply]
-    public ComponentReply(@NotNull ConfigurableReply reply) {
+    public SendableReply(@NotNull ConfigurableReply reply) {
         super(reply);
     }
 

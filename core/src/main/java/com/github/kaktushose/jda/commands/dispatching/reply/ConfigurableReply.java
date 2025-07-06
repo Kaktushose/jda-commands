@@ -14,8 +14,11 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.Uns
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -24,15 +27,13 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
@@ -54,15 +55,16 @@ import java.util.function.Consumer;
 ///     }
 /// }
 /// ```
-public sealed class ConfigurableReply permits ComponentReply {
+public sealed class ConfigurableReply permits SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
-    protected final GenericInteractionCreateEvent event;
-    protected final InteractionDefinition definition;
-    protected final I18n i18n;
-    protected final InteractionRegistry registry;
-    protected final String runtimeId;
     protected final ReplyAction replyAction;
+    private final GenericInteractionCreateEvent event;
+    private final InteractionDefinition definition;
+    private final I18n i18n;
+    private final Embeds embeds;
+    private final InteractionRegistry registry;
+    private final String runtimeId;
 
 
     /// Constructs a new ConfigurableReply.
@@ -71,18 +73,21 @@ public sealed class ConfigurableReply permits ComponentReply {
     /// @param definition  the [InteractionDefinition] belonging to the event
     /// @param i18n        the corresponding [I18n] instance
     /// @param replyAction the underlying [ReplyAction]
+    /// @param embeds      the corresponding [Embeds] instance
     /// @param registry    the corresponding [InteractionRegistry]
     /// @param runtimeId   the corresponding [Runtime]
     public ConfigurableReply(@NotNull GenericInteractionCreateEvent event,
                              @NotNull InteractionDefinition definition,
                              @NotNull I18n i18n,
                              @NotNull ReplyAction replyAction,
+                             @NotNull Embeds embeds,
                              @NotNull InteractionRegistry registry,
                              @NotNull String runtimeId) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
         this.replyAction = replyAction;
+        this.embeds = embeds;
         this.registry = registry;
         this.runtimeId = runtimeId;
     }
@@ -95,6 +100,7 @@ public sealed class ConfigurableReply permits ComponentReply {
         this.definition = configurableReply.definition;
         this.i18n = configurableReply.i18n;
         this.replyAction = configurableReply.replyAction;
+        this.embeds = configurableReply.embeds;
         this.registry = configurableReply.registry;
         this.runtimeId = configurableReply.runtimeId;
     }
@@ -173,8 +179,40 @@ public sealed class ConfigurableReply permits ComponentReply {
         return this;
     }
 
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// @param message the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(@NotNull String message, I18n.Entry... placeholder) {
         return replyAction.reply(message, placeholder);
+    }
+
+    @NotNull
+    public SendableReply embeds(String... embeds) {
+        return embeds(Arrays.stream(embeds).map(this.embeds::get).toArray(Embed[]::new));
+    }
+
+    @NotNull
+    public SendableReply embeds(Embed... embeds) {
+        replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
+        return new SendableReply(this);
+    }
+
+    @NotNull
+    public SendableReply embeds(String embed, Consumer<Embed> consumer) {
+        return embeds(embeds.get(embed), consumer);
+    }
+
+    @NotNull
+    public SendableReply embeds(Embed embed, Consumer<Embed> consumer) {
+        consumer.accept(embed);
+        replyAction.addEmbeds(embed.build());
+        return new SendableReply(this);
     }
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
@@ -203,7 +241,7 @@ public sealed class ConfigurableReply permits ComponentReply {
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull String... components) {
+    public SendableReply components(@NotNull String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
@@ -230,7 +268,7 @@ public sealed class ConfigurableReply permits ComponentReply {
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
+    public SendableReply components(@NotNull Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
@@ -281,7 +319,7 @@ public sealed class ConfigurableReply permits ComponentReply {
         if (!items.isEmpty()) {
             replyAction.addComponents(ActionRow.of(items));
         }
-        return new ComponentReply(this);
+        return new SendableReply(this);
     }
 
     private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {

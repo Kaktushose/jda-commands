@@ -34,12 +34,11 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
         return new Embeds(Collections.emptyList(), Collections.emptyList(), null);
     }
 
-    /// Gets an [Embed] based on the given name. Will apply all [#placeholders()].
+    /// Gets an [Embed] based on the given name.
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
-    /// [data sources][com.github.kaktushose.jda.commands.embeds.Embeds.Configuration#source(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][Embeds.Configuration#source(EmbedDataSource)]
     @NotNull
     public Embed get(@NotNull String name) {
         return sources.stream()

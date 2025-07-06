@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
-import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
@@ -42,7 +41,6 @@ public final class ReplyAction implements Reply {
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
     private final GenericInteractionCreateEvent event;
     private final InteractionDefinition definition;
-    private final Embeds embeds;
     private final I18n i18n;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
@@ -56,12 +54,10 @@ public final class ReplyAction implements Reply {
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
     /// @param i18n        the [I18n] instance to use for localization
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds      the [Embeds] to use
     public ReplyAction(@NotNull GenericInteractionCreateEvent event,
                        @NotNull InteractionDefinition definition,
                        @NotNull I18n i18n,
-                       @NotNull InteractionDefinition.ReplyConfig replyConfig,
-                       @NotNull Embeds embeds) {
+                       @NotNull InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
@@ -70,7 +66,6 @@ public final class ReplyAction implements Reply {
         this.keepComponents = replyConfig.keepComponents();
         this.keepSelections = replyConfig.keepSelections();
         this.builder = new MessageCreateBuilder();
-        this.embeds = embeds;
     }
 
     @NotNull
@@ -121,6 +116,10 @@ public final class ReplyAction implements Reply {
 
     public void addComponents(LayoutComponent... components) {
         builder.addComponents(components);
+    }
+
+    public void addEmbeds(MessageEmbed... embeds) {
+        builder.addEmbeds(embeds);
     }
 
     @NotNull

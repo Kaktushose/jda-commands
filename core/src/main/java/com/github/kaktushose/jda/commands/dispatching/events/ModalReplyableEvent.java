@@ -42,10 +42,10 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
                                   @NotNull InteractionRegistry registry,
                                   @NotNull Runtime runtime,
                                   @NotNull InteractionDefinition definition,
-                                  @NotNull InteractionDefinition.ReplyConfig global,
+                                  @NotNull InteractionDefinition.ReplyConfig replyConfig,
                                   @NotNull Embeds embeds
     ) {
-        super(event, registry, runtime, definition, global, embeds);
+        super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.

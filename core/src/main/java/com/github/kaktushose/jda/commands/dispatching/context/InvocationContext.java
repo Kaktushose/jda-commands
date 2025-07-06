@@ -3,7 +3,6 @@ package com.github.kaktushose.jda.commands.dispatching.context;
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
-import com.github.kaktushose.jda.commands.embeds.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -43,7 +42,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @implNote This will interrupt the current event thread
     public void cancel(@NotNull MessageCreateData errorMessage) {
         var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
-        new ReplyAction(event, definition, i18n, errorReplyConfig, Embeds.empty()).reply(errorMessage);
+        new ReplyAction(event, definition, i18n, errorReplyConfig).reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 
