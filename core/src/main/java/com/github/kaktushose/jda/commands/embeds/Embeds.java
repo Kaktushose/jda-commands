@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import com.github.kaktushose.jda.commands.embeds.Embed.Placeholder;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
@@ -10,28 +9,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /// Container for immutably holding the embed configuration made by [Configuration].
 ///
 /// @param sources the [EmbedDataSource]s [Embed]s can be loaded from
-/// @param placeholders the global [Placeholder]s
-public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Collection<Placeholder> placeholders, @Nullable I18n i18n) {
+/// @param placeholders the global placeholders as defined in [Configuration#placeholders(Map)]
+public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<String, Object> placeholders, @Nullable I18n i18n) {
 
     public Embeds {
         sources = Collections.unmodifiableCollection(sources);
-        placeholders = Collections.unmodifiableCollection(placeholders);
+        placeholders = Collections.unmodifiableMap(placeholders);
 
         if (i18n == null && !sources.isEmpty()) {
             throw new IllegalStateException("I18n instance cannot be null if EmbedDataSources are present!");
         }
     }
 
-    /// Constructs an empty [Embeds] container with no [EmbedDataSource]s or [Placeholder]s registered.
+    /// Constructs an empty [Embeds] container with no [EmbedDataSource]s or placeholders registered.
     @NotNull
     @ApiStatus.Internal
     public static Embeds empty() {
-        return new Embeds(Collections.emptyList(), Collections.emptyList(), null);
+        return new Embeds(Collections.emptyList(), Collections.emptyMap(), null);
     }
 
     /// Gets an [Embed] based on the given name.
@@ -72,7 +71,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
     /// @return `true` if the embed exists
     public boolean exists(String name) {
         return sources.stream()
-                .map(source -> source.get(name, List.of(), Objects.requireNonNull(i18n)))
+                .map(source -> source.get(name, Map.of(), Objects.requireNonNull(i18n)))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
@@ -116,36 +115,36 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
     public static class Configuration {
 
         private final List<EmbedDataSource> sources;
-        private final List<Placeholder> placeholders;
+        private final Map<String, Object> placeholders;
         private final I18n i18n;
 
         /// Constructs a new embed configuration builder.
         public Configuration(I18n i18n) {
             this.i18n = i18n;
             sources = new ArrayList<>();
-            placeholders = new ArrayList<>();
+            placeholders = new HashMap<>();
         }
 
-        /// Adds a new global placeholder with the given key and value. Global placeholders will be available for any
-        /// [Embed] loaded by this API.
+        /// Adds one or more new global placeholders. Global placeholders will be available for any [Embed] loaded by this API.
         ///
-        /// @param key the key of the placeholder
-        /// @param value the value to replace the placeholder with
+        /// @param placeholders the [`entries`][I18n.Entry] to add
         /// @return this instance for fluent interface
         @NotNull
-        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Object value) {
-            return placeholder(key, value::toString);
+        public Configuration placeholders(@NotNull I18n.Entry... placeholders) {
+            this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value)));
+            return this;
         }
 
-        /// Adds a new global placeholder with the given key and value. Global placeholders will be available for any
-        /// [Embed] loaded by this API.
+        /// Adds global placeholders with the values of the given map, where the key of the map represents
+        /// the name of the placeholder and the value of the map the value to replace the placeholder with.
         ///
-        /// @param key the key of the placeholder
-        /// @param supplier the [Supplier] to get the value from
+        /// Global placeholders will be available for any [Embed] loaded by this API.
+        ///
+        /// @param placeholders the [Map] to get the values from
         /// @return this instance for fluent interface
         @NotNull
-        public Embeds.Configuration placeholder(@NotNull String key, @NotNull Supplier<Object> supplier) {
-            placeholders.add(new Placeholder(key, supplier));
+        public Configuration placeholders(@NotNull Map<String, Object> placeholders) {
+            this.placeholders.putAll(placeholders);
             return this;
         }
 
@@ -154,7 +153,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
         /// @param source the [EmbedDataSource] to add
         /// @return this instance for fluent interface
         @NotNull
-        public Embeds.Configuration source(@NotNull EmbedDataSource source) {
+        public Configuration source(@NotNull EmbedDataSource source) {
             sources.add(source);
             return this;
         }

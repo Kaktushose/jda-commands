@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.JDACBuilder.ConfigurationException;
-import com.github.kaktushose.jda.commands.embeds.Embed.Placeholder;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
@@ -66,10 +65,10 @@ public interface EmbedDataSource {
     /// Retrieves an [Embed] based on the given name.
     ///
     /// @param embed        the name of the embed to retrieve
-    /// @param placeholders a [Collection] of [Placeholder]s to use
+    /// @param placeholders a [Map] of placeholders to use
     /// @param i18n         the [I18n] instance to use
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n);
+    @NotNull Optional<Embed> get(@NotNull String embed, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n);
 }

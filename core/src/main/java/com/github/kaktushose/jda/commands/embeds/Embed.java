@@ -13,13 +13,10 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -28,9 +25,8 @@ import java.util.stream.Collectors;
 public class Embed extends EmbedBuilder {
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final Logger log = LoggerFactory.getLogger(Embed.class);
     private final String name;
-    private final List<Placeholder> placeholders;
+    private final Map<String, Object> placeholders;
     private final I18n i18n;
     private Locale locale;
 
@@ -38,11 +34,11 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param embedBuilder the underlying [EmbedBuilder] to use
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
-    /// @param placeholders the global [Placeholder]s as defined in [Embeds]
-    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n) {
+    /// @param placeholders the global placeholders as defined in [Embeds]
+    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n) {
         super(embedBuilder);
         this.name = name;
-        this.placeholders = new ArrayList<>(placeholders);
+        this.placeholders = new HashMap<>(placeholders);
         this.i18n = i18n;
         locale = Locale.ENGLISH;
     }
@@ -51,8 +47,8 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param object       the [DataObject] to construct the underlying [EmbedBuilder] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
-    /// @param placeholders the global [Placeholder]s as defined in [Embeds]
-    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Collection<Placeholder> placeholders, @NotNull I18n i18n) {
+    /// @param placeholders the global placeholders as defined in [Embeds]
+    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n) {
         this(EmbedBuilder.fromData(object), name, placeholders, i18n);
     }
 
@@ -198,36 +194,27 @@ public class Embed extends EmbedBuilder {
         return this;
     }
 
-    /// Replace the placeholders of this embed with the values of the given map, where the key of the map represents
-    /// the name of the placeholder and the value of the map the value to replace the placeholder with.
+    /// Adds all the provided placeholders to this embed instance. The values will be replaced when [#build()] is called.
     ///
-    /// @param values the [Map] to get the values from.
+    /// Existing entries with the same keys will be overwritten.
+    ///
+    /// @param placeholders a map of placeholder names to their corresponding values
     /// @return this instance for fluent interface
     @NotNull
-    public Embed placeholder(@NotNull Map<String, Object> values) {
-        values.forEach(this::placeholder);
+    public Embed placeholders(@NotNull Map<String, Object> placeholders) {
+        this.placeholders.putAll(placeholders);
         return this;
     }
 
-    /// Replace the placeholder with the given name with the given value.
+    /// Adds all the provided [`placeholders`][I18n.Entry] to this embed instance. The values will be replaced when [#build()] is called.
     ///
-    /// @param key   the key of the placeholder
-    /// @param value the value to replace the placeholder with
+    /// Existing entries with the same keys will be overwritten.
+    ///
+    /// @param placeholders the [`entries`][I18n.Entry] to add
     /// @return this instance for fluent interface
     @NotNull
-    public Embed placeholder(@NotNull String key, @NotNull Object value) {
-        placeholders.add(new Placeholder(key, () -> value));
-        return this;
-    }
-
-    /// Replace the placeholder with the given name with the given value.
-    ///
-    /// @param key      the key of the placeholder
-    /// @param supplier the [Supplier] to get the value from
-    /// @return this instance for fluent interface
-    @NotNull
-    public Embed placeholder(@NotNull String key, @NotNull Supplier<Object> supplier) {
-        placeholders.add(new Placeholder(key, supplier));
+    public Embed placeholders(@NotNull I18n.Entry... placeholders) {
+        this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value)));
         return this;
     }
 
@@ -255,11 +242,7 @@ public class Embed extends EmbedBuilder {
                 JsonNode child = entry.getValue();
                 JsonNode newChild = localize(child);
                 if (newChild.isTextual()) {
-                    var entries = placeholders.stream().collect(Collectors.toUnmodifiableMap(
-                            Placeholder::key,
-                            it -> it.value.get()
-                    ));
-                    objectNode.put(entry.getKey(), i18n.localize(locale, newChild.asText(), entries));
+                    objectNode.put(entry.getKey(), i18n.localize(locale, newChild.asText(), placeholders));
                 } else {
                     objectNode.set(entry.getKey(), newChild);
                 }
@@ -331,10 +314,4 @@ public class Embed extends EmbedBuilder {
             return removeIf(field -> name.equals(field.getName()) && value.equals(field.getValue()));
         }
     }
-
-    /// Wrapper of an embed placeholder.
-    ///
-    /// @param key   the key of the placeholder
-    /// @param value the [Supplier] to get the value from the placeholder will be replaced with
-    public record Placeholder(@NotNull String key, @NotNull Supplier<Object> value) {}
 }
