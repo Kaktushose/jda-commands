@@ -26,6 +26,22 @@ public interface EmbedDataSource {
         return dataObject(DataObject.fromJson(json));
     }
 
+    /// Constructs a new [EmbedDataSource] using a JSON file that is located inside the resources folder.
+    ///
+    /// @param resource the [Path] pointing to a JSON file
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource resource(@NotNull String resource) {
+        try (InputStream inputStream = EmbedDataSource.class.getClassLoader().getResourceAsStream(resource)) {
+            if (inputStream == null) {
+                throw new ConfigurationException("Failed to find resource %s".formatted(resource));
+            }
+            return inputStream(inputStream);
+        } catch (IOException e) {
+            throw new ConfigurationException("Failed to open file", e);
+        }
+    }
+
     /// Constructs a new [EmbedDataSource] using a [Path] pointing to a JSON file as its source.
     ///
     /// @param path the [Path] pointing to a JSON file
@@ -39,7 +55,7 @@ public interface EmbedDataSource {
         }
     }
 
-    /// Constructs a new [EmbedDataSource] using a [InputStream] as its source.
+    /// Constructs a new [EmbedDataSource] using an JSON [InputStream] as its source.
     ///
     /// @param inputStream the [InputStream] to retrieve embeds from
     /// @return a new [EmbedDataSource]
