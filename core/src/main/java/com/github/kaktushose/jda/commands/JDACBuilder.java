@@ -14,8 +14,10 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.embeds.Embeds.Configuration;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
@@ -86,12 +88,15 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Configuration step for the Embed API of JDA-Commands.
     ///
-    /// Use the given [Configuration] to declare placeholders or data sources.
+    /// Use the given [EmbedConfig] to declare placeholders or data sources.
     @NotNull
-    public JDACBuilder embeds(@NotNull Consumer<Configuration> config) {
-        Configuration configuration = new Configuration(i18n());
-        config.accept(configuration);
-        this.embeds = configuration.build();
+    public JDACBuilder embeds(@NotNull Consumer<EmbedConfig> consumer) {
+        Embeds.Configuration configuration = new Embeds.Configuration(i18n());
+        consumer.accept(configuration);
+        this.embeds = configuration.buildDefault();
+        if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+            errorMessageFactory = new DefaultErrorMessageFactory(configuration.buildError());
+        }
         return this;
     }
 
