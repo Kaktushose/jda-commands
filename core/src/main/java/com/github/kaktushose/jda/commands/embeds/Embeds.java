@@ -49,6 +49,23 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Coll
                 .orElseThrow(() -> new IllegalArgumentException("Unknown embed " + name));
     }
 
+    /// Gets an [Embed] based on the given name and sets the [Locale].
+    ///
+    /// @param name the name of the [Embed]
+    /// @param locale the [Locale] to use for localization
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][Embeds.Configuration#source(EmbedDataSource)]
+    @NotNull
+    public Embed get(@NotNull String name, @NotNull Locale locale) {
+        return sources.stream()
+                .map(source -> source.get(name, placeholders, Objects.requireNonNull(i18n)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .peek(it -> it.locale(locale))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown embed " + name));
+    }
+
     /// Checks whether an [Embed] with the given name exists in one of the [#sources()].
     ///
     /// @param name the name of the [Embed]

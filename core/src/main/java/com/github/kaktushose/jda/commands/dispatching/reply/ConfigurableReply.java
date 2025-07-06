@@ -194,7 +194,7 @@ public sealed class ConfigurableReply permits SendableReply {
 
     @NotNull
     public SendableReply embeds(String... embeds) {
-        return embeds(Arrays.stream(embeds).map(this.embeds::get).toArray(Embed[]::new));
+        return embeds(Arrays.stream(embeds).map(it -> this.embeds.get(it, event.getUserLocale().toLocale())).toArray(Embed[]::new));
     }
 
     @NotNull
@@ -205,7 +205,7 @@ public sealed class ConfigurableReply permits SendableReply {
 
     @NotNull
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
-        return embeds(embeds.get(embed), consumer);
+        return embeds(embeds.get(embed, event.getUserLocale().toLocale()), consumer);
     }
 
     @NotNull

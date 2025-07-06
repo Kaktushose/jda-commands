@@ -189,7 +189,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][Embeds.Configuration#source(EmbedDataSource)]
     @NotNull
     public Embed embed(String name) {
-        return embeds.get(name);
+        return embeds.get(name, event.getUserLocale().toLocale());
     }
 
     /// Entry point for configuring a reply.
