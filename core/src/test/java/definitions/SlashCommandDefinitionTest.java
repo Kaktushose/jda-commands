@@ -100,10 +100,6 @@ class SlashCommandDefinitionTest {
                 .collect(Collectors.toUnmodifiableList()));
     }
 
-    private static <T> Collection<T> toList(T[] array) {
-        return Arrays.stream(array).toList();
-    }
-
     @Test
     void method_withoutAnnotation_ShouldThrowNoSuchElementException() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noAnnotation");
