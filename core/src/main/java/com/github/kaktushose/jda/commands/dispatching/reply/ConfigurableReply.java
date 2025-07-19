@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntityS
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
@@ -165,9 +166,7 @@ public sealed class ConfigurableReply permits SendableReply {
 
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
-    /// @param builder the [MessageCreateBuilder] callback
-    /// @return the current instance for fluent interface
-    /// @implNote This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
+    /// This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
     /// are also manipulated by the Reply API, like content or embeds, may lead to unexpected behaviour.
     ///
     /// ## Example:
@@ -181,8 +180,8 @@ public sealed class ConfigurableReply permits SendableReply {
 
     /// Acknowledgement of this event with a text message.
     ///
-    /// @param message the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]
+    /// @param message     the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...)]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
@@ -192,26 +191,56 @@ public sealed class ConfigurableReply permits SendableReply {
         return replyAction.reply(message, placeholder);
     }
 
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// Resolves the [Embed]s based on the given names. See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the name of the [Embed]s to send
+    /// @return a new [SendableReply]
     @NotNull
     public SendableReply embeds(String... embeds) {
         return embeds(Arrays.stream(embeds).map(it -> this.embeds.get(it, event.getUserLocale().toLocale())).toArray(Embed[]::new));
     }
 
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the [Embed]s to send
+    /// @return a new [SendableReply]
     @NotNull
     public SendableReply embeds(Embed... embeds) {
         replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
         return new SendableReply(this);
     }
 
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed    the name of the [Embed] to send
+    /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
+    /// @return a new [SendableReply]
     @NotNull
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
-        return embeds(embeds.get(embed, event.getUserLocale().toLocale()), consumer);
+        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        consumer.accept(resolved);
+        replyAction.addEmbeds(resolved.build());
+        return new SendableReply(this);
     }
 
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed   the name of the [Embed] to send
+    /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @return a new [SendableReply]
     @NotNull
-    public SendableReply embeds(Embed embed, Consumer<Embed> consumer) {
-        consumer.accept(embed);
-        replyAction.addEmbeds(embed.build());
+    public SendableReply embeds(String embed, I18n.Entry... entries) {
+        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        resolved.placeholders(entries);
+        replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
     }
 
@@ -258,7 +287,7 @@ public sealed class ConfigurableReply permits SendableReply {
     ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
     ///     }
     ///
-    ///     @Button("Pressme!")
+    ///     @Button("Press me!")
     ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }

@@ -17,7 +17,7 @@ import java.util.Map;
 ///
 /// Use [EmbedDataSource#file(Path)] to load embeds from a JSON file. The file must contain a single JSON object
 /// that contains all embeds that can be loaded as child objects. Every embed must have a unique name, the embed
-/// object must follow the Discord API format.
+/// object must follow the [Discord API format](https://discord.com/developers/docs/resources/message#embed-object).
 /// ## Example
 /// ```json
 /// {

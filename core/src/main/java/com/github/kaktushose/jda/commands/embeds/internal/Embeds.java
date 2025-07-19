@@ -27,7 +27,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
     @NotNull
     public Embed get(@NotNull String name) {
         return sources.stream()
-                .map(source -> source.get(name, placeholders, Objects.requireNonNull(i18n)))
+                .map(source -> source.get(name, placeholders, i18n))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
@@ -43,7 +43,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
     @NotNull
     public Embed get(@NotNull String name, @NotNull Locale locale) {
         return sources.stream()
-                .map(source -> source.get(name, placeholders, Objects.requireNonNull(i18n)))
+                .map(source -> source.get(name, placeholders, i18n))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .peek(it -> it.locale(locale))
@@ -56,12 +56,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
     /// @param name the name of the [Embed]
     /// @return `true` if the embed exists
     public boolean exists(String name) {
-        return sources.stream()
-                .map(source -> source.get(name, Map.of(), Objects.requireNonNull(i18n)))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findAny()
-                .isPresent();
+        return sources.stream().anyMatch(it -> it.get(name, Map.of(), i18n).isPresent());
     }
 
     public static class Configuration implements EmbedConfig {

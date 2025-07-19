@@ -49,7 +49,7 @@ public interface EmbedDataSource {
     @NotNull
     static EmbedDataSource file(@NotNull Path path) {
         try {
-            return inputStream(Files.newInputStream(path));
+            return json(Files.readString(path));
         } catch (IOException e) {
             throw new ConfigurationException("Failed to open file", e);
         }

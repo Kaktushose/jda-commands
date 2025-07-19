@@ -7,8 +7,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -52,6 +54,11 @@ public class Embed extends EmbedBuilder {
         this(EmbedBuilder.fromData(object), name, placeholders, i18n);
     }
 
+    /// Sets the [Locale] this [Embed] will be localized with.
+    ///
+    /// @param locale the [Locale] to use for localization
+    /// @return this instance for fluent interface
+    /// @see I18n
     public Embed locale(Locale locale) {
         this.locale = locale;
         return this;
@@ -70,6 +77,8 @@ public class Embed extends EmbedBuilder {
     /// Sets the Title of the embed.
     ///
     /// @param title the title of the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setTitle(String)
     @NotNull
     public Embed title(@Nullable String title) {
         setTitle(title);
@@ -80,6 +89,8 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param title the title of the embed
     /// @param url   Makes the title into a hyperlink pointed at this url.
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setTitle(String, String)
     @NotNull
     public Embed title(@Nullable String title, @Nullable String url) {
         setTitle(title, url);
@@ -87,6 +98,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Description of the embed.
+    ///
+    /// @param description the description of the embed, `null` to reset
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setDescription(CharSequence)
     @NotNull
     public Embed description(@Nullable CharSequence description) {
         setDescription(description);
@@ -94,6 +109,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Color of the embed.
+    ///
+    /// @param color The raw rgb value, or [Role#DEFAULT_COLOR_RAW] to use no color
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setColor(int)
     @NotNull
     public Embed color(int color) {
         setColor(color);
@@ -101,6 +120,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Color of the embed.
+    ///
+    /// @param color The [Color] of the embed or `null` to use no color
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setColor(Color)
     @NotNull
     public Embed color(@Nullable Color color) {
         setColor(color);
@@ -108,6 +131,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Timestamp of the embed.
+    ///
+    /// @param accessor the temporal accessor of the timestamp
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setTimestamp(TemporalAccessor)
     @NotNull
     public Embed timestamp(@Nullable TemporalAccessor accessor) {
         setTimestamp(accessor);
@@ -115,6 +142,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Footer of the embed.
+    ///
+    /// @param footer the text of the footer of the embed. If this is not set or set to null, the footer will not appear in the embed.
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setFooter(String)
     @NotNull
     public Embed footer(@Nullable String footer) {
         setFooter(footer);
@@ -122,6 +153,11 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Footer of the embed.
+    ///
+    /// @param footer  the text of the footer of the embed. If this is not set or set to null, the footer will not appear in the embed.
+    /// @param iconUrl the url of the icon for the footer
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setFooter(String, String)
     @NotNull
     public Embed footer(@Nullable String footer, @Nullable String iconUrl) {
         setFooter(footer, iconUrl);
@@ -129,6 +165,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Thumbnail of the embed.
+    ///
+    /// @param url the url of the thumbnail of the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setThumbnail(String)
     @NotNull
     public Embed thumbnail(@Nullable String url) {
         setThumbnail(url);
@@ -136,6 +176,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Image of the embed.
+    ///
+    /// @param url the url of the image of the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setImage(String)
     @NotNull
     public Embed image(@Nullable String url) {
         setImage(url);
@@ -143,6 +187,10 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Author of the embed.
+    ///
+    /// @param name the name of the author of the embed. If this is not set, the author will not appear in the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setAuthor(String)
     @NotNull
     public Embed author(@Nullable String name) {
         setAuthor(name);
@@ -150,6 +198,11 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Author of the embed.
+    ///
+    /// @param name the name of the author of the embed. If this is not set, the author will not appear in the embed
+    /// @param url  the url of the author of the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setAuthor(String, String)
     @NotNull
     public Embed author(@Nullable String name, @Nullable String url) {
         setAuthor(name, url);
@@ -157,6 +210,12 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Sets the Author of the embed.
+    ///
+    /// @param name    the name of the author of the embed. If this is not set, the author will not appear in the embed
+    /// @param url     the url of the author of the embed
+    /// @param iconUrl the url of the icon of the embed
+    /// @return this instance for fluent interface
+    /// @see EmbedBuilder#setAuthor(String, String, String)
     @NotNull
     public Embed author(@Nullable String name, @Nullable String url, @Nullable String iconUrl) {
         setAuthor(name, url, iconUrl);
@@ -164,20 +223,15 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Used to modify the fields of this embed.
+    ///
+    /// @return this instance for fluent interface
     @NotNull
     public Fields fields() {
         return new Fields() {
-
             @NotNull
             @Override
             public Fields removeIf(@NotNull Predicate<MessageEmbed.Field> filter) {
                 getFields().removeIf(filter);
-                return this;
-            }
-
-            @Override
-            public @NotNull Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter) {
-                getFields().removeIf(filter.and(field -> name.equals(field.getName())));
                 return this;
             }
         };
@@ -198,6 +252,8 @@ public class Embed extends EmbedBuilder {
     ///
     /// Existing entries with the same keys will be overwritten.
     ///
+    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
+    ///
     /// @param placeholders a map of placeholder names to their corresponding values
     /// @return this instance for fluent interface
     @NotNull
@@ -209,6 +265,8 @@ public class Embed extends EmbedBuilder {
     /// Adds all the provided [`placeholders`][I18n.Entry] to this embed instance. The values will be replaced when [#build()] is called.
     ///
     /// Existing entries with the same keys will be overwritten.
+    ///
+    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
     ///
     /// @param placeholders the [`entries`][I18n.Entry] to add
     /// @return this instance for fluent interface
@@ -257,12 +315,16 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Transforms this embed into [MessageCreateData].
+    ///
+    /// @return the transformed [MessageCreateData]
     @NotNull
     public MessageCreateData toMessageCreateData() {
         return MessageCreateData.fromEmbeds(build());
     }
 
     /// Transforms this embed into [MessageEditData].
+    ///
+    /// @return the transformed [MessageEditData]
     @NotNull
     public MessageEditData toMessageEditData() {
         return MessageEditData.fromEmbeds(build());
@@ -284,7 +346,9 @@ public class Embed extends EmbedBuilder {
         /// @param filter the [Predicate] to test the fields with
         /// @return this instance for fluent interface
         @NotNull
-        Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter);
+        default Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter) {
+            return removeIf(filter.and(field -> name.equals(field.getName())));
+        }
 
         /// Removes all fields with the given value.
         ///
@@ -301,7 +365,7 @@ public class Embed extends EmbedBuilder {
         /// @return this instance for fluent interface
         @NotNull
         default Fields removeByName(@NotNull String name) {
-            return removeIf(field -> name.equals(field.getName()));
+            return removeIf(name, _ -> true);
         }
 
         /// Removes all fields with the given name **and** value.
@@ -311,7 +375,7 @@ public class Embed extends EmbedBuilder {
         /// @return this instance for fluent interface
         @NotNull
         default Fields remove(@NotNull String name, @NotNull String value) {
-            return removeIf(field -> name.equals(field.getName()) && value.equals(field.getValue()));
+            return removeIf(name, field -> value.equals(field.getValue()));
         }
     }
 }

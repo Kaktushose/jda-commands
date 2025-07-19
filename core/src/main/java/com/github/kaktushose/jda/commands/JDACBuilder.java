@@ -65,6 +65,8 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
+    private Embeds.Configuration embedConfig;
+
     JDACBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
     }
@@ -91,11 +93,14 @@ public final class JDACBuilder extends JDACBuilderData {
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     @NotNull
     public JDACBuilder embeds(@NotNull Consumer<EmbedConfig> consumer) {
-        Embeds.Configuration configuration = new Embeds.Configuration(i18n());
-        consumer.accept(configuration);
-        this.embeds = configuration.buildDefault();
+        // create object on first method call
+        if (embedConfig == null) {
+            embedConfig = new Embeds.Configuration(i18n());
+        }
+        consumer.accept(embedConfig);
+        this.embeds = embedConfig.buildDefault();
         if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
-            errorMessageFactory = new DefaultErrorMessageFactory(configuration.buildError());
+            errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
         }
         return this;
     }
@@ -246,12 +251,17 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Will be thrown if anything goes wrong while configuring jda-commands.
     public static class ConfigurationException extends RuntimeException {
-        public ConfigurationException(String message) {
-            super("Error while trying to configure jda-commands: " + message);
+
+        public ConfigurationException(String error) {
+            super(message(error));
         }
 
-        public ConfigurationException(String message, Throwable cause) {
-            super("Error while trying to configure jda-commands: " + message, cause);
+        public ConfigurationException(String error, Throwable cause) {
+            super(message(error), cause);
+        }
+
+        private static String message(String error) {
+            return "Error while trying to configure jda-commands: %s".formatted(error);
         }
     }
 }

@@ -3,9 +3,9 @@ package com.github.kaktushose.jda.commands.embeds.error;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.I18n.Entry;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -23,7 +23,6 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -33,6 +32,9 @@ import java.util.stream.Collectors;
 /// @see JDACBuilder#embeds(Consumer)
 public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageFactory {
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure) {
@@ -89,6 +91,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
@@ -115,6 +120,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
@@ -129,6 +137,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         ).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
@@ -166,6 +177,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         ).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
@@ -191,6 +205,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         ).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
