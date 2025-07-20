@@ -1,6 +1,5 @@
 plugins {
-    id("io.github.kaktushose.jda.commands.convention.java")
-    id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
+    `java-library`
 }
 
 repositories {
