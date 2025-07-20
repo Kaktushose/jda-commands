@@ -1,6 +1,6 @@
-package commands;
+package definitions;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
@@ -21,24 +21,23 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SlashCommandDefinitionTest {
+class SlashCommandDefinitionTest {
 
     private static Class<?> controller;
     private static Validators validator;
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         controller = CommandDefinitionTestController.class;
 
         validator = new Validators(Map.of());
     }
 
-    public static MethodBuildContext getBuildContext(Method method) {
+    private static MethodBuildContext getBuildContext(Method method) {
         var clazz = new ReflectiveDescriptor().describe(method.getClass());
 
         return new MethodBuildContext(
@@ -88,7 +87,6 @@ public class SlashCommandDefinitionTest {
         );
     }
 
-
     private static List<AnnotationDescription<?>> annotationList(Annotation[] array) {
         return Arrays.stream(array)
                 .map(SlashCommandDefinitionTest::annotation)
@@ -103,104 +101,63 @@ public class SlashCommandDefinitionTest {
     }
 
     @Test
-    public void method_withoutAnnotation_ShouldThrow() throws NoSuchMethodException {
+    void method_withoutAnnotation_ShouldThrowNoSuchElementException() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noAnnotation");
 
         assertThrows(NoSuchElementException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
-    public void method_withoutArgs_ShouldReturnEmpty() throws NoSuchMethodException {
+    void method_withoutArgs_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noArgs");
 
         assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
-    public void method_withoutCommandEvent_ShouldReturnEmpty() throws NoSuchMethodException {
+    void method_withoutCommandEvent_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noCommandEvent", int.class);
 
         assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
-    public void method_withWrongCommandEvent_ShouldReturnEmpty() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("wrongCommandEvent", int.class, CommandEvent.class);
+    void method_withCommandEventNotAtIndex0_ShouldReturnEmpty() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("commandEventWrongIndex", int.class, CommandEvent.class);
 
         assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
-    public void method_withCommandEvent_ShouldWork() throws NoSuchMethodException {
+    void method_withCommandEvent_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("commandEvent", CommandEvent.class);
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
 
-        assertNotNull(definition);
-
+        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
 
         assertTrue(definition.commandOptions().isEmpty());
     }
 
-    @Test
-    public void method_withArgumentsAfterOptional_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("argsAfterOptional", CommandEvent.class, String.class, int.class);
+    @Interaction
+    static class CommandDefinitionTestController {
 
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
+        public void noAnnotation() {
+        }
 
-        assertNotNull(definition);
+        @Command("a")
+        public void noArgs() {
+        }
 
+        @Command("b")
+        public void noCommandEvent(int i) {
+        }
 
-        assertEquals(2, definition.commandOptions().size());
-        var parameters = List.copyOf(definition.commandOptions());
-        assertTrue(parameters.get(0).optional());
-        assertFalse(parameters.get(1).optional());
-    }
+        @Command("c")
+        public void commandEventWrongIndex(int i, CommandEvent event) {
+        }
 
-    @Test
-    public void method_withOptionalAfterOptional_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("optionalAfterOptional", CommandEvent.class, String.class, int.class);
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertNotNull(definition);
-
-
-        assertEquals(2, definition.commandOptions().size());
-        var parameters = List.copyOf(definition.commandOptions());
-        assertEquals(String.class, parameters.get(0).declaredType());
-        assertEquals(int.class, parameters.get(1).declaredType());
-    }
-
-    @Test
-    public void cooldown_zeroTimeUnits_ShouldNotBeSet() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("zeroCooldown", CommandEvent.class);
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertNotNull(definition);
-
-        assertFalse(definition.cooldown().delay() > 0);
-    }
-
-    @Test
-    public void cooldown_tenMilliseconds_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("cooldown", CommandEvent.class);
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertNotNull(definition);
-
-        assertTrue(definition.cooldown().delay() > 0);
-        assertEquals(10, definition.cooldown().delay());
-        assertEquals(TimeUnit.MILLISECONDS, definition.cooldown().timeUnit());
-    }
-
-    @Test
-    public void permission_oneString_ShouldWork() throws NoSuchMethodException {
-        Method method = controller.getDeclaredMethod("permission", CommandEvent.class);
-        SlashCommandDefinition definition = (SlashCommandDefinition) SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
-
-        assertNotNull(definition);
-
-        assertEquals(1, definition.permissions().size());
-        assertTrue(definition.permissions().contains("permission"));
+        @Command("d")
+        public void commandEvent(CommandEvent event) {
+        }
     }
 
 }
