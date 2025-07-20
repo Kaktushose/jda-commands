@@ -33,6 +33,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
 ///
@@ -186,6 +188,8 @@ public final class JDACommands {
 
     /// Gets an [Embed] based on the given name.
     ///
+    /// Use [#findEmbed(String)] if you cannot ensure that the [Embed] exists.
+    ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
@@ -194,4 +198,17 @@ public final class JDACommands {
         return embeds.get(name);
     }
 
+    /// Gets an [Embed] based on the given name and wraps it in an [Optional].
+    ///
+    /// Use this instead of [#embed(String)] if you cannot ensure that the [Embed] exists.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
+    @NotNull
+    public Optional<Embed> findEmbed(@NotNull String name) {
+        if (!embeds.exists(name)) {
+            return Optional.empty();
+        }
+        return Optional.of(embeds.get(name));
+    }
 }
