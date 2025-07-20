@@ -5,7 +5,6 @@ test-project
 /guilds.json
 migration.md
 target/
-**/testing
 src/main/resources
 /logs
 .direnv

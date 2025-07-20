@@ -7,6 +7,8 @@ repositories {
     mavenCentral()
 }
 
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
     api(libs.net.dv8tion.jda)
     api(libs.org.reflections.reflections)
@@ -18,9 +20,8 @@ dependencies {
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
-
-    testImplementation(libs.org.junit.jupiter.junit.jupiter.api)
-    testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
+    testImplementation(project(":testing"))
+    mockitoAgent(libs.org.mockito.core) { isTransitive = false }
 }
 
 group = "io.github.kaktushose.jda-commands"
@@ -28,4 +29,9 @@ description = "The base module of jda-commands"
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
+}
+
+tasks.named<JavaCompile>("compileTestJava") {
+    options.compilerArgs.add("-parameters")
 }
