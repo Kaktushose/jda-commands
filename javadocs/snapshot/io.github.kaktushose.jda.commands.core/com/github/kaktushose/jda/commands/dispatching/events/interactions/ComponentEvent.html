@@ -66,7 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">ComponentEvent(GenericComponentInteractionCreateEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig)</a></li>
+<li><a href="#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" tabindex="0">ComponentEvent(GenericComponentInteractionCreateEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
+<dd><code><a href="../../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
@@ -135,11 +135,12 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ComponentEvent</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/component/GenericComponentInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction.component" class="external-link">GenericComponentInteractionCreateEvent</a>&nbsp;event,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ComponentEvent</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/component/GenericComponentInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction.component" class="external-link">GenericComponentInteractionCreateEvent</a>&nbsp;event,
  @NotNull <a href="../../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a>&nbsp;registry,
  @NotNull <a href="../../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a>&nbsp;runtime,
  @NotNull <a href="../../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
- <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig)</code></div>
+ <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
+ @NotNull <a href="../../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a>&nbsp;embeds)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new CommandEvent.</div>
 </div>
@@ -180,7 +181,7 @@ loadScripts(document, 'script');</script>
 <code><a href="../ModalReplyableEvent.html#replyModal(java.lang.String)">replyModal</a>, <a href="../ModalReplyableEvent.html#replyModal(java.lang.String,java.util.function.Function)">replyModal</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.events.<a href="../ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></h3>
-<code><a href="../ReplyableEvent.html#deferReply()">deferReply</a>, <a href="../ReplyableEvent.html#getButton(java.lang.Class,java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getButton(java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#removeComponents()">removeComponents</a>, <a href="../ReplyableEvent.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.EmbedBuilder)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a>, <a href="../ReplyableEvent.html#with()">with</a></code></div>
+<code><a href="../ReplyableEvent.html#deferReply()">deferReply</a>, <a href="../ReplyableEvent.html#embed(java.lang.String)">embed</a>, <a href="../ReplyableEvent.html#findEmbed(java.lang.String)">findEmbed</a>, <a href="../ReplyableEvent.html#getButton(java.lang.Class,java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getButton(java.lang.String)">getButton</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#getSelectMenu(java.lang.String)">getSelectMenu</a>, <a href="../ReplyableEvent.html#removeComponents()">removeComponents</a>, <a href="../ReplyableEvent.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)">reply</a>, <a href="../ReplyableEvent.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a>, <a href="../ReplyableEvent.html#with()">with</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.events.Event">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.dispatching.events.<a href="../Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></h3>
 <code><a href="../Event.html#closeRuntime()">closeRuntime</a>, <a href="../Event.html#getChannel()">getChannel</a>, <a href="../Event.html#getChannelIdLong()">getChannelIdLong</a>, <a href="../Event.html#getContext()">getContext</a>, <a href="../Event.html#getEntitlements()">getEntitlements</a>, <a href="../Event.html#getGuild()">getGuild</a>, <a href="../Event.html#getIdLong()">getIdLong</a>, <a href="../Event.html#getIntegrationOwners()">getIntegrationOwners</a>, <a href="../Event.html#getJDA()">getJDA</a>, <a href="../Event.html#getMember()">getMember</a>, <a href="../Event.html#getToken()">getToken</a>, <a href="../Event.html#getTypeRaw()">getTypeRaw</a>, <a href="../Event.html#getUser()">getUser</a>, <a href="../Event.html#getUserLocale()">getUserLocale</a>, <a href="../Event.html#i18n()">i18n</a>, <a href="../Event.html#interactionInstance(java.lang.Class)">interactionInstance</a>, <a href="../Event.html#isAcknowledged()">isAcknowledged</a>, <a href="../Event.html#jdaEvent()">jdaEvent</a>, <a href="../Event.html#kv()">kv</a>, <a href="../Event.html#runtimeId()">runtimeId</a></code></div>
@@ -193,9 +194,6 @@ loadScripts(document, 'script');</script>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.entities.ISnowflake">Methods inherited from interface&nbsp;net.dv8tion.jda.api.entities.<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html#getId()" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">getId</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html#getTimeCreated()" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">getTimeCreated</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.reply.Reply">Methods inherited from interface&nbsp;com.github.kaktushose.jda.commands.dispatching.reply.<a href="../../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></h3>
-<code><a href="../../reply/Reply.html#reply(com.github.kaktushose.jda.commands.embeds.EmbedDTO)">reply</a>, <a href="../../reply/Reply.html#reply(java.lang.String,java.lang.Object...)">reply</a></code></div>
 </section>
 </li>
 </ul>
@@ -208,7 +206,7 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">
+<section class="detail" id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)">
 <h3>ComponentEvent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ComponentEvent</span><wbr><span class="parameters">(@NotNull
@@ -220,7 +218,9 @@ loadScripts(document, 'script');</script>
  @NotNull
  @NotNull <a href="../../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
  @NotNull
- <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig)</span></div>
+ <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
+ @NotNull
+ @NotNull <a href="../../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a>&nbsp;embeds)</span></div>
 <div class="block">Constructs a new CommandEvent.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -229,6 +229,7 @@ loadScripts(document, 'script');</script>
 <dd><code>runtime</code> - the corresponding <a href="../../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching"><code>Runtime</code></a></dd>
 <dd><code>definition</code> - the corresponding <a href="../../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a></dd>
 <dd><code>replyConfig</code> - the <a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> to use</dd>
+<dd><code>embeds</code> - the corresponding <a href="../../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal"><code>Embeds</code></a></dd>
 </dl>
 </div>
 </section>

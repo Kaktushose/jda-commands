@@ -73,6 +73,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
 <li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
 <li><a href="#getSelectMenu(java.lang.Class,java.lang.String)" tabindex="0">getSelectMenu(Class, String)</a></li>
+<li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
+<li><a href="#findEmbed(java.lang.String)" tabindex="0">findEmbed(String)</a></li>
 </ol>
 </li>
 </ol>
@@ -122,6 +124,16 @@ while running.</p>
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create a new builder.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embed(java.lang.String)" class="member-name-link">embed</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets an <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findEmbed(java.lang.String)" class="member-name-link">findEmbed</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets an <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name and wraps it in an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/buttons/Button.html" title="class or interface in net.dv8tion.jda.api.interactions.components.buttons" class="external-link">Button</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
@@ -351,6 +363,52 @@ This may be useful if you want to send a component without using the framework.<
 <dd><code>menu</code> - the name of the button in the format `FullClassNameWithPackage.method``</dd>
 <dt>Returns:</dt>
 <dd>the JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link"><code>SelectMenu</code></a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="embed(java.lang.String)">
+<h3>embed</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">embed</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block"><p>Gets an <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</p>
+<p>Use <a href="#findEmbed(java.lang.String)"><code>findEmbed(String)</code></a> if you cannot ensure that the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> exists.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Returns:</dt>
+<dd>the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - <p>if no <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> with the given name exists in the configured</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>data sources</pre>
+</details>
+
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="findEmbed(java.lang.String)">
+<h3>findEmbed</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</span>&nbsp;<span class="element-name">findEmbed</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block"><p>Gets an <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name and wraps it in an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>.</p>
+<p>Use this instead of <a href="#embed(java.lang.String)"><code>embed(String)</code></a> if you cannot ensure that the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> exists.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Returns:</dt>
+<dd>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> holding the <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> or an empty <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> if an <a href="embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> with the given name doesn't exist</dd>
 </dl>
 </div>
 </section>

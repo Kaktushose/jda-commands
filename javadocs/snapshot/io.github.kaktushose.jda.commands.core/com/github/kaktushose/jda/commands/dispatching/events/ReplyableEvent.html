@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">ReplyableEvent(T, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig)</a></li>
+<li><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" tabindex="0">ReplyableEvent(T, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -83,10 +83,12 @@ loadScripts(document, 'script');</script>
 <li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
 <li><a href="#getSelectMenu(java.lang.String)" tabindex="0">getSelectMenu(String)</a></li>
 <li><a href="#getSelectMenu(java.lang.Class,java.lang.String)" tabindex="0">getSelectMenu(Class, String)</a></li>
+<li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
+<li><a href="#findEmbed(java.lang.String)" tabindex="0">findEmbed(String)</a></li>
 <li><a href="#with()" tabindex="0">with()</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
 <li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">reply(String, I18n.Entry...)</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.EmbedBuilder)" tabindex="0">reply(EmbedBuilder)</a></li>
+<li><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" tabindex="0">reply(MessageEmbed, MessageEmbed...)</a></li>
+<li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
 </ol>
 </li>
 </ol>
@@ -104,7 +106,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
+<dd><code><a href="../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></code>, <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -114,7 +116,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name type-name-label">ReplyableEvent&lt;T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>
 <span class="extends-implements">extends <a href="Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a>&lt;T&gt;
-implements <a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></span>
+implements <a href="../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></span>
 <span class="permits">permits <a href="interactions/ModalEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ModalEvent</a>, <a href="ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a>&lt;T&gt;</span></div>
 <div class="block"><p>Subtype of <a href="Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a> that supports replying to the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> with text messages.</p>
 <p>You can either reply directly by using one of the <code>reply</code> methods, like</p>
@@ -173,11 +175,12 @@ implements <a href="../reply/Reply.html" title="interface in com.github.kaktusho
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ReplyableEvent</a><wbr>(<a href="#type-param-T" title="type parameter in ReplyableEvent">T</a>&nbsp;event,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ReplyableEvent</a><wbr>(<a href="#type-param-T" title="type parameter in ReplyableEvent">T</a>&nbsp;event,
  <a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a>&nbsp;interactionRegistry,
  <a href="../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a>&nbsp;runtime,
  <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
- <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig)</code></div>
+ <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
+ <a href="../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a>&nbsp;embeds)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new ReplyableEvent.</div>
 </div>
@@ -204,6 +207,16 @@ implements <a href="../reply/Reply.html" title="interface in com.github.kaktusho
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deferReply(boolean)" class="member-name-link">deferReply</a><wbr>(boolean&nbsp;ephemeral)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embed(java.lang.String)" class="member-name-link">embed</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findEmbed(java.lang.String)" class="member-name-link">findEmbed</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name and wraps it in an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/buttons/Button.html" title="class or interface in net.dv8tion.jda.api.interactions.components.buttons" class="external-link">Button</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getButton(java.lang.Class,java.lang.String)" class="member-name-link">getButton</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
@@ -241,14 +254,15 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.EmbedBuilder)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;builder)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>&nbsp;first,
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>...&nbsp;additional)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Acknowledgement of this event with a text message.</div>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;data)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Acknowledgement of this event with a text message.</div>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with()" class="member-name-link">with</a>()</code></div>
@@ -270,9 +284,6 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.entities.ISnowflake">Methods inherited from interface&nbsp;net.dv8tion.jda.api.entities.<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">ISnowflake</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html#getId()" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">getId</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/ISnowflake.html#getTimeCreated()" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">getTimeCreated</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.dispatching.reply.Reply">Methods inherited from interface&nbsp;com.github.kaktushose.jda.commands.dispatching.reply.<a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></h3>
-<code><a href="../reply/Reply.html#reply(com.github.kaktushose.jda.commands.embeds.EmbedDTO)">reply</a>, <a href="../reply/Reply.html#reply(java.lang.String,java.lang.Object...)">reply</a></code></div>
 </section>
 </li>
 </ul>
@@ -301,14 +312,15 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">
-<h3 id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">ReplyableEvent</h3>
+<section class="detail" id="&lt;init&gt;(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)">
+<h3 id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)">ReplyableEvent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ReplyableEvent</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in ReplyableEvent">T</a>&nbsp;event,
  <a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a>&nbsp;interactionRegistry,
  <a href="../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a>&nbsp;runtime,
  <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
- <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig)</span></div>
+ <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
+ <a href="../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a>&nbsp;embeds)</span></div>
 <div class="block">Constructs a new ReplyableEvent.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -316,7 +328,7 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <dd><code>interactionRegistry</code> - the corresponding <a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionRegistry</code></a></dd>
 <dd><code>runtime</code> - the <a href="../Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching"><code>Runtime</code></a> this event lives in</dd>
 <dd><code>definition</code> - the <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a> this event belongs to</dd>
-<dd><code>replyConfig</code> - the <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> to use</dd>
+<dd><code>embeds</code> - the corresponding <a href="../../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal"><code>Embeds</code></a></dd>
 </dl>
 </div>
 </section>
@@ -476,6 +488,52 @@ This may be useful if you want to send a component without using the framework.<
 </section>
 </li>
 <li>
+<section class="detail" id="embed(java.lang.String)">
+<h3>embed</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">embed</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block"><p>Gets an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</p>
+<p>Use <a href="#findEmbed(java.lang.String)"><code>findEmbed(String)</code></a> if you cannot ensure that the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> exists.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Returns:</dt>
+<dd>the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - <p>if no <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> with the given name exists in the configured</p>
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre>data sources</pre>
+</details>
+
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="findEmbed(java.lang.String)">
+<h3>findEmbed</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</span>&nbsp;<span class="element-name">findEmbed</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block"><p>Gets an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name and wraps it in an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>.</p>
+<p>Use this instead of <a href="#embed(java.lang.String)"><code>embed(String)</code></a> if you cannot ensure that the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> exists.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a></dd>
+<dt>Returns:</dt>
+<dd>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> holding the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> or an empty <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> if an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> with the given name doesn't exist</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="with()">
 <h3>with</h3>
 <div class="horizontal-scroll">
@@ -498,27 +556,6 @@ This may be useful if you want to send a component without using the framework.<
 </section>
 </li>
 <li>
-<section class="detail" id="reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">
-<h3>reply</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</span></div>
-<div class="block">Acknowledgement of this event with a text message.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>message</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send</dd>
-<dt>Returns:</dt>
-<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
-<dt>Implementation Requirements:</dt>
-<dd><p>Internally this method must call <a href="https://docs.jda.wiki/net/dv8tion/jda/api/requests/RestAction.html#complete()" title="class or interface in net.dv8tion.jda.api.requests" class="external-link"><code>RestAction.complete()</code></a>, thus the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> object can get
-returned directly.</p>
-<p>This might throw <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/RuntimeException.html" title="class or interface in java.lang" class="external-link"><code>RuntimeException</code></a>s if JDA fails to send the message.</p>
-</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
@@ -526,11 +563,11 @@ returned directly.</p>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">Reply</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/internal/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">Reply</a></code></span></div>
 <div class="block">Acknowledgement of this event with a text message.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../reply/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
+<dd><code><a href="../reply/internal/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>message</code> - the message to send or the localization key</dd>
 <dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]</dd>
@@ -541,19 +578,42 @@ returned directly.</p>
 </section>
 </li>
 <li>
-<section class="detail" id="reply(net.dv8tion.jda.api.EmbedBuilder)">
+<section class="detail" id="reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;builder)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/Reply.html#reply(net.dv8tion.jda.api.EmbedBuilder)">Reply</a></code></span></div>
-<div class="block">Acknowledgement of this event with a text message.</div>
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>&nbsp;first,
+ @NotNull
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>...&nbsp;additional)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/internal/Reply.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)">Reply</a></code></span></div>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../reply/Reply.html#reply(net.dv8tion.jda.api.EmbedBuilder)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply">Reply</a></code></dd>
+<dd><code><a href="../reply/internal/Reply.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>builder</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>EmbedBuilder</code></a> to send</dd>
+<dd><code>first</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a> to send</dd>
+<dd><code>additional</code> - additional <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>s to send</dd>
+<dt>Returns:</dt>
+<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">
+<h3>reply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;data)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../reply/internal/Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">Reply</a></code></span></div>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../reply/internal/Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)">reply</a></code>&nbsp;in interface&nbsp;<code><a href="../reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>data</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send</dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 </dl>
