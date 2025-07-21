@@ -6,6 +6,9 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
@@ -26,10 +29,7 @@ import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +38,7 @@ import static org.mockito.Mockito.*;
 
 public class TestScenario {
 
+    private static final Localizer localizer = new FluavaLocalizer(new Fluava(Locale.ENGLISH));
     private final Context context;
 
     private TestScenario(Context context) {
@@ -100,6 +101,7 @@ public class TestScenario {
             this.jda = jda;
             this.klass = klass;
             jdacBuilder = JDACommands.builder(jda, klass)
+                    .localizer(localizer)
                     .classFinders(ClassFinder.explicit(klass))
                     .instanceProvider(new InteractionControllerInstantiator() {
                         @Override

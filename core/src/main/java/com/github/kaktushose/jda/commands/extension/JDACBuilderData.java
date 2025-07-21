@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
@@ -26,7 +27,6 @@ import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.fluava.Fluava;
-import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +78,9 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
+    protected Embeds embeds = null;
+    private I18n i18n = null;
+
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
@@ -115,7 +118,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
             Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)),
             PermissionsProvider.class, DefaultPermissionsProvider::new,
-            ErrorMessageFactory.class, DefaultErrorMessageFactory::new,
+            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds),
             GuildScopeProvider.class, DefaultGuildScopeProvider::new,
             Descriptor.class, () -> Descriptor.REFLECTIVE
     );
@@ -285,11 +288,13 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    private I18n i18n = null;
+    @NotNull
+    public Embeds embeds() {
+        return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
+    }
+
     @NotNull
     public I18n i18n() {
-        return i18n != null
-                ? i18n
-                : (i18n = new I18n(descriptor(), localizer()));
+        return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
 }

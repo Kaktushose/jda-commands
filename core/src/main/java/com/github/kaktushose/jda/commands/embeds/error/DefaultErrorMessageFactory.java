@@ -1,11 +1,16 @@
 package com.github.kaktushose.jda.commands.embeds.error;
 
+import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n.Entry;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -19,13 +24,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-/// Implementation of [ErrorMessageFactory] with default embeds.
+/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///
-/// @see JsonErrorMessageFactory
-public class DefaultErrorMessageFactory implements ErrorMessageFactory {
+/// @see JDACBuilder#embeds(Consumer)
+public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageFactory {
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure) {
@@ -52,13 +61,23 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                         .map(OptionDataDefinition::name)
                         .collect(Collectors.joining(" ")));
                 expected = commandOption.declaredType().getSimpleName();
-                actual = humanReadableType(optionMapping);
+                actual = Helpers.humanReadableType(optionMapping);
                 input = optionMapping.getAsString();
                 break;
             } else {
                 name = "%s %s".formatted(name, commandOption.name());
             }
         }
+
+        if (embeds.exists("typeAdaptingFailed")) {
+            return embeds.get("typeAdaptingFailed")
+                    .placeholders(
+                            new Entry("usage", command.displayName()),
+                            new Entry("expected", expected),
+                            new Entry("actual", actual)
+                    ).toMessageCreateData();
+        }
+
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Invalid Arguments")
@@ -72,40 +91,24 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
-    /// Gets the human-readable representation of an [OptionMapping].
-    ///
-    /// @param optionMapping the [OptionMapping] to return the human-readable representation for
-    /// @return the human-readable representation
-    @NotNull
-    protected String humanReadableType(@NotNull OptionMapping optionMapping) {
-        return switch (optionMapping.getType()) {
-            case STRING -> "String";
-            case INTEGER -> "Long";
-            case BOOLEAN -> "Boolean";
-            case USER -> {
-                Member member = optionMapping.getAsMember();
-                if (member == null) {
-                    yield "User";
-                }
-                yield "Member";
-            }
-            case CHANNEL -> "Channel";
-            case ROLE -> "Role";
-            case MENTIONABLE -> "Mentionable (Role, User, Member)";
-            case NUMBER -> "Double";
-            case ATTACHMENT -> "Attachment";
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
-            );
-        };
-    }
-
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+
+        if (embeds.exists("insufficientPermissions")) {
+            return embeds.get("insufficientPermissions")
+                    .placeholders(
+                            new Entry("name", context.definition().displayName()),
+                            new Entry("permissions", permissions)
+                    ).toMessageCreateData();
+        }
+
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Insufficient Permissions")
@@ -117,9 +120,15 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return new MessageCreateBuilder().setEmbeds(embed).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
+        if (embeds.exists("constraintFailed")) {
+            return embeds.get("constraintFailed").placeholders(new Entry("message", message)).toMessageCreateData();
+        }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
@@ -128,6 +137,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
@@ -152,6 +164,11 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             }
             cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
         }
+
+        if (embeds.exists("cooldown")) {
+            return embeds.get("cooldown").placeholders(new Entry("cooldown", cooldown)).toMessageCreateData();
+        }
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Cooldown")
@@ -160,23 +177,13 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
-    @NotNull
-    @Override
-    public MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context) {
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Wrong Channel Type")
-                .setDescription("This command cannot be executed in this type of channels!")
-                .build()
-        ).build();
-    }
-
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
-        String error;
-
-        error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
+        String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
                 context.event().getUser(),
@@ -184,6 +191,10 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
                 exception.getClass().getName()
         );
+
+        if (embeds.exists("executionFailed")) {
+            return embeds.get("executionFailed").placeholders(new Entry("error", error)).toMessageCreateData();
+        }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
@@ -194,9 +205,16 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         ).build();
     }
 
+    /// {@inheritDoc}
+    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
+    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent context) {
+    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
+        if (embeds.exists("unknownInteraction")) {
+            return embeds.get("unknownInteraction").toMessageCreateData();
+        }
+
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Unknown Interaction")

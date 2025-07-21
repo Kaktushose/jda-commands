@@ -13,7 +13,7 @@ dependencies {
     api(libs.net.dv8tion.jda)
     api(libs.org.reflections.reflections)
     api(libs.org.slf4j.slf4j.api)
-    api(libs.com.google.code.gson.gson)
+    api(libs.com.fasterxml.jackson.core)
     api(libs.org.jetbrains.annotations)
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)

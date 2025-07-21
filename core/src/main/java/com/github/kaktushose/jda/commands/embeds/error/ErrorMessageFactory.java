@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 /// happen during an interaction execution, such as missing permissions or failing constraints.
 ///
 /// @see DefaultErrorMessageFactory
-/// @see JsonErrorMessageFactory
 public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
@@ -45,13 +44,6 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     /// @return a [MessageCreateData] to send when a command still has a cooldown
     @NotNull
     MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms);
-
-    /// Gets a [MessageCreateData] to send when the channel type isn't suitable for the command.
-    ///
-    /// @param context the [ErrorContext]
-    /// @return a [MessageCreateData] to send when the channel type isn't suitable for the command
-    @NotNull
-    MessageCreateData getWrongChannelTypeMessage(@NotNull ErrorContext context);
 
     /// Gets a [MessageCreateData] to send when the command execution failed.
     ///

@@ -1,7 +1,7 @@
 /// The base module of jda-commands.
 ///
 module io.github.kaktushose.jda.commands.core {
-    requires com.google.gson;
+    requires com.fasterxml.jackson.databind;
     requires net.dv8tion.jda;
     requires org.reflections;
     requires java.desktop;

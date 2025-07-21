@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.i18n;
 
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
+import dev.goldmensch.fluava.*;
 
 import java.util.Locale;
 import java.util.Map;
@@ -43,7 +42,11 @@ public final class FluavaLocalizer implements Localizer {
     public String localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
         String formattedKey = key.replace('.', '-');
         String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, formattedKey, arguments);
-        if (result.equals(formattedKey)) return key;
+        if (result.equals(formattedKey)) {
+            if (fluava.ofMessage(key, locale) instanceof Result.Success<Message>(Message message)) {
+                return message.apply(arguments);
+            }
+        }
         return result;
     }
 }

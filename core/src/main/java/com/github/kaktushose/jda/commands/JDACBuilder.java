@@ -14,7 +14,10 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
@@ -26,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Consumer;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -61,6 +65,8 @@ import java.util.*;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
+    private Embeds.Configuration embedConfig;
+
     JDACBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
     }
@@ -79,6 +85,23 @@ public final class JDACBuilder extends JDACBuilderData {
     @NotNull
     public JDACBuilder descriptor(@NotNull Descriptor descriptor) {
         this.descriptor = descriptor;
+        return this;
+    }
+
+    /// Configuration step for the Embed API of JDA-Commands.
+    ///
+    /// Use the given [EmbedConfig] to declare placeholders or data sources.
+    @NotNull
+    public JDACBuilder embeds(@NotNull Consumer<EmbedConfig> consumer) {
+        // create object on first method call
+        if (embedConfig == null) {
+            embedConfig = new Embeds.Configuration(i18n());
+        }
+        consumer.accept(embedConfig);
+        this.embeds = embedConfig.buildDefault();
+        if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+            errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
+        }
         return this;
     }
 
@@ -211,7 +234,8 @@ public final class JDACBuilder extends JDACBuilderData {
                 controllerInstantiator(),
                 globalReplyConfig(),
                 globalCommandConfig(),
-                i18n()
+                i18n(),
+                embeds()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;
@@ -227,8 +251,17 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Will be thrown if anything goes wrong while configuring jda-commands.
     public static class ConfigurationException extends RuntimeException {
-        public ConfigurationException(String message) {
-            super("Error while trying to configure jda-commands: " + message);
+
+        public ConfigurationException(String error) {
+            super(message(error));
+        }
+
+        public ConfigurationException(String error, Throwable cause) {
+            super(message(error), cause);
+        }
+
+        private static String message(String error) {
+            return "Error while trying to configure jda-commands: %s".formatted(error);
         }
     }
 }

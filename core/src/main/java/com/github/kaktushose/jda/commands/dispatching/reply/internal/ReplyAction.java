@@ -1,17 +1,15 @@
-package com.github.kaktushose.jda.commands.dispatching.reply;
+package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -24,48 +22,42 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-/// Simple builder for sending text messages based on a [GenericInteractionCreateEvent].
-///
-/// More formally, can be used to
-/// send an arbitrary amount of message replies to the text channel the [GenericInteractionCreateEvent] was executed in.
-///
-/// Example:
-/// ```
-/// new MessageReply(event, definition, new ReplyConfig()).reply(errorMessage);
-///```
-///
-/// @see ConfigurableReply
-/// @see ReplyableEvent
-public sealed class MessageReply implements Reply permits ConfigurableReply, MessageCreateDataReply {
+/// Implementation of [Reply] handling all the business logic of sending messages.
+@ApiStatus.Internal
+public final class ReplyAction implements Reply {
 
-    protected static final Logger log = LoggerFactory.getLogger(MessageReply.class);
-    protected final GenericInteractionCreateEvent event;
-    protected final InteractionDefinition definition;
-    protected final MessageCreateBuilder builder;
-    protected final I18n i18n;
-    protected boolean ephemeral;
-    protected boolean editReply;
-    protected boolean keepComponents;
-    protected boolean keepSelections;
+    private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
+    private final GenericInteractionCreateEvent event;
+    private final InteractionDefinition definition;
+    private final I18n i18n;
+    private MessageCreateBuilder builder;
+    private boolean ephemeral;
+    private boolean keepComponents;
+    private boolean keepSelections;
+    private boolean editReply;
 
-    /// Constructs a new MessageReply.
+    /// Constructs a new ReplyAction.
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
-    /// @param i18n the [I18n] instance to use for localization
+    /// @param i18n        the [I18n] instance to use for localization
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public MessageReply(@NotNull GenericInteractionCreateEvent event,
-                        @NotNull InteractionDefinition definition,
-                        @NotNull I18n i18n,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+    public ReplyAction(@NotNull GenericInteractionCreateEvent event,
+                       @NotNull InteractionDefinition definition,
+                       @NotNull I18n i18n,
+                       @NotNull InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
@@ -76,41 +68,62 @@ public sealed class MessageReply implements Reply permits ConfigurableReply, Mes
         this.builder = new MessageCreateBuilder();
     }
 
-    /// Constructs a new MessageReply.
-    ///
-    /// @param reply the [MessageReply] to copy
-    public MessageReply(@NotNull MessageReply reply) {
-        this.event = reply.event;
-        this.builder = reply.builder;
-        this.definition = reply.definition;
-        this.ephemeral = reply.ephemeral;
-        this.editReply = reply.editReply;
-        this.keepComponents = reply.keepComponents;
-        this.keepSelections = reply.keepSelections;
-        this.i18n = reply.i18n;
-    }
-
+    @NotNull
+    @Override
     public Message reply(@NotNull String message, I18n.Entry... placeholder) {
         builder.setContent(i18n.localize(event.getUserLocale().toLocale(), message, placeholder));
-        return complete();
+        return reply();
     }
 
-    public Message reply(@NotNull EmbedBuilder builder) {
-        this.builder.setEmbeds(builder.build());
-        return complete();
-    }
-
-    /// Sends the reply to Discord and blocks the current thread until the message was sent.
-    ///
-    /// @return the [Message] that got created
-    /// @implNote This method can handle both message replies and message edits. it will check if the interaction got
-    /// acknowledged and will acknowledge it if necessary before sending or editing a message. After that,
-    /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
-    /// will be called.
-    ///
-    /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
     @NotNull
-    protected Message complete() {
+    @Override
+    public Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional) {
+        builder.setEmbeds(Stream.concat(Stream.of(first), Arrays.stream(additional)).toList());
+        return reply();
+    }
+
+    @NotNull
+    @Override
+    public Message reply(@NotNull MessageCreateData data) {
+        builder = MessageCreateBuilder.from(data);
+        return reply();
+    }
+
+    public void ephemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
+    }
+
+    public void keepComponents(boolean keepComponents) {
+        this.keepComponents = keepComponents;
+    }
+
+    public void keepSelections(boolean keepSelections) {
+        this.keepSelections = keepSelections;
+    }
+
+    public void editReply(boolean editReply) {
+        this.editReply = editReply;
+    }
+
+    public void builder(Consumer<MessageCreateBuilder> builder) {
+        builder.accept(this.builder);
+    }
+
+    @NotNull
+    public Collection<LayoutComponent> components() {
+        return List.copyOf(builder.getComponents());
+    }
+
+    public void addComponents(LayoutComponent... components) {
+        builder.addComponents(components);
+    }
+
+    public void addEmbeds(MessageEmbed... embeds) {
+        builder.addEmbeds(embeds);
+    }
+
+    @NotNull
+    public Message reply() {
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);

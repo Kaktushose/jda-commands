@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -20,17 +21,19 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event       the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param registry    the corresponding [InteractionRegistry]
-    /// @param runtime     the corresponding [Runtime]
-    /// @param definition  the corresponding [InteractionDefinition]
+    /// @param event      the [GenericComponentInteractionCreateEvent] this event holds
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the corresponding [Runtime]
+    /// @param definition the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
+    /// @param embeds     the corresponding [Embeds]
     public ComponentEvent(@NotNull GenericComponentInteractionCreateEvent event,
                           @NotNull InteractionRegistry registry,
                           @NotNull Runtime runtime,
                           @NotNull InteractionDefinition definition,
-                          @NotNull InteractionDefinition.ReplyConfig replyConfig) {
-        super(event, registry, runtime, definition, replyConfig);
+                          @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                          @NotNull Embeds embeds) {
+        super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
