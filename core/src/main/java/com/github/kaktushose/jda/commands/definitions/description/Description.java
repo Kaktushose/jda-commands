@@ -1,5 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Optional;
@@ -12,18 +14,22 @@ import java.util.Optional;
 /// @see ClassDescription
 /// @see MethodDescription
 /// @see ParameterDescription
-public sealed interface Description permits ClassDescription, MethodDescription, ParameterDescription {
+public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
 
     /// a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
-    
-    Collection<Annotation> annotations();
+    @NotNull
+    Collection<AnnotationDescription<?>> annotations();
 
     /// Gets this element's [Annotation] for the specified type if such an annotation is present
     ///
     /// @param type the type of the annotation to get
     /// @return an [Optional] holding the [Annotation] if present at this element or else an empty [Optional]
-    
-    default <T extends Annotation> Optional<T> annotation(Class<T> type) {
-        return annotations().stream().filter(type::isInstance).map(type::cast).findFirst();
+    @SuppressWarnings("unchecked")
+    @NotNull
+    default <T extends Annotation> Optional<T> annotation(@NotNull Class<T> type) {
+        return annotations().stream()
+                .filter(ann -> ann.type().equals(type))
+                .map(ann -> ((T) ann.value()))
+                .findFirst();
     }
 }

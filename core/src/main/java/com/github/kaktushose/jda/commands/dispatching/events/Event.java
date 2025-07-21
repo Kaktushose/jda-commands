@@ -9,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -178,5 +179,10 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     
     public InteractionContextType getContext() {
         return event.getContext();
+    }
+
+    @NotNull
+    public I18n i18n() {
+        return runtime.i18n();
     }
 }

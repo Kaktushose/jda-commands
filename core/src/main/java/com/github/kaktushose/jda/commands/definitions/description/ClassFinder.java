@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.reflective.Ref
 import com.github.kaktushose.jda.commands.extension.Implementation;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.SequencedCollection;
 
 /// [ClassFinder]s search for classes annotated with a specific annotation
@@ -16,6 +17,13 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
     
     static ClassFinder reflective(Class<?> baseClass, String... packages) {
         return new ReflectiveClassFinder(baseClass, packages);
+    }
+
+    /// This provides an array backed implementation of [ClassFinder] that just returns the explicitly stated classes.
+    /// @param classes the classes to be scanned
+    @NotNull
+    static ClassFinder explicit(Class<?>... classes) {
+        return (_) -> Arrays.asList(classes);
     }
 
     /// This method searches for classes annotated with the given annotation.

@@ -8,7 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -36,7 +36,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             double.class, 0.0d,
             float.class, 0.0f,
             boolean.class, false,
-            char.class, '\u0000'
+            char.class, '\u0000',
+            Optional.class, Optional.empty()
     );
 
     public SlashCommandHandler(DispatchingContext dispatchingContext) {
@@ -52,6 +53,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         return parseArguments(command, event, runtime)
                 .map(args -> new InvocationContext<>(
                         event,
+                        dispatchingContext.i18n(),
                         runtime.keyValueStore(),
                         command,
                         Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
@@ -71,7 +73,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         log.debug("Type adapting arguments...");
         var optionDataDefinitions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig));
+        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new IllegalStateException(
@@ -84,22 +86,28 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             OptionDataDefinition optionData = optionDataDefinitions.get(i);
             OptionMapping optionMapping = optionMappings.get(i);
             if (optionMapping == null) {
-                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.type(), null));
+                parsedArguments.add(DEFAULT_MAPPINGS.getOrDefault(optionData.declaredType(), null));
                 continue;
             }
             Type<?> sourceType = toType(optionMapping);
-            Type<?> targetType = Type.of(optionData.type());
+            Type<?> targetType = Type.of(optionData.resolvedType());
 
             log.debug("Trying to adapt input '{}' as type '{}' to type '{}'", optionMapping, sourceType, targetType);
             ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType, (Type<Object>) targetType);
 
             switch (result) {
-                case ConversionResult.Success<?>(Object success, boolean _) -> parsedArguments.add(success);
+                case ConversionResult.Success<?>(Object success, boolean _) -> {
+                    if (optionData.declaredType().equals(Optional.class)) {
+                        parsedArguments.add(Optional.of(success));
+                    } else {
+                        parsedArguments.add(success);
+                    }
+                }
                 case ConversionResult.Failure<?> failure -> {
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
-                            MessageCreateDataReply.reply(event, command, replyConfig,
+                            new ReplyAction(event, command, dispatchingContext.i18n(), replyConfig).reply(
                                     errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
                             );
                             return Optional.empty();

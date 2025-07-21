@@ -17,16 +17,22 @@ import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapt
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
@@ -38,7 +44,9 @@ public final class JDACommands {
     private final JDAEventListener jdaEventListener;
     private final InteractionRegistry interactionRegistry;
     private final SlashCommandUpdater updater;
+    private final Embeds embeds;
     private final CommandDefinition.CommandConfig globalCommandConfig;
+    private final I18n i18n;
 
     JDACommands(
             JDAContext jdaContext,
@@ -51,12 +59,25 @@ public final class JDACommands {
             InteractionControllerInstantiator instanceProvider,
             InteractionDefinition.ReplyConfig globalReplyConfig,
             CommandDefinition.CommandConfig globalCommandConfig,
-            LocalizationFunction localizationFunction) {
+            I18n i18n,
+            Embeds embeds) {
+        this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, localizationFunction);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig));
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
+                middlewares,
+                errorMessageFactory,
+                interactionRegistry,
+                typeAdapters,
+                expirationStrategy,
+                instanceProvider,
+                globalReplyConfig,
+                embeds,
+                i18n
+        ));
         this.globalCommandConfig = globalCommandConfig;
+        this.embeds = embeds;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -121,6 +142,14 @@ public final class JDACommands {
         updater.updateGuildCommands();
     }
 
+    /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
+    ///
+    /// @return the [I18n] instance
+    @NotNull
+    public I18n i18n() {
+        return i18n;
+    }
+
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///
@@ -148,5 +177,31 @@ public final class JDACommands {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+    }
+
+    /// Gets an [Embed] based on the given name.
+    ///
+    /// Use [#findEmbed(String)] if you cannot ensure that the [Embed] exists.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    @NotNull
+    public Embed embed(@NotNull String name) {
+        return embeds.get(name);
+    }
+
+    /// Gets an [Embed] based on the given name and wraps it in an [Optional].
+    ///
+    /// Use this instead of [#embed(String)] if you cannot ensure that the [Embed] exists.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
+    @NotNull
+    public Optional<Embed> findEmbed(@NotNull String name) {
+        if (!embeds.exists(name)) {
+            return Optional.empty();
+        }
+        return Optional.of(embeds.get(name));
     }
 }

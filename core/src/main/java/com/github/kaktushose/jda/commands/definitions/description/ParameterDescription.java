@@ -1,29 +1,37 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
 
 /// A [Description] that describes a parameter.
 ///
-/// @param type        the [Class] representing the type of this parameter
+/// @param type        the [Class] representing the declaredType of this parameter
 /// @param name        the name of the parameter
-/// @param annotations a [Collection] of all [Annotation]s this parameter is annotated with
+/// @param typeArguments the generic type arguments of the type ([ParameterizedType#getActualTypeArguments()]).
+///        They only represent the first layer and are all raw types represented as [Class] instances or null if wildcard/no class.
+/// @param annotations a [Collection] of all [AnnotationDescription]s this parameter is annotated with
 public record ParameterDescription(
-        Class<?> type,
-        String name,
-        Collection<Annotation> annotations
+        @NotNull Class<?> type,
+        @Nullable Class<?> @NotNull [] typeArguments,
+        @NotNull String name,
+        @NotNull Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(Class<?> type, String name, Collection<Annotation> annotations) {
+    public ParameterDescription(@NotNull Class<?> type, @NotNull Class<?>[] typeArguments, @NotNull String name, @NotNull Collection<AnnotationDescription<?>> annotations) {
         this.type = type;
         this.name = name;
+        this.typeArguments = typeArguments;
         this.annotations = Collections.unmodifiableCollection(annotations);
     }
 
     @Override
     public String toString() {
         return "ParameterDescription{" +
-                "type=" + type +
+                "declaredType=" + type +
                 ", name='" + name + '\'' +
                 '}';
     }

@@ -32,10 +32,11 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, dispatchingContext.globalReplyConfig());
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, replyConfig));
+        arguments.addFirst(new ModalEvent(event, registry, runtime, modal, replyConfig, dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 event,
+                dispatchingContext.i18n(),
                 runtime.keyValueStore(),
                 modal,
                 replyConfig,

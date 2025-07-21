@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.ProteusBuilder;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.IMentionable;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import static io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy.IGNORE;
 import static io.github.kaktushose.proteus.mapping.Mapper.uni;
 import static io.github.kaktushose.proteus.mapping.MappingResult.failure;
 import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
@@ -43,25 +45,25 @@ public class TypeAdapters {
     public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
         proteus = Proteus.global();
 
-        proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))));
+        proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
-        proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())));
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A member is required, but only a user got provided")));
+        proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A member is required, but only a user got provided")), IGNORE);
 
         proteus.into(MENTIONABLE)
-                .from(USER, uni((source, _) -> lossless(source)))
-                .from(MEMBER, uni((source, _) -> lossless(source)))
-                .from(ROLE, uni((source, _) -> lossless(source)));
+                .from(USER, uni((source, _) -> lossless(source)), IGNORE)
+                .from(MEMBER, uni((source, _) -> lossless(source)), IGNORE)
+                .from(ROLE, uni((source, _) -> lossless(source)), IGNORE);
 
         proteus.from(CHANNEL)
-                .into(Type.of(GuildChannel.class), uni((source, _) -> lossless(source)))
-                .into(Type.of(AudioChannel.class), channel(GuildChannelUnion::asAudioChannel))
-                .into(Type.of(GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel))
-                .into(Type.of(NewsChannel.class), channel(GuildChannelUnion::asNewsChannel))
-                .into(Type.of(StageChannel.class), channel(GuildChannelUnion::asStageChannel))
-                .into(Type.of(TextChannel.class), channel(GuildChannelUnion::asTextChannel))
-                .into(Type.of(ThreadChannel.class), channel(GuildChannelUnion::asThreadChannel))
-                .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel));
+                .into(Type.of(GuildChannel.class), uni((source, _) -> lossless(source)), IGNORE)
+                .into(Type.of(AudioChannel.class), channel(GuildChannelUnion::asAudioChannel), IGNORE)
+                .into(Type.of(GuildMessageChannel.class), channel(GuildChannelUnion::asGuildMessageChannel), IGNORE)
+                .into(Type.of(NewsChannel.class), channel(GuildChannelUnion::asNewsChannel), IGNORE)
+                .into(Type.of(StageChannel.class), channel(GuildChannelUnion::asStageChannel), IGNORE)
+                .into(Type.of(TextChannel.class), channel(GuildChannelUnion::asTextChannel), IGNORE)
+                .into(Type.of(ThreadChannel.class), channel(GuildChannelUnion::asThreadChannel), IGNORE)
+                .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel), IGNORE);
 
         typeAdapters.forEach(((entry, adapter) ->
                 proteus.register((Type<Object>) entry.getKey(), (Type<Object>) entry.getValue(), (Mapper.UniMapper<Object, Object>) adapter))

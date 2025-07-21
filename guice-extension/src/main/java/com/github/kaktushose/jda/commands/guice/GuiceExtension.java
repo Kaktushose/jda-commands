@@ -1,11 +1,10 @@
 package com.github.kaktushose.jda.commands.guice;
 
-import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.Implementation;
 import com.github.kaktushose.jda.commands.extension.Implementation.MiddlewareContainer;
@@ -14,8 +13,6 @@ import com.github.kaktushose.jda.commands.extension.Implementation.ValidatorCont
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceExtensionModule;
 import com.github.kaktushose.jda.commands.guice.internal.GuiceInteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
-import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.github.kaktushose.proteus.type.Type;
@@ -37,12 +34,6 @@ import java.util.stream.Stream;
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private final List<Class<? extends Implementation.ExtensionProvidable>> loadableClasses = List.of(
-            Descriptor.class,
-            ErrorMessageFactory.class,
-            PermissionsProvider.class,
-            GuildScopeProvider.class
-    );
     private Injector injector;
 
     @Override
@@ -61,7 +52,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         implementations.add(Implementation.single(
                 InteractionControllerInstantiator.class,
-                _ -> new GuiceInteractionControllerInstantiator(injector)
+                data -> new GuiceInteractionControllerInstantiator(data.i18n(), injector)
         ));
 
         addDynamicImplementations(implementations);
@@ -71,7 +62,8 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     @SuppressWarnings("unchecked")
     private void addDynamicImplementations(List<Implementation<?>> list) {
         // load single types
-        for (var type : loadableClasses) {
+        for (var type : Implementation.ExtensionProvidable.class.getPermittedSubclasses()) {
+            if (type == Implementation.ProvidableContainer.class || type == InteractionControllerInstantiator.class || type == ClassFinder.class) continue;
             list.add(new Implementation<>(
                     (Class<Implementation.ExtensionProvidable>) type,
                     builder -> instances(builder, com.github.kaktushose.jda.commands.guice.Implementation.class, type)

@@ -34,7 +34,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
         if (!EventHandler.INVOCATION_PERMITTED.get()) {
             throw new IllegalStateException("The Definition must not be invoked at this point.");
         }
-        SequencedCollection<Object> arguments = invocation.arguments();
+        SequencedCollection<Object> arguments = invocation.rawArguments();
 
         EventHandler.INVOCATION_PERMITTED.set(false);
         return methodDescription().invoker().invoke(instance, arguments);
