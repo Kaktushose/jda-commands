@@ -15,7 +15,7 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 - Simple and intuitive syntax following an annotation-driven and declarative style
 
 
-- Built-in support for slash commands, components, context menus and modals
+- Built-in support for slash commands, components, embeds, context menus and modals
 
 
 - Automatic and customizable type adapting and constraint validation of parameters
@@ -25,6 +25,9 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 
 - Multithreaded event handling using VirtualThreads
+
+
+- First-hand localization support (via [project fluent](https://projectfluent.org/))
 
 If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or the [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/).
 
