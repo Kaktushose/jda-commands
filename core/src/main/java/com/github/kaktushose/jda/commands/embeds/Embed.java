@@ -272,7 +272,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     @NotNull
     public Embed placeholders(@NotNull I18n.Entry... placeholders) {
-        this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value)));
+        this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toMap(I18n.Entry::name, I18n.Entry::value)));
         return this;
     }
 

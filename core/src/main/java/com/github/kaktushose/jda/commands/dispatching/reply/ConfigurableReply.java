@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -241,7 +240,7 @@ public sealed class ConfigurableReply permits SendableReply {
     @NotNull
     public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {
         Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
-        resolved.placeholders(Stream.concat(Stream.of(entry), Arrays.stream(entries)).toArray(I18n.Entry[]::new));
+        resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
     }
