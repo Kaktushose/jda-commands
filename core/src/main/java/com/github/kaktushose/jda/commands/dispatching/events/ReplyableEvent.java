@@ -29,8 +29,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,8 +130,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull String button) {
+    public Button getButton(String button) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -145,8 +143,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param origin the [Class] of the method
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    public Button getButton(Class<?> origin, String button) {
         return getComponent(button, null, ButtonDefinition.class);
     }
 
@@ -157,8 +154,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param menu the name of the select menu
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull String menu) {
+    public SelectMenu getSelectMenu(String menu) {
         return getComponent(menu, null, SelectMenuDefinition.class);
     }
 
@@ -170,14 +166,12 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param origin the [Class] of the method
     /// @param menu   the name of the select menu
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         return getComponent(menu, origin, SelectMenuDefinition.class);
     }
 
-    @NotNull
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(@NotNull String component, @Nullable Class<?> origin, @NotNull Class<E> type) {
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
         var className = origin == null ? definition.classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = registry.find(type, false, it -> it.definitionId().equals(id));
@@ -192,8 +186,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
-    @NotNull
-    public Embed embed(@NotNull String name) {
+    public Embed embed(String name) {
         return embeds.get(name, event.getUserLocale().toLocale());
     }
 
@@ -203,8 +196,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
-    @NotNull
-    public Optional<Embed> findEmbed(@NotNull String name) {
+    public Optional<Embed> findEmbed(String name) {
         if (!embeds.exists(name)) {
             return Optional.empty();
         }
@@ -217,26 +209,22 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
-    @NotNull
     public ConfigurableReply with() {
         return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+    public Message reply(String message, I18n.Entry... placeholder) {
         return newReply().reply(message, placeholder);
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional) {
+    public Message reply(MessageEmbed first, MessageEmbed... additional) {
         return newReply().reply(first, additional);
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull MessageCreateData data) {
+    public Message reply(MessageCreateData data) {
         return newReply().reply(data);
     }
 

@@ -2,11 +2,11 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition> {
@@ -16,8 +16,8 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     private String label;
     private String url;
 
-    public ButtonComponent(@NotNull String method, @Nullable Class<?> origin) {
-        super(method, origin);
+    public ButtonComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+        super(method, origin, placeholder);
     }
 
     /// @see Button#withEmoji(Emoji) 
@@ -27,19 +27,19 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     }
 
     /// @see Button#withStyle(ButtonStyle)
-    public ButtonComponent style(@NotNull ButtonStyle style) {
+    public ButtonComponent style(ButtonStyle style) {
         this.buttonStyle = style;
         return this;
     }
 
     /// @see Button#withLabel(String)
-    public ButtonComponent label(@NotNull String label) {
+    public ButtonComponent label(String label) {
         this.label = label;
         return this;
     }
 
     /// @see Button#withUrl(String)
-    public ButtonComponent url(@NotNull String url) {
+    public ButtonComponent url(String url) {
         this.url = url;
         return this;
     }

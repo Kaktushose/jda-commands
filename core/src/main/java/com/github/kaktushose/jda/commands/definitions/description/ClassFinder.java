@@ -21,7 +21,6 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
 
     /// This provides an array backed implementation of [ClassFinder] that just returns the explicitly stated classes.
     /// @param classes the classes to be scanned
-    @NotNull
     static ClassFinder explicit(Class<?>... classes) {
         return (_) -> Arrays.asList(classes);
     }

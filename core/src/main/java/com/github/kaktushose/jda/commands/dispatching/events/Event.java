@@ -181,7 +181,6 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return event.getContext();
     }
 
-    @NotNull
     public I18n i18n() {
         return runtime.i18n();
     }

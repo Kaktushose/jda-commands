@@ -20,8 +20,8 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middle
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -48,34 +48,12 @@ public final class JDACommands {
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
 
-    JDACommands(
-            JDAContext jdaContext,
-            ExpirationStrategy expirationStrategy,
-            TypeAdapters typeAdapters,
-            Middlewares middlewares,
-            ErrorMessageFactory errorMessageFactory,
-            GuildScopeProvider guildScopeProvider,
-            InteractionRegistry interactionRegistry,
-            InteractionControllerInstantiator instanceProvider,
-            InteractionDefinition.ReplyConfig globalReplyConfig,
-            CommandDefinition.CommandConfig globalCommandConfig,
-            I18n i18n,
-            Embeds embeds) {
+    JDACommands(JDAContext jdaContext, ExpirationStrategy expirationStrategy, TypeAdapters typeAdapters, Middlewares middlewares, ErrorMessageFactory errorMessageFactory, GuildScopeProvider guildScopeProvider, InteractionRegistry interactionRegistry, InteractionControllerInstantiator instanceProvider, InteractionDefinition.ReplyConfig globalReplyConfig, CommandDefinition.CommandConfig globalCommandConfig, I18n i18n, Embeds embeds) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
-                middlewares,
-                errorMessageFactory,
-                interactionRegistry,
-                typeAdapters,
-                expirationStrategy,
-                instanceProvider,
-                globalReplyConfig,
-                embeds,
-                i18n
-        ));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
     }
@@ -145,7 +123,6 @@ public final class JDACommands {
     /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
     ///
     /// @return the [I18n] instance
-    @NotNull
     public I18n i18n() {
         return i18n;
     }
@@ -186,8 +163,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
-    @NotNull
-    public Embed embed(@NotNull String name) {
+    public Embed embed(String name) {
         return embeds.get(name);
     }
 
@@ -197,8 +173,7 @@ public final class JDACommands {
     ///
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
-    @NotNull
-    public Optional<Embed> findEmbed(@NotNull String name) {
+    public Optional<Embed> findEmbed(String name) {
         if (!embeds.exists(name)) {
             return Optional.empty();
         }

@@ -4,8 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [SelectMenu].
 ///
@@ -27,7 +26,7 @@ public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S
     protected Integer minValues;
     protected Integer maxValues;
 
-    public SelectMenuComponent(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    public SelectMenuComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         super(method, origin, placeholder);
     }
 

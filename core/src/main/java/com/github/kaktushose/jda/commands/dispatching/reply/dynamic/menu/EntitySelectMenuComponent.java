@@ -5,8 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,48 +19,42 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     private final Set<ChannelType> channelTypes = new HashSet<>();
     private final Set<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
 
-    public EntitySelectMenuComponent(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    public EntitySelectMenuComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         super(method, origin, placeholder);
     }
 
     /// @see EntitySelectMenu.Builder#setEntityTypes(Collection)
-    @NotNull
-    public EntitySelectMenuComponent entityTypes(@NotNull Set<EntitySelectMenu.SelectTarget> types) {
+    public EntitySelectMenuComponent entityTypes(Set<EntitySelectMenu.SelectTarget> types) {
         this.entityTypes.addAll(types);
         return this;
     }
 
     /// @see EntitySelectMenu.Builder#setEntityTypes(EntitySelectMenu.SelectTarget, EntitySelectMenu.SelectTarget...)
-    @NotNull
-    public EntitySelectMenuComponent entityTypes(@NotNull EntitySelectMenu.SelectTarget... types) {
+    public EntitySelectMenuComponent entityTypes(EntitySelectMenu.SelectTarget... types) {
         this.entityTypes.addAll(Arrays.asList(types));
         return this;
     }
 
     /// @see EntitySelectMenu.Builder#setChannelTypes(Collection)
-    @NotNull
-    public EntitySelectMenuComponent channelTypes(@NotNull Set<ChannelType> types) {
+    public EntitySelectMenuComponent channelTypes(Set<ChannelType> types) {
         this.channelTypes.addAll(types);
         return this;
     }
 
     /// @see EntitySelectMenu.Builder#setChannelTypes(ChannelType...)
-    @NotNull
-    public EntitySelectMenuComponent channelTypes(@NotNull ChannelType... types) {
+    public EntitySelectMenuComponent channelTypes(ChannelType... types) {
         this.channelTypes.addAll(Arrays.asList(types));
         return this;
     }
 
     /// @see EntitySelectMenu.Builder#setDefaultValues(Collection)
-    @NotNull
-    public EntitySelectMenuComponent defaultValues(@NotNull Collection<EntitySelectMenu.DefaultValue> values) {
+    public EntitySelectMenuComponent defaultValues(Collection<EntitySelectMenu.DefaultValue> values) {
         this.defaultValues.addAll(values);
         return this;
     }
 
     /// @see EntitySelectMenu.Builder#setDefaultValues(EntitySelectMenu.DefaultValue...)
-    @NotNull
-    public EntitySelectMenuComponent defaultValues(@NotNull EntitySelectMenu.DefaultValue... values) {
+    public EntitySelectMenuComponent defaultValues(EntitySelectMenu.DefaultValue... values) {
         this.defaultValues.addAll(Arrays.asList(values));
         return this;
     }
@@ -72,7 +65,7 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     }
 
     @Override
-    protected EntitySelectMenuDefinition build(@NotNull EntitySelectMenuDefinition definition) {
+    protected EntitySelectMenuDefinition build(EntitySelectMenuDefinition definition) {
         return definition.with(entityTypes, defaultValues, channelTypes, placeholder, minValues, maxValues);
     }
 }

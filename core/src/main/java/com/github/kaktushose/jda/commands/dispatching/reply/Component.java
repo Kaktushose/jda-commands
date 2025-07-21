@@ -11,8 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectM
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -85,7 +84,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     private final String method;
     private final Class<?> origin;
 
-    protected Component(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    protected Component(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         this.method = method;
         this.origin = origin;
         this.placeholder = placeholder;

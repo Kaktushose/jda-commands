@@ -1,8 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
 import com.github.kaktushose.jda.commands.definitions.description.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -17,9 +16,8 @@ import java.util.stream.Collectors;
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
 public class ReflectiveDescriptor implements Descriptor {
 
-    @NotNull
     @Override
-    public ClassDescription describe(@NotNull Class<?> clazz) {
+    public ClassDescription describe(Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getDeclaredMethods())
                 .map(this::method)
                 .filter(Objects::nonNull)
@@ -42,7 +40,7 @@ public class ReflectiveDescriptor implements Descriptor {
     }
 
     @Nullable
-    private MethodDescription method(@NotNull Method method) {
+    private MethodDescription method(Method method) {
         if (!Modifier.isPublic(method.getModifiers())) return null;
         List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
                 .map(this::parameter)
@@ -59,8 +57,7 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    @NotNull
-    private ParameterDescription parameter(@NotNull Parameter parameter) {
+    private ParameterDescription parameter(Parameter parameter) {
         Class<?>[] arguments = {};
         if (parameter.getParameterizedType() instanceof ParameterizedType type) {
             arguments = Arrays.stream(type.getActualTypeArguments())
@@ -84,7 +81,7 @@ public class ReflectiveDescriptor implements Descriptor {
     }
 
     // only add annotations one level deep
-    private AnnotationDescription<?> annotation(@NotNull Annotation annotation) {
+    private AnnotationDescription<?> annotation(Annotation annotation) {
         return new AnnotationDescription<>(annotation, Arrays.stream(annotation.annotationType().getAnnotations())
                 .map(ann -> new AnnotationDescription<>(ann, List.of()))
                 .collect(Collectors.toUnmodifiableList()));

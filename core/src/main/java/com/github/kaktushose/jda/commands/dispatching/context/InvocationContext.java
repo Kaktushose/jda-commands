@@ -7,8 +7,6 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.Error
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Optional;
 import java.util.SequencedCollection;
 
@@ -21,12 +19,12 @@ import java.util.SequencedCollection;
 /// @param replyConfig   the [InteractionDefinition.ReplyConfig] to use
 /// @param rawArguments  the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
-        @NotNull T event,
-        @NotNull I18n i18n,
-        @NotNull KeyValueStore keyValueStore,
-        @NotNull InteractionDefinition definition,
-        @NotNull InteractionDefinition.ReplyConfig replyConfig,
-        @NotNull SequencedCollection<Object> rawArguments
+        T event,
+        I18n i18n,
+        KeyValueStore keyValueStore,
+        InteractionDefinition definition,
+        InteractionDefinition.ReplyConfig replyConfig,
+        SequencedCollection<Object> rawArguments
 ) implements ErrorContext {
 
     /// @return same as [#rawArguments()] but with [Optional]s replaced by `null`
@@ -40,7 +38,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     ///
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
-    public void cancel(@NotNull MessageCreateData errorMessage) {
+    public void cancel(MessageCreateData errorMessage) {
         var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
         new ReplyAction(event, definition, i18n, errorReplyConfig).reply(errorMessage);
         Thread.currentThread().interrupt();

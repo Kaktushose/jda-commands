@@ -7,8 +7,6 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.i18n.I18n;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,15 +15,14 @@ import java.util.stream.Collectors;
 /// @param sources the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
-public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n) {
+public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, I18n i18n) {
 
     /// Gets an [Embed] based on the given name.
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
-    @NotNull
-    public Embed get(@NotNull String name) {
+    public Embed get(String name) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))
                 .filter(Optional::isPresent)
@@ -40,8 +37,7 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
     /// @param locale the [Locale] to use for localization
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
-    @NotNull
-    public Embed get(@NotNull String name, @NotNull Locale locale) {
+    public Embed get(String name, Locale locale) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))
                 .filter(Optional::isPresent)
@@ -73,30 +69,26 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
             placeholders = new HashMap<>();
         }
 
-        @NotNull
         @Override
-        public Configuration placeholders(@NotNull I18n.Entry... placeholders) {
+        public Configuration placeholders(I18n.Entry... placeholders) {
             this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value)));
             return this;
         }
 
-        @NotNull
         @Override
-        public Configuration placeholders(@NotNull Map<String, Object> placeholders) {
+        public Configuration placeholders(Map<String, Object> placeholders) {
             this.placeholders.putAll(placeholders);
             return this;
         }
 
-        @NotNull
         @Override
-        public Configuration sources(@NotNull EmbedDataSource... source) {
+        public Configuration sources(EmbedDataSource... source) {
             sources.addAll(List.of(source));
             return this;
         }
 
-        @NotNull
         @Override
-        public Configuration errorSource(@NotNull EmbedDataSource source) {
+        public Configuration errorSource(EmbedDataSource source) {
             errorSource = source;
             return this;
         }
@@ -104,7 +96,6 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
         /// Converts this configuration into an [Embeds] instance that should be used globally.
         ///
         /// @return an [Embeds] instance for default usage
-        @NotNull
         public Embeds buildDefault() {
             return new Embeds(sources, placeholders, i18n);
         }
@@ -112,7 +103,6 @@ public record Embeds(@NotNull Collection<EmbedDataSource> sources, @NotNull Map<
         /// Converts this configuration into an [Embeds] instance that should only be used by [DefaultErrorMessageFactory].
         ///
         /// @return an [Embeds] instance for usage inside of [DefaultErrorMessageFactory]
-        @NotNull
         public Embeds buildError() {
             return new Embeds(List.of(errorSource), Map.of(), i18n);
         }

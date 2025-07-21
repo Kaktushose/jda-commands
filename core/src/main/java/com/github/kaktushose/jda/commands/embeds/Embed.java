@@ -14,8 +14,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.time.temporal.TemporalAccessor;
@@ -37,7 +36,7 @@ public class Embed extends EmbedBuilder {
     /// @param embedBuilder the underlying [EmbedBuilder] to use
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public Embed(@NotNull EmbedBuilder embedBuilder, @NotNull String name, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n) {
+    public Embed(EmbedBuilder embedBuilder, String name, Map<String, Object> placeholders, I18n i18n) {
         super(embedBuilder);
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
@@ -50,7 +49,7 @@ public class Embed extends EmbedBuilder {
     /// @param object       the [DataObject] to construct the underlying [EmbedBuilder] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public Embed(@NotNull DataObject object, @NotNull String name, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n) {
+    public Embed(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
         this(EmbedBuilder.fromData(object), name, placeholders, i18n);
     }
 
@@ -79,7 +78,6 @@ public class Embed extends EmbedBuilder {
     /// @param title the title of the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTitle(String)
-    @NotNull
     public Embed title(@Nullable String title) {
         setTitle(title);
         return this;
@@ -91,7 +89,6 @@ public class Embed extends EmbedBuilder {
     /// @param url   Makes the title into a hyperlink pointed at this url.
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTitle(String, String)
-    @NotNull
     public Embed title(@Nullable String title, @Nullable String url) {
         setTitle(title, url);
         return this;
@@ -102,7 +99,6 @@ public class Embed extends EmbedBuilder {
     /// @param description the description of the embed, `null` to reset
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setDescription(CharSequence)
-    @NotNull
     public Embed description(@Nullable CharSequence description) {
         setDescription(description);
         return this;
@@ -113,7 +109,6 @@ public class Embed extends EmbedBuilder {
     /// @param color The raw rgb value, or [Role#DEFAULT_COLOR_RAW] to use no color
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setColor(int)
-    @NotNull
     public Embed color(int color) {
         setColor(color);
         return this;
@@ -124,7 +119,6 @@ public class Embed extends EmbedBuilder {
     /// @param color The [Color] of the embed or `null` to use no color
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setColor(Color)
-    @NotNull
     public Embed color(@Nullable Color color) {
         setColor(color);
         return this;
@@ -135,7 +129,6 @@ public class Embed extends EmbedBuilder {
     /// @param accessor the temporal accessor of the timestamp
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTimestamp(TemporalAccessor)
-    @NotNull
     public Embed timestamp(@Nullable TemporalAccessor accessor) {
         setTimestamp(accessor);
         return this;
@@ -146,7 +139,6 @@ public class Embed extends EmbedBuilder {
     /// @param footer the text of the footer of the embed. If this is not set or set to null, the footer will not appear in the embed.
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String)
-    @NotNull
     public Embed footer(@Nullable String footer) {
         setFooter(footer);
         return this;
@@ -158,7 +150,6 @@ public class Embed extends EmbedBuilder {
     /// @param iconUrl the url of the icon for the footer
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String, String)
-    @NotNull
     public Embed footer(@Nullable String footer, @Nullable String iconUrl) {
         setFooter(footer, iconUrl);
         return this;
@@ -169,7 +160,6 @@ public class Embed extends EmbedBuilder {
     /// @param url the url of the thumbnail of the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setThumbnail(String)
-    @NotNull
     public Embed thumbnail(@Nullable String url) {
         setThumbnail(url);
         return this;
@@ -180,7 +170,6 @@ public class Embed extends EmbedBuilder {
     /// @param url the url of the image of the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setImage(String)
-    @NotNull
     public Embed image(@Nullable String url) {
         setImage(url);
         return this;
@@ -191,7 +180,6 @@ public class Embed extends EmbedBuilder {
     /// @param name the name of the author of the embed. If this is not set, the author will not appear in the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String)
-    @NotNull
     public Embed author(@Nullable String name) {
         setAuthor(name);
         return this;
@@ -203,7 +191,6 @@ public class Embed extends EmbedBuilder {
     /// @param url  the url of the author of the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String, String)
-    @NotNull
     public Embed author(@Nullable String name, @Nullable String url) {
         setAuthor(name, url);
         return this;
@@ -216,7 +203,6 @@ public class Embed extends EmbedBuilder {
     /// @param iconUrl the url of the icon of the embed
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String, String, String)
-    @NotNull
     public Embed author(@Nullable String name, @Nullable String url, @Nullable String iconUrl) {
         setAuthor(name, url, iconUrl);
         return this;
@@ -225,12 +211,10 @@ public class Embed extends EmbedBuilder {
     /// Used to modify the fields of this embed.
     ///
     /// @return this instance for fluent interface
-    @NotNull
     public Fields fields() {
         return new Fields() {
-            @NotNull
             @Override
-            public Fields removeIf(@NotNull Predicate<MessageEmbed.Field> filter) {
+            public Fields removeIf(Predicate<MessageEmbed.Field> filter) {
                 getFields().removeIf(filter);
                 return this;
             }
@@ -242,8 +226,7 @@ public class Embed extends EmbedBuilder {
     /// @param name  the name of the Field, displayed in bold above the value.
     /// @param value the contents of the field.
     /// @return this instance for fluent interface
-    @NotNull
-    public Embed addField(@NotNull String name, @NotNull String value) {
+    public Embed addField(String name, String value) {
         addField(name, value, false);
         return this;
     }
@@ -256,8 +239,7 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param placeholders a map of placeholder names to their corresponding values
     /// @return this instance for fluent interface
-    @NotNull
-    public Embed placeholders(@NotNull Map<String, Object> placeholders) {
+    public Embed placeholders(Map<String, Object> placeholders) {
         this.placeholders.putAll(placeholders);
         return this;
     }
@@ -270,8 +252,7 @@ public class Embed extends EmbedBuilder {
     ///
     /// @param placeholders the [`entries`][I18n.Entry] to add
     /// @return this instance for fluent interface
-    @NotNull
-    public Embed placeholders(@NotNull I18n.Entry... placeholders) {
+    public Embed placeholders(I18n.Entry... placeholders) {
         this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toMap(I18n.Entry::name, I18n.Entry::value)));
         return this;
     }
@@ -280,7 +261,6 @@ public class Embed extends EmbedBuilder {
     /// [#locale(Locale)] and [`placeholders`][#placeholder(String, Object)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
-    @NotNull
     @Override
     public MessageEmbed build() {
         String json = super.build().toData().toString();
@@ -317,7 +297,6 @@ public class Embed extends EmbedBuilder {
     /// Transforms this embed into [MessageCreateData].
     ///
     /// @return the transformed [MessageCreateData]
-    @NotNull
     public MessageCreateData toMessageCreateData() {
         return MessageCreateData.fromEmbeds(build());
     }
@@ -325,7 +304,6 @@ public class Embed extends EmbedBuilder {
     /// Transforms this embed into [MessageEditData].
     ///
     /// @return the transformed [MessageEditData]
-    @NotNull
     public MessageEditData toMessageEditData() {
         return MessageEditData.fromEmbeds(build());
     }
@@ -337,16 +315,14 @@ public class Embed extends EmbedBuilder {
         ///
         /// @param filter the [Predicate] to test the fields with
         /// @return this instance for fluent interface
-        @NotNull
-        Fields removeIf(@NotNull Predicate<MessageEmbed.Field> filter);
+        Fields removeIf(Predicate<MessageEmbed.Field> filter);
 
         /// Removes all fields with the given name of this embed based on the given [Predicate].
         ///
         /// @param name   the name of the fields to test
         /// @param filter the [Predicate] to test the fields with
         /// @return this instance for fluent interface
-        @NotNull
-        default Fields removeIf(@NotNull String name, Predicate<MessageEmbed.Field> filter) {
+        default Fields removeIf(String name, Predicate<MessageEmbed.Field> filter) {
             return removeIf(filter.and(field -> name.equals(field.getName())));
         }
 
@@ -354,8 +330,7 @@ public class Embed extends EmbedBuilder {
         ///
         /// @param value the value of a field that should be removed
         /// @return this instance for fluent interface
-        @NotNull
-        default Fields remove(@NotNull String value) {
+        default Fields remove(String value) {
             return removeIf(field -> value.equals(field.getValue()));
         }
 
@@ -363,8 +338,7 @@ public class Embed extends EmbedBuilder {
         ///
         /// @param name the name of a field that should be removed
         /// @return this instance for fluent interface
-        @NotNull
-        default Fields removeByName(@NotNull String name) {
+        default Fields removeByName(String name) {
             return removeIf(name, _ -> true);
         }
 
@@ -373,8 +347,7 @@ public class Embed extends EmbedBuilder {
         /// @param name  the name of the field that should be removed
         /// @param value the value of the field that should be removed
         /// @return this instance for fluent interface
-        @NotNull
-        default Fields remove(@NotNull String name, @NotNull String value) {
+        default Fields remove(String name, String value) {
             return removeIf(name, field -> value.equals(field.getValue()));
         }
     }

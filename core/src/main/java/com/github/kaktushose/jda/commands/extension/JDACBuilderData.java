@@ -13,9 +13,9 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
@@ -25,9 +25,9 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.fluava.Fluava;
-import org.jetbrains.annotations.NotNull;
+import io.github.kaktushose.proteus.type.Type;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected final JDAContext context;
 
     // extension stuff
-    protected Collection<Extension<Extension.Data>> loadedExtensions = null;
+    protected @Nullable Collection<Extension<Extension.Data>> loadedExtensions = null;
     protected final Map<Class<? extends Extension.Data>, Extension.Data> extensionData = new HashMap<>();
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
 
@@ -78,8 +78,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
-    protected Embeds embeds = null;
-    private I18n i18n = null;
+    protected @Nullable Embeds embeds = null;
+    private @Nullable I18n i18n = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -126,7 +126,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     private final ClassValue<Object> loader = new ClassValue<>() {
         @SuppressWarnings("unchecked")
         @Override
-        protected Object computeValue(@NotNull Class<?> type) {
+        protected Object computeValue(Class<?> type) {
             var implementations = implementations((Class<? extends ExtensionProvidable>) type);
 
             if (implementations.isEmpty()) {
@@ -151,31 +151,27 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
 
     @SuppressWarnings("unchecked")
-    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue) {
+    private <T extends ExtensionProvidable> T load(Class<T> type, @Nullable T setValue) {
         if (setValue != null) return setValue;
         return (T) loader.get(type);
     }
 
     /// the packages provided by the user for classpath scanning
-    @NotNull
     public String[] packages() {
         return packages;
     }
 
     /// the [JDAContext] to be used
-    @NotNull
     public JDAContext context() {
         return context;
     }
 
     /// the base class provided by the user for classpath scanning
-    @NotNull
     public Class<?> baseClass() {
         return baseClass;
     }
 
     /// @return the global [InteractionDefinition.ReplyConfig] provided by the user
-    @NotNull
     public InteractionDefinition.ReplyConfig globalReplyConfig() {
         return globalReplyConfig;
     }
@@ -185,7 +181,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [ExpirationStrategy] to be used
-    @NotNull
     public ExpirationStrategy expirationStrategy() {
         return expirationStrategy;
     }
@@ -193,44 +188,37 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
-    @NotNull
     public InteractionControllerInstantiator controllerInstantiator() {
         return load(InteractionControllerInstantiator.class, controllerInstantiator);
     }
 
     // loadable - defaults
     /// @return the [Localizer] to be used. Can be added via an [Extension]
-    @NotNull
     public Localizer localizer() {
         return load(Localizer.class, localizer);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
-    @NotNull
     public PermissionsProvider permissionsProvider() {
         return load(PermissionsProvider.class, permissionsProvider);
     }
 
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
-    @NotNull
     public ErrorMessageFactory errorMessageFactory() {
         return load(ErrorMessageFactory.class, errorMessageFactory);
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]
-    @NotNull
     public GuildScopeProvider guildScopeProvider() {
         return load(GuildScopeProvider.class, guildScopeProvider);
     }
 
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
-    @NotNull
     public Descriptor descriptor() {
         return load(Descriptor.class, descriptor);
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
-    @NotNull
     public Collection<ClassFinder> classFinders() {
         Collection<ClassFinder> all = implementations(ClassFinder.class)
                 .stream()
@@ -241,7 +229,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return a [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()]
-    @NotNull
     public ClassFinder mergedClassFinder() {
         Collection<ClassFinder> classFinders = classFinders();
 
@@ -254,7 +241,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
-    @NotNull
     public Collection<Entry<Priority, Middleware>> middlewares() {
         Collection<Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
                 .stream()
@@ -266,7 +252,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [Validator]s to be used. Can be added via an [Extension]
-    @NotNull
     public Map<Class<? extends Annotation>, Validator<?, ?>> validators() {
         Map<Class<? extends Annotation>, Validator<?, ?>> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
@@ -277,7 +262,6 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
-    @NotNull
     @SuppressWarnings("unchecked")
     public Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters() {
         Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> all = implementations(Implementation.TypeAdapterContainer.class)
@@ -288,12 +272,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    @NotNull
     public Embeds embeds() {
         return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
     }
 
-    @NotNull
     public I18n i18n() {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }

@@ -1,5 +1,8 @@
+import org.jspecify.annotations.NullMarked;
+
 /// The base module of jda-commands.
 ///
+@NullMarked
 module io.github.kaktushose.jda.commands.core {
     requires com.fasterxml.jackson.databind;
     requires net.dv8tion.jda;
@@ -8,8 +11,8 @@ module io.github.kaktushose.jda.commands.core {
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
 
-    requires transitive org.jetbrains.annotations;
-    requires transitive org.jspecify;
+    requires org.jspecify;
+    requires org.jetbrains.annotations;
     requires transitive jakarta.inject;
     requires transitive dev.goldmensch.fluava;
 
