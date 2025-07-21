@@ -58,7 +58,7 @@ public class ReflectiveDescriptor implements Descriptor {
     }
 
     private ParameterDescription parameter(Parameter parameter) {
-        Class<?>[] arguments = {};
+        @Nullable Class<?>[] arguments = {};
         if (parameter.getParameterizedType() instanceof ParameterizedType type) {
             arguments = Arrays.stream(type.getActualTypeArguments())
                     .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)

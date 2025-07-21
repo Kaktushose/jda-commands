@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +29,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     ///
     /// @param name    the name of the command
     /// @param command the [SlashCommandDefinition]
-    public TreeNode(String name, @Nullable SlashCommandDefinition command) {
+    public TreeNode(String name, SlashCommandDefinition command) {
         this(name, command, new ArrayList<>());
     }
 

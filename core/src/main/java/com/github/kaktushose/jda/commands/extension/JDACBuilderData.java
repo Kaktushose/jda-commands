@@ -58,15 +58,15 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected ExtensionFilter extensionFilter = new ExtensionFilter(JDACBuilder.FilterStrategy.EXCLUDE, List.of());
 
     // loadable by extension
-    protected InteractionControllerInstantiator controllerInstantiator = null;
+    protected @Nullable InteractionControllerInstantiator controllerInstantiator = null;
 
     protected ExpirationStrategy expirationStrategy = ExpirationStrategy.AFTER_15_MINUTES;
 
-    protected PermissionsProvider permissionsProvider = null;
-    protected ErrorMessageFactory errorMessageFactory = null;
-    protected GuildScopeProvider guildScopeProvider = null;
-    protected Descriptor descriptor = null;
-    protected Localizer localizer = null;
+    protected @Nullable PermissionsProvider permissionsProvider = null;
+    protected @Nullable ErrorMessageFactory errorMessageFactory = null;
+    protected @Nullable GuildScopeProvider guildScopeProvider = null;
+    protected @Nullable Descriptor descriptor = null;
+    protected @Nullable Localizer localizer = null;
 
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;

@@ -30,11 +30,13 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -344,24 +346,27 @@ public sealed class ConfigurableReply permits SendableReply {
     private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
             case Button button -> button.withLabel(localize(button.getLabel(), component));
-            case EntitySelectMenu menu -> {
-                menu.createCopy().setPlaceholder(localize(menu.getPlaceholder(), component));
-                yield menu;
-            }
+            case EntitySelectMenu menu -> (EntitySelectMenu) menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> localize(p, component)));
             case StringSelectMenu menu -> {
                 StringSelectMenu.Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
                         .stream()
-                        .map(option -> option.withDescription(localize(option.getDescription(), component))
+                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> localize(d, component)))
                                 .withLabel(localize(option.getLabel(), component)))
                         .toList();
                 copy.getOptions().clear();
                 copy.addOptions(localized);
-                copy.setPlaceholder(localize(copy.getPlaceholder(), component));
+                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
                 yield copy.build();
             }
             default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
         };
+    }
+
+    @Nullable
+    private <T> T orNull(@Nullable T val, Function<T, T> func) {
+        if (val == null) return null;
+        return func.apply(val);
     }
 
     private String localize(String key, Component<?, ?, ?, ?> component) {

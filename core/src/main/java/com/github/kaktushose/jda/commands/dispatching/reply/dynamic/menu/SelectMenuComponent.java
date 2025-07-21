@@ -20,11 +20,11 @@ public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S
         T extends SelectMenu, B extends SelectMenu.Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
         permits StringSelectComponent, EntitySelectMenuComponent {
 
-    protected String placeholder;
+    protected @Nullable String placeholder;
 
     // wrapper types for nullability (null -> not set)
-    protected Integer minValues;
-    protected Integer maxValues;
+    protected @Nullable Integer minValues;
+    protected @Nullable Integer maxValues;
 
     public SelectMenuComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         super(method, origin, placeholder);

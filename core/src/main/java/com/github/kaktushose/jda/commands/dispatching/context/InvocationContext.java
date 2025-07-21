@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.Error
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import org.jspecify.annotations.Nullable;
+
 import java.util.Optional;
 import java.util.SequencedCollection;
 
@@ -24,11 +26,11 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         KeyValueStore keyValueStore,
         InteractionDefinition definition,
         InteractionDefinition.ReplyConfig replyConfig,
-        SequencedCollection<Object> rawArguments
+        SequencedCollection<@Nullable Object> rawArguments
 ) implements ErrorContext {
 
     /// @return same as [#rawArguments()] but with [Optional]s replaced by `null`
-    public SequencedCollection<Object> arguments() {
+    public SequencedCollection<@Nullable Object> arguments() {
         return rawArguments.stream()
                 .map(arg -> arg instanceof Optional<?> opt ? opt.orElse(null) : arg)
                 .toList();

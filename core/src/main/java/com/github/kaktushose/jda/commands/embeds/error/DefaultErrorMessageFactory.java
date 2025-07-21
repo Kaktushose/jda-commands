@@ -17,10 +17,12 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -40,7 +42,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
         List<OptionMapping> optionMappings = commandOptions
                 .stream()
-                .map(it -> event.getOption(it.name()))
+                .map(it -> Objects.requireNonNull(event.getOption(it.name())))
                 .toList();
 
         String name = "**%s**".formatted(command.displayName());

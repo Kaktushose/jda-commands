@@ -82,7 +82,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     private Function<B, B> callback = Function.identity();
 
     private final String method;
-    private final Class<?> origin;
+    private final @Nullable Class<?> origin;
 
     protected Component(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         this.method = method;
@@ -236,7 +236,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the button
     /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static ButtonComponent button(Class<?> origin, String component, I18n.Entry... placeholder) {
+    public static ButtonComponent button(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
         return new ButtonComponent(component, origin, placeholder);
     }
 
@@ -252,7 +252,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param origin    the [Class] the `menu` is defined in
     /// @param component the name of the method that represents the entity select menu
     /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static EntitySelectMenuComponent entitySelect(Class<?> origin, String component, I18n.Entry... placeholder) {
+    public static EntitySelectMenuComponent entitySelect(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
         return new EntitySelectMenuComponent(component, origin, placeholder);
     }
 
@@ -269,7 +269,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param origin    the [Class] the `component` is defined in
     /// @param component the name of the method that represents the string select menu
     /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static StringSelectComponent stringSelect(Class<?> origin, String component, I18n.Entry... placeholder) {
+    public static StringSelectComponent stringSelect(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
         return new StringSelectComponent(component, origin, placeholder);
     }
 

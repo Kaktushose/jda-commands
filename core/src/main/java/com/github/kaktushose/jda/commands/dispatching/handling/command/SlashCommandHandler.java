@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     @Override
+    @Nullable
     protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = registry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
@@ -62,14 +64,14 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<List<Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
-        List<OptionMapping> optionMappings = command
+    private Optional<List<@Nullable Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
+        List<@Nullable OptionMapping> optionMappings = command
                 .commandOptions()
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
-        List<Object> parsedArguments = new ArrayList<>();
+        List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
         var optionDataDefinitions = List.copyOf(command.commandOptions());

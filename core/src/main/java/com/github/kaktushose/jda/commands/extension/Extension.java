@@ -67,6 +67,7 @@ public interface Extension<T extends Extension.Data> {
     }
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
+    @Nullable
     default Class<T> dataType() {
         return null;
     }

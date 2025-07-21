@@ -11,10 +11,10 @@ import org.jspecify.annotations.Nullable;
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition> {
 
-    private Emoji emoji;
-    private ButtonStyle buttonStyle;
-    private String label;
-    private String url;
+    private @Nullable Emoji emoji;
+    private @Nullable ButtonStyle buttonStyle;
+    private @Nullable String label;
+    private @Nullable String url;
 
     public ButtonComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         super(method, origin, placeholder);

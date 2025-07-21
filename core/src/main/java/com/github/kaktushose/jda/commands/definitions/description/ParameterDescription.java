@@ -19,7 +19,7 @@ public record ParameterDescription(
         String name,
         Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(Class<?> type, Class<?>[] typeArguments, String name, Collection<AnnotationDescription<?>> annotations) {
+    public ParameterDescription(Class<?> type, @Nullable Class<?>[] typeArguments, String name, Collection<AnnotationDescription<?>> annotations) {
         this.type = type;
         this.name = name;
         this.typeArguments = typeArguments;

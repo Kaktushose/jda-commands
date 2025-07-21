@@ -25,6 +25,8 @@ import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
+import org.jspecify.annotations.Nullable;
+
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
@@ -63,7 +65,8 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
-    private Embeds.Configuration embedConfig;
+
+    private Embeds.@Nullable Configuration embedConfig;
 
     JDACBuilder(JDAContext context, Class<?> baseClass, String[] packages) {
         super(baseClass, packages, context);

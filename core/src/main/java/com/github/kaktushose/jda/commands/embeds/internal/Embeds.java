@@ -7,6 +7,8 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.i18n.I18n;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,7 +62,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         private final List<EmbedDataSource> sources;
         private final Map<String, Object> placeholders;
         private final I18n i18n;
-        private EmbedDataSource errorSource;
+        private @Nullable EmbedDataSource errorSource;
 
         /// Constructs a new embed configuration builder.
         public Configuration(I18n i18n) {

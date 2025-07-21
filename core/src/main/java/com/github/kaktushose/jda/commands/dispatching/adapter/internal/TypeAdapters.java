@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.dispatching.adapter.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.proteus.Proteus;
-import io.github.kaktushose.proteus.ProteusBuilder;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.IMentionable;

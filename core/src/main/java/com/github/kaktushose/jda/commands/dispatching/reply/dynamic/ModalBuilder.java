@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.modals.Modal;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ModalBuilder {
     private final CustomId customId;
     private final List<TextInputDefinition> components = new ArrayList<>(MAX_COMPONENTS);
     private final ModalDefinition modalDefinition;
-    private String title;
+    private @Nullable String title;
     private Function<Modal.Builder, Modal.Builder> callback = Function.identity();
 
     /// Constructs a new [ModalBuilder].
