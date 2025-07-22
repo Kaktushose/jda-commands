@@ -50,6 +50,7 @@ public final class JDAContext {
         };
     }
 
+    /// Shutdown the underlying [JDA] or [ShardManager] instance
     public void shutdown() {
         switch (context) {
             case ShardManager manager -> manager.shutdown();
