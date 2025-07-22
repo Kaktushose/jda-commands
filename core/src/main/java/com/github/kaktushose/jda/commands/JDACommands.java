@@ -48,7 +48,18 @@ public final class JDACommands {
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
 
-    JDACommands(JDAContext jdaContext, ExpirationStrategy expirationStrategy, TypeAdapters typeAdapters, Middlewares middlewares, ErrorMessageFactory errorMessageFactory, GuildScopeProvider guildScopeProvider, InteractionRegistry interactionRegistry, InteractionControllerInstantiator instanceProvider, InteractionDefinition.ReplyConfig globalReplyConfig, CommandDefinition.CommandConfig globalCommandConfig, I18n i18n, Embeds embeds) {
+    JDACommands(JDAContext jdaContext,
+                ExpirationStrategy expirationStrategy,
+                TypeAdapters typeAdapters,
+                Middlewares middlewares,
+                ErrorMessageFactory errorMessageFactory,
+                GuildScopeProvider guildScopeProvider,
+                InteractionRegistry interactionRegistry,
+                InteractionControllerInstantiator instanceProvider,
+                InteractionDefinition.ReplyConfig globalReplyConfig,
+                CommandDefinition.CommandConfig globalCommandConfig,
+                I18n i18n,
+                Embeds embeds) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
