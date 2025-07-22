@@ -88,7 +88,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                 Found multiple slash commands named "%s". Please remove or change one to make them unique again!
                     -> %s.%s
                     -> %s.%s
-                Dropped both commands to prevent unexpected behaviour."""
+                Stopped start of JDA-Commands."""
                 .formatted(
                         duplicate.displayName(),
                         duplicate.classDescription().name(),

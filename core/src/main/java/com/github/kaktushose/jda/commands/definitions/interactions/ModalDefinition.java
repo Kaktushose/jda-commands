@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -55,7 +56,7 @@ public record ModalDefinition(
             log.error("An error has occurred! Skipping Modal {}.{}:",
                     method.declaringClass().getName(),
                     method.name(),
-                    new IllegalArgumentException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
+                    new JDACException.InvalidDeclaration("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
             return Optional.empty();
         }
 
@@ -73,7 +74,7 @@ public record ModalDefinition(
             log.error("An error has occurred! Skipping Modal {}.{}:",
                     method.declaringClass().getName(),
                     method.name(),
-                    new IllegalArgumentException("Modals need at least one valid TextInput"));
+                    new JDACException.InvalidDeclaration("Modals need at least one valid TextInput"));
             return Optional.empty();
         }
 

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
@@ -177,7 +178,7 @@ public record OptionDataDefinition(
         if (type.equals(Optional.class)) {
             Class<?> unwrapped = description.typeArguments()[0];
             if (unwrapped == null) {
-                throw new IllegalArgumentException("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
+                throw new JDACException.InvalidDeclaration("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
             }
             return unwrapped;
         }
