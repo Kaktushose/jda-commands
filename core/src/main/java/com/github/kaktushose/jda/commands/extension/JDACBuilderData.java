@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.JDACException;
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
@@ -15,9 +14,9 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
@@ -27,8 +26,8 @@ import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,7 +131,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
             var implementations = implementations((Class<? extends ExtensionProvidable>) type);
 
             if (implementations.isEmpty()) {
-                if (!defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                if (!defaults.containsKey(type)) throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
                 return defaults.get(type).get();
             }
 
