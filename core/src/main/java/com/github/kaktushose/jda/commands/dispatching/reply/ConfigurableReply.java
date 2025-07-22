@@ -13,62 +13,97 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonCompon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
-/// Subtype of [MessageReply] that supports adding components to messages and changing the [ReplyConfig].
+/// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
+/// messages and changing the [InteractionDefinition.ReplyConfig].
 ///
 /// ### Example:
 /// ```
 /// @Interaction
 /// public class ExampleCommand {
 ///
-///     @SlashCommand(value = "example command")
-///     public void onCommand(CommandEvent event) {
+///     @SlashCommand(value= "example command")
+///     public void onCommand(CommandEvent event){
 ///         event.with().components(buttons("onButton")).reply("Hello World");
 ///     }
 ///
 ///     @Button("Press me!")
-///     public void onButton(ComponentEvent event) {
+///     public void onButton(ComponentEvent event){
 ///         event.reply("You pressed me!");
 ///     }
 /// }
 /// ```
-public sealed class ConfigurableReply extends MessageReply permits ComponentReply {
+public sealed class ConfigurableReply permits SendableReply {
 
-    protected final InteractionRegistry registry;
-    protected final String runtimeId;
+    private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
+    protected final ReplyAction replyAction;
+    private final GenericInteractionCreateEvent event;
+    private final InteractionDefinition definition;
+    private final I18n i18n;
+    private final Embeds embeds;
+    private final InteractionRegistry registry;
+    private final String runtimeId;
+
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param reply     the underlying [MessageReply]
-    /// @param registry  the corresponding [InteractionRegistry]
-    /// @param runtimeId the corresponding [Runtime]
-    public ConfigurableReply(@NotNull MessageReply reply, @NotNull InteractionRegistry registry, @NotNull String runtimeId) {
-        super(reply);
+    /// @param event       the [GenericInteractionCreateEvent] that should be responded to
+    /// @param definition  the [InteractionDefinition] belonging to the event
+    /// @param i18n        the corresponding [I18n] instance
+    /// @param replyAction the underlying [ReplyAction]
+    /// @param embeds      the corresponding [Embeds] instance
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtimeId   the corresponding [Runtime]
+    public ConfigurableReply(@NotNull GenericInteractionCreateEvent event,
+                             @NotNull InteractionDefinition definition,
+                             @NotNull I18n i18n,
+                             @NotNull ReplyAction replyAction,
+                             @NotNull Embeds embeds,
+                             @NotNull InteractionRegistry registry,
+                             @NotNull String runtimeId) {
+        this.event = event;
+        this.definition = definition;
+        this.i18n = i18n;
+        this.replyAction = replyAction;
+        this.embeds = embeds;
         this.registry = registry;
         this.runtimeId = runtimeId;
     }
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param reply the [ConfigurableReply] to copy
-    public ConfigurableReply(@NotNull ConfigurableReply reply) {
-        super(reply);
-        this.registry = reply.registry;
-        this.runtimeId = reply.runtimeId;
+    /// @param configurableReply the [ConfigurableReply] to copy
+    public ConfigurableReply(@NotNull ConfigurableReply configurableReply) {
+        this.event = configurableReply.event;
+        this.definition = configurableReply.definition;
+        this.i18n = configurableReply.i18n;
+        this.replyAction = configurableReply.replyAction;
+        this.embeds = configurableReply.embeds;
+        this.registry = configurableReply.registry;
+        this.runtimeId = configurableReply.runtimeId;
     }
 
     /// Whether to send ephemeral replies. Default value is `false`.
@@ -85,7 +120,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply ephemeral(boolean ephemeral) {
-        this.ephemeral = ephemeral;
+        replyAction.ephemeral(ephemeral);
         return this;
     }
 
@@ -100,7 +135,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply editReply(boolean editReply) {
-        this.editReply = editReply;
+        replyAction.editReply(editReply);
         return this;
     }
 
@@ -117,7 +152,7 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// @return the current instance for fluent interface
     @NotNull
     public ConfigurableReply keepComponents(boolean keepComponents) {
-        this.keepComponents = keepComponents;
+        replyAction.keepComponents(keepComponents);
         return this;
     }
 
@@ -125,22 +160,89 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     /// [#keepComponents(boolean)] `true`.
     @NotNull
     public ConfigurableReply keepSelections(boolean keepSelections) {
-        this.keepSelections = keepSelections;
+        replyAction.keepSelections(keepSelections);
         return this;
     }
 
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
     ///
+    /// This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
+    /// are also manipulated by the Reply API, like content or embeds, may lead to unexpected behaviour.
+    ///
     /// ## Example:
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
-    /// ```
-    ///
-    /// @param builder the [MessageCreateBuilder] callback
-    /// @return the current instance for fluent interface
+    ///```
     public ConfigurableReply builder(Consumer<MessageCreateBuilder> builder) {
-        builder.accept(this.builder);
+        replyAction.builder(builder);
         return this;
+    }
+
+    /// Acknowledgement of this event with a text message.
+    ///
+    /// @param message     the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...)]
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
+    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+        return replyAction.reply(message, placeholder);
+    }
+
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// Resolves the [Embed]s based on the given names. See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the name of the [Embed]s to send
+    /// @return a new [SendableReply]
+    @NotNull
+    public SendableReply embeds(String... embeds) {
+        return embeds(Arrays.stream(embeds).map(it -> this.embeds.get(it, event.getUserLocale().toLocale())).toArray(Embed[]::new));
+    }
+
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the [Embed]s to send
+    /// @return a new [SendableReply]
+    @NotNull
+    public SendableReply embeds(Embed... embeds) {
+        replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
+        return new SendableReply(this);
+    }
+
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed    the name of the [Embed] to send
+    /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
+    /// @return a new [SendableReply]
+    @NotNull
+    public SendableReply embeds(String embed, Consumer<Embed> consumer) {
+        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        consumer.accept(resolved);
+        replyAction.addEmbeds(resolved.build());
+        return new SendableReply(this);
+    }
+
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed   the name of the [Embed] to send
+    /// @param entry the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @return a new [SendableReply]
+    @NotNull
+    public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {
+        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        resolved.placeholders(entry).placeholders(entries);
+        replyAction.addEmbeds(resolved.build());
+        return new SendableReply(this);
     }
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
@@ -152,24 +254,24 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    /// @Interaction
-    /// public class ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///     @SlashCommand(value = "example command")
-    ///     public void onCommand(CommandEvent event) {
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
     ///         event.with().components("onButton").reply("Hello World");
     ///     }
     ///
-    ///     @Button("Press me!")
-    ///     public void onButton(ComponentEvent event) {
+    ///     @Button("Pressme!")
+    ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }
-    /// }
-    /// ```
+    ///  }
+    ///```
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
     @NotNull
-    public ComponentReply components(@NotNull String... components) {
+    public SendableReply components(@NotNull String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
@@ -178,32 +280,32 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
     ///
     /// ### Example:
     /// ```
-    /// @Interaction
-    /// public class ExampleCommand {
+    ///  @Interaction
+    ///  public class ExampleCommand {
     ///
-    ///     @SlashCommand(value = "example command")
-    ///     public void onCommand(CommandEvent event) {
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
     ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
     ///     }
     ///
     ///     @Button("Press me!")
-    ///     public void onButton(ComponentEvent event) {
+    ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }
-    /// }
-    /// ```
+    ///  }
+    ///```
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     @NotNull
-    public final ComponentReply components(@NotNull Component<?, ?, ?, ?>... components) {
+    public SendableReply components(@NotNull Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
                     .orElseGet(() -> definition.methodDescription().declaringClass().getName());
             String definitionId = String.valueOf((className + component.name()).hashCode());
 
-            if (builder.getComponents()
+            if (replyAction.components()
                     .stream()
                     .flatMap(itemComponents -> itemComponents.getActionComponents().stream())
                     .map(ActionComponent::getId)
@@ -230,10 +332,14 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
 
             item = switch (component) {
                 case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
-                case EntitySelectMenuComponent entitySelectMenuComponent -> entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
-                case StringSelectComponent stringSelectComponent -> stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
+                case EntitySelectMenuComponent entitySelectMenuComponent ->
+                        entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
+                case StringSelectComponent stringSelectComponent ->
+                        stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
                 case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
             };
+
+            item = localize(item, component);
 
             items.add(item);
 
@@ -241,10 +347,36 @@ public sealed class ConfigurableReply extends MessageReply permits ComponentRepl
         }
 
         if (!items.isEmpty()) {
-            builder.addComponents(ActionRow.of(items));
+            replyAction.addComponents(ActionRow.of(items));
         }
+        return new SendableReply(this);
+    }
 
-        return new ComponentReply(this);
+    private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {
+        return switch (item) {
+            case Button button -> button.withLabel(localize(button.getLabel(), component));
+            case EntitySelectMenu menu -> {
+                menu.createCopy().setPlaceholder(localize(menu.getPlaceholder(), component));
+                yield menu;
+            }
+            case StringSelectMenu menu -> {
+                StringSelectMenu.Builder copy = menu.createCopy();
+                List<SelectOption> localized = copy.getOptions()
+                        .stream()
+                        .map(option -> option.withDescription(localize(option.getDescription(), component))
+                                .withLabel(localize(option.getLabel(), component)))
+                        .toList();
+                copy.getOptions().clear();
+                copy.addOptions(localized);
+                copy.setPlaceholder(localize(copy.getPlaceholder(), component));
+                yield copy.build();
+            }
+            default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
+        };
+    }
+
+    private String localize(String key, Component<?, ?, ?, ?> component) {
+        return i18n.localize(event.getUserLocale().toLocale(), key, component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId) {

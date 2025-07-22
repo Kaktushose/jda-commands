@@ -2,22 +2,27 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-com-google-code-gson-gson = "2.10.1"
+com-fasterxml-jackson-core = "2.17.2"
 net-dv8tion-jda = "5.5.1"
 org-jetbrains-annotations = "24.0.1"
-org-junit-jupiter-junit-jupiter-api = "5.9.2"
-org-junit-jupiter-junit-jupiter-engine = "5.9.2"
 org-reflections-reflections = "0.10.2"
-org-slf4j-slf4j-api = "2.0.5"
+org-slf4j-slf4j = "2.0.5"
 com-google-inject-guice = "7.0.0"
+dev-goldmensch-fluava = "0.2.0"
+org-junit-jupiter = "5.13.0"
+org-mockito = "5.18.0"
 
 
 [libraries]
-com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
+com-fasterxml-jackson-core = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "com-fasterxml-jackson-core" }
 net-dv8tion-jda = { module = "net.dv8tion:JDA", version.ref = "net-dv8tion-jda" }
 org-jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "org-jetbrains-annotations" }
-org-junit-jupiter-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "org-junit-jupiter-junit-jupiter-api" }
-org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "org-junit-jupiter-junit-jupiter-engine" }
+org-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "org-junit-jupiter" }
+org-mockito-core = { module = "org.mockito:mockito-core", version.ref = "org-mockito" }
+org-mockito-junit = { module = "org.mockito:mockito-junit-jupiter", version.ref = "org-mockito" }
 org-reflections-reflections = { module = "org.reflections:reflections", version.ref = "org-reflections-reflections" }
-org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
+org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j" }
+org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org-slf4j-slf4j" }
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
+io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
+dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }

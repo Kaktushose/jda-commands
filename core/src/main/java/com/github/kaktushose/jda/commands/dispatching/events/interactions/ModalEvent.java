@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -18,17 +19,19 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event       the [GenericCommandInteractionEvent] this event holds
-    /// @param registry    the corresponding [InteractionRegistry]
-    /// @param runtime     the corresponding [Runtime]
-    /// @param definition  the corresponding [InteractionDefinition]
+    /// @param event      the [GenericCommandInteractionEvent] this event holds
+    /// @param registry   the corresponding [InteractionRegistry]
+    /// @param runtime    the corresponding [Runtime]
+    /// @param definition the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
+    /// @param embeds     the corresponding [Embeds]
     public ModalEvent(@NotNull ModalInteractionEvent event,
                       @NotNull InteractionRegistry registry,
                       @NotNull Runtime runtime,
                       @NotNull InteractionDefinition definition,
-                      @NotNull InteractionDefinition.ReplyConfig replyConfig) {
-        super(event, registry, runtime, definition, replyConfig);
+                      @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                      @NotNull Embeds embeds) {
+        super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
     @Override

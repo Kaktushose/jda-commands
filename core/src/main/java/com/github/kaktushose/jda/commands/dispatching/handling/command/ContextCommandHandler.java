@@ -30,8 +30,8 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
 
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
 
-        return new InvocationContext<>(event, runtime.keyValueStore(), command, replyConfig,
-                List.of(new CommandEvent(event, registry, runtime, command, replyConfig), event.getTarget())
+        return new InvocationContext<>(event, runtime.i18n(), runtime.keyValueStore(), command, replyConfig,
+                List.of(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()), event.getTarget())
         );
     }
 }

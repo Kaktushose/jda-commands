@@ -13,24 +13,29 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.MessageReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.Reply;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.MessageCreateDataReply;
-import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.EmbedBuilder;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.Reply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
+
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
@@ -53,6 +58,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
     protected final InteractionDefinition definition;
     private final InteractionDefinition.ReplyConfig replyConfig;
+    private final Embeds embeds;
 
     /// Constructs a new ReplyableEvent.
     ///
@@ -60,15 +66,17 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
-    /// @param replyConfig         the [InteractionDefinition.ReplyConfig] to use
+    /// @param embeds              the corresponding [Embeds]
     protected ReplyableEvent(T event,
                              InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig replyConfig) {
+                             InteractionDefinition.ReplyConfig replyConfig,
+                             Embeds embeds) {
         super(event, interactionRegistry, runtime);
         this.replyConfig = replyConfig;
         this.definition = definition;
+        this.embeds = embeds;
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -176,6 +184,33 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
+    /// Gets an [Embed] based on the given name.
+    ///
+    /// Use [#findEmbed(String)] if you cannot ensure that the [Embed] exists.
+    ///
+    /// @param name the name of the [Embed]
+    ///
+    /// @return the [Embed]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    @NotNull
+    public Embed embed(@NotNull String name) {
+        return embeds.get(name, event.getUserLocale().toLocale());
+    }
+
+    /// Gets an [Embed] based on the given name and wraps it in an [Optional].
+    ///
+    /// Use this instead of [#embed(String)] if you cannot ensure that the [Embed] exists.
+    ///
+    /// @param name the name of the [Embed]
+    /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
+    @NotNull
+    public Optional<Embed> findEmbed(@NotNull String name) {
+        if (!embeds.exists(name)) {
+            return Optional.empty();
+        }
+        return Optional.of(embeds.get(name));
+    }
+
     /// Entry point for configuring a reply.
     ///
     /// Returns a new [ConfigurableReply] that can be used to append components or override reply settings.
@@ -184,34 +219,29 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @see ConfigurableReply
     @NotNull
     public ConfigurableReply with() {
-        return new ConfigurableReply(newReply(), registry, runtimeId());
-    }
-
-    /// Acknowledgement of this event with a text message.
-    ///
-    /// @param message the [MessageCreateData] to send
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(@NotNull MessageCreateData message) {
-        log.debug("Reply Debug: Replying only with MessageCreateData. [Runtime={}]", runtimeId());
-        return MessageCreateDataReply.reply(event, definition, replyConfig, message);
+        return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
     }
 
     @NotNull
-    public Message reply(@NotNull String message) {
-        return newReply().reply(message);
+    @Override
+    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+        return newReply().reply(message, placeholder);
     }
 
     @NotNull
-    public Message reply(@NotNull EmbedBuilder builder) {
-        return newReply().reply(builder);
+    @Override
+    public Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional) {
+        return newReply().reply(first, additional);
     }
 
-    private MessageReply newReply() {
+    @NotNull
+    @Override
+    public Message reply(@NotNull MessageCreateData data) {
+        return newReply().reply(data);
+    }
+
+    private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new MessageReply(event, definition, replyConfig);
+        return new ReplyAction(event, definition, i18n(), replyConfig);
     }
 }

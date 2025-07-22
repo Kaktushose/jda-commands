@@ -2,11 +2,11 @@ package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.JDACException;
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
@@ -15,22 +15,28 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
+import io.github.kaktushose.proteus.type.Type;
+import dev.goldmensch.fluava.Fluava;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
@@ -62,18 +68,20 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected ErrorMessageFactory errorMessageFactory = null;
     protected GuildScopeProvider guildScopeProvider = null;
     protected Descriptor descriptor = null;
+    protected Localizer localizer = null;
 
     // loadable by extensions (addition)
     protected Collection<ClassFinder> classFinders;
-    protected final Set<Map.Entry<Priority, Middleware>> middlewares = new HashSet<>();
-    protected final Map<Class<? extends Annotation>, Validator> validators = new HashMap<>();
-    protected final Map<Class<?>, TypeAdapter<?>> typeAdapters = new HashMap<>();
-
+    protected final Set<Entry<Priority, Middleware>> middlewares = new HashSet<>();
+    protected final Map<Class<? extends Annotation>, Validator<?, ?>> validators = new HashMap<>();
+    protected final Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters = new HashMap<>();
 
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
-    protected LocalizationFunction localizationFunction = ResourceBundleLocalizationFunction.empty().build();
+
+    protected Embeds embeds = null;
+    private I18n i18n = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -99,7 +107,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends ExtensionProvidable> SequencedCollection<Map.Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
+    <T extends ExtensionProvidable> SequencedCollection<Entry<Extension<Extension.Data>, T>> implementations(Class<T> type) {
         return extensions()
                 .stream()
                 .flatMap(extension -> extension.providedImplementations().stream()
@@ -109,28 +117,45 @@ public sealed class JDACBuilderData permits JDACBuilder {
                 ).toList();
     }
 
-    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue, T defaultValue) {
+    private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
+            Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)),
+            PermissionsProvider.class, DefaultPermissionsProvider::new,
+            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds),
+            GuildScopeProvider.class, DefaultGuildScopeProvider::new,
+            Descriptor.class, () -> Descriptor.REFLECTIVE
+    );
+
+    private final ClassValue<Object> loader = new ClassValue<>() {
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Object computeValue(@NotNull Class<?> type) {
+            var implementations = implementations((Class<? extends ExtensionProvidable>) type);
+
+            if (implementations.isEmpty()) {
+                if (!defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                return defaults.get(type).get();
+            }
+
+            if (implementations.size() == 1) {
+                return implementations.getFirst().getValue();
+            }
+
+            String foundImplementations = implementations.stream()
+                    .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.joining(System.lineSeparator()));
+
+            throw new JDACException.Configuration(
+                    "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
+                            .formatted(type, foundImplementations)
+            );
+        }
+    };
+
+
+    @SuppressWarnings("unchecked")
+    private <T extends ExtensionProvidable> T load(Class<T> type, T setValue) {
         if (setValue != null) return setValue;
-
-        var implementations = implementations(type);
-
-        if (implementations.isEmpty()) {
-            if (defaultValue != null) return defaultValue;
-            throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
-        }
-
-        if (implementations.size() == 1) {
-            return implementations.getFirst().getValue();
-        }
-
-        String foundImplementations = implementations.stream()
-                .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
-                .collect(Collectors.joining(System.lineSeparator()));
-
-        throw new JDACException.Configuration(
-                "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
-                        .formatted(type, foundImplementations)
-        );
+        return (T) loader.get(type);
     }
 
     /// the packages provided by the user for classpath scanning
@@ -167,44 +192,43 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return expirationStrategy;
     }
 
-    // will be later loadable
 
-    /// @return the [LocalizationFunction] to be used. Can be added via an [Extension]
-    @NotNull
-    public LocalizationFunction localizationFunction() {
-        return localizationFunction;
-    }
-
-    // loadable
-
+    // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
     @NotNull
     public InteractionControllerInstantiator controllerInstantiator() {
-        return load(InteractionControllerInstantiator.class, controllerInstantiator, null);
+        return load(InteractionControllerInstantiator.class, controllerInstantiator);
+    }
+
+    // loadable - defaults
+    /// @return the [Localizer] to be used. Can be added via an [Extension]
+    @NotNull
+    public Localizer localizer() {
+        return load(Localizer.class, localizer);
     }
 
     /// @return the [PermissionsProvider] to be used. Can be added via an [Extension]
     @NotNull
     public PermissionsProvider permissionsProvider() {
-        return load(PermissionsProvider.class, permissionsProvider, new DefaultPermissionsProvider());
+        return load(PermissionsProvider.class, permissionsProvider);
     }
 
     /// @return the [ErrorMessageFactory] to be used. Can be added via an [Extension]
     @NotNull
     public ErrorMessageFactory errorMessageFactory() {
-        return load(ErrorMessageFactory.class, errorMessageFactory, new DefaultErrorMessageFactory());
+        return load(ErrorMessageFactory.class, errorMessageFactory);
     }
 
     /// @return the [GuildScopeProvider] to be used. Can be added via an [Extension]
     @NotNull
     public GuildScopeProvider guildScopeProvider() {
-        return load(GuildScopeProvider.class, guildScopeProvider, new DefaultGuildScopeProvider());
+        return load(GuildScopeProvider.class, guildScopeProvider);
     }
 
     /// @return the [Descriptor] to be used. Can be added via an [Extension]
     @NotNull
     public Descriptor descriptor() {
-        return load(Descriptor.class, descriptor, new ReflectiveDescriptor());
+        return load(Descriptor.class, descriptor);
     }
 
     /// @return the [ClassFinder]s to be used. Can be added via an [Extension]
@@ -212,7 +236,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     public Collection<ClassFinder> classFinders() {
         Collection<ClassFinder> all = implementations(ClassFinder.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .collect(Collectors.toSet());
         all.addAll(classFinders);
         return all;
@@ -233,10 +257,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [Middleware]s to be used. Can be added via an [Extension]
     @NotNull
-    public Collection<Map.Entry<Priority, Middleware>> middlewares() {
-        Collection<Map.Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
+    public Collection<Entry<Priority, Middleware>> middlewares() {
+        Collection<Entry<Priority, Middleware>> all = implementations(Implementation.MiddlewareContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .map(container -> Map.entry(container.priority(), container.middleware()))
                 .collect(Collectors.toSet());
         all.addAll(middlewares);
@@ -245,10 +269,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [Validator]s to be used. Can be added via an [Extension]
     @NotNull
-    public Map<Class<? extends Annotation>, Validator> validators() {
-        Map<Class<? extends Annotation>, Validator> all = implementations(Implementation.ValidatorContainer.class)
+    public Map<Class<? extends Annotation>, Validator<?, ?>> validators() {
+        Map<Class<? extends Annotation>, Validator<?, ?>> all = implementations(Implementation.ValidatorContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
+                .map(Entry::getValue)
                 .collect(Collectors.toMap(Implementation.ValidatorContainer::annotation, Implementation.ValidatorContainer::validator));
         all.putAll(validators);
         return all;
@@ -256,12 +280,23 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     /// @return the [TypeAdapter]s to be used. Can be added via an [Extension]
     @NotNull
-    public Map<Class<?>, TypeAdapter<?>> typeAdapters() {
-        Map<Class<?>, TypeAdapter<?>> all = implementations(Implementation.TypeAdapterContainer.class)
+    @SuppressWarnings("unchecked")
+    public Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters() {
+        Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> all = implementations(Implementation.TypeAdapterContainer.class)
                 .stream()
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toMap(Implementation.TypeAdapterContainer::type, Implementation.TypeAdapterContainer::adapter));
+                .map(Entry::getValue)
+                .collect(Collectors.toMap((it -> Map.entry(it.source(), it.target())), Implementation.TypeAdapterContainer::adapter));
         all.putAll(typeAdapters);
         return all;
+    }
+
+    @NotNull
+    public Embeds embeds() {
+        return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
+    }
+
+    @NotNull
+    public I18n i18n() {
+        return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
 }

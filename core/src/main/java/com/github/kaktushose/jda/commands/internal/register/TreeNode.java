@@ -48,7 +48,10 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(@NotNull String[] labels, @NotNull SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new JDACException.Internal("Failed to add child command: \"%s\". Cannot add child with empty labels! ", command.displayName());
+            throw new JDACException.Internal(
+                    "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName()) +
+                            "Please report this error to the devs of jda-commands."
+            );
         }
 
         String rootLabel = labels[0];
@@ -62,7 +65,10 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new JDACException.Internal("Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ", command.displayName());
+            throw new JDACException.Internal(
+                    "Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ".formatted(command.displayName()) +
+                            "Please report this error to the devs of jda-commands."
+            );
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
@@ -139,7 +145,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Transforms this TreeNode into [SubcommandData] and adds it to the passed [SubcommandGroupData].
     private void addSubcommandData(SubcommandGroupData group) {
         if (!children.isEmpty()) {
-            throw new JDACException.Internal("Cannot transform node with children to SubcommandData! Please report this error the the devs of jda-commands.");
+            throw new JDACException.Internal("Cannot transform node with children to SubcommandData! Please report this error to the devs of jda-commands.");
         }
         group.addSubcommands(command.toSubcommandData(name));
     }

@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
+import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -80,6 +80,7 @@ public record SlashCommandDefinition(
                         .map(AutoCompleteRule::command)
                         .anyMatch(it -> name.startsWith(it) || it.equals(method.name()))
                 ).toList();
+
         // build option data definitions
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
@@ -90,7 +91,7 @@ public record SlashCommandDefinition(
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
-        commandOptions.forEach(it -> signature.add(it.type()));
+        commandOptions.forEach(it -> signature.add(it.declaredType()));
         if (Helpers.checkSignature(method, signature)) {
             return Optional.empty();
         }
@@ -156,7 +157,7 @@ public record SlashCommandDefinition(
                 .setLocalizationFunction(localizationFunction)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
         commandOptions.forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.type())) {
+            if (CommandEvent.class.isAssignableFrom(parameter.declaredType())) {
                 return;
             }
             command.addOptions(parameter.toJDAEntity());

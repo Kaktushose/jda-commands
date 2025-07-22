@@ -1,0 +1,90 @@
+package com.github.kaktushose.jda.commands.embeds;
+
+import com.github.kaktushose.jda.commands.JDACBuilder.ConfigurationException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
+import net.dv8tion.jda.api.exceptions.ParsingException;
+import net.dv8tion.jda.api.utils.data.DataObject;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Optional;
+
+/// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
+@FunctionalInterface
+public interface EmbedDataSource {
+
+    /// Constructs a new [EmbedDataSource] using a JSON payload as its source.
+    ///
+    /// @param json the JSON payload to retrieve embeds from
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource json(@NotNull String json) {
+        return dataObject(DataObject.fromJson(json));
+    }
+
+    /// Constructs a new [EmbedDataSource] using a JSON file that is located inside the resources folder.
+    ///
+    /// @param resource the [Path] pointing to a JSON file
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource resource(@NotNull String resource) {
+        try (InputStream inputStream = EmbedDataSource.class.getClassLoader().getResourceAsStream(resource)) {
+            if (inputStream == null) {
+                throw new ConfigurationException("Failed to find resource %s".formatted(resource));
+            }
+            return inputStream(inputStream);
+        } catch (IOException e) {
+            throw new ConfigurationException("Failed to open file", e);
+        }
+    }
+
+    /// Constructs a new [EmbedDataSource] using a [Path] pointing to a JSON file as its source.
+    ///
+    /// @param path the [Path] pointing to a JSON file
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource file(@NotNull Path path) {
+        try {
+            return json(Files.readString(path));
+        } catch (IOException e) {
+            throw new ConfigurationException("Failed to open file", e);
+        }
+    }
+
+    /// Constructs a new [EmbedDataSource] using an JSON [InputStream] as its source.
+    ///
+    /// @param inputStream the [InputStream] to retrieve embeds from
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource inputStream(@NotNull InputStream inputStream) {
+        return dataObject(DataObject.fromJson(inputStream));
+    }
+
+    /// Constructs a new [EmbedDataSource] using a [DataObject] as its source.
+    ///
+    /// @param dataObject the [DataObject] to retrieve embeds from
+    /// @return a new [EmbedDataSource]
+    @NotNull
+    static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
+        return (embed, placeholders, i18n) -> {
+            if (!dataObject.hasKey(embed)) {
+                return Optional.empty();
+            }
+            return Optional.of(new Embed(dataObject.getObject(embed), embed, placeholders, i18n));
+        };
+    }
+
+    /// Retrieves an [Embed] based on the given name.
+    ///
+    /// @param embed        the name of the embed to retrieve
+    /// @param placeholders a [Map] of placeholders to use
+    /// @param i18n         the [I18n] instance to use
+    /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
+    /// if no embed was found for the given name
+    /// @throws ParsingException If the embed json is incorrect
+    @NotNull Optional<Embed> get(@NotNull String embed, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n);
+}

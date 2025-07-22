@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +20,8 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     private final Set<ChannelType> channelTypes = new HashSet<>();
     private final Set<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
 
-    public EntitySelectMenuComponent(@NotNull String method, @Nullable Class<?> origin) {
-        super(method, origin);
+    public EntitySelectMenuComponent(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+        super(method, origin, placeholder);
     }
 
     /// @see EntitySelectMenu.Builder#setEntityTypes(Collection)

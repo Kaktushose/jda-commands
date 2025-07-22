@@ -38,12 +38,13 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
             case ButtonInteractionEvent _ -> new ArrayList<>();
-            default -> throw new JDACException.Internal("Should not occur. Please report this error the the devs of jda-commands.");
+            default -> throw new JDACException.Internal("Should not occur. Please report this error to the devs of jda-commands.");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig));
+        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
 
         return new InvocationContext<>(
                 genericEvent,
+                dispatchingContext.i18n(),
                 runtime.keyValueStore(),
                 component,
                 replyConfig,

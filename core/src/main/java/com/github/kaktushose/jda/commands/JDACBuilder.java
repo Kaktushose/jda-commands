@@ -14,17 +14,22 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.Consumer;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -60,6 +65,8 @@ import java.util.*;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
+    private Embeds.Configuration embedConfig;
+
     JDACBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
         super(baseClass, packages, context);
     }
@@ -81,10 +88,27 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// @param localizationFunction The [LocalizationFunction] to use
+    /// Configuration step for the Embed API of JDA-Commands.
+    ///
+    /// Use the given [EmbedConfig] to declare placeholders or data sources.
     @NotNull
-    public JDACBuilder localizationFunction(@NotNull LocalizationFunction localizationFunction) {
-        this.localizationFunction = Objects.requireNonNull(localizationFunction);
+    public JDACBuilder embeds(@NotNull Consumer<EmbedConfig> consumer) {
+        // create object on first method call
+        if (embedConfig == null) {
+            embedConfig = new Embeds.Configuration(i18n());
+        }
+        consumer.accept(embedConfig);
+        this.embeds = embedConfig.buildDefault();
+        if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+            errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
+        }
+        return this;
+    }
+
+    /// @param localizer The [Localizer] to use
+    @NotNull
+    public JDACBuilder localizer(@NotNull Localizer localizer) {
+        this.localizer = Objects.requireNonNull(localizer);
         return this;
     }
 
@@ -112,14 +136,16 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// @param type    The type that the given [TypeAdapter] can handle
+    /// @param source  The source type that the given [TypeAdapter] can handle
+    /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     @NotNull
-    public JDACBuilder adapter(@NotNull Class<?> type, @NotNull TypeAdapter<?> adapter) {
-        Objects.requireNonNull(type);
+    public JDACBuilder adapter(@NotNull Class<?> source, @NotNull Class<?> target, @NotNull TypeAdapter<?, ?> adapter) {
+        Objects.requireNonNull(source);
+        Objects.requireNonNull(target);
         Objects.requireNonNull(adapter);
 
-        typeAdapters.put(type, adapter);
+        typeAdapters.put(Map.entry(Type.of(source), Type.of(target)), adapter);
         return this;
     }
 
@@ -204,11 +230,12 @@ public final class JDACBuilder extends JDACBuilderData {
                 new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
                 guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), localizationFunction(), descriptor()),
+                new InteractionRegistry(new Validators(validators()), i18n().localizationFunction(), descriptor()),
                 controllerInstantiator(),
                 globalReplyConfig(),
                 globalCommandConfig(),
-                localizationFunction()
+                i18n(),
+                embeds()
         );
         jdaCommands.start(mergedClassFinder(), baseClass(), packages());
         return jdaCommands;

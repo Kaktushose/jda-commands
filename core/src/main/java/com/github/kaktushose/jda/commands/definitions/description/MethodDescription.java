@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.definitions.description;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodType;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.SequencedCollection;
@@ -20,16 +21,21 @@ public record MethodDescription(
         @NotNull Class<?> returnType,
         @NotNull String name,
         @NotNull SequencedCollection<ParameterDescription> parameters,
-        @NotNull Collection<Annotation> annotations,
+        @NotNull Collection<AnnotationDescription<?>> annotations,
         @NotNull Invoker invoker
 ) implements Description {
-    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<Annotation> annotations, @NotNull Invoker invoker) {
+    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Invoker invoker) {
         this.declaringClass = declaringClass;
         this.returnType = returnType;
         this.name = name;
         this.parameters = Collections.unmodifiableSequencedCollection(parameters);
         this.annotations = Collections.unmodifiableCollection(annotations);
         this.invoker = invoker;
+    }
+
+    /// @return the return type and parameters of this method as a [MethodType]
+    public MethodType toMethodType() {
+        return MethodType.methodType(returnType, parameters.stream().map(ParameterDescription::type).toArray(Class[]::new));
     }
 
     @Override

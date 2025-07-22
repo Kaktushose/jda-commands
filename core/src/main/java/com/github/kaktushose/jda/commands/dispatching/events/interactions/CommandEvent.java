@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -22,12 +23,14 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     /// @param runtime     the corresponding [Runtime]
     /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
+    /// @param embeds     the corresponding [Embeds]
     public CommandEvent(@NotNull GenericCommandInteractionEvent event,
                         @NotNull InteractionRegistry registry,
                         @NotNull Runtime runtime,
                         @NotNull InteractionDefinition definition,
-                        @NotNull InteractionDefinition.ReplyConfig replyConfig) {
-        super(event, registry, runtime, definition, replyConfig);
+                        @NotNull InteractionDefinition.ReplyConfig replyConfig,
+                        @NotNull Embeds embeds) {
+        super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
     /// Returns the underlying [GenericCommandInteractionEvent] and casts it to the given type.
