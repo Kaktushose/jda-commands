@@ -47,6 +47,7 @@ public final class JDACommands {
     private final Embeds embeds;
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
+    private final boolean shutdownJDA;
 
     JDACommands(JDAContext jdaContext,
                 ExpirationStrategy expirationStrategy,
@@ -59,7 +60,8 @@ public final class JDACommands {
                 InteractionDefinition.ReplyConfig globalReplyConfig,
                 CommandDefinition.CommandConfig globalCommandConfig,
                 I18n i18n,
-                Embeds embeds) {
+                Embeds embeds,
+                boolean shutdownJDA) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
@@ -67,6 +69,7 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
+        this.shutdownJDA = shutdownJDA;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -109,7 +112,7 @@ public final class JDACommands {
         return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
-    void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
+    void start(ClassFinder classFinder) {
         try {
             log.info("Starting JDA-Commands...");
             interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
@@ -118,6 +121,7 @@ public final class JDACommands {
             jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
             log.info("Finished loading!");
         } catch (Exception e) {
+            shutdown();
             throw JDACException.wrap(e);
         }
 
@@ -129,6 +133,10 @@ public final class JDACommands {
      */
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));
+
+        if (shutdownJDA) {
+            jdaContext.shutdown();
+        }
     }
 
     /// Updates all slash commands that are registered with [CommandScope#GUILD]

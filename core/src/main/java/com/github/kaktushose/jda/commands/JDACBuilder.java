@@ -95,7 +95,13 @@ public final class JDACBuilder extends JDACBuilderData {
         if (embedConfig == null) {
             embedConfig = new Embeds.Configuration(i18n());
         }
-        consumer.accept(embedConfig);
+        try {
+            consumer.accept(embedConfig);
+        } catch (Exception e) {
+            if (shutdownJDA()) context.shutdown();
+            throw e;
+        }
+
         this.embeds = embedConfig.buildDefault();
         if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
             errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
@@ -192,6 +198,15 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// Whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or if
+    /// [JDACommands#shutdown()] is called
+    ///
+    /// @param shutdown whether to shut down the JDA instance, default true
+    public JDACBuilder shutdownJDA(boolean shutdown) {
+        shutdownJDA = shutdown;
+        return this;
+    }
+
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
@@ -220,9 +235,10 @@ public final class JDACBuilder extends JDACBuilderData {
                 globalReplyConfig(),
                 globalCommandConfig(),
                 i18n(),
-                embeds()
+                embeds(),
+                shutdownJDA()
         );
-        jdaCommands.start(mergedClassFinder(), baseClass(), packages());
+        jdaCommands.start(mergedClassFinder());
         return jdaCommands;
     }
 

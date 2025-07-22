@@ -79,6 +79,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
+    protected boolean shutdownJDA = true;
+
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
 
@@ -131,7 +133,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
             var implementations = implementations((Class<? extends ExtensionProvidable>) type);
 
             if (implementations.isEmpty()) {
-                if (!defaults.containsKey(type)) throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
+                if (!defaults.containsKey(type)) {
+                    if (shutdownJDA()) context.shutdown();
+                    throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
+                }
+
                 return defaults.get(type).get();
             }
 
@@ -142,6 +148,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
             String foundImplementations = implementations.stream()
                     .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
                     .collect(Collectors.joining(System.lineSeparator()));
+
+            if (shutdownJDA()) context.shutdown();
 
             throw new JDACException.Configuration(
                     "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
@@ -186,6 +194,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return expirationStrategy;
     }
 
+    /// @return whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or [JDACommands#shutdown()] is called.
+    public boolean shutdownJDA() {
+        return shutdownJDA;
+    }
 
     // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]

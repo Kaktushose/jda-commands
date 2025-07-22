@@ -49,4 +49,12 @@ public final class JDAContext {
                     throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
         };
     }
+
+    public void shutdown() {
+        switch (context) {
+            case ShardManager manager -> manager.shutdown();
+            case JDA jda -> jda.shutdown();
+            default -> throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
+        }
+    }
 }
