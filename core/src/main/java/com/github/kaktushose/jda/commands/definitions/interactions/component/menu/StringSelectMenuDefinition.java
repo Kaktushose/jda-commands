@@ -84,14 +84,11 @@ public record StringSelectMenuDefinition(
 
         Set<MenuOptionDefinition> selectOptions = new HashSet<>();
 
-        method.annotations().stream()
-                .filter(MenuOption.class::isInstance)
-                .map(MenuOption.class::cast)
-                .forEach(it -> selectOptions.add(MenuOptionDefinition.build(it)));
+        method.annotation(MenuOption.class)
+                .ifPresent(it -> selectOptions.add(MenuOptionDefinition.build(it)));
 
-        method.annotations().stream()
-                .filter(MenuOptionContainer.class::isInstance)
-                .map(MenuOptionContainer.class::cast)
+        method.annotation(MenuOptionContainer.class)
+                .stream()
                 .flatMap(it -> Arrays.stream(it.value()))
                 .forEach(it -> selectOptions.add(MenuOptionDefinition.build(it)));
 
