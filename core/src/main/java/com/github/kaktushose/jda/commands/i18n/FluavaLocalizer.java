@@ -1,9 +1,11 @@
 package com.github.kaktushose.jda.commands.i18n;
 
-import dev.goldmensch.fluava.*;
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// The default variant of [Localizer], which implements it with help of the amazing
@@ -39,14 +41,23 @@ public final class FluavaLocalizer implements Localizer {
     ///
     /// @return {@inheritDoc}
     @Override
-    public String localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
+    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
         String formattedKey = key.replace('.', '-');
         String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, formattedKey, arguments);
-        if (result.equals(formattedKey)) {
-            if (fluava.ofMessage(key, locale) instanceof Result.Success<Message>(Message message)) {
-                return message.apply(arguments);
-            }
-        }
-        return result;
+        return result.equals(formattedKey)
+                ? Optional.empty()
+                : Optional.of(result);
+    }
+
+
+    /// {@inheritDoc}
+    ///
+    /// @param locale {@inheritDoc}
+    /// @param arguments {@inheritDoc}
+    /// @param content {@inheritDoc}
+    /// @return {@inheritDoc}
+    @Override
+    public Optional<String> localizeMessage(Locale locale, String content, Map<String, Object> arguments) {
+        return fluava.ofMessage(content, locale).toOptional().map(message -> message.apply(arguments));
     }
 }

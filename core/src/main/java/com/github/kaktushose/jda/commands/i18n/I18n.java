@@ -117,16 +117,26 @@ public class I18n {
     }
 
     // default split (@) is undocumented and will be replaced in the future by solution with ScopedValues
-    public String localize(Locale locale, String key, Map<String, Object> arguments) {
-        String[] split = key.split("#", 2);
-        String bundle = split.length == 2
-                ? split[0].trim()
+    public String localize(Locale locale, String combinedKey, Map<String, Object> arguments) {
+        String[] bundleSplit = combinedKey.split("#", 2);
+        String bundle = bundleSplit.length == 2
+                ? bundleSplit[0].trim()
                 : findBundle();
 
-        String[] defaultSplit = key.split("@", 2);
+        String rawKey = bundleSplit.length == 2
+                ? bundleSplit[1]
+                : bundleSplit[0];
 
-        String localized = localizer.localize(locale, bundle, split[0], arguments);
-        if (defaultSplit.length == 2 && localized.equals(split[0])) return defaultSplit[1];
+        String[] defaultSplit = rawKey.split("@", 2);
+        String key = defaultSplit[0];
+
+        String localized = localizer.localize(locale, bundle, key, arguments)
+                .or(() -> localizer.localizeMessage(locale, key, arguments))
+                .orElse(key);
+
+        // use split message
+        if (defaultSplit.length == 2 && localized.equals(key)) return defaultSplit[1];
+
         return localized;
     }
 
