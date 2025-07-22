@@ -10,12 +10,13 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
     public ModalHandler(DispatchingContext dispatchingContext) {
@@ -23,7 +24,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
     }
 
     @Override
-    protected InvocationContext<ModalInteractionEvent> prepare(@NotNull ModalInteractionEvent event, @NotNull Runtime runtime) {
+    protected InvocationContext<ModalInteractionEvent> prepare(ModalInteractionEvent event, Runtime runtime) {
         var modal = registry.find(ModalDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );

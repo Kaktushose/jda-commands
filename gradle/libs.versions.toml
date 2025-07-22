@@ -26,3 +26,4 @@ org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
 io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }
+org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0"}

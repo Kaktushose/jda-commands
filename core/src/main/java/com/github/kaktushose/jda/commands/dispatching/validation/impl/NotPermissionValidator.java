@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class NotPermissionValidator implements Validator<Member, NotPerm> {
     /// @param context    the corresponding [InvocationContext]
     /// permission
     @Override
-    public void apply(@NotNull Member member, @NotNull NotPerm perm, @NotNull Context context) {
+    public void apply(Member member, NotPerm perm, Context context) {
         Set<Permission> permissions = new HashSet<>();
 
         try {

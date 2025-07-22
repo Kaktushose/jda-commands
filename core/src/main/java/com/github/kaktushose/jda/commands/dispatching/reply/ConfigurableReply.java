@@ -30,12 +30,13 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -77,13 +78,13 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param embeds      the corresponding [Embeds] instance
     /// @param registry    the corresponding [InteractionRegistry]
     /// @param runtimeId   the corresponding [Runtime]
-    public ConfigurableReply(@NotNull GenericInteractionCreateEvent event,
-                             @NotNull InteractionDefinition definition,
-                             @NotNull I18n i18n,
-                             @NotNull ReplyAction replyAction,
-                             @NotNull Embeds embeds,
-                             @NotNull InteractionRegistry registry,
-                             @NotNull String runtimeId) {
+    public ConfigurableReply(GenericInteractionCreateEvent event,
+                             InteractionDefinition definition,
+                             I18n i18n,
+                             ReplyAction replyAction,
+                             Embeds embeds,
+                             InteractionRegistry registry,
+                             String runtimeId) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
@@ -96,7 +97,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// Constructs a new ConfigurableReply.
     ///
     /// @param configurableReply the [ConfigurableReply] to copy
-    public ConfigurableReply(@NotNull ConfigurableReply configurableReply) {
+    public ConfigurableReply(ConfigurableReply configurableReply) {
         this.event = configurableReply.event;
         this.definition = configurableReply.definition;
         this.i18n = configurableReply.i18n;
@@ -118,7 +119,6 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param ephemeral `true` if to send ephemeral replies
     /// @return the current instance for fluent interface
-    @NotNull
     public ConfigurableReply ephemeral(boolean ephemeral) {
         replyAction.ephemeral(ephemeral);
         return this;
@@ -133,7 +133,6 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param editReply `true` if to keep the original components
     /// @return the current instance for fluent interface
-    @NotNull
     public ConfigurableReply editReply(boolean editReply) {
         replyAction.editReply(editReply);
         return this;
@@ -150,7 +149,6 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param keepComponents `true` if to edit the original method
     /// @return the current instance for fluent interface
-    @NotNull
     public ConfigurableReply keepComponents(boolean keepComponents) {
         replyAction.keepComponents(keepComponents);
         return this;
@@ -158,7 +156,6 @@ public sealed class ConfigurableReply permits SendableReply {
 
     /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
     /// [#keepComponents(boolean)] `true`.
-    @NotNull
     public ConfigurableReply keepSelections(boolean keepSelections) {
         replyAction.keepSelections(keepSelections);
         return this;
@@ -187,7 +184,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+    public Message reply(String message, I18n.Entry... placeholder) {
         return replyAction.reply(message, placeholder);
     }
 
@@ -197,7 +194,6 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param embeds the name of the [Embed]s to send
     /// @return a new [SendableReply]
-    @NotNull
     public SendableReply embeds(String... embeds) {
         return embeds(Arrays.stream(embeds).map(it -> this.embeds.get(it, event.getUserLocale().toLocale())).toArray(Embed[]::new));
     }
@@ -208,7 +204,6 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param embeds the [Embed]s to send
     /// @return a new [SendableReply]
-    @NotNull
     public SendableReply embeds(Embed... embeds) {
         replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
         return new SendableReply(this);
@@ -221,7 +216,6 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param embed    the name of the [Embed] to send
     /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
     /// @return a new [SendableReply]
-    @NotNull
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
         Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
         consumer.accept(resolved);
@@ -237,7 +231,6 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param entry the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @return a new [SendableReply]
-    @NotNull
     public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {
         Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
@@ -270,8 +263,7 @@ public sealed class ConfigurableReply permits SendableReply {
     ///```
     /// @param components the name of the components to add
     /// @return the current instance for fluent interface
-    @NotNull
-    public SendableReply components(@NotNull String... components) {
+    public SendableReply components(String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
@@ -297,8 +289,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @see Component
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
-    @NotNull
-    public SendableReply components(@NotNull Component<?, ?, ?, ?>... components) {
+    public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
@@ -355,24 +346,27 @@ public sealed class ConfigurableReply permits SendableReply {
     private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
             case Button button -> button.withLabel(localize(button.getLabel(), component));
-            case EntitySelectMenu menu -> {
-                menu.createCopy().setPlaceholder(localize(menu.getPlaceholder(), component));
-                yield menu;
-            }
+            case EntitySelectMenu menu -> (EntitySelectMenu) menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> localize(p, component)));
             case StringSelectMenu menu -> {
                 StringSelectMenu.Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
                         .stream()
-                        .map(option -> option.withDescription(localize(option.getDescription(), component))
+                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> localize(d, component)))
                                 .withLabel(localize(option.getLabel(), component)))
                         .toList();
                 copy.getOptions().clear();
                 copy.addOptions(localized);
-                copy.setPlaceholder(localize(copy.getPlaceholder(), component));
+                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
                 yield copy.build();
             }
             default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
         };
+    }
+
+    @Nullable
+    private <T> T orNull(@Nullable T val, Function<T, T> func) {
+        if (val == null) return null;
+        return func.apply(val);
     }
 
     private String localize(String key, Component<?, ?, ?, ?> component) {

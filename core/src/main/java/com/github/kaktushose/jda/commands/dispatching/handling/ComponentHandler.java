@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionE
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
     }
 
     @Override
-    protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(@NotNull GenericComponentInteractionCreateEvent genericEvent, @NotNull Runtime runtime) {
+    protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
         var component = registry.find(ComponentDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );

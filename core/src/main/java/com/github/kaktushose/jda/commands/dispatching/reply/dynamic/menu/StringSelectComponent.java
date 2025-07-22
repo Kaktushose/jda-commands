@@ -6,8 +6,7 @@ import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,25 +20,24 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     private final Set<SelectOption> selectOptions = new HashSet<>();
     private final Collection<String> defaultValues = new HashSet<>();
 
-    public StringSelectComponent(@NotNull String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    public StringSelectComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         super(method, origin, placeholder);
     }
 
     /// @see StringSelectMenu.Builder#addOptions(Collection) 
-    public StringSelectComponent selectOptions(@NotNull Collection<SelectOption> selectOptions) {
+    public StringSelectComponent selectOptions(Collection<SelectOption> selectOptions) {
         this.selectOptions.addAll(selectOptions);
         return this;
     }
 
     /// @see StringSelectMenu.Builder#addOptions(SelectOption...) 
-    public StringSelectComponent selectOptions(@NotNull SelectOption... selectOptions) {
+    public StringSelectComponent selectOptions(SelectOption... selectOptions) {
         selectOptions(Arrays.asList(selectOptions));
         return this;
     }
 
-    /// @see StringSelectMenu.Builder#addOption(String, String, String, Emoji) 
-    @NotNull
-    public StringSelectComponent option(@NotNull String label, @NotNull String value, @Nullable String description, @Nullable Emoji emoji) {
+    /// @see StringSelectMenu.Builder#addOption(String, String, String, Emoji)
+    public StringSelectComponent option(String label, String value, @Nullable String description, @Nullable Emoji emoji) {
         selectOptions.add(SelectOption.of(label, value)
                 .withDescription(description)
                 .withEmoji(emoji)
@@ -47,46 +45,39 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
         return this;
     }
 
-    /// @see StringSelectMenu.Builder#addOption(String, String) 
-    @NotNull
-    public StringSelectComponent option(@NotNull String label, @NotNull String value) {
+    /// @see StringSelectMenu.Builder#addOption(String, String)
+    public StringSelectComponent option(String label, String value) {
         return option(label, value, null, null);
     }
 
-    /// @see StringSelectMenu.Builder#addOption(String, String, Emoji) 
-    @NotNull
-    public StringSelectComponent option(@NotNull String label, @NotNull String value, @NotNull Emoji emoji) {
+    /// @see StringSelectMenu.Builder#addOption(String, String, Emoji)
+    public StringSelectComponent option(String label, String value, Emoji emoji) {
         return option(label, value, null, emoji);
     }
 
     /// @see StringSelectMenu.Builder#addOption(String, String, String)
-    @NotNull
-    public StringSelectComponent option(@NotNull String label, @NotNull String value, @NotNull String description) {
+    public StringSelectComponent option(String label, String value, String description) {
         return option(label, value, description, null);
     }
 
     /// @see StringSelectMenu.Builder#setDefaultValues(Collection)
-    @NotNull
-    public StringSelectComponent defaultValues(@NotNull Collection<String> values) {
+    public StringSelectComponent defaultValues(Collection<String> values) {
         this.defaultValues.addAll(values);
         return this;
     }
 
     /// @see StringSelectMenu.Builder#setDefaultValues(String...)
-    @NotNull
-    public StringSelectComponent defaultValues(@NotNull String... values) {
+    public StringSelectComponent defaultValues(String... values) {
         return defaultValues(Arrays.asList(values));
     }
 
     /// @see StringSelectMenu.Builder#setDefaultOptions(Collection)
-    @NotNull
-    public StringSelectComponent defaultOptions(@NotNull Collection<? extends SelectOption> values) {
+    public StringSelectComponent defaultOptions(Collection<? extends SelectOption> values) {
         return defaultValues(values.stream().map(SelectOption::getValue).collect(Collectors.toSet()));
     }
 
     /// @see StringSelectMenu.Builder#setDefaultValues(String...)
-    @NotNull
-    public StringSelectComponent defaultOptions(@NotNull SelectOption... values) {
+    public StringSelectComponent defaultOptions(SelectOption... values) {
         return defaultOptions(Arrays.asList(values));
     }
 

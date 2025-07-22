@@ -13,7 +13,6 @@ import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -43,13 +42,13 @@ import java.util.stream.Stream;
 /// @param supplier the [Function] used to retrieve instances of the custom implementation
 /// @see Extension
 public record Implementation<T extends Implementation.ExtensionProvidable>(
-        @NotNull Class<T> type,
-        @NotNull Function<@NotNull JDACBuilderData, @NotNull SequencedCollection<@NotNull T>> supplier
+        Class<T> type,
+        Function<JDACBuilderData, SequencedCollection<T>> supplier
 ) {
 
-    public static <T extends ExtensionProvidable> Implementation<T> single(@NotNull Class<T> type,
-                                                                           @NotNull Function<@NotNull JDACBuilderData,
-                                                                           @NotNull T> supplier) {
+    public static <T extends ExtensionProvidable> Implementation<T> single(Class<T> type,
+                                                                           Function<JDACBuilderData,
+                                                                           T> supplier) {
         return new Implementation<>(type, (builder -> List.of(supplier.apply(builder))));
     }
 
@@ -118,23 +117,23 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
     /// @param adapter the [TypeAdapter] implementation
     /// @param <S>    the source type
     /// @param <T>    the target type
-    public record TypeAdapterContainer<S, T>(@NotNull Type<S> source,
-                                             @NotNull Type<T> target,
-                                             @NotNull TypeAdapter<S, T> adapter) implements ProvidableContainer {}
+    public record TypeAdapterContainer<S, T>(Type<S> source,
+                                             Type<T> target,
+                                             TypeAdapter<S, T> adapter) implements ProvidableContainer {}
 
     /// A container type for providing [Middleware]s.
     ///
     /// @param priority   the [Priority] with which the [Middleware] should be registered
     /// @param middleware the [Middleware] implementation
-    public record MiddlewareContainer(@NotNull Priority priority,
-                                      @NotNull Middleware middleware) implements ProvidableContainer {}
+    public record MiddlewareContainer(Priority priority,
+                                      Middleware middleware) implements ProvidableContainer {}
 
     /// A container type for providing [Validator]s.
     ///
     /// @param annotation the [Annotation] for which the [Validator] should be registered
     /// @param validator  the [Validator] implementation
-    public record ValidatorContainer(@NotNull Class<? extends Annotation> annotation,
-                                     @NotNull Validator<?, ?> validator) implements ProvidableContainer {}
+    public record ValidatorContainer(Class<? extends Annotation> annotation,
+                                     Validator<?, ?> validator) implements ProvidableContainer {}
 
     private record GraphEntry(Class<?> extension, Class<?> provides) {}
 }

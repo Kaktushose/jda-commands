@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
-import org.jetbrains.annotations.NotNull;
 
 /// Indicates that the implementing [Definition] can be transformed into a JDA entity that has a [CustomId].
 ///
@@ -21,7 +20,7 @@ public sealed interface CustomIdJDAEntity<T> extends Definition permits Componen
     ///
     /// @param customId the [CustomId] to use to build this JDA entity
     /// @return a JDA entity of type [T]
-    @NotNull
-    T toJDAEntity(@NotNull CustomId customId);
+    
+    T toJDAEntity(CustomId customId);
 
 }

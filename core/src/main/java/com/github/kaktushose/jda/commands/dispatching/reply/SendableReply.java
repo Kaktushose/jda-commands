@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
-import org.jetbrains.annotations.NotNull;
 
 /// Subtype of [ConfigurableReply] that allows replying without message content ([#reply()]).
 public final class SendableReply extends ConfigurableReply {
@@ -12,7 +11,7 @@ public final class SendableReply extends ConfigurableReply {
     /// Constructs a new SendableReply.
     ///
     /// @param reply the underlying [ConfigurableReply]
-    public SendableReply(@NotNull ConfigurableReply reply) {
+    public SendableReply(ConfigurableReply reply) {
         super(reply);
     }
 

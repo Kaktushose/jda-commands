@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,9 +14,9 @@ import java.util.stream.Collectors;
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param rules          the rules this autocomplete handler can handle
-public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
-                                     @NotNull MethodDescription methodDescription,
-                                     @NotNull Set<AutoCompleteRule> rules)
+public record AutoCompleteDefinition(ClassDescription classDescription,
+                                     MethodDescription methodDescription,
+                                     Set<AutoCompleteRule> rules)
         implements InteractionDefinition {
 
     /// Representation of an auto complete rule.
@@ -25,15 +24,15 @@ public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
     /// @param command the name of the slash command or the name of the method handling the command
     /// @param options a possibly-empty Set of the names of the options the auto complete should exclusively handle. If
     ///                                                                                                                                        empty, the auto complete will handle every option of the given command.
-    public record AutoCompleteRule(@NotNull String command, @NotNull Set<String> options) {}
+    public record AutoCompleteRule(String command, Set<String> options) {}
 
     /// Builds a new [AutoCompleteDefinition] from the given class and method description.
     ///
     /// @param clazz  the corresponding [ClassDescription]
     /// @param method the corresponding [MethodDescription]
     /// @return an [Optional] holding the [AutoCompleteDefinition]
-    @NotNull
-    public static Optional<AutoCompleteDefinition> build(@NotNull ClassDescription clazz, @NotNull MethodDescription method) {
+    
+    public static Optional<AutoCompleteDefinition> build(ClassDescription clazz, MethodDescription method) {
         if (Helpers.checkSignature(method, List.of(AutoCompleteEvent.class))) {
             return Optional.empty();
         }
@@ -46,13 +45,13 @@ public record AutoCompleteDefinition(@NotNull ClassDescription classDescription,
                 ));
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return "%s.%s".formatted(methodDescription.declaringClass().getName(), methodDescription.name());
     }
 
-    @NotNull
+    
     @Override
     public Collection<String> permissions() {
         return Collections.emptyList();

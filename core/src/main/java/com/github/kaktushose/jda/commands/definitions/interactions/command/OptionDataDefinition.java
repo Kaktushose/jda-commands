@@ -24,8 +24,7 @@ import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.invoke.MethodType;
 import java.util.*;
@@ -44,15 +43,15 @@ import static java.util.Map.entry;
 /// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this command option
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
 public record OptionDataDefinition(
-        @NotNull Class<?> declaredType,
-        @NotNull Class<?> resolvedType,
-        @NotNull OptionType optionType,
+        Class<?> declaredType,
+        Class<?> resolvedType,
+        OptionType optionType,
         boolean optional,
         @Nullable AutoCompleteDefinition autoComplete,
-        @NotNull String name,
-        @NotNull String description,
-        @NotNull SequencedCollection<Command.Choice> choices,
-        @NotNull Collection<ConstraintDefinition> constraints
+        String name,
+        String description,
+        SequencedCollection<Command.Choice> choices,
+        Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
 
@@ -111,10 +110,9 @@ public record OptionDataDefinition(
     /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
     /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
-    @NotNull
-    public static OptionDataDefinition build(@NotNull ParameterDescription parameter,
+    public static OptionDataDefinition build(ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
-                                             @NotNull Validators validatorRegistry) {
+                                             Validators validatorRegistry) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
         // index constraints
@@ -187,7 +185,6 @@ public record OptionDataDefinition(
         return MethodType.methodType(type).wrap().returnType();
     }
 
-    @NotNull
     @Override
     public String displayName() {
         return name;
@@ -196,7 +193,6 @@ public record OptionDataDefinition(
     /// Transforms this definition into [OptionData].
     ///
     /// @return the [OptionData]
-    @NotNull
     @Override
     public OptionData toJDAEntity() {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
@@ -240,7 +236,6 @@ public record OptionDataDefinition(
     /// @param annotation the corresponding annotation object
     public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
 
-        @NotNull
         @Override
         public String displayName() {
             return validator.getClass().getName();

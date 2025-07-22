@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,13 +12,13 @@ import java.util.Collections;
 /// @param annotations a [Collection] of all [Annotation]s this class is annotated with
 /// @param methods     a [Collection] of all the public [`methods`][MethodDescription] of this class
 public record ClassDescription(
-        @NotNull Class<?> clazz,
-        @NotNull String name,
-        @NotNull PackageDescription packageDescription,
-        @NotNull Collection<AnnotationDescription<?>> annotations,
-        @NotNull Collection<MethodDescription> methods
+        Class<?> clazz,
+        String name,
+        PackageDescription packageDescription,
+        Collection<AnnotationDescription<?>> annotations,
+        Collection<MethodDescription> methods
 ) implements Description {
-    public ClassDescription(@NotNull Class<?> clazz, @NotNull String name, @NotNull PackageDescription packageDescription, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Collection<MethodDescription> methods) {
+    public ClassDescription(Class<?> clazz, String name, PackageDescription packageDescription, Collection<AnnotationDescription<?>> annotations, Collection<MethodDescription> methods) {
         this.clazz = clazz;
         this.name = name;
         this.packageDescription = packageDescription;

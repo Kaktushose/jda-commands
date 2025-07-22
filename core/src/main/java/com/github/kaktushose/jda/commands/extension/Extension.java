@@ -3,8 +3,7 @@ package com.github.kaktushose.jda.commands.extension;
 import com.github.kaktushose.jda.commands.JDACBuilder;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.List;
 ///     }
 ///
 ///     @Override
-///     public @NotNull Collection<Implementation<?>> providedImplementations() {
+///     public Collection<Implementation<?>> providedImplementations() {
 ///         return List.of(new Implementation<>(
 ///                 InteractionClassProvider.class,
 ///                 _ -> new CustomInteractionClassProvider(this))
@@ -43,7 +42,7 @@ import java.util.List;
 ///     }
 ///
 ///     @Override
-///     public @NotNull Class<GuiceExtensionData> dataType() {
+///     public Class<GuiceExtensionData> dataType() {
 ///         return DIExtensionData.class;
 ///     }
 /// }
@@ -62,12 +61,13 @@ public interface Extension<T extends Extension.Data> {
     /// @return a collection of [Implementation]s
     /// @implNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
     /// is important, you should always return the same instance.
-    @NotNull
-    default Collection<@NotNull Implementation<?>> providedImplementations() {
+    
+    default Collection<Implementation<?>> providedImplementations() {
         return List.of();
     }
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
+    @Nullable
     default Class<T> dataType() {
         return null;
     }

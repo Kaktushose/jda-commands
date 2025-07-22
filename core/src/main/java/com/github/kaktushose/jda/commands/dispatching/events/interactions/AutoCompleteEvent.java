@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,9 +24,9 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// @param event    the [CommandAutoCompleteInteractionEvent] this event holds
     /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime  the corresponding [Runtime]
-    public AutoCompleteEvent(@NotNull CommandAutoCompleteInteractionEvent event,
-                             @NotNull InteractionRegistry registry,
-                             @NotNull Runtime runtime) {
+    public AutoCompleteEvent(CommandAutoCompleteInteractionEvent event,
+                             InteractionRegistry registry,
+                             Runtime runtime) {
         super(event, registry, runtime);
     }
 
@@ -46,7 +45,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *
      *                                  </ul>
      */
-    public void replyChoices(@NotNull Collection<Command.Choice> choices) {
+    public void replyChoices(Collection<Command.Choice> choices) {
         event.replyChoices(choices).queue();
     }
 
@@ -64,7 +63,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the string value of any of the choices is empty or longer than {@value OptionData#MAX_CHOICE_VALUE_LENGTH}</li>
      *                                  </ul>
      */
-    public void replyChoices(@NotNull Command.Choice... choices) {
+    public void replyChoices(Command.Choice... choices) {
         replyChoices(Arrays.asList(choices));
     }
 
@@ -82,7 +81,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the string value of any of the choices is empty or longer than {@value OptionData#MAX_CHOICE_VALUE_LENGTH}</li>
      *                                  </ul>
      */
-    public void replyChoice(@NotNull String name, @NotNull String value) {
+    public void replyChoice(String name, String value) {
         replyChoices(new Command.Choice(name, value));
     }
 
@@ -100,7 +99,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the value of is not between {@value OptionData#MIN_NEGATIVE_NUMBER} and {@value OptionData#MAX_POSITIVE_NUMBER}</li>
      *                                  </ul>
      */
-    public void replyChoice(@NotNull String name, long value) {
+    public void replyChoice(String name, long value) {
         replyChoices(new Command.Choice(name, value));
     }
 
@@ -118,7 +117,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the value of is not between {@value OptionData#MIN_NEGATIVE_NUMBER} and {@value OptionData#MAX_POSITIVE_NUMBER}</li>
      *                                  </ul>
      */
-    public void replyChoice(@NotNull String name, double value) {
+    public void replyChoice(String name, double value) {
         replyChoices(new Command.Choice(name, value));
     }
 
@@ -136,7 +135,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the string value of any of the choices is empty or longer than {@value OptionData#MAX_CHOICE_VALUE_LENGTH}</li>
      *                                  </ul>
      */
-    public void replyChoiceStrings(@NotNull String... choices) {
+    public void replyChoiceStrings(String... choices) {
         replyChoices(Arrays.stream(choices).map(it -> new Command.Choice(it, it)).collect(Collectors.toList()));
     }
 
@@ -154,7 +153,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the string value of any of the choices is empty or longer than {@value OptionData#MAX_CHOICE_VALUE_LENGTH}</li>
      *                                  </ul>
      */
-    public void replyChoiceStrings(@NotNull Collection<String> choices) {
+    public void replyChoiceStrings(Collection<String> choices) {
         replyChoices(choices.stream().map(it -> new Command.Choice(it, it)).collect(Collectors.toList()));
     }
 
@@ -190,7 +189,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  <li>If the numeric value of any of the choices is not between {@value OptionData#MIN_NEGATIVE_NUMBER} and {@value OptionData#MAX_POSITIVE_NUMBER}</li>
      *                                  </ul>
      */
-    public void replyChoiceLongs(@NotNull Collection<Long> choices) {
+    public void replyChoiceLongs(Collection<Long> choices) {
         replyChoices(choices.stream().map(it -> new Command.Choice(String.valueOf(it), it)).collect(Collectors.toList()));
     }
 
@@ -228,14 +227,14 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  </ul>
      */
 
-    public void replyChoiceDoubles(@NotNull Collection<Double> choices) {
+    public void replyChoiceDoubles(Collection<Double> choices) {
         replyChoices(choices.stream().map(it -> new Command.Choice(String.valueOf(it), it)).collect(Collectors.toList()));
     }
 
     /// The name of the input field, usually an option name in [CommandAutoCompleteInteraction].
     ///
     /// @return The option name
-    @NotNull
+    
     public String getName() {
         return event.getFocusedOption().getName();
     }
@@ -246,7 +245,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// For instance, a user may input invalid numbers for [OptionType#NUMBER].
     ///
     /// @return The current auto-completable query value
-    @NotNull
+    
     public String getValue() {
         return event.getFocusedOption().getValue();
     }
@@ -254,7 +253,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// The expected option type for this query.
     ///
     /// @return The option type expected from this auto-complete response
-    @NotNull
+    
     public OptionType getOptionType() {
         return event.getFocusedOption().getType();
     }

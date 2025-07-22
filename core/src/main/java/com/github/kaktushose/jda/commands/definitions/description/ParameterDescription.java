@@ -1,9 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,12 +14,12 @@ import java.util.Collections;
 ///        They only represent the first layer and are all raw types represented as [Class] instances or null if wildcard/no class.
 /// @param annotations a [Collection] of all [AnnotationDescription]s this parameter is annotated with
 public record ParameterDescription(
-        @NotNull Class<?> type,
-        @Nullable Class<?> @NotNull [] typeArguments,
-        @NotNull String name,
-        @NotNull Collection<AnnotationDescription<?>> annotations
+        Class<?> type,
+        @Nullable Class<?> [] typeArguments,
+        String name,
+        Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(@NotNull Class<?> type, @NotNull Class<?>[] typeArguments, @NotNull String name, @NotNull Collection<AnnotationDescription<?>> annotations) {
+    public ParameterDescription(Class<?> type, @Nullable Class<?>[] typeArguments, String name, Collection<AnnotationDescription<?>> annotations) {
         this.type = type;
         this.name = name;
         this.typeArguments = typeArguments;

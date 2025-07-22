@@ -17,8 +17,7 @@ import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteract
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +61,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     }
 
     @Nullable
-    protected abstract InvocationContext<T> prepare(@NotNull T event, @NotNull Runtime runtime);
+    protected abstract InvocationContext<T> prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
@@ -89,8 +88,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         invoke(context, runtime);
     }
 
-    private void invoke(@NotNull InvocationContext<T> invocation, @NotNull Runtime runtime) {
-        SequencedCollection<Object> arguments = invocation.arguments();
+    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
+        SequencedCollection<@Nullable Object> arguments = invocation.arguments();
 
         var definition = invocation.definition();
 

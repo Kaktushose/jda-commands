@@ -23,7 +23,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,10 +53,10 @@ public final class ReplyAction implements Reply {
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
     /// @param i18n        the [I18n] instance to use for localization
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ReplyAction(@NotNull GenericInteractionCreateEvent event,
-                       @NotNull InteractionDefinition definition,
-                       @NotNull I18n i18n,
-                       @NotNull InteractionDefinition.ReplyConfig replyConfig) {
+    public ReplyAction(GenericInteractionCreateEvent event,
+                       InteractionDefinition definition,
+                       I18n i18n,
+                       InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
         this.i18n = i18n;
@@ -68,23 +67,20 @@ public final class ReplyAction implements Reply {
         this.builder = new MessageCreateBuilder();
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull String message, I18n.Entry... placeholder) {
+    public Message reply(String message, I18n.Entry... placeholder) {
         builder.setContent(i18n.localize(event.getUserLocale().toLocale(), message, placeholder));
         return reply();
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional) {
+    public Message reply(MessageEmbed first, MessageEmbed... additional) {
         builder.setEmbeds(Stream.concat(Stream.of(first), Arrays.stream(additional)).toList());
         return reply();
     }
 
-    @NotNull
     @Override
-    public Message reply(@NotNull MessageCreateData data) {
+    public Message reply(MessageCreateData data) {
         builder = MessageCreateBuilder.from(data);
         return reply();
     }
@@ -109,7 +105,6 @@ public final class ReplyAction implements Reply {
         builder.accept(this.builder);
     }
 
-    @NotNull
     public Collection<LayoutComponent> components() {
         return List.copyOf(builder.getComponents());
     }
@@ -122,7 +117,6 @@ public final class ReplyAction implements Reply {
         builder.addEmbeds(embeds);
     }
 
-    @NotNull
     public Message reply() {
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
@@ -190,13 +184,13 @@ public final class ReplyAction implements Reply {
         return components;
     }
 
-    private void deferReply(@NotNull IReplyCallback callback) {
+    private void deferReply(IReplyCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferReply(ephemeral).queue();
         }
     }
 
-    private void deferEdit(@NotNull IMessageEditCallback callback) {
+    private void deferEdit(IMessageEditCallback callback) {
         if (!event.isAcknowledged()) {
             callback.deferEdit().queue();
         }

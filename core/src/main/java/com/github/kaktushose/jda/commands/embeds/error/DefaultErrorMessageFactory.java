@@ -17,12 +17,12 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -35,15 +35,14 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(@NotNull ErrorContext context, @NotNull ConversionResult.Failure<?> failure) {
+    public MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure) {
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
         SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
         List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
         List<OptionMapping> optionMappings = commandOptions
                 .stream()
-                .map(it -> event.getOption(it.name()))
+                .map(it -> Objects.requireNonNull(event.getOption(it.name())))
                 .toList();
 
         String name = "**%s**".formatted(command.displayName());
@@ -94,9 +93,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(@NotNull ErrorContext context) {
+    public MessageCreateData getInsufficientPermissionsMessage(ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -123,9 +121,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
+    
     @Override
-    public MessageCreateData getConstraintFailedMessage(@NotNull ErrorContext context, String message) {
+    public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
         if (embeds.exists("constraintFailed")) {
             return embeds.get("constraintFailed").placeholders(new Entry("message", message)).toMessageCreateData();
         }
@@ -140,9 +138,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
     @Override
-    public MessageCreateData getCooldownMessage(@NotNull ErrorContext context, long ms) {
+    public MessageCreateData getCooldownMessage(ErrorContext context, long ms) {
         long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
         long seconds = secs % 60;
         long minutes = (secs / 60) % 60;
@@ -180,9 +177,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(@NotNull ErrorContext context, @NotNull Throwable exception) {
+    public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
                         "but a \"%s\" occurred. " +
                         "Please refer to the logs for further information.```",
@@ -208,9 +204,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @NotNull
     @Override
-    public MessageCreateData getTimedOutComponentMessage(@NotNull GenericInteractionCreateEvent event) {
+    public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
         if (embeds.exists("unknownInteraction")) {
             return embeds.get("unknownInteraction").toMessageCreateData();
         }

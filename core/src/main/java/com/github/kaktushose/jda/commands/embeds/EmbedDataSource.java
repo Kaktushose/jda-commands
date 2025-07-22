@@ -4,8 +4,6 @@ import com.github.kaktushose.jda.commands.JDACBuilder.ConfigurationException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,8 +19,7 @@ public interface EmbedDataSource {
     ///
     /// @param json the JSON payload to retrieve embeds from
     /// @return a new [EmbedDataSource]
-    @NotNull
-    static EmbedDataSource json(@NotNull String json) {
+    static EmbedDataSource json(String json) {
         return dataObject(DataObject.fromJson(json));
     }
 
@@ -30,8 +27,7 @@ public interface EmbedDataSource {
     ///
     /// @param resource the [Path] pointing to a JSON file
     /// @return a new [EmbedDataSource]
-    @NotNull
-    static EmbedDataSource resource(@NotNull String resource) {
+    static EmbedDataSource resource(String resource) {
         try (InputStream inputStream = EmbedDataSource.class.getClassLoader().getResourceAsStream(resource)) {
             if (inputStream == null) {
                 throw new ConfigurationException("Failed to find resource %s".formatted(resource));
@@ -46,8 +42,7 @@ public interface EmbedDataSource {
     ///
     /// @param path the [Path] pointing to a JSON file
     /// @return a new [EmbedDataSource]
-    @NotNull
-    static EmbedDataSource file(@NotNull Path path) {
+    static EmbedDataSource file(Path path) {
         try {
             return json(Files.readString(path));
         } catch (IOException e) {
@@ -59,8 +54,7 @@ public interface EmbedDataSource {
     ///
     /// @param inputStream the [InputStream] to retrieve embeds from
     /// @return a new [EmbedDataSource]
-    @NotNull
-    static EmbedDataSource inputStream(@NotNull InputStream inputStream) {
+    static EmbedDataSource inputStream(InputStream inputStream) {
         return dataObject(DataObject.fromJson(inputStream));
     }
 
@@ -68,8 +62,7 @@ public interface EmbedDataSource {
     ///
     /// @param dataObject the [DataObject] to retrieve embeds from
     /// @return a new [EmbedDataSource]
-    @NotNull
-    static EmbedDataSource dataObject(@NotNull DataObject dataObject) {
+    static EmbedDataSource dataObject(DataObject dataObject) {
         return (embed, placeholders, i18n) -> {
             if (!dataObject.hasKey(embed)) {
                 return Optional.empty();
@@ -86,5 +79,5 @@ public interface EmbedDataSource {
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    @NotNull Optional<Embed> get(@NotNull String embed, @NotNull Map<String, Object> placeholders, @NotNull I18n i18n);
+    Optional<Embed> get(String embed, Map<String, Object> placeholders, I18n i18n);
 }

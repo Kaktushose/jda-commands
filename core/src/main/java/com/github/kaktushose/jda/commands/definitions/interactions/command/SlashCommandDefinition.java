@@ -17,8 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.internal.utils.Checks;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -36,21 +35,21 @@ import java.util.stream.Collectors;
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
 /// @param cooldown             the corresponding [CooldownDefinition]
 public record SlashCommandDefinition(
-        @NotNull ClassDescription classDescription,
-        @NotNull MethodDescription methodDescription,
-        @NotNull Collection<String> permissions,
-        @NotNull String name,
-        @NotNull CommandConfig commandConfig,
-        @NotNull LocalizationFunction localizationFunction,
-        @NotNull String description,
-        @NotNull SequencedCollection<OptionDataDefinition> commandOptions,
-        @NotNull CooldownDefinition cooldown
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Collection<String> permissions,
+        String name,
+        CommandConfig commandConfig,
+        LocalizationFunction localizationFunction,
+        String description,
+        SequencedCollection<OptionDataDefinition> commandOptions,
+        CooldownDefinition cooldown
 ) implements CommandDefinition {
 
     /// Builds a new [SlashCommandDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [SlashCommandDefinition]
-    @NotNull
+    
     public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
@@ -144,7 +143,7 @@ public record SlashCommandDefinition(
     /// Transforms this definition into [SlashCommandData].
     ///
     /// @return the [SlashCommandData]
-    @NotNull
+    
     @Override
     public SlashCommandData toJDAEntity() {
         SlashCommandData command = Commands.slash(
@@ -178,13 +177,13 @@ public record SlashCommandDefinition(
         return command;
     }
 
-    @NotNull
+    
     @Override
     public String displayName() {
         return "/%s".formatted(name);
     }
 
-    @NotNull
+    
     @Override
     public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
         return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
@@ -197,7 +196,7 @@ public record SlashCommandDefinition(
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
 
         /// Builds a new [CooldownDefinition] from the given [Cooldown] annotation.
-        @NotNull
+        
         public static CooldownDefinition build(@Nullable Cooldown cooldown) {
             if (cooldown == null) {
                 return new CooldownDefinition(0, TimeUnit.MILLISECONDS);
@@ -205,7 +204,7 @@ public record SlashCommandDefinition(
             return new CooldownDefinition(cooldown.value(), cooldown.timeUnit());
         }
 
-        @NotNull
+        
         @Override
         public String displayName() {
             return "Cooldown of %d %s".formatted(delay, timeUnit.name());
