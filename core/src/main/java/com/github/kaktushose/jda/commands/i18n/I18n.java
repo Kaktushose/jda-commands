@@ -128,6 +128,8 @@ public class I18n {
     /// @param locale the [Locale] to be used to localize the key
     /// @param key the messages key
     /// @param placeholder the placeholder to be used
+    ///
+    /// @return the localized message or the key if not found
     public String localize(Locale locale, String combinedKey, Map<String, Object> arguments) {
         String[] bundleSplit = combinedKey.split("#", 2);
         String bundle = bundleSplit.length == 2
@@ -151,7 +153,7 @@ public class I18n {
         return localized;
     }
 
-    /// This method returns the localized method found by the provided [Locale] and key
+    /// This method returns the localized message found by the provided [Locale] and key
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
@@ -161,6 +163,8 @@ public class I18n {
     /// @param locale the [Locale] to be used to localize the key
     /// @param key the messages key
     /// @param placeholder the placeholder to be used
+    ///
+    /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
         Map<String, Object> map = Arrays.stream(placeholder)
                 .collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value));
@@ -172,11 +176,15 @@ public class I18n {
     ///
     /// @param name the name of the placeholder
     /// @param value the value of the placeholder
+    ///
+    /// @return the [Entry] consisting of the name and value
     public static Entry entry(String name, Object value) {
         return new Entry(name, value);
     }
 
-    /// A placeholder with the value to be used
+    /// A placeholder identified by its name with the value to be substituted.
+    ///
+    /// Placeholders of message with the given name are replaced by the given value during localization.
     ///
     /// @param name the placeholders name
     /// @param value the value to be substituted
