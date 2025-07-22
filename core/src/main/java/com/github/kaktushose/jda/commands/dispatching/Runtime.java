@@ -108,7 +108,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new JDACException.Internal("Should not occur. Please report this error to the devs of jda-commands.");
+                    throw new JDACException.Internal("Should not occur.");
         }
     }
 

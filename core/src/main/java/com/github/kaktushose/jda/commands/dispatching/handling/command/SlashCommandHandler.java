@@ -80,7 +80,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new JDACException.Internal(
-                    "Command input doesn't match command options length! Please report this error to the devs of jda-commands."
+                    "Command input doesn't match command options length!"
             );
         }
 

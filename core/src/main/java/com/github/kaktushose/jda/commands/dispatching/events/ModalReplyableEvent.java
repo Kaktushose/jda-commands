@@ -72,7 +72,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();
         } else {
-            throw new JDACException.Internal("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName());
+            throw new JDACException.Internal("Cannot reply to '%s'!", event.getClass().getName());
         }
     }
 }
