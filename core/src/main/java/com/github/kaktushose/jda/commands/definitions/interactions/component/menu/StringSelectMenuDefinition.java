@@ -73,14 +73,12 @@ public record StringSelectMenuDefinition(
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [StringSelectMenuDefinition]
-    public static Optional<StringSelectMenuDefinition> build(MethodBuildContext context) {
+    public static StringSelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu selectMenu =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu.class).orElseThrow();
 
-        if (Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class))) {
-            return Optional.empty();
-        }
+        Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class));
 
         Set<MenuOptionDefinition> selectOptions = new HashSet<>();
 
@@ -95,7 +93,7 @@ public record StringSelectMenuDefinition(
                 .flatMap(it -> Arrays.stream(it.value()))
                 .forEach(it -> selectOptions.add(MenuOptionDefinition.build(it)));
 
-        return Optional.of(new StringSelectMenuDefinition(
+        return new StringSelectMenuDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -103,7 +101,7 @@ public record StringSelectMenuDefinition(
                 selectMenu.value(),
                 selectMenu.minValue(),
                 selectMenu.maxValue()
-        ));
+        );
     }
 
     /// Transforms this definition to an [StringSelectMenu] with an independent custom id.

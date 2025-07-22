@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.Definition;
@@ -16,7 +17,6 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.internal.utils.Checks;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -50,7 +50,7 @@ public record SlashCommandDefinition(
     ///
     /// @return an [Optional] holding the [SlashCommandDefinition]
     
-    public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
+    public static SlashCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
         var command = method.annotation(Command.class).orElseThrow();
@@ -59,19 +59,16 @@ public record SlashCommandDefinition(
                 .replaceAll(" +", " ")
                 .trim();
 
-        if (name.isEmpty()) {
-            Checks.notBlank(name, "Command name");
-            return Optional.empty();
+        if (name.isBlank()) {
+            throw new JDACException.InvalidDeclaration("Command name must be not blank.");
         }
 
         String[] split = name.split(" ");
         if (split.length > 3) {
-            log.error("Invalid command name \"{}\" for slash command \"{}.{}\". Slash commands can only have up to 3 labels.",
+            throw new JDACException.InvalidDeclaration("Invalid command name \"%s\" for slash command \"%s.%s\". Slash commands can only have up to 3 labels.",
                     name,
                     context.clazz().name(),
-                    method.name()
-            );
-            return Optional.empty();
+                    method.name());
         }
 
         var autoCompletes = context.autoCompleteDefinitions().stream()
@@ -91,16 +88,14 @@ public record SlashCommandDefinition(
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
         commandOptions.forEach(it -> signature.add(it.declaredType()));
-        if (Helpers.checkSignature(method, signature)) {
-            return Optional.empty();
-        }
+        Helpers.checkSignature(method, signature);
 
         CooldownDefinition cooldownDefinition = CooldownDefinition.build(method.annotation(Cooldown.class).orElse(null));
         if (cooldownDefinition.delay() == 0 && context.cooldownDefinition() != null) {
             cooldownDefinition = context.cooldownDefinition();
         }
 
-        return Optional.of(new SlashCommandDefinition(
+        return new SlashCommandDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -110,7 +105,7 @@ public record SlashCommandDefinition(
                 command.desc(),
                 commandOptions,
                 cooldownDefinition
-        ));
+        );
     }
 
     @Nullable

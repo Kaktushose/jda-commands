@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
@@ -79,32 +80,21 @@ public final class Helpers {
     /// @param index  the index the parameter is expected to be at
     /// @param type   the type of the parameter
     /// @return `true` if the parameter is present
-    public static boolean isIncorrectParameterType(MethodDescription method, int index, Class<?> type) {
+    public static void isIncorrectParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
-            log.error("An error has occurred! Skipping Interaction {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index + 1, type.getSimpleName())));
-            return true;
+            throw new JDACException.InvalidDeclaration("%d. parameter must be of type %s", index + 1, type.getSimpleName());
         }
-        return false;
     }
 
-    public static boolean checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
+    public static void checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
         var parameters = method.parameters().stream()
                 .map(ParameterDescription::type)
                 .toList();
         if (!parameters.equals(methodSignature)) {
-            log.error("An error has occurred! Skipping Interaction {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException("Incorrect method signature!\nExpected: %s\nActual:   %s".formatted(
-                            methodSignature.stream().toList(),
-                            method.parameters().stream().map(ParameterDescription::type).toList()
-                    )));
-            return true;
+            throw new JDACException.InvalidDeclaration("Incorrect method signature!\nExpected: %s\nActual:   %s",
+                    methodSignature.stream().toList(),
+                    method.parameters().stream().map(ParameterDescription::type).toList());
         }
-        return false;
     }
 
     public static void checkDetached(IDetachableEntity entity, Class<?> origin) {

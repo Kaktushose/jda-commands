@@ -32,17 +32,16 @@ public record AutoCompleteDefinition(ClassDescription classDescription,
     /// @param method the corresponding [MethodDescription]
     /// @return an [Optional] holding the [AutoCompleteDefinition]
     
-    public static Optional<AutoCompleteDefinition> build(ClassDescription clazz, MethodDescription method) {
-        if (Helpers.checkSignature(method, List.of(AutoCompleteEvent.class))) {
-            return Optional.empty();
-        }
+    public static AutoCompleteDefinition build(ClassDescription clazz, MethodDescription method) {
+        Helpers.checkSignature(method, List.of(AutoCompleteEvent.class));
+
         return method.annotation(AutoComplete.class).map(autoComplete ->
                 new AutoCompleteDefinition(clazz, method, Arrays.stream(autoComplete.value())
                         .map(command -> new AutoCompleteRule(command, Arrays.stream(autoComplete.options())
                                 .filter(it -> !it.isBlank())
                                 .collect(Collectors.toSet()))
                         ).collect(Collectors.toSet())
-                ));
+                )).orElseThrow();
     }
 
     

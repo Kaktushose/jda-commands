@@ -47,22 +47,16 @@ public record ModalDefinition(
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [ModalDefinition]
-    public static Optional<ModalDefinition> build(MethodBuildContext context) {
+    public static ModalDefinition build(MethodBuildContext context) {
         var method = context.method();
         var modal = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Modal.class).orElseThrow();
 
         // Modals support up to 5 TextInputs
         if (method.parameters().isEmpty() || method.parameters().size() > 6) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new JDACException.InvalidDeclaration("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
-            return Optional.empty();
+            throw new JDACException.InvalidDeclaration("Invalid amount of parameters! Modals need between 1 and 5 TextInputs");
         }
 
-        if (Helpers.isIncorrectParameterType(method, 0, ModalEvent.class)) {
-            return Optional.empty();
-        }
+        Helpers.isIncorrectParameterType(method, 0, ModalEvent.class);
 
         List<TextInputDefinition> textInputs = new ArrayList<>();
         for (int i = 1; i < method.parameters().size(); i++) {
@@ -71,22 +65,17 @@ public record ModalDefinition(
         }
 
         if (textInputs.isEmpty()) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new JDACException.InvalidDeclaration("Modals need at least one valid TextInput"));
-            return Optional.empty();
+            throw new JDACException.InvalidDeclaration("Modals need at least one valid TextInput");
         }
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(ModalEvent.class);
         textInputs.forEach(_ -> signature.add(String.class));
-        if (Helpers.checkSignature(method, signature)) {
-            return Optional.empty();
-        }
+
+        Helpers.checkSignature(method, signature);
 
 
-        return Optional.of(new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs));
+        return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs);
     }
 
     /// Transforms this definition to an [Modal] with the given custom id.

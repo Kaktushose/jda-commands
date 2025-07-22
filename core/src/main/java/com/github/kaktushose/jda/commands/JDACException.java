@@ -14,6 +14,10 @@ public sealed abstract class JDACException extends RuntimeException permits JDAC
         super(cause);
     }
 
+    public JDACException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
+
     /// Will be thrown if anything goes wrong while configuring jda-commands.
     public static final class Configuration extends JDACException {
         public Configuration(String message) {
@@ -56,6 +60,10 @@ public sealed abstract class JDACException extends RuntimeException permits JDAC
 
     /// A wrapper around any [Throwable] thrown while starting JDA-Commands
     public static final class Other extends JDACException {
+
+        public Other(String message, Throwable throwable) {
+            super(message, throwable);
+        }
 
         public Other(Throwable cause) {
             super(cause);

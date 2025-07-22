@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
+import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
@@ -18,8 +19,12 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
@@ -106,10 +111,9 @@ public record InteractionRegistry(Validators validators,
         return clazz.methods().stream()
                 .filter(it -> it.annotation(AutoComplete.class).isPresent())
                 .map(method -> AutoCompleteDefinition.build(clazz, method))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
                 .toList();
     }
+
 
     private Set<Definition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
@@ -133,37 +137,55 @@ public record InteractionRegistry(Validators validators,
                     globalCommandConfig
             );
 
-            Optional<? extends Definition> definition = Optional.empty();
-            // index commands
-            if (method.annotation(Command.class).isPresent()) {
-                Command command = method.annotation(Command.class).get();
-                definition = switch (command.type()) {
-                    case SLASH -> SlashCommandDefinition.build(context);
-                    case USER, MESSAGE -> ContextCommandDefinition.build(context);
-                    case UNKNOWN -> Optional.empty();
-                };
-            }
+            try {
+                Definition definition = construct(method, context);
 
-            // index components
-            if (method.annotation(Button.class).isPresent()) {
-                definition = ButtonDefinition.build(context);
-            }
-            if (method.annotation(EntitySelectMenu.class).isPresent()) {
-                definition = EntitySelectMenuDefinition.build(context);
-            }
-            if (method.annotation(StringSelectMenu.class).isPresent()) {
-                definition = StringSelectMenuDefinition.build(context);
-            }
+                if (definition != null) {
+                    log.debug("Found interaction: {}", definition);
+                    definitions.add(definition);
+                }
+            } catch (Exception e) {
+                String message = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
+                        method.declaringClass().getName(),
+                        method.name(),
+                        method.parameters().stream().map(ParameterDescription::type).map(Class::getName).collect(Collectors.joining(", "))
+                );
 
-            //index modals
-            if (method.annotation(Modal.class).isPresent()) {
-                definition = ModalDefinition.build(context);
+                throw new JDACException.Other(message, e);
             }
-
-            definition.ifPresent(it -> log.debug("Found interaction: {}", it));
-            definition.ifPresent(definitions::add);
         }
         return definitions;
+    }
+
+    @Nullable
+    private Definition construct(MethodDescription method, MethodBuildContext context) {
+        // index commands
+        if (method.annotation(Command.class).isPresent()) {
+            Command command = method.annotation(Command.class).get();
+            return switch (command.type()) {
+                case SLASH -> SlashCommandDefinition.build(context);
+                case USER, MESSAGE -> ContextCommandDefinition.build(context);
+                case UNKNOWN -> throw new JDACException.InvalidDeclaration("Unknown command type isn't allowed here.");
+            };
+        }
+
+        // index components
+        if (method.annotation(Button.class).isPresent()) {
+            return ButtonDefinition.build(context);
+        }
+        if (method.annotation(EntitySelectMenu.class).isPresent()) {
+            return EntitySelectMenuDefinition.build(context);
+        }
+        if (method.annotation(StringSelectMenu.class).isPresent()) {
+            return StringSelectMenuDefinition.build(context);
+        }
+
+        //index modals
+        if (method.annotation(Modal.class).isPresent()) {
+            return ModalDefinition.build(context);
+        }
+
+        return null;
     }
 
     /// Attempts to find a [Definition] of type [T] based on the given [Predicate].
