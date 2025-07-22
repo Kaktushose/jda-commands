@@ -96,9 +96,9 @@ nav:
       - Overview: extension/overview.md
       - Writing Extensions: extension/writing.md
       - Configuration: extension/configuring.md
+  - Localization: localization.md
   - Misc:
       - Customizing Error Messages: misc/error-messages.md
       - Embed API: misc/embeds.md
-      - Localization: misc/localization.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/
