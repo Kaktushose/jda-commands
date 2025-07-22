@@ -109,7 +109,7 @@ public class ModalBuilder {
         for (LayoutComponent layout : builder.getComponents()) {
             for (ItemComponent component : layout.getComponents()) {
                 if (component instanceof TextInput text) {
-                    layout.updateComponent(component, copyWithLabel(text,
+                    layout.updateComponent(component, copyWith(text,
                             i18n.localize(locale, text.getLabel(), entries),
                             localize(text.getPlaceHolder(), locale, entries),
                             localize(text.getValue(), locale, entries))
@@ -119,7 +119,7 @@ public class ModalBuilder {
         }
     }
 
-    private TextInput copyWithLabel(TextInput input, String label, @Nullable String placeholder, @Nullable String value) {
+    private TextInput copyWith(TextInput input, String label, @Nullable String placeholder, @Nullable String value) {
         return TextInput.create(input.getId(), label, input.getStyle())
                 .setPlaceholder(placeholder)
                 .setMaxLength(input.getMaxLength())
