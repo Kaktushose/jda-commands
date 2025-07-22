@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionRegistry</span>(@NotNull <a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators, @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction, @NotNull <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionRegistry</span>(<a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction, <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Central registry for all <a href="InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a>s.</div>
 </div>
@@ -113,18 +113,18 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,com.github.kaktushose.jda.commands.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry</a><wbr>(@NotNull <a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators,
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
- @NotNull <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Creates an instance of a <code>InteractionRegistry</code> record class.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,com.github.kaktushose.jda.commands.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;registry,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,com.github.kaktushose.jda.commands.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;registry,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;function,
  <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-last even-row-color">
 <div class="block">Constructs a new <a href="InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionRegistry</code></a></div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,com.github.kaktushose.jda.commands.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
+ <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates an instance of a <code>InteractionRegistry</code> record class.</div>
 </div>
 </div>
 </section>
@@ -140,12 +140,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#definitions()" class="member-name-link">definitions</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>definitions</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#descriptor()" class="member-name-link">descriptor</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>descriptor</code> record component.</div>
@@ -179,7 +179,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Scans all given classes and registers the interactions defined in them.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>localizationFunction</code> record component.</div>
@@ -189,7 +189,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validators()" class="member-name-link">validators</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>validators</code> record component.</div>
@@ -232,14 +232,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,com.github.kaktushose.jda.commands.definitions.description.Descriptor,java.util.Set)">
 <h3>InteractionRegistry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InteractionRegistry</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators,
- @NotNull
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
- @NotNull
- @NotNull <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InteractionRegistry</span><wbr><span class="parameters">(<a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a>&nbsp;validators,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
+ <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a>&nbsp;descriptor,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;&nbsp;definitions)</span></div>
 <div class="block">Creates an instance of a <code>InteractionRegistry</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -374,8 +370,7 @@ This is a rare occasion and can be considered a framework bug</dd>
 <section class="detail" id="validators()">
 <h3>validators</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a></span>&nbsp;<span class="element-name">validators</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../dispatching/validation/internal/Validators.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation.internal">Validators</a></span>&nbsp;<span class="element-name">validators</span>()</div>
 <div class="block">Returns the value of the <code>validators</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -388,8 +383,7 @@ This is a rare occasion and can be considered a framework bug</dd>
 <section class="detail" id="localizationFunction()">
 <h3>localizationFunction</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></span>&nbsp;<span class="element-name">localizationFunction</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></span>&nbsp;<span class="element-name">localizationFunction</span>()</div>
 <div class="block">Returns the value of the <code>localizationFunction</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -402,8 +396,7 @@ This is a rare occasion and can be considered a framework bug</dd>
 <section class="detail" id="descriptor()">
 <h3>descriptor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a></span>&nbsp;<span class="element-name">descriptor</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a></span>&nbsp;<span class="element-name">descriptor</span>()</div>
 <div class="block">Returns the value of the <code>descriptor</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -416,8 +409,7 @@ This is a rare occasion and can be considered a framework bug</dd>
 <section class="detail" id="definitions()">
 <h3>definitions</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;</span>&nbsp;<span class="element-name">definitions</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a>&gt;</span>&nbsp;<span class="element-name">definitions</span>()</div>
 <div class="block">Returns the value of the <code>definitions</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

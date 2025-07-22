@@ -67,7 +67,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#definitionId()" tabindex="0">definitionId()</a></li>
-<li><a href="#newInstance()" tabindex="0">newInstance()</a></li>
 <li><a href="#permissions()" tabindex="0">permissions()</a></li>
 </ol>
 </li>
@@ -152,19 +151,14 @@ extends <a href="../Definition.html" title="interface in com.github.kaktushose.j
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#definitionId()" class="member-name-link">definitionId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">The id for this definition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#newInstance()" class="member-name-link">newInstance</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Creates a new instance of the <a href="../../annotations/interactions/Interaction.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Interaction</code></a> class.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this interaction.</div>
 </div>
 </div>
@@ -191,8 +185,7 @@ extends <a href="../Definition.html" title="interface in com.github.kaktushose.j
 <section class="detail" id="definitionId()">
 <h3>definitionId</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">definitionId</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">definitionId</span>()</div>
 <div class="block">The id for this definition. For interaction definition this is the hash code of the full class name and method
 name combined.</div>
 <dl class="notes">
@@ -203,32 +196,10 @@ name combined.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="newInstance()">
-<h3>newInstance</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">newInstance</span>()
-                    throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a>,
-<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/InstantiationException.html" title="class or interface in java.lang" class="external-link">InstantiationException</a>,
-<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a></span></div>
-<div class="block">Creates a new instance of the <a href="../../annotations/interactions/Interaction.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Interaction</code></a> class.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>a new instance of the declaring class of the method this definition is bound to.</dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a></code> - if the object creation fails</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/InstantiationException.html" title="class or interface in java.lang" class="external-link">InstantiationException</a></code> - if the object creation fails</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a></code> - if the object creation fails</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="permissions()">
 <h3>permissions</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">permissions</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">permissions</span>()</div>
 <div class="block">A possibly-empty <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this interaction.</div>
 <dl class="notes">
 <dt>API Note:</dt>

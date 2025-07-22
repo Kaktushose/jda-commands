@@ -110,7 +110,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">MethodDescription</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations, @NotNull <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">MethodDescription</span>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations, <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="Description.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Description</a></span></div>
 <div class="block">A <a href="Description.html" title="interface in com.github.kaktushose.jda.commands.definitions.description"><code>Description</code></a> that describes a method.</div>
@@ -126,12 +126,12 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,java.lang.Class,java.lang.String,java.util.SequencedCollection,java.util.Collection,com.github.kaktushose.jda.commands.definitions.description.Invoker)" class="member-name-link">MethodDescription</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations,
- @NotNull <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Class,java.lang.Class,java.lang.String,java.util.SequencedCollection,java.util.Collection,com.github.kaktushose.jda.commands.definitions.description.Invoker)" class="member-name-link">MethodDescription</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations,
+ <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>MethodDescription</code> record class.</div>
 </div>
@@ -149,12 +149,12 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#annotations()" class="member-name-link">annotations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-annotations"><code>annotations</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#declaringClass()" class="member-name-link">declaringClass</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-declaringClass"><code>declaringClass</code></a> record component.</div>
@@ -169,22 +169,22 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invoker()" class="member-name-link">invoker</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-invoker"><code>invoker</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#parameters()" class="member-name-link">parameters</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-parameters"><code>parameters</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#returnType()" class="member-name-link">returnType</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-returnType"><code>returnType</code></a> record component.</div>
@@ -221,18 +221,12 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="&lt;init&gt;(java.lang.Class,java.lang.Class,java.lang.String,java.util.SequencedCollection,java.util.Collection,com.github.kaktushose.jda.commands.definitions.description.Invoker)">
 <h3>MethodDescription</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MethodDescription</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations,
- @NotNull
- @NotNull <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MethodDescription</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;declaringClass,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;returnType,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;&nbsp;parameters,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;&nbsp;annotations,
+ <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a>&nbsp;invoker)</span></div>
 <div class="block">Creates an instance of a <code>MethodDescription</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -317,8 +311,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="declaringClass()">
 <h3>declaringClass</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">declaringClass</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">declaringClass</span>()</div>
 <div class="block">Returns the value of the <a href="#param-declaringClass"><code>declaringClass</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -331,8 +324,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="returnType()">
 <h3>returnType</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">returnType</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">returnType</span>()</div>
 <div class="block">Returns the value of the <a href="#param-returnType"><code>returnType</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -345,8 +337,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="name()">
 <h3>name</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span>()</div>
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -359,8 +350,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="parameters()">
 <h3>parameters</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;</span>&nbsp;<span class="element-name">parameters</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ParameterDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ParameterDescription</a>&gt;</span>&nbsp;<span class="element-name">parameters</span>()</div>
 <div class="block">Returns the value of the <a href="#param-parameters"><code>parameters</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -373,8 +363,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="annotations()">
 <h3>annotations</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;</span>&nbsp;<span class="element-name">annotations</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="AnnotationDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">AnnotationDescription</a>&lt;?&gt;&gt;</span>&nbsp;<span class="element-name">annotations</span>()</div>
 <div class="block">Returns the value of the <a href="#param-annotations"><code>annotations</code></a> record component.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -389,8 +378,7 @@ implements <a href="Description.html" title="interface in com.github.kaktushose.
 <section class="detail" id="invoker()">
 <h3>invoker</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a></span>&nbsp;<span class="element-name">invoker</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Invoker.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Invoker</a></span>&nbsp;<span class="element-name">invoker</span>()</div>
 <div class="block">Returns the value of the <a href="#param-invoker"><code>invoker</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

@@ -113,7 +113,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InvocationContext&lt;T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>(<a href="#type-param-T" title="type parameter in InvocationContext">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event, @NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n, @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore, @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition, <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InvocationContext&lt;T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>(<a href="#type-param-T" title="type parameter in InvocationContext">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event, <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n, <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore, <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition, <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></span></div>
 <div class="block">Bundles data that is important for the execution of an interaction, especially for invoking the user defined method.</div>
@@ -130,11 +130,11 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(T,com.github.kaktushose.jda.commands.i18n.I18n,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)" class="member-name-link">InvocationContext</a><wbr>(<a href="#type-param-T" title="type parameter in InvocationContext">T</a>&nbsp;event,
- @NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n,
- @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore,
- @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
+ <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n,
+ <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore,
+ <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
  <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>InvocationContext</code> record class.</div>
 </div>
@@ -152,18 +152,18 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#arguments()" class="member-name-link">arguments</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">cancel</a><wbr>(@NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">cancel</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stops further execution of this invocation at the next suitable moment.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancelled()" class="member-name-link">cancelled</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#definition()" class="member-name-link">definition</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-definition"><code>definition</code></a> record component.</div>
@@ -183,17 +183,17 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>i18n</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyValueStore()" class="member-name-link">keyValueStore</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-keyValueStore"><code>keyValueStore</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rawArguments()" class="member-name-link">rawArguments</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-rawArguments"><code>rawArguments</code></a> record component.</div>
@@ -229,18 +229,12 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="&lt;init&gt;(T,com.github.kaktushose.jda.commands.i18n.I18n,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)">
 <h3 id="&lt;init&gt;(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.i18n.I18n,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)">InvocationContext</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InvocationContext</span><wbr><span class="parameters">(@NotNull
- <a href="#type-param-T" title="type parameter in InvocationContext">T</a>&nbsp;event,
- @NotNull
- @NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n,
- @NotNull
- @NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore,
- @NotNull
- @NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
- @NotNull
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InvocationContext</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in InvocationContext">T</a>&nbsp;event,
+ <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n,
+ <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a>&nbsp;keyValueStore,
+ <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition,
  <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;replyConfig,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;rawArguments)</span></div>
 <div class="block">Creates an instance of a <code>InvocationContext</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -266,7 +260,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="arguments()">
 <h3>arguments</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arguments</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arguments</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>same as <a href="#rawArguments()"><code>rawArguments()</code></a> but with <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>s replaced by <code>null</code></dd>
@@ -278,8 +272,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)">
 <h3>cancel</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</span></div>
 <div class="block">Stops further execution of this invocation at the next suitable moment.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -353,8 +346,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="event()">
 <h3>event</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-T" title="type parameter in InvocationContext">T</a></span>&nbsp;<span class="element-name">event</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-T" title="type parameter in InvocationContext">T</a></span>&nbsp;<span class="element-name">event</span>()</div>
 <div class="block">Returns the value of the <a href="#param-event"><code>event</code></a> record component.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -369,8 +361,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="i18n()">
 <h3>i18n</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
 <div class="block">Returns the value of the <code>i18n</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -383,8 +374,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="keyValueStore()">
 <h3>keyValueStore</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></span>&nbsp;<span class="element-name">keyValueStore</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></span>&nbsp;<span class="element-name">keyValueStore</span>()</div>
 <div class="block">Returns the value of the <a href="#param-keyValueStore"><code>keyValueStore</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -397,8 +387,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="definition()">
 <h3>definition</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></span>&nbsp;<span class="element-name">definition</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></span>&nbsp;<span class="element-name">definition</span>()</div>
 <div class="block">Returns the value of the <a href="#param-definition"><code>definition</code></a> record component.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -413,8 +402,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="replyConfig()">
 <h3>replyConfig</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></span>&nbsp;<span class="element-name">replyConfig</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></span>&nbsp;<span class="element-name">replyConfig</span>()</div>
 <div class="block">Returns the value of the <a href="#param-replyConfig"><code>replyConfig</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -427,8 +415,7 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <section class="detail" id="rawArguments()">
 <h3>rawArguments</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">rawArguments</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;@Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">rawArguments</span>()</div>
 <div class="block">Returns the value of the <a href="#param-rawArguments"><code>rawArguments</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

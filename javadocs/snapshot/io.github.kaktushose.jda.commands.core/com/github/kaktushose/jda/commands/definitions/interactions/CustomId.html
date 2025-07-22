@@ -111,7 +111,7 @@ or the literal <code>independent</code>.</dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CustomId</span>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId, @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CustomId</span>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Representation of a custom id used in modals, buttons or select menus.</div>
 <dl class="notes">
@@ -148,8 +148,8 @@ or the literal <code>independent</code>.</dd>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">CustomId</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">CustomId</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>CustomId</code> record class.</div>
 </div>
@@ -167,7 +167,7 @@ or the literal <code>independent</code>.</dd>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#definitionId()" class="member-name-link">definitionId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-definitionId"><code>definitionId</code></a> record component.</div>
@@ -177,8 +177,8 @@ or the literal <code>independent</code>.</dd>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromMerged(java.lang.String)" class="member-name-link">fromMerged</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromMerged(java.lang.String)" class="member-name-link">fromMerged</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>CustomId</code></a> from the given String.</div>
 </div>
@@ -187,8 +187,8 @@ or the literal <code>independent</code>.</dd>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String)" class="member-name-link">independent</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new runtime-independent <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>CustomId</code></a> from the given definition id.</div>
 </div>
@@ -203,16 +203,16 @@ or the literal <code>independent</code>.</dd>
 <div class="block">Checks if the passed custom id is runtime-independent.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isInvalid(java.lang.String)" class="member-name-link">isInvalid</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isInvalid(java.lang.String)" class="member-name-link">isInvalid</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Checks if the passed custom id <em>doesn't</em> conform to the defined format of jda-commands.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#merged()" class="member-name-link">merged</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The String representation of this custom id.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the runtime id of this custom id.</div>
@@ -275,10 +275,8 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String)">
 <h3>CustomId</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CustomId</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CustomId</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;runtimeId,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</span></div>
 <div class="block">Creates an instance of a <code>CustomId</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -300,9 +298,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="fromMerged(java.lang.String)">
 <h3>fromMerged</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></span>&nbsp;<span class="element-name">fromMerged</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></span>&nbsp;<span class="element-name">fromMerged</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</span></div>
 <div class="block">Constructs a new <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>CustomId</code></a> from the given String.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -317,9 +313,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="independent(java.lang.String)">
 <h3>independent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a></span>&nbsp;<span class="element-name">independent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;definitionId)</span></div>
 <div class="block">Constructs a new runtime-independent <a href="CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>CustomId</code></a> from the given definition id.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -334,8 +328,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="isInvalid(java.lang.String)">
 <h3>isInvalid</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInvalid</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isInvalid</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</span></div>
 <div class="block">Checks if the passed custom id <em>doesn't</em> conform to the defined format of jda-commands.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -348,8 +341,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="merged()">
 <h3>merged</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">merged</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">merged</span>()</div>
 <div class="block">The String representation of this custom id.</div>
 </div>
 </section>
@@ -358,8 +350,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="runtimeId()">
 <h3>runtimeId</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">runtimeId</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">runtimeId</span>()</div>
 <div class="block">Gets the runtime id of this custom id.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -447,8 +438,7 @@ or the literal <code>independent</code>.</dd>
 <section class="detail" id="definitionId()">
 <h3>definitionId</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">definitionId</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">definitionId</span>()</div>
 <div class="block">Returns the value of the <a href="#param-definitionId"><code>definitionId</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

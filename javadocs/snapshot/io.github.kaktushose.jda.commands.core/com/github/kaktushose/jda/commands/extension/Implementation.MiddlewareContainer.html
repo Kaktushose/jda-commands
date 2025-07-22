@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Implementation.MiddlewareContainer</span>(@NotNull <a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority, @NotNull <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Implementation.MiddlewareContainer</span>(<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority, <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="Implementation.ProvidableContainer.html" title="interface in com.github.kaktushose.jda.commands.extension">Implementation.ProvidableContainer</a></span></div>
 <div class="block">A container type for providing <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s.</div>
@@ -122,8 +122,8 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)" class="member-name-link">MiddlewareContainer</a><wbr>(@NotNull <a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority,
- @NotNull <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)" class="member-name-link">MiddlewareContainer</a><wbr>(<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority,
+ <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>MiddlewareContainer</code> record class.</div>
 </div>
@@ -151,12 +151,12 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#middleware()" class="member-name-link">middleware</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-middleware"><code>middleware</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#priority()" class="member-name-link">priority</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-priority"><code>priority</code></a> record component.</div>
@@ -187,10 +187,8 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)">
 <h3>MiddlewareContainer</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MiddlewareContainer</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority,
- @NotNull
- @NotNull <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MiddlewareContainer</span><wbr><span class="parameters">(<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>&nbsp;priority,
+ <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&nbsp;middleware)</span></div>
 <div class="block">Creates an instance of a <code>MiddlewareContainer</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -259,8 +257,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <section class="detail" id="priority()">
 <h3>priority</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></span>&nbsp;<span class="element-name">priority</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a></span>&nbsp;<span class="element-name">priority</span>()</div>
 <div class="block">Returns the value of the <a href="#param-priority"><code>priority</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -273,8 +270,7 @@ implements <a href="Implementation.ProvidableContainer.html" title="interface in
 <section class="detail" id="middleware()">
 <h3>middleware</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a></span>&nbsp;<span class="element-name">middleware</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a></span>&nbsp;<span class="element-name">middleware</span>()</div>
 <div class="block">Returns the value of the <a href="#param-middleware"><code>middleware</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

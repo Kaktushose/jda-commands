@@ -141,28 +141,28 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#classDescription()" class="member-name-link">classDescription</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;E, T extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;&gt;<br>T</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#override(java.util.function.Supplier,T,T)" class="member-name-link">override</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;T&gt;&nbsp;newSupp,
- T&nbsp;oldValue,
- T&nbsp;newValues)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;@Nullable T</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#override(T,T)" class="member-name-link">override</a><wbr>(@Nullable T&nbsp;oldValue,
+ @Nullable T&nbsp;newValue)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">If present adds the newValues to the collection provided by the supplier, else returns the oldValue.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#override(T,T)" class="member-name-link">override</a><wbr>(T&nbsp;oldValue,
- T&nbsp;newValue)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Overrides the oldValue with the newValue if present, else returns the oldValue</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;E, T extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;&gt;<br>T</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#override(java.util.function.Supplier,T,T)" class="member-name-link">override</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;T&gt;&nbsp;newSupp,
+ T&nbsp;oldValue,
+ @Nullable T&nbsp;newValues)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">If present adds the newValues to the collection provided by the supplier, else returns the oldValue.</div>
 </div>
 </div>
 </div>
@@ -175,7 +175,7 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <code><a href="../../Definition.html#displayName()">displayName</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition">Methods inherited from interface&nbsp;com.github.kaktushose.jda.commands.definitions.interactions.<a href="../InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a></h3>
-<code><a href="../InteractionDefinition.html#definitionId()">definitionId</a>, <a href="../InteractionDefinition.html#newInstance()">newInstance</a>, <a href="../InteractionDefinition.html#permissions()">permissions</a></code></div>
+<code><a href="../InteractionDefinition.html#definitionId()">definitionId</a>, <a href="../InteractionDefinition.html#permissions()">permissions</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.definitions.features.internal.Invokable">Methods inherited from interface&nbsp;com.github.kaktushose.jda.commands.definitions.features.internal.<a href="../../features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a></h3>
 <code><a href="../../features/internal/Invokable.html#invoke(java.lang.Object,com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)">invoke</a></code></div>
@@ -197,8 +197,7 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <section class="detail" id="classDescription()">
 <h3>classDescription</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></span>&nbsp;<span class="element-name">classDescription</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">ClassDescription</a></span>&nbsp;<span class="element-name">classDescription</span>()</div>
 <div class="block">The <a href="../../description/ClassDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>ClassDescription</code></a> of the declaring class of the <a href="#methodDescription()"><code>methodDescription()</code></a></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -211,8 +210,7 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <section class="detail" id="methodDescription()">
 <h3>methodDescription</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></span>&nbsp;<span class="element-name">methodDescription</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a></span>&nbsp;<span class="element-name">methodDescription</span>()</div>
 <div class="block">The <a href="../../description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -225,11 +223,8 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <section class="detail" id="override(T,T)">
 <h3 id="override(java.lang.Object,java.lang.Object)">override</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">override</span><wbr><span class="parameters">(@Nullable
- T&nbsp;oldValue,
- @Nullable
- T&nbsp;newValue)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@Nullable T</span>&nbsp;<span class="element-name">override</span><wbr><span class="parameters">(@Nullable T&nbsp;oldValue,
+ @Nullable T&nbsp;newValue)</span></div>
 <div class="block">Overrides the oldValue with the newValue if present, else returns the oldValue</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
@@ -244,13 +239,9 @@ extends <a href="../InteractionDefinition.html" title="interface in com.github.k
 <section class="detail" id="override(java.util.function.Supplier,T,T)">
 <h3 id="override(java.util.function.Supplier,java.util.Collection,java.util.Collection)">override</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;E, T extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">override</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;T&gt;&nbsp;newSupp,
- @NotNull
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;E, T extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">override</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;T&gt;&nbsp;newSupp,
  T&nbsp;oldValue,
- @Nullable
- T&nbsp;newValues)</span></div>
+ @Nullable T&nbsp;newValues)</span></div>
 <div class="block">If present adds the newValues to the collection provided by the supplier, else returns the oldValue.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
