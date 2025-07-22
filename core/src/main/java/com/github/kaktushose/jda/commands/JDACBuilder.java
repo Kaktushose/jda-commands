@@ -54,6 +54,9 @@ import java.util.function.Consumer;
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
 ///
+/// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+/// This can be configured by settings [JDACBuilder#shutdownJDA(boolean)].
+///
 /// ## Example
 /// ```java
 /// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
