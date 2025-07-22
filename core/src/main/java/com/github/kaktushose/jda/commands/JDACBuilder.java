@@ -25,7 +25,7 @@ import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -65,9 +65,10 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
-    private Embeds.Configuration embedConfig;
 
-    JDACBuilder(@NotNull JDAContext context, @NotNull Class<?> baseClass, @NotNull String[] packages) {
+    private Embeds.@Nullable Configuration embedConfig;
+
+    JDACBuilder(JDAContext context, Class<?> baseClass, String[] packages) {
         super(baseClass, packages, context);
     }
 
@@ -75,15 +76,13 @@ public final class JDACBuilder extends JDACBuilderData {
     /// @apiNote This method overrides the underlying collection instead of adding to it.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(Class, String...)] too.
-    @NotNull
-    public JDACBuilder classFinders(@NotNull ClassFinder... classFinders) {
+    public JDACBuilder classFinders(ClassFinder... classFinders) {
         this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
         return this;
     }
 
     /// @param descriptor the [Descriptor] to be used
-    @NotNull
-    public JDACBuilder descriptor(@NotNull Descriptor descriptor) {
+    public JDACBuilder descriptor(Descriptor descriptor) {
         this.descriptor = descriptor;
         return this;
     }
@@ -91,8 +90,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// Configuration step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
-    @NotNull
-    public JDACBuilder embeds(@NotNull Consumer<EmbedConfig> consumer) {
+    public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
         // create object on first method call
         if (embedConfig == null) {
             embedConfig = new Embeds.Configuration(i18n());
@@ -106,8 +104,7 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     /// @param localizer The [Localizer] to use
-    @NotNull
-    public JDACBuilder localizer(@NotNull Localizer localizer) {
+    public JDACBuilder localizer(Localizer localizer) {
         this.localizer = Objects.requireNonNull(localizer);
         return this;
     }
@@ -119,16 +116,14 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     /// @param expirationStrategy The [ExpirationStrategy] to be used
-    @NotNull
-    public JDACBuilder expirationStrategy(@NotNull ExpirationStrategy expirationStrategy) {
+    public JDACBuilder expirationStrategy(ExpirationStrategy expirationStrategy) {
         this.expirationStrategy = Objects.requireNonNull(expirationStrategy);
         return this;
     }
 
     /// @param priority   The [Priority] with what the [Middleware] should be registered
     /// @param middleware The to be registered [Middleware]
-    @NotNull
-    public JDACBuilder middleware(@NotNull Priority priority, @NotNull Middleware middleware) {
+    public JDACBuilder middleware(Priority priority, Middleware middleware) {
         Objects.requireNonNull(priority);
         Objects.requireNonNull(middleware);
 
@@ -139,8 +134,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// @param source  The source type that the given [TypeAdapter] can handle
     /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
-    @NotNull
-    public JDACBuilder adapter(@NotNull Class<?> source, @NotNull Class<?> target, @NotNull TypeAdapter<?, ?> adapter) {
+    public JDACBuilder adapter(Class<?> source, Class<?> target, TypeAdapter<?, ?> adapter) {
         Objects.requireNonNull(source);
         Objects.requireNonNull(target);
         Objects.requireNonNull(adapter);
@@ -151,8 +145,7 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// @param annotation The annotation for which the given [Validator] should be called
     /// @param validator  The [Validator] to be registered
-    @NotNull
-    public JDACBuilder validator(@NotNull Class<? extends Annotation> annotation, @NotNull Validator validator) {
+    public JDACBuilder validator(Class<? extends Annotation> annotation, Validator validator) {
         Objects.requireNonNull(annotation);
         Objects.requireNonNull(validator);
 
@@ -161,35 +154,30 @@ public final class JDACBuilder extends JDACBuilderData {
     }
 
     /// @param permissionsProvider The [PermissionsProvider] that should be used
-    @NotNull
-    public JDACBuilder permissionsProvider(@NotNull PermissionsProvider permissionsProvider) {
+    public JDACBuilder permissionsProvider(PermissionsProvider permissionsProvider) {
         this.permissionsProvider = Objects.requireNonNull(permissionsProvider);
         return this;
     }
 
     /// @param errorMessageFactory The [ErrorMessageFactory] that should be used
-    @NotNull
-    public JDACBuilder errorMessageFactory(@NotNull ErrorMessageFactory errorMessageFactory) {
+    public JDACBuilder errorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = Objects.requireNonNull(errorMessageFactory);
         return this;
     }
 
     /// @param guildScopeProvider The [GuildScopeProvider] that should be used
-    @NotNull
-    public JDACBuilder guildScopeProvider(@NotNull GuildScopeProvider guildScopeProvider) {
+    public JDACBuilder guildScopeProvider(GuildScopeProvider guildScopeProvider) {
         this.guildScopeProvider = Objects.requireNonNull(guildScopeProvider);
         return this;
     }
 
     /// @param globalReplyConfig the [ReplyConfig] to be used as a global fallback option
-    @NotNull
-    public JDACBuilder globalReplyConfig(@NotNull ReplyConfig globalReplyConfig) {
+    public JDACBuilder globalReplyConfig(ReplyConfig globalReplyConfig) {
         this.globalReplyConfig = globalReplyConfig;
         return this;
     }
 
-    @NotNull
-    public JDACBuilder globalCommandConfig(@NotNull CommandConfig config) {
+    public JDACBuilder globalCommandConfig(CommandConfig config) {
         this.globalCommandConfig = config;
         return this;
     }
@@ -197,8 +185,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
-    @NotNull
-    public JDACBuilder extensionData(@NotNull Extension.Data... data) {
+    public JDACBuilder extensionData(Extension.Data... data) {
         for (Extension.Data entity : data) {
             extensionData.put(entity.getClass(), entity);
         }
@@ -211,15 +198,13 @@ public final class JDACBuilder extends JDACBuilderData {
     /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of classes in the same package by just providing the package name.
-    @NotNull
-    public JDACBuilder filterExtensions(@NotNull FilterStrategy strategy, @NotNull String... classes) {
+    public JDACBuilder filterExtensions(FilterStrategy strategy, String... classes) {
         this.extensionFilter = new ExtensionFilter(strategy, Arrays.asList(classes));
         return this;
     }
 
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
-    @NotNull
     public JDACommands start() {
 
         ErrorMessageFactory errorMessageFactory = errorMessageFactory();

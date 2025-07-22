@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.extension.Implementation;
 import net.dv8tion.jda.api.JDA;
-import org.jetbrains.annotations.NotNull;
 
 /// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
 ///
@@ -35,12 +34,12 @@ public non-sealed interface InteractionControllerInstantiator extends Implementa
     class Context {
         private final Runtime runtime;
 
-        public Context(@NotNull Runtime runtime) {
+        public Context(Runtime runtime) {
             this.runtime = runtime;
         }
 
         /// the runtime id
-        @NotNull
+        
         public String runtimeId() {
             return runtime.id();
         }

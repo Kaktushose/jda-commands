@@ -15,8 +15,6 @@ import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocat
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
-import io.github.kaktushose.proteus.Proteus;
-import io.github.kaktushose.proteus.ProteusBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;

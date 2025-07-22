@@ -19,7 +19,6 @@ import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +58,7 @@ public final class Runtime implements Closeable {
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(@NotNull String id, @NotNull DispatchingContext dispatchingContext, JDA jda) {
+    private Runtime(String id, DispatchingContext dispatchingContext, JDA jda) {
         this.id = id;
         expirationStrategy = dispatchingContext.expirationStrategy();
         blockingQueue = new LinkedBlockingQueue<>();
@@ -78,7 +77,6 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    @NotNull
     public static Runtime startNew(String id, DispatchingContext dispatchingContext, JDA jda) {
         var runtime = new Runtime(id, dispatchingContext, jda);
         runtime.executionThread.start();
@@ -114,7 +112,6 @@ public final class Runtime implements Closeable {
         }
     }
 
-    @NotNull
     public String id() {
         return id;
     }
@@ -123,12 +120,10 @@ public final class Runtime implements Closeable {
         blockingQueue.add(event);
     }
 
-    @NotNull
     public KeyValueStore keyValueStore() {
         return keyValueStore;
     }
 
-    @NotNull
     public I18n i18n() {
         return i18n;
     }

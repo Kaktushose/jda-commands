@@ -21,8 +21,7 @@ import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.IntegrationOwners;
 import net.dv8tion.jda.api.interactions.Interaction;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @param event    the subtype [T] of [GenericInteractionCreateEvent]
     /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime  the [Runtime] this event lives in
-    protected Event(@NotNull T event, @NotNull InteractionRegistry registry, @NotNull Runtime runtime) {
+    protected Event(T event, InteractionRegistry registry, Runtime runtime) {
         this.event = event;
         this.registry = registry;
         this.runtime = runtime;
@@ -59,7 +58,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Returns the underlying [GenericInteractionCreateEvent] of this event
     ///
     /// @return the [GenericInteractionCreateEvent]
-    @NotNull
+    
     public T jdaEvent() {
         return this.event;
     }
@@ -68,7 +67,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     ///
     /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
-    @NotNull
+    
     public String runtimeId() {
         return runtime.id();
     }
@@ -88,7 +87,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// interaction execution. Its content will be the same as long as the executions take place in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the [KeyValueStore]
-    @NotNull
+    
     public KeyValueStore kv() {
         return runtime.keyValueStore();
     }
@@ -107,7 +106,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return event.getTypeRaw();
     }
 
-    @NotNull
+    
     @Override
     public String getToken() {
         return event.getToken();
@@ -119,7 +118,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return event.getGuild();
     }
 
-    @NotNull
+    
     @Override
     public User getUser() {
         return event.getUser();
@@ -147,19 +146,19 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return event.getChannelIdLong();
     }
 
-    @NotNull
+    
     @Override
     public DiscordLocale getUserLocale() {
         return event.getUserLocale();
     }
 
-    @NotNull
+    
     @Override
     public List<Entitlement> getEntitlements() {
         return event.getEntitlements();
     }
 
-    @NotNull
+    
     @Override
     public JDA getJDA() {
         return event.getJDA();
@@ -171,18 +170,17 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     }
 
     @Override
-    @NotNull
+    
     public IntegrationOwners getIntegrationOwners() {
         return event.getIntegrationOwners();
     }
 
     @Override
-    @NotNull
+    
     public InteractionContextType getContext() {
         return event.getContext();
     }
 
-    @NotNull
     public I18n i18n() {
         return runtime.i18n();
     }

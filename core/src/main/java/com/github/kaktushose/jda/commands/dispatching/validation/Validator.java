@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 
@@ -54,7 +53,7 @@ public interface Validator<T, A extends Annotation> {
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
-    void apply(@NotNull T argument, @NotNull A annotation, @NotNull Context context);
+    void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
     /// has some utility methods useful for error messages.

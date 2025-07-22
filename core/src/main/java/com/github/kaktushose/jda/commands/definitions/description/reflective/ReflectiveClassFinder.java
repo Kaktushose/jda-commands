@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
@@ -12,7 +11,6 @@ import org.reflections.util.FilterBuilder;
 import java.lang.annotation.Annotation;
 import java.util.SequencedCollection;
 
-// temp class
 @ApiStatus.Internal
 public class ReflectiveClassFinder implements ClassFinder {
 
@@ -25,7 +23,7 @@ public class ReflectiveClassFinder implements ClassFinder {
     }
 
     @Override
-    public @NotNull SequencedCollection<Class<?>> search(@NotNull Class<? extends Annotation> annotationClass) {
+    public SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
         var filter = new FilterBuilder();
         for (String pkg : packages) {
             filter.includePackage(pkg);

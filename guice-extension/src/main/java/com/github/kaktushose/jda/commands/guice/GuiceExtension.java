@@ -17,14 +17,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
@@ -47,7 +45,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         this.injector = found.createChildInjector(new GuiceExtensionModule());
     }
 
-    @NotNull
+    
     @Override
     public Collection<Implementation<?>> providedImplementations() {
         List<Implementation<?>> implementations = new ArrayList<>();
@@ -108,7 +106,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     }
 
     @Override
-    public @NotNull Class<GuiceExtensionData> dataType() {
+    public Class<GuiceExtensionData> dataType() {
         return GuiceExtensionData.class;
     }
 }

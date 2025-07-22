@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactor
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -49,8 +48,7 @@ public interface EmbedConfig {
     ///
     /// @param placeholders the [`entries`][I18n.Entry] to add
     /// @return this instance for fluent interface
-    @NotNull
-    EmbedConfig placeholders(@NotNull I18n.Entry... placeholders);
+    EmbedConfig placeholders(I18n.Entry... placeholders);
 
     /// Adds global placeholders with the values of the given map, where the key of the map represents
     /// the name of the placeholder and the value of the map the value to replace the placeholder with.
@@ -59,21 +57,18 @@ public interface EmbedConfig {
     ///
     /// @param placeholders the [Map] to get the values from
     /// @return this instance for fluent interface
-    @NotNull
-    EmbedConfig placeholders(@NotNull Map<String, Object> placeholders);
+    EmbedConfig placeholders(Map<String, Object> placeholders);
 
     /// Adds a new [EmbedDataSource] that [Embed]s can be loaded from.
     ///
     /// @param source the [EmbedDataSource] to add
     /// @return this instance for fluent interface
-    @NotNull
-    EmbedConfig sources(@NotNull EmbedDataSource... source);
+    EmbedConfig sources(EmbedDataSource... source);
 
     /// Adds a new [EmbedDataSource] that will be used by the [DefaultErrorMessageFactory] to load the error messages
     /// from.
     ///
     /// @param source the [EmbedDataSource] to load the error embeds from
     /// @return this instance for fluent interface
-    @NotNull
-    EmbedConfig errorSource(@NotNull EmbedDataSource source);
+    EmbedConfig errorSource(EmbedDataSource source);
 }

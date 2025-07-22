@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +29,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     ///
     /// @return always `true`
     @Override
-    public boolean hasPermission(@NotNull User user, @NotNull InvocationContext<?> context) {
+    public boolean hasPermission(User user, InvocationContext<?> context) {
         return true;
     }
 
@@ -39,7 +38,7 @@ public class DefaultPermissionsProvider implements PermissionsProvider {
     /// More formally, this method will work with any permission provided by [Permission#values()], case-insensitive.
     /// Any other permission String will be ignored.
     @Override
-    public boolean hasPermission(@NotNull Member member, @NotNull InvocationContext<?> context) {
+    public boolean hasPermission(Member member, InvocationContext<?> context) {
         for (String s : context.definition().permissions()) {
             // not a discord perm, continue
             if (Arrays.stream(Permission.values()).noneMatch(p -> p.name().equalsIgnoreCase(s))) {

@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.dispatching.validation.impl.NotPermiss
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.PermissionValidator;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -27,7 +26,7 @@ public class Validators {
     ///
     ///   - [PermissionValidator]
     ///   - [NotPermissionValidator]
-    public Validators(@NotNull Map<Class<? extends Annotation>, @NotNull Validator<?, ?>> validators) {
+    public Validators(Map<Class<? extends Annotation>, Validator<?, ?>> validators) {
         HashMap<Class<? extends Annotation>, Validator<?, ?>> validatorMap = new HashMap<>(validators);
         validatorMap.putAll(Map.of(
                 // jda specific
@@ -44,8 +43,7 @@ public class Validators {
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
     @SuppressWarnings("unchecked")
-    @NotNull
-    public <T, A extends Annotation> Optional<Validator<T, A>> get(@NotNull AnnotationDescription<A> annotation, @NotNull Class<T> type) {
+    public <T, A extends Annotation> Optional<Validator<T, A>> get(AnnotationDescription<A> annotation, Class<T> type) {
         Validator<T, A> validator = (Validator<T, A>) validators.get(annotation.type());
 
         if (validator == null || annotation.annotation(Constraint.class).isEmpty()) {

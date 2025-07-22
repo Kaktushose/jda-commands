@@ -8,8 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -23,10 +22,10 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
         permits ButtonDefinition, SelectMenuDefinition {
 
     /// The [ClassDescription] of the declaring class of the [#methodDescription()]
-    @NotNull ClassDescription classDescription();
+    ClassDescription classDescription();
 
     /// The [MethodDescription] of the method this definition is bound to
-    @NotNull MethodDescription methodDescription();
+    MethodDescription methodDescription();
 
     /// Overrides the oldValue with the newValue if present, else returns the oldValue
     ///
@@ -45,8 +44,8 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     /// @param <E> the type of elements in the collection
     /// @param <T> the type of the collection
     /// @return if present the newValue, else the oldValue
-    @NotNull
-    static <E, T extends Collection<E>> T override(@NotNull Supplier<T> newSupp, @NotNull T oldValue, @Nullable T newValues) {
+    
+    static <E, T extends Collection<E>> T override(Supplier<T> newSupp, T oldValue, @Nullable T newValues) {
         if (newValues == null) return oldValue;
 
         T collection = newSupp.get();

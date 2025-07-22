@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
@@ -30,8 +29,7 @@ public sealed interface Reply permits ReplyableEvent, ReplyAction {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    @NotNull
-    Message reply(@NotNull String message, I18n.Entry... placeholder);
+    Message reply(String message, I18n.Entry... placeholder);
 
     /// Acknowledgement of this event with a [MessageEmbed].
     ///
@@ -42,8 +40,7 @@ public sealed interface Reply permits ReplyableEvent, ReplyAction {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    @NotNull
-    Message reply(@NotNull MessageEmbed first, @NotNull MessageEmbed... additional);
+    Message reply(MessageEmbed first, MessageEmbed... additional);
 
     /// Acknowledgement of this event with a [MessageCreateData].
     ///
@@ -53,6 +50,6 @@ public sealed interface Reply permits ReplyableEvent, ReplyAction {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(@NotNull MessageCreateData message);
+    Message reply(MessageCreateData message);
 
 }

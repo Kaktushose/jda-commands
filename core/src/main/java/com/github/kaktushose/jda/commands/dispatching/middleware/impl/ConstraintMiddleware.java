@@ -10,11 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.internal.Valida
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
-import io.github.kaktushose.proteus.mapping.Mapper;
-import io.github.kaktushose.proteus.mapping.MappingResult;
 import io.github.kaktushose.proteus.type.Type;
-import net.dv8tion.jda.api.entities.Member;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +39,7 @@ public class ConstraintMiddleware implements Middleware {
     /// @param context the [InvocationContext] to filter
     @SuppressWarnings("unchecked")
     @Override
-    public void accept(@NotNull InvocationContext<?> context) {
+    public void accept(InvocationContext<?> context) {
         if (!(context.definition() instanceof SlashCommandDefinition command)) return;
 
         var arguments = new ArrayList<>(context.arguments());

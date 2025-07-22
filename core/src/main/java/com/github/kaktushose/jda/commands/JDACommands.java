@@ -20,8 +20,8 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middle
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
@@ -29,7 +29,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,34 +48,23 @@ public final class JDACommands {
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
 
-    JDACommands(
-            JDAContext jdaContext,
-            ExpirationStrategy expirationStrategy,
-            TypeAdapters typeAdapters,
-            Middlewares middlewares,
-            ErrorMessageFactory errorMessageFactory,
-            GuildScopeProvider guildScopeProvider,
-            InteractionRegistry interactionRegistry,
-            InteractionControllerInstantiator instanceProvider,
-            InteractionDefinition.ReplyConfig globalReplyConfig,
-            CommandDefinition.CommandConfig globalCommandConfig,
-            I18n i18n,
-            Embeds embeds) {
+    JDACommands(JDAContext jdaContext,
+                ExpirationStrategy expirationStrategy,
+                TypeAdapters typeAdapters,
+                Middlewares middlewares,
+                ErrorMessageFactory errorMessageFactory,
+                GuildScopeProvider guildScopeProvider,
+                InteractionRegistry interactionRegistry,
+                InteractionControllerInstantiator instanceProvider,
+                InteractionDefinition.ReplyConfig globalReplyConfig,
+                CommandDefinition.CommandConfig globalCommandConfig,
+                I18n i18n,
+                Embeds embeds) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(
-                middlewares,
-                errorMessageFactory,
-                interactionRegistry,
-                typeAdapters,
-                expirationStrategy,
-                instanceProvider,
-                globalReplyConfig,
-                embeds,
-                i18n
-        ));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
     }
@@ -88,8 +76,7 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new JDACommands instance
-    @NotNull
-    public static JDACommands start(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACommands start(JDA jda, Class<?> clazz, String... packages) {
         return builder(jda, clazz, packages).start();
     }
 
@@ -100,8 +87,7 @@ public final class JDACommands {
     /// @param clazz        a class of the classpath to scan
     /// @param packages     package(s) to exclusively scan
     /// @return a new JDACommands instance
-    @NotNull
-    public static JDACommands start(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACommands start(ShardManager shardManager, Class<?> clazz, String... packages) {
         return builder(shardManager, clazz, packages).start();
     }
 
@@ -111,8 +97,7 @@ public final class JDACommands {
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
     /// @return a new [JDACBuilder]
-    @NotNull
-    public static JDACBuilder builder(@NotNull JDA jda, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACBuilder builder(JDA jda, Class<?> clazz, String... packages) {
         return new JDACBuilder(new JDAContext(jda), clazz, packages);
     }
 
@@ -120,8 +105,7 @@ public final class JDACommands {
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @return a new [JDACBuilder]
-    @NotNull
-    public static JDACBuilder builder(@NotNull ShardManager shardManager, @NotNull Class<?> clazz, @NotNull String... packages) {
+    public static JDACBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
         return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
@@ -150,7 +134,6 @@ public final class JDACommands {
     /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
     ///
     /// @return the [I18n] instance
-    @NotNull
     public I18n i18n() {
         return i18n;
     }
@@ -163,8 +146,7 @@ public final class JDACommands {
     ///
     /// @param button the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [Button]
-    @NotNull
-    public Button getButton(@NotNull Class<?> origin, @NotNull String button) {
+    public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
         var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
@@ -179,8 +161,7 @@ public final class JDACommands {
     /// @param origin the [Class] of the method
     /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [SelectMenu]
-    @NotNull
-    public SelectMenu getSelectMenu(@NotNull Class<?> origin, @NotNull String menu) {
+    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
@@ -193,8 +174,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
-    @NotNull
-    public Embed embed(@NotNull String name) {
+    public Embed embed(String name) {
         return embeds.get(name);
     }
 
@@ -204,8 +184,7 @@ public final class JDACommands {
     ///
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
-    @NotNull
-    public Optional<Embed> findEmbed(@NotNull String name) {
+    public Optional<Embed> findEmbed(String name) {
         if (!embeds.exists(name)) {
             return Optional.empty();
         }

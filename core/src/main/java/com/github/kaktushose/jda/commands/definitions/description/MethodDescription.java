@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.description;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
 import java.util.Collection;
@@ -17,14 +15,14 @@ import java.util.SequencedCollection;
 /// @param annotations    a [Collection] of all [Annotation]s this method is annotated with
 /// @param invoker        the corresponding [Invoker], used to invoke this method
 public record MethodDescription(
-        @NotNull Class<?> declaringClass,
-        @NotNull Class<?> returnType,
-        @NotNull String name,
-        @NotNull SequencedCollection<ParameterDescription> parameters,
-        @NotNull Collection<AnnotationDescription<?>> annotations,
-        @NotNull Invoker invoker
+        Class<?> declaringClass,
+        Class<?> returnType,
+        String name,
+        SequencedCollection<ParameterDescription> parameters,
+        Collection<AnnotationDescription<?>> annotations,
+        Invoker invoker
 ) implements Description {
-    public MethodDescription(@NotNull Class<?> declaringClass, @NotNull Class<?> returnType, @NotNull String name, @NotNull SequencedCollection<ParameterDescription> parameters, @NotNull Collection<AnnotationDescription<?>> annotations, @NotNull Invoker invoker) {
+    public MethodDescription(Class<?> declaringClass, Class<?> returnType, String name, SequencedCollection<ParameterDescription> parameters, Collection<AnnotationDescription<?>> annotations, Invoker invoker) {
         this.declaringClass = declaringClass;
         this.returnType = returnType;
         this.name = name;

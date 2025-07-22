@@ -12,14 +12,11 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +35,7 @@ public final class Helpers {
     ///
     /// @param optionMapping the [OptionMapping] to return the human-readable representation for
     /// @return the human-readable representation
-    @NotNull
-    public static String humanReadableType(@NotNull OptionMapping optionMapping) {
+    public static String humanReadableType(OptionMapping optionMapping) {
         return switch (optionMapping.getType()) {
             case STRING -> "String";
             case INTEGER -> "Long";
@@ -66,8 +62,7 @@ public final class Helpers {
     ///
     /// @param context the [MethodBuildContext] to extract the permissions from
     /// @return a possibly-empty set of all permissions
-    @NotNull
-    public static Set<String> permissions(@NotNull MethodBuildContext context) {
+    public static Set<String> permissions(MethodBuildContext context) {
         var permission = context.method().annotation(Permissions.class);
 
         if (permission.isPresent()) {
@@ -84,7 +79,7 @@ public final class Helpers {
     /// @param index  the index the parameter is expected to be at
     /// @param type   the type of the parameter
     /// @return `true` if the parameter is present
-    public static boolean isIncorrectParameterType(@NotNull MethodDescription method, int index, @NotNull Class<?> type) {
+    public static boolean isIncorrectParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
             log.error("An error has occurred! Skipping Interaction {}.{}:",
                     method.declaringClass().getName(),
@@ -124,8 +119,7 @@ public final class Helpers {
     /// @param fallback   the [InteractionDefinition.ReplyConfig] to use as a fallback
     /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If
     /// neither is present will fall back to the global [InteractionDefinition.ReplyConfig] provided by [JDACBuilder].
-    @NotNull
-    public static InteractionDefinition.ReplyConfig replyConfig(@NotNull Invokable definition, @NotNull InteractionDefinition.ReplyConfig fallback) {
+    public static InteractionDefinition.ReplyConfig replyConfig(Invokable definition, InteractionDefinition.ReplyConfig fallback) {
         return computeConfig(
                 ReplyConfig.class,
                 definition.classDescription(),
@@ -163,12 +157,11 @@ public final class Helpers {
     /// @param <A> the annotation type of the config
     /// @param <C> the data class representing the config/ annotation
     /// @return C
-    @NotNull
-    private static <A extends Annotation, C> C computeConfig(@NotNull Class<A> annotation,
-                                                             @NotNull ClassDescription clazz,
-                                                             @NotNull MethodDescription method,
-                                                             @NotNull Function<A, C> mapper,
-                                                             @NotNull C fallback) {
+    private static <A extends Annotation, C> C computeConfig(Class<A> annotation,
+                                                             ClassDescription clazz,
+                                                             MethodDescription method,
+                                                             Function<A, C> mapper,
+                                                             C fallback) {
         var clazzAnn = clazz.annotation(annotation);
         var methodAnn = method.annotation(annotation);
 
@@ -179,17 +172,14 @@ public final class Helpers {
         return methodAnn.map(mapper).orElseGet(() -> mapper.apply(clazzAnn.get()));
     }
 
-    @NotNull
-    public static ErrorContext errorContext(@NotNull GenericInteractionCreateEvent event, @NotNull InteractionDefinition definition) {
+    public static ErrorContext errorContext(GenericInteractionCreateEvent event, InteractionDefinition definition) {
         return new ErrorContext() {
 
-            @NotNull
             @Override
             public GenericInteractionCreateEvent event() {
                 return event;
             }
 
-            @NotNull
             @Override
             public InteractionDefinition definition() {
                 return definition;
