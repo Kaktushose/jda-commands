@@ -110,13 +110,24 @@ public class I18n {
     private final LocalizationFunction localizationFunction = new JDACLocalizationFunction(this);
     private final ThreadLocal<ClassDescription> last = new ThreadLocal<>();
 
-
+    /// @param descriptor the [Description] to be used to get the [Bundle] annotation
+    /// @param localizer the used [Localizer] to retrieve the messages
     public I18n(Descriptor descriptor, Localizer localizer) {
         this.descriptor = descriptor;
         this.localizer = localizer;
     }
 
     // default split (@) is undocumented and will be replaced in the future by solution with ScopedValues
+    /// This method returns the localized method found by the provided [Locale] and key
+    /// in the given bundle.
+    ///
+    /// The bundle can be either explicitly stated by adding it to the
+    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
+    ///
+    /// @param locale the [Locale] to be used to localize the key
+    /// @param key the messages key
+    /// @param placeholder the placeholder to be used
     public String localize(Locale locale, String combinedKey, Map<String, Object> arguments) {
         String[] bundleSplit = combinedKey.split("#", 2);
         String bundle = bundleSplit.length == 2
@@ -140,16 +151,35 @@ public class I18n {
         return localized;
     }
 
+    /// This method returns the localized method found by the provided [Locale] and key
+    /// in the given bundle.
+    ///
+    /// The bundle can be either explicitly stated by adding it to the
+    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
+    ///
+    /// @param locale the [Locale] to be used to localize the key
+    /// @param key the messages key
+    /// @param placeholder the placeholder to be used
     public String localize(Locale locale, String key, Entry... placeholder) {
         Map<String, Object> map = Arrays.stream(placeholder)
                 .collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value));
         return localize(locale, key, map);
     }
 
+    /// This method returns an [Entry] containing the name and value provided.
+    /// It comes in handy when imported with a static import.
+    ///
+    /// @param name the name of the placeholder
+    /// @param value the value of the placeholder
     public static Entry entry(String name, Object value) {
         return new Entry(name, value);
     }
 
+    /// A placeholder with the value to be used
+    ///
+    /// @param name the placeholders name
+    /// @param value the value to be substituted
     public record Entry(String name, Object value) {}
 
     private String findBundle() {
