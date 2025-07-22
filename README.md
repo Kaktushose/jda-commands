@@ -29,7 +29,7 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 - First-hand localization support (via [project fluent](https://projectfluent.org/))
 
-- Usage of [jSpecify](https://jspecify.dev/) Nullability annotations
+- Usage of [jSpecify](https://jspecify.dev/) nullability annotations
 
 If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or the [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/).
 
