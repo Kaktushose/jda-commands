@@ -104,8 +104,8 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     }
 
     /// @param callback a [Function] that allows to modify the resulting jda object.
-    ///                                 The passed function will be called after all modifications are made by jda-commands,
-    ///                                 shortly before the component is registered in the message
+    ///                                 The passed function will be called after all modifications except localization are made by jda-commands,
+    ///                                 shortly before the component is localized and then registered in the message
     public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
