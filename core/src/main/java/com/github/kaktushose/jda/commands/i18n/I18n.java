@@ -126,11 +126,11 @@ public class I18n {
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
-    /// @param key the messages key
+    /// @param combinedKey the messages key
     /// @param placeholder the placeholder to be used
     ///
     /// @return the localized message or the key if not found
-    public String localize(Locale locale, String combinedKey, Map<String, Object> arguments) {
+    public String localize(Locale locale, String combinedKey, Map<String, Object> placeholder) {
         String[] bundleSplit = combinedKey.split("#", 2);
         String bundle = bundleSplit.length == 2
                 ? bundleSplit[0].trim()
@@ -143,8 +143,8 @@ public class I18n {
         String[] defaultSplit = rawKey.split("@", 2);
         String key = defaultSplit[0];
 
-        String localized = localizer.localize(locale, bundle, key, arguments)
-                .or(() -> localizer.localizeMessage(locale, key, arguments))
+        String localized = localizer.localize(locale, bundle, key, placeholder)
+                .or(() -> localizer.localizeMessage(locale, key, placeholder))
                 .orElse(key);
 
         // use split message
