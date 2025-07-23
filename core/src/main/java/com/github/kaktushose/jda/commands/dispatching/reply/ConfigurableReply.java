@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
@@ -294,7 +295,7 @@ public sealed class ConfigurableReply permits SendableReply {
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
                     .orElseGet(() -> definition.methodDescription().declaringClass().getName());
-            String definitionId = String.valueOf((className + component.name()).hashCode());
+            String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 
             if (replyAction.components()
                     .stream()
@@ -306,7 +307,7 @@ public sealed class ConfigurableReply permits SendableReply {
                 throw new IllegalArgumentException("Cannot add component \"%s.%s\" multiple times!".formatted(className, component.name()));
             }
 
-            var definition = findDefinition(component, definitionId);
+            var definition = findDefinition(component, definitionId, className);
 
             ActionComponent item = switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
@@ -373,13 +374,19 @@ public sealed class ConfigurableReply permits SendableReply {
         return i18n.localize(event.getUserLocale().toLocale(), key, component.placeholder());
     }
 
-    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId) {
-        // this cast is effective safe
-        D definition = registry.find(component.definitionClass(), false, it ->
-                it.definitionId().equals(definitionId)
-        );
+    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
+        try {
+            // this cast is effective safe
+            D definition = registry.find(component.definitionClass(), false, it ->
+                    it.definitionId().equals(definitionId)
+            );
 
-        return component.build(definition);
+            return component.build(definition);
+        } catch (IllegalArgumentException e) { // only check if search failed
+            Collection<ModalDefinition> found = registry.find(ModalDefinition.class, it -> it.definitionId().equals(definitionId));
+            if (!found.isEmpty()) throw new IllegalArgumentException("Modals cannot be attached as components. '%s#%s' is a modal method! You have to reply with ModalReplyableEvent#replyModal".formatted(className, component.name()));
+            throw e;
+        }
 
     }
 

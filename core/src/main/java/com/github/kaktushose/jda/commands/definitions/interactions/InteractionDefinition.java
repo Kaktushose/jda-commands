@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
+import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
@@ -28,10 +30,19 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
     /// The id for this definition. For interaction definition this is the hash code of the full class name and method
     /// name combined.
-    
     @Override
     default String definitionId() {
-        return String.valueOf((classDescription().clazz().getName() + methodDescription().name()).hashCode());
+        return createDefinitionId(classDescription().name(), methodDescription().name());
+    }
+
+    /// Creates a definition id from the classname and method name
+    ///
+    /// @param className the classname ([Class#getName()] or [ClassDescription#name()])
+    /// @param methodName the method name ([java.lang.reflect.Method#name()] or [MethodDescription#name()])
+    ///
+    /// @return the definition id
+    static String createDefinitionId(String className, String methodName) {
+        return String.valueOf((className + methodName).hashCode());
     }
 
     /// A possibly-empty [Collection] of permissions for this interaction.
