@@ -65,12 +65,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" tabindex="0">ModalBuilder(CustomId, ModalDefinition)</a></li>
+<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent,com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" tabindex="0">ModalBuilder(ReplyableEvent, CustomId, ModalDefinition)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#title(java.lang.String)" tabindex="0">title(String)</a></li>
+<li><a href="#placeholder(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">placeholder(I18n.Entry...)</a></li>
 <li><a href="#textInput(java.lang.String,java.util.function.Function)" tabindex="0">textInput(String, Function)</a></li>
 <li><a href="#modify(java.util.function.Function)" tabindex="0">modify(Function)</a></li>
 <li><a href="#build()" tabindex="0">build()</a></li>
@@ -104,7 +105,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" class="member-name-link">ModalBuilder</a><wbr>(<a href="../../../definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a>&nbsp;customId,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent,com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" class="member-name-link">ModalBuilder</a><wbr>(<a href="../../events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a>&lt;?&gt;&nbsp;event,
+ <a href="../../../definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a>&nbsp;customId,
  <a href="../../../definitions/interactions/ModalDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">ModalDefinition</a>&nbsp;modalDefinition)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new <a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ModalBuilder</code></a>.</div>
@@ -132,14 +134,17 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(java.util.function.Function)" class="member-name-link">modify</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/Modal.Builder.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">Modal.Builder</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/Modal.Builder.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">Modal.Builder</a>&gt;&nbsp;callback)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#textInput(java.lang.String,java.util.function.Function)" class="member-name-link">textInput</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;textInput,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">placeholder</a><wbr>(<a href="../../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#textInput(java.lang.String,java.util.function.Function)" class="member-name-link">textInput</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;textInput,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;net.dv8tion.jda.api.interactions.components.text.TextInput.Builder, net.dv8tion.jda.api.interactions.components.text.TextInput.Builder&gt;&nbsp;callback)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Allows modification of a text input with the given callback.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#title(java.lang.String)" class="member-name-link">title</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#title(java.lang.String)" class="member-name-link">title</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -158,10 +163,11 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)">
+<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent,com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)">
 <h3>ModalBuilder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ModalBuilder</span><wbr><span class="parameters">(<a href="../../../definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a>&nbsp;customId,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ModalBuilder</span><wbr><span class="parameters">(<a href="../../events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a>&lt;?&gt;&nbsp;event,
+ <a href="../../../definitions/interactions/CustomId.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">CustomId</a>&nbsp;customId,
  <a href="../../../definitions/interactions/ModalDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">ModalDefinition</a>&nbsp;modalDefinition)</span></div>
 <div class="block">Constructs a new <a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ModalBuilder</code></a>.</div>
 <dl class="notes">
@@ -197,6 +203,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="placeholder(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<h3>placeholder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></span>&nbsp;<span class="element-name">placeholder</span><wbr><span class="parameters">(<a href="../../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>placeholder</code> - the placeholders to be used for localization</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="textInput(java.lang.String,java.util.function.Function)">
 <h3>textInput</h3>
 <div class="horizontal-scroll">
@@ -227,8 +245,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>callback</code> - a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link"><code>Function</code></a> that allows to modify the resulting jda object.
-The passed function will be called after all modifications are made by jda-commands,
-shortly before the component is registered in the message</dd>
+The passed function will be called after all modifications except localization are made by jda-commands,
+shortly before the component is localized and then registered in the message</dd>
 </dl>
 </div>
 </section>

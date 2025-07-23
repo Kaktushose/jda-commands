@@ -2527,6 +2527,14 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localize(Locale, String, Map&lt;String, Object&gt;)</a> - Method in class com.github.kaktushose.jda.commands.i18n.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/FluavaLocalizer.html#localizeMessage(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localizeMessage(Locale, String, Map&lt;String, Object&gt;)</a> - Method in class com.github.kaktushose.jda.commands.i18n.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/FluavaLocalizer.html" title="class in com.github.kaktushose.jda.commands.i18n">FluavaLocalizer</a></dt>
+<dd>
+<div class="block">This method localizes the given message content for the specific locale and arguments.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html#localizeMessage(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localizeMessage(Locale, String, Map&lt;String, Object&gt;)</a> - Method in interface com.github.kaktushose.jda.commands.i18n.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n">Localizer</a></dt>
+<dd>
+<div class="block">This method localizes the given message content for the specific locale and arguments.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#localizer" class="member-name-link">localizer</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#localizer()" class="member-name-link">localizer()</a> - Method in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
@@ -2749,7 +2757,7 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dd>
 <div class="block">Builder for <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/Modal.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>Modal</code></a>s.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" class="member-name-link">ModalBuilder(CustomId, ModalDefinition)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent,com.github.kaktushose.jda.commands.definitions.interactions.CustomId,com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition)" class="member-name-link">ModalBuilder(ReplyableEvent&lt;?&gt;, CustomId, ModalDefinition)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic"><code>ModalBuilder</code></a>.</div>
 </dd>
@@ -3085,6 +3093,8 @@ require the user to have the given permissions in order to execute the command.<
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#placeholder()" class="member-name-link">placeholder()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#placeholder(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">placeholder(I18n.Entry...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html#placeholder(java.lang.String)" class="member-name-link">placeholder(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/menu/SelectMenuComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu">SelectMenuComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.html#placeholders()" class="member-name-link">placeholders()</a> - Method in record class com.github.kaktushose.jda.commands.embeds.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></dt>
@@ -3223,7 +3233,9 @@ the name of the placeholder and the value of the map the value to replace the pl
 <div class="block">Sends the reply to Discord and blocks the current thread until the message was sent.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">reply(String, I18n.Entry...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Acknowledgement of this event with a text message.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">reply(String, I18n.Entry...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with a text message.</div>
@@ -3235,7 +3247,9 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#reply(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">reply(String, I18n.Entry...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in interface com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
@@ -3243,7 +3257,9 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply(MessageCreateData)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply(MessageCreateData)</a> - Method in interface com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal">Reply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
@@ -3340,7 +3356,7 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dd>
 <div class="block">Constructs a new ReplyConfig.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String)" class="member-name-link">replyModal(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">replyModal(String, I18n.Entry...)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with a <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>.</div>
 </dd>

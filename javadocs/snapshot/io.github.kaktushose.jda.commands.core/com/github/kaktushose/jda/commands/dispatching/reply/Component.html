@@ -413,8 +413,8 @@ public void onCommand(CommandEvent event, User user) {
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>callback</code> - a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link"><code>Function</code></a> that allows to modify the resulting jda object.
-The passed function will be called after all modifications are made by jda-commands,
-shortly before the component is registered in the message</dd>
+The passed function will be called after all modifications except localization are made by jda-commands,
+shortly before the component is localized and then registered in the message</dd>
 </dl>
 </div>
 </section>
