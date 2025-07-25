@@ -70,8 +70,6 @@ public sealed abstract class JDACException extends RuntimeException permits JDAC
         }
     }
 
-
-
     static JDACException wrap(Throwable throwable) {
         if (throwable instanceof JDACException e) {
             throw e;

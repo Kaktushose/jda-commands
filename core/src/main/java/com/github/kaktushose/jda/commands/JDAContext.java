@@ -56,7 +56,7 @@ public final class JDAContext {
 
     /// Shutdown the underlying [JDA] or [ShardManager] instance
     public void shutdown() {
-        log.warn("JDA was shutdown by JDA-Commands, this might be due to an exception during the init/start process. To disable this behaviour call JDACBuilder#shutdownJDA");
+        log.warn("JDA was shutdown by JDA-Commands, this might be due to an exception during the init/start process. To disable this behaviour set JDACBuilder#shutdownJDA(boolean) to false");
         switch (context) {
             case ShardManager manager -> manager.shutdown();
             case JDA jda -> jda.shutdown();

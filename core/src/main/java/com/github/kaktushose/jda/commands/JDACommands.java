@@ -76,7 +76,7 @@ public final class JDACommands {
     /// This uses reflections for some functionality.
     ///
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
-    /// This can be configured by settings [JDACBuilder#shutdownJDA(boolean)].
+    /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
@@ -90,7 +90,7 @@ public final class JDACommands {
     /// This uses reflections for some functionality.
     ///
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
-    /// This can be configured by settings [JDACBuilder#shutdownJDA(boolean)].
+    /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @param clazz        a class of the classpath to scan
@@ -101,6 +101,7 @@ public final class JDACommands {
     }
 
     /// Create a new builder.
+    ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
     /// @param packages package(s) to exclusively scan
@@ -133,9 +134,9 @@ public final class JDACommands {
     }
 
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.
-    /// This will <b>not</b> unregister any slash commands.
+    /// This will **not** unregister any slash commands.
     ///
-    /// If [JDACBuilder#shutdownJDA()] is set to 'true', the underlying [JDA] or [ShardManager] instance will
+    /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));

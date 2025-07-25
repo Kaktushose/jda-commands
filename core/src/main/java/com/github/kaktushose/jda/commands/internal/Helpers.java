@@ -79,8 +79,7 @@ public final class Helpers {
     /// @param method the [Method] to check
     /// @param index  the index the parameter is expected to be at
     /// @param type   the type of the parameter
-    /// @return `true` if the parameter is present
-    public static void isIncorrectParameterType(MethodDescription method, int index, Class<?> type) {
+    public static void checkParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
             throw new JDACException.InvalidDeclaration("%d. parameter must be of type %s", index + 1, type.getSimpleName());
         }

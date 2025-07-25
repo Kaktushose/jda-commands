@@ -56,7 +56,7 @@ public record ModalDefinition(
             throw new JDACException.InvalidDeclaration("Invalid amount of parameters! Modals need between 1 and 5 TextInputs");
         }
 
-        Helpers.isIncorrectParameterType(method, 0, ModalEvent.class);
+        Helpers.checkParameterType(method, 0, ModalEvent.class);
 
         List<TextInputDefinition> textInputs = new ArrayList<>();
         for (int i = 1; i < method.parameters().size(); i++) {
