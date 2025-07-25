@@ -62,14 +62,12 @@ public record EntitySelectMenuDefinition(
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [EntitySelectMenuDefinition]
-    public static Optional<EntitySelectMenuDefinition> build(MethodBuildContext context) {
+    public static EntitySelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu selectMenu =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu.class).orElseThrow();
 
-        if (Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class))) {
-            return Optional.empty();
-        }
+        Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class));
 
         Set<EntitySelectMenu.DefaultValue> defaultValueSet = new HashSet<>();
         for (long id : selectMenu.defaultChannels()) {
@@ -85,7 +83,7 @@ public record EntitySelectMenuDefinition(
             defaultValueSet.add(EntitySelectMenu.DefaultValue.role(id));
         }
 
-        return Optional.of(new EntitySelectMenuDefinition(
+        return new EntitySelectMenuDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -95,7 +93,7 @@ public record EntitySelectMenuDefinition(
                 selectMenu.placeholder(),
                 selectMenu.minValue(),
                 selectMenu.maxValue()
-        ));
+        );
     }
 
     /// Transforms this definition to an [EntitySelectMenu] with an independent custom id.

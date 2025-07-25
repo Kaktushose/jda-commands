@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
@@ -78,8 +79,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
-            throw new IllegalStateException(
-                    "Command input doesn't match command options length! Please report this error to the devs of jda-commands."
+            throw new JDACException.Internal(
+                    "Command input doesn't match command options length!"
             );
         }
 

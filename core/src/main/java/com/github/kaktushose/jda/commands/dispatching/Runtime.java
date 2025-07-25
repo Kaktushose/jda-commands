@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
@@ -107,7 +108,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new IllegalStateException("Should not occur. Please report this error to the devs of jda-commands.");
+                    throw new JDACException.Internal("Should not occur.");
         }
     }
 

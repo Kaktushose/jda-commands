@@ -45,7 +45,7 @@ class ReplyConfigTest {
                         Set.of(),
                         new CommandDefinition.CommandConfig()
                 )
-        ).orElseThrow();
+        );
         return Helpers.replyConfig(definition, replyConfig);
     }
 

@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
+import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.i18n.I18n;
@@ -123,9 +124,7 @@ public final class ReplyAction implements Reply {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new IllegalArgumentException(
-                    "Cannot reply to '%s'! Please report this error to the devs of jda-commands!".formatted(event.getClass().getName())
-            );
+            default -> throw new JDACException.Internal("Cannot reply to '%s'!", event.getClass().getName());
         }
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;

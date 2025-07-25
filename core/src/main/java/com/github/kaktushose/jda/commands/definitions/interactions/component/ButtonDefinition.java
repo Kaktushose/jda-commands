@@ -47,14 +47,12 @@ public record ButtonDefinition(
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [ButtonDefinition] holding the [StringSelectMenuDefinition]
-    public static Optional<ButtonDefinition> build(MethodBuildContext context) {
+    public static ButtonDefinition build(MethodBuildContext context) {
         var method = context.method();
         com.github.kaktushose.jda.commands.annotations.interactions.Button button =
                 method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Button.class).orElseThrow();
 
-        if (Helpers.checkSignature(method, List.of(ComponentEvent.class))) {
-            return Optional.empty();
-        }
+        Helpers.checkSignature(method, List.of(ComponentEvent.class));
 
         Emoji emoji;
         String emojiString = button.emoji();
@@ -64,7 +62,7 @@ public record ButtonDefinition(
             emoji = Emoji.fromFormatted(emojiString);
         }
 
-        return Optional.of(new ButtonDefinition(
+        return new ButtonDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -72,7 +70,7 @@ public record ButtonDefinition(
                 emoji,
                 button.link().isEmpty() ? null : button.link(),
                 button.style()
-        ));
+        );
     }
 
     /// Transforms this definition to an [Button] with an independent custom id.
