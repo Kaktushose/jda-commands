@@ -213,16 +213,30 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
     }
 
+    /// {@inheritDoc}
+    ///
+    /// @param placeholder {@inheritDoc}
+    /// @param message {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public Message reply(String message, I18n.Entry... placeholder) {
         return newReply().reply(message, placeholder);
     }
 
+    /// {@inheritDoc}
+    ///
+    /// @param first {@inheritDoc}
+    /// @param additional {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public Message reply(MessageEmbed first, MessageEmbed... additional) {
         return newReply().reply(first, additional);
     }
 
+    /// {@inheritDoc}
+    ///
+    /// @param data {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public Message reply(MessageCreateData data) {
         return newReply().reply(data);

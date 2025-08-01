@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
@@ -51,9 +52,10 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
     ///
     /// @param modal the method name of the [Modal] you want to reply with
+    /// @param placeholder the [I18n.Entry] placeholders to use for localization
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal) {
-        replyModal(modal, Function.identity());
+    public void replyModal(String modal, I18n.Entry... placeholder) {
+        replyModal(modal, builder -> builder.placeholder(placeholder));
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
@@ -67,7 +69,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             var modalDefinition = registry.find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
-            var builtModal = callback.apply(new ModalBuilder(new CustomId(runtimeId(), definitionId), modalDefinition)).build();
+            var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();
 
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();
