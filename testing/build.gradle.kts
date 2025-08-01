@@ -1,5 +1,5 @@
 plugins {
-    `java-library`
+    id("io.github.kaktushose.jda.commands.convention.java")
 }
 
 repositories {

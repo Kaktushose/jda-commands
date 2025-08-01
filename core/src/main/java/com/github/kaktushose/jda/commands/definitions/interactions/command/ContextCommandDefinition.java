@@ -1,10 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -51,7 +51,7 @@ public record ContextCommandDefinition(
             default -> null;
         };
         if (type == null) {
-            throw new JDACException.InvalidDeclaration("Invalid command type for context command! Must either be USER or MESSAGE");
+            throw new InvalidDeclarationException("Invalid command type for context command! Must either be USER or MESSAGE");
         }
 
         Helpers.checkSignature(method, List.of(CommandEvent.class, type));

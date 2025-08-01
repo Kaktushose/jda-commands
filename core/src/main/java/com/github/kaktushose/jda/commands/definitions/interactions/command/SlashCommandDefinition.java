@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.annotations.interactions.Cooldown;
 import com.github.kaktushose.jda.commands.definitions.Definition;
@@ -11,6 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition.AutoCompleteRule;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -60,12 +60,12 @@ public record SlashCommandDefinition(
                 .trim();
 
         if (name.isBlank()) {
-            throw new JDACException.InvalidDeclaration("Command name must be not blank.");
+            throw new InvalidDeclarationException("Command name must be not blank.");
         }
 
         String[] split = name.split(" ");
         if (split.length > 3) {
-            throw new JDACException.InvalidDeclaration("Invalid command name \"%s\" for slash command \"%s.%s\". Slash commands can only have up to 3 labels.",
+            throw new InvalidDeclarationException("Invalid command name \"%s\" for slash command \"%s.%s\". Slash commands can only have up to 3 labels.",
                     name,
                     context.clazz().name(),
                     method.name());

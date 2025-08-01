@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands;
 
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 /// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
 public final class JDAContext {
 
+    private static final InternalException EXCEPTION = new InternalException("Cannot cast context to either JDA oder ShardManager class.");
     public static final Logger log = LoggerFactory.getLogger(JDAContext.class);
 
     private final Object context;
@@ -37,8 +39,7 @@ public final class JDAContext {
         switch (context) {
             case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
             case JDA jda -> consumer.accept(jda);
-            default ->
-                    throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
+            default -> throw EXCEPTION;
         }
     }
 
@@ -49,8 +50,7 @@ public final class JDAContext {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();
             case JDA jda -> jda.getGuildCache();
-            default ->
-                    throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
+            default -> throw EXCEPTION;
         };
     }
 
@@ -60,7 +60,7 @@ public final class JDAContext {
         switch (context) {
             case ShardManager manager -> manager.shutdown();
             case JDA jda -> jda.shutdown();
-            default -> throw new JDACException.Internal("Cannot cast context to either JDA oder ShardManager class.");
+            default -> throw EXCEPTION;
         }
     }
 }

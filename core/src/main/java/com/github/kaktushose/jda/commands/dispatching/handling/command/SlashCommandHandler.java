@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
@@ -10,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -79,7 +79,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
-            throw new JDACException.Internal(
+            throw new InternalException(
                     "Command input doesn't match command options length!"
             );
         }

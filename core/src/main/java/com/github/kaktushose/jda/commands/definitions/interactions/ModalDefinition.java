@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -9,6 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
@@ -53,7 +53,7 @@ public record ModalDefinition(
 
         // Modals support up to 5 TextInputs
         if (method.parameters().isEmpty() || method.parameters().size() > 6) {
-            throw new JDACException.InvalidDeclaration("Invalid amount of parameters! Modals need between 1 and 5 TextInputs");
+            throw new InvalidDeclarationException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs");
         }
 
         Helpers.checkParameterType(method, 0, ModalEvent.class);
@@ -65,7 +65,7 @@ public record ModalDefinition(
         }
 
         if (textInputs.isEmpty()) {
-            throw new JDACException.InvalidDeclaration("Modals need at least one valid TextInput");
+            throw new InvalidDeclarationException("Modals need at least one valid TextInput");
         }
 
         List<Class<?>> signature = new ArrayList<>();

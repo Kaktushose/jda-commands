@@ -1,6 +1,5 @@
 package definitions;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -11,6 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -112,21 +112,21 @@ class SlashCommandDefinitionTest {
     void method_withoutArgs_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noArgs");
 
-        assertThrows(JDACException.InvalidDeclaration.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
     void method_withoutCommandEvent_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noCommandEvent", int.class);
 
-        assertThrows(JDACException.InvalidDeclaration.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
     void method_withCommandEventNotAtIndex0_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("commandEventWrongIndex", int.class, CommandEvent.class);
 
-        assertThrows(JDACException.InvalidDeclaration.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test

@@ -1,8 +1,9 @@
 package com.github.kaktushose.jda.commands.internal.register;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
@@ -46,7 +47,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new JDACException.Internal(
+            throw new InternalException(
                     "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName())
             );
         }
@@ -62,7 +63,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new JDACException.Internal(
+            throw new InternalException(
                     "Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ".formatted(command.displayName())
             );
         }
@@ -95,7 +96,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                         command.methodDescription().name()
                 );
         children.remove(child.get());
-        throw new JDACException.Configuration("Failed to register one ore more commands: %s", error);
+        throw new ConfigurationException("Failed to register one ore more commands: %s", error);
     }
 
     /// Gets a child [TreeNode] based on its name.
@@ -141,7 +142,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Transforms this TreeNode into [SubcommandData] and adds it to the passed [SubcommandGroupData].
     private void addSubcommandData(SubcommandGroupData group) {
         if (!children.isEmpty()) {
-            throw new JDACException.Internal("Cannot transform node with children to SubcommandData!");
+            throw new InternalException("Cannot transform node with children to SubcommandData!");
         }
         group.addSubcommands(command.toSubcommandData(name));
     }

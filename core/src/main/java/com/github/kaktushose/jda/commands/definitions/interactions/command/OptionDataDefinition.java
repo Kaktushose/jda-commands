@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.definitions.interactions.command;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;
 import com.github.kaktushose.jda.commands.annotations.constraints.Min;
@@ -11,8 +10,12 @@ import com.github.kaktushose.jda.commands.definitions.description.AnnotationDesc
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.Event;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -116,6 +119,19 @@ public record OptionDataDefinition(
                                              Validators validatorRegistry) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
+        if (Event.class.isAssignableFrom(resolvedType)) {
+            String message = "%s is no valid command option type.".formatted(resolvedType);
+
+            if (resolvedType.equals(ComponentEvent.class)) {
+                message += " Perhaps you wanted to write CommandEvent? ";
+            }
+            if (resolvedType.equals(CommandEvent.class)) {
+                message += "Perhaps you wanted to write ComponentEvent?";
+            }
+
+            throw new InvalidDeclarationException(message);
+        }
+
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
@@ -178,7 +194,7 @@ public record OptionDataDefinition(
         if (type.equals(Optional.class)) {
             Class<?> unwrapped = description.typeArguments()[0];
             if (unwrapped == null) {
-                throw new JDACException.InvalidDeclaration("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
+                throw new InvalidDeclarationException("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
             }
             return unwrapped;
         }

@@ -119,17 +119,12 @@ public final class JDACommands {
     }
 
     void start(ClassFinder classFinder) {
-        try {
-            log.info("Starting JDA-Commands...");
-            interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
-            updater.updateAllCommands();
+        log.info("Starting JDA-Commands...");
+        interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
+        updater.updateAllCommands();
 
-            jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
-            log.info("Finished loading!");
-        } catch (Exception e) {
-            shutdown();
-            throw JDACException.wrap(e);
-        }
+        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
+        log.info("Finished loading!");
 
     }
 

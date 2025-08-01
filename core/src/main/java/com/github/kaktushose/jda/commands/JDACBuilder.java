@@ -90,7 +90,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// Configuration step for the Embed API of JDA-Commands.
+    /// ConfigurationException step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {

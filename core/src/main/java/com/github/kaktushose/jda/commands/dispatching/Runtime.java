@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
@@ -10,6 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -108,7 +108,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new JDACException.Internal("Should not occur.");
+                    throw new InternalException("Should not occur.");
         }
     }
 

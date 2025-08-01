@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.extension;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.JDACommands;
 import com.github.kaktushose.jda.commands.JDAContext;
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
@@ -17,6 +16,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
@@ -135,7 +135,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
             if (implementations.isEmpty()) {
                 if (!defaults.containsKey(type)) {
                     if (shutdownJDA()) context.shutdown();
-                    throw new JDACException.Configuration("No implementation for %s found. Please provide!".formatted(type));
+                    throw new ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
                 }
 
                 return defaults.get(type).get();
@@ -151,7 +151,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
             if (shutdownJDA()) context.shutdown();
 
-            throw new JDACException.Configuration(
+            throw new ConfigurationException(
                     "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
                             .formatted(type, foundImplementations)
             );

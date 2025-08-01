@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
@@ -8,6 +7,7 @@ import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
@@ -37,7 +37,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
             case ButtonInteractionEvent _ -> new ArrayList<>();
-            default -> throw new JDACException.Internal("Should not occur.");
+            default -> throw new InternalException("Should not occur.");
         };
         arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
 

@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.internal;
 
 import com.github.kaktushose.jda.commands.JDACBuilder;
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig;
 import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
@@ -13,6 +12,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -81,16 +81,22 @@ public final class Helpers {
     /// @param type   the type of the parameter
     public static void checkParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
-            throw new JDACException.InvalidDeclaration("%d. parameter must be of type %s", index + 1, type.getSimpleName());
+            throw new InvalidDeclarationException("%d. parameter must be of type %s", index + 1, type.getSimpleName());
         }
     }
 
-    public static void checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
+    public static void checkSignature(MethodDescription method, SequencedCollection<Class<?>> methodSignature) {
         var parameters = method.parameters().stream()
                 .map(ParameterDescription::type)
                 .toList();
         if (!parameters.equals(methodSignature)) {
-            throw new JDACException.InvalidDeclaration("Incorrect method signature!\nExpected: %s\nActual:   %s",
+
+            String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
+                    ? ""
+                    : " You forgot to add %s as the first parameter of the method!".formatted(methodSignature.getFirst());
+
+            throw new InvalidDeclarationException("Incorrect method signature!%s\nExpected: %s\nActual:   %s",
+                    prefix,
                     methodSignature.stream().toList(),
                     method.parameters().stream().map(ParameterDescription::type).toList());
         }

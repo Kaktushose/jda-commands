@@ -1,12 +1,10 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
-import com.github.kaktushose.jda.commands.JDACException;
 import com.github.kaktushose.jda.commands.annotations.interactions.*;
 import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
@@ -14,6 +12,8 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
@@ -137,22 +136,17 @@ public record InteractionRegistry(Validators validators,
                     globalCommandConfig
             );
 
-            try {
-                Definition definition = construct(method, context);
 
-                if (definition != null) {
-                    log.debug("Found interaction: {}", definition);
-                    definitions.add(definition);
-                }
-            } catch (Exception e) {
-                String message = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
-                        method.declaringClass().getName(),
-                        method.name(),
-                        method.parameters().stream().map(ParameterDescription::type).map(Class::getName).collect(Collectors.joining(", "))
-                );
+            // to be replaced with scoped values
+            InvalidDeclarationException.CONTEXT.set(method);
+            Definition definition = construct(method, context);
 
-                throw new JDACException.Other(message, e);
+            if (definition != null) {
+                log.debug("Found interaction: {}", definition);
+                definitions.add(definition);
             }
+
+            InvalidDeclarationException.CONTEXT.remove();
         }
         return definitions;
     }
@@ -165,7 +159,7 @@ public record InteractionRegistry(Validators validators,
             return switch (command.type()) {
                 case SLASH -> SlashCommandDefinition.build(context);
                 case USER, MESSAGE -> ContextCommandDefinition.build(context);
-                case UNKNOWN -> throw new JDACException.InvalidDeclaration("Unknown command type isn't allowed here.");
+                case UNKNOWN -> throw new InvalidDeclarationException("Unknown command type isn't allowed here.");
             };
         }
 
@@ -206,7 +200,7 @@ public record InteractionRegistry(Validators validators,
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> internalError
-                        ? new JDACException.Internal("No interaction found!")
+                        ? new InternalException("No interaction found!")
                         : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
                 );
     }
