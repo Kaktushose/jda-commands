@@ -33,7 +33,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     @Nullable
     default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
         if (!EventHandler.INVOCATION_PERMITTED.get()) {
-            throw new InternalException("The definition must not be invoked at this point.");
+            throw new InternalException("invocation-not-permitted");
         }
         SequencedCollection<Object> arguments = invocation.rawArguments();
 

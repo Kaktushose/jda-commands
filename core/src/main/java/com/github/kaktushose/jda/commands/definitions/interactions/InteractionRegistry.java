@@ -200,7 +200,7 @@ public record InteractionRegistry(Validators validators,
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> internalError
-                        ? new InternalException("No interaction found!")
+                        ? new InternalException("no-interaction-found")
                         : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
                 );
     }

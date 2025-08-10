@@ -37,7 +37,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
             case EntitySelectInteractionEvent event -> new ArrayList<>(List.of(event.getMentions()));
             case ButtonInteractionEvent _ -> new ArrayList<>();
-            default -> throw new InternalException("Should not occur.");
+            default -> throw new InternalException("default-switch");
         };
         arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
 

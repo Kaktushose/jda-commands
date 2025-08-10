@@ -108,7 +108,7 @@ public final class Runtime implements Closeable {
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
             default ->
-                    throw new InternalException("Should not occur.");
+                    throw new InternalException("default-switch");
         }
     }
 

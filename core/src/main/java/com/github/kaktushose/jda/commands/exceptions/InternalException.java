@@ -1,27 +1,32 @@
 package com.github.kaktushose.jda.commands.exceptions;
 
+import com.github.kaktushose.jda.commands.i18n.I18n;
+
+import java.util.Locale;
+import java.util.Map;
+
 /// Will be thrown if anything goes wrong internally. Should be reported to the devs.
-public final class InternalException extends RuntimeException {
+public final class InternalException extends JDACException {
 
-  /// @param message the exception message to be displayed
-  public InternalException(String message) {
-    super(message);
-  }
-
-    /// @param message the exception message to be displayed
-    /// @param cause the cause of the internal exception
-    public InternalException(String message, Throwable cause) {
-        super(message, cause);
+    /// @param key the bundle key of the error message
+    public InternalException(String key) {
+        super(key);
     }
 
-  /// @param message the exception message to be displayed
-  /// @param placeholder the values to replace the placeholders (see [String#format(String, Object...) ])
-  public InternalException(String message, Object... placeholder) {
-    super(message.formatted(placeholder));
-  }
+    /// @param key         the bundle key of the error message
+    /// @param placeholder the placeholders to insert
+    public InternalException(String key, I18n.Entry... placeholder) {
+        super(key, placeholder);
+    }
 
-  @Override
-  public String getMessage() {
-    return super.getMessage() + " Please report this error the the devs of jda-commands.";
-  }
+    /// @param key   the bundle key of the error message
+    /// @param cause the cause of the internal exception
+    public InternalException(String key, Throwable cause) {
+        super(key, cause);
+    }
+
+    @Override
+    public String getMessage() {
+        return "%s %s".formatted(super.getMessage(), errorMessages.message(Locale.ENGLISH, "internal-error").apply(Map.of()));
+    }
 }

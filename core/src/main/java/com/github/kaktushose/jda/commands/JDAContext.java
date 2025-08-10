@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 /// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
 public final class JDAContext {
 
-    private static final InternalException EXCEPTION = new InternalException("Cannot cast context to either JDA oder ShardManager class.");
+    private static final InternalException EXCEPTION = new InternalException("jda-context-cast");
     public static final Logger log = LoggerFactory.getLogger(JDAContext.class);
 
     private final Object context;

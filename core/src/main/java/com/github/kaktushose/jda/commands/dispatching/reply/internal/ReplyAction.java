@@ -124,7 +124,7 @@ public final class ReplyAction implements Reply {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new InternalException("Cannot reply to '%s'!", event.getClass().getName());
+            default -> throw new InternalException("reply-failed", I18n.entry("event", event.getClass().getName()));
         }
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;

@@ -361,7 +361,7 @@ public sealed class ConfigurableReply permits SendableReply {
                 copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
                 yield copy.build();
             }
-            default -> throw new InternalException("Should not occur.");
+            default -> throw new InternalException("default-switch");
         };
     }
 

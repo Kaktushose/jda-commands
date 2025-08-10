@@ -269,7 +269,7 @@ public class Embed extends EmbedBuilder {
             JsonNode node = localize(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
         } catch (JsonProcessingException e) {
-            throw new InternalException("Failed to localize embed!", e);
+            throw new InternalException("localization-json-error", e);
         }
     }
 

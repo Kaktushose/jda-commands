@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
@@ -47,9 +48,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new InternalException(
-                    "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName())
-            );
+            throw new InternalException("wrong-labels", I18n.entry("command", command.displayName()), I18n.entry("labelCount", 0));
         }
 
         String rootLabel = labels[0];
@@ -63,9 +62,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new InternalException(
-                    "Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ".formatted(command.displayName())
-            );
+            throw new InternalException("wrong-labels", I18n.entry("command", command.displayName()), I18n.entry("labelCount", 0));
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
@@ -142,7 +139,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Transforms this TreeNode into [SubcommandData] and adds it to the passed [SubcommandGroupData].
     private void addSubcommandData(SubcommandGroupData group) {
         if (!children.isEmpty()) {
-            throw new InternalException("Cannot transform node with children to SubcommandData!");
+            throw new InternalException("subcommand-with-children");
         }
         group.addSubcommands(command.toSubcommandData(name));
     }

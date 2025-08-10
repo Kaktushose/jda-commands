@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -79,9 +80,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
-            throw new InternalException(
-                    "Command input doesn't match command options length!"
-            );
+            throw new InternalException("command-input-mismatch");
         }
 
         Proteus proteus = Proteus.global();
@@ -116,7 +115,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(
-                                "Proteus Error: %s.".formatted(failure.detailedMessage())
+                                "proteus-error", I18n.entry("message", failure.detailedMessage())
                         );
                     }
                 }
@@ -144,7 +143,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "Invalid option type %s.".formatted(type)
+                    "invalid-option-type", I18n.entry("type", type)
             );
         };
     }
@@ -167,7 +166,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "Invalid option type %s.".formatted(optionMapping)
+                    "invalid-option-type", I18n.entry("type", optionMapping)
             );
         };
     }

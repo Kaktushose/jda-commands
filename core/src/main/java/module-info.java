@@ -18,7 +18,6 @@ module io.github.kaktushose.jda.commands.core {
 
     requires java.naming;
     requires org.apache.commons.collections4;
-    requires okhttp3;
 
     // base package
     exports com.github.kaktushose.jda.commands;
