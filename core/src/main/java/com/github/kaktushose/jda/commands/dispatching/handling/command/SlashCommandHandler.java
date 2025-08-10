@@ -115,8 +115,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             );
                             return Optional.empty();
                         }
-                        case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new IllegalStateException(
-                                "Proteus Error: %s. Please report this error to the devs of jda-commands.".formatted(failure.detailedMessage())
+                        case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(
+                                "Proteus Error: %s.".formatted(failure.detailedMessage())
                         );
                     }
                 }
@@ -143,8 +143,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case MENTIONABLE -> Type.of(IMentionable.class);
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(type)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "Invalid option type %s.".formatted(type)
             );
         };
     }
@@ -166,8 +166,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case MENTIONABLE -> optionMapping.getAsMentionable();
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "Invalid option type %s.".formatted(optionMapping)
             );
         };
     }

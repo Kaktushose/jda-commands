@@ -18,6 +18,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -360,7 +361,7 @@ public sealed class ConfigurableReply permits SendableReply {
                 copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
                 yield copy.build();
             }
-            default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
+            default -> throw new InternalException("Should not occur.");
         };
     }
 

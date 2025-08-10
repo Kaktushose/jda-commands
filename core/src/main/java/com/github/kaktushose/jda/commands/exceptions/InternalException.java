@@ -8,6 +8,12 @@ public final class InternalException extends RuntimeException {
     super(message);
   }
 
+    /// @param message the exception message to be displayed
+    /// @param cause the cause of the internal exception
+    public InternalException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
   /// @param message the exception message to be displayed
   /// @param placeholder the values to replace the placeholders (see [String#format(String, Object...) ])
   public InternalException(String message, Object... placeholder) {

@@ -15,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
@@ -213,7 +214,7 @@ public record OptionDataDefinition(
     @Override
     public OptionData toJDAEntity() {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
-            throw new IllegalStateException(
+            throw new ConfigurationException(
                     "Cannot create option data! " +
                     "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
                             .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName()) +

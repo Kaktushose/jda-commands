@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ParameterDescr
 
 import java.util.stream.Collectors;
 
-/// Will be thrown if any errors are made in the declaration of commands/components etc.
+/// Will be thrown if any errors are made in the declaration of interactions.
 public final class InvalidDeclarationException extends RuntimeException {
 
     public static final ThreadLocal<MethodDescription> CONTEXT = new ThreadLocal<>();
@@ -16,7 +16,7 @@ public final class InvalidDeclarationException extends RuntimeException {
     }
 
     /// @param message the exception message to be displayed
-    /// @param placeholder the values to replace the placeholders (see [String#format(String, Object...) ])
+    /// @param placeholder the values to replace the placeholders (see [String#format(String, Object...)])
     public InvalidDeclarationException(String message, Object... placeholder) {
         super(message.formatted(placeholder));
     }

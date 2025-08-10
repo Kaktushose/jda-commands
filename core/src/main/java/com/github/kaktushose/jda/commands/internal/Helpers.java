@@ -12,6 +12,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
@@ -53,8 +54,8 @@ public final class Helpers {
             case MENTIONABLE -> "Mentionable (Role, User, Member)";
             case NUMBER -> "Double";
             case ATTACHMENT -> "Attachment";
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "Invalid option type %s.".formatted(optionMapping)
             );
         };
     }
