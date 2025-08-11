@@ -2,6 +2,18 @@
 !!! note
     All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.
 
+## Localization and placeholder
+To avoid hardcoded values, all string properties of a component/the content of a message can be replaced by a localization key as supported by the
+current used [Localization System](../localization.md).
+
+Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
+as retrieved by a key. For more information on how to use the localization system please visit [this page](../localization.md).
+
+!!! example
+```java
+event.with().ephemeral(true).reply("my.localizatoin.key");
+```
+
 ## Text Messages
 The simplest way of sending a reply is using the [`reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String))
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 

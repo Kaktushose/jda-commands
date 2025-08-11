@@ -9,6 +9,25 @@ The first parameter must always be a [`ModalEvent`](https://kaktushose.github.io
 public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
 ```
 
+## Localization and placeholder
+To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
+current used [Localization System](../localization.md).
+
+Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
+as retrieved by a key. For more information on how to use the localization system please visit [this page](../localization.md).
+
+!!! example key (with Fluava)
+```java
+@Modal("my.localization.key")
+public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
+```
+
+!!! example content (with Fluava)
+```java
+@Modal("{ $modal_name }")
+public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
+```
+
 ## Text Inputs
 You can add text inputs to a modal by adding String parameters annotated with [`@TextInput`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html).
 The label and other metadata of the text input is passed to the annotation. 
