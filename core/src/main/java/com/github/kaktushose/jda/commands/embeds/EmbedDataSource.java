@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
 @FunctionalInterface
 public interface EmbedDataSource {
@@ -31,11 +33,11 @@ public interface EmbedDataSource {
     static EmbedDataSource resource(String resource) {
         try (InputStream inputStream = EmbedDataSource.class.getClassLoader().getResourceAsStream(resource)) {
             if (inputStream == null) {
-                throw new ConfigurationException("Failed to find resource %s".formatted(resource));
+                throw new ConfigurationException("resource-not-found", entry("resource", resource));
             }
             return inputStream(inputStream);
         } catch (IOException e) {
-            throw new ConfigurationException("Failed to open file", e);
+            throw new ConfigurationException("io-exception", e);
         }
     }
 
@@ -47,7 +49,7 @@ public interface EmbedDataSource {
         try {
             return json(Files.readString(path));
         } catch (IOException e) {
-            throw new ConfigurationException("Failed to open file", e);
+            throw new ConfigurationException("io-exception", e);
         }
     }
 

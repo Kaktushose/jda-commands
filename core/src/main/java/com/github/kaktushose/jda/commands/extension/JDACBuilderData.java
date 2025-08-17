@@ -38,6 +38,8 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
 ///
 /// @implNote This class is used to give implementations of [Extension] access to properties involved in the creation of [JDACommands].
@@ -135,7 +137,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
             if (implementations.isEmpty()) {
                 if (!defaults.containsKey(type)) {
                     if (shutdownJDA()) context.shutdown();
-                    throw new ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                    throw new ConfigurationException("no-implementation", entry("type", type));
                 }
 
                 return defaults.get(type).get();
@@ -151,10 +153,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
             if (shutdownJDA()) context.shutdown();
 
-            throw new ConfigurationException(
-                    "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
-                            .formatted(type, foundImplementations)
-            );
+            throw new ConfigurationException("multiple-implementations", entry("type", type), entry("found", foundImplementations));
         }
     };
 

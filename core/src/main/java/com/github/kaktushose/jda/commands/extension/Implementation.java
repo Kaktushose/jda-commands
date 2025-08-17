@@ -23,6 +23,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// Instances of [Implementation] are used to provide custom implementations of [ExtensionProvidable] interfaces, namely:
 /// - [ClassFinder]
 /// - [Descriptor]
@@ -55,9 +57,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
 
     SequencedCollection<T> implementations(JDACBuilderData data) {
         if (data.alreadyCalled.stream().anyMatch(provider -> provider.type.equals(type))) {
-            throw new ConfigurationException(
-                    "Cycling dependencies while getting implementations of %s! \n%s".formatted(type, format(data))
-            );
+            throw new ConfigurationException("cycling-dependencies", entry("type", type), entry("data", format(data)));
         }
 
         data.alreadyCalled.add(this); // scope entry

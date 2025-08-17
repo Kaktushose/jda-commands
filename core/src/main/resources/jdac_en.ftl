@@ -52,3 +52,22 @@ incorrect-method-signature =
     { $prefix }Invalid method signature.
         Expected: { $expected }
         Actual: { $actual }
+
+# Configuration Errors
+resource-not-found = Failed to find resource "{ $resource }".
+io-exception = "Failed to open file.
+no-type-adapting-path =
+    Cannot create OptionData.
+    There is no type adapting path to convert from OptionType "{ $optionType }" (underlying type: "{ $source }") to "{ $target }".
+    Please add a respective TypeAdapter ("{ $source }" => "{ $target }) or change the OptionType.
+cycling-dependencies =
+    Cycling dependencies while getting implementations of "{ $type }".
+        { $data }
+duplicate-commands =
+    Found multiple slash commands named "{ $display }". Please remove or change one to make them unique again.
+        -> { $command }
+        -> { $duplicate }
+missing-implementation = No implementation for "{ $type }" found. Please provide.
+multiple-implementations =
+    Found multiple implementations of"{ $type }", please exclude the unwanted extension:
+        { $found }

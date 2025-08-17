@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
@@ -82,20 +81,13 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
             return false;
         }
         var duplicate = child.get().command;
-        String error = """
-                Found multiple slash commands named "%s". Please remove or change one to make them unique again!
-                    -> %s.%s
-                    -> %s.%s
-                """
-                .formatted(
-                        duplicate.displayName(),
-                        duplicate.classDescription().name(),
-                        duplicate.methodDescription().name(),
-                        command.classDescription().name(),
-                        command.methodDescription().name()
-                );
         children.remove(child.get());
-        throw new ConfigurationException("Failed to register one ore more commands: %s", error);
+        throw new ConfigurationException(
+                "duplicate-commands",
+                entry("display", command.displayName()),
+                entry("command", "%s.%s".formatted(command.classDescription().name(), command.methodDescription().name())),
+                entry("command", "%s.%s".formatted(duplicate.classDescription().name(), duplicate.methodDescription().name()))
+        );
     }
 
     /// Gets a child [TreeNode] based on its name.
