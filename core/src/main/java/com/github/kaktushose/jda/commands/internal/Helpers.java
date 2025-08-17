@@ -14,7 +14,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -27,6 +26,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
@@ -56,7 +57,7 @@ public final class Helpers {
             case NUMBER -> "Double";
             case ATTACHMENT -> "Attachment";
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "invalid-option-type", I18n.entry("type", optionMapping)
+                    "invalid-option-type", entry("type", optionMapping)
             );
         };
     }
@@ -83,7 +84,7 @@ public final class Helpers {
     /// @param type   the type of the parameter
     public static void checkParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
-            throw new InvalidDeclarationException("%d. parameter must be of type %s", index + 1, type.getSimpleName());
+            throw new InvalidDeclarationException("invalid-parameter", entry("index", index + 1), entry("name", type.getSimpleName()));
         }
     }
 
@@ -95,12 +96,13 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
                     ? ""
-                    : " You forgot to add %s as the first parameter of the method!".formatted(methodSignature.getFirst());
+                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(methodSignature.getFirst());
 
-            throw new InvalidDeclarationException("Incorrect method signature!%s\nExpected: %s\nActual:   %s",
-                    prefix,
-                    methodSignature.stream().toList(),
-                    method.parameters().stream().map(ParameterDescription::type).toList());
+            throw new InvalidDeclarationException("incorrect-method-signature",
+                    entry("prefix", prefix),
+                    entry("expected", methodSignature.stream().toList()),
+                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList())
+            );
         }
     }
 

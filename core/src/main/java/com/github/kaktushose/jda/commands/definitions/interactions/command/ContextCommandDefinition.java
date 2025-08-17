@@ -51,7 +51,7 @@ public record ContextCommandDefinition(
             default -> null;
         };
         if (type == null) {
-            throw new InvalidDeclarationException("Invalid command type for context command! Must either be USER or MESSAGE");
+            throw new InvalidDeclarationException("invalid-context-command-type");
         }
 
         Helpers.checkSignature(method, List.of(CommandEvent.class, type));

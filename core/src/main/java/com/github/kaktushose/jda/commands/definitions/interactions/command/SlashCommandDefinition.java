@@ -11,6 +11,8 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -22,6 +24,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Representation of a slash command.
 ///
@@ -60,15 +64,16 @@ public record SlashCommandDefinition(
                 .trim();
 
         if (name.isBlank()) {
-            throw new InvalidDeclarationException("Command name must be not blank.");
+            throw new InvalidDeclarationException("blank-name");
         }
 
         String[] split = name.split(" ");
         if (split.length > 3) {
-            throw new InvalidDeclarationException("Invalid command name \"%s\" for slash command \"%s.%s\". Slash commands can only have up to 3 labels.",
-                    name,
-                    context.clazz().name(),
-                    method.name());
+            throw new InvalidDeclarationException(
+                    "command-name-length",
+                    entry("name", name),
+                    entry("method", "%s.%s".formatted(context.clazz().name(), method.name()))
+            );
         }
 
         var autoCompletes = context.autoCompleteDefinitions().stream()
@@ -116,14 +121,11 @@ public record SlashCommandDefinition(
                         .anyMatch(it -> it.equals(parameter.name()))
                 ).toList();
         if (possibleAutoCompletes.size() > 1) {
-            log.error("""
-                            Found multiple auto complete handler for parameter named "{}" of slash command "/{}":
-                                 -> {}
-                            Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.""",
-                    parameter.name(),
-                    command,
-                    possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
-            );
+            log.error(JDACException.errorMessages.apply(Locale.ENGLISH, "multiple-autocomplete", Map.of(
+                    "name", parameter.name(),
+                    "command", command,
+                    "possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> ")
+            ))));
             return null;
         }
         if (possibleAutoCompletes.isEmpty()) {

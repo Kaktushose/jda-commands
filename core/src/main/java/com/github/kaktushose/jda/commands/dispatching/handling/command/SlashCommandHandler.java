@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
@@ -115,7 +117,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(
-                                "proteus-error", I18n.entry("message", failure.detailedMessage())
+                                "proteus-error", entry("message", failure.detailedMessage())
                         );
                     }
                 }
@@ -143,7 +145,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "invalid-option-type", I18n.entry("type", type)
+                    "invalid-option-type", entry("type", type)
             );
         };
     }
@@ -166,7 +168,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "invalid-option-type", I18n.entry("type", optionMapping)
+                    "invalid-option-type", entry("type", optionMapping)
             );
         };
     }

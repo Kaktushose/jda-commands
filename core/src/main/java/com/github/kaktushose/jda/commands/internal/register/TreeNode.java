@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// Single node inside the [CommandTree].
 ///
 /// @see CommandTree
@@ -48,7 +50,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new InternalException("wrong-labels", I18n.entry("command", command.displayName()), I18n.entry("labelCount", 0));
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
         }
 
         String rootLabel = labels[0];
@@ -62,7 +64,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new InternalException("wrong-labels", I18n.entry("command", command.displayName()), I18n.entry("labelCount", 0));
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {

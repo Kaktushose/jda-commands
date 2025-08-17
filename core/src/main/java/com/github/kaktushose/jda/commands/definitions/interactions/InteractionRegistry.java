@@ -159,7 +159,7 @@ public record InteractionRegistry(Validators validators,
             return switch (command.type()) {
                 case SLASH -> SlashCommandDefinition.build(context);
                 case USER, MESSAGE -> ContextCommandDefinition.build(context);
-                case UNKNOWN -> throw new InvalidDeclarationException("Unknown command type isn't allowed here.");
+                case UNKNOWN -> throw new InvalidDeclarationException("unknown-command-type");
             };
         }
 

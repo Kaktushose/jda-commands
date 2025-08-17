@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal
 public final class ReplyAction implements Reply {
@@ -124,7 +126,7 @@ public final class ReplyAction implements Reply {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new InternalException("reply-failed", I18n.entry("event", event.getClass().getName()));
+            default -> throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
         }
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;

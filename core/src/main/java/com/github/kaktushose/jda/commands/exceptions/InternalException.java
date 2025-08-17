@@ -27,6 +27,6 @@ public final class InternalException extends JDACException {
 
     @Override
     public String getMessage() {
-        return "%s %s".formatted(super.getMessage(), errorMessages.message(Locale.ENGLISH, "internal-error").apply(Map.of()));
+        return "%s %s".formatted(super.getMessage(), errorMessages.apply(Locale.ENGLISH, "internal-error", Map.of()));
     }
 }

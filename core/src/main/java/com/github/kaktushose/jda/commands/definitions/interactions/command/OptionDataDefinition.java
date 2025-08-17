@@ -17,6 +17,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -121,16 +122,18 @@ public record OptionDataDefinition(
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
         if (Event.class.isAssignableFrom(resolvedType)) {
-            String message = "%s is no valid command option type.".formatted(resolvedType);
-
+            String guessedType = "";
             if (resolvedType.equals(ComponentEvent.class)) {
-                message += " Perhaps you wanted to write CommandEvent? ";
+                guessedType = "CommandEvent";
             }
             if (resolvedType.equals(CommandEvent.class)) {
-                message += "Perhaps you wanted to write ComponentEvent?";
+                guessedType = "ComponentEvent";
             }
-
-            throw new InvalidDeclarationException(message);
+            throw new InvalidDeclarationException(
+                    "invalid-option-data",
+                    I18n.entry("type", resolvedType),
+                    I18n.entry("guessedType", guessedType)
+            );
         }
 
         // index constraints
@@ -140,7 +143,11 @@ public record OptionDataDefinition(
                 .filter(it -> !(it.annotation(Min.class).isPresent() || it.annotation(Max.class).isPresent()))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it, resolvedType)
-                            .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
+                            .orElseThrow(() -> new InvalidDeclarationException(
+                                    "no-validator-found",
+                                    I18n.entry("annotation", it),
+                                    I18n.entry("parameter", parameter))
+                            );
                     constraints.add(new ConstraintDefinition(validator, it));
                 });
 
@@ -195,7 +202,7 @@ public record OptionDataDefinition(
         if (type.equals(Optional.class)) {
             Class<?> unwrapped = description.typeArguments()[0];
             if (unwrapped == null) {
-                throw new InvalidDeclarationException("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
+                throw new InvalidDeclarationException("wildcard-optional");
             }
             return unwrapped;
         }

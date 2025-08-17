@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
 ///
@@ -74,7 +76,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();
         } else {
-            throw new InternalException("reply-failed", I18n.entry("event", event.getClass().getName()));
+            throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
         }
     }
 }

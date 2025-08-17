@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.exceptions;
 
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 
 import java.util.stream.Collectors;
 
@@ -10,15 +11,15 @@ public final class InvalidDeclarationException extends JDACException {
 
     public static final ThreadLocal<MethodDescription> CONTEXT = new ThreadLocal<>();
 
-    /// @param message the exception message to be displayed
-    public InvalidDeclarationException(String message) {
-        super(message);
+    /// @param key the bundle key of the error message
+    public InvalidDeclarationException(String key) {
+        super(key);
     }
 
-    /// @param message     the exception message to be displayed
-    /// @param placeholder the values to replace the placeholders (see [String#format(String, Object...)])
-    public InvalidDeclarationException(String message, Object... placeholder) {
-        super(message.formatted(placeholder));
+    /// @param key         the bundle key of the error message
+    /// @param placeholder the placeholders to insert
+    public InvalidDeclarationException(String key, I18n.Entry... placeholder) {
+        super(key, placeholder);
     }
 
     @SuppressWarnings("ConstantValue")
