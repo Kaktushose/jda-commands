@@ -2,6 +2,20 @@
 !!! note
     This section only covers how you define components. See the [Reply API section](./reply.md) to learn how to use them
     in replies.
+
+## Localization and placeholder
+To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
+current used [Localization System](../localization.md).
+
+Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
+as retrieved by a key. For more information on how to use the localization system please visit [this page](../localization.md).
+
+!!! example (with Fluava)
+```java
+@Button(value = "my.localization.key", style = ButtonStyle.DANGER, link = "{ $jdac_link }")
+public void onButton(ComponentEvent event) {...}
+```
+
 ## Buttons
 Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 
 The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).

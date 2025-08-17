@@ -41,6 +41,54 @@ public class ComponentTest {
 
 In this example, the bundle `component` will be searched 
 
+## Directly inserting localization message
+In some cases, especially while testing it's common to hardcode a messages content.
+But often times you still have to use dynamic placehoolders.
+
+For your luck JDA-Commands supports this
+by treating a hardcoded value (were a localization key can be used) as the messages content directly
+thus supporting all functionality of the used localization system (`Localizer` implementation).
+
+A string value (whether in an annotation, embed, modal or component) will be resolved by following order:
+
+1. searched for as a localization key
+2. treated as localization message content
+3. used as raw value
+
+An example of this can be found [here](#example-fluava).
+
+
+## Variables/Placeholders
+Most localization systems support variables or placeholders to insert dynamic values into a message.
+
+JDA-Commands provides this functionality in many places by using [`I18n.Entry`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.Entry.html).
+Often you will find a vararg of this class at the end of a method parameters list. By adding entries
+there (preferably by using [`I18n#entry`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#entry(java.lang.String,java.lang.Object))
+as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
+the used method.
+
+### Example (Fluava)
+```java
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
+@Interaction
+public class ComponentTest {
+
+    @Command("say hi")
+    public void onCommand(CommandEvent event) {
+        event.with()
+                .compnents(Compnent.button("onButton", entry("placeholder", "Cooler Platzhalter")))
+                .send();
+    }
+    
+    @Button("Button with { $placeholder }")
+    public void onButton(ComponentEvent event) {
+        ...
+    }
+
+}
+```
+
 ## Bundles
 Localization bundles are a known concept from Javas [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html). JDA-Commands supports different bundles of
 localization files by adding them to the localization key or using the [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
