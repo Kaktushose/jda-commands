@@ -71,3 +71,21 @@ missing-implementation = No implementation for "{ $type }" found. Please provide
 multiple-implementations =
     Found multiple implementations of"{ $type }", please exclude the unwanted extension:
         { $found }
+
+# CustomId
+invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
+invalid-custom-id = Provided custom id is invalid.
+independent-runtime-id = Provided custom id is runtime-independent.
+
+# ConfigurableReply
+modal-as-component = Modals cannot be attached as components! "{ $method }" is a modal method! You have to reply with "ModalReplyableEvent#replyModal".
+duplicate-component = Cannot add component "{ $method } multiple times.
+
+# ModalBuilder
+no-text-input-found =
+    No text input named { $input } found! Please check that the referenced text input parameter exists.
+    Available text inputs for this modal are:
+        "{ $available} "
+
+# Helpers
+detached-entity = { $class } doesn't support detached entities and cannot be used for user installable apps.

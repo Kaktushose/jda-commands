@@ -12,7 +12,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.exceptions.JDACException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -121,11 +120,11 @@ public record SlashCommandDefinition(
                         .anyMatch(it -> it.equals(parameter.name()))
                 ).toList();
         if (possibleAutoCompletes.size() > 1) {
-            log.error(JDACException.errorMessages.apply(Locale.ENGLISH, "multiple-autocomplete", Map.of(
-                    "name", parameter.name(),
-                    "command", command,
-                    "possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> ")
-            ))));
+            log.error(JDACException.errorMessage("multiple-autocomplete",
+                    entry("name", parameter.name()),
+                    entry("command", command),
+                    entry("possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
+            )));
             return null;
         }
         if (possibleAutoCompletes.isEmpty()) {

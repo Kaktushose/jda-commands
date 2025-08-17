@@ -14,6 +14,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -108,7 +109,7 @@ public final class Helpers {
 
     public static void checkDetached(IDetachableEntity entity, Class<?> origin) {
         if (entity.isDetached()) {
-            throw new IllegalArgumentException("%s doesn't support detached entities and cannot be used for user installable apps!".formatted(origin.getName()));
+            throw new IllegalArgumentException(JDACException.errorMessage("detached-entity", entry("class", origin.getName())));
         }
     }
 

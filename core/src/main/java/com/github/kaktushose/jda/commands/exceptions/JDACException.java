@@ -12,19 +12,28 @@ import java.util.stream.Collectors;
 public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException {
 
-    public static final Bundle errorMessages = new Fluava(Locale.ENGLISH).loadBundle("jdac");
+    private static final Bundle errorMessages = new Fluava(Locale.ENGLISH).loadBundle("jdac");
 
     public JDACException(String key) {
-        super(errorMessages.apply(Locale.ENGLISH, key, Map.of()));
+        super(errorMessage(key));
     }
 
     public JDACException(String key, I18n.Entry... placeholder) {
-        super(errorMessages.apply(Locale.ENGLISH, key,
-                Arrays.stream(placeholder).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value))
-        ));
+        super(errorMessage(key, placeholder));
     }
 
     public JDACException(String key, Throwable cause) {
         super(errorMessages.apply(Locale.ENGLISH, key, Map.of()), cause);
     }
+
+    public static String errorMessage(String key) {
+        return errorMessages.apply(Locale.ENGLISH, key, Map.of());
+    }
+
+    public static String errorMessage(String key, I18n.Entry... placeholder) {
+        return errorMessages.apply(Locale.ENGLISH, key,
+                Arrays.stream(placeholder).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value))
+        );
+    }
+
 }
