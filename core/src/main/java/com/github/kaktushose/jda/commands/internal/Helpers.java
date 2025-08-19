@@ -12,6 +12,9 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDe
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -24,6 +27,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
@@ -52,8 +57,8 @@ public final class Helpers {
             case MENTIONABLE -> "Mentionable (Role, User, Member)";
             case NUMBER -> "Double";
             case ATTACHMENT -> "Attachment";
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "invalid-option-type", entry("type", optionMapping)
             );
         };
     }
@@ -78,38 +83,33 @@ public final class Helpers {
     /// @param method the [Method] to check
     /// @param index  the index the parameter is expected to be at
     /// @param type   the type of the parameter
-    /// @return `true` if the parameter is present
-    public static boolean isIncorrectParameterType(MethodDescription method, int index, Class<?> type) {
+    public static void checkParameterType(MethodDescription method, int index, Class<?> type) {
         if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
-            log.error("An error has occurred! Skipping Interaction {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException(String.format("%d. parameter must be of type %s", index + 1, type.getSimpleName())));
-            return true;
+            throw new InvalidDeclarationException("invalid-parameter", entry("index", index + 1), entry("name", type.getSimpleName()));
         }
-        return false;
     }
 
-    public static boolean checkSignature(MethodDescription method, Collection<Class<?>> methodSignature) {
+    public static void checkSignature(MethodDescription method, SequencedCollection<Class<?>> methodSignature) {
         var parameters = method.parameters().stream()
                 .map(ParameterDescription::type)
                 .toList();
         if (!parameters.equals(methodSignature)) {
-            log.error("An error has occurred! Skipping Interaction {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException("Incorrect method signature!\nExpected: %s\nActual:   %s".formatted(
-                            methodSignature.stream().toList(),
-                            method.parameters().stream().map(ParameterDescription::type).toList()
-                    )));
-            return true;
+
+            String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
+                    ? ""
+                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(methodSignature.getFirst());
+
+            throw new InvalidDeclarationException("incorrect-method-signature",
+                    entry("prefix", prefix),
+                    entry("expected", methodSignature.stream().toList()),
+                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList())
+            );
         }
-        return false;
     }
 
     public static void checkDetached(IDetachableEntity entity, Class<?> origin) {
         if (entity.isDetached()) {
-            throw new IllegalArgumentException("%s doesn't support detached entities and cannot be used for user installable apps!".formatted(origin.getName()));
+            throw new IllegalArgumentException(JDACException.errorMessage("detached-entity", entry("class", origin.getName())));
         }
     }
 

@@ -47,6 +47,7 @@ public final class JDACommands {
     private final Embeds embeds;
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
+    private final boolean shutdownJDA;
 
     JDACommands(JDAContext jdaContext,
                 ExpirationStrategy expirationStrategy,
@@ -59,7 +60,8 @@ public final class JDACommands {
                 InteractionDefinition.ReplyConfig globalReplyConfig,
                 CommandDefinition.CommandConfig globalCommandConfig,
                 I18n i18n,
-                Embeds embeds) {
+                Embeds embeds,
+                boolean shutdownJDA) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
@@ -67,10 +69,14 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
+        this.shutdownJDA = shutdownJDA;
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
     /// This uses reflections for some functionality.
+    ///
+    /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+    /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param jda      the corresponding [JDA] instance
     /// @param clazz    a class of the classpath to scan
@@ -82,6 +88,9 @@ public final class JDACommands {
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
     /// This uses reflections for some functionality.
+    ///
+    /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+    /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @param clazz        a class of the classpath to scan
@@ -109,21 +118,27 @@ public final class JDACommands {
         return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
     }
 
-    void start(ClassFinder classFinder, Class<?> clazz, String[] packages) {
+    void start(ClassFinder classFinder) {
         log.info("Starting JDA-Commands...");
         interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
         log.info("Finished loading!");
+
     }
 
-    /**
-     * Shuts down this JDACommands instance, making it unable to receive any events from Discord.
-     * This will <b>not</b> unregister any slash commands.
-     */
+    /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.
+    /// This will **not** unregister any slash commands.
+    ///
+    /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
+    /// be shutdown too.
     public void shutdown() {
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));
+
+        if (shutdownJDA) {
+            jdaContext.shutdown();
+        }
     }
 
     /// Updates all slash commands that are registered with [CommandScope#GUILD]

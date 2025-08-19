@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
@@ -73,9 +76,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();
         } else {
-            throw new IllegalArgumentException(
-                    String.format("Cannot reply to '%s'! Please report this error to the jda-commands devs!", event.getClass().getName())
-            );
+            throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
         }
     }
 }

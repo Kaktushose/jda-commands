@@ -9,6 +9,8 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
@@ -78,9 +82,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
-            throw new IllegalStateException(
-                    "Command input doesn't match command options length! Please report this error to the devs of jda-commands."
-            );
+            throw new InternalException("command-input-mismatch");
         }
 
         Proteus proteus = Proteus.global();
@@ -114,8 +116,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             );
                             return Optional.empty();
                         }
-                        case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new IllegalStateException(
-                                "Proteus Error: %s. Please report this error to the devs of jda-commands.".formatted(failure.detailedMessage())
+                        case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(
+                                "proteus-error", entry("message", failure.detailedMessage())
                         );
                     }
                 }
@@ -142,8 +144,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case MENTIONABLE -> Type.of(IMentionable.class);
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(type)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "invalid-option-type", entry("type", type)
             );
         };
     }
@@ -165,8 +167,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case MENTIONABLE -> optionMapping.getAsMentionable();
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
-            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new IllegalArgumentException(
-                    "Invalid option type %s. Please report this error to the devs of jda-commands.".formatted(optionMapping)
+            case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
+                    "invalid-option-type", entry("type", optionMapping)
             );
         };
     }

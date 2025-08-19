@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
@@ -16,7 +17,7 @@ public record CustomId(String runtimeId, String definitionId) {
 
     public CustomId {
         if (!runtimeId.matches("[0-9a-fA-F-]{36}") && !runtimeId.equals(INDEPENDENT_ID)) {
-            throw new IllegalArgumentException("Invalid runtime id! Must either be a UUID or \"%s\"".formatted(INDEPENDENT_ID));
+            throw new IllegalArgumentException(JDACException.errorMessage("invalid-runtime-id"));
         }
     }
 
@@ -27,7 +28,7 @@ public record CustomId(String runtimeId, String definitionId) {
     
     public static CustomId fromMerged(String customId) {
         if (isInvalid(customId)) {
-            throw new IllegalArgumentException("Provided custom id is invalid!");
+            throw new IllegalArgumentException(JDACException.errorMessage("invalid-custom-id"));
         }
         var split = customId.split("\\.");
         return new CustomId(split[1], split[2]);
@@ -62,7 +63,7 @@ public record CustomId(String runtimeId, String definitionId) {
     
     public String runtimeId() {
         if (isIndependent()) {
-            throw new IllegalStateException("Provided custom id is runtime-independent!");
+            throw new IllegalStateException(JDACException.errorMessage("independent-runtime-id"));
         }
         return runtimeId;
     }

@@ -16,6 +16,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
@@ -36,6 +37,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
 ///
@@ -77,6 +80,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
     // only user settable
     protected InteractionDefinition.ReplyConfig globalReplyConfig = new InteractionDefinition.ReplyConfig();
     protected CommandConfig globalCommandConfig = new CommandConfig();
+
+    protected boolean shutdownJDA = true;
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
@@ -130,7 +135,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
             var implementations = implementations((Class<? extends ExtensionProvidable>) type);
 
             if (implementations.isEmpty()) {
-                if (!defaults.containsKey(type)) throw new JDACBuilder.ConfigurationException("No implementation for %s found. Please provide!".formatted(type));
+                if (!defaults.containsKey(type)) {
+                    if (shutdownJDA()) context.shutdown();
+                    throw new ConfigurationException("no-implementation", entry("type", type));
+                }
+
                 return defaults.get(type).get();
             }
 
@@ -142,10 +151,9 @@ public sealed class JDACBuilderData permits JDACBuilder {
                     .map(entry -> "extension %s -> %s".formatted(entry.getKey(), entry.getValue()))
                     .collect(Collectors.joining(System.lineSeparator()));
 
-            throw new JDACBuilder.ConfigurationException(
-                    "Found multiple implementations of %s, please exclude the unwanted extension: \n%s"
-                            .formatted(type, foundImplementations)
-            );
+            if (shutdownJDA()) context.shutdown();
+
+            throw new ConfigurationException("multiple-implementations", entry("type", type), entry("found", foundImplementations));
         }
     };
 
@@ -185,6 +193,10 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return expirationStrategy;
     }
 
+    /// @return whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or [JDACommands#shutdown()] is called.
+    public boolean shutdownJDA() {
+        return shutdownJDA;
+    }
 
     // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]

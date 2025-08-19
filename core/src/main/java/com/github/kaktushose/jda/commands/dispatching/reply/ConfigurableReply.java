@@ -18,6 +18,8 @@ import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -38,6 +40,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -304,7 +308,9 @@ public sealed class ConfigurableReply permits SendableReply {
                     .filter(Objects::nonNull)
                     .map(CustomId::fromMerged)
                     .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
-                throw new IllegalArgumentException("Cannot add component \"%s.%s\" multiple times!".formatted(className, component.name()));
+                throw new IllegalArgumentException(
+                        JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component.name())))
+                );
             }
 
             var definition = findDefinition(component, definitionId, className);
@@ -360,7 +366,7 @@ public sealed class ConfigurableReply permits SendableReply {
                 copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
                 yield copy.build();
             }
-            default -> throw new IllegalArgumentException("Should never occur, report this to the devs of JDA-Commands!");
+            default -> throw new InternalException("default-switch");
         };
     }
 
@@ -384,7 +390,11 @@ public sealed class ConfigurableReply permits SendableReply {
             return component.build(definition);
         } catch (IllegalArgumentException e) { // only check if search failed
             Collection<ModalDefinition> found = registry.find(ModalDefinition.class, it -> it.definitionId().equals(definitionId));
-            if (!found.isEmpty()) throw new IllegalArgumentException("Modals cannot be attached as components. '%s#%s' is a modal method! You have to reply with ModalReplyableEvent#replyModal".formatted(className, component.name()));
+            if (!found.isEmpty()) {
+                throw new IllegalArgumentException(
+                        JDACException.errorMessage("modal-as-component", entry("method", "%s#%s".formatted(className, component.name())))
+                );
+            }
             throw e;
         }
 

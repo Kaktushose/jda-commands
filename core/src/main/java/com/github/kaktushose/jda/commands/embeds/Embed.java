@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -268,7 +269,7 @@ public class Embed extends EmbedBuilder {
             JsonNode node = localize(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
         } catch (JsonProcessingException e) {
-            throw new IllegalStateException(e);
+            throw new InternalException("localization-json-error", e);
         }
     }
 

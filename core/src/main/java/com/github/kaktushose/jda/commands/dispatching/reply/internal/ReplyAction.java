@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
@@ -32,6 +33,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal
@@ -123,9 +126,7 @@ public final class ReplyAction implements Reply {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new IllegalArgumentException(
-                    "Cannot reply to '%s'! Please report this error to the devs of jda-commands!".formatted(event.getClass().getName())
-            );
+            default -> throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
         }
         if (event instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;

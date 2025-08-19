@@ -54,6 +54,9 @@ import java.util.function.Consumer;
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
 ///
+/// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+/// This can be configured by settings [JDACBuilder#shutdownJDA(boolean)].
+///
 /// ## Example
 /// ```java
 /// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
@@ -87,7 +90,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// Configuration step for the Embed API of JDA-Commands.
+    /// ConfigurationException step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
@@ -95,7 +98,13 @@ public final class JDACBuilder extends JDACBuilderData {
         if (embedConfig == null) {
             embedConfig = new Embeds.Configuration(i18n());
         }
-        consumer.accept(embedConfig);
+        try {
+            consumer.accept(embedConfig);
+        } catch (Exception e) {
+            if (shutdownJDA()) context.shutdown();
+            throw e;
+        }
+
         this.embeds = embedConfig.buildDefault();
         if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
             errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
@@ -192,6 +201,15 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// Whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or if
+    /// [JDACommands#shutdown()] is called
+    ///
+    /// @param shutdown whether to shut down the JDA instance, default true
+    public JDACBuilder shutdownJDA(boolean shutdown) {
+        shutdownJDA = shutdown;
+        return this;
+    }
+
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
@@ -220,9 +238,10 @@ public final class JDACBuilder extends JDACBuilderData {
                 globalReplyConfig(),
                 globalCommandConfig(),
                 i18n(),
-                embeds()
+                embeds(),
+                shutdownJDA()
         );
-        jdaCommands.start(mergedClassFinder(), baseClass(), packages());
+        jdaCommands.start(mergedClassFinder());
         return jdaCommands;
     }
 
@@ -234,19 +253,4 @@ public final class JDACBuilder extends JDACBuilderData {
         EXCLUDE
     }
 
-    /// Will be thrown if anything goes wrong while configuring jda-commands.
-    public static class ConfigurationException extends RuntimeException {
-
-        public ConfigurationException(String error) {
-            super(message(error));
-        }
-
-        public ConfigurationException(String error, Throwable cause) {
-            super(message(error), cause);
-        }
-
-        private static String message(String error) {
-            return "Error while trying to configure jda-commands: %s".formatted(error);
-        }
-    }
 }

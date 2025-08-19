@@ -8,6 +8,8 @@ import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
@@ -16,6 +18,8 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Representation of a modal.
 ///
@@ -46,22 +50,16 @@ public record ModalDefinition(
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [ModalDefinition]
-    public static Optional<ModalDefinition> build(MethodBuildContext context) {
+    public static ModalDefinition build(MethodBuildContext context) {
         var method = context.method();
         var modal = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Modal.class).orElseThrow();
 
         // Modals support up to 5 TextInputs
         if (method.parameters().isEmpty() || method.parameters().size() > 6) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException("Invalid amount of parameters! Modals need between 1 and 5 TextInputs"));
-            return Optional.empty();
+            throw new InvalidDeclarationException("modal-parameter-count", entry("count", method.parameters().size()));
         }
 
-        if (Helpers.isIncorrectParameterType(method, 0, ModalEvent.class)) {
-            return Optional.empty();
-        }
+        Helpers.checkParameterType(method, 0, ModalEvent.class);
 
         List<TextInputDefinition> textInputs = new ArrayList<>();
         for (int i = 1; i < method.parameters().size(); i++) {
@@ -70,22 +68,17 @@ public record ModalDefinition(
         }
 
         if (textInputs.isEmpty()) {
-            log.error("An error has occurred! Skipping Modal {}.{}:",
-                    method.declaringClass().getName(),
-                    method.name(),
-                    new IllegalArgumentException("Modals need at least one valid TextInput"));
-            return Optional.empty();
+            throw new InvalidDeclarationException("modal-parameter-count", entry("count", 0));
         }
 
         List<Class<?>> signature = new ArrayList<>();
         signature.add(ModalEvent.class);
         textInputs.forEach(_ -> signature.add(String.class));
-        if (Helpers.checkSignature(method, signature)) {
-            return Optional.empty();
-        }
+
+        Helpers.checkSignature(method, signature);
 
 
-        return Optional.of(new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs));
+        return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs);
     }
 
     /// Transforms this definition to an [Modal] with the given custom id.

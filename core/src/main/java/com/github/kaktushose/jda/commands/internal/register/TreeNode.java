@@ -2,6 +2,8 @@ package com.github.kaktushose.jda.commands.internal.register;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
@@ -16,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Single node inside the [CommandTree].
 ///
@@ -45,10 +49,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new IllegalArgumentException(
-                    "Failed to add child command: \"%s\". Cannot add child with empty labels! ".formatted(command.displayName()) +
-                            "Please report this error to the devs of jda-commands."
-            );
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
         }
 
         String rootLabel = labels[0];
@@ -62,10 +63,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new IllegalArgumentException(
-                    "Failed to add child command: \"%s\". Cannot add a child with more than 3 labels! ".formatted(command.displayName()) +
-                            "Please report this error to the devs of jda-commands."
-            );
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
@@ -83,21 +81,13 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
             return false;
         }
         var duplicate = child.get().command;
-        String error = """
-                Found multiple slash commands named "%s". Please remove or change one to make them unique again!
-                    -> %s.%s
-                    -> %s.%s
-                Dropped both commands to prevent unexpected behaviour."""
-                .formatted(
-                        duplicate.displayName(),
-                        duplicate.classDescription().name(),
-                        duplicate.methodDescription().name(),
-                        command.classDescription().name(),
-                        command.methodDescription().name()
-                );
         children.remove(child.get());
-        log.error("Failed to register one ore more commands", new IllegalStateException(error));
-        return true;
+        throw new ConfigurationException(
+                "duplicate-commands",
+                entry("display", command.displayName()),
+                entry("command", "%s.%s".formatted(command.classDescription().name(), command.methodDescription().name())),
+                entry("command", "%s.%s".formatted(duplicate.classDescription().name(), duplicate.methodDescription().name()))
+        );
     }
 
     /// Gets a child [TreeNode] based on its name.
@@ -143,7 +133,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Transforms this TreeNode into [SubcommandData] and adds it to the passed [SubcommandGroupData].
     private void addSubcommandData(SubcommandGroupData group) {
         if (!children.isEmpty()) {
-            throw new UnsupportedOperationException("Cannot transform node with children to SubcommandData! Please report this error to the devs of jda-commands.");
+            throw new InternalException("subcommand-with-children");
         }
         group.addSubcommands(command.toSubcommandData(name));
     }

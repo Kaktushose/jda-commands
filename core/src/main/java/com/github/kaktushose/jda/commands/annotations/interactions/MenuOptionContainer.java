@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// Internal wrapper for repeating [MenuOption]s.
+/// InternalException wrapper for repeating [MenuOption]s.
 ///
 /// @see MenuOption
 @Target(ElementType.METHOD)

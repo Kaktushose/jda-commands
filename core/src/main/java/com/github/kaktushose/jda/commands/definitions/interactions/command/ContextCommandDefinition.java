@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -40,7 +41,7 @@ public record ContextCommandDefinition(
     ///
     /// @return an [Optional] holding the [ContextCommandDefinition]
     
-    public static Optional<ContextCommandDefinition> build(MethodBuildContext context) {
+    public static ContextCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
 
@@ -50,14 +51,12 @@ public record ContextCommandDefinition(
             default -> null;
         };
         if (type == null) {
-            log.error("Invalid command type for context command! Must either be USER or MESSAGE");
-            return Optional.empty();
-        }
-        if (Helpers.checkSignature(method, List.of(CommandEvent.class, type))) {
-            return Optional.empty();
+            throw new InvalidDeclarationException("invalid-context-command-type");
         }
 
-        return Optional.of(new ContextCommandDefinition(
+        Helpers.checkSignature(method, List.of(CommandEvent.class, type));
+
+        return new ContextCommandDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -65,7 +64,7 @@ public record ContextCommandDefinition(
                 command.type(),
                 Helpers.commandConfig(context),
                 context.localizationFunction()
-        ));
+        );
     }
 
     /// Transforms this definition into [CommandData].

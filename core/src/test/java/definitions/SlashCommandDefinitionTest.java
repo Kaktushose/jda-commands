@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -111,28 +112,28 @@ class SlashCommandDefinitionTest {
     void method_withoutArgs_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noArgs");
 
-        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
     void method_withoutCommandEvent_ShouldReturnEmptyOptional() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("noCommandEvent", int.class);
 
-        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
     void method_withCommandEventNotAtIndex0_ShouldReturnEmpty() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("commandEventWrongIndex", int.class, CommandEvent.class);
 
-        assertEquals(Optional.empty(), SlashCommandDefinition.build(getBuildContext(method)));
+        assertThrows(InvalidDeclarationException.class, () -> SlashCommandDefinition.build(getBuildContext(method)));
     }
 
     @Test
     void method_withCommandEvent_ShouldWork() throws NoSuchMethodException {
         Method method = controller.getDeclaredMethod("commandEvent", CommandEvent.class);
 
-        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method)).orElse(null);
+        SlashCommandDefinition definition = SlashCommandDefinition.build(getBuildContext(method));
 
         assertTrue(definition.commandOptions().isEmpty());
     }

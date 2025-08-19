@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
@@ -15,6 +16,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 import static net.dv8tion.jda.api.interactions.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.
@@ -63,15 +65,13 @@ public class ModalBuilder {
                 .filter(it -> it.parameter().name().equals(textInput))
                 .findFirst();
         if (optionalTextInput.isEmpty()) {
-            throw new IllegalArgumentException(
-                    """
-                            No text input named %s found! Please check that the referenced text input parameter exists.
-                            Available text inputs for this modal are: "%s\""""
-                            .formatted(textInput, modalDefinition.textInputs().stream()
-                                    .map(it -> it.parameter().name())
-                                    .collect(Collectors.joining("\", \""))
-                            )
-            );
+            throw new IllegalArgumentException(JDACException.errorMessage(
+                    "no-text-input-found",
+                    entry("input", textInput),
+                    entry("available", modalDefinition.textInputs().stream()
+                            .map(it -> it.parameter().name())
+                            .collect(Collectors.joining("\", \"")))
+            ));
         }
         var definition = optionalTextInput.get();
         var index = textInputs.indexOf(definition);

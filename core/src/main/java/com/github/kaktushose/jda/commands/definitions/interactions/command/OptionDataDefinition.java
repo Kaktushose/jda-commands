@@ -10,8 +10,13 @@ import com.github.kaktushose.jda.commands.definitions.description.AnnotationDesc
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.Event;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -29,6 +34,7 @@ import org.jspecify.annotations.Nullable;
 import java.lang.invoke.MethodType;
 import java.util.*;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 import static java.util.Map.entry;
 
 /// Representation of a slash command option.
@@ -115,6 +121,21 @@ public record OptionDataDefinition(
                                              Validators validatorRegistry) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
+        if (Event.class.isAssignableFrom(resolvedType)) {
+            String guessedType = "";
+            if (resolvedType.equals(ComponentEvent.class)) {
+                guessedType = "CommandEvent";
+            }
+            if (resolvedType.equals(CommandEvent.class)) {
+                guessedType = "ComponentEvent";
+            }
+            throw new InvalidDeclarationException(
+                    "invalid-option-data",
+                    entry("type", resolvedType),
+                    entry("guessedType", guessedType)
+            );
+        }
+
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
@@ -122,7 +143,11 @@ public record OptionDataDefinition(
                 .filter(it -> !(it.annotation(Min.class).isPresent() || it.annotation(Max.class).isPresent()))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it, resolvedType)
-                            .orElseThrow(() -> new IllegalStateException("No validator found for %s on %s".formatted(it, parameter)));
+                            .orElseThrow(() -> new InvalidDeclarationException(
+                                    "no-validator-found",
+                                    entry("annotation", it),
+                                    entry("parameter", parameter))
+                            );
                     constraints.add(new ConstraintDefinition(validator, it));
                 });
 
@@ -177,7 +202,7 @@ public record OptionDataDefinition(
         if (type.equals(Optional.class)) {
             Class<?> unwrapped = description.typeArguments()[0];
             if (unwrapped == null) {
-                throw new IllegalArgumentException("Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard!");
+                throw new InvalidDeclarationException("wildcard-optional");
             }
             return unwrapped;
         }
@@ -196,12 +221,10 @@ public record OptionDataDefinition(
     @Override
     public OptionData toJDAEntity() {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
-            throw new IllegalStateException(
-                    "Cannot create option data! " +
-                    "There is no type adapting path to convert from OptionType '%s' (underlying type: '%s') to '%s'. "
-                            .formatted(optionType, OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName()) +
-                    "Please add a respective TypeAdapter ('%s' => '%s') or change the OptionType."
-                            .formatted(OPTION_TYPE_TO_CLASS.get(optionType).getName(), declaredType.getName())
+            throw new ConfigurationException("no-type-adapting-path",
+                           entry("optionType", optionType),
+                    entry("source", OPTION_TYPE_TO_CLASS.get(optionType).getName()),
+                    entry("target", declaredType.getName())
             );
         }
 

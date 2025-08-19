@@ -12,12 +12,17 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.But
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
@@ -105,10 +110,9 @@ public record InteractionRegistry(Validators validators,
         return clazz.methods().stream()
                 .filter(it -> it.annotation(AutoComplete.class).isPresent())
                 .map(method -> AutoCompleteDefinition.build(clazz, method))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
                 .toList();
     }
+
 
     private Set<Definition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
@@ -132,37 +136,50 @@ public record InteractionRegistry(Validators validators,
                     globalCommandConfig
             );
 
-            Optional<? extends Definition> definition = Optional.empty();
-            // index commands
-            if (method.annotation(Command.class).isPresent()) {
-                Command command = method.annotation(Command.class).get();
-                definition = switch (command.type()) {
-                    case SLASH -> SlashCommandDefinition.build(context);
-                    case USER, MESSAGE -> ContextCommandDefinition.build(context);
-                    case UNKNOWN -> Optional.empty();
-                };
+
+            // to be replaced with scoped values
+            InvalidDeclarationException.CONTEXT.set(method);
+            Definition definition = construct(method, context);
+
+            if (definition != null) {
+                log.debug("Found interaction: {}", definition);
+                definitions.add(definition);
             }
 
-            // index components
-            if (method.annotation(Button.class).isPresent()) {
-                definition = ButtonDefinition.build(context);
-            }
-            if (method.annotation(EntitySelectMenu.class).isPresent()) {
-                definition = EntitySelectMenuDefinition.build(context);
-            }
-            if (method.annotation(StringSelectMenu.class).isPresent()) {
-                definition = StringSelectMenuDefinition.build(context);
-            }
-
-            //index modals
-            if (method.annotation(Modal.class).isPresent()) {
-                definition = ModalDefinition.build(context);
-            }
-
-            definition.ifPresent(it -> log.debug("Found interaction: {}", it));
-            definition.ifPresent(definitions::add);
+            InvalidDeclarationException.CONTEXT.remove();
         }
         return definitions;
+    }
+
+    @Nullable
+    private Definition construct(MethodDescription method, MethodBuildContext context) {
+        // index commands
+        if (method.annotation(Command.class).isPresent()) {
+            Command command = method.annotation(Command.class).get();
+            return switch (command.type()) {
+                case SLASH -> SlashCommandDefinition.build(context);
+                case USER, MESSAGE -> ContextCommandDefinition.build(context);
+                case UNKNOWN -> throw new InvalidDeclarationException("unknown-command-type");
+            };
+        }
+
+        // index components
+        if (method.annotation(Button.class).isPresent()) {
+            return ButtonDefinition.build(context);
+        }
+        if (method.annotation(EntitySelectMenu.class).isPresent()) {
+            return EntitySelectMenuDefinition.build(context);
+        }
+        if (method.annotation(StringSelectMenu.class).isPresent()) {
+            return StringSelectMenuDefinition.build(context);
+        }
+
+        //index modals
+        if (method.annotation(Modal.class).isPresent()) {
+            return ModalDefinition.build(context);
+        }
+
+        return null;
     }
 
     /// Attempts to find a [Definition] of type [T] based on the given [Predicate].
@@ -183,7 +200,7 @@ public record InteractionRegistry(Validators validators,
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> internalError
-                        ? new IllegalStateException("No interaction found! Please report this error to the devs of jda-commands.")
+                        ? new InternalException("no-interaction-found")
                         : new IllegalArgumentException("No interaction found! Please check that the referenced interaction method exists.")
                 );
     }

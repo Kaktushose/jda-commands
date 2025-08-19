@@ -10,18 +10,21 @@ import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteD
 import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition.AutoCompleteRule;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.exceptions.JDACException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.internal.utils.Checks;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Representation of a slash command.
 ///
@@ -50,7 +53,7 @@ public record SlashCommandDefinition(
     ///
     /// @return an [Optional] holding the [SlashCommandDefinition]
     
-    public static Optional<SlashCommandDefinition> build(MethodBuildContext context) {
+    public static SlashCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
         var command = method.annotation(Command.class).orElseThrow();
@@ -59,19 +62,17 @@ public record SlashCommandDefinition(
                 .replaceAll(" +", " ")
                 .trim();
 
-        if (name.isEmpty()) {
-            Checks.notBlank(name, "Command name");
-            return Optional.empty();
+        if (name.isBlank()) {
+            throw new InvalidDeclarationException("blank-name");
         }
 
         String[] split = name.split(" ");
         if (split.length > 3) {
-            log.error("Invalid command name \"{}\" for slash command \"{}.{}\". Slash commands can only have up to 3 labels.",
-                    name,
-                    context.clazz().name(),
-                    method.name()
+            throw new InvalidDeclarationException(
+                    "command-name-length",
+                    entry("name", name),
+                    entry("method", "%s.%s".formatted(context.clazz().name(), method.name()))
             );
-            return Optional.empty();
         }
 
         var autoCompletes = context.autoCompleteDefinitions().stream()
@@ -91,16 +92,14 @@ public record SlashCommandDefinition(
         List<Class<?>> signature = new ArrayList<>();
         signature.add(CommandEvent.class);
         commandOptions.forEach(it -> signature.add(it.declaredType()));
-        if (Helpers.checkSignature(method, signature)) {
-            return Optional.empty();
-        }
+        Helpers.checkSignature(method, signature);
 
         CooldownDefinition cooldownDefinition = CooldownDefinition.build(method.annotation(Cooldown.class).orElse(null));
         if (cooldownDefinition.delay() == 0 && context.cooldownDefinition() != null) {
             cooldownDefinition = context.cooldownDefinition();
         }
 
-        return Optional.of(new SlashCommandDefinition(
+        return new SlashCommandDefinition(
                 context.clazz(),
                 method,
                 Helpers.permissions(context),
@@ -110,7 +109,7 @@ public record SlashCommandDefinition(
                 command.desc(),
                 commandOptions,
                 cooldownDefinition
-        ));
+        );
     }
 
     @Nullable
@@ -121,14 +120,11 @@ public record SlashCommandDefinition(
                         .anyMatch(it -> it.equals(parameter.name()))
                 ).toList();
         if (possibleAutoCompletes.size() > 1) {
-            log.error("""
-                            Found multiple auto complete handler for parameter named "{}" of slash command "/{}":
-                                 -> {}
-                            Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.""",
-                    parameter.name(),
-                    command,
-                    possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
-            );
+            log.error(JDACException.errorMessage("multiple-autocomplete",
+                    entry("name", parameter.name()),
+                    entry("command", command),
+                    entry("possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
+            )));
             return null;
         }
         if (possibleAutoCompletes.isEmpty()) {
