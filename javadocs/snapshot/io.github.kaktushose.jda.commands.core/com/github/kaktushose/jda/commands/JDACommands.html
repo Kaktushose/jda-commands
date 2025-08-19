@@ -202,8 +202,11 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></span>&nbsp;<span class="element-name">start</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</span></div>
-<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
-This uses reflections for some functionality.</div>
+<div class="block"><p>Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+This uses reflections for some functionality.</p>
+<p>If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+This can be configured by setting <a href="JDACBuilder.html#shutdownJDA(boolean)"><code>JDACBuilder.shutdownJDA(boolean)</code></a> to <code>false</code>.</p>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>jda</code> - the corresponding <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> instance</dd>
@@ -222,8 +225,11 @@ This uses reflections for some functionality.</div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></span>&nbsp;<span class="element-name">start</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link">ShardManager</a>&nbsp;shardManager,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</span></div>
-<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
-This uses reflections for some functionality.</div>
+<div class="block"><p>Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+This uses reflections for some functionality.</p>
+<p>If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+This can be configured by setting <a href="JDACBuilder.html#shutdownJDA(boolean)"><code>JDACBuilder.shutdownJDA(boolean)</code></a> to <code>false</code>.</p>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shardManager</code> - the corresponding <a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link"><code>ShardManager</code></a> instance</dd>
@@ -276,8 +282,11 @@ This uses reflections for some functionality.</div>
 <h3>shutdown</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">shutdown</span>()</div>
-<div class="block">Shuts down this JDACommands instance, making it unable to receive any events from Discord.
- This will <b>not</b> unregister any slash commands.</div>
+<div class="block"><p>Shuts down this JDACommands instance, making it unable to receive any events from Discord.
+This will <strong>not</strong> unregister any slash commands.</p>
+<p>If <a href="extension/JDACBuilderData.html#shutdownJDA()"><code>JDACBuilderData.shutdownJDA()</code></a> is set to `true``, the underlying <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> or <a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link"><code>ShardManager</code></a> instance will
+be shutdown too.</p>
+</div>
 </div>
 </section>
 </li>

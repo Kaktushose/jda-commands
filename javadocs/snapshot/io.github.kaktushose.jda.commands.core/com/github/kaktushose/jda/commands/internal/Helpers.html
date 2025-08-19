@@ -72,8 +72,8 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" tabindex="0">humanReadableType(OptionMapping)</a></li>
 <li><a href="#permissions(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" tabindex="0">permissions(MethodBuildContext)</a></li>
-<li><a href="#isIncorrectParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)" tabindex="0">isIncorrectParameterType(MethodDescription, int, Class)</a></li>
-<li><a href="#checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection)" tabindex="0">checkSignature(MethodDescription, Collection)</a></li>
+<li><a href="#checkParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)" tabindex="0">checkParameterType(MethodDescription, int, Class)</a></li>
+<li><a href="#checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.SequencedCollection)" tabindex="0">checkSignature(MethodDescription, SequencedCollection)</a></li>
 <li><a href="#checkDetached(net.dv8tion.jda.api.entities.detached.IDetachableEntity,java.lang.Class)" tabindex="0">checkDetached(IDetachableEntity, Class)</a></li>
 <li><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.features.internal.Invokable,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">replyConfig(Invokable, InteractionDefinition.ReplyConfig)</a></li>
 <li><a href="#commandConfig(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" tabindex="0">commandConfig(MethodBuildContext)</a></li>
@@ -129,30 +129,30 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#checkDetached(net.dv8tion.jda.api.entities.detached.IDetachableEntity,java.lang.Class)" class="member-name-link">checkDetached</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/detached/IDetachableEntity.html" title="class or interface in net.dv8tion.jda.api.entities.detached" class="external-link">IDetachableEntity</a>&nbsp;entity,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection)" class="member-name-link">checkSignature</a><wbr>(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;methodSignature)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#commandConfig(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" class="member-name-link">commandConfig</a><wbr>(<a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a>&nbsp;context)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">The <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>CommandDefinition.CommandConfig</code></a> that should be used when registering commands.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" class="member-name-link">errorContext</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event,
- <a href="../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionMapping</a>&nbsp;optionMapping)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isIncorrectParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)" class="member-name-link">isIncorrectParameterType</a><wbr>(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#checkParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)" class="member-name-link">checkParameterType</a><wbr>(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
  int&nbsp;index,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Checks if the given parameter is present at the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link"><code>Method</code></a> at the given index.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.SequencedCollection)" class="member-name-link">checkSignature</a><wbr>(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;methodSignature)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#commandConfig(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" class="member-name-link">commandConfig</a><wbr>(<a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a>&nbsp;context)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">The <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command"><code>CommandDefinition.CommandConfig</code></a> that should be used when registering commands.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" class="member-name-link">errorContext</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event,
+ <a href="../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionMapping</a>&nbsp;optionMapping)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#permissions(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" class="member-name-link">permissions</a><wbr>(<a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a>&nbsp;context)</code></div>
@@ -229,10 +229,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="isIncorrectParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)">
-<h3>isIncorrectParameterType</h3>
+<section class="detail" id="checkParameterType(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,int,java.lang.Class)">
+<h3>checkParameterType</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isIncorrectParameterType</span><wbr><span class="parameters">(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkParameterType</span><wbr><span class="parameters">(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
  int&nbsp;index,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;type)</span></div>
 <div class="block">Checks if the given parameter is present at the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link"><code>Method</code></a> at the given index.</div>
@@ -241,18 +241,16 @@ loadScripts(document, 'script');</script>
 <dd><code>method</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link"><code>Method</code></a> to check</dd>
 <dd><code>index</code> - the index the parameter is expected to be at</dd>
 <dd><code>type</code> - the type of the parameter</dd>
-<dt>Returns:</dt>
-<dd><code>true</code> if the parameter is present</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.Collection)">
+<section class="detail" id="checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.SequencedCollection)">
 <h3>checkSignature</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkSignature</span><wbr><span class="parameters">(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;methodSignature)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkSignature</span><wbr><span class="parameters">(<a href="../definitions/description/MethodDescription.html" title="class in com.github.kaktushose.jda.commands.definitions.description">MethodDescription</a>&nbsp;method,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&gt;&nbsp;methodSignature)</span></div>
 </div>
 </section>
 </li>

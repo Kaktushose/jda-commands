@@ -86,6 +86,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#typeAdapters" tabindex="0">typeAdapters</a></li>
 <li><a href="#globalReplyConfig" tabindex="0">globalReplyConfig</a></li>
 <li><a href="#globalCommandConfig" tabindex="0">globalCommandConfig</a></li>
+<li><a href="#shutdownJDA" tabindex="0">shutdownJDA</a></li>
 <li><a href="#embeds" tabindex="0">embeds</a></li>
 </ol>
 </li>
@@ -102,6 +103,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#globalReplyConfig()" tabindex="0">globalReplyConfig()</a></li>
 <li><a href="#globalCommandConfig()" tabindex="0">globalCommandConfig()</a></li>
 <li><a href="#expirationStrategy()" tabindex="0">expirationStrategy()</a></li>
+<li><a href="#shutdownJDA()" tabindex="0">shutdownJDA()</a></li>
 <li><a href="#controllerInstantiator()" tabindex="0">controllerInstantiator()</a></li>
 <li><a href="#localizer()" tabindex="0">localizer()</a></li>
 <li><a href="#permissionsProvider()" tabindex="0">permissionsProvider()</a></li>
@@ -214,12 +216,15 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected @Nullable <a href="../permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions">PermissionsProvider</a></code></div>
 <div class="col-second even-row-color"><code><a href="#permissionsProvider" class="member-name-link">permissionsProvider</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#typeAdapters" class="member-name-link">typeAdapters</a></code></div>
+<div class="col-first odd-row-color"><code>protected boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#shutdownJDA" class="member-name-link">shutdownJDA</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#validators" class="member-name-link">validators</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#typeAdapters" class="member-name-link">typeAdapters</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#validators" class="member-name-link">validators</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -308,12 +313,15 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions">PermissionsProvider</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissionsProvider()" class="member-name-link">permissionsProvider</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#typeAdapters()" class="member-name-link">typeAdapters</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdownJDA()" class="member-name-link">shutdownJDA</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validators()" class="member-name-link">validators</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#typeAdapters()" class="member-name-link">typeAdapters</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validators()" class="member-name-link">validators</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -492,6 +500,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="shutdownJDA">
+<h3>shutdownJDA</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shutdownJDA</span></div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="embeds">
 <h3>embeds</h3>
 <div class="horizontal-scroll">
@@ -580,6 +596,18 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the <a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in com.github.kaktushose.jda.commands.dispatching.expiration"><code>ExpirationStrategy</code></a> to be used</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="shutdownJDA()">
+<h3>shutdownJDA</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shutdownJDA</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or <a href="../JDACommands.html#shutdown()"><code>JDACommands.shutdown()</code></a> is called.</dd>
 </dl>
 </div>
 </section>

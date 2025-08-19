@@ -36,6 +36,7 @@ com.github.kaktushose.jda.commands.dispatching.validation.internal
 com.github.kaktushose.jda.commands.embeds
 com.github.kaktushose.jda.commands.embeds.error
 com.github.kaktushose.jda.commands.embeds.internal
+com.github.kaktushose.jda.commands.exceptions
 com.github.kaktushose.jda.commands.extension
 com.github.kaktushose.jda.commands.extension.internal
 com.github.kaktushose.jda.commands.i18n

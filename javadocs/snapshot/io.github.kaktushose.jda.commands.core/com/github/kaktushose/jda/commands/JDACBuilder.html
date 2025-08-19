@@ -81,6 +81,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">globalReplyConfig(InteractionDefinition.ReplyConfig)</a></li>
 <li><a href="#globalCommandConfig(com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)" tabindex="0">globalCommandConfig(CommandDefinition.CommandConfig)</a></li>
 <li><a href="#extensionData(com.github.kaktushose.jda.commands.extension.Extension.Data...)" tabindex="0">extensionData(Extension.Data...)</a></li>
+<li><a href="#shutdownJDA(boolean)" tabindex="0">shutdownJDA(boolean)</a></li>
 <li><a href="#filterExtensions(com.github.kaktushose.jda.commands.JDACBuilder.FilterStrategy,java.lang.String...)" tabindex="0">filterExtensions(JDACBuilder.FilterStrategy, String...)</a></li>
 <li><a href="#start()" tabindex="0">start()</a></li>
 </ol>
@@ -127,6 +128,8 @@ Values manually defined by this builder will always override loaded and default 
 <p>which will add to the default and loaded ones.</p>
 <p>These implementations of <a href="extension/Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a> can be additionally configured by adding the according implementation of <a href="extension/Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a>
 by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.Extension.Data...)"><code>extensionData(Extension.Data...)</code></a>. (if supported by the extension)</p>
+<p>If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
+This can be configured by settings <a href="#shutdownJDA(boolean)"><code>shutdownJDA(boolean)</code></a>.</p>
 <h3 id="example-heading">Example</h3>
 <pre><code class="language-java">JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
     .middleware(Priority.NORMAL, new TestMiddleware())
@@ -156,14 +159,9 @@ by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="JDACBuilder.ConfigurationException.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands">JDACBuilder.ConfigurationException</a></code></div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="JDACBuilder.FilterStrategy.html" class="type-name-link" title="enum class in com.github.kaktushose.jda.commands">JDACBuilder.FilterStrategy</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Will be thrown if anything goes wrong while configuring jda-commands.</div>
-</div>
-<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
-<div class="col-second odd-row-color"><code><a href="JDACBuilder.FilterStrategy.html" class="type-name-link" title="enum class in com.github.kaktushose.jda.commands">JDACBuilder.FilterStrategy</a></code></div>
-<div class="col-last odd-row-color">
 <div class="block">The two available filter strategies</div>
 </div>
 </div>
@@ -175,7 +173,7 @@ by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.github.kaktushose.jda.commands.extension.JDACBuilderData">Fields inherited from class&nbsp;com.github.kaktushose.jda.commands.extension.<a href="extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></h3>
-<code><a href="extension/JDACBuilderData.html#baseClass">baseClass</a>, <a href="extension/JDACBuilderData.html#classFinders">classFinders</a>, <a href="extension/JDACBuilderData.html#context">context</a>, <a href="extension/JDACBuilderData.html#controllerInstantiator">controllerInstantiator</a>, <a href="extension/JDACBuilderData.html#descriptor">descriptor</a>, <a href="extension/JDACBuilderData.html#embeds">embeds</a>, <a href="extension/JDACBuilderData.html#errorMessageFactory">errorMessageFactory</a>, <a href="extension/JDACBuilderData.html#expirationStrategy">expirationStrategy</a>, <a href="extension/JDACBuilderData.html#extensionData">extensionData</a>, <a href="extension/JDACBuilderData.html#extensionFilter">extensionFilter</a>, <a href="extension/JDACBuilderData.html#globalCommandConfig">globalCommandConfig</a>, <a href="extension/JDACBuilderData.html#globalReplyConfig">globalReplyConfig</a>, <a href="extension/JDACBuilderData.html#guildScopeProvider">guildScopeProvider</a>, <a href="extension/JDACBuilderData.html#loadedExtensions">loadedExtensions</a>, <a href="extension/JDACBuilderData.html#localizer">localizer</a>, <a href="extension/JDACBuilderData.html#log">log</a>, <a href="extension/JDACBuilderData.html#middlewares">middlewares</a>, <a href="extension/JDACBuilderData.html#packages">packages</a>, <a href="extension/JDACBuilderData.html#permissionsProvider">permissionsProvider</a>, <a href="extension/JDACBuilderData.html#typeAdapters">typeAdapters</a>, <a href="extension/JDACBuilderData.html#validators">validators</a></code></div>
+<code><a href="extension/JDACBuilderData.html#baseClass">baseClass</a>, <a href="extension/JDACBuilderData.html#classFinders">classFinders</a>, <a href="extension/JDACBuilderData.html#context">context</a>, <a href="extension/JDACBuilderData.html#controllerInstantiator">controllerInstantiator</a>, <a href="extension/JDACBuilderData.html#descriptor">descriptor</a>, <a href="extension/JDACBuilderData.html#embeds">embeds</a>, <a href="extension/JDACBuilderData.html#errorMessageFactory">errorMessageFactory</a>, <a href="extension/JDACBuilderData.html#expirationStrategy">expirationStrategy</a>, <a href="extension/JDACBuilderData.html#extensionData">extensionData</a>, <a href="extension/JDACBuilderData.html#extensionFilter">extensionFilter</a>, <a href="extension/JDACBuilderData.html#globalCommandConfig">globalCommandConfig</a>, <a href="extension/JDACBuilderData.html#globalReplyConfig">globalReplyConfig</a>, <a href="extension/JDACBuilderData.html#guildScopeProvider">guildScopeProvider</a>, <a href="extension/JDACBuilderData.html#loadedExtensions">loadedExtensions</a>, <a href="extension/JDACBuilderData.html#localizer">localizer</a>, <a href="extension/JDACBuilderData.html#log">log</a>, <a href="extension/JDACBuilderData.html#middlewares">middlewares</a>, <a href="extension/JDACBuilderData.html#packages">packages</a>, <a href="extension/JDACBuilderData.html#permissionsProvider">permissionsProvider</a>, <a href="extension/JDACBuilderData.html#shutdownJDA">shutdownJDA</a>, <a href="extension/JDACBuilderData.html#typeAdapters">typeAdapters</a>, <a href="extension/JDACBuilderData.html#validators">validators</a></code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -203,7 +201,7 @@ by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embeds(java.util.function.Consumer)" class="member-name-link">embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="embeds/EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedConfig</a>&gt;&nbsp;consumer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Configuration step for the Embed API of JDA-Commands.</div>
+<div class="block">ConfigurationException step for the Embed API of JDA-Commands.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#errorMessageFactory(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory)" class="member-name-link">errorMessageFactory</a><wbr>(<a href="embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a>&nbsp;errorMessageFactory)</code></div>
@@ -244,22 +242,28 @@ by calling <a href="#extensionData(com.github.kaktushose.jda.commands.extension.
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissionsProvider(com.github.kaktushose.jda.commands.permissions.PermissionsProvider)" class="member-name-link">permissionsProvider</a><wbr>(<a href="permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions">PermissionsProvider</a>&nbsp;permissionsProvider)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdownJDA(boolean)" class="member-name-link">shutdownJDA</a><wbr>(boolean&nbsp;shutdown)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or if
+<a href="JDACommands.html#shutdown()"><code>JDACommands.shutdown()</code></a> is called</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method applies all found implementations of <a href="extension/Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a>,
 instantiates an instance of <a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands"><code>JDACommands</code></a> and starts the framework.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.validation.Validator)" class="member-name-link">validator</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.validation.Validator)" class="member-name-link">validator</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
  <a href="dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&nbsp;validator)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.github.kaktushose.jda.commands.extension.JDACBuilderData">Methods inherited from class&nbsp;com.github.kaktushose.jda.commands.extension.<a href="extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></h3>
-<code><a href="extension/JDACBuilderData.html#baseClass()">baseClass</a>, <a href="extension/JDACBuilderData.html#classFinders()">classFinders</a>, <a href="extension/JDACBuilderData.html#context()">context</a>, <a href="extension/JDACBuilderData.html#controllerInstantiator()">controllerInstantiator</a>, <a href="extension/JDACBuilderData.html#descriptor()">descriptor</a>, <a href="extension/JDACBuilderData.html#embeds()">embeds</a>, <a href="extension/JDACBuilderData.html#errorMessageFactory()">errorMessageFactory</a>, <a href="extension/JDACBuilderData.html#expirationStrategy()">expirationStrategy</a>, <a href="extension/JDACBuilderData.html#globalCommandConfig()">globalCommandConfig</a>, <a href="extension/JDACBuilderData.html#globalReplyConfig()">globalReplyConfig</a>, <a href="extension/JDACBuilderData.html#guildScopeProvider()">guildScopeProvider</a>, <a href="extension/JDACBuilderData.html#i18n()">i18n</a>, <a href="extension/JDACBuilderData.html#localizer()">localizer</a>, <a href="extension/JDACBuilderData.html#mergedClassFinder()">mergedClassFinder</a>, <a href="extension/JDACBuilderData.html#middlewares()">middlewares</a>, <a href="extension/JDACBuilderData.html#packages()">packages</a>, <a href="extension/JDACBuilderData.html#permissionsProvider()">permissionsProvider</a>, <a href="extension/JDACBuilderData.html#typeAdapters()">typeAdapters</a>, <a href="extension/JDACBuilderData.html#validators()">validators</a></code></div>
+<code><a href="extension/JDACBuilderData.html#baseClass()">baseClass</a>, <a href="extension/JDACBuilderData.html#classFinders()">classFinders</a>, <a href="extension/JDACBuilderData.html#context()">context</a>, <a href="extension/JDACBuilderData.html#controllerInstantiator()">controllerInstantiator</a>, <a href="extension/JDACBuilderData.html#descriptor()">descriptor</a>, <a href="extension/JDACBuilderData.html#embeds()">embeds</a>, <a href="extension/JDACBuilderData.html#errorMessageFactory()">errorMessageFactory</a>, <a href="extension/JDACBuilderData.html#expirationStrategy()">expirationStrategy</a>, <a href="extension/JDACBuilderData.html#globalCommandConfig()">globalCommandConfig</a>, <a href="extension/JDACBuilderData.html#globalReplyConfig()">globalReplyConfig</a>, <a href="extension/JDACBuilderData.html#guildScopeProvider()">guildScopeProvider</a>, <a href="extension/JDACBuilderData.html#i18n()">i18n</a>, <a href="extension/JDACBuilderData.html#localizer()">localizer</a>, <a href="extension/JDACBuilderData.html#mergedClassFinder()">mergedClassFinder</a>, <a href="extension/JDACBuilderData.html#middlewares()">middlewares</a>, <a href="extension/JDACBuilderData.html#packages()">packages</a>, <a href="extension/JDACBuilderData.html#permissionsProvider()">permissionsProvider</a>, <a href="extension/JDACBuilderData.html#shutdownJDA()">shutdownJDA</a>, <a href="extension/JDACBuilderData.html#typeAdapters()">typeAdapters</a>, <a href="extension/JDACBuilderData.html#validators()">validators</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -307,7 +311,7 @@ If you want to add own <a href="definitions/description/ClassFinder.html" title=
 <h3>embeds</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></span>&nbsp;<span class="element-name">embeds</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="embeds/EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedConfig</a>&gt;&nbsp;consumer)</span></div>
-<div class="block"><p>Configuration step for the Embed API of JDA-Commands.</p>
+<div class="block"><p>ConfigurationException step for the Embed API of JDA-Commands.</p>
 <p>Use the given <a href="embeds/EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds"><code>EmbedConfig</code></a> to declare placeholders or data sources.</p>
 </div>
 </div>
@@ -458,6 +462,20 @@ If you want to add own <a href="definitions/description/ClassFinder.html" title=
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>data</code> - the instances of <a href="extension/Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension.Data</code></a> to be used</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="shutdownJDA(boolean)">
+<h3>shutdownJDA</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></span>&nbsp;<span class="element-name">shutdownJDA</span><wbr><span class="parameters">(boolean&nbsp;shutdown)</span></div>
+<div class="block">Whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or if
+<a href="JDACommands.html#shutdown()"><code>JDACommands.shutdown()</code></a> is called</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>shutdown</code> - whether to shut down the JDA instance, default true</dd>
 </dl>
 </div>
 </section>
