@@ -84,4 +84,4 @@ If the type adapting fails an error message will be sent to the user:
 
 ![Type Adapter Error Message](../assets/adapter.png)
 
-_You can customize this error message, find more about it [here](../misc/error-messages.md)._
+_You can customize this error message, find more about it [here](../misc/error-handling.md#error-messages)._

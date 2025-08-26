@@ -156,7 +156,7 @@ a Runtime after 15 minutes have passed.
 !!! danger "Component Lifetime"
     This means all components belonging to that Runtime will stop working after 15 minutes!
 
-JDA-Commands will handle this case for you. This error message can be [customized](../misc/error-messages.md).
+JDA-Commands will handle this case for you. This error message can be [customized](../misc/error-handling.md#error-messages).
 
 ![Expiration Message](../assets/expiration.png)
 

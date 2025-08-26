@@ -20,7 +20,7 @@ An error message is sent, if a parameter constraint fails:
 
 ![Validator Error Message](../assets/validator.png)
 
-_You can customize this error message, find more about it [here](../misc/error-messages.md)._
+_You can customize this error message, find more about it [here](../misc/error-handling.md#error-messages)._
 
 The fail messages of these two default constraints be [localized](../localization.md) with the localization keys 
 `validator.noperm.fail` or `validator.perm.fail` respectively. 
