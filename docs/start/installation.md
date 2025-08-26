@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Java 23 or later
+- Java 24 or later
 - [JDA 5.x](https://github.com/discord-jda/JDA)
 - [SLF4J Implementation](https://jda.wiki/setup/logging/) _(not mandatory, but recommended)_
 
@@ -15,7 +15,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
     <dependency>
        <groupId>io.github.kaktushose</groupId>
        <artifactId>jda-commands</artifactId>
-       <version>4.0.0-beta.4</version>
+       <version>4.0.0-beta.8</version>
     </dependency>
     ```
 === "Gradle (Kotlin DSL)"
@@ -24,7 +24,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation("io.github.kaktushose:jda-commands:4.0.0-beta.4")
+       implementation("io.github.kaktushose:jda-commands:4.0.0-beta.8")
     }
     ```
 === "Gradle (Groovy DSL)"
@@ -33,7 +33,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation 'io.github.kaktushose:jda-commands:4.0.0-beta.4"'
+       implementation 'io.github.kaktushose:jda-commands:4.0.0-beta.8"'
     }
     ```
 

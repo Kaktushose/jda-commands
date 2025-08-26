@@ -56,6 +56,6 @@ JDACommands.builder(jda, Main.class)
 or use the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html)
 annotation:
 ```java
-@Implementation(priority = Priority.NORMAL)
+@Implementation.Middleware(priority = Priority.NORMAL)
 public class LoggingMiddleware implements Middleware {...}
 ```

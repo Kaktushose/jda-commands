@@ -92,11 +92,11 @@ nav:
       - Permissions System: middlewares/permissions.md
       - Cooldown System: middlewares/cooldown.md
   - Dependency Injection: di.md
+  - Localization: localization.md
   - Extensions:
       - Overview: extension/overview.md
       - Writing Extensions: extension/writing.md
       - Configuration: extension/configuring.md
-  - Localization: localization.md
   - Misc:
       - Customizing Error Messages: misc/error-messages.md
       - Embed API: misc/embeds.md
