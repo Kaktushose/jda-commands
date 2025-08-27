@@ -89,7 +89,6 @@ import java.util.stream.Collectors;
 /// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 public class I18n {
 
-
     // skipped classes during stack scanning (Class.getName().startWith(X))
     private static final List<String> SKIPPED = List.of(
             "com.github.kaktushose.jda.commands",
