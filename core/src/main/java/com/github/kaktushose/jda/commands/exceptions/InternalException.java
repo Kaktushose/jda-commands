@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.exceptions;
 
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 
 import java.util.Locale;

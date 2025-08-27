@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.definitions.interactions;
 
 import com.github.kaktushose.jda.commands.definitions.Definition;
-import com.github.kaktushose.jda.commands.exceptions.JDACException;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
