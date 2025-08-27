@@ -96,7 +96,7 @@
           <aside class="md-banner md-banner--warning">
             <div class="md-banner__inner md-grid md-typeset">
               
-You're not viewing the latest version.
+You're not viewing the latest stable version.
 <a href="../../..">
     <strong>Click here to go to latest.</strong>
 </a>
@@ -1583,9 +1583,48 @@ calling <code>#modify</code>.</p>
 </span></code></pre></div>
 </div>
 <h2 id="embeds">Embeds<a class="headerlink" href="#embeds" title="Permanent link">&para;</a></h2>
-<div class="admonition failure">
-<p class="admonition-title">Failure</p>
-<p>The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.</p>
+<p>JDA-Commands provides a rich Embed API to make working with Embeds easier. See the <a href="../../misc/embeds/">Embed Section</a> of this wiki for
+setup instructions. Once you have your <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html"><code>EmbedDataSources</code></a>
+configured you can start using Embeds in your replies. </p>
+<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html"><code>ConfigurableReply</code></a> object, which is accessed by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with()"><code>#with()</code></a>, 
+to attach Embeds to your reply. The easiest way of replying with an Embed is to simply pass the Embeds name:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<p>You can also pass multiple names or call the <code>#embed(...)</code> method multiple times:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;goodbye&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">).</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;goodbye&quot;</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<p>For modifying you can either use the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html"><code>Embed</code></a> object or use a callback:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Embed Object</label><label for="__tabbed_2_2">Callback</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">Embed</span><span class="w"> </span><span class="n">embed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">embed</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">);</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">embed</span><span class="p">.</span><span class="na">title</span><span class="p">(</span><span class="s">&quot;New title&quot;</span><span class="p">);</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="n">embed</span><span class="p">).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">embed</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">embed</span><span class="p">.</span><span class="na">title</span><span class="p">(</span><span class="s">&quot;New title&quot;</span><span class="p">)).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Placeholders can be passed not only to the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html"><code>Embed</code></a>
+object, but also directly to the <code>#embed(...)</code> method:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">embeds</span><span class="p">(</span><span class="s">&quot;welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">I18n</span><span class="p">.</span><span class="na">entry</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Kaktushose&quot;</span><span class="p">)).</span><span class="na">reply</span><span class="p">();</span>
+</span></code></pre></div>
 </div>
 <h2 id="replyconfig">ReplyConfig<a class="headerlink" href="#replyconfig" title="Permanent link">&para;</a></h2>
 <p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html"><code>@ReplyConfig</code></a>
@@ -1593,24 +1632,24 @@ annotation provides a way to modify the default behaviour for the <code>editRepl
 You can either annotate single methods or entire interaction controllers. </p>
 <div class="admonition example">
 <p class="admonition-title">ReplyConfig Annotation</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@Interaction</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nd">@ReplyConfig</span><span class="p">(</span><span class="n">ephemeral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InteractionController</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nd">@ReplyConfig</span><span class="p">(</span><span class="n">editReply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nd">@Interaction</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nd">@ReplyConfig</span><span class="p">(</span><span class="n">ephemeral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InteractionController</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="nd">@ReplyConfig</span><span class="p">(</span><span class="n">editReply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <p>Alternatively, you can set a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommandsBuilder.html#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)">global reply config</a>
 at the builder:</p>
 <div class="admonition example">
 <p class="admonition-title">Global ReplyConfig</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="p">.</span><span class="na">globalReplyConfig</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ReplyConfig</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">))</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="p">.</span><span class="na">globalReplyConfig</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ReplyConfig</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">))</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
 <p>JDA-Commands will apply clashing ReplyConfigs in the following hierarchy:</p>
