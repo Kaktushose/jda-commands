@@ -189,7 +189,7 @@ public record InteractionRegistry(Validators validators,
     ///                                                                indicates a framework bug
     /// @param predicate     the [Predicate] used to find the [Definition]
     /// @param <T>           a subtype of [Definition]
-    /// @return [T]
+    /// @return [T]          the definition
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
     ///                                                                                                    This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements

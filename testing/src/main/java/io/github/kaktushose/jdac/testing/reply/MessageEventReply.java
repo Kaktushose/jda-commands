@@ -4,7 +4,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
-import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.internal.ReplyableInvocation;
 import io.github.kaktushose.jdac.testing.reply.internal.EventReply;

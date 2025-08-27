@@ -91,7 +91,7 @@ public class I18n {
 
 
     // skipped classes during stack scanning (Class.getName().startWith(X))
-    private static List<String> SKIPPED = List.of(
+    private static final List<String> SKIPPED = List.of(
             "com.github.kaktushose.jda.commands",
             "net.dv8tion.jda",
             "java."

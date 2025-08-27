@@ -104,9 +104,9 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
 
         /// Converts this configuration into an [Embeds] instance that should only be used by [DefaultErrorMessageFactory].
         ///
-        /// @return an [Embeds] instance for usage inside of [DefaultErrorMessageFactory]
+        /// @return an [Embeds] instance for usage inside [DefaultErrorMessageFactory]
         public Embeds buildError() {
-            return new Embeds(List.of(errorSource), Map.of(), i18n);
+            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), Map.of(), i18n);
         }
     }
 }

@@ -260,7 +260,7 @@ public sealed class ConfigurableReply permits SendableReply {
     ///         event.with().components("onButton").reply("Hello World");
     ///     }
     ///
-    ///     @Button("Pressme!")
+    ///     @Button("Press me!")
     ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }

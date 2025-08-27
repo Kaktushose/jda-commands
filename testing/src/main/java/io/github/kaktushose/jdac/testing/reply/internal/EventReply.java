@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.testing.reply.internal;
 
 import io.github.kaktushose.jdac.testing.TestScenario;
-import io.github.kaktushose.jdac.testing.invocation.internal.Invocation;
 import io.github.kaktushose.jdac.testing.invocation.internal.ReplyableInvocation;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import io.github.kaktushose.jdac.testing.reply.ModalEventReply;

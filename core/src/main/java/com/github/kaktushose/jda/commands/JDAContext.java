@@ -45,7 +45,7 @@ public final class JDAContext {
 
     /// [SnowflakeCacheView] of all cached [Guild]s.
     ///
-    /// @return [SnowflakeCacheView]
+    /// @return the [SnowflakeCacheView]
     public SnowflakeCacheView<Guild> getGuildCache() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();
