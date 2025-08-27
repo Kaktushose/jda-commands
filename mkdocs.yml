@@ -98,7 +98,7 @@ nav:
       - Writing Extensions: extension/writing.md
       - Configuration: extension/configuring.md
   - Misc:
-      - Error Handling: misc/error-handling.md
       - Embed API: misc/embeds.md
+      - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/

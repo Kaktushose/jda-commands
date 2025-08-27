@@ -35,15 +35,12 @@ Or use the `@Implementation` annotation (requires the [Guice Extension](../di.md
 public class OwnErrorMessageFactory implements ErrorMessageFactory {...}
 ```
 
-### JsonErrorMessageFactory
-To make things easier, these error message can also be loaded from a JSON file. Therefore, you have to enable the 
-[`JsonErrorMessageFactory`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/JsonErrorMessageFactory.html).
-The `JsonErrorMessageFactory` takes an [`EmbedCache`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedCache.html) as input.
-
+To make things easier, these error messages can also be loaded from a `JSON` source using the [Embed API](./embeds.md). 
+Therefore, you have to pass an [`EmbedDataSource`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html) to the [`EmbedConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedConfig.html#errorSource(com.github.kaktushose.jda.commands.embeds.EmbedDataSource)).
 ```java
 JDACommands.builder(jda, Main.class)
-    .errorMessageFactory(new JsonErrorMessageFactory(new EmbedCache("/path/to/json/embeds.json")));
+    .embeds(config -> config.errorSource(EmbedDataSource.file(Path.of("errorEmbeds.json")))
     .start();
 ```
 The template for the error messages can be found [here](https://github.com/Kaktushose/jda-commands/blob/main/core/src/examples/embeds.json).
-The `{placeholders}` can be placed anywhere in the embeds and will get injected by JDA-Commands.  
+The `{ $placeholders }` can be placed anywhere in the embeds and will get injected by JDA-Commands.  

@@ -33,23 +33,22 @@ public class ComponentTest {
 
     @Command("say hi")
     public void onCommand(CommandEvent event) {
-        event.reply("hi");
+        event.reply("command-reply");
     }
 
 }
 ``` 
 
-In this example, the bundle `component` will be searched 
+In this example, the bundle `component` will be searched for the key `command-reply`.
 
-## Directly inserting localization message
+## Directly Inserting Localization Messages
 In some cases, especially while testing it's common to hardcode a messages content.
-But often times you still have to use dynamic placehoolders.
+But often times you still want to use dynamic placeholders.
 
-For your luck JDA-Commands supports this
-by treating a hardcoded value (were a localization key can be used) as the messages content directly
-thus supporting all functionality of the used localization system (`Localizer` implementation).
+For your luck JDA-Commands treats hardcoded values (where a localization key would normally be used) as the content of 
+a localization message, thus supporting all functionality of the used [`Localizer`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html) implementation.
 
-A string value (whether in an annotation, embed, modal or component) will be resolved by following order:
+A String value (whether in an annotation, embed, modal or component) will be resolved by following order:
 
 1. searched for as a localization key
 2. treated as localization message content
@@ -77,11 +76,11 @@ public class ComponentTest {
     @Command("say hi")
     public void onCommand(CommandEvent event) {
         event.with()
-                .compnents(Compnent.button("onButton", entry("placeholder", "Cooler Platzhalter")))
-                .send();
+                .components(Component.button("onButton", entry("name", event.getUser().getName())))
+                .reply();
     }
     
-    @Button("Button with { $placeholder }")
+    @Button("Hello { $name }")
     public void onButton(ComponentEvent event) {
         ...
     }
@@ -113,9 +112,9 @@ If no annotation is found, the previous method (in another class) is searched wi
 class at the very beginning.
 
 ??? example "Detailed Example"
-    `A.java`:
-    ```java
+    ```java title="A.java"
     package my.app;
+
     class A {
         void aOne() {
             i18n.localize(Locale.GERMAN, "fail", Map.of());
@@ -126,12 +125,10 @@ class at the very beginning.
         }
     }
     ```
-
-    `B.java`:
-    ```java
+    ```java title="B.java"
     package my.app.other;
     
-    @Bundle("b_bundle")
+    @Bundle("class_bundle")
     class B {
         A another = new A();
 
@@ -139,16 +136,14 @@ class at the very beginning.
             a.aOne();
         }
 
-        @Bundle(mB_bundle)
+        @Bundle("method_bundle")
         void bTwo() {
             bOne();
         }
     }
     ```
-
-    `package-info.java`:
-    ```java
-    @Bundle("pack_bundle")
+    ```java title="package-info.java"
+    @Bundle("package_bundle")
     package my.app;
     ```
 
@@ -159,12 +154,10 @@ class at the very beginning.
     3. class `A`
     4. `package-info.java` of package `my.app`
     5. method `B#bOne()`
-    6. method `B#two()`
+    6. method `B#bTwo()`
 
-    The found bundle would be `pack_bundle`.
-
-    If `I18n#localize(Locale, String, I18n.Entry...)`
-    would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
+    The found bundle would be `package_bundle`. If `I18n#localize(Locale, String, I18n.Entry...)`
+    would be called in, for example, `B#bTwo` the bundle would be `method_bundle`.
 
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
