@@ -50,7 +50,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         super(event, registry, runtime, definition, replyConfig, embeds);
     }
 
-    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
     /// @param modal       the method name of the [Modal] you want to reply with
     /// @param placeholder the [I18n.Entry] placeholders to use for localization
@@ -59,7 +59,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         replyModal(modal, builder -> builder.placeholder(placeholder));
     }
 
-    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
     /// @param modal    the method name of the [Modal] you want to reply with
     /// @param callback a [Function] to dynamically modify the [Modal] before replying with it

@@ -61,7 +61,7 @@ public interface Validator<T, A extends Annotation> {
         private final InvocationContext<?> invocationContext;
         private final ErrorMessageFactory errorMessageFactory;
 
-        /// @param invocationContext   the interaction's [InvocationContext]
+        /// @param invocationContext   the interactions [InvocationContext]
         /// @param errorMessageFactory the [ErrorMessageFactory] to be used to construct the cancel message
         public Context(InvocationContext<?> invocationContext, ErrorMessageFactory errorMessageFactory) {
             this.invocationContext = invocationContext;

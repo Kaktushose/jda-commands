@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 ///
 /// 1. method that called [I18n#localize(Locale, String, Entry...)]
 /// 2. other called methods in the same class
-/// 3. this method's class
-/// 4. the class' package's `package-info.java` file
+/// 3. this methods class
+/// 4. the class' packages `package-info.java` file
 ///
 /// If no annotation is found, the previous method (in another class) is searched with the same pattern up to the
 /// class at the very beginning.
@@ -122,7 +122,7 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
@@ -157,7 +157,7 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale      the [Locale] to be used to localize the key
