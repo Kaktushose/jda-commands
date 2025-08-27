@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
@@ -35,6 +35,8 @@
   
   
     
+      
+      
     
   
   
@@ -317,26 +319,6 @@ You're not viewing the latest version.
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../extension/overview/" class="md-tabs__link">
-          
-  
-  
-  Extensions
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
     <li class="md-tabs__item">
       <a href="../../localization/" class="md-tabs__link">
         
@@ -359,7 +341,27 @@ You're not viewing the latest version.
     
     
       <li class="md-tabs__item">
-        <a href="../../misc/error-messages/" class="md-tabs__link">
+        <a href="../../extension/overview/" class="md-tabs__link">
+          
+  
+  
+  Extensions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/embeds/" class="md-tabs__link">
           
   
   
@@ -767,9 +769,9 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#localization-and-placeholder" class="md-nav__link">
+  <a href="#localization-and-placeholders" class="md-nav__link">
     <span class="md-ellipsis">
-      Localization and placeholder
+      Localization and Placeholders
     </span>
   </a>
   
@@ -1091,6 +1093,28 @@ You're not viewing the latest version.
   
   
   
+    <li class="md-nav__item">
+      <a href="../../localization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Localization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -1105,10 +1129,10 @@ You're not viewing the latest version.
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1121,8 +1145,8 @@ You're not viewing the latest version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Extensions
           </label>
@@ -1210,28 +1234,6 @@ You're not viewing the latest version.
   
   
   
-    <li class="md-nav__item">
-      <a href="../../localization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Localization
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     
     
     
@@ -1276,12 +1278,12 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="../../misc/error-messages/" class="md-nav__link">
+      <a href="../../misc/embeds/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Customizing Error Messages
+    Embed API
     
   </span>
   
@@ -1299,12 +1301,12 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="../../misc/embeds/" class="md-nav__link">
+      <a href="../../misc/error-handling/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Embed API
+    Error Handling
     
   </span>
   
@@ -1393,19 +1395,23 @@ The first parameter must always be a <a href="https://kaktushose.github.io/jda-c
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;My Modal&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
-<h2 id="localization-and-placeholder">Localization and placeholder<a class="headerlink" href="#localization-and-placeholder" title="Permanent link">&para;</a></h2>
+<h2 id="localization-and-placeholders">Localization and Placeholders<a class="headerlink" href="#localization-and-placeholders" title="Permanent link">&para;</a></h2>
 <p>To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
 current used <a href="../../localization/">Localization System</a>.</p>
 <p>Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
 as retrieved by a key. For more information on how to use the localization system please visit <a href="../../localization/">this page</a>.</p>
-<p>!!! example key (with Fluava)
+<div class="admonition example">
+<p class="admonition-title">Key Example (with Fluava)</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;my.localization.key&quot;</span><span class="p">)</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div></p>
-<p>!!! example content (with Fluava)
+</span></code></pre></div>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Content Example (with Fluava)</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;{ $modal_name }&quot;</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
+</div>
 <h2 id="text-inputs">Text Inputs<a class="headerlink" href="#text-inputs" title="Permanent link">&para;</a></h2>
 <p>You can add text inputs to a modal by adding String parameters annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html"><code>@TextInput</code></a>.
 The label and other metadata of the text input is passed to the annotation. </p>
@@ -1572,7 +1578,8 @@ on the event.</p>
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
