@@ -18,6 +18,7 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
@@ -237,29 +238,35 @@ public final class JDACBuilder extends JDACBuilderData {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-
-        ErrorMessageFactory errorMessageFactory = errorMessageFactory();
-        JDACommands jdaCommands = new JDACommands(
-                context(),
-                expirationStrategy(),
-                new TypeAdapters(typeAdapters()),
-                new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
-                errorMessageFactory,
-                guildScopeProvider(),
-                new InteractionRegistry(
-                        new Validators(validators()),
-                        localizeCommands() ? i18n().localizationFunction() : (_) -> Map.of(),
-                        descriptor()
-                ),
-                controllerInstantiator(),
-                globalReplyConfig(),
-                globalCommandConfig(),
-                i18n(),
-                embeds(),
-                shutdownJDA()
-        );
-        jdaCommands.start(mergedClassFinder());
-        return jdaCommands;
+        try {
+            ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+            JDACommands jdaCommands = new JDACommands(
+                    context(),
+                    expirationStrategy(),
+                    new TypeAdapters(typeAdapters()),
+                    new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
+                    errorMessageFactory,
+                    guildScopeProvider(),
+                    new InteractionRegistry(
+                            new Validators(validators()),
+                            localizeCommands() ? i18n().localizationFunction() : (_) -> Map.of(),
+                            descriptor()
+                    ),
+                    controllerInstantiator(),
+                    globalReplyConfig(),
+                    globalCommandConfig(),
+                    i18n(),
+                    embeds(),
+                    shutdownJDA()
+            );
+            jdaCommands.start(mergedClassFinder());
+            return jdaCommands;
+        } catch (JDACException e) {
+            if (shutdownJDA()) {
+                context().shutdown();
+            }
+            throw e;
+        }
     }
 
     /// The two available filter strategies
