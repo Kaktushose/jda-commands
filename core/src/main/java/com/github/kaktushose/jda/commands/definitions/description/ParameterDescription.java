@@ -8,14 +8,14 @@ import java.util.Collections;
 
 /// A [Description] that describes a parameter.
 ///
-/// @param type        the [Class] representing the declaredType of this parameter
-/// @param name        the name of the parameter
+/// @param type          the [Class] representing the declaredType of this parameter
+/// @param name          the name of the parameter
 /// @param typeArguments the generic type arguments of the type ([ParameterizedType#getActualTypeArguments()]).
-///        They only represent the first layer and are all raw types represented as [Class] instances or null if wildcard/no class.
-/// @param annotations a [Collection] of all [AnnotationDescription]s this parameter is annotated with
+///                      They only represent the first layer and are all raw types represented as [Class] instances or null if wildcard/no class.
+/// @param annotations   a [Collection] of all [AnnotationDescription]s this parameter is annotated with
 public record ParameterDescription(
         Class<?> type,
-        @Nullable Class<?> [] typeArguments,
+        @Nullable Class<?>[] typeArguments,
         String name,
         Collection<AnnotationDescription<?>> annotations
 ) implements Description {
@@ -29,8 +29,8 @@ public record ParameterDescription(
     @Override
     public String toString() {
         return "ParameterDescription{" +
-                "declaredType=" + type +
-                ", name='" + name + '\'' +
-                '}';
+               "declaredType=" + type +
+               ", name='" + name + '\'' +
+               '}';
     }
 }

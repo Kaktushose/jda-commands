@@ -37,13 +37,6 @@ public record ButtonDefinition(
         ButtonStyle style
 ) implements ComponentDefinition<Button> {
 
-    /// Builds a new [ButtonDefinition] with the given values
-    
-    public ButtonDefinition with(@Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
-        return new ButtonDefinition(classDescription, methodDescription, permissions,
-                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
-    }
-
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [ButtonDefinition] holding the [StringSelectMenuDefinition]
@@ -73,11 +66,18 @@ public record ButtonDefinition(
         );
     }
 
+    /// Builds a new [ButtonDefinition] with the given values
+
+    public ButtonDefinition with(
+            @Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
+        return new ButtonDefinition(classDescription, methodDescription, permissions,
+                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
+    }
+
     /// Transforms this definition to an [Button] with an independent custom id.
     ///
     /// @return the [Button]
     /// @see CustomId#independent(String)
-    
     @Override
     public Button toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -87,7 +87,6 @@ public record ButtonDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [Button]
-    
     @Override
     public Button toJDAEntity(CustomId customId) {
         String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
@@ -98,7 +97,6 @@ public record ButtonDefinition(
         }
     }
 
-    
     @Override
     public String displayName() {
         return label.isEmpty() ? definitionId() : label;

@@ -113,11 +113,11 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
 
     /// A container type for providing [TypeAdapter]s.
     ///
-    /// @param source the [Type] of the value to convert
-    /// @param target the [Type] to convert into
+    /// @param source  the [Type] of the value to convert
+    /// @param target  the [Type] to convert into
     /// @param adapter the [TypeAdapter] implementation
-    /// @param <S>    the source type
-    /// @param <T>    the target type
+    /// @param <S>     the source type
+    /// @param <T>     the target type
     public record TypeAdapterContainer<S, T>(Type<S> source,
                                              Type<T> target,
                                              TypeAdapter<S, T> adapter) implements ProvidableContainer {}

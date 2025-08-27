@@ -16,6 +16,7 @@ public sealed interface Description permits AnnotationDescription, ClassDescript
 
     /// a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
     Collection<AnnotationDescription<?>> annotations();
+
     /// Gets this element's [Annotation] for the specified type if such an annotation is present
     ///
     /// @param type the type of the annotation to get

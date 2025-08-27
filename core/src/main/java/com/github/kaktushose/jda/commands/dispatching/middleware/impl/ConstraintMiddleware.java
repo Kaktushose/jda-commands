@@ -25,9 +25,8 @@ import java.util.stream.Collectors;
 /// @see Validators ValidatorRegistry
 public class ConstraintMiddleware implements Middleware {
 
-    private final ErrorMessageFactory errorMessageFactory;
-
     private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
+    private final ErrorMessageFactory errorMessageFactory;
 
     public ConstraintMiddleware(ErrorMessageFactory errorMessageFactory) {
         this.errorMessageFactory = errorMessageFactory;

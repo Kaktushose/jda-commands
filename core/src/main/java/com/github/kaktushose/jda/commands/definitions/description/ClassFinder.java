@@ -14,12 +14,12 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
     ///
     /// @param baseClass The [Class] providing the used [ClassLoader]
     /// @param packages  a list of packages that should be scanned
-    
     static ClassFinder reflective(Class<?> baseClass, String... packages) {
         return new ReflectiveClassFinder(baseClass, packages);
     }
 
     /// This provides an array backed implementation of [ClassFinder] that just returns the explicitly stated classes.
+    ///
     /// @param classes the classes to be scanned
     static ClassFinder explicit(Class<?>... classes) {
         return (_) -> Arrays.asList(classes);
@@ -29,7 +29,6 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
     ///
     /// @param annotationClass the class of the annotation
     /// @return the found classes
-    
     SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass);
 
     /// This method searches for classes annotated with the given annotation, which have the given super type.
@@ -38,7 +37,6 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
     /// @param superType       the [Class], which is a supertype of the found classes
     /// @return the found classes
     @SuppressWarnings("unchecked")
-    
     default <T> SequencedCollection<Class<T>> search(Class<? extends Annotation> annotationClass, Class<T> superType) {
         return search(annotationClass).stream()
                 .filter(superType::isAssignableFrom)

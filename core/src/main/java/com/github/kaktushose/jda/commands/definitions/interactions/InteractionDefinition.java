@@ -29,6 +29,15 @@ import java.util.function.Consumer;
 public sealed interface InteractionDefinition extends Definition, Invokable
         permits AutoCompleteDefinition, ModalDefinition, CommandDefinition, ComponentDefinition {
 
+    /// Creates a definition id from the classname and method name
+    ///
+    /// @param className  the classname ([Class#getName()] or [ClassDescription#name()])
+    /// @param methodName the method name ([Method#getName()] or [MethodDescription#name()])
+    /// @return the definition id
+    static String createDefinitionId(String className, String methodName) {
+        return String.valueOf((className + methodName).hashCode());
+    }
+
     /// The id for this definition. For interaction definition this is the hash code of the full class name and method
     /// name combined.
     @Override
@@ -36,20 +45,9 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         return createDefinitionId(classDescription().name(), methodDescription().name());
     }
 
-    /// Creates a definition id from the classname and method name
-    ///
-    /// @param className the classname ([Class#getName()] or [ClassDescription#name()])
-    /// @param methodName the method name ([Method#getName()] or [MethodDescription#name()])
-    ///
-    /// @return the definition id
-    static String createDefinitionId(String className, String methodName) {
-        return String.valueOf((className + methodName).hashCode());
-    }
-
     /// A possibly-empty [Collection] of permissions for this interaction.
     ///
     /// @apiNote The [PermissionsMiddleware] will validate the provided permissions.
-    
     Collection<String> permissions();
 
     /// Stores the configuration values for sending replies. This acts as a representation of
@@ -67,18 +65,18 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             this(false, true, true, true);
         }
 
-        /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
-        public static ReplyConfig of(Consumer<Builder> callback) {
-            Builder builder = new Builder();
-            callback.accept(builder);
-            return builder.build();
-        }
-
         /// Constructs a new ReplyConfig.
         ///
         /// @param replyConfig the [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig replyConfig) {
             this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.keepSelections(), replyConfig.editReply());
+        }
+
+        /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
+        public static ReplyConfig of(Consumer<Builder> callback) {
+            Builder builder = new Builder();
+            callback.accept(builder);
+            return builder.build();
         }
 
         /// Builder for [ReplyConfig].
@@ -102,7 +100,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// - Cannot contain any files/ attachments
             /// - Cannot be reacted to
             /// - Cannot be retrieved
-            
             public Builder ephemeral(boolean ephemeral) {
                 this.ephemeral = ephemeral;
                 return this;
@@ -112,7 +109,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             ///
             /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
             /// its components get added to the reply before it is sent.
-            
             public Builder keepComponents(boolean keepComponents) {
                 this.keepComponents = keepComponents;
                 return this;
@@ -120,7 +116,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
             /// [#keepComponents()] `true`.
-            
             public Builder keepSelections(boolean keepSelections) {
                 this.keepSelections = keepSelections;
                 return this;
@@ -132,7 +127,6 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
             ///
             /// Subsequent replies to the same slash command event or the button event cannot be edited.
-            
             public Builder editReply(boolean editReply) {
                 this.editReply = editReply;
                 return this;

@@ -160,10 +160,9 @@ public class I18n {
     /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
-    /// @param locale the [Locale] to be used to localize the key
-    /// @param key the messages key
+    /// @param locale      the [Locale] to be used to localize the key
+    /// @param key         the messages key
     /// @param placeholder the placeholder to be used
-    ///
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
         Map<String, Object> map = Arrays.stream(placeholder)

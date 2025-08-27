@@ -28,7 +28,6 @@ public sealed interface JDAEntity<T> extends Definition
     /// Transforms this [Definition] into a JDA entity of the given type [T].
     ///
     /// @return a JDA entity of type [T]
-    
     T toJDAEntity();
 
 }

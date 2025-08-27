@@ -52,7 +52,6 @@ public record SlashCommandDefinition(
     /// Builds a new [SlashCommandDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [SlashCommandDefinition]
-    
     public static SlashCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
@@ -139,7 +138,6 @@ public record SlashCommandDefinition(
     /// Transforms this definition into [SlashCommandData].
     ///
     /// @return the [SlashCommandData]
-    
     @Override
     public SlashCommandData toJDAEntity() {
         SlashCommandData command = Commands.slash(
@@ -173,13 +171,11 @@ public record SlashCommandDefinition(
         return command;
     }
 
-    
     @Override
     public String displayName() {
         return "/%s".formatted(name);
     }
 
-    
     @Override
     public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
         return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
@@ -192,7 +188,6 @@ public record SlashCommandDefinition(
     public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
 
         /// Builds a new [CooldownDefinition] from the given [Cooldown] annotation.
-        
         public static CooldownDefinition build(@Nullable Cooldown cooldown) {
             if (cooldown == null) {
                 return new CooldownDefinition(0, TimeUnit.MILLISECONDS);
@@ -200,7 +195,6 @@ public record SlashCommandDefinition(
             return new CooldownDefinition(cooldown.value(), cooldown.timeUnit());
         }
 
-        
         @Override
         public String displayName() {
             return "Cooldown of %d %s".formatted(delay, timeUnit.name());

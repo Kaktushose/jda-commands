@@ -11,7 +11,6 @@ public sealed interface SelectMenuDefinition<T extends SelectMenu> extends Compo
         permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
 
     /// the placeholder text of this menu
-    
     String placeholder();
 
     /// the minimum amount of choices

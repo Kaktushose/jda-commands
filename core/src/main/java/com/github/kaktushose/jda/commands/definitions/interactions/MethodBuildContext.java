@@ -25,4 +25,4 @@ public record MethodBuildContext(
         MethodDescription method,
         Collection<AutoCompleteDefinition> autoCompleteDefinitions,
         CommandConfig globalCommandConfig
-        ) {}
+) {}

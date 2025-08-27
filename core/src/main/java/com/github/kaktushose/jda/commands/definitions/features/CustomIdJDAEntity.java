@@ -20,7 +20,7 @@ public sealed interface CustomIdJDAEntity<T> extends Definition permits Componen
     ///
     /// @param customId the [CustomId] to use to build this JDA entity
     /// @return a JDA entity of type [T]
-    
+
     T toJDAEntity(CustomId customId);
 
 }

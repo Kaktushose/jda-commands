@@ -10,9 +10,9 @@ import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 /// @param definitionId the [Definition#definitionId()]
 /// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
 public record CustomId(String runtimeId, String definitionId) {
+    public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
-    public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
     public static final String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
 
     public CustomId {
@@ -25,7 +25,6 @@ public record CustomId(String runtimeId, String definitionId) {
     ///
     /// @param customId the custom id String
     /// @return the [CustomId]
-    
     public static CustomId fromMerged(String customId) {
         if (isInvalid(customId)) {
             throw new IllegalArgumentException(JDACException.errorMessage("invalid-custom-id"));
@@ -38,7 +37,6 @@ public record CustomId(String runtimeId, String definitionId) {
     ///
     /// @param definitionId the definition id to construct the [CustomId] from
     /// @return a new runtime-independent [CustomId]
-    
     public static CustomId independent(String definitionId) {
         return new CustomId(INDEPENDENT_ID, definitionId);
     }
@@ -51,7 +49,6 @@ public record CustomId(String runtimeId, String definitionId) {
     }
 
     /// The String representation of this custom id.
-    
     public String merged() {
         return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
     }
@@ -60,7 +57,6 @@ public record CustomId(String runtimeId, String definitionId) {
     ///
     /// @return the runtime id
     /// @throws IllegalStateException if this custom id is runtime-independent
-    
     public String runtimeId() {
         if (isIndependent()) {
             throw new IllegalStateException(JDACException.errorMessage("independent-runtime-id"));

@@ -21,12 +21,6 @@ import java.util.function.Supplier;
 public sealed interface ComponentDefinition<T> extends InteractionDefinition, JDAEntity<T>, CustomIdJDAEntity<T>
         permits ButtonDefinition, SelectMenuDefinition {
 
-    /// The [ClassDescription] of the declaring class of the [#methodDescription()]
-    ClassDescription classDescription();
-
-    /// The [MethodDescription] of the method this definition is bound to
-    MethodDescription methodDescription();
-
     /// Overrides the oldValue with the newValue if present, else returns the oldValue
     ///
     /// @param <T> the type of the value
@@ -38,13 +32,11 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
                 : oldValue;
     }
 
-
     /// If present adds the newValues to the collection provided by the supplier, else returns the oldValue.
     ///
     /// @param <E> the type of elements in the collection
     /// @param <T> the type of the collection
     /// @return if present the newValue, else the oldValue
-    
     static <E, T extends Collection<E>> T override(Supplier<T> newSupp, T oldValue, @Nullable T newValues) {
         if (newValues == null) return oldValue;
 
@@ -53,5 +45,11 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
         collection.addAll(newValues);
         return collection;
     }
+
+    /// The [ClassDescription] of the declaring class of the [#methodDescription()]
+    ClassDescription classDescription();
+
+    /// The [MethodDescription] of the method this definition is bound to
+    MethodDescription methodDescription();
 
 }

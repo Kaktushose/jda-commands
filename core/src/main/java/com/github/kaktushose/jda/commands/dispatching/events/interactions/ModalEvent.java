@@ -19,12 +19,12 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event      the [GenericCommandInteractionEvent] this event holds
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the corresponding [Runtime]
-    /// @param definition the corresponding [InteractionDefinition]
+    /// @param event       the [GenericCommandInteractionEvent] this event holds
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the corresponding [Runtime]
+    /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds      the corresponding [Embeds]
     public ModalEvent(ModalInteractionEvent event,
                       InteractionRegistry registry,
                       Runtime runtime,

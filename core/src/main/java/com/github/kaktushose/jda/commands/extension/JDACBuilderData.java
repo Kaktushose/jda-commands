@@ -285,7 +285,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     public Embeds embeds() {
-        return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
+        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
     }
 
     public I18n i18n() {

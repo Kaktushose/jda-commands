@@ -38,27 +38,6 @@ public record EntitySelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
-    /// Builds a new [EntitySelectMenuDefinition] with the given values.
-    
-    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
-                                           @Nullable Set<ChannelType> channelTypes,
-                                           @Nullable String placeholder,
-                                           @Nullable Integer minValue,
-                                           @Nullable Integer maxValue) {
-        return new EntitySelectMenuDefinition(
-                classDescription,
-                methodDescription,
-                permissions,
-                override(HashSet::new, this.selectTargets, selectTargets),
-                override(HashSet::new, this.defaultValues, defaultValues),
-                override(HashSet::new, this.channelTypes, channelTypes),
-                override(this.placeholder, placeholder),
-                override(this.minValue, minValue),
-                override(this.maxValue, maxValue)
-        );
-    }
-
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [EntitySelectMenuDefinition]
@@ -96,11 +75,31 @@ public record EntitySelectMenuDefinition(
         );
     }
 
+    /// Builds a new [EntitySelectMenuDefinition] with the given values.
+
+    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
+                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
+                                           @Nullable Set<ChannelType> channelTypes,
+                                           @Nullable String placeholder,
+                                           @Nullable Integer minValue,
+                                           @Nullable Integer maxValue) {
+        return new EntitySelectMenuDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                override(HashSet::new, this.selectTargets, selectTargets),
+                override(HashSet::new, this.defaultValues, defaultValues),
+                override(HashSet::new, this.channelTypes, channelTypes),
+                override(this.placeholder, placeholder),
+                override(this.minValue, minValue),
+                override(this.maxValue, maxValue)
+        );
+    }
+
     /// Transforms this definition to an [EntitySelectMenu] with an independent custom id.
     ///
     /// @return the [EntitySelectMenu]
     /// @see CustomId#independent(String)
-    
     @Override
     public EntitySelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -110,7 +109,6 @@ public record EntitySelectMenuDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [EntitySelectMenu]
-    
     @Override
     public EntitySelectMenu toJDAEntity(CustomId customId) {
         var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
@@ -127,10 +125,8 @@ public record EntitySelectMenuDefinition(
         return menu.build();
     }
 
-    
     @Override
     public String displayName() {
         return "Select Menu: %s".formatted(placeholder);
     }
-
 }

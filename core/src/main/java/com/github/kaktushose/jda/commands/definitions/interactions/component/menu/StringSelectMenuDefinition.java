@@ -39,37 +39,6 @@ public record StringSelectMenuDefinition(
         int maxValue
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
-    /// Builds a new [StringSelectMenuDefinition] with the given values.
-    
-    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
-                                           Collection<String> defaultValues,
-                                           @Nullable String placeholder,
-                                           @Nullable Integer minValue,
-                                           @Nullable Integer maxValue) {
-        return new StringSelectMenuDefinition(
-                this.classDescription,
-                this.methodDescription,
-                this.permissions,
-                createOptions(selectOptions, defaultValues),
-                override(this.placeholder, placeholder),
-                override(this.minValue, minValue),
-                override(this.maxValue, maxValue)
-        );
-    }
-
-    private Set<MenuOptionDefinition> createOptions(Set<SelectOption> selectOptions, Collection<String> defaultValues) {
-        return override(HashSet::new, this.selectOptions, selectOptions
-                .stream()
-                .map(MenuOptionDefinition::new)
-                .collect(Collectors.toSet()))
-                .stream()
-                .map(selectOption -> defaultValues.contains(selectOption.value())
-                        ? selectOption.withDefault()
-                        : selectOption
-                )
-                .collect(Collectors.toSet());
-    }
-
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [StringSelectMenuDefinition]
@@ -101,11 +70,41 @@ public record StringSelectMenuDefinition(
         );
     }
 
+    /// Builds a new [StringSelectMenuDefinition] with the given values.
+
+    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
+                                           Collection<String> defaultValues,
+                                           @Nullable String placeholder,
+                                           @Nullable Integer minValue,
+                                           @Nullable Integer maxValue) {
+        return new StringSelectMenuDefinition(
+                this.classDescription,
+                this.methodDescription,
+                this.permissions,
+                createOptions(selectOptions, defaultValues),
+                override(this.placeholder, placeholder),
+                override(this.minValue, minValue),
+                override(this.maxValue, maxValue)
+        );
+    }
+
+    private Set<MenuOptionDefinition> createOptions(Set<SelectOption> selectOptions, Collection<String> defaultValues) {
+        return override(HashSet::new, this.selectOptions, selectOptions
+                .stream()
+                .map(MenuOptionDefinition::new)
+                .collect(Collectors.toSet()))
+                .stream()
+                .map(selectOption -> defaultValues.contains(selectOption.value())
+                        ? selectOption.withDefault()
+                        : selectOption
+                )
+                .collect(Collectors.toSet());
+    }
+
     /// Transforms this definition to an [StringSelectMenu] with an independent custom id.
     ///
     /// @return the [StringSelectMenu]
     /// @see CustomId#independent(String)
-    
     @Override
     public StringSelectMenu toJDAEntity() {
         return toJDAEntity(CustomId.independent(definitionId()));
@@ -115,7 +114,6 @@ public record StringSelectMenuDefinition(
     ///
     /// @param customId the [CustomId] to use
     /// @return the [StringSelectMenu]
-    
     @Override
     public StringSelectMenu toJDAEntity(CustomId customId) {
         return StringSelectMenu.create(customId.merged())
@@ -125,7 +123,6 @@ public record StringSelectMenuDefinition(
                 .build();
     }
 
-    
     @Override
     public String displayName() {
         return "Select Menu: %s".formatted(placeholder);
@@ -149,10 +146,6 @@ public record StringSelectMenuDefinition(
             this(option.getValue(), option.getLabel(), option.getDescription(), option.getEmoji(), option.isDefault());
         }
 
-        private MenuOptionDefinition withDefault() {
-            return new MenuOptionDefinition(value, label, description, emoji, true);
-        }
-
         /// Constructs a new [MenuOptionDefinition] from the given
         /// [`MenuOption`][MenuOption].
         public static MenuOptionDefinition build(MenuOption option) {
@@ -166,14 +159,16 @@ public record StringSelectMenuDefinition(
             return new MenuOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
         }
 
-        
+        private MenuOptionDefinition withDefault() {
+            return new MenuOptionDefinition(value, label, description, emoji, true);
+        }
+
         @Override
         public String displayName() {
             return value;
         }
 
         /// Transforms this definition into a [SelectOption].
-        
         @Override
         public SelectOption toJDAEntity() {
             return SelectOption.of(label, value)

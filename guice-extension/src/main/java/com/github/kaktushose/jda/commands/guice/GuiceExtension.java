@@ -45,7 +45,6 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         this.injector = found.createChildInjector(new GuiceExtensionModule());
     }
 
-    
     @Override
     public Collection<Implementation<?>> providedImplementations() {
         List<Implementation<?>> implementations = new ArrayList<>();

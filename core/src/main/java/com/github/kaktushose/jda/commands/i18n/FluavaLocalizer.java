@@ -34,11 +34,10 @@ public final class FluavaLocalizer implements Localizer {
     /// - [Fluava#loadBundle(String)] for bundle loading
     /// - [Bundle#apply(java.util.Locale, java.lang.String, java.util.Map)] for localization of a given key
     ///
-    /// @param locale {@inheritDoc}
-    /// @param bundle {@inheritDoc}
-    /// @param key the key to be searched for. Note that all dots will be replaced by `-`.
+    /// @param locale    {@inheritDoc}
+    /// @param bundle    {@inheritDoc}
+    /// @param key       the key to be searched for. Note that all dots will be replaced by `-`.
     /// @param arguments {@inheritDoc}
-    ///
     /// @return {@inheritDoc}
     @Override
     public Optional<String> localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
@@ -52,9 +51,9 @@ public final class FluavaLocalizer implements Localizer {
 
     /// {@inheritDoc}
     ///
-    /// @param locale {@inheritDoc}
+    /// @param locale    {@inheritDoc}
     /// @param arguments {@inheritDoc}
-    /// @param content {@inheritDoc}
+    /// @param content   {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
     public Optional<String> localizeMessage(Locale locale, String content, Map<String, Object> arguments) {

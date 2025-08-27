@@ -161,7 +161,6 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
                 .setIntegrationTypes(integration);
     }
 
-    
     @Override
     public Iterator<TreeNode> iterator() {
         return children.iterator();

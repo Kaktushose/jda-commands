@@ -34,17 +34,6 @@ public record ModalDefinition(
         SequencedCollection<TextInputDefinition> textInputs
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
-    /// Builds a new [ModalDefinition] with the given values.
-    public ModalDefinition with(@Nullable String title, @Nullable List<TextInputDefinition> textInputs) {
-        return new ModalDefinition(
-                classDescription,
-                methodDescription,
-                permissions,
-                ComponentDefinition.override(this.title, title),
-                ComponentDefinition.override(ArrayList::new, this.textInputs, textInputs)
-        );
-    }
-
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [ModalDefinition]
@@ -77,6 +66,17 @@ public record ModalDefinition(
 
 
         return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), textInputs);
+    }
+
+    /// Builds a new [ModalDefinition] with the given values.
+    public ModalDefinition with(@Nullable String title, @Nullable List<TextInputDefinition> textInputs) {
+        return new ModalDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                ComponentDefinition.override(this.title, title),
+                ComponentDefinition.override(ArrayList::new, this.textInputs, textInputs)
+        );
     }
 
     /// Transforms this definition to an [Modal] with the given custom id.

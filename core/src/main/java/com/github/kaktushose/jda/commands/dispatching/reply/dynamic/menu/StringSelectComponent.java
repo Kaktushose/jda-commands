@@ -24,13 +24,13 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
         super(method, origin, placeholder);
     }
 
-    /// @see StringSelectMenu.Builder#addOptions(Collection) 
+    /// @see StringSelectMenu.Builder#addOptions(Collection)
     public StringSelectComponent selectOptions(Collection<SelectOption> selectOptions) {
         this.selectOptions.addAll(selectOptions);
         return this;
     }
 
-    /// @see StringSelectMenu.Builder#addOptions(SelectOption...) 
+    /// @see StringSelectMenu.Builder#addOptions(SelectOption...)
     public StringSelectComponent selectOptions(SelectOption... selectOptions) {
         selectOptions(Arrays.asList(selectOptions));
         return this;

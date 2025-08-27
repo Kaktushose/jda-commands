@@ -23,7 +23,6 @@ import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
-///
 /// @param <T> the type of [GenericInteractionCreateEvent] this event represents
 /// @see CommandEvent
 /// @see ComponentEvent
@@ -40,7 +39,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param runtime     the [Runtime] this event lives in
     /// @param definition  the [InteractionDefinition] this event belongs to
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds      the corresponding [Embeds]
     protected ModalReplyableEvent(T event,
                                   InteractionRegistry registry,
                                   Runtime runtime,
@@ -53,7 +52,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target user's Discord client.
     ///
-    /// @param modal the method name of the [Modal] you want to reply with
+    /// @param modal       the method name of the [Modal] you want to reply with
     /// @param placeholder the [I18n.Entry] placeholders to use for localization
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, I18n.Entry... placeholder) {

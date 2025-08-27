@@ -233,7 +233,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
     ///
     /// @param embed   the name of the [Embed] to send
-    /// @param entry the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @param entry   the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {

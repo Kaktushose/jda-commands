@@ -15,12 +15,10 @@ public sealed interface Definition permits CustomIdJDAEntity, Invokable, JDAEnti
         SlashCommandDefinition.CooldownDefinition, StringSelectMenuDefinition.MenuOptionDefinition {
 
     /// The id for this definition. Per default this is the hash code of the [Object#toString()] method.
-    
     default String definitionId() {
         return String.valueOf(toString().hashCode());
     }
 
     /// The human-readable name of this definition.
-    
     String displayName();
 }

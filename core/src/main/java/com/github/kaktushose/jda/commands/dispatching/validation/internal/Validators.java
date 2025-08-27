@@ -17,7 +17,6 @@ import java.util.*;
 /// Central registry for all [Validator]s.
 ///
 /// @implNote The business logic for checking a command's options is implemented by [ConstraintMiddleware]
-///
 /// @see Validator
 public class Validators {
     private final Map<Class<? extends Annotation>, Validator<?, ?>> validators;

@@ -61,7 +61,7 @@ public interface Validator<T, A extends Annotation> {
         private final InvocationContext<?> invocationContext;
         private final ErrorMessageFactory errorMessageFactory;
 
-        /// @param invocationContext the interaction's [InvocationContext]
+        /// @param invocationContext   the interaction's [InvocationContext]
         /// @param errorMessageFactory the [ErrorMessageFactory] to be used to construct the cancel message
         public Context(InvocationContext<?> invocationContext, ErrorMessageFactory errorMessageFactory) {
             this.invocationContext = invocationContext;
@@ -75,7 +75,7 @@ public interface Validator<T, A extends Annotation> {
 
         /// This method returns a formatted, optionally localized, error message based on [ErrorMessageFactory#getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)].
         ///
-        /// @param content the message or localization key
+        /// @param content     the message or localization key
         /// @param placeholder the variables used for localization
         public MessageCreateData failMessage(String content, I18n.Entry... placeholder) {
             String localized = invocationContext.i18n().localize(invocationContext.event().getUserLocale().toLocale(), content, placeholder);
@@ -87,7 +87,6 @@ public interface Validator<T, A extends Annotation> {
         ///
         /// @param failMessage the message or localization key
         /// @param placeholder the variables used for localization
-        ///
         /// @see InvocationContext#cancel(MessageCreateData)
         public void fail(String failMessage, I18n.Entry... placeholder) {
             invocationContext.cancel(failMessage(failMessage, placeholder));

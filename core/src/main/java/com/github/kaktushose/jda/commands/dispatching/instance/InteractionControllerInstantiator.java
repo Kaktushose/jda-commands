@@ -39,7 +39,6 @@ public non-sealed interface InteractionControllerInstantiator extends Implementa
         }
 
         /// the runtime id
-        
         public String runtimeId() {
             return runtime.id();
         }

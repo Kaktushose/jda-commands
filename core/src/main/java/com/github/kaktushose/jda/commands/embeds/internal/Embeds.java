@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 
 /// Container for immutably holding the embed configuration made by [EmbedConfig].
 ///
-/// @param sources the [EmbedDataSource]s [Embed]s can be loaded from
+/// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
 public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, I18n i18n) {
@@ -35,7 +34,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
 
     /// Gets an [Embed] based on the given name and sets the [Locale].
     ///
-    /// @param name the name of the [Embed]
+    /// @param name   the name of the [Embed]
     /// @param locale the [Locale] to use for localization
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]

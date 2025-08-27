@@ -15,8 +15,8 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///
-    /// @param context   the [ErrorContext]
-    /// @param failure   the [ConversionResult.Failure]
+    /// @param context the [ErrorContext]
+    /// @param failure the [ConversionResult.Failure]
     /// @return a [MessageCreateData] to send when type adapting failed
     MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure);
 
@@ -28,7 +28,7 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
 
     /// Gets a [MessageCreateData] to send when a parameter constraint fails.
     ///
-    /// @param context    the [ErrorContext]
+    /// @param context the [ErrorContext]
     /// @return a [MessageCreateData] to send when a parameter constraint fails
     MessageCreateData getConstraintFailedMessage(ErrorContext context, String message);
 

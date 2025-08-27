@@ -183,7 +183,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// Use [#findEmbed(String)] if you cannot ensure that the [Embed] exists.
     ///
     /// @param name the name of the [Embed]
-    ///
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
@@ -216,7 +215,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// {@inheritDoc}
     ///
     /// @param placeholder {@inheritDoc}
-    /// @param message {@inheritDoc}
+    /// @param message     {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
     public Message reply(String message, I18n.Entry... placeholder) {
@@ -225,7 +224,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     /// {@inheritDoc}
     ///
-    /// @param first {@inheritDoc}
+    /// @param first      {@inheritDoc}
     /// @param additional {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
