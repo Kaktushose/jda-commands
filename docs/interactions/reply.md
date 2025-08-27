@@ -185,8 +185,42 @@ calling `#modify`.
     ```
 
 ## Embeds
-!!! failure
-    The Embed API is currently refactored. This wiki will cover Embeds as soon as the refactoring is done.
+JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../misc/embeds.md) of this wiki for
+setup instructions. Once you have your [`EmbedDataSources`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html)
+configured you can start using Embeds in your replies. 
+
+Use the [`ConfigurableReply`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html) object, which is accessed by calling [`#with()`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#with()), 
+to attach Embeds to your reply. The easiest way of replying with an Embed is to simply pass the Embeds name:
+!!! example
+    ```java
+    event.with().embeds("welcome").reply();
+    ```
+You can also pass multiple names or call the `#embed(...)` method multiple times:
+!!! example
+    ```java
+    event.with().embeds("welcome", "goodbye").reply();
+    
+    event.with().embeds("welcome").embeds("goodbye").reply();
+    ```
+For modifying you can either use the [`Embed`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html) object or use a callback:
+!!! example
+    === "Embed Object"
+        ```java
+        Embed embed = event.embed("welcome");
+        embed.title("New title");
+        event.with().embeds(embed).reply();
+        ```
+    === "Callback"
+        ```java
+        event.with().embeds("welcome", embed -> embed.title("New title")).reply();
+        ```
+
+Placeholders can be passed not only to the [`Embed`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html)
+object, but also directly to the `#embed(...)` method:
+!!! example
+    ```java
+    event.with().embeds("welcome", I18n.entry("user", "Kaktushose")).reply();
+    ```
 
 ## ReplyConfig
 The [`@ReplyConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/ReplyConfig.html)
