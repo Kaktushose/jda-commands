@@ -82,6 +82,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
     protected boolean shutdownJDA = true;
+    protected boolean localizeCommands = false;
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
@@ -196,6 +197,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
     /// @return whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or [JDACommands#shutdown()] is called.
     public boolean shutdownJDA() {
         return shutdownJDA;
+    }
+
+    /// @return whether JDA-Commands should use the [I18n] feature to localize commands.
+    public boolean localizeCommands() {
+        return localizeCommands;
     }
 
     // loadable - no defaults

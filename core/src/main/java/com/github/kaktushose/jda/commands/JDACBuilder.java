@@ -21,10 +21,12 @@ import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -211,6 +213,16 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// Whether JDA-Commands should use the [I18n] feature to localize commands.
+    ///
+    /// @param localize whether to localize commands, default false
+    /// @see LocalizationFunction
+    /// @see com.github.kaktushose.jda.commands.i18n.FluavaLocalizer FluavaLocalizer
+    public JDACBuilder localizeCommands(boolean localize) {
+        localizeCommands = localize;
+        return this;
+    }
+
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
@@ -234,7 +246,11 @@ public final class JDACBuilder extends JDACBuilderData {
                 new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
                 errorMessageFactory,
                 guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), i18n().localizationFunction(), descriptor()),
+                new InteractionRegistry(
+                        new Validators(validators()),
+                        localizeCommands() ? i18n().localizationFunction() : (_) -> Map.of(),
+                        descriptor()
+                ),
                 controllerInstantiator(),
                 globalReplyConfig(),
                 globalCommandConfig(),
