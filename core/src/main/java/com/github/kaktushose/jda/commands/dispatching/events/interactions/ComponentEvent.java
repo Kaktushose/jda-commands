@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -60,7 +61,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String)] to edit it directly.
+    /// Use [#reply(String, I18n.Entry...)] to edit it directly.
     public void deferEdit() {
         event.deferEdit().complete();
     }

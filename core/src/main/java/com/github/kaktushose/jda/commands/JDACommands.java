@@ -188,7 +188,7 @@ public final class JDACommands {
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
         return embeds.get(name);
     }

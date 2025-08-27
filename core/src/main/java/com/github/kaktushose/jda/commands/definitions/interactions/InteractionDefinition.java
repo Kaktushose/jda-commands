@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.middleware.impl.PermissionsMiddleware;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -38,7 +39,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// Creates a definition id from the classname and method name
     ///
     /// @param className the classname ([Class#getName()] or [ClassDescription#name()])
-    /// @param methodName the method name ([java.lang.reflect.Method#name()] or [MethodDescription#name()])
+    /// @param methodName the method name ([Method#getName()] or [MethodDescription#name()])
     ///
     /// @return the definition id
     static String createDefinitionId(String className, String methodName) {

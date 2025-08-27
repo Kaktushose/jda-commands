@@ -11,7 +11,7 @@ import java.util.Map;
 /// Builder for configuring the Embed API of JDA-Commands.
 ///
 /// # Embed Sources
-/// Use [#sources(EmbedDataSource)] to add an [EmbedDataSource] that [Embed]s can be loaded from. You can have
+/// Use [#sources(EmbedDataSource...)] to add an [EmbedDataSource] that [Embed]s can be loaded from. You can have
 /// multiple [EmbedDataSource]s.
 ///
 /// Use [EmbedDataSource#file(Path)] to load embeds from a JSON file. The file must contain a single JSON object

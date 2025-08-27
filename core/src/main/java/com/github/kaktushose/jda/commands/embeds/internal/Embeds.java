@@ -23,7 +23,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))
@@ -38,7 +38,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     /// @param name the name of the [Embed]
     /// @param locale the [Locale] to use for localization
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name, Locale locale) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))

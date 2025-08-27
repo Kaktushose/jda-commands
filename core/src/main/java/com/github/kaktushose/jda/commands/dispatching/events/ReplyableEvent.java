@@ -38,7 +38,7 @@ import java.util.Optional;
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
-/// You can either reply directly by using one of the `reply` methods, like [#reply(String)], or you can call
+/// You can either reply directly by using one of the `reply` methods, like [#reply(String, I18n.Entry...)], or you can call
 /// [#with()] to use a [ConfigurableReply] to append components or override reply settings from the
 /// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
 ///
@@ -88,7 +88,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String)] to reply directly.
+    /// Use [#reply(String, I18n.Entry...)] to reply directly.
     public void deferReply() {
         deferReply(replyConfig.ephemeral());
     }
@@ -104,7 +104,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String)] to reply directly.
+    /// Use [#reply(String, I18n.Entry...)] to reply directly.
     ///
     /// @param ephemeral yes
     public abstract void deferReply(boolean ephemeral);
@@ -185,7 +185,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param name the name of the [Embed]
     ///
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
         return embeds.get(name, event.getUserLocale().toLocale());
     }

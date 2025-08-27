@@ -46,7 +46,7 @@ import java.util.function.Consumer;
 /// Values manually defined by this builder will always override loaded and default ones, except for:
 ///
 /// - [#middleware(Priority, Middleware)]
-/// - [#adapter(Class, TypeAdapter)]
+/// - [#adapter(Class, Class, TypeAdapter)]
 /// - [#validator(Class, Validator)]
 ///
 /// which will add to the default and loaded ones.
@@ -90,7 +90,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// ConfigurationException step for the Embed API of JDA-Commands.
+    /// Configuration step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
@@ -154,7 +154,7 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// @param annotation The annotation for which the given [Validator] should be called
     /// @param validator  The [Validator] to be registered
-    public JDACBuilder validator(Class<? extends Annotation> annotation, Validator validator) {
+    public JDACBuilder validator(Class<? extends Annotation> annotation, Validator<?, ?> validator) {
         Objects.requireNonNull(annotation);
         Objects.requireNonNull(validator);
 
@@ -186,6 +186,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// @param config the [CommandConfig] to be used as a global fallback option
     public JDACBuilder globalCommandConfig(CommandConfig config) {
         this.globalCommandConfig = config;
         return this;
