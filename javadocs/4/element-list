@@ -1,6 +1,7 @@
 module:io.github.kaktushose.jda.commands.core
 com.github.kaktushose.jda.commands
 com.github.kaktushose.jda.commands.annotations.constraints
+com.github.kaktushose.jda.commands.annotations.i18n
 com.github.kaktushose.jda.commands.annotations.interactions
 com.github.kaktushose.jda.commands.definitions
 com.github.kaktushose.jda.commands.definitions.description
@@ -13,7 +14,6 @@ com.github.kaktushose.jda.commands.definitions.interactions.component
 com.github.kaktushose.jda.commands.definitions.interactions.component.menu
 com.github.kaktushose.jda.commands.dispatching
 com.github.kaktushose.jda.commands.dispatching.adapter
-com.github.kaktushose.jda.commands.dispatching.adapter.impl
 com.github.kaktushose.jda.commands.dispatching.adapter.internal
 com.github.kaktushose.jda.commands.dispatching.context
 com.github.kaktushose.jda.commands.dispatching.events
@@ -35,8 +35,13 @@ com.github.kaktushose.jda.commands.dispatching.validation.impl
 com.github.kaktushose.jda.commands.dispatching.validation.internal
 com.github.kaktushose.jda.commands.embeds
 com.github.kaktushose.jda.commands.embeds.error
+com.github.kaktushose.jda.commands.embeds.internal
+com.github.kaktushose.jda.commands.exceptions
+com.github.kaktushose.jda.commands.exceptions.internal
 com.github.kaktushose.jda.commands.extension
 com.github.kaktushose.jda.commands.extension.internal
+com.github.kaktushose.jda.commands.i18n
+com.github.kaktushose.jda.commands.i18n.internal
 com.github.kaktushose.jda.commands.internal
 com.github.kaktushose.jda.commands.internal.register
 com.github.kaktushose.jda.commands.permissions
