@@ -40,7 +40,6 @@ public record ContextCommandDefinition(
     /// Builds a new [ContextCommandDefinition] from the given [MethodBuildContext].
     ///
     /// @return an [Optional] holding the [ContextCommandDefinition]
-    
     public static ContextCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
@@ -70,7 +69,6 @@ public record ContextCommandDefinition(
     /// Transforms this definition into [CommandData].
     ///
     /// @return the [CommandData]
-    
     @Override
     public CommandData toJDAEntity() {
         var command = Commands.context(commandType, name);
@@ -82,7 +80,6 @@ public record ContextCommandDefinition(
         return command;
     }
 
-    
     @Override
     public String displayName() {
         return name;

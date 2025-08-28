@@ -4,8 +4,8 @@ import java.util.Collection;
 
 /// A [Description] that describes a [Package].
 ///
-/// @param name the package's name
-/// @param annotations the package's `package-info.java` file's annotations
+/// @param name        the packages name
+/// @param annotations the packages `package-info.java` files annotations
 public record PackageDescription(
         String name,
         Collection<AnnotationDescription<?>> annotations

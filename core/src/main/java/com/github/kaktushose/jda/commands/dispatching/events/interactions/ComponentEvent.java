@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -20,12 +21,12 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event      the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the corresponding [Runtime]
-    /// @param definition the corresponding [InteractionDefinition]
+    /// @param event       the [GenericComponentInteractionCreateEvent] this event holds
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the corresponding [Runtime]
+    /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds      the corresponding [Embeds]
     public ComponentEvent(GenericComponentInteractionCreateEvent event,
                           InteractionRegistry registry,
                           Runtime runtime,
@@ -38,9 +39,9 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
-    ///                         [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
+    ///                                     [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
-    /// @return [T]
+    /// @return [T] the event
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
         return type.cast(event);
     }
@@ -60,7 +61,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String)] to edit it directly.
+    /// Use [#reply(String, I18n.Entry...)] to edit it directly.
     public void deferEdit() {
         event.deferEdit().complete();
     }

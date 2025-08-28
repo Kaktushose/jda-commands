@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 ///
 /// 1. method that called [I18n#localize(Locale, String, Entry...)]
 /// 2. other called methods in the same class
-/// 3. this method's class
-/// 4. the class' package's `package-info.java` file
+/// 3. this methods class
+/// 4. the class' packages `package-info.java` file
 ///
 /// If no annotation is found, the previous method (in another class) is searched with the same pattern up to the
 /// class at the very beginning.
@@ -89,9 +89,8 @@ import java.util.stream.Collectors;
 /// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
 public class I18n {
 
-
     // skipped classes during stack scanning (Class.getName().startWith(X))
-    private static List<String> SKIPPED = List.of(
+    private static final List<String> SKIPPED = List.of(
             "com.github.kaktushose.jda.commands",
             "net.dv8tion.jda",
             "java."
@@ -122,7 +121,7 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
@@ -157,13 +156,12 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle's name can also be
+    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
-    /// @param locale the [Locale] to be used to localize the key
-    /// @param key the messages key
+    /// @param locale      the [Locale] to be used to localize the key
+    /// @param key         the messages key
     /// @param placeholder the placeholder to be used
-    ///
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
         Map<String, Object> map = Arrays.stream(placeholder)

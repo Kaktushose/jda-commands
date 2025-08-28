@@ -61,7 +61,6 @@ public interface Extension<T extends Extension.Data> {
     /// @return a collection of [Implementation]s
     /// @implNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
     /// is important, you should always return the same instance.
-    
     default Collection<Implementation<?>> providedImplementations() {
         return List.of();
     }

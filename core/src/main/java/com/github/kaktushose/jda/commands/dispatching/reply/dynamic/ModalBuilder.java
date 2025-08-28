@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.exceptions.JDACException;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
@@ -26,9 +26,9 @@ public class ModalBuilder {
     private final CustomId customId;
     private final List<TextInputDefinition> components = new ArrayList<>(MAX_COMPONENTS);
     private final ModalDefinition modalDefinition;
+    private final Collection<I18n.Entry> placeholder = new ArrayList<>();
     private @Nullable String title;
     private Function<Modal.Builder, Modal.Builder> callback = Function.identity();
-    private final Collection<I18n.Entry> placeholder = new ArrayList<>();
 
     /// Constructs a new [ModalBuilder].
     ///
@@ -56,9 +56,9 @@ public class ModalBuilder {
     /// Allows modification of a text input with the given callback.
     ///
     /// @param textInput the name of the method parameter the text input is assigned to
-    /// @param callback the [Function] to modify the text input
-    /// @see TextInput.Builder
+    /// @param callback  the [Function] to modify the text input
     /// @return this instance for fluent interface
+    /// @see TextInput.Builder
     public ModalBuilder textInput(String textInput, Function<TextInput.Builder, TextInput.Builder> callback) {
         List<TextInputDefinition> textInputs = (ArrayList<TextInputDefinition>) modalDefinition.textInputs();
         var optionalTextInput = textInputs.stream()

@@ -19,7 +19,7 @@ import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.exceptions.JDACException;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -233,7 +233,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
     ///
     /// @param embed   the name of the [Embed] to send
-    /// @param entry the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @param entry   the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {
@@ -260,7 +260,7 @@ public sealed class ConfigurableReply permits SendableReply {
     ///         event.with().components("onButton").reply("Hello World");
     ///     }
     ///
-    ///     @Button("Pressme!")
+    ///     @Button("Press me!")
     ///     public void onButton(ComponentEvent event){
     ///         event.reply("You pressed me!");
     ///     }

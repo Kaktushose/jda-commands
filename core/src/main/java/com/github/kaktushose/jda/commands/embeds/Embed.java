@@ -259,7 +259,7 @@ public class Embed extends EmbedBuilder {
     }
 
     /// Returns a [MessageEmbed] just like [EmbedBuilder#build()], but will also localize this embed based on the
-    /// [#locale(Locale)] and [`placeholders`][#placeholder(String, Object)] provided.
+    /// [#locale(Locale)] and [`placeholders`][#placeholders(I18n.Entry...)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
     @Override

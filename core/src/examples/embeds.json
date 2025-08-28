@@ -1,12 +1,12 @@
 {
   "insufficientPermissions": {
     "title": "Insufficient Permissions",
-    "description": "`{name}` requires specific permissions to be executed",
+    "description": "`{ $name }` requires specific permissions to be executed",
     "color": "#ff0000",
     "fields": [
       {
         "name": "Permissions:",
-        "value": "`{permissions}`"
+        "value": "`{ $permissions }`"
       }
     ]
   },
@@ -16,36 +16,36 @@
     "fields": [
       {
         "name": "Command",
-        "value": "{command}"
+        "value": "{ $command }"
       },
       {
         "name": "Expected Type",
-        "value": "`{expected}`",
+        "value": "`{ $expected }`",
         "inline": true
       },
       {
         "name": "Provided Type",
-        "value": "`{actual}`",
+        "value": "`{ $actual }`",
         "inline": true
       },
       {
         "name": "Raw Input",
-        "value": "`{input}`"
+        "value": "`{ $input }`"
       },
       {
         "name": "Details",
-        "value": "{details}"
+        "value": "{ $details }"
       }
     ]
   },
   "constraintFailed": {
     "title": "Parameter Error",
-    "description": "```{message}```",
+    "description": "```{ $message }```",
     "color": "#ffc800"
   },
   "cooldown": {
     "title": "Cooldown",
-    "description": "You cannot use this command for {cooldown}!",
+    "description": "You cannot use this command for {$ cooldown }!",
     "color": "#ffc800"
   },
   "wrongChannel": {
@@ -59,7 +59,7 @@
     "fields": [
       {
         "name": "Error Message",
-        "value": "{error}"
+        "value": "{ $error }"
       }
     ],
     "color": "#ff0000"

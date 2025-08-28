@@ -15,8 +15,6 @@ module io.github.kaktushose.jda.commands.core {
     requires org.jetbrains.annotations;
     requires transitive jakarta.inject;
     requires transitive dev.goldmensch.fluava;
-
-    requires java.naming;
     requires org.apache.commons.collections4;
 
     // base package

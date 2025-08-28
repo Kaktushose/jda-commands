@@ -49,7 +49,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     public static final Logger log = LoggerFactory.getLogger(JDACBuilderData.class);
 
     // used for cycling dependency detection
-    List<Implementation<?>> alreadyCalled = new ArrayList<>();
+    final List<Implementation<?>> alreadyCalled = new ArrayList<>();
 
     protected final Class<?> baseClass;
     protected final String[] packages;
@@ -82,6 +82,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
     protected boolean shutdownJDA = true;
+    protected boolean localizeCommands = false;
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
@@ -198,6 +199,11 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return shutdownJDA;
     }
 
+    /// @return whether JDA-Commands should use the [I18n] feature to localize commands.
+    public boolean localizeCommands() {
+        return localizeCommands;
+    }
+
     // loadable - no defaults
     /// @return the [InteractionControllerInstantiator] to be used. Can be added via an [Extension]
     public InteractionControllerInstantiator controllerInstantiator() {
@@ -285,7 +291,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     public Embeds embeds() {
-        return embeds != null ? embeds : (embeds =  new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
+        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
     }
 
     public I18n i18n() {

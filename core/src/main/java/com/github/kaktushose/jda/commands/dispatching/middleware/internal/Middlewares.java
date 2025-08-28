@@ -38,7 +38,6 @@ public class Middlewares {
     /// Returns a set of all registered [Middleware]s, regardless of their priority.
     ///
     /// @return a set of all registered middlewares [Middleware]s
-    
     public Set<Middleware> getMiddlewares() {
         return middlewares.sequencedValues()
                 .stream()

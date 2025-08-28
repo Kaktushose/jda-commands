@@ -234,7 +234,6 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// The name of the input field, usually an option name in [CommandAutoCompleteInteraction].
     ///
     /// @return The option name
-    
     public String getName() {
         return event.getFocusedOption().getName();
     }
@@ -245,7 +244,6 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// For instance, a user may input invalid numbers for [OptionType#NUMBER].
     ///
     /// @return The current auto-completable query value
-    
     public String getValue() {
         return event.getFocusedOption().getValue();
     }
@@ -253,7 +251,6 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// The expected option type for this query.
     ///
     /// @return The option type expected from this auto-complete response
-    
     public OptionType getOptionType() {
         return event.getFocusedOption().getType();
     }

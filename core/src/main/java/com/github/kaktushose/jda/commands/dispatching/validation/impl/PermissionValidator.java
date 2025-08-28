@@ -17,8 +17,7 @@ public class PermissionValidator implements Validator<Member, Perm> {
 
     /// Validates an argument. The argument must be a user or member that has the specified discord permission.
     ///
-    /// @param context    the corresponding [InvocationContext]
-    /// permission
+    /// @param context the corresponding [InvocationContext]
     @Override
     public void apply(Member member, Perm perm, Context context) {
         Set<Permission> permissions = new HashSet<>();

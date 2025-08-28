@@ -121,7 +121,6 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    
     @Override
     public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
         if (embeds.exists("constraintFailed")) {
@@ -180,8 +179,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
         String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
-                        "but a \"%s\" occurred. " +
-                        "Please refer to the logs for further information.```",
+                                     "but a \"%s\" occurred. " +
+                                     "Please refer to the logs for further information.```",
                 context.event().getUser(),
                 context.event().getInteraction().getType(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),

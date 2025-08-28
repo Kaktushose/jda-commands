@@ -107,8 +107,7 @@ public final class Runtime implements Closeable {
             case CommandAutoCompleteInteractionEvent event -> autoCompleteHandler.accept(event, this);
             case GenericComponentInteractionCreateEvent event -> componentHandler.accept(event, this);
             case ModalInteractionEvent event -> modalHandler.accept(event, this);
-            default ->
-                    throw new InternalException("default-switch");
+            default -> throw new InternalException("default-switch");
         }
     }
 
@@ -139,7 +138,7 @@ public final class Runtime implements Closeable {
 
     public boolean isClosed() {
         if (expirationStrategy instanceof ExpirationStrategy.Inactivity(long minutes) &&
-                lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
+            lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;
         }

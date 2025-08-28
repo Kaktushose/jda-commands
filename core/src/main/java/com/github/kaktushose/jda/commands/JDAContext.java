@@ -13,9 +13,8 @@ import java.util.function.Consumer;
 /// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
 public final class JDAContext {
 
-    private static final InternalException EXCEPTION = new InternalException("jda-context-cast");
     public static final Logger log = LoggerFactory.getLogger(JDAContext.class);
-
+    private static final InternalException EXCEPTION = new InternalException("jda-context-cast");
     private final Object context;
 
     /// Constructs a new JDAContext.
@@ -45,7 +44,7 @@ public final class JDAContext {
 
     /// [SnowflakeCacheView] of all cached [Guild]s.
     ///
-    /// @return [SnowflakeCacheView]
+    /// @return the [SnowflakeCacheView]
     public SnowflakeCacheView<Guild> getGuildCache() {
         return switch (context) {
             case ShardManager shardManager -> shardManager.getGuildCache();

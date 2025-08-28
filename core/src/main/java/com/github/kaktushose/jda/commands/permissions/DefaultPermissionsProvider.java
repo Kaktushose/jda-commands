@@ -18,8 +18,6 @@ import java.util.Arrays;
 ///     formally, this method will work with any permission provided by [Permission#values()], ignoring the
 ///     case. Any other permission String will be ignored.
 ///
-///
-///
 /// @see PermissionsProvider
 public class DefaultPermissionsProvider implements PermissionsProvider {
 

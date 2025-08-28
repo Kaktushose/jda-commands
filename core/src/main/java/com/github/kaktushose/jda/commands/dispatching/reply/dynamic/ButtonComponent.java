@@ -20,7 +20,7 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
         super(method, origin, placeholder);
     }
 
-    /// @see Button#withEmoji(Emoji) 
+    /// @see Button#withEmoji(Emoji)
     public ButtonComponent emoji(@Nullable Emoji emoji) {
         this.emoji = emoji;
         return this;

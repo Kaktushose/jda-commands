@@ -22,7 +22,7 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     /// @param runtime     the corresponding [Runtime]
     /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds      the corresponding [Embeds]
     public CommandEvent(GenericCommandInteractionEvent event,
                         InteractionRegistry registry,
                         Runtime runtime,
@@ -36,7 +36,7 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     ///
     /// @param type a subtype of [GenericCommandInteractionEvent], like [SlashCommandInteractionEvent]
     /// @param <T>  a subtype of [GenericCommandInteractionEvent]
-    /// @return [T]
+    /// @return [T] the event
     public <T extends GenericCommandInteractionEvent> T jdaEvent(Class<T> type) {
         return type.cast(event);
     }

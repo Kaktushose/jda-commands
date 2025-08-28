@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 
 /// Container for immutably holding the embed configuration made by [EmbedConfig].
 ///
-/// @param sources the [EmbedDataSource]s [Embed]s can be loaded from
+/// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
 public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, I18n i18n) {
@@ -23,7 +22,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))
@@ -35,10 +34,10 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
 
     /// Gets an [Embed] based on the given name and sets the [Locale].
     ///
-    /// @param name the name of the [Embed]
+    /// @param name   the name of the [Embed]
     /// @param locale the [Locale] to use for localization
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name, Locale locale) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, i18n))
@@ -104,9 +103,9 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
 
         /// Converts this configuration into an [Embeds] instance that should only be used by [DefaultErrorMessageFactory].
         ///
-        /// @return an [Embeds] instance for usage inside of [DefaultErrorMessageFactory]
+        /// @return an [Embeds] instance for usage inside [DefaultErrorMessageFactory]
         public Embeds buildError() {
-            return new Embeds(List.of(errorSource), Map.of(), i18n);
+            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), Map.of(), i18n);
         }
     }
 }

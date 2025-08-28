@@ -101,7 +101,6 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [InteractionContextType#GUILD].
             ///
             /// @param context the [InteractionContextType]s to use
-            
             public Builder context(InteractionContextType... context) {
                 return context(Arrays.asList(context));
             }
@@ -110,7 +109,6 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [InteractionContextType#GUILD].
             ///
             /// @param context the [InteractionContextType]s to use
-            
             public Builder context(Collection<InteractionContextType> context) {
                 this.context.addAll(context);
                 return this;
@@ -120,7 +118,6 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [IntegrationType#GUILD_INSTALL].
             ///
             /// @param integration the [IntegrationType]s to use
-            
             public Builder integration(IntegrationType... integration) {
                 return integration(Arrays.asList(integration));
             }
@@ -129,34 +126,29 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             /// value [IntegrationType#GUILD_INSTALL].
             ///
             /// @param integration the [IntegrationType]s to use
-            
             public Builder integration(Collection<IntegrationType> integration) {
                 this.integration.addAll(integration);
                 return this;
             }
 
             /// @param scope the [CommandScope] to use
-            
             public Builder scope(CommandScope scope) {
                 this.scope = scope;
                 return this;
             }
 
             /// @param nsfw `true` if the configured command(s) can only be executed in NSFW channels
-            
             public Builder nsfw(boolean nsfw) {
                 isNSFW = nsfw;
                 return this;
             }
 
             /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
-            
             public Builder enabledPermissions(Permission... permissions) {
                 return enabledPermissions(Arrays.asList(permissions));
             }
 
             /// @param permissions The default [Permission]s the configured command(s) will be enabled for.
-            
             public Builder enabledPermissions(Collection<Permission> permissions) {
                 enabledPermissions.addAll(permissions);
                 return this;

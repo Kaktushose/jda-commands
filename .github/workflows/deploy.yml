@@ -163,7 +163,7 @@ jobs:
             ## :page_facing_up: Docs
             You can find the wiki for this version [here](https://kaktushose.github.io/jda-commands/${{ needs.check_if_release.outputs.version }}/).
             
-            To visit this version's javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
+            To visit this versions javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
             
             ## :package: Download / Usage
             ### Gradle

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 /// The [Command]s can either be referenced by:
 /// 1. Command Name
 ///
-///     If referenced by the command name the handler will handle any command that's name starts with the given name:
+///     If referenced by the command name the handler will handle any command thats name starts with the given name:
 ///     ```
 ///     @SlashCommand("favourite fruit")
 ///     public void fruitCommand(CommandEvent event, String fruit) {

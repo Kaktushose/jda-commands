@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -18,12 +19,12 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     /// Constructs a new CommandEvent.
     ///
-    /// @param event      the [GenericCommandInteractionEvent] this event holds
-    /// @param registry   the corresponding [InteractionRegistry]
-    /// @param runtime    the corresponding [Runtime]
-    /// @param definition the corresponding [InteractionDefinition]
+    /// @param event       the [GenericCommandInteractionEvent] this event holds
+    /// @param registry    the corresponding [InteractionRegistry]
+    /// @param runtime     the corresponding [Runtime]
+    /// @param definition  the corresponding [InteractionDefinition]
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds     the corresponding [Embeds]
+    /// @param embeds      the corresponding [Embeds]
     public ModalEvent(ModalInteractionEvent event,
                       InteractionRegistry registry,
                       Runtime runtime,
@@ -48,7 +49,7 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String)] to edit it directly.
+    /// Use [#reply(String, I18n.Entry...)] to edit it directly.
     public void deferEdit() {
         event.deferEdit().complete();
     }

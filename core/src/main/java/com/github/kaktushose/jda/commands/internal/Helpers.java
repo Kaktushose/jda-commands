@@ -14,7 +14,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Comma
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
-import com.github.kaktushose.jda.commands.exceptions.JDACException;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -150,12 +150,12 @@ public final class Helpers {
     /// will fall back to the provided fallback.
     ///
     /// @param annotation the [Annotation] defining the config
-    /// @param clazz a [ClassDescription] where the annotation could be present
-    /// @param method a [MethodDescription] where the annotation could be present
-    /// @param mapper a [Function] to map the annotation to the representing data class
-    /// @param fallback the fallback to use if no annotations are present
-    /// @param <A> the annotation type of the config
-    /// @param <C> the data class representing the config/ annotation
+    /// @param clazz      a [ClassDescription] where the annotation could be present
+    /// @param method     a [MethodDescription] where the annotation could be present
+    /// @param mapper     a [Function] to map the annotation to the representing data class
+    /// @param fallback   the fallback to use if no annotations are present
+    /// @param <A>        the annotation type of the config
+    /// @param <C>        the data class representing the config/ annotation
     /// @return C
     private static <A extends Annotation, C> C computeConfig(Class<A> annotation,
                                                              ClassDescription clazz,

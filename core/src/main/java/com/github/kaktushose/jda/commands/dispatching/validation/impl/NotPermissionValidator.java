@@ -18,8 +18,7 @@ public class NotPermissionValidator implements Validator<Member, NotPerm> {
     /// Validates an argument. The argument must be a user or member that **doesn't** have the specified discord
     /// permission.
     ///
-    /// @param context    the corresponding [InvocationContext]
-    /// permission
+    /// @param context the corresponding [InvocationContext]
     @Override
     public void apply(Member member, NotPerm perm, Context context) {
         Set<Permission> permissions = new HashSet<>();

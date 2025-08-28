@@ -6,11 +6,11 @@ import java.util.Collections;
 
 /// A [Description] that describes a class.
 ///
-/// @param clazz       the [Class] this [Description] describes.
-/// @param name        the full name including packages of the class
+/// @param clazz              the [Class] this [Description] describes.
+/// @param name               the full name including packages of the class
 /// @param packageDescription the [PackageDescription] representing the package returned by [Class#getPackage()]
-/// @param annotations a [Collection] of all [Annotation]s this class is annotated with
-/// @param methods     a [Collection] of all the public [`methods`][MethodDescription] of this class
+/// @param annotations        a [Collection] of all [Annotation]s this class is annotated with
+/// @param methods            a [Collection] of all the public [`methods`][MethodDescription] of this class
 public record ClassDescription(
         Class<?> clazz,
         String name,

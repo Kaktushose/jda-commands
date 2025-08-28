@@ -18,13 +18,16 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -46,7 +49,7 @@ import java.util.function.Consumer;
 /// Values manually defined by this builder will always override loaded and default ones, except for:
 ///
 /// - [#middleware(Priority, Middleware)]
-/// - [#adapter(Class, TypeAdapter)]
+/// - [#adapter(Class, Class, TypeAdapter)]
 /// - [#validator(Class, Validator)]
 ///
 /// which will add to the default and loaded ones.
@@ -90,7 +93,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
-    /// ConfigurationException step for the Embed API of JDA-Commands.
+    /// Configuration step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
@@ -154,7 +157,7 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// @param annotation The annotation for which the given [Validator] should be called
     /// @param validator  The [Validator] to be registered
-    public JDACBuilder validator(Class<? extends Annotation> annotation, Validator validator) {
+    public JDACBuilder validator(Class<? extends Annotation> annotation, Validator<?, ?> validator) {
         Objects.requireNonNull(annotation);
         Objects.requireNonNull(validator);
 
@@ -186,6 +189,7 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// @param config the [CommandConfig] to be used as a global fallback option
     public JDACBuilder globalCommandConfig(CommandConfig config) {
         this.globalCommandConfig = config;
         return this;
@@ -210,6 +214,16 @@ public final class JDACBuilder extends JDACBuilderData {
         return this;
     }
 
+    /// Whether JDA-Commands should use the [I18n] feature to localize commands.
+    ///
+    /// @param localize whether to localize commands, default false
+    /// @see LocalizationFunction
+    /// @see com.github.kaktushose.jda.commands.i18n.FluavaLocalizer FluavaLocalizer
+    public JDACBuilder localizeCommands(boolean localize) {
+        localizeCommands = localize;
+        return this;
+    }
+
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
     /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
@@ -224,25 +238,35 @@ public final class JDACBuilder extends JDACBuilderData {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-
-        ErrorMessageFactory errorMessageFactory = errorMessageFactory();
-        JDACommands jdaCommands = new JDACommands(
-                context(),
-                expirationStrategy(),
-                new TypeAdapters(typeAdapters()),
-                new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
-                errorMessageFactory,
-                guildScopeProvider(),
-                new InteractionRegistry(new Validators(validators()), i18n().localizationFunction(), descriptor()),
-                controllerInstantiator(),
-                globalReplyConfig(),
-                globalCommandConfig(),
-                i18n(),
-                embeds(),
-                shutdownJDA()
-        );
-        jdaCommands.start(mergedClassFinder());
-        return jdaCommands;
+        try {
+            ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+            JDACommands jdaCommands = new JDACommands(
+                    context(),
+                    expirationStrategy(),
+                    new TypeAdapters(typeAdapters()),
+                    new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
+                    errorMessageFactory,
+                    guildScopeProvider(),
+                    new InteractionRegistry(
+                            new Validators(validators()),
+                            localizeCommands() ? i18n().localizationFunction() : (_) -> Map.of(),
+                            descriptor()
+                    ),
+                    controllerInstantiator(),
+                    globalReplyConfig(),
+                    globalCommandConfig(),
+                    i18n(),
+                    embeds(),
+                    shutdownJDA()
+            );
+            jdaCommands.start(mergedClassFinder());
+            return jdaCommands;
+        } catch (JDACException e) {
+            if (shutdownJDA()) {
+                context().shutdown();
+            }
+            throw e;
+        }
     }
 
     /// The two available filter strategies

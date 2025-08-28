@@ -77,17 +77,147 @@ import java.util.function.Function;
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
     private final I18n.Entry[] placeholder;
+    private final String method;
+    private final @Nullable Class<?> origin;
     private boolean enabled = true;
     private boolean independent = false;
     private Function<B, B> callback = Function.identity();
-
-    private final String method;
-    private final @Nullable Class<?> origin;
 
     protected Component(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
         this.method = method;
         this.origin = origin;
         this.placeholder = placeholder;
+    }
+
+    /// Adds an enabled, runtime-bound [Component] to the reply.
+    ///
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> enabled(String component, I18n.Entry... placeholder) {
+        return of(true, false, component, placeholder);
+    }
+
+    /// Adds disabled, runtime-bound [Component]s to the reply.
+    ///
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> disabled(String component, I18n.Entry... placeholder) {
+        return of(false, false, component, placeholder);
+    }
+
+    /// Adds an enabled, runtime-independent [Component] to the reply.
+    ///
+    /// Every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    /// Furthermore, the component cannot expire and will always get executed, even after a bot restart.
+    ///
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> independent(String component, I18n.Entry... placeholder) {
+        return of(true, true, component, placeholder);
+    }
+
+    /// Adds an enabled [Component] to the reply that is defined in a different class. This [Component] will always be
+    /// runtime-independent.
+    ///
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> enabled(Class<?> origin, String component, I18n.Entry... placeholder) {
+        return of(true, origin, component, placeholder);
+    }
+
+    /// Adds a disabled [Component] to the reply that is defined in a different class. This [Component] will always be
+    /// runtime-independent.
+    ///
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> disabled(Class<?> origin, String component, I18n.Entry... placeholder) {
+        return of(false, origin, component, placeholder);
+    }
+
+    /// Adds a [Component] with the passed configuration to the reply.
+    ///
+    /// @param enabled     whether the [Component] should be enabled or disabled
+    /// @param independent whether the [Component] should be runtime-bound or independent
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, String component, I18n.Entry... placeholder) {
+        return new UnspecificComponent(enabled, independent, component, null, placeholder);
+    }
+
+    /// Adds a [Component] with the passed configuration to the reply.
+    ///
+    /// @param enabled     whether the [Component] should be enabled or disabled
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> of(boolean enabled, Class<?> origin, String component, I18n.Entry... placeholder) {
+        return new UnspecificComponent(enabled, true, component, origin, placeholder);
+    }
+
+    /// Adds a [Component] with the passed configuration to the reply.
+    ///
+    /// @param enabled     whether the [Component] should be enabled or disabled
+    /// @param independent whether the [Component] should be runtime-bound or independent
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the component
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component, I18n.Entry... placeholder) {
+        return new UnspecificComponent(enabled, independent, component, origin, placeholder);
+    }
+
+    /// Adds a [ButtonComponent] to the reply.
+    ///
+    /// @param component   the name of the method that represents the button
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static ButtonComponent button(String component, I18n.Entry... placeholder) {
+        return button(null, component, placeholder);
+    }
+
+    /// Adds a [ButtonComponent] to the reply.
+    ///
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the button
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static ButtonComponent button(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
+        return new ButtonComponent(component, origin, placeholder);
+    }
+
+    /// Adds an [EntitySelectMenuComponent] to the reply.
+    ///
+    /// @param component   the name of the method that represents the entity select menu
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static EntitySelectMenuComponent entitySelect(String component, I18n.Entry... placeholder) {
+        return entitySelect(null, component, placeholder);
+    }
+
+    /// Adds an [EntitySelectMenuComponent] to the reply.
+    ///
+    /// @param origin      the [Class] the `menu` is defined in
+    /// @param component   the name of the method that represents the entity select menu
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static EntitySelectMenuComponent entitySelect(
+            @Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
+        return new EntitySelectMenuComponent(component, origin, placeholder);
+    }
+
+    /// Adds a [StringSelectComponent] to the reply.
+    ///
+    /// @param component   the name of the method that represents the string select menu
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static StringSelectComponent stringSelect(String component, I18n.Entry... placeholder) {
+        return stringSelect(null, component, placeholder);
+    }
+
+    /// Adds a [StringSelectComponent] to the reply.
+    ///
+    /// @param origin      the [Class] the `component` is defined in
+    /// @param component   the name of the method that represents the string select menu
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
+    public static StringSelectComponent stringSelect(
+            @Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
+        return new StringSelectComponent(component, origin, placeholder);
     }
 
     /// @param enabled whether the component should be enabled
@@ -104,8 +234,8 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     }
 
     /// @param callback a [Function] that allows to modify the resulting jda object.
-    ///                                 The passed function will be called after all modifications except localization are made by jda-commands,
-    ///                                 shortly before the component is localized and then registered in the message
+    ///                                                 The passed function will be called after all modifications except localization are made by jda-commands,
+    ///                                                 shortly before the component is localized and then registered in the message
     public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
@@ -143,134 +273,5 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     protected abstract Class<D> definitionClass();
 
     protected abstract D build(D definition);
-
-
-    /// Adds an enabled, runtime-bound [Component] to the reply.
-    ///
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> enabled(String component, I18n.Entry... placeholder) {
-        return of(true, false, component, placeholder);
-    }
-
-    /// Adds disabled, runtime-bound [Component]s to the reply.
-    ///
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> disabled(String component, I18n.Entry... placeholder) {
-        return of(false, false, component, placeholder);
-    }
-
-    /// Adds an enabled, runtime-independent [Component] to the reply.
-    ///
-    /// Every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
-    /// Furthermore, the component cannot expire and will always get executed, even after a bot restart.
-    ///
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> independent(String component, I18n.Entry... placeholder) {
-        return of(true, true, component, placeholder);
-    }
-
-    /// Adds an enabled [Component] to the reply that is defined in a different class. This [Component] will always be
-    /// runtime-independent.
-    ///
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> enabled(Class<?> origin, String component, I18n.Entry... placeholder) {
-        return of(true, origin, component, placeholder);
-    }
-
-    /// Adds a disabled [Component] to the reply that is defined in a different class. This [Component] will always be
-    /// runtime-independent.
-    ///
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> disabled(Class<?> origin, String component, I18n.Entry... placeholder) {
-        return of(false, origin, component, placeholder);
-    }
-
-    /// Adds a [Component] with the passed configuration to the reply.
-    ///
-    /// @param enabled     whether the [Component] should be enabled or disabled
-    /// @param independent whether the [Component] should be runtime-bound or independent
-    /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, String component, I18n.Entry... placeholder) {
-        return new UnspecificComponent(enabled, independent, component, null, placeholder);
-    }
-
-    /// Adds a [Component] with the passed configuration to the reply.
-    ///
-    /// @param enabled   whether the [Component] should be enabled or disabled
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> of(boolean enabled, Class<?> origin, String component, I18n.Entry... placeholder) {
-        return new UnspecificComponent(enabled, true, component, origin, placeholder);
-    }
-
-    /// Adds a [Component] with the passed configuration to the reply.
-    ///
-    /// @param enabled     whether the [Component] should be enabled or disabled
-    /// @param independent whether the [Component] should be runtime-bound or independent
-    /// @param origin      the [Class] the `component` is defined in
-    /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component, I18n.Entry... placeholder) {
-        return new UnspecificComponent(enabled, independent, component, origin, placeholder);
-    }
-
-    /// Adds a [ButtonComponent] to the reply.
-    ///
-    /// @param component the name of the method that represents the button
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static ButtonComponent button(String component, I18n.Entry... placeholder) {
-        return button(null, component, placeholder);
-    }
-
-    /// Adds a [ButtonComponent] to the reply.
-    ///
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the button
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static ButtonComponent button(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
-        return new ButtonComponent(component, origin, placeholder);
-    }
-
-    /// Adds an [EntitySelectMenuComponent] to the reply.
-    ///
-    /// @param component the name of the method that represents the entity select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static EntitySelectMenuComponent entitySelect(String component, I18n.Entry... placeholder) {
-        return entitySelect(null, component, placeholder);
-    }
-    /// Adds an [EntitySelectMenuComponent] to the reply.
-    ///
-    /// @param origin    the [Class] the `menu` is defined in
-    /// @param component the name of the method that represents the entity select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static EntitySelectMenuComponent entitySelect(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
-        return new EntitySelectMenuComponent(component, origin, placeholder);
-    }
-
-    /// Adds a [StringSelectComponent] to the reply.
-    ///
-    /// @param component the name of the method that represents the string select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static StringSelectComponent stringSelect(String component, I18n.Entry... placeholder) {
-        return stringSelect(null, component, placeholder);
-    }
-
-    /// Adds a [StringSelectComponent] to the reply.
-    ///
-    /// @param origin    the [Class] the `component` is defined in
-    /// @param component the name of the method that represents the string select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...) ]
-    public static StringSelectComponent stringSelect(@Nullable Class<?> origin, String component, I18n.Entry... placeholder) {
-        return new StringSelectComponent(component, origin, placeholder);
-    }
 
 }

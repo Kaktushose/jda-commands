@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.exceptions;
 
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 
 import java.util.stream.Collectors;
