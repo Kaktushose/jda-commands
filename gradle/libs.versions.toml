@@ -3,7 +3,7 @@
 
 [versions]
 com-fasterxml-jackson-core = "2.17.2"
-net-dv8tion-jda = "5.5.1"
+net-dv8tion-jda = "6.0.0-rc.3"
 org-jetbrains-annotations = "24.0.1"
 org-reflections-reflections = "0.10.2"
 org-slf4j-slf4j = "2.0.5"
