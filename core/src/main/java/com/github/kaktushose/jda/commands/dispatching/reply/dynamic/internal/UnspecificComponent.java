@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.components.ActionComponent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 

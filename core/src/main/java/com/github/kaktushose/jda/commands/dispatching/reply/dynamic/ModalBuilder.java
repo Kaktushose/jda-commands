@@ -6,10 +6,11 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import net.dv8tion.jda.api.components.textinput.TextInput;
+import net.dv8tion.jda.api.components.textinput.TextInput.Builder;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -17,7 +18,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
-import static net.dv8tion.jda.api.interactions.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.
 public class ModalBuilder {
@@ -59,7 +59,7 @@ public class ModalBuilder {
     /// @param callback  the [Function] to modify the text input
     /// @return this instance for fluent interface
     /// @see TextInput.Builder
-    public ModalBuilder textInput(String textInput, Function<TextInput.Builder, TextInput.Builder> callback) {
+    public ModalBuilder textInput(String textInput, Function<Builder, Builder> callback) {
         List<TextInputDefinition> textInputs = (ArrayList<TextInputDefinition>) modalDefinition.textInputs();
         var optionalTextInput = textInputs.stream()
                 .filter(it -> it.parameter().name().equals(textInput))

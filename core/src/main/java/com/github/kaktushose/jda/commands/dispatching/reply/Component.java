@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntityS
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.components.ActionComponent;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;

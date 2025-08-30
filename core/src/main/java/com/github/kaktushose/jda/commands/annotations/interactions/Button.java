@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.annotations.interactions;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
+import net.dv8tion.jda.api.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

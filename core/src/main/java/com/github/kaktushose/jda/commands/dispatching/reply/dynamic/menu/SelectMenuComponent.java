@@ -3,7 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
 import com.github.kaktushose.jda.commands.i18n.I18n;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.components.selections.SelectMenu;
+import net.dv8tion.jda.api.components.selections.SelectMenu.Builder;
 import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [SelectMenu].
@@ -17,7 +18,7 @@ import org.jspecify.annotations.Nullable;
 /// @see EntitySelectMenuComponent
 /// @see StringSelectComponent
 public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S, T, B, D>,
-        T extends SelectMenu, B extends SelectMenu.Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
+        T extends SelectMenu, B extends Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
         permits StringSelectComponent, EntitySelectMenuComponent {
 
     protected @Nullable String placeholder;
