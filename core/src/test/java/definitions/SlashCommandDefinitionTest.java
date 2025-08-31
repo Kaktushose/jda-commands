@@ -1,5 +1,7 @@
 package definitions;
 
+import com.github.kaktushose.jda.commands.annotations.constraints.Max;
+import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
@@ -13,6 +15,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,8 +28,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SlashCommandDefinitionTest {
 
@@ -140,6 +142,13 @@ class SlashCommandDefinitionTest {
         assertTrue(definition.commandOptions().isEmpty());
     }
 
+    @Test
+    void method_withMinMaxAnnotation_ShouldPassWithoutValidatorImplementation() throws NoSuchMethodException {
+        Method method = controller.getDeclaredMethod("minMax", CommandEvent.class, int.class, int.class);
+
+        assertDoesNotThrow(() -> SlashCommandDefinition.build(getBuildContext(method)));
+    }
+
     @Interaction
     static class CommandDefinitionTestController {
 
@@ -161,6 +170,11 @@ class SlashCommandDefinitionTest {
         @Command("d")
         public void commandEvent(CommandEvent event) {
         }
+
+        @Command("minMax")
+        public void minMax(CommandEvent event, @Min(1) int min, @Max(1) int max) {
+        }
+
     }
 
 }

@@ -17,9 +17,4 @@ public @interface Max {
     ///
     /// @return Returns the value the element must be less or equal to
     long value();
-
-    /// Returns the error message that will be displayed if the constraint fails.
-    ///
-    /// @return the error message
-    String message() default "Parameter exceeds maximum value";
 }

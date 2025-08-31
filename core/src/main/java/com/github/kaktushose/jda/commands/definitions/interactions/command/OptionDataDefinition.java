@@ -140,13 +140,13 @@ public record OptionDataDefinition(
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotation(Constraint.class).isPresent())
-                .filter(it -> !(it.annotation(Min.class).isPresent() || it.annotation(Max.class).isPresent()))
+                .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it, resolvedType)
                             .orElseThrow(() -> new InvalidDeclarationException(
                                     "no-validator-found",
-                                    entry("annotation", it),
-                                    entry("parameter", parameter))
+                                    entry("annotation", it.type().getName()),
+                                    entry("parameter", parameter.name()))
                             );
                     constraints.add(new ConstraintDefinition(validator, it));
                 });
