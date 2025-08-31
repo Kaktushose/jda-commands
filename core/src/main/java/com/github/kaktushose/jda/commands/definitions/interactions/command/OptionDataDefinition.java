@@ -145,8 +145,8 @@ public record OptionDataDefinition(
                     var validator = validatorRegistry.get(it, resolvedType)
                             .orElseThrow(() -> new InvalidDeclarationException(
                                     "no-validator-found",
-                                    entry("annotation", it),
-                                    entry("parameter", parameter))
+                                    entry("annotation", it.type().getName()),
+                                    entry("parameter", parameter.name()))
                             );
                     constraints.add(new ConstraintDefinition(validator, it));
                 });

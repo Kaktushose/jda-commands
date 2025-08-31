@@ -34,7 +34,7 @@ invalid-option-data = { $type } is no valid option data type. { $guessedType ->
         [other] Perhaps you wanted to write { $guessedType }?
         *[None]
     }
-no-validator-found = No Validator implementation found for annotation "{ $annotation }" used at parameter "{ $ parameter }".
+no-validator-found = No Validator implementation found for annotation "{ $annotation }" used at parameter "{ $parameter }".
 wildcard-optional = Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard.
 unknown-command-type = Unknown command type isn't allowed here.
 invalid-context-command-type = Invalid command type for context command! Must either be USER or MESSAGE
