@@ -1,0 +1,11 @@
+changelog:
+  categories:
+    - title: New features
+      labels:
+        - feature
+    - title: Bug/Typo fixes
+      labels:
+        - fix
+    - title: Other changes
+      labels:
+        - other
