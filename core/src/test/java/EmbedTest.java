@@ -6,14 +6,12 @@ import com.github.kaktushose.jda.commands.i18n.I18n;
 import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.internal.utils.Helpers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,7 +27,7 @@ class EmbedTest {
         embedDataSource = EmbedDataSource.resource("embeds.json");
         i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
         expected = new EmbedBuilder()
-                .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png")
+                .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
                 .setTitle("Test Title")
                 .setDescription("Test Description")
                 .addField("Test Field name", "Test Field value", false)

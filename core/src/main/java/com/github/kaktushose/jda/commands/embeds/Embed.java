@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.embeds.internal.LocalizableDataObject;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
@@ -31,27 +32,25 @@ public class Embed extends EmbedBuilder {
     private final Map<String, Object> placeholders;
     private final I18n i18n;
     private Locale locale;
+    private final LocalizableDataObject dataObject;
 
-    /// Constructs a new [Embed].
-    ///
-    /// @param embedBuilder the underlying [EmbedBuilder] to use
-    /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
-    /// @param placeholders the global placeholders as defined in [Embeds]
-    public Embed(EmbedBuilder embedBuilder, String name, Map<String, Object> placeholders, I18n i18n) {
+    private Embed(EmbedBuilder embedBuilder, LocalizableDataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
         super(embedBuilder);
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
         this.i18n = i18n;
         locale = Locale.ENGLISH;
+        this.dataObject = object;
     }
 
     /// Constructs a new [Embed].
     ///
-    /// @param object       the [DataObject] to construct the underlying [EmbedBuilder] from
+    /// @param object       the [DataObject] to construct the Embed from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public Embed(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
-        this(EmbedBuilder.fromData(object), name, placeholders, i18n);
+    public static Embed of(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
+        LocalizableDataObject dataObject = new LocalizableDataObject(object);
+        return new Embed(EmbedBuilder.fromData(dataObject), dataObject, name, placeholders, i18n);
     }
 
     /// Sets the [Locale] this [Embed] will be localized with.
@@ -264,6 +263,7 @@ public class Embed extends EmbedBuilder {
     /// @return the built, sendable [MessageEmbed]
     @Override
     public MessageEmbed build() {
+        System.out.println(dataObject.getTempUrls());
         String json = super.build().toData().toString();
         try {
             JsonNode node = localize(mapper.readTree(json));

@@ -1,3 +1,4 @@
+author-url = https://cdn.discordapp.com/embed/avatars/0.png
 author-icon-url = https://cdn.discordapp.com/embed/avatars/0.png
 author-name = Kaktushose
 title = Test Title

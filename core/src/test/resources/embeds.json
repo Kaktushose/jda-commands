@@ -2,6 +2,7 @@
   "final": {
     "author": {
       "url": "https://cdn.discordapp.com/embed/avatars/0.png",
+      "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
       "name": "Kaktushose"
     },
     "title": "Test Title",
@@ -29,7 +30,8 @@
   },
   "placeholders": {
     "author": {
-      "url": "{ $author-icon-url }",
+      "url": " { $author-url } ",
+      "icon_url": "{ $author-icon-url }",
       "name": "{ $author-name }"
     },
     "title": "{ $title }",
@@ -57,7 +59,8 @@
   },
   "i18n": {
     "author": {
-      "url": "author-icon-url",
+      "url": "author-url",
+      "icon_url": "author-icon-url",
       "name": "author-name"
     },
     "title": "title",
