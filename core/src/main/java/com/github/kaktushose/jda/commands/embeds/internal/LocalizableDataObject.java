@@ -3,36 +3,40 @@ package com.github.kaktushose.jda.commands.embeds.internal;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.utils.Helpers;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static net.dv8tion.jda.api.EmbedBuilder.URL_PATTERN;
 
+/// This is a subclass of [DataObject] that manipulates resolved values for certain keys. Namely, these keys are
+/// - `color`
+/// - `url`
+/// - `icon_url`
+///
+/// The keys `url` and `icon_url` will also work for children named:
+/// - `thumbnail`
+/// - `author`
+/// - `footer`
+/// - `image`
+///
+/// The underlying data (stored as `Map<String, Object>`) will not be manipulated, only the returned value is affected.
+/// If the value is valid, the original value will be returned. If the value is invalid, will return the provided default
+/// value or if `null`, a dummy value.
+@ApiStatus.Internal
 public class LocalizableDataObject extends DataObject {
 
     private static final String validUrl = "https://cdn.discordapp.com/embed/avatars/0.png";
-    private final String name;
-    @Nullable
-    private String tempColor;
-    @Nullable
-    private String tempTimestamp;
-    private final Map<String, String> tempUrls;
     private static final List<String> fields = List.of("thumbnail", "author", "footer", "image");
 
-    public LocalizableDataObject(DataObject object) {
-        this(object.toMap(), "root");
-    }
-
-
-    public LocalizableDataObject(Map<String, Object> data, String name) {
+    public LocalizableDataObject(Map<String, Object> data) {
         super(data);
-        tempUrls = new HashMap<>();
-        this.name = name;
     }
 
     @Override
@@ -40,11 +44,13 @@ public class LocalizableDataObject extends DataObject {
         if (!"color".equals(key)) {
             return super.getInt(key, defaultValue);
         }
-        String raw = getString("color");
+        String raw = getString("color", null);
+        if (raw == null) {
+            return defaultValue;
+        }
         try {
             return Integer.parseInt(raw);
         } catch (NumberFormatException _) {
-            tempColor = raw;
             return defaultValue;
         }
     }
@@ -54,13 +60,13 @@ public class LocalizableDataObject extends DataObject {
         if (!fields.contains(key)) {
             return super.optObject(key);
         }
-        Map<String, Object> child = getObj(key);
-        return child == null ? Optional.empty() : Optional.of(new LocalizableDataObject(child, key));
+        Map<String, Object> child = getInternal(key);
+        return child == null ? Optional.empty() : Optional.of(new LocalizableDataObject(child));
     }
 
     @Nullable
     @SuppressWarnings("unchecked")
-    private Map<String, Object> getObj(String key) {
+    private Map<String, Object> getInternal(String key) {
         Object value = data.get(key);
         if (value == null) {
             return null;
@@ -71,47 +77,30 @@ public class LocalizableDataObject extends DataObject {
     @Override
     @Nullable
     public String getString(String key, @Nullable String defaultValue) {
-        if (!("url".equals(key) || "iconUrl".equals(key) || "timestamp".equals(key))) {
-            return super.getString(key, defaultValue);
-        }
-        if ("timestamp".equals(key)) {
-            String timestamp = super.getString("timestemp", null);
-            try {
-                return timestamp;
-            } catch (DateTimeParseException _) {
-                tempTimestamp = timestamp;
-                return null;
-            }
-        }
-        String url = checkUrl(super.getString(key, defaultValue), "%s%s".formatted(name, key));
-        return url == null ? url : validUrl;
+        String value = super.getString(key, defaultValue);
+        return switch (key) {
+            case "url", "icon_url" -> isValidUrl(value) ? value : validUrl;
+            case "timestamp" -> isValidTimestamp(value) ? value : Instant.now().toString();
+            default -> value;
+        };
     }
 
-    public Optional<String> getTempColor() {
-        return Optional.ofNullable(tempColor);
-    }
-
-    public Optional<String> getTempUrl(String key) {
-        return Optional.ofNullable(tempUrls.get(key));
-    }
-
-    @Nullable
-    private String checkUrl(@Nullable String url, String name) {
-        if (isInvalidUrl(url)) {
-            tempUrls.put(name, url);
-            return null;
-        }
-        return url;
-    }
-
-    private boolean isInvalidUrl(@Nullable String url) {
+    private boolean isValidUrl(@Nullable String url) {
         if (url == null) {
             return false;
         }
-        return !(Helpers.codePointLength(url) <= MessageEmbed.URL_MAX_LENGTH && URL_PATTERN.matcher(url).matches());
+        return Helpers.codePointLength(url) <= MessageEmbed.URL_MAX_LENGTH && URL_PATTERN.matcher(url).matches();
     }
 
-    public Map<String, String> getTempUrls() {
-        return tempUrls;
+    private boolean isValidTimestamp(@Nullable String timestamp) {
+        if (timestamp == null) {
+            return false;
+        }
+        try {
+            OffsetDateTime.parse(timestamp);
+            return true;
+        } catch (DateTimeParseException _) {
+            return false;
+        }
     }
 }

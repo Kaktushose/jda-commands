@@ -31,8 +31,8 @@ public class Embed extends EmbedBuilder {
     private final String name;
     private final Map<String, Object> placeholders;
     private final I18n i18n;
-    private Locale locale;
     private final LocalizableDataObject dataObject;
+    private Locale locale;
 
     private Embed(EmbedBuilder embedBuilder, LocalizableDataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
         super(embedBuilder);
@@ -45,11 +45,20 @@ public class Embed extends EmbedBuilder {
 
     /// Constructs a new [Embed].
     ///
-    /// @param object       the [DataObject] to construct the Embed from
+    /// @param embedBuilder the [EmbedBuilder] to construct the [Embed] from
+    /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
+    /// @param placeholders the global placeholders as defined in [Embeds]
+    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, Object> placeholders, I18n i18n) {
+        return of(embedBuilder.build().toData(), name, placeholders, i18n);
+    }
+
+    /// Constructs a new [Embed].
+    ///
+    /// @param object       the [DataObject] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
     public static Embed of(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
-        LocalizableDataObject dataObject = new LocalizableDataObject(object);
+        LocalizableDataObject dataObject = new LocalizableDataObject(object.toMap());
         return new Embed(EmbedBuilder.fromData(dataObject), dataObject, name, placeholders, i18n);
     }
 
@@ -263,8 +272,7 @@ public class Embed extends EmbedBuilder {
     /// @return the built, sendable [MessageEmbed]
     @Override
     public MessageEmbed build() {
-        System.out.println(dataObject.getTempUrls());
-        String json = super.build().toData().toString();
+        String json = dataObject.toString();
         try {
             JsonNode node = localize(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
