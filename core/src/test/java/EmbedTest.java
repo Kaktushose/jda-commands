@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EmbedTest {
 
@@ -42,17 +42,16 @@ class EmbedTest {
 
     @Test
     void testFinalEmbed() {
-        MessageEmbed loaded = embedDataSource.get("final", Map.of(), i18n).orElseThrow().build();
-
-        assertTrue(expected.equals(loaded));
+        assertEquals(expected, embedDataSource.get("final", Map.of(), i18n).orElseThrow().build());
     }
 
     @Test
     void testPlaceholderEmbed() {
         Embed loaded = embedDataSource.get("placeholders", Map.of(), i18n).orElseThrow();
 
-        loaded.placeholders(
+        MessageEmbed built = loaded.placeholders(
                 entry("author-icon-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
+                entry("author-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 entry("author-name", "Kaktushose"),
                 entry("title", "Test Title"),
                 entry("description", "Test Description"),
@@ -62,18 +61,25 @@ class EmbedTest {
                 entry("image-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 entry("footer-icon-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 entry("footer-text", "Footer"),
-                entry("timestamp", "2025-09-04T15:08:20.546Z"),
-                entry("color", 48028),
+                entry("timestamp", "2025-09-04T15:08:20Z"),
+                entry("color", "48028"),
                 entry("url", "https://discord.com")
-        );
+        ).build();
 
-        assertTrue(expected.equals(loaded));
+        assertEquals(expected, built);
     }
 
     @Test
     void testLocalizedEmbed() {
-        MessageEmbed loaded = embedDataSource.get("i18n", Map.of(), i18n).orElseThrow().build();
+        assertEquals(expected, embedDataSource.get("i18n", Map.of(), i18n).orElseThrow().build());
+    }
 
-        assertTrue(expected.equals(loaded));
+    @Test
+    void testMinimalEmbed() {
+        MessageEmbed minimum = new EmbedBuilder()
+                .setTitle("Test Title")
+                .setDescription("Test Description")
+                .build();
+        assertEquals(minimum, embedDataSource.get("minimum", Map.of(), i18n).orElseThrow().build());
     }
 }

@@ -30,7 +30,7 @@
   },
   "placeholders": {
     "author": {
-      "url": " { $author-url } ",
+      "url": " { $author-url }",
       "icon_url": "{ $author-icon-url }",
       "name": "{ $author-name }"
     },
@@ -85,5 +85,9 @@
     "timestamp": "timestamp",
     "color": "color",
     "url": "url"
+  },
+  "minimum": {
+    "title": "Test Title",
+    "description": "Test Description"
   }
 }
