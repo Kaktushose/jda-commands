@@ -82,6 +82,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#closeRuntime()" tabindex="0">closeRuntime()</a></li>
 <li><a href="#kv()" tabindex="0">kv()</a></li>
 <li><a href="#interactionInstance(java.lang.Class)" tabindex="0">interactionInstance(Class)</a></li>
+<li><a href="#i18n()" tabindex="0">i18n()</a></li>
+<li><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">localize(String, I18n.Entry...)</a></li>
 <li><a href="#getTypeRaw()" tabindex="0">getTypeRaw()</a></li>
 <li><a href="#getToken()" tabindex="0">getToken()</a></li>
 <li><a href="#getGuild()" tabindex="0">getGuild()</a></li>
@@ -96,7 +98,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#getIdLong()" tabindex="0">getIdLong()</a></li>
 <li><a href="#getIntegrationOwners()" tabindex="0">getIntegrationOwners()</a></li>
 <li><a href="#getContext()" tabindex="0">getContext()</a></li>
-<li><a href="#i18n()" tabindex="0">i18n()</a></li>
 </ol>
 </li>
 </ol>
@@ -241,7 +242,9 @@ content.</p>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;I&gt;&nbsp;@Nullable I</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;I&gt;&nbsp;interactionClass)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -262,8 +265,14 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <div class="block">Returns the <a href="../context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>KeyValueStore</code></a> of this <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets a localization message for the given key using the underlying <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the id of the <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> this event is dispatched in.</div>
 </div>
 </div>
@@ -403,6 +412,36 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the interaction class instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="i18n()">
+<h3>i18n</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
+<div class="block">Gets the <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="localize(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<h3>localize</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">localize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
+<div class="block"><p>Gets a localization message for the given key using the underlying <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance.</p>
+<p>Automatically resolves the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getGuildLocale()" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent.getGuildLocale()</code></a>.
+Use <a href="../../i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a> (obtained via <a href="#i18n()"><code>i18n()</code></a>) if you want to use a different locale.</p>
+</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the localized message or the key if not found</dd>
 </dl>
 </div>
 </section>
@@ -572,14 +611,6 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html#getContext()" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">getContext</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/Interaction.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">Interaction</a></code></dd>
 </dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="i18n()">
-<h3>i18n</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
 </div>
 </section>
 </li>
