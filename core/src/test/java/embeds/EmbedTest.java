@@ -1,3 +1,6 @@
+package embeds;
+
+import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
@@ -16,6 +19,7 @@ import java.util.Map;
 import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Bundle("embeds")
 class EmbedTest {
 
     private static I18n i18n;
@@ -24,7 +28,7 @@ class EmbedTest {
 
     @BeforeAll
     static void init() {
-        embedDataSource = EmbedDataSource.resource("embeds.json");
+        embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
         i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
         expected = new EmbedBuilder()
                 .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
