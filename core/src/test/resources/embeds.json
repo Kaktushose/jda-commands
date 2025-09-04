@@ -1,0 +1,86 @@
+{
+  "final": {
+    "author": {
+      "url": "https://cdn.discordapp.com/embed/avatars/0.png",
+      "name": "Kaktushose"
+    },
+    "title": "Test Title",
+    "description": "Test Description",
+    "fields": [
+      {
+        "name": "Test Field name",
+        "value": "Test Field value",
+        "inline": false
+      }
+    ],
+    "thumbnail": {
+      "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+    },
+    "image": {
+      "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+    },
+    "footer": {
+      "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
+      "text": "Footer"
+    },
+    "timestamp": "2025-09-04T15:08:20Z",
+    "color": 48028,
+    "url": "https://discord.com"
+  },
+  "placeholders": {
+    "author": {
+      "url": "{ $author-icon-url }",
+      "name": "{ $author-name }"
+    },
+    "title": "{ $title }",
+    "description": "{ $description }",
+    "fields": [
+      {
+        "name": "{ $fields-name }",
+        "value": "{ $fields-value }",
+        "inline": false
+      }
+    ],
+    "thumbnail": {
+      "url": "{ $thumbnail-url }"
+    },
+    "image": {
+      "url": "{ $image-url }"
+    },
+    "footer": {
+      "icon_url": "{ $footer-icon-url }",
+      "text": "{ $footer-text }"
+    },
+    "timestamp": "{ $timestamp }",
+    "color": "{ $color }",
+    "url": "{ $url }"
+  },
+  "i18n": {
+    "author": {
+      "url": "author-icon-url",
+      "name": "author-name"
+    },
+    "title": "title",
+    "description": "description",
+    "fields": [
+      {
+        "name": "fields-name",
+        "value": "fields-value",
+        "inline": false
+      }
+    ],
+    "thumbnail": {
+      "url": "thumbnail-url"
+    },
+    "image": {
+      "url": "image-url"
+    },
+    "footer": {
+      "icon_url": "footer-icon-url",
+      "text": "footer-text"
+    },
+    "timestamp": "timestamp",
+    "color": "color",
+    "url": "url"
+  }
+}
