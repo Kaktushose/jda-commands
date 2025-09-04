@@ -119,7 +119,6 @@ public final class JDACommands {
     }
 
     void start(ClassFinder classFinder) {
-        log.info("Starting JDA-Commands...");
         interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
         updater.updateAllCommands();
 

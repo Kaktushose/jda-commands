@@ -239,6 +239,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         try {
+            log.info("Starting JDA-Commands...");
             ErrorMessageFactory errorMessageFactory = errorMessageFactory();
             JDACommands jdaCommands = new JDACommands(
                     context(),
