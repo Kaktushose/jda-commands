@@ -9,14 +9,17 @@ import com.github.kaktushose.jda.commands.i18n.I18n;
 import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Map;
 
 import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Bundle("embeds")
@@ -45,15 +48,41 @@ class EmbedTest {
     }
 
     @Test
-    void testFinalEmbed() {
+    void testNoModification() {
         assertEquals(expected, embedDataSource.get("final", Map.of(), i18n).orElseThrow().build());
     }
 
     @Test
-    void testPlaceholderEmbed() {
+    void testDirectModification() {
+        MessageEmbed expected = new EmbedBuilder()
+                .setAuthor("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
+                .setTitle("Test Title 2", "https://discord.com")
+                .setDescription("Test Description 2")
+                .addField("Test Field name 2", "Test Field value 2", false)
+                .setThumbnail("https://cdn.discordapp.com/embed/avatars/1.png")
+                .setImage("https://cdn.discordapp.com/embed/avatars/1.png")
+                .setFooter("Footer", "https://cdn.discordapp.com/embed/avatars/1.png")
+                .setTimestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
+                .setColor(0)
+                .build();
+        Embed actual =  embedDataSource.get("modification", Map.of(), i18n).orElseThrow()
+                .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
+                .title("Test Title 2")
+                .description("Test Description 2")
+                .thumbnail("https://cdn.discordapp.com/embed/avatars/1.png")
+                .image("https://cdn.discordapp.com/embed/avatars/1.png")
+                .footer("Footer", "https://cdn.discordapp.com/embed/avatars/1.png")
+                .timestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
+                .color(0);
+        actual.fields().replace(_ -> true, new Field("Test Field name 2", "Test Field value 2", false));
+        assertEquals(expected, actual.build());
+    }
+
+    @Test
+    void testPlaceholder() {
         Embed loaded = embedDataSource.get("placeholders", Map.of(), i18n).orElseThrow();
 
-        MessageEmbed built = loaded.placeholders(
+        Embed actual = loaded.placeholders(
                 entry("author-icon-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 entry("author-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 entry("author-name", "Kaktushose"),
@@ -68,22 +97,45 @@ class EmbedTest {
                 entry("timestamp", "2025-09-04T15:08:20Z"),
                 entry("color", "48028"),
                 entry("url", "https://discord.com")
-        ).build();
+        );
 
-        assertEquals(expected, built);
+        assertEquals(expected, actual.build());
     }
 
     @Test
-    void testLocalizedEmbed() {
+    void testLocalization() {
         assertEquals(expected, embedDataSource.get("i18n", Map.of(), i18n).orElseThrow().build());
     }
 
     @Test
     void testMinimalEmbed() {
-        MessageEmbed minimum = new EmbedBuilder()
-                .setTitle("Test Title")
-                .setDescription("Test Description")
+        MessageEmbed expected = new EmbedBuilder().setTitle("Test Title").build();
+        assertEquals(expected, embedDataSource.get("minimum", Map.of(), i18n).orElseThrow().build());
+    }
+
+    @Test
+    void testColors() {
+        Embed embed = embedDataSource.get("color", Map.of(), i18n).orElseThrow();
+
+        embed.placeholders(entry("color", 1000));
+        assertDoesNotThrow(embed::build);
+    }
+
+    @Test
+    void testFieldsOrder() {
+        MessageEmbed expected = new EmbedBuilder().setTitle("Test Title")
+                .addField("5", "5", true)
+                .addField("3", "3", false)
+                .addField("4", "4", false)
+                .addField("6", "6", false)
                 .build();
-        assertEquals(minimum, embedDataSource.get("minimum", Map.of(), i18n).orElseThrow().build());
+
+        Embed actual = embedDataSource.get("order", Map.of(), i18n).orElseThrow();
+        actual.fields()
+                .remove("2")
+                .replace("1", new Field("5", "5", true))
+                .add("6", "6");
+
+        assertEquals(expected, actual.build());
     }
 }

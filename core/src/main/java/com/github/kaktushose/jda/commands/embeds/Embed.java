@@ -6,41 +6,47 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.embeds.internal.LocalizableDataObject;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
+import net.dv8tion.jda.internal.utils.Checks;
 import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/// Subclass of [EmbedBuilder] that supports placeholders and easier manipulation of fields.
-public class Embed extends EmbedBuilder {
+import static net.dv8tion.jda.api.EmbedBuilder.URL_PATTERN;
+import static net.dv8tion.jda.api.EmbedBuilder.ZERO_WIDTH_SPACE;
+
+/// Builder for [MessageEmbed] that supports placeholders, localization and easier manipulation of [Field]s. Can also be
+/// loaded via [EmbedDataSource].
+public class Embed {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private final String name;
     private final Map<String, Object> placeholders;
     private final I18n i18n;
-    private final LocalizableDataObject dataObject;
+    private DataObject data;
     private Locale locale;
 
-    private Embed(EmbedBuilder embedBuilder, LocalizableDataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
-        super(embedBuilder);
+    private Embed(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
         this.i18n = i18n;
         locale = Locale.ENGLISH;
-        this.dataObject = object;
+        this.data = object;
     }
 
     /// Constructs a new [Embed].
@@ -58,8 +64,7 @@ public class Embed extends EmbedBuilder {
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
     public static Embed of(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
-        LocalizableDataObject dataObject = new LocalizableDataObject(object.toMap());
-        return new Embed(EmbedBuilder.fromData(dataObject), dataObject, name, placeholders, i18n);
+        return new Embed(object, name, placeholders, i18n);
     }
 
     /// Sets the [Locale] this [Embed] will be localized with.
@@ -88,7 +93,22 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTitle(String)
     public Embed title(@Nullable String title) {
-        setTitle(title);
+        data.put("title", title);
+        return this;
+    }
+
+    /// Sets the URL of the embed.
+    ///
+    /// The Discord client mostly only uses this property in combination with the [title][#title(String)] for a clickable Hyperlink.
+    ///
+    /// If multiple embeds in a message use the same URL, the Discord client will merge them into a single embed and aggregate images into a gallery view.
+    ///
+    /// @return the builder after the URL has been set
+    /// @see EmbedBuilder#setUrl(String)
+    /// @see #title(String) (String, String)
+    public Embed url(@Nullable String url) {
+        data.put("url", url);
+        urlCheck(url);
         return this;
     }
 
@@ -99,8 +119,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTitle(String, String)
     public Embed title(@Nullable String title, @Nullable String url) {
-        setTitle(title, url);
-        return this;
+        return title(title).url(url);
     }
 
     /// Sets the Description of the embed.
@@ -109,7 +128,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setDescription(CharSequence)
     public Embed description(@Nullable CharSequence description) {
-        setDescription(description);
+        data.put("description", description);
         return this;
     }
 
@@ -119,7 +138,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setColor(int)
     public Embed color(int color) {
-        setColor(color);
+        data.put("color", color);
         return this;
     }
 
@@ -129,7 +148,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setColor(Color)
     public Embed color(@Nullable Color color) {
-        setColor(color);
+        data.put("color", color == null ? null : color.getRGB());
         return this;
     }
 
@@ -139,7 +158,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setTimestamp(TemporalAccessor)
     public Embed timestamp(@Nullable TemporalAccessor accessor) {
-        setTimestamp(accessor);
+        data.put("timestamp", accessor == null ? null : accessor.toString());
         return this;
     }
 
@@ -149,8 +168,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String)
     public Embed footer(@Nullable String footer) {
-        setFooter(footer);
-        return this;
+        return footer(footer, null);
     }
 
     /// Sets the Footer of the embed.
@@ -160,7 +178,11 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String, String)
     public Embed footer(@Nullable String footer, @Nullable String iconUrl) {
-        setFooter(footer, iconUrl);
+        if (iconUrl == null && footer == null) {
+            return this;
+        }
+        urlCheck(iconUrl);
+        data.put("footer", DataObject.empty().put("text", footer).put("icon_url", iconUrl));
         return this;
     }
 
@@ -170,7 +192,11 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setThumbnail(String)
     public Embed thumbnail(@Nullable String url) {
-        setThumbnail(url);
+        if (url == null) {
+            return this;
+        }
+        urlCheck(url);
+        data.put("thumbnail", DataObject.empty().put("url", url));
         return this;
     }
 
@@ -180,7 +206,11 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setImage(String)
     public Embed image(@Nullable String url) {
-        setImage(url);
+        if (url == null) {
+            return this;
+        }
+        urlCheck(url);
+        data.put("image", DataObject.empty().put("url", url));
         return this;
     }
 
@@ -190,8 +220,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String)
     public Embed author(@Nullable String name) {
-        setAuthor(name);
-        return this;
+        return author(name, null, null);
     }
 
     /// Sets the Author of the embed.
@@ -201,8 +230,7 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String, String)
     public Embed author(@Nullable String name, @Nullable String url) {
-        setAuthor(name, url);
-        return this;
+        return author(name, url, null);
     }
 
     /// Sets the Author of the embed.
@@ -213,7 +241,12 @@ public class Embed extends EmbedBuilder {
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setAuthor(String, String, String)
     public Embed author(@Nullable String name, @Nullable String url, @Nullable String iconUrl) {
-        setAuthor(name, url, iconUrl);
+        if (name == null && url == null && iconUrl == null) {
+            return this;
+        }
+        urlCheck(url);
+        urlCheck(iconUrl);
+        data.put("author", DataObject.empty().put("name", name).put("url", url).put("icon_url", iconUrl));
         return this;
     }
 
@@ -223,20 +256,69 @@ public class Embed extends EmbedBuilder {
     public Fields fields() {
         return new Fields() {
             @Override
-            public Fields removeIf(Predicate<MessageEmbed.Field> filter) {
-                getFields().removeIf(filter);
+            public Fields add(String name, String value, boolean inline) {
+                Checks.notNull(name, "Name");
+                Checks.notNull(value, "Value");
+                DataArray array;
+                if (data.hasKey("fields")) {
+                    array = data.getArray("fields");
+                } else {
+                    array = DataArray.empty();
+                    data.put("fields", array);
+                }
+                array.add(DataObject.empty().put("name", name).put("value", value).put("inline", inline));
+                return this;
+            }
+
+            @Override
+            public Fields removeIf(Predicate<Field> filter) {
+                var fields = new ArrayList<>(getFields());
+                fields.removeIf(filter);
+                // this wrapping is very important, otherwise the DataObject keeps the type information (Field) and
+                // subsequent calls break
+                data.put("fields", DataArray.fromJson(DataArray.fromCollection(fields).toString()));
+                return this;
+            }
+
+            @Override
+            public Fields replace(Predicate<Field> filter, Field field) {
+                if (!data.hasKey("fields")) {
+                    return this;
+                }
+                data.getArray("fields")
+                        .stream(DataArray::getObject)
+                        .filter(it -> filter.test(getField(it)))
+                        .forEach(it -> it.put("name", field.getName())
+                                .put("value", field.getValue())
+                                .put("inline", field.isInline())
+                        );
                 return this;
             }
         };
     }
 
-    /// Adds a Field to the embed that isn't inlined.
+    private List<Field> getFields() {
+        if (!data.hasKey("fields")) {
+            return List.of();
+        }
+        return data.getArray("fields").stream(DataArray::getObject).map(this::getField).toList();
+    }
+
+    private Field getField(DataObject object) {
+        return new Field(
+                object.getString("name", ZERO_WIDTH_SPACE),
+                object.getString("value", ZERO_WIDTH_SPACE),
+                object.getBoolean("inline", false)
+        );
+    }
+
+    /// Resets this builder to default state.
     ///
-    /// @param name  the name of the Field, displayed in bold above the value.
-    /// @param value the contents of the field.
-    /// @return this instance for fluent interface
-    public Embed addField(String name, String value) {
-        addField(name, value, false);
+    /// **All parts will be either empty or null after this method has returned.**
+    ///
+    /// @return The current EmbedBuilder with default values
+    public Embed clear() {
+        data = DataObject.empty();
         return this;
     }
 
@@ -270,14 +352,20 @@ public class Embed extends EmbedBuilder {
     /// [#locale(Locale)] and [`placeholders`][#placeholders(I18n.Entry...)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
-    @Override
     public MessageEmbed build() {
-        String json = dataObject.toString();
+        String json = data.toString();
         try {
             JsonNode node = localize(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
         } catch (JsonProcessingException e) {
             throw new InternalException("localization-json-error", e);
+        }
+    }
+
+    private void urlCheck(@Nullable String url) {
+        if (url != null) {
+            Checks.notLonger(url, MessageEmbed.URL_MAX_LENGTH, "URL");
+            Checks.check(URL_PATTERN.matcher(url).matches(), "URL must be a valid http(s) or attachment url.");
         }
     }
 
@@ -320,18 +408,60 @@ public class Embed extends EmbedBuilder {
     /// Methods for manipulating the fields of an [Embed].
     public interface Fields {
 
-        /// Removes all fields of this embed based on the given [Predicate].
+        /// Adds a Field to the embed that isn't inlined.
         ///
-        /// @param filter the [Predicate] to test the fields with
+        /// @param name  the name of the Field, displayed in bold above the value.
+        /// @param value the contents of the field.
         /// @return this instance for fluent interface
-        Fields removeIf(Predicate<MessageEmbed.Field> filter);
+        default Fields add(String name, String value) {
+            return add(name, value, false);
+        }
+
+        /// Copies the provided Field into a new Field for this builder.
+        ///
+        /// For additional documentation, see [#add(String,String,boolean)]
+        ///
+        /// @param field the field object to add
+        /// @return the builder after the field has been added
+        default Fields add(@Nullable Field field) {
+            return field == null ? this : add(field.getName(), field.getValue(), field.isInline());
+        }
+
+        /// Adds a blank (empty) Field to the embed.
+        ///
+        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png)
+        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png)
+        ///
+        /// @param inline whether this field should display inline
+        /// @return the builder after the field has been added
+        default Fields add(boolean inline) {
+            return add(new Field(ZERO_WIDTH_SPACE, ZERO_WIDTH_SPACE, inline));
+        }
+
+        /// Adds a Field to the embed.
+        ///
+        /// Note: If a blank string is provided to either `name` or `value`, the blank string is replaced
+        /// with [EmbedBuilder#ZERO_WIDTH_SPACE].
+        ///
+        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png)
+        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png)
+        ///
+        /// @param name   the name of the Field, displayed in bold above the `value`.
+        /// @param value  the contents of the field.
+        /// @param inline whether this field should display inline.
+        /// @return the builder after the field has been added
+        /// @throws java.lang.IllegalArgumentException - If `null` is provided
+        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#TITLE_MAX_LENGTH} for `name` is exceeded.
+        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#VALUE_MAX_LENGTH} for `value` is exceeded.
+        ///
+        Fields add(String name, String value, boolean inline);
 
         /// Removes all fields with the given name of this embed based on the given [Predicate].
         ///
         /// @param name   the name of the fields to test
         /// @param filter the [Predicate] to test the fields with
         /// @return this instance for fluent interface
-        default Fields removeIf(String name, Predicate<MessageEmbed.Field> filter) {
+        default Fields removeIf(String name, Predicate<Field> filter) {
             return removeIf(filter.and(field -> name.equals(field.getName())));
         }
 
@@ -359,5 +489,44 @@ public class Embed extends EmbedBuilder {
         default Fields remove(String name, String value) {
             return removeIf(name, field -> value.equals(field.getValue()));
         }
+
+        /// Clears all fields from the embed.
+        ///
+        /// @return this instance for fluent interface
+        default Fields clear() {
+            return removeIf(_ -> true);
+        }
+
+        /// Removes all fields of this embed based on the given [Predicate].
+        ///
+        /// @param filter the [Predicate] to test the fields with
+        /// @return this instance for fluent interface
+        Fields removeIf(Predicate<Field> filter);
+
+        /// Replaces all fields of this embed with the given [Field] based on the given name.
+        ///
+        /// @param name  the name of a field that should be replaced
+        /// @param field the new [Field] to replace the old value with
+        /// @return this instance for fluent interface
+        default Fields replace(String name, Field field) {
+            return replace(it -> name.equals(it.getName()), field);
+        }
+
+        /// Replaces all fields of this embed with the given [Field] based on the given value.
+        ///
+        /// @param value the value of a field that should be replaced
+        /// @param field the new [Field] to replace the old value with
+        /// @return this instance for fluent interface
+        default Fields replaceByValue(String value, Field field) {
+            return replace(it -> value.equals(it.getValue()), field);
+        }
+
+        /// Replaces all fields of this embed based on the [Predicate] with the given [Field].
+        ///
+        /// @param filter the [Predicate] to test the fields with
+        /// @param field  the new [Field] to replace the old values with
+        /// @return this instance for fluent interface
+        Fields replace(Predicate<Field> filter, Field field);
+
     }
 }
