@@ -107,7 +107,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.
     ///
-    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getGuildLocale()].
+    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
     /// Use [I18n#localize(Locale, String, I18n.Entry...)] (obtained via [#i18n()]) if you want to use a different locale.
     ///
     /// @return the localized message or the key if not found
