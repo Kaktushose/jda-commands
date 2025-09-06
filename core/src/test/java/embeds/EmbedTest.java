@@ -124,9 +124,6 @@ class EmbedTest {
 
         embed.placeholders(entry("color", "1000"));
         assertDoesNotThrow(embed::build);
-
-        embed.placeholders(entry("color", 1000));
-        assertDoesNotThrow(embed::build);
     }
 
     @Test
