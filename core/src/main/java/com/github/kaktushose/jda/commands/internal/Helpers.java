@@ -11,11 +11,13 @@ import com.github.kaktushose.jda.commands.definitions.features.internal.Invokabl
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -103,6 +105,24 @@ public final class Helpers {
                     entry("prefix", prefix),
                     entry("expected", methodSignature.stream().toList()),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList())
+            );
+        }
+    }
+
+    public static void checkSignatureUserContext(MethodDescription method) {
+        var parameters = method.parameters().stream()
+                .map(ParameterDescription::type)
+                .toList();
+        if (!(parameters.equals(List.of(CommandEvent.class, User.class)) || parameters.equals(List.of(CommandEvent.class, Member.class)))) {
+
+            String prefix = !parameters.isEmpty() && parameters.getFirst().equals(CommandEvent.class)
+                    ? ""
+                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(CommandEvent.class);
+
+            throw new InvalidDeclarationException("incorrect-method-signature",
+                    entry("prefix", prefix),
+                    entry("expected", "[%s, %s OR %s]".formatted(CommandEvent.class, User.class, Member.class)),
+                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
             );
         }
     }
