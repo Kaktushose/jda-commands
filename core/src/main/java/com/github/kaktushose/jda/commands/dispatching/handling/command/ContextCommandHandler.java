@@ -8,8 +8,10 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
@@ -29,8 +31,16 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
 
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
 
+        Object target = event.getTarget();
+        if (event instanceof UserContextInteractionEvent userEvent) {
+            target = userEvent.getTargetMember();
+            if (target == null) {
+                throw new InternalException("null-member-context-command");
+            }
+        }
+
         return new InvocationContext<>(event, runtime.i18n(), runtime.keyValueStore(), command, replyConfig,
-                List.of(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()), event.getTarget())
+                List.of(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()), target)
         );
     }
 }
