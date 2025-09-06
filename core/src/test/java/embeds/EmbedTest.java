@@ -4,6 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import dev.goldmensch.fluava.Fluava;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,14 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Bundle("embeds")
 class EmbedTest {
 
-    private static I18n i18n;
-    private static EmbedDataSource embedDataSource;
+    private static Embeds embeds;
     private static MessageEmbed expected;
 
     @BeforeAll
     static void init() {
-        embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
-        i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
+        EmbedDataSource embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
+        I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
+        embeds = new Embeds(List.of(embedDataSource), Map.of(), i18n);
         expected = new EmbedBuilder()
                 .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
                 .setTitle("Test Title")
@@ -49,7 +51,7 @@ class EmbedTest {
 
     @Test
     void testNoModification() {
-        assertEquals(expected, embedDataSource.get("final", Map.of(), i18n).orElseThrow().build());
+        assertEquals(expected, embeds.get("final").build());
     }
 
     @Test
@@ -65,7 +67,7 @@ class EmbedTest {
                 .setTimestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
                 .setColor(0)
                 .build();
-        Embed actual =  embedDataSource.get("modification", Map.of(), i18n).orElseThrow()
+        Embed actual =  embeds.get("modification")
                 .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
                 .title("Test Title 2")
                 .description("Test Description 2")
@@ -80,7 +82,7 @@ class EmbedTest {
 
     @Test
     void testPlaceholder() {
-        Embed loaded = embedDataSource.get("placeholders", Map.of(), i18n).orElseThrow();
+        Embed loaded = embeds.get("placeholders");
 
         Embed actual = loaded.placeholders(
                 entry("author-icon-url", "https://cdn.discordapp.com/embed/avatars/0.png"),
@@ -104,18 +106,24 @@ class EmbedTest {
 
     @Test
     void testLocalization() {
-        assertEquals(expected, embedDataSource.get("i18n", Map.of(), i18n).orElseThrow().build());
+        assertEquals(expected, embeds.get("i18n").build());
     }
 
     @Test
     void testMinimalEmbed() {
         MessageEmbed expected = new EmbedBuilder().setTitle("Test Title").build();
-        assertEquals(expected, embedDataSource.get("minimum", Map.of(), i18n).orElseThrow().build());
+        assertEquals(expected, embeds.get("minimum").build());
     }
 
     @Test
     void testColors() {
-        Embed embed = embedDataSource.get("color", Map.of(), i18n).orElseThrow();
+        Embed embed = embeds.get("color");
+
+        embed.placeholders(entry("color", Color.RED));
+        assertDoesNotThrow(embed::build);
+
+        embed.placeholders(entry("color", "1000"));
+        assertDoesNotThrow(embed::build);
 
         embed.placeholders(entry("color", 1000));
         assertDoesNotThrow(embed::build);
@@ -130,7 +138,7 @@ class EmbedTest {
                 .addField("6", "6", false)
                 .build();
 
-        Embed actual = embedDataSource.get("order", Map.of(), i18n).orElseThrow();
+        Embed actual = embeds.get("order");
         actual.fields()
                 .remove("2")
                 .replace("1", new Field("5", "5", true))
