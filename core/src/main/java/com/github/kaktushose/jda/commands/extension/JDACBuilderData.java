@@ -82,7 +82,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
     protected boolean shutdownJDA = true;
-    protected boolean localizeCommands = false;
+    protected boolean localizeCommands = true;
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
