@@ -241,9 +241,10 @@ public final class JDACBuilder extends JDACBuilderData {
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         try {
-            ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+            // this order matters!
             I18n i18n = i18n();
             configureEmbeds.accept(i18n);
+            ErrorMessageFactory errorMessageFactory = errorMessageFactory();
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
