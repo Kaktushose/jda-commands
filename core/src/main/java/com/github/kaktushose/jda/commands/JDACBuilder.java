@@ -71,7 +71,7 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
-
+    private Consumer<I18n> configureEmbeds = (_) -> {};
     private Embeds.@Nullable Configuration embedConfig;
 
     JDACBuilder(JDAContext context, Class<?> baseClass, String[] packages) {
@@ -97,21 +97,23 @@ public final class JDACBuilder extends JDACBuilderData {
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
-        // create object on first method call
-        if (embedConfig == null) {
-            embedConfig = new Embeds.Configuration(i18n());
-        }
-        try {
-            consumer.accept(embedConfig);
-        } catch (Exception e) {
-            if (shutdownJDA()) context.shutdown();
-            throw e;
-        }
+        configureEmbeds = (i18n) -> {
+            // create object on first method call
+            if (embedConfig == null) {
+                embedConfig = new Embeds.Configuration(i18n);
+            }
+            try {
+                consumer.accept(embedConfig);
+            } catch (Exception e) {
+                if (shutdownJDA()) context.shutdown();
+                throw e;
+            }
 
-        this.embeds = embedConfig.buildDefault();
-        if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
-            errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
-        }
+            this.embeds = embedConfig.buildDefault();
+            if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+                errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
+            }
+        };
         return this;
     }
 
@@ -239,6 +241,9 @@ public final class JDACBuilder extends JDACBuilderData {
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         try {
+            // this order matters!
+            I18n i18n = i18n();
+            configureEmbeds.accept(i18n);
             ErrorMessageFactory errorMessageFactory = errorMessageFactory();
             JDACommands jdaCommands = new JDACommands(
                     context(),
@@ -249,14 +254,14 @@ public final class JDACBuilder extends JDACBuilderData {
                     guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
-                            localizeCommands() ? i18n().localizationFunction() : (_) -> Map.of(),
+                            localizeCommands() ? i18n.localizationFunction() : (_) -> Map.of(),
                             descriptor()
                     ),
                     controllerInstantiator(),
                     globalReplyConfig(),
                     globalCommandConfig(),
-                    i18n(),
-                    embeds(),
+                    i18n,
+                    embeds(i18n),
                     shutdownJDA()
             );
             jdaCommands.start(mergedClassFinder());
