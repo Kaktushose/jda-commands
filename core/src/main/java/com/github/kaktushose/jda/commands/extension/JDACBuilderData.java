@@ -138,7 +138,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
             if (implementations.isEmpty()) {
                 if (!defaults.containsKey(type)) {
                     if (shutdownJDA()) context.shutdown();
-                    throw new ConfigurationException("no-implementation", entry("type", type));
+                    throw new ConfigurationException("no-implementation", entry("type", type.getName()));
                 }
 
                 return defaults.get(type).get();
@@ -154,7 +154,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
             if (shutdownJDA()) context.shutdown();
 
-            throw new ConfigurationException("multiple-implementations", entry("type", type), entry("found", foundImplementations));
+            throw new ConfigurationException("multiple-implementations", entry("type", type.getName()), entry("found", foundImplementations));
         }
     };
 

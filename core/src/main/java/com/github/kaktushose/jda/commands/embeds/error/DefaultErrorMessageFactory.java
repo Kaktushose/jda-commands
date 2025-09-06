@@ -6,7 +6,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n.Entry;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -26,6 +25,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 
 /// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///
@@ -71,9 +72,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         if (embeds.exists("typeAdaptingFailed")) {
             return embeds.get("typeAdaptingFailed")
                     .placeholders(
-                            new Entry("usage", command.displayName()),
-                            new Entry("expected", expected),
-                            new Entry("actual", actual)
+                            entry("usage", command.displayName()),
+                            entry("expected", expected),
+                            entry("actual", actual)
                     ).toMessageCreateData();
         }
 
@@ -102,8 +103,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         if (embeds.exists("insufficientPermissions")) {
             return embeds.get("insufficientPermissions")
                     .placeholders(
-                            new Entry("name", context.definition().displayName()),
-                            new Entry("permissions", permissions)
+                            entry("name", context.definition().displayName()),
+                            entry("permissions", permissions)
                     ).toMessageCreateData();
         }
 
@@ -124,7 +125,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     @Override
     public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
         if (embeds.exists("constraintFailed")) {
-            return embeds.get("constraintFailed").placeholders(new Entry("message", message)).toMessageCreateData();
+            return embeds.get("constraintFailed").placeholders(entry("message", message)).toMessageCreateData();
         }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -162,7 +163,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         }
 
         if (embeds.exists("cooldown")) {
-            return embeds.get("cooldown").placeholders(new Entry("cooldown", cooldown)).toMessageCreateData();
+            return embeds.get("cooldown").placeholders(entry("cooldown", cooldown.toString())).toMessageCreateData();
         }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
@@ -188,7 +189,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         );
 
         if (embeds.exists("executionFailed")) {
-            return embeds.get("executionFailed").placeholders(new Entry("error", error)).toMessageCreateData();
+            return embeds.get("executionFailed").placeholders(entry("error", error)).toMessageCreateData();
         }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()

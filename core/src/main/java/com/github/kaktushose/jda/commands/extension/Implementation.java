@@ -57,7 +57,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
 
     SequencedCollection<T> implementations(JDACBuilderData data) {
         if (data.alreadyCalled.stream().anyMatch(provider -> provider.type.equals(type))) {
-            throw new ConfigurationException("cycling-dependencies", entry("type", type), entry("data", format(data)));
+            throw new ConfigurationException("cycling-dependencies", entry("type", type.getName()), entry("data", format(data)));
         }
 
         data.alreadyCalled.add(this); // scope entry

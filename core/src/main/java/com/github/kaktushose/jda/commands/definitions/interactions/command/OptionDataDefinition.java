@@ -131,7 +131,7 @@ public record OptionDataDefinition(
             }
             throw new InvalidDeclarationException(
                     "invalid-option-data",
-                    entry("type", resolvedType),
+                    entry("type", resolvedType.getName()),
                     entry("guessedType", guessedType)
             );
         }
