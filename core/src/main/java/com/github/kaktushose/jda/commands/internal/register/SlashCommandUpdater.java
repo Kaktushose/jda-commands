@@ -33,12 +33,11 @@ public final class SlashCommandUpdater {
     /// Constructs a new SlashCommandUpdater.
     public SlashCommandUpdater(JDAContext jdaContext,
                                GuildScopeProvider guildScopeProvider,
-                               InteractionRegistry registry,
-                               LocalizationFunction localizationFunction) {
+                               InteractionRegistry registry) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
-        this.localizationFunction = localizationFunction;
+        this.localizationFunction = registry.localizationFunction();
     }
 
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
