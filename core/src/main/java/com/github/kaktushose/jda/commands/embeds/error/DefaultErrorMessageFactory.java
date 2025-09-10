@@ -27,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+
 /// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///
 /// @see JDACBuilder#embeds(Consumer)
@@ -71,16 +73,18 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         if (embeds.exists("typeAdaptingFailed")) {
             return embeds.get("typeAdaptingFailed")
                     .placeholders(
-                            new Entry("usage", command.displayName()),
-                            new Entry("expected", expected),
-                            new Entry("actual", actual)
+                            entry("command", name.trim()),
+                            entry("expected", "`%s`".formatted(expected)),
+                            entry("actual", "`%s`".formatted(actual)),
+                            entry("input", "`%s`".formatted(input)),
+                            entry("details", failure.message())
                     ).toMessageCreateData();
         }
 
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Invalid Arguments")
-                .addField("Command", "%s".formatted(name.trim()), false)
+                .addField("Command", name.trim(), false)
                 .addField("Expected Type", "`%s`".formatted(expected), true)
                 .addField("Provided Type", "`%s`".formatted(actual), true)
                 .addField("Raw Input", "`%s`".formatted(input), false)

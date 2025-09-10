@@ -5,11 +5,20 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.ProteusBuilder;
+import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static io.github.kaktushose.proteus.mapping.Mapper.uni;
+import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 
 /// Container for immutably holding the embed configuration made by [EmbedConfig].
 ///
@@ -17,6 +26,13 @@ import java.util.stream.Collectors;
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
 public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, I18n i18n) {
+
+    static {
+        Proteus.global().from(Type.of(Color.class)).into(Type.of(String.class),
+                uni((color, _) -> lossless(String.valueOf(color.getRGB()))),
+                ConflictStrategy.OVERRIDE
+        );
+    }
 
     /// Gets an [Embed] based on the given name.
     ///
