@@ -98,10 +98,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
         configureEmbeds = (i18n) -> {
-            // create object on first method call
-            if (embedConfig == null) {
-                embedConfig = new Embeds.Configuration(i18n);
-            }
+            embedConfig = new Embeds.Configuration(i18n);
             try {
                 consumer.accept(embedConfig);
             } catch (Exception e) {
@@ -218,7 +215,7 @@ public final class JDACBuilder extends JDACBuilderData {
 
     /// Whether JDA-Commands should use the [I18n] feature to localize commands.
     ///
-    /// @param localize whether to localize commands, default false
+    /// @param localize whether to localize commands, default true
     /// @see LocalizationFunction
     /// @see com.github.kaktushose.jda.commands.i18n.FluavaLocalizer FluavaLocalizer
     public JDACBuilder localizeCommands(boolean localize) {
