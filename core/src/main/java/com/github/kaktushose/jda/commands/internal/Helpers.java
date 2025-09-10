@@ -22,8 +22,6 @@ import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -35,8 +33,6 @@ import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
 public final class Helpers {
-
-    private static final Logger log = LoggerFactory.getLogger(Helpers.class);
 
     /// Gets the human-readable representation of an [OptionMapping].
     ///
@@ -99,7 +95,7 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
                     ? ""
-                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(methodSignature.getFirst());
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", methodSignature.getFirst().getName()));
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),
@@ -117,7 +113,7 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(CommandEvent.class)
                     ? ""
-                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(CommandEvent.class);
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", CommandEvent.class.getName()));
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),

@@ -53,6 +53,9 @@ incorrect-method-signature =
     { $prefix }Invalid method signature.
         Expected: { $expected }
         Actual: { $actual }
+incorrect-method-signature-hint = You forgot to add { $parameter } as the first parameter of the method.
+member-context-guild = User context commands which use a Member object are only allowed to use InteractionContextType.GUILD.
+    Change the InteractionContextType or use an User object instead.
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".
