@@ -32,6 +32,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /// This builder is used to build instances of [JDACommands].
@@ -71,7 +72,7 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
-    private Consumer<I18n> configureEmbeds = (_) -> {};
+    private BiConsumer<I18n, ErrorMessageFactory> configureEmbeds = (_, _) -> {};
     private Embeds.@Nullable Configuration embedConfig;
 
     JDACBuilder(JDAContext context, Class<?> baseClass, String[] packages) {
@@ -97,7 +98,7 @@ public final class JDACBuilder extends JDACBuilderData {
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
-        configureEmbeds = (i18n) -> {
+        configureEmbeds = (i18n, errorMessageFactory) -> {
             embedConfig = new Embeds.Configuration(i18n);
             try {
                 consumer.accept(embedConfig);
@@ -107,8 +108,8 @@ public final class JDACBuilder extends JDACBuilderData {
             }
 
             this.embeds = embedConfig.buildDefault();
-            if (errorMessageFactory() instanceof DefaultErrorMessageFactory) {
-                errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
+            if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+                errorMessageFactory(new DefaultErrorMessageFactory(embedConfig.buildError()));
             }
         };
         return this;
@@ -240,8 +241,8 @@ public final class JDACBuilder extends JDACBuilderData {
         try {
             // this order matters!
             I18n i18n = i18n();
-            configureEmbeds.accept(i18n);
             ErrorMessageFactory errorMessageFactory = errorMessageFactory();
+            configureEmbeds.accept(i18n, errorMessageFactory);
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
