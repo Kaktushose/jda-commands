@@ -65,11 +65,19 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#removeIf(java.util.function.Predicate)" tabindex="0">removeIf(Predicate)</a></li>
+<li><a href="#add(java.lang.String,java.lang.String)" tabindex="0">add(String, String)</a></li>
+<li><a href="#add(net.dv8tion.jda.api.entities.MessageEmbed.Field)" tabindex="0">add(MessageEmbed.Field)</a></li>
+<li><a href="#add(boolean)" tabindex="0">add(boolean)</a></li>
+<li><a href="#add(java.lang.String,java.lang.String,boolean)" tabindex="0">add(String, String, boolean)</a></li>
 <li><a href="#removeIf(java.lang.String,java.util.function.Predicate)" tabindex="0">removeIf(String, Predicate)</a></li>
 <li><a href="#remove(java.lang.String)" tabindex="0">remove(String)</a></li>
 <li><a href="#removeByName(java.lang.String)" tabindex="0">removeByName(String)</a></li>
 <li><a href="#remove(java.lang.String,java.lang.String)" tabindex="0">remove(String, String)</a></li>
+<li><a href="#clear()" tabindex="0">clear()</a></li>
+<li><a href="#removeIf(java.util.function.Predicate)" tabindex="0">removeIf(Predicate)</a></li>
+<li><a href="#replace(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)" tabindex="0">replace(String, MessageEmbed.Field)</a></li>
+<li><a href="#replaceByValue(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)" tabindex="0">replaceByValue(String, MessageEmbed.Field)</a></li>
+<li><a href="#replace(java.util.function.Predicate,net.dv8tion.jda.api.entities.MessageEmbed.Field)" tabindex="0">replace(Predicate, MessageEmbed.Field)</a></li>
 </ol>
 </li>
 </ol>
@@ -104,31 +112,77 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#remove(java.lang.String)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#add(boolean)" class="member-name-link">add</a><wbr>(boolean&nbsp;inline)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Removes all fields with the given value.</div>
+<div class="block">Adds a blank (empty) Field to the embed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#remove(java.lang.String,java.lang.String)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#add(java.lang.String,java.lang.String)" class="member-name-link">add</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Removes all fields with the given name <strong>and</strong> value.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#removeByName(java.lang.String)" class="member-name-link">removeByName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Removes all fields with the given name.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#removeIf(java.lang.String,java.util.function.Predicate)" class="member-name-link">removeIf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Removes all fields with the given name of this embed based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+<div class="block">Adds a Field to the embed that isn't inlined.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeIf(java.util.function.Predicate)" class="member-name-link">removeIf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#add(java.lang.String,java.lang.String,boolean)" class="member-name-link">add</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value,
+ boolean&nbsp;inline)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Adds a Field to the embed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#add(net.dv8tion.jda.api.entities.MessageEmbed.Field)" class="member-name-link">add</a><wbr>(@Nullable <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Copies the provided Field into a new Field for this builder.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Clears all fields from the embed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#remove(java.lang.String)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Removes all fields with the given value.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#remove(java.lang.String,java.lang.String)" class="member-name-link">remove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Removes all fields with the given name <strong>and</strong> value.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#removeByName(java.lang.String)" class="member-name-link">removeByName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Removes all fields with the given name.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#removeIf(java.lang.String,java.util.function.Predicate)" class="member-name-link">removeIf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Removes all fields with the given name of this embed based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeIf(java.util.function.Predicate)" class="member-name-link">removeIf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes all fields of this embed based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#replace(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)" class="member-name-link">replace</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Replaces all fields of this embed with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> based on the given name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#replace(java.util.function.Predicate,net.dv8tion.jda.api.entities.MessageEmbed.Field)" class="member-name-link">replace</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Replaces all fields of this embed based on the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#replaceByValue(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)" class="member-name-link">replaceByValue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Replaces all fields of this embed with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> based on the given value.</div>
 </div>
 </div>
 </div>
@@ -145,16 +199,84 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="removeIf(java.util.function.Predicate)">
-<h3>removeIf</h3>
+<section class="detail" id="add(java.lang.String,java.lang.String)">
+<h3>add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">removeIf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</span></div>
-<div class="block">Removes all fields of this embed based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
+<div class="block">Adds a Field to the embed that isn't inlined.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>filter</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> to test the fields with</dd>
+<dd><code>name</code> - the name of the Field, displayed in bold above the value.</dd>
+<dd><code>value</code> - the contents of the field.</dd>
 <dt>Returns:</dt>
 <dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="add(net.dv8tion.jda.api.entities.MessageEmbed.Field)">
+<h3>add</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(@Nullable <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</span></div>
+<div class="block"><p>Copies the provided Field into a new Field for this builder.</p>
+<p>For additional documentation, see <a href="#add(java.lang.String,java.lang.String,boolean)"><code>add(String,String,boolean)</code></a></p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>field</code> - the field object to add</dd>
+<dt>Returns:</dt>
+<dd>the builder after the field has been added</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="add(boolean)">
+<h3>add</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(boolean&nbsp;inline)</span></div>
+<div class="block"><p>Adds a blank (empty) Field to the embed.</p>
+<p><a href="https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png">Example of Inline</a>
+<a href="https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png">Example of Non-inline</a></p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>inline</code> - whether this field should display inline</dd>
+<dt>Returns:</dt>
+<dd>the builder after the field has been added</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="add(java.lang.String,java.lang.String,boolean)">
+<h3>add</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value,
+ boolean&nbsp;inline)</span></div>
+<div class="block"><p>Adds a Field to the embed.</p>
+<p>Note: If a blank string is provided to either <code>name</code> or <code>value</code>, the blank string is replaced
+with <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html#ZERO_WIDTH_SPACE" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>EmbedBuilder.ZERO_WIDTH_SPACE</code></a>.</p>
+<p><a href="https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png">Example of Inline</a>
+<a href="https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png">Example of Non-inline</a></p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of the Field, displayed in bold above the <code>value</code>.</dd>
+<dd><code>value</code> - the contents of the field.</dd>
+<dd><code>inline</code> - whether this field should display inline.</dd>
+<dt>Returns:</dt>
+<dd>the builder after the field has been added</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - <ul>
+<li>If <code>null</code> is provided
+- If the character limit of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html#TITLE_MAX_LENGTH" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">256</a> for <code>name</code> is exceeded.
+- If the character limit of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html#VALUE_MAX_LENGTH" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">1024</a> for <code>value</code> is exceeded.</li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
@@ -217,6 +339,85 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>name</code> - the name of the field that should be removed</dd>
 <dd><code>value</code> - the value of the field that should be removed</dd>
+<dt>Returns:</dt>
+<dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="clear()">
+<h3>clear</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">clear</span>()</div>
+<div class="block">Clears all fields from the embed.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="removeIf(java.util.function.Predicate)">
+<h3>removeIf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">removeIf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter)</span></div>
+<div class="block">Removes all fields of this embed based on the given <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>filter</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> to test the fields with</dd>
+<dt>Returns:</dt>
+<dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="replace(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)">
+<h3>replace</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">replace</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</span></div>
+<div class="block">Replaces all fields of this embed with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> based on the given name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - the name of a field that should be replaced</dd>
+<dd><code>field</code> - the new <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> to replace the old value with</dd>
+<dt>Returns:</dt>
+<dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="replaceByValue(java.lang.String,net.dv8tion.jda.api.entities.MessageEmbed.Field)">
+<h3>replaceByValue</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">replaceByValue</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</span></div>
+<div class="block">Replaces all fields of this embed with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> based on the given value.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>value</code> - the value of a field that should be replaced</dd>
+<dd><code>field</code> - the new <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> to replace the old value with</dd>
+<dt>Returns:</dt>
+<dd>this instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="replace(java.util.function.Predicate,net.dv8tion.jda.api.entities.MessageEmbed.Field)">
+<h3>replace</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="Embed.Fields.html" title="interface in com.github.kaktushose.jda.commands.embeds">Embed.Fields</a></span>&nbsp;<span class="element-name">replace</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&gt;&nbsp;filter,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed.Field</a>&nbsp;field)</span></div>
+<div class="block">Replaces all fields of this embed based on the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> with the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>filter</code> - the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> to test the fields with</dd>
+<dd><code>field</code> - the new <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.Field.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed.Field</code></a> to replace the old values with</dd>
 <dt>Returns:</dt>
 <dd>this instance for fluent interface</dd>
 </dl>
