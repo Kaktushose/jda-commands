@@ -118,7 +118,7 @@ public void onCommand(CommandEvent event, @Choices({&quot;Apple&quot;, &quot;Ban
 <p>The method signature has to meet the following conditions:</p>
 <ul>
 <li>First parameter must be of type <a href="../../dispatching/events/interactions/CommandEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions"><code>CommandEvent</code></a></li>
-<li>Second parameter must either be a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>User</code></a> or a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a></li>
+<li>Second parameter must either be a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/User.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>User</code></a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a> or a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a></li>
 </ul>
 <h3 id="examples--heading1">Examples:</h3>
 <pre><code>@Command(value = &quot;message context command&quot;, type = Type.MESSAGE)
@@ -126,7 +126,11 @@ public void onCommand(CommandEvent event, Message target) { ... }
 
 @Command(value = &quot;user context command&quot;, type = Type.USER)
 public void onCommand(CommandEvent event, User target) { ... }
+
+@Command(value = &quot;member context command&quot;, type = Type.USER)
+public void onCommand(CommandEvent event, Member target) { ... }
 </code></pre>
+<p><strong>Using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a> will enforce <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionContextType.html#GUILD" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>InteractionContextType.GUILD</code></a> on the command!</strong></p>
 </div>
 <dl class="notes">
 <dt>See Also:</dt>
