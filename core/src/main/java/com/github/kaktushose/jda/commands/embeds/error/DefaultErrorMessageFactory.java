@@ -22,7 +22,7 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -42,9 +42,9 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
         SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
         List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
-        List<OptionMapping> optionMappings = commandOptions
+        List<Optional<OptionMapping>> optionMappings = commandOptions
                 .stream()
-                .map(it -> Objects.requireNonNull(event.getOption(it.name())))
+                .map(it -> Optional.ofNullable(event.getOption(it.name())))
                 .toList();
 
         String name = "**%s**".formatted(command.displayName());
@@ -53,7 +53,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         String input = "N/A";
         for (int i = 0; i < commandOptions.size(); i++) {
             OptionDataDefinition commandOption = commandOptions.get(i);
-            OptionMapping optionMapping = optionMappings.get(i);
+            Optional<OptionMapping> optionMapping = optionMappings.get(i);
             Type<?> into = Type.of(commandOption.declaredType());
             if (failure.context() != null && into.equals(failure.context().into())) {
                 name = "%s __%s__".formatted(name, commandOption.name());
@@ -62,8 +62,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                         .map(OptionDataDefinition::name)
                         .collect(Collectors.joining(" ")));
                 expected = commandOption.declaredType().getSimpleName();
-                actual = Helpers.humanReadableType(optionMapping);
-                input = optionMapping.getAsString();
+                actual = optionMapping.map(Helpers::humanReadableType).orElse("null");
+                input = optionMapping.map(OptionMapping::getAsString).orElse("null");
                 break;
             } else {
                 name = "%s %s".formatted(name, commandOption.name());
