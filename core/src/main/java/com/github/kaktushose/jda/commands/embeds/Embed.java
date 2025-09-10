@@ -107,8 +107,8 @@ public class Embed {
     /// @see EmbedBuilder#setUrl(String)
     /// @see #title(String) (String, String)
     public Embed url(@Nullable String url) {
-        data.put("url", url);
         urlCheck(url);
+        data.put("url", url);
         return this;
     }
 
