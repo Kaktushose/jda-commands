@@ -107,7 +107,7 @@ public final class JDACBuilder extends JDACBuilderData {
             }
 
             this.embeds = embedConfig.buildDefault();
-            if (errorMessageFactory instanceof DefaultErrorMessageFactory) {
+            if (errorMessageFactory() instanceof DefaultErrorMessageFactory) {
                 errorMessageFactory = new DefaultErrorMessageFactory(embedConfig.buildError());
             }
         };
