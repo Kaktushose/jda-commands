@@ -33,7 +33,7 @@ class EmbedTest {
     @BeforeAll
     static void init() {
         EmbedDataSource embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
-        I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH)));
+        I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())));
         embeds = new Embeds(List.of(embedDataSource), Map.of(), i18n);
         expected = new EmbedBuilder()
                 .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
