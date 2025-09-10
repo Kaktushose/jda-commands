@@ -82,7 +82,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected CommandConfig globalCommandConfig = new CommandConfig();
 
     protected boolean shutdownJDA = true;
-    protected boolean localizeCommands = false;
+    protected boolean localizeCommands = true;
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
@@ -122,7 +122,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
-            Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH)),
+            Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())),
             PermissionsProvider.class, DefaultPermissionsProvider::new,
             ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds),
             GuildScopeProvider.class, DefaultGuildScopeProvider::new,
@@ -290,8 +290,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    public Embeds embeds() {
-        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n()));
+    public Embeds embeds(I18n i18n) {
+        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n));
     }
 
     public I18n i18n() {

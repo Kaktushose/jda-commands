@@ -2,8 +2,10 @@ package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command.Type;
 
 import java.lang.annotation.ElementType;
@@ -49,7 +51,7 @@ import java.util.Optional;
 /// The method signature has to meet the following conditions:
 ///
 ///   - First parameter must be of type [CommandEvent]
-///   - Second parameter must either be a [User] or a [Message]
+///   - Second parameter must either be a [User], [Member] or a [Message]
 ///
 /// ## Examples:
 /// ```
@@ -58,7 +60,11 @@ import java.util.Optional;
 ///
 /// @Command(value = "user context command", type = Type.USER)
 /// public void onCommand(CommandEvent event, User target) { ... }
+///
+/// @Command(value = "member context command", type = Type.USER)
+/// public void onCommand(CommandEvent event, Member target) { ... }
 /// ```
+/// **Using [Member] will enforce [InteractionContextType#GUILD] on the command!**
 /// @see Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
 /// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint

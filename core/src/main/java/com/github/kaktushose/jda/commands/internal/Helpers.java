@@ -11,17 +11,17 @@ import com.github.kaktushose.jda.commands.definitions.features.internal.Invokabl
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.ApiStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -33,8 +33,6 @@ import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal
 public final class Helpers {
-
-    private static final Logger log = LoggerFactory.getLogger(Helpers.class);
 
     /// Gets the human-readable representation of an [OptionMapping].
     ///
@@ -97,11 +95,29 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
                     ? ""
-                    : " You forgot to add \"%s\" as the first parameter of the method. ".formatted(methodSignature.getFirst());
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", methodSignature.getFirst().getName()));
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),
                     entry("expected", methodSignature.stream().toList().toString()),
+                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
+            );
+        }
+    }
+
+    public static void checkSignatureUserContext(MethodDescription method) {
+        var parameters = method.parameters().stream()
+                .map(ParameterDescription::type)
+                .toList();
+        if (!(parameters.equals(List.of(CommandEvent.class, User.class)) || parameters.equals(List.of(CommandEvent.class, Member.class)))) {
+
+            String prefix = !parameters.isEmpty() && parameters.getFirst().equals(CommandEvent.class)
+                    ? ""
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", CommandEvent.class.getName()));
+
+            throw new InvalidDeclarationException("incorrect-method-signature",
+                    entry("prefix", prefix),
+                    entry("expected", "[%s, %s OR %s]".formatted(CommandEvent.class, User.class, Member.class)),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
             );
         }

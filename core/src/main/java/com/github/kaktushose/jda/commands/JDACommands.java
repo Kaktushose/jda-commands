@@ -65,7 +65,7 @@ public final class JDACommands {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry, i18n.localizationFunction());
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
         this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;

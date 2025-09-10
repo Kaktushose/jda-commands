@@ -1,0 +1,14 @@
+author-url = https://cdn.discordapp.com/embed/avatars/0.png
+author-icon-url = https://cdn.discordapp.com/embed/avatars/0.png
+author-name = Kaktushose
+title = Test Title
+description = Test Description
+fields-name = Test Field name
+fields-value = Test Field value
+thumbnail-url = https://cdn.discordapp.com/embed/avatars/0.png
+image-url = https://cdn.discordapp.com/embed/avatars/0.png
+footer-icon-url = https://cdn.discordapp.com/embed/avatars/0.png
+footer-text = Footer
+timestamp = 2025-09-04T15:08:20Z
+color = 48028
+url = https://discord.com

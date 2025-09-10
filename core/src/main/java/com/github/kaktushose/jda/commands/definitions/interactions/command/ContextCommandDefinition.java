@@ -6,8 +6,9 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -44,16 +45,11 @@ public record ContextCommandDefinition(
         var method = context.method();
         var command = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Command.class).orElseThrow();
 
-        var type = switch (command.type()) {
-            case USER -> User.class;
-            case MESSAGE -> Message.class;
-            default -> null;
-        };
-        if (type == null) {
-            throw new InvalidDeclarationException("invalid-context-command-type");
+        switch (command.type()) {
+            case USER -> Helpers.checkSignatureUserContext(method);
+            case MESSAGE -> Helpers.checkSignature(method, List.of(CommandEvent.class, Message.class));
+            default ->  throw new InvalidDeclarationException("invalid-context-command-type");
         }
-
-        Helpers.checkSignature(method, List.of(CommandEvent.class, type));
 
         return new ContextCommandDefinition(
                 context.clazz(),
@@ -72,12 +68,23 @@ public record ContextCommandDefinition(
     @Override
     public CommandData toJDAEntity() {
         var command = Commands.context(commandType, name);
+        // enforce guild context if user context command has member
+        if (methodDescription.parameters().getLast().type().equals(Member.class) && isInvalidContext(commandConfig.context())) {
+            throw new InvalidDeclarationException("member-context-guild");
+        }
+        command.setContexts(commandConfig.context());
         command.setIntegrationTypes(commandConfig.integration())
-                .setContexts(commandConfig.context())
                 .setNSFW(commandConfig.isNSFW())
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
                 .setLocalizationFunction(localizationFunction);
         return command;
+    }
+
+    private boolean isInvalidContext(InteractionContextType[] types) {
+        if (types.length != 1) {
+            return true;
+        }
+        return types[0] != InteractionContextType.GUILD;
     }
 
     @Override

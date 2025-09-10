@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.interactions.InteractionContextType;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Locale;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -96,6 +97,25 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return runtime.interactionInstance(interactionClass);
     }
 
+
+    /// Gets the [I18n] instance.
+    ///
+    /// @return the [I18n] instance.
+    public I18n i18n() {
+        return runtime.i18n();
+    }
+
+    /// Gets a localization message for the given key using the underlying [I18n] instance.
+    ///
+    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
+    /// Use [I18n#localize(Locale, String, I18n.Entry...)] (obtained via [#i18n()]) if you want to use a different locale.
+    ///
+    /// @return the localized message or the key if not found
+    public String localize(String key, I18n.Entry... placeholders) {
+        return i18n().localize(event.getUserLocale().toLocale(), key, placeholders);
+    }
+
+
     @Override
     public int getTypeRaw() {
         return event.getTypeRaw();
@@ -167,9 +187,5 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     @Override
     public InteractionContextType getContext() {
         return event.getContext();
-    }
-
-    public I18n i18n() {
-        return runtime.i18n();
     }
 }

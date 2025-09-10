@@ -26,6 +26,7 @@ wrong-labels = Failed to add child command: { $command }. { $labelCount ->
         *[other] Cannot add a child with more than { $labelCount } labels.
     }
 subcommand-with-children = Cannot transform node with children to SubcommandData.
+null-member-context-command = Member for context command is null (not executed in a guild). This should not be possible.
 
 # Invalid Declaration
 blank-name = Command name must be not blank.
@@ -52,6 +53,9 @@ incorrect-method-signature =
     { $prefix }Invalid method signature.
         Expected: { $expected }
         Actual: { $actual }
+incorrect-method-signature-hint = You forgot to add { $parameter } as the first parameter of the method.
+member-context-guild = User context commands which use a Member object are only allowed to use InteractionContextType.GUILD.
+    Change the InteractionContextType or use an User object instead.
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".

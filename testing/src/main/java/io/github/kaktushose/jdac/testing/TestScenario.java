@@ -36,7 +36,7 @@ import static org.mockito.Mockito.*;
 
 public class TestScenario {
 
-    private static final Localizer localizer = new FluavaLocalizer(new Fluava(Locale.ENGLISH));
+    private static final Localizer localizer = new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of()));
     private final Context context;
 
     private TestScenario(Context context) {

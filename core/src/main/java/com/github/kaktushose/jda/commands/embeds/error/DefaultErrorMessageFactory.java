@@ -72,16 +72,18 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         if (embeds.exists("typeAdaptingFailed")) {
             return embeds.get("typeAdaptingFailed")
                     .placeholders(
-                            entry("usage", command.displayName()),
-                            entry("expected", expected),
-                            entry("actual", actual)
+                            entry("command", name.trim()),
+                            entry("expected", "`%s`".formatted(expected)),
+                            entry("actual", "`%s`".formatted(actual)),
+                            entry("input", "`%s`".formatted(input)),
+                            entry("details", failure.message())
                     ).toMessageCreateData();
         }
 
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Color.ORANGE)
                 .setTitle("Invalid Arguments")
-                .addField("Command", "%s".formatted(name.trim()), false)
+                .addField("Command", name.trim(), false)
                 .addField("Expected Type", "`%s`".formatted(expected), true)
                 .addField("Provided Type", "`%s`".formatted(actual), true)
                 .addField("Raw Input", "`%s`".formatted(input), false)
