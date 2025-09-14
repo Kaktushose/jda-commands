@@ -143,8 +143,8 @@ public class I18n {
         String key = defaultSplit[0];
 
         String localized = localizer.localize(locale, bundle, key, placeholder)
-                .or(() -> localizer.localizeMessage(locale, key, placeholder))
-                .orElse(key);
+                .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
+                .orElse(combinedKey);
 
         // use split message
         if (defaultSplit.length == 2 && localized.equals(key)) return defaultSplit[1];
