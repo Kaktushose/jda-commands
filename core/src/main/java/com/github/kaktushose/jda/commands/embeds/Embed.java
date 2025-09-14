@@ -25,7 +25,6 @@ import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static net.dv8tion.jda.api.EmbedBuilder.URL_PATTERN;
 import static net.dv8tion.jda.api.EmbedBuilder.ZERO_WIDTH_SPACE;
@@ -36,12 +35,12 @@ public class Embed {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private final String name;
-    private final Map<String, Object> placeholders;
+    private final Map<String, @Nullable Object> placeholders;
     private final I18n i18n;
     private DataObject data;
     private Locale locale;
 
-    private Embed(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
+    private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
         this.i18n = i18n;
@@ -54,7 +53,7 @@ public class Embed {
     /// @param embedBuilder the [EmbedBuilder] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, Object> placeholders, I18n i18n) {
+    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
         return of(embedBuilder.build().toData(), name, placeholders, i18n);
     }
 
@@ -63,7 +62,7 @@ public class Embed {
     /// @param object       the [DataObject] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(DataObject object, String name, Map<String, Object> placeholders, I18n i18n) {
+    public static Embed of(DataObject object, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
         return new Embed(object, name, placeholders, i18n);
     }
 
@@ -330,7 +329,7 @@ public class Embed {
     ///
     /// @param placeholders a map of placeholder names to their corresponding values
     /// @return this instance for fluent interface
-    public Embed placeholders(Map<String, Object> placeholders) {
+    public Embed placeholders(Map<String, @Nullable Object> placeholders) {
         this.placeholders.putAll(placeholders);
         return this;
     }
@@ -344,7 +343,8 @@ public class Embed {
     /// @param placeholders the [`entries`][I18n.Entry] to add
     /// @return this instance for fluent interface
     public Embed placeholders(I18n.Entry... placeholders) {
-        this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toMap(I18n.Entry::name, I18n.Entry::value)));
+        this.placeholders.putAll(Arrays.stream(placeholders)
+                .collect(HashMap::new, (m,e)->m.put(e.name(), e.value()), HashMap::putAll));
         return this;
     }
 

@@ -10,7 +10,6 @@ import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /// This class serves as an interface for application localization.
@@ -129,7 +128,7 @@ public class I18n {
     /// @param placeholder the placeholder to be used
     ///
     /// @return the localized message or the key if not found
-    public String localize(Locale locale, String combinedKey, Map<String, Object> placeholder) {
+    public String localize(Locale locale, String combinedKey, Map<String, @Nullable Object> placeholder) {
         String[] bundleSplit = combinedKey.split("#", 2);
         String bundle = bundleSplit.length == 2
                 ? bundleSplit[0].trim()
@@ -164,8 +163,8 @@ public class I18n {
     /// @param placeholder the placeholder to be used
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
-        Map<String, Object> map = Arrays.stream(placeholder)
-                .collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value));
+        Map<String, @Nullable Object> map = Arrays.stream(placeholder)
+                .collect(HashMap::new, (m,e)-> m.put(e.name(), e.value()), HashMap::putAll);
         return localize(locale, key, map);
     }
 
@@ -176,7 +175,7 @@ public class I18n {
     /// @param value the value of the placeholder
     ///
     /// @return the [Entry] consisting of the name and value
-    public static Entry entry(String name, Object value) {
+    public static Entry entry(String name, @Nullable Object value) {
         return new Entry(name, value);
     }
 
@@ -186,7 +185,7 @@ public class I18n {
     ///
     /// @param name the placeholders name
     /// @param value the value to be substituted
-    public record Entry(String name, Object value) {}
+    public record Entry(String name, @Nullable Object value) {}
 
     private String findBundle() {
         return walker.walk(stream -> stream
