@@ -26,6 +26,7 @@ runs:
     - name: jbang
       uses: jbangdev/setup-jbang@main
     - name: run script
+      shell: bash
       run: jbang ./.github/workflows/check-if-release/java/CheckRelease.java
       env:
         MSG: ${{ inputs.msg }}
