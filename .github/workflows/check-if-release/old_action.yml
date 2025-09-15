@@ -23,12 +23,23 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: jbang
-      uses: jbangdev/setup-jbang@main
-    - name: run script
-      run: jbang ./.github/workflows/check-if-release/java/CheckRelease.java
-      emv:
-        MSG: ${{ inputs.msg }}
+    - name: Check if commit is release
+      id: check
+      shell: bash
+      run: |
+        msg="${{ inputs.msg }}"
+        regex=""
+        
+        if [[ $msg =~ $regex ]]
+        then
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "version=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          echo "version_major=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
+          echo "version_minor=${BASH_REMATCH[3]}" >> "$GITHUB_OUTPUT"
+          echo "title=${BASH_REMATCH[14]}" >> "$GITHUB_OUTPUT"
+        else^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?) *(: *(.*))?$
+          echo "release=false" >> "$GITHUB_OUTPUT"
+        fi
     - uses: ./.github/workflows/setup-gradle
       if: ${{ steps.check.outputs.release == 'true' && inputs.skip-gradle-check != 'true' }}
     - name: verify project version defined in gradle
