@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
         content=$(cat "gradle.properties")
-        regex="java\.version *= * (.*)"
+        regex="java\.version *= *(.*)"
         if [[ $content =~ $regex ]]
         then 
           echo "java=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
