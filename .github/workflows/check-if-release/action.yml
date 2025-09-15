@@ -7,7 +7,6 @@ inputs:
   skip-gradle-check:
     default: false
 
-
 outputs:
   release:
     value: ${{ steps.check.outputs.release }}

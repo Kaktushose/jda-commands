@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - "[0-9]+.[0-9]+.x"
-      - "ci/refactor"
 
 jobs:
   check_if_release:
@@ -25,9 +24,6 @@ jobs:
           branch=${{ github.ref_name }}
           regex="([0-9]+)\.([0-9]+)\.x"
           
-          echo ${{ steps.check.outputs.version }}
-          echo ${{ steps.check.outputs.release }}
-          
           if [[ $branch =~ $regex ]]
           then
             if [[ ${BASH_REMATCH[1]} == "${{ steps.check.outputs.version_major }}" && ${BASH_REMATCH[2]} == "${{ steps.check.outputs.version_minor }}" ]]
@@ -43,118 +39,118 @@ jobs:
             exit 1
           fi
 
-#  javadoc:
-#    runs-on: ubuntu-latest
-#    needs: check_if_release
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Find target directory
-#        id: target_dir
-#        run: |
-#          branch=${GITHUB_REF#refs/heads/}
-#
-#          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
-#            echo "name=${{ needs.check_if_release.outputs.version_major }}" >> "$GITHUB_OUTPUT"
-#          elif [ "$branch" == "main" ]; then
-#            echo "name=snapshot" >> "$GITHUB_OUTPUT"
-#          else
-#            echo "name=ignore" >> "$GITHUB_OUTPUT"
-#          fi
-#      - uses: ./.github/workflows/setup-gradle
-#      - name: Generate Documentation
-#        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
-#        run: |
-#          ./gradlew javadoc
-#      - name: Deploy docs
-#        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
-#        uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          folder: ./lib/build/docs/javadoc
-#          branch: gh-pages
-#          target-folder: javadocs/${{ steps.target_dir.outputs.name }}
+  javadoc:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Find target directory
+        id: target_dir
+        run: |
+          branch=${GITHUB_REF#refs/heads/}
 
-#  wiki:
-#    runs-on: ubuntu-latest
-#    needs: check_if_release
-#    if: ${{ needs.check_if_release.outputs.release == 'true' }}
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Setup Python
-#        uses: actions/setup-python@v5
-#        with:
-#          python-version: 3.x
-#      - name: Build & Deploy Wiki
-#        run: |
-#          git pull
-#
-#          pip install -r wiki/requirements.txt
-#
-#          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-#          git config --global user.name github-actions[bot]
-#
-#          cd wiki
-#          mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
-#          mike set-default ${{ needs.check_if_release.outputs.version }}
-#      - name: Deploy Wiki
-#        run: |
-#          git pull
-#          git push origin gh-pages
-#
-#  maven_central:
-#    runs-on: ubuntu-latest
-#    needs: check_if_release
-#    if: ${{ needs.check_if_release.outputs.release == 'true' }}
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: ./.github/workflows/setup-gradle
-#      - name: Build and deploy
-#        env:
-#          JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
-#          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.jreleaser_gpg_public_key }}
-#          JRELEASER_GPG_SECRET_KEY: ${{ secrets.jreleaser_gpg_secret_key }}
-#          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.jreleaser_user }}
-#          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.jreleaser_password }}
-#        run: |
-#          ./gradlew jreleaserDeploy
-#
-#  create-gh-draft-release:
-#    runs-on: ubuntu-latest
-#    needs: [ check_if_release, maven_central ]
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: softprops/action-gh-release@v2
-#        with:
-#          draft: true
-#          name: "\U0001f680 v${{ needs.check_if_release.outputs.version }} | ${{ needs.check_if_release.outputs.title }}"
-#          tag_name: "v${{ needs.check_if_release.outputs.version }}"
-#          generate_release_notes: true
-#          body: |
-#            ## :telescope: Overview
-#            TBD
-#
-#            ## :page_facing_up: Docs
-#            You can find the wiki for this version [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/${{ needs.check_if_release.outputs.version }}/).
-#
-#            To visit this version's javadocs click [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
-#
-#            ## :package: Download / Usage
-#            ### Gradle
-#            ```kotlin
-#            repositories {
-#              mavenCentral()
-#            }
-#
-#            dependencies {
-#              implementation("MVN_GROUP:MVN_ARTIFACT:${{ needs.check_if_release.outputs.version }}")
-#            }
-#            ```
-#
-#            ### Maven
-#            ```xml
-#            <dependency>
-#              <groupId>MVN_GROUP</groupId>
-#              <artifactId>MVN_ARTIFACT</artifactId>
-#              <version>${{ needs.check_if_release.outputs.version }}</version>
-#            </dependency>
-#            ```
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
+            echo "name=${{ needs.check_if_release.outputs.version_major }}" >> "$GITHUB_OUTPUT"
+          elif [ "$branch" == "main" ]; then
+            echo "name=snapshot" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=ignore" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: ./.github/workflows/setup-gradle
+      - name: Generate Documentation
+        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        run: |
+          ./gradlew javadoc
+      - name: Deploy docs
+        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./lib/build/docs/javadoc
+          branch: gh-pages
+          target-folder: javadocs/${{ steps.target_dir.outputs.name }}
+
+  wiki:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    if: ${{ needs.check_if_release.outputs.release == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Build & Deploy Wiki
+        run: |
+          git pull
+
+          pip install -r wiki/requirements.txt
+
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+
+          cd wiki
+          mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
+          mike set-default ${{ needs.check_if_release.outputs.version }}
+      - name: Deploy Wiki
+        run: |
+          git pull
+          git push origin gh-pages
+
+  maven_central:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    if: ${{ needs.check_if_release.outputs.release == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-gradle
+      - name: Build and deploy
+        env:
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.jreleaser_gpg_public_key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.jreleaser_gpg_secret_key }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.jreleaser_user }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.jreleaser_password }}
+        run: |
+          ./gradlew jreleaserDeploy
+
+  create-gh-draft-release:
+    runs-on: ubuntu-latest
+    needs: [ check_if_release, maven_central ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: "\U0001f680 v${{ needs.check_if_release.outputs.version }} | ${{ needs.check_if_release.outputs.title }}"
+          tag_name: "v${{ needs.check_if_release.outputs.version }}"
+          generate_release_notes: true
+          body: |
+            ## :telescope: Overview
+            TBD
+
+            ## :page_facing_up: Docs
+            You can find the wiki for this version [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/${{ needs.check_if_release.outputs.version }}/).
+
+            To visit this version's javadocs click [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
+
+            ## :package: Download / Usage
+            ### Gradle
+            ```kotlin
+            repositories {
+              mavenCentral()
+            }
+
+            dependencies {
+              implementation("MVN_GROUP:MVN_ARTIFACT:${{ needs.check_if_release.outputs.version }}")
+            }
+            ```
+
+            ### Maven
+            ```xml
+            <dependency>
+              <groupId>MVN_GROUP</groupId>
+              <artifactId>MVN_ARTIFACT</artifactId>
+              <version>${{ needs.check_if_release.outputs.version }}</version>
+            </dependency>
+            ```

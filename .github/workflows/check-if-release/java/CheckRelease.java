@@ -43,9 +43,5 @@ void main() throws IOException {
             .map(entry -> "%s=%s".formatted(entry.getKey(), entry.getValue()))
             .collect(Collectors.joining(System.lineSeparator()));
 
-    println(msg);
-    println(textToWrite);
-    println(Path.of(System.getenv("GITHUB_OUTPUT")));
-
     Files.writeString(Path.of(System.getenv("GITHUB_OUTPUT")), textToWrite, StandardOpenOption.APPEND);
 }
