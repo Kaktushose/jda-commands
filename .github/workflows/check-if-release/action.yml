@@ -27,7 +27,7 @@ runs:
       uses: jbangdev/setup-jbang@main
     - name: run script
       run: jbang ./.github/workflows/check-if-release/java/CheckRelease.java
-      emv:
+      env:
         MSG: ${{ inputs.msg }}
     - uses: ./.github/workflows/setup-gradle
       if: ${{ steps.check.outputs.release == 'true' && inputs.skip-gradle-check != 'true' }}
