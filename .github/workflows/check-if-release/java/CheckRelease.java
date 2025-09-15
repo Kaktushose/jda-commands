@@ -35,7 +35,7 @@ void main() throws IOException {
     outputs.put("release", "true");
     outputs.put("version", matcher.group(1));
     outputs.put("version_major", matcher.group(2));
-    outputs.put("version_minor", matcher.group(3));
+    outputs.put("version_minor", orDefault(matcher.group(3), "0"));
     outputs.put("title", matcher.group(7));
 
     String textToWrite = outputs.entrySet()
@@ -44,4 +44,10 @@ void main() throws IOException {
             .collect(Collectors.joining(System.lineSeparator()));
 
     Files.writeString(Path.of(System.getenv("GITHUB_OUTPUT")), textToWrite, StandardOpenOption.APPEND);
+}
+
+String orDefault(String result, String fallback) {
+    return result == null
+            ? fallback
+            : result;
 }
