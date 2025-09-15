@@ -1,3 +1,6 @@
+//COMPILE_OPTIONS --enable-preview --release 24
+//RUNTIME_OPTIONS --enable-preview
+
 //JAVA 24
 
 import java.util.regex.Matcher;
