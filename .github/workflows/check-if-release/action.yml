@@ -26,7 +26,7 @@ runs:
       uses: actions/checkout@v4
     - name: jbang
       uses: jbangdev/setup-jbang@main
-    - name: check
+    - id: check
       shell: bash
       run: jbang ./.github/workflows/check-if-release/java/CheckRelease.java
       env:
