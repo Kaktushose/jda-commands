@@ -37,7 +37,7 @@ runs:
           echo "version_major=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
           echo "version_minor=${BASH_REMATCH[3]}" >> "$GITHUB_OUTPUT"
           echo "title=${BASH_REMATCH[14]}" >> "$GITHUB_OUTPUT"
-        else^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?) *(: *(.*))?$
+        else
           echo "release=false" >> "$GITHUB_OUTPUT"
         fi
     - uses: ./.github/workflows/setup-gradle

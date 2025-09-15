@@ -3,14 +3,45 @@
 
 //JAVA 24
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-final static String REGEX = "^Release (0|[1-9]\\d*)(?:[.](0|[1-9]\\d*))?(?:[.](0|[1-9]\\d*))?(?:-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(?:\\+([0-9a-zA-Z-]+(?:[.][0-9a-zA-Z-]+)*))? *(?:: *(.+))?$";
+final static String REGEX = "^Release *" + // prefix
+        "((0|[1-9]\\d*)" + // major
+        "(?:[.](0|[1-9]\\d*))?" + // minor (optional)
+        "(?:[.](0|[1-9]\\d*))?" + // patch (optional)
+        "(?:-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:[.](?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?" + // prerelease (optional)
+        "(?:[+]([0-9a-zA-Z-]+(?:[.][0-9a-zA-Z-]+)*))?) *" + // build metadata (optional)
+        "(?:: *(.+))?$"; // message
 
-void main() {
+void main() throws IOException {
     String msg = System.getenv("MSG");
     Matcher matcher = Pattern.compile(REGEX).matcher(msg);
 
-    System.out.println(System.getenv("GITHUB_OUTPUT"));
+    Map<String, String> outputs = new HashMap<>();
+
+    if (!matcher.matches()) {
+        outputs.put("release", "false");
+        return;
+    }
+
+    outputs.put("release", "true");
+    outputs.put("version", matcher.group(1));
+    outputs.put("version_major", matcher.group(2));
+    outputs.put("version_minor", matcher.group(3));
+    outputs.put("title", matcher.group(7));
+
+    String textToWrite = outputs.entrySet()
+            .stream()
+            .map(entry -> "%s=%s".formatted(entry.getKey(), entry.getValue()))
+            .collect(Collectors.joining(System.lineSeparator()));
+
+    Files.writeString(Path.of(System.getenv("GITHUB_OUTPUT")), textToWrite, StandardOpenOption.APPEND);
 }
