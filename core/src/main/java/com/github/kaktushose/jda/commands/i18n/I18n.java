@@ -115,7 +115,6 @@ public class I18n {
         this.localizer = localizer;
     }
 
-    // default split (@) is undocumented and will be replaced in the future by solution with ScopedValues
     /// This method returns the localized method found by the provided [Locale] and key
     /// in the given bundle.
     ///
@@ -134,21 +133,13 @@ public class I18n {
                 ? bundleSplit[0].trim()
                 : findBundle();
 
-        String rawKey = bundleSplit.length == 2
+        String key = bundleSplit.length == 2
                 ? bundleSplit[1]
                 : bundleSplit[0];
 
-        String[] defaultSplit = rawKey.split("@", 2);
-        String key = defaultSplit[0];
-
-        String localized = localizer.localize(locale, bundle, key, placeholder)
+        return localizer.localize(locale, bundle, key, placeholder)
                 .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
                 .orElse(combinedKey);
-
-        // use split message
-        if (defaultSplit.length == 2 && localized.equals(key)) return defaultSplit[1];
-
-        return localized;
     }
 
     /// This method returns the localized message found by the provided [Locale] and key
