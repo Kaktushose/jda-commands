@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "[0-9]+.[0-9]+.x"
 
 jobs:
   check_if_release:
@@ -14,41 +15,27 @@ jobs:
       version_major: ${{ steps.check.outputs.version_major }}
       title: ${{ steps.check.outputs.title }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Check if commit is release
-        id: check
+      - uses: actions/checkout@v4
+      - id: check
+        uses: ./.github/workflows/check-if-release
+      - name: Check if version acceptable
+        id: rules_check
         run: |
-          msg="${{ github.event.head_commit.message }}"
-          regex="^Release ((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?) *(: *(.*))?$"
+          branch=${{ github.ref_name }}
+          regex="([0-9]+)\.([0-9]+)\.x"
           
-          if [[ $msg =~ $regex ]]
+          if [[ $branch =~ $regex ]]
           then
-            echo "release=true" >> "$GITHUB_OUTPUT"
-            echo "version=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
-            echo "version_major=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
-            echo "title=${BASH_REMATCH[14]}" >> "$GITHUB_OUTPUT"
-          else
-            echo "release=false" >> "$GITHUB_OUTPUT"
-          fi
-      - uses: actions/setup-java@v4
-        if: ${{ steps.check.outputs.release == 'true' }}
-        with:
-          distribution: temurin
-          java-version: 24
-      - uses: gradle/actions/setup-gradle@v4
-        if: ${{ steps.check.outputs.release == 'true' }}
-      - name: verify project version defined in gradle
-        id: verify
-        if: ${{ steps.check.outputs.release == 'true' }}
-        run: |
-          project_version=$( gradle properties -q | awk '/^version:/ {print $2}' )
-          if [[ "$project_version" != "${{ steps.check.outputs.version }}" ]]; then
-            echo "Project version defined in gradle is unequal to release version"
-            echo "Release version: ${{ steps.check.outputs.version }}"
-            echo "Project version: $project_version"
+            if [[ ${BASH_REMATCH[1]} == "${{ steps.check.outputs.version_major }}" && ${BASH_REMATCH[2]} == "${{ steps.check.outputs.version_minor }}" ]]
+            then
+                echo fine
+            else
+                echo "cant change major nor minor version in tail branch"
+                exit 1
+            fi
+          elif [[ $branch != "main" ]]
+          then
+            echo "should be only executed on main or tail branch"
             exit 1
           fi
 
@@ -58,13 +45,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Find target directory
         id: target_dir
         run: |
           branch=${GITHUB_REF#refs/heads/}
-          
+
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
             echo "name=${{ needs.check_if_release.outputs.version_major }}" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
@@ -72,22 +57,16 @@ jobs:
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/setup-java@v4
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
-        with:
-          distribution: temurin
-          java-version: 24
-      - uses: gradle/actions/setup-gradle@v4
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+      - uses: ./.github/workflows/setup-gradle
       - name: Generate Documentation
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         run: |
-          gradle jda-commands:javadoc
-      - name: Deploy jda-commands docs
+          ./gradlew javadoc
+      - name: Deploy docs
         if: ${{ steps.target_dir.outputs.name != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./jda-commands/build/docs/javadoc
+          folder: ./lib/build/docs/javadoc
           branch: gh-pages
           target-folder: javadocs/${{ steps.target_dir.outputs.name }}
 
@@ -97,31 +76,26 @@ jobs:
     if: ${{ needs.check_if_release.outputs.release == 'true' }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - name: Build & Deploy Wiki
         run: |
-          git fetch
-          git switch gh-pages
-          git branch --set-upstream-to=origin/gh-pages
           git pull
-          git switch wiki
-          
-          pip install -r requirements.txt
-          
+
+          pip install -r wiki/requirements.txt
+
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
-          
+
+          cd wiki
           mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
           mike set-default ${{ needs.check_if_release.outputs.version }}
       - name: Deploy Wiki
         run: |
-          git switch gh-pages
-          git push
+          git pull
+          git push origin gh-pages
 
   maven_central:
     runs-on: ubuntu-latest
@@ -129,11 +103,7 @@ jobs:
     if: ${{ needs.check_if_release.outputs.release == 'true' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 24
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: ./.github/workflows/setup-gradle
       - name: Build and deploy
         env:
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
@@ -142,12 +112,11 @@ jobs:
           JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.jreleaser_user }}
           JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.jreleaser_password }}
         run: |
-          gradle jreleaserDeploy
+          ./gradlew jreleaserDeploy
 
   create-gh-draft-release:
     runs-on: ubuntu-latest
     needs: [ check_if_release, maven_central ]
-    if: ${{ needs.check_if_release.outputs.release == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - uses: softprops/action-gh-release@v2
@@ -159,29 +128,29 @@ jobs:
           body: |
             ## :telescope: Overview
             TBD
-            
+
             ## :page_facing_up: Docs
-            You can find the wiki for this version [here](https://kaktushose.github.io/jda-commands/${{ needs.check_if_release.outputs.version }}/).
-            
-            To visit this versions javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
-            
+            You can find the wiki for this version [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/${{ needs.check_if_release.outputs.version }}/).
+
+            To visit this version's javadocs click [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
+
             ## :package: Download / Usage
             ### Gradle
             ```kotlin
             repositories {
               mavenCentral()
             }
-            
+
             dependencies {
-              implementation("io.github.kaktushose:jda-commands:${{ needs.check_if_release.outputs.version }}")
+              implementation("MVN_GROUP:MVN_ARTIFACT:${{ needs.check_if_release.outputs.version }}")
             }
             ```
-            
+
             ### Maven
             ```xml
             <dependency>
-              <groupId>io.github.kaktushose</groupId>
-              <artifactId>jda-commands</artifactId>
+              <groupId>MVN_GROUP</groupId>
+              <artifactId>MVN_ARTIFACT</artifactId>
               <version>${{ needs.check_if_release.outputs.version }}</version>
             </dependency>
             ```

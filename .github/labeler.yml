@@ -1,0 +1,15 @@
+"meta:wiki":
+  - changed-files:
+    - any-glob-to-any-file: "wiki/**"
+"meta:source code":
+  - changed-files:
+      - any-glob-to-any-file: "**/src/**"
+"meta:ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/workflows/**"
+"type:feature":
+  - head-branch: "feature"
+"type:fix":
+  - head-branch: "fix"
+"type:other":
+  - head-branch: "^(?!feature|fix).*$"

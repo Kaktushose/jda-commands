@@ -1,0 +1,71 @@
+name: Create tail branch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  check_if_release:
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+      version: ${{ steps.check.outputs.version }}
+      version_major: ${{ steps.check.outputs.version_major }}
+      title: ${{ steps.check.outputs.title }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        uses: ./.github/workflows/check-if-release
+  new_major:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    if: ${{ needs.check_if_release.outputs.release == 'true' }}
+    outputs:
+      new_major: ${{ steps.check.outputs.is }}
+      previous_major: ${{ steps.parse.outputs.version_major }}
+      previous_minor: ${{ steps.parse.outputs.version_minor }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # info: needs one non-major bump release in git history
+      - id: previous_release
+        run: |
+          msg=$(git log --pretty=format:"%s" --grep="^Release" --skip 1 -n 1)
+          echo "$msg"
+          echo "msg=$msg" >> "$GITHUB_OUTPUT"
+      - id: parse
+        uses: ./.github/workflows/check-if-release
+        with:
+          msg: "${{ steps.previous_release.outputs.msg }}"
+          skip-gradle-check: true
+      - id: check
+        run: |
+          new="${{ needs.check_if_release.outputs.version_major }}"
+          old="${{ steps.parse.outputs.version_major }}"
+          
+          if [[ $new != $old ]]; then
+            echo "is=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "is=false" >> "$GITHUB_OUTPUT"  
+          fi
+  create_tail:
+    runs-on: ubuntu-latest
+    needs: [ new_major ]
+    if: ${{ needs.new_major.outputs.new_major == 'yes' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          major=${{ needs.new_major.outputs.previous_major }}
+          minor=${{ needs.new_major.outputs.previous_minor }}
+          branch="$major.$minor.x"
+          
+          git switch -c $branch
+          git push -u origin $branch
+
+          
+          

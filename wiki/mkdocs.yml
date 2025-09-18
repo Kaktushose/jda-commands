@@ -1,0 +1,104 @@
+site_name: JDA-Commands Wiki
+site_url: https://kaktushose.github.io/wiki/
+
+theme:
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - toc.follow
+    - search.share
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/book-open-page-variant
+    admonition:
+      link: octicons/link-16
+  palette:
+    scheme: slate
+    primary: teal
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  custom_dir: overrides
+
+repo_name: JDA-Commands
+repo_url: https://github.com/kaktushose/jda-commands
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kaktushose
+  version:
+    default: wiki
+    provider: mike
+
+copyright: Copyright &copy; 2025 Kaktushose
+
+plugins:
+  - search
+#  - open-in-new-tab
+
+markdown_extensions:
+  - pymdownx.blocks.caption
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: start/installation.md
+      - Quick Start Guide: start/quick-start.md
+      - Runtime Concept: start/runtime.md
+  - Interactions:
+      - Overview: interactions/overview.md
+      - Commands: interactions/commands.md
+      - Components: interactions/components.md
+      - Modals: interactions/modals.md
+      - Reply API: interactions/reply.md
+  - Middlewares:
+      - Overview: middlewares/overview.md
+      - Type Adapters: middlewares/typeadapter.md
+      - Validators (Parameter Constraints): middlewares/validator.md
+      - Permissions System: middlewares/permissions.md
+      - Cooldown System: middlewares/cooldown.md
+  - Dependency Injection: di.md
+  - Localization: localization.md
+  - Extensions:
+      - Overview: extension/overview.md
+      - Writing Extensions: extension/writing.md
+      - Configuration: extension/configuring.md
+  - Misc:
+      - Embed API: misc/embeds.md
+      - Error Handling: misc/error-handling.md
+      - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/
