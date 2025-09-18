@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/// The default variant of [Localizer], which implements it with help of the amazing
+/// The default variant of [Localizer] which implements it with help of the amazing
 /// [java implementation](https://github.com/Goldmensch/fluava) of project fluent.
 ///
 /// Due to limitations set by fluent, dots contained in keys will be replaced by `-`.

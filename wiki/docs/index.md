@@ -70,5 +70,5 @@ You might also find the following resources helpful:
 Having trouble or found a bug?
 
 - Check out the [Examples](https://github.com/Kaktushose/jda-commands/tree/main/src/examples)
-- Join the [Discord Server](https://discord.gg/JYWezvQ)
+- Join our [Discord Server](https://discord.gg/JYWezvQ)
 - Or open an [Issue](https://github.com/Kaktushose/jda-commands/issues)
