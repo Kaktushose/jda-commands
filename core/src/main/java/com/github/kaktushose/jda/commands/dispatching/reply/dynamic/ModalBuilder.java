@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 import static net.dv8tion.jda.api.interactions.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.

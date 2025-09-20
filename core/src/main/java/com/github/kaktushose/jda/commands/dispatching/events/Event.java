@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;

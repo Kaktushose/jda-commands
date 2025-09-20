@@ -1,8 +1,8 @@
 package com.github.kaktushose.jda.commands.embeds;
 
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.i18n.I18n;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
 
 import java.nio.file.Path;

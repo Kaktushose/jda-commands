@@ -1,6 +1,6 @@
 package com.github.kaktushose.jda.commands.message;
 
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import org.jspecify.annotations.Nullable;
 

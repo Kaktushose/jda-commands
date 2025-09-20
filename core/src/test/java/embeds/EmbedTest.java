@@ -5,8 +5,8 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import dev.goldmensch.fluava.Fluava;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

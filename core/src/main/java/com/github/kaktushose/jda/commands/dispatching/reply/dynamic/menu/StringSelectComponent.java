@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;

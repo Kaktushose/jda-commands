@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Collection of helper methods that are used inside the framework.
 @ApiStatus.Internal

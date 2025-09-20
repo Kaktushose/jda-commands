@@ -22,7 +22,7 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;

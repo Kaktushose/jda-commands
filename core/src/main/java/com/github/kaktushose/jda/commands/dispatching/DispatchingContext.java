@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.instance.InteractionContro
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import org.jetbrains.annotations.ApiStatus;
 

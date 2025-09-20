@@ -2,7 +2,6 @@ package com.github.kaktushose.jda.commands.embeds;
 
 
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
@@ -14,7 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
 @FunctionalInterface

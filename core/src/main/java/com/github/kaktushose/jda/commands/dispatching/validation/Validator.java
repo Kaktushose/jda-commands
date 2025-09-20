@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
 import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 

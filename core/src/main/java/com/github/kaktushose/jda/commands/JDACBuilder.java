@@ -22,9 +22,10 @@ import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
-import com.github.kaktushose.jda.commands.i18n.I18n;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
@@ -219,7 +220,7 @@ public final class JDACBuilder extends JDACBuilderData {
     ///
     /// @param localize whether to localize commands, default true
     /// @see LocalizationFunction
-    /// @see com.github.kaktushose.jda.commands.i18n.FluavaLocalizer FluavaLocalizer
+    /// @see FluavaLocalizer FluavaLocalizer
     public JDACBuilder localizeCommands(boolean localize) {
         localizeCommands = localize;
         return this;

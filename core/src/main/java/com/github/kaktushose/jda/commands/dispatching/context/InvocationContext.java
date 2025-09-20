@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.definitions.features.internal.Invokabl
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;

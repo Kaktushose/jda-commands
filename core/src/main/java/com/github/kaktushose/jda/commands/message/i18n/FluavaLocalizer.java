@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.i18n;
+package com.github.kaktushose.jda.commands.message.i18n;
 
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
