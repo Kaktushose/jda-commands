@@ -20,12 +20,20 @@ import java.util.*;
 /// To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
 /// For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 ///
-/// Please note, that the dollar (`$`) is a reserved character for bundle name separation.
-/// If you have to use `$` in the message key or
-/// any string that goes through localization (technically most strings written in annotations) just prefix the message
-/// with the dollar sign. For example, the message `$My message that needs the $ in there` will be displayed as
-/// `My message that needs the $ in there`.
+/// ### dollar sign
+/// The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 ///
+/// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
+///   - your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it`
+///   - the string is a directly inserted localization messages that happens to have it's prior `$` part to match a bundle name and is later to match a message key, e.g.
+///     - you have a bundle called `my_bundle`
+///     - you have a message key called `my-key` in that bundle
+///     - and you want to print the message `my_bundle$my-key` to the user
+///
+/// In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
+/// Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
+///
+/// ## bundle name traversal
 /// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 /// [`@Bundle("mybundle")`](Bundle) annotation with following order:
 ///
