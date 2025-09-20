@@ -209,7 +209,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
+        return new ConfigurableReply(event, definition, messageResolver(), newReply(), embeds, registry, runtimeId());
     }
 
     /// {@inheritDoc}
@@ -243,6 +243,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(event, definition, i18n(), replyConfig);
+        return new ReplyAction(event, definition, messageResolver(), replyConfig);
     }
 }

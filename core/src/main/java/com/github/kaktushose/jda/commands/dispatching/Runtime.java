@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashComm
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -55,6 +56,7 @@ public final class Runtime implements Closeable {
     private final ModalHandler modalHandler;
     private final InteractionControllerInstantiator instanceProvider;
     private final I18n i18n;
+    private final MessageResolver messageResolver;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
@@ -68,6 +70,7 @@ public final class Runtime implements Closeable {
         componentHandler = new ComponentHandler(dispatchingContext);
         modalHandler = new ModalHandler(dispatchingContext);
         i18n = dispatchingContext.i18n();
+        messageResolver = dispatchingContext.messageResolver();
 
         this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id, jda);
 
@@ -125,6 +128,10 @@ public final class Runtime implements Closeable {
 
     public I18n i18n() {
         return i18n;
+    }
+
+    public MessageResolver messageResolver() {
+        return messageResolver;
     }
 
     public <T> T interactionInstance(Class<T> clazz) {

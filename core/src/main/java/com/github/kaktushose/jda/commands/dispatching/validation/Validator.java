@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.lang.annotation.Annotation;
@@ -73,12 +74,15 @@ public interface Validator<T, A extends Annotation> {
             return invocationContext;
         }
 
-        /// This method returns a formatted, optionally localized, error message based on [ErrorMessageFactory#getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)].
+        /// This method returns a formatted, optionally resolved (and localized), error message based on [ErrorMessageFactory#getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)].
         ///
         /// @param content     the message or localization key
         /// @param placeholder the variables used for localization
+        ///
+        /// @see MessageResolver
+        /// @see I18n
         public MessageCreateData failMessage(String content, I18n.Entry... placeholder) {
-            String localized = invocationContext.i18n().localize(invocationContext.event().getUserLocale().toLocale(), content, placeholder);
+            String localized = invocationContext.messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

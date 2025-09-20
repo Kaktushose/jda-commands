@@ -22,6 +22,8 @@ import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
@@ -86,6 +88,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
+    private @Nullable MessageResolver messageResolver = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
@@ -124,7 +127,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
             Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())),
             PermissionsProvider.class, DefaultPermissionsProvider::new,
-            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds(i18n())),
+            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds(messageResolver())),
             GuildScopeProvider.class, DefaultGuildScopeProvider::new,
             Descriptor.class, () -> Descriptor.REFLECTIVE
     );
@@ -290,11 +293,15 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    public Embeds embeds(I18n i18n) {
-        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n));
+    protected Embeds embeds(MessageResolver messageResolver) {
+        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), messageResolver));
     }
 
     public I18n i18n() {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
+    }
+
+    public MessageResolver messageResolver(){
+        return messageResolver != null ? messageResolver : (messageResolver = new MessageResolver(i18n(), new EmojiResolver()));
     }
 }

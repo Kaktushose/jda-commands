@@ -59,6 +59,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .map(args -> new InvocationContext<>(
                         event,
                         dispatchingContext.i18n(),
+                        dispatchingContext.messageResolver(),
                         runtime.keyValueStore(),
                         command,
                         Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
@@ -110,7 +111,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
-                            new ReplyAction(event, command, dispatchingContext.i18n(), replyConfig).reply(
+                            new ReplyAction(event, command, dispatchingContext.messageResolver(), replyConfig).reply(
                                     errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
                             );
                             return Optional.empty();

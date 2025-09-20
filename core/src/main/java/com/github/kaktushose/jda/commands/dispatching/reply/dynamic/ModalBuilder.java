@@ -95,24 +95,23 @@ public class ModalBuilder {
         Modal.Builder builder = definition.toJDAEntity(customId).createCopy();
         callback.apply(builder);
 
-        localize(builder);
+        resolve(builder);
 
         return builder.build();
     }
 
-    private void localize(Modal.Builder builder) {
+    private void resolve(Modal.Builder builder) {
         I18n.Entry[] entries = placeholder.toArray(I18n.Entry[]::new);
-        I18n i18n = event.i18n();
         Locale locale = event.getUserLocale().toLocale();
 
-        builder.setTitle(i18n.localize(locale, builder.getTitle(), entries));
+        builder.setTitle(resolve(builder.getTitle(), locale, entries));
         for (LayoutComponent layout : builder.getComponents()) {
             for (ItemComponent component : layout.getComponents()) {
                 if (component instanceof TextInput text) {
                     layout.updateComponent(component, copyWith(text,
-                            i18n.localize(locale, text.getLabel(), entries),
-                            localize(text.getPlaceHolder(), locale, entries),
-                            localize(text.getValue(), locale, entries))
+                            resolve(text.getLabel(), locale, entries),
+                            resolve(text.getPlaceHolder(), locale, entries),
+                            resolve(text.getValue(), locale, entries))
                     );
                 }
             }
@@ -130,9 +129,9 @@ public class ModalBuilder {
     }
 
     @Nullable
-    private String localize(@Nullable String val, Locale locale, I18n.Entry... entries) {
+    private String resolve(@Nullable String val, Locale locale, I18n.Entry... entries) {
         if (val == null) return null;
-        return event.i18n().localize(locale, val, entries);
+        return event.messageResolver().resolve(val, locale, entries);
     }
 
 }
