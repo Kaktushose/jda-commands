@@ -19,6 +19,8 @@ dependencies {
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)
 
+    implementation(libs.net.fellbaum.jemoji)
+
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
     testImplementation(project(":testing"))

@@ -10,6 +10,7 @@ module io.github.kaktushose.jda.commands.core {
     requires java.desktop;
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
+    requires net.fellbaum.jemoji;
 
     requires org.jspecify;
     requires org.jetbrains.annotations;
