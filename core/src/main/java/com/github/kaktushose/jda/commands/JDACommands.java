@@ -125,7 +125,7 @@ public final class JDACommands {
         interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
         updater.updateAllCommands();
 
-        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
+        jdaContext.performTask(it -> it.addEventListener(jdaEventListener), false);
         log.info("Finished loading!");
 
     }
@@ -136,7 +136,7 @@ public final class JDACommands {
     /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));
+        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
 
         if (shutdownJDA) {
             jdaContext.shutdown();

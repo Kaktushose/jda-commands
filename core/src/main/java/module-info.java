@@ -70,6 +70,7 @@ module io.github.kaktushose.jda.commands.core {
     // i18n/messages
     exports com.github.kaktushose.jda.commands.message.i18n;
     exports com.github.kaktushose.jda.commands.message;
+    exports com.github.kaktushose.jda.commands.message.emoji;
 
     uses com.github.kaktushose.jda.commands.extension.Extension;
 }
