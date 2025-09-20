@@ -21,6 +21,7 @@ import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -68,7 +69,7 @@ public sealed class ConfigurableReply permits SendableReply {
     protected final ReplyAction replyAction;
     private final GenericInteractionCreateEvent event;
     private final InteractionDefinition definition;
-    private final I18n i18n;
+    private final MessageResolver messageResolver;
     private final Embeds embeds;
     private final InteractionRegistry registry;
     private final String runtimeId;
@@ -78,21 +79,21 @@ public sealed class ConfigurableReply permits SendableReply {
     ///
     /// @param event       the [GenericInteractionCreateEvent] that should be responded to
     /// @param definition  the [InteractionDefinition] belonging to the event
-    /// @param i18n        the corresponding [I18n] instance
+    /// @param messageResolver the corresponding [MessageResolver] instance
     /// @param replyAction the underlying [ReplyAction]
     /// @param embeds      the corresponding [Embeds] instance
     /// @param registry    the corresponding [InteractionRegistry]
     /// @param runtimeId   the corresponding [Runtime]
     public ConfigurableReply(GenericInteractionCreateEvent event,
                              InteractionDefinition definition,
-                             I18n i18n,
+                             MessageResolver messageResolver,
                              ReplyAction replyAction,
                              Embeds embeds,
                              InteractionRegistry registry,
                              String runtimeId) {
         this.event = event;
         this.definition = definition;
-        this.i18n = i18n;
+        this.messageResolver = messageResolver;
         this.replyAction = replyAction;
         this.embeds = embeds;
         this.registry = registry;
@@ -105,7 +106,7 @@ public sealed class ConfigurableReply permits SendableReply {
     public ConfigurableReply(ConfigurableReply configurableReply) {
         this.event = configurableReply.event;
         this.definition = configurableReply.definition;
-        this.i18n = configurableReply.i18n;
+        this.messageResolver = configurableReply.messageResolver;
         this.replyAction = configurableReply.replyAction;
         this.embeds = configurableReply.embeds;
         this.registry = configurableReply.registry;
@@ -337,7 +338,7 @@ public sealed class ConfigurableReply permits SendableReply {
                 case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
             };
 
-            item = localize(item, component);
+            item = resolve(item, component);
 
             items.add(item);
 
@@ -350,20 +351,20 @@ public sealed class ConfigurableReply permits SendableReply {
         return new SendableReply(this);
     }
 
-    private ActionComponent localize(ActionComponent item, Component<?, ?, ?, ?> component) {
+    private ActionComponent resolve(ActionComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
-            case Button button -> button.withLabel(localize(button.getLabel(), component));
-            case EntitySelectMenu menu -> (EntitySelectMenu) menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> localize(p, component)));
+            case Button button -> button.withLabel(resolve(button.getLabel(), component));
+            case EntitySelectMenu menu -> (EntitySelectMenu) menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> resolve(p, component)));
             case StringSelectMenu menu -> {
                 StringSelectMenu.Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
                         .stream()
-                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> localize(d, component)))
-                                .withLabel(localize(option.getLabel(), component)))
+                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> resolve(d, component)))
+                                .withLabel(resolve(option.getLabel(), component)))
                         .toList();
                 copy.getOptions().clear();
                 copy.addOptions(localized);
-                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> localize(p, component)));
+                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> resolve(p, component)));
                 yield copy.build();
             }
             default -> throw new InternalException("default-switch");
@@ -376,8 +377,8 @@ public sealed class ConfigurableReply permits SendableReply {
         return func.apply(val);
     }
 
-    private String localize(String key, Component<?, ?, ?, ?> component) {
-        return i18n.localize(event.getUserLocale().toLocale(), key, component.placeholder());
+    private String resolve(String key, Component<?, ?, ?, ?> component) {
+        return messageResolver.resolve(key, event.getUserLocale().toLocale(), component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {

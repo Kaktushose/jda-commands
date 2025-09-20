@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalE
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -105,6 +106,13 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return runtime.i18n();
     }
 
+    /// Gets the [MessageResolver] instance
+    ///
+    /// @return the [MessageResolver] instance
+    public MessageResolver messageResolver() {
+        return runtime.messageResolver();
+    }
+
     /// Gets a localization message for the given key using the underlying [I18n] instance.
     ///
     /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
@@ -113,6 +121,17 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the localized message or the key if not found
     public String localize(String key, I18n.Entry... placeholders) {
         return i18n().localize(event.getUserLocale().toLocale(), key, placeholders);
+    }
+
+    /// Resolved the given message with help of the underlying [MessageResolver] instance,
+    /// thus performing localization and emoji resolution.
+    ///
+    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
+    /// Use [MessageResolver#resolve(String, Locale, I18n.Entry...)] (obtained via [#messageResolver()]) if you want to use a different locale.
+    ///
+    /// @return the resolved message
+    public String resolve(String message, I18n.Entry... placeholders) {
+        return messageResolver().resolve(message, event.getUserLocale().toLocale(), placeholders);
     }
 
 

@@ -5,8 +5,8 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
-import io.github.kaktushose.proteus.ProteusBuilder;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
@@ -25,7 +25,7 @@ import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 /// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
-public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, I18n i18n) {
+public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, MessageResolver messageResolver) {
 
     static {
         Proteus.global().from(Type.of(Color.class)).into(Type.of(String.class),
@@ -41,7 +41,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name) {
         return sources.stream()
-                .map(source -> source.get(name, placeholders, i18n))
+                .map(source -> source.get(name, placeholders, messageResolver))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny()
@@ -56,7 +56,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name, Locale locale) {
         return sources.stream()
-                .map(source -> source.get(name, placeholders, i18n))
+                .map(source -> source.get(name, placeholders, messageResolver))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .peek(it -> it.locale(locale))
@@ -69,19 +69,19 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     /// @param name the name of the [Embed]
     /// @return `true` if the embed exists
     public boolean exists(String name) {
-        return sources.stream().anyMatch(it -> it.get(name, Map.of(), i18n).isPresent());
+        return sources.stream().anyMatch(it -> it.get(name, Map.of(), messageResolver).isPresent());
     }
 
     public static class Configuration implements EmbedConfig {
 
         private final List<EmbedDataSource> sources;
         private final Map<String, Object> placeholders;
-        private final I18n i18n;
+        private final MessageResolver messageResolver;
         private @Nullable EmbedDataSource errorSource;
 
         /// Constructs a new embed configuration builder.
-        public Configuration(I18n i18n) {
-            this.i18n = i18n;
+        public Configuration(MessageResolver messageResolver) {
+            this.messageResolver = messageResolver;
             sources = new ArrayList<>();
             placeholders = new HashMap<>();
         }
@@ -114,14 +114,14 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         ///
         /// @return an [Embeds] instance for default usage
         public Embeds buildDefault() {
-            return new Embeds(sources, placeholders, i18n);
+            return new Embeds(sources, placeholders, messageResolver);
         }
 
         /// Converts this configuration into an [Embeds] instance that should only be used by [DefaultErrorMessageFactory].
         ///
         /// @return an [Embeds] instance for usage inside [DefaultErrorMessageFactory]
         public Embeds buildError() {
-            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), Map.of(), i18n);
+            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), Map.of(), messageResolver);
         }
     }
 }

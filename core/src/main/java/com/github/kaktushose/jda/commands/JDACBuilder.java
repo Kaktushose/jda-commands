@@ -24,6 +24,7 @@ import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
 import com.github.kaktushose.jda.commands.i18n.I18n;
 import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
@@ -72,7 +73,7 @@ import java.util.function.Consumer;
 /// @see Extension
 public final class JDACBuilder extends JDACBuilderData {
 
-    private BiConsumer<I18n, ErrorMessageFactory> configureEmbeds = (_, _) -> {};
+    private BiConsumer<MessageResolver, ErrorMessageFactory> configureEmbeds = (_, _) -> {};
     private Embeds.@Nullable Configuration embedConfig;
 
     JDACBuilder(JDAContext context, Class<?> baseClass, String[] packages) {
@@ -241,8 +242,9 @@ public final class JDACBuilder extends JDACBuilderData {
         try {
             // this order matters!
             I18n i18n = i18n();
+            MessageResolver messageResolver = messageResolver();
             ErrorMessageFactory errorMessageFactory = errorMessageFactory();
-            configureEmbeds.accept(i18n, errorMessageFactory);
+            configureEmbeds.accept(messageResolver, errorMessageFactory);
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
@@ -259,7 +261,8 @@ public final class JDACBuilder extends JDACBuilderData {
                     globalReplyConfig(),
                     globalCommandConfig(),
                     i18n,
-                    embeds(i18n),
+                    messageResolver,
+                    embeds(messageResolver),
                     shutdownJDA()
             );
             jdaCommands.start(mergedClassFinder());

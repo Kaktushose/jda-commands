@@ -67,8 +67,9 @@ module io.github.kaktushose.jda.commands.core {
     // extensions
     exports com.github.kaktushose.jda.commands.extension;
 
-    // i18n
+    // i18n/messages
     exports com.github.kaktushose.jda.commands.i18n;
+    exports com.github.kaktushose.jda.commands.message;
 
     uses com.github.kaktushose.jda.commands.extension.Extension;
 }
