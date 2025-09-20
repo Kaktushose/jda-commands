@@ -8,6 +8,20 @@ the restrictions of the used [`Localizer`](https://kaktushose.github.io/jda-comm
 
 If a certain message for a key isn't found, the key is returned as the messages value.
 
+### The dollar ($) character
+The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
+
+Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
+- your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it`
+- the string is a [directly inserted localization messages](#directly-inserting-localization-messages) 
+  that happens to have it's prior `$` part to match a bundle name and is later to match a message key, e.g.
+  - you have a bundle called `my_bundle`
+  - you have a message key called `my-key` in that bundle
+  - and you want to print the message `my_bundle$my-key` to the user
+
+In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
+Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
+
 ## Implicit Localization
 Instead of using the localization API manually through the `I18n` class, JDA-Commands allows for implicit usage of
 localization keys in many common places. These include:
@@ -92,6 +106,9 @@ public class ComponentTest {
 Localization bundles are a known concept from Javas [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html). JDA-Commands supports different bundles of
 localization files by adding them to the localization key or using the [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
 annotation.
+
+!!! warning the dollar sign ($)
+    Please note that the character `$` is forbidden in bundle names.
 
 ### Via Key
 To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.

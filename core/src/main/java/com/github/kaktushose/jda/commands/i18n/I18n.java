@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
+import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -18,6 +19,12 @@ import java.util.*;
 ///
 /// To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
 /// For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
+///
+/// Please note, that the dollar (`$`) is a reserved character for bundle name separation.
+/// If you have to use `$` in the message key or
+/// any string that goes through localization (technically most strings written in annotations) just prefix the message
+/// with the dollar sign. For example, the message `$My message that needs the $ in there` will be displayed as
+/// `My message that needs the $ in there`.
 ///
 /// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 /// [`@Bundle("mybundle")`](Bundle) annotation with following order:
@@ -123,6 +130,8 @@ public class I18n {
     /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
+    /// Please note that the character `$` is forbidden in bundle names.
+    ///
     /// @param locale the [Locale] to be used to localize the key
     /// @param combinedKey the messages key
     /// @param placeholder the placeholder to be used
@@ -130,7 +139,7 @@ public class I18n {
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String combinedKey, Map<String, @Nullable Object> placeholder) {
         String[] bundleSplit = combinedKey.split("\\$", 2);
-        String bundle = bundleSplit.length == 2
+        String bundle = bundleSplit.length == 2 && !bundleSplit[0].isEmpty()
                 ? bundleSplit[0].trim()
                 : findBundle();
 
@@ -141,6 +150,12 @@ public class I18n {
         return localizer.localize(locale, bundle, key, placeholder)
                 .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
                 .orElse(combinedKey);
+    }
+
+    public static void main(String[] args) {
+        I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())));
+        String localized = i18n.localize(Locale.ENGLISH, "key$huhu");
+        System.out.println(localized);
     }
 
     /// This method returns the localized message found by the provided [Locale] and key
