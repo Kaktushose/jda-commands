@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal

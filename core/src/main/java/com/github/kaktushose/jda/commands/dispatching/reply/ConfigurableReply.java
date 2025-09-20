@@ -20,7 +20,7 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -42,7 +42,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].

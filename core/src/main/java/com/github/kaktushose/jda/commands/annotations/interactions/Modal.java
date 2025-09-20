@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

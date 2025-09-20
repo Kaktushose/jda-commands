@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.exceptions.internal;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
 

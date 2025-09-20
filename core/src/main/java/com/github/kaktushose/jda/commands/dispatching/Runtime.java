@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCo
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

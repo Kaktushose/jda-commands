@@ -10,7 +10,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
@@ -23,7 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Instances of [Implementation] are used to provide custom implementations of [ExtensionProvidable] interfaces, namely:
 /// - [ClassFinder]

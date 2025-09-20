@@ -1,6 +1,6 @@
-package com.github.kaktushose.jda.commands.i18n.internal;
+package com.github.kaktushose.jda.commands.message.i18n.internal;
 
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;

@@ -4,7 +4,7 @@ import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
