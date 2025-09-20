@@ -16,11 +16,12 @@ import java.util.*;
 ///
 /// It is mostly a wrapper around [Localizer] but supports flexible specification of the bundle to be used.
 ///
-/// To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
-/// For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
+/// To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
+/// For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 ///
 /// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 /// [`@Bundle("mybundle")`](Bundle) annotation with following order:
+///
 ///
 /// 1. method that called [I18n#localize(Locale, String, Entry...)]
 /// 2. other called methods in the same class
@@ -75,17 +76,17 @@ import java.util.*;
 /// ```
 ///
 /// The order in which the bundle name is searched for is following:
-/// 1. method `A#aOne()`
-/// 2. method `A#aTwo()`
+/// 1. method `A$aOne()`
+/// 2. method `A$aTwo()`
 /// 3. class `A`
 /// 4. `package-info.java` of package `my.app`
-/// 5. method `B#bOne()`
-/// 6. method `B#two()`
+/// 5. method `B$bOne()`
+/// 6. method `B$two()`
 ///
 /// The found bundle would be `pack_bundle`.
 ///
 /// If [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
-/// would be called in, for example, `B#bTwo` the bundle would be `mB_bundle`.
+/// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
 public class I18n {
 
     // skipped classes during stack scanning (Class.getName().startWith(X))
@@ -119,7 +120,7 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
+    /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
@@ -128,7 +129,7 @@ public class I18n {
     ///
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String combinedKey, Map<String, @Nullable Object> placeholder) {
-        String[] bundleSplit = combinedKey.split("#", 2);
+        String[] bundleSplit = combinedKey.split("\\$", 2);
         String bundle = bundleSplit.length == 2
                 ? bundleSplit[0].trim()
                 : findBundle();
@@ -146,7 +147,7 @@ public class I18n {
     /// in the given bundle.
     ///
     /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle#key`. Alternatively, the bundle name can also be
+    /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
     /// @param locale      the [Locale] to be used to localize the key

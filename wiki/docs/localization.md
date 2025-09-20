@@ -94,8 +94,8 @@ localization files by adding them to the localization key or using the [`@Bundle
 annotation.
 
 ### Via Key
-To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
-For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
+To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
+For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 
 ### Via Annotation
 
@@ -149,15 +149,15 @@ class at the very beginning.
 
     The order in which the bundle name is searched for is following:
 
-    1. method `A#aOne()`
-    2. method `A#aTwo()`
+    1. method `A$aOne()`
+    2. method `A$aTwo()`
     3. class `A`
     4. `package-info.java` of package `my.app`
-    5. method `B#bOne()`
-    6. method `B#bTwo()`
+    5. method `B$bOne()`
+    6. method `B$bTwo()`
 
     The found bundle would be `package_bundle`. If `I18n#localize(Locale, String, I18n.Entry...)`
-    would be called in, for example, `B#bTwo` the bundle would be `method_bundle`.
+    would be called in, for example, `B$bTwo` the bundle would be `method_bundle`.
 
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
