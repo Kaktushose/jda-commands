@@ -19,17 +19,18 @@ import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,7 +302,12 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
 
-    public MessageResolver messageResolver(){
-        return messageResolver != null ? messageResolver : (messageResolver = new MessageResolver(i18n(), new EmojiResolver()));
+    public MessageResolver messageResolver() {
+        if (messageResolver == null) {
+            List<ApplicationEmoji> applicationEmojis = context().applicationEmojis();
+            messageResolver = new MessageResolver(i18n(), new EmojiResolver(applicationEmojis));
+        }
+
+        return messageResolver;
     }
 }

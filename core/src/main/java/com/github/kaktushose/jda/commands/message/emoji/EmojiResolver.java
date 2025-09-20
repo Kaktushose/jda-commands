@@ -1,13 +1,47 @@
 package com.github.kaktushose.jda.commands.message.emoji;
 
-import net.fellbaum.jemoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.fellbaum.jemoji.EmojiManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+/// The [EmojiResolver] replaces emoji aliases in strings with their formatted value.
+///
+/// An emoji alias is just the discord alias (either Unicode oder app emoji)
+/// enclosed by a colon `:`. For example the Unicode alias `:joy:` will be replaced by 😂 and the
+/// app emoji `:app_emote:` by its uploaded file.
+///
+/// Colons (`:`) that aren't part of an alias have to be escaped by prefixing them with a backslash `\\`.
+///
+/// Supported are all discord emojis, their skin tone variants and the app emotes for this bot.
+/// App emotes with the same name as a Unicode one will override later.
 public class EmojiResolver {
 
+    private final Map<String, Emoji> emojis;
+
+    /// @param applicationEmojis a list of all application emojis of this bot
+    public EmojiResolver(List<ApplicationEmoji> applicationEmojis) {
+        Map<String, Emoji> emojis = new HashMap<>();
+
+        for (net.fellbaum.jemoji.Emoji current : EmojiManager.getAllEmojis()) {
+            for (String alias : current.getDiscordAliases()) {
+                emojis.put(alias, Emoji.fromUnicode(current.getEmoji()));
+            }
+        }
+
+        for (ApplicationEmoji current : applicationEmojis) {
+            emojis.put(":" + current.getName() + ":", current);
+        }
+
+        this.emojis = Collections.unmodifiableMap(emojis);
+    }
+
+    /// Resolves the emoji aliases of a string according the javadocs of this class.
+    ///
+    /// @param msg The string to be resolved
+    ///
+    /// @return the resolved string
     public String resolve(String msg) {
         List<Component> components = parse(msg);
         List<Component.Literal> replaced = replaceEmojiAliases(components);
@@ -24,10 +58,9 @@ public class EmojiResolver {
         return components.stream()
                 .map(component -> switch (component) {
                         case Component.EmojiReference(String name) -> {
-                            String rendered = EmojiManager.getByDiscordAlias(name)
-                                        .map(Emoji::getEmoji)
-                                        .orElse(name);
-                            yield new Component.Literal(rendered);
+                            Emoji found = emojis.get(name);
+                            if (found == null) yield new Component.Literal(name);
+                            yield new Component.Literal(found.getFormatted());
                         }
                         case Component.Literal l -> l;
                     })
