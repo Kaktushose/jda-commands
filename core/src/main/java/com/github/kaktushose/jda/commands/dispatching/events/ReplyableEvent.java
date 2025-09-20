@@ -19,7 +19,7 @@ import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -209,7 +209,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(event, definition, i18n(), newReply(), embeds, registry, runtimeId());
+        return new ConfigurableReply(event, definition, messageResolver(), newReply(), embeds, registry, runtimeId());
     }
 
     /// {@inheritDoc}
@@ -243,6 +243,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(event, definition, i18n(), replyConfig);
+        return new ReplyAction(event, definition, messageResolver(), replyConfig);
     }
 }

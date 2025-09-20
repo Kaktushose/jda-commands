@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

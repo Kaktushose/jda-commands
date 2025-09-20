@@ -27,3 +27,4 @@ com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "c
 io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }
 org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0"}
+net-fellbaum-jemoji = { module = "net.fellbaum:jemoji", version = "1.7.5"}

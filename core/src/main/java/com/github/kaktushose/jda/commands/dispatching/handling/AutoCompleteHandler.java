@@ -37,6 +37,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                                 new InvocationContext<>(
                                         event,
                                         dispatchingContext.i18n(),
+                                        dispatchingContext.messageResolver(),
                                         runtime.keyValueStore(),
                                         definition,
                                         Helpers.replyConfig(slashCommandDefinition, dispatchingContext.globalReplyConfig()),

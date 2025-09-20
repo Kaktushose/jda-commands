@@ -66,7 +66,7 @@ public final class SlashCommandUpdater {
     public void updateGlobalCommands() {
         log.debug("Updating global commands...");
         var commands = getCommands(CommandScope.GLOBAL);
-        jdaContext.performTask(jda -> jda.updateCommands().addCommands(commands).queue());
+        jdaContext.performTask(jda -> jda.updateCommands().addCommands(commands).queue(), false);
         log.debug("Registered global command(s): {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()));
     }
 

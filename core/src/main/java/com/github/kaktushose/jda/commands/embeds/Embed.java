@@ -7,8 +7,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -36,14 +37,14 @@ public class Embed {
     private static final ObjectMapper mapper = new ObjectMapper();
     private final String name;
     private final Map<String, @Nullable Object> placeholders;
-    private final I18n i18n;
+    private final MessageResolver messageResolver;
     private DataObject data;
     private Locale locale;
 
-    private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
+    private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
-        this.i18n = i18n;
+        this.messageResolver = messageResolver;
         locale = Locale.ENGLISH;
         this.data = object;
     }
@@ -53,8 +54,8 @@ public class Embed {
     /// @param embedBuilder the [EmbedBuilder] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
-        return of(embedBuilder.build().toData(), name, placeholders, i18n);
+    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+        return of(embedBuilder.build().toData(), name, placeholders, messageResolver);
     }
 
     /// Constructs a new [Embed].
@@ -62,8 +63,8 @@ public class Embed {
     /// @param object       the [DataObject] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(DataObject object, String name, Map<String, @Nullable Object> placeholders, I18n i18n) {
-        return new Embed(object, name, placeholders, i18n);
+    public static Embed of(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+        return new Embed(object, name, placeholders, messageResolver);
     }
 
     /// Sets the [Locale] this [Embed] will be localized with.
@@ -377,7 +378,7 @@ public class Embed {
                 JsonNode child = entry.getValue();
                 JsonNode newChild = localize(child);
                 if (newChild.isTextual()) {
-                    objectNode.put(entry.getKey(), i18n.localize(locale, newChild.asText(), placeholders));
+                    objectNode.put(entry.getKey(), messageResolver.resolve(newChild.asText(), locale, placeholders));
                 } else {
                     objectNode.set(entry.getKey(), newChild);
                 }

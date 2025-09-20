@@ -10,6 +10,7 @@ module io.github.kaktushose.jda.commands.core {
     requires java.desktop;
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
+    requires net.fellbaum.jemoji;
 
     requires org.jspecify;
     requires org.jetbrains.annotations;
@@ -66,8 +67,10 @@ module io.github.kaktushose.jda.commands.core {
     // extensions
     exports com.github.kaktushose.jda.commands.extension;
 
-    // i18n
-    exports com.github.kaktushose.jda.commands.i18n;
+    // i18n/messages
+    exports com.github.kaktushose.jda.commands.message.i18n;
+    exports com.github.kaktushose.jda.commands.message;
+    exports com.github.kaktushose.jda.commands.message.emoji;
 
     uses com.github.kaktushose.jda.commands.extension.Extension;
 }

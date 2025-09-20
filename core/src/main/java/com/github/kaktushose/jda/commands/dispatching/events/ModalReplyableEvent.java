@@ -11,7 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///

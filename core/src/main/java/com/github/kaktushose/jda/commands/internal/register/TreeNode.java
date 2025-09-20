@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Single node inside the [CommandTree].
 ///
