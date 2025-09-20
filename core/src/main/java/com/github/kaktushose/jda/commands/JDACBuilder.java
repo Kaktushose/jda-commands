@@ -22,13 +22,16 @@ import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.extension.Extension;
 import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiSource;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 
@@ -87,6 +90,18 @@ public final class JDACBuilder extends JDACBuilderData {
     /// [ClassFinder#reflective(Class, String...)] too.
     public JDACBuilder classFinders(ClassFinder... classFinders) {
         this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
+        return this;
+    }
+
+    /// Application emojis loaded from [EmojiSource]s will be registered upon startup with help of
+    /// [JDA#createApplicationEmoji(String, Icon)].
+    ///
+    /// @param sources the to be used [EmojiSource]s
+    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// If you want to add own [EmojiSource]s while keeping the default reflective implementation, you have to add it explicitly via
+    /// [EmojiSource#reflective(Class, String...)] too.
+    public JDACBuilder emojiSources(EmojiSource... sources) {
+        this.emojiSources = new ArrayList<>(Arrays.asList(sources));
         return this;
     }
 

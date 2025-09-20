@@ -36,9 +36,16 @@ public final class JDAContext {
     /// Performs an operation on either the [JDA] object or on all shards.
     ///
     /// @param consumer the operation to perform
-    public void performTask(Consumer<JDA> consumer) {
+    public void performTask(Consumer<JDA> consumer, boolean onlyFirstShard) {
         switch (context) {
-            case ShardManager shardManager -> shardManager.getShardCache().forEach(consumer);
+            case ShardManager shardManager -> {
+                if (onlyFirstShard) {
+                    consumer.accept(shardManager.getShardById(0));
+                    return;
+                }
+
+                shardManager.getShardCache().forEach(consumer);
+            }
             case JDA jda -> consumer.accept(jda);
             default -> throw EXCEPTION;
         }
