@@ -16,6 +16,11 @@ as retrieved by a key. For more information on how to use the localization syste
     public void onButton(ComponentEvent event) {...}
     ```
 
+!!! warning The dollar sign ($)
+    The dollar sign is a reserved character for bundle name separation.
+    In most cases that shouldn't bother you but if you encounter any problems,
+    please read the notes [here](../localization.md#the-dollar--character).
+
 ## Buttons
 Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 
 The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
