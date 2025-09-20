@@ -23,11 +23,15 @@ import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -140,6 +144,7 @@ public class TestScenario {
             SnowflakeCacheView<Guild> snowflakeCacheView = mock(SnowflakeCacheView.class);
             when(snowflakeCacheView.iterator()).thenReturn(Collections.emptyIterator());
             when(jda.getGuildCache()).thenReturn(snowflakeCacheView);
+            when(jda.retrieveApplicationEmojis()).thenReturn(new AppEmojiRestAction());
 
             // cache commands passed to SlashCommandUpdater
             List<CommandData> commands = new ArrayList<>();
@@ -154,6 +159,33 @@ public class TestScenario {
             JDACommands jdaCommands = jdacBuilder.start();
 
             return new TestScenario(new Context(eventManager, klass, jdaCommands, commands));
+        }
+    }
+
+    public static class AppEmojiRestAction implements RestAction {
+        @Override
+        public @NotNull JDA getJDA() {
+            return null;
+        }
+
+        @Override
+        public @NotNull RestAction setCheck(@Nullable BooleanSupplier checks) {
+            return null;
+        }
+
+        @Override
+        public Object complete(boolean shouldQueue) {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull CompletableFuture submit(boolean shouldQueue) {
+            return null;
+        }
+
+        @Override
+        public void queue(@Nullable Consumer success, @Nullable Consumer failure) {
+
         }
     }
 
