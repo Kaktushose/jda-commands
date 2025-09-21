@@ -63,7 +63,7 @@ jreleaser {
     deploy {
         maven {
             mavenCentral {
-                create("sonatype") {
+                create("release") {
                     active = Active.RELEASE
                     url = "https://central.sonatype.com/api/v1/publisher"
                     stagingRepository("build/staging-deploy")
@@ -71,7 +71,7 @@ jreleaser {
                 }
             }
             mavenCentral {
-                create("sonatype") {
+                create("snapshot") {
                     active = Active.SNAPSHOT
                     snapshotSupported = true
                     url = "https://central.sonatype.com/repository/maven-snapshots/"
