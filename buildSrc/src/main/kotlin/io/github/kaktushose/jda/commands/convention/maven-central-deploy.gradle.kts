@@ -77,7 +77,7 @@ jreleaser {
                     applyMavenCentralRules = true
                     closeRepository = true
                     releaseRepository = true
-                    url = "https://central.sonatype.com/repository/maven-snapshots/"
+                    snapshotUrl = "https://central.sonatype.com/repository/maven-snapshots/"
                     stagingRepository("build/staging-deploy")
                 }
             }
