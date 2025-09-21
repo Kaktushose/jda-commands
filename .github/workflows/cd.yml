@@ -100,6 +100,8 @@ jobs:
   maven_central:
     runs-on: ubuntu-latest
     needs: check_if_release
+    outputs:
+      active: ${{ steps.find_active.outputs.active }}
     steps:
       - name: Find active deployment
         id: find_active
@@ -131,6 +133,7 @@ jobs:
   create-gh-draft-release:
     runs-on: ubuntu-latest
     needs: [ check_if_release, maven_central ]
+    if: ${{ needs.maven_central.outputs.active == 'RELEASE' }}
     steps:
       - uses: actions/checkout@v4
       - uses: softprops/action-gh-release@v2
