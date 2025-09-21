@@ -313,6 +313,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), messageResolver));
     }
 
+    /// @return the used [I18n] instance
     public I18n i18n() {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }

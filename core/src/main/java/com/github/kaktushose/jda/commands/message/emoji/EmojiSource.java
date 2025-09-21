@@ -21,12 +21,21 @@ import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
+/// Emojis loaded from an implementation of [EmojiSource] are automatically registered upon startup.
+///
+/// Per default all emojis contained in the directory "emojis" in the resource folder are registered automatically.
 public non-sealed interface EmojiSource extends Implementation.ExtensionProvidable {
 
-    Pattern RESOURCE_PATTERN = Pattern.compile("emoji/(.*)[.].*");
+    Pattern RESOURCE_PATTERN = Pattern.compile(".*/(.*)[.].*");
 
     Logger log = LoggerFactory.getLogger(EmojiSource.class);
 
+    /// This implementation of [EmojiSource] scans the classpath for emoji files under the given paths. (resource directory names)
+    /// The file name will be used as the emoji name.
+    ///
+    /// If no path is passed as an argument, the default path "emoji" will be used.
+    ///
+    /// @param paths the paths to scan (resource directories)
     static EmojiSource reflective(String... paths) {
         record EmojiFile(Resource resource, String name) {}
 
@@ -59,6 +68,10 @@ public non-sealed interface EmojiSource extends Implementation.ExtensionProvidab
         };
     }
 
+    /// Loads an emoji from a given URL.
+    ///
+    /// @param name the name of the emoji
+    /// @param url the [URL] the emoji should be loaded from
     static EmojiSource fromUrl(String name, URL url) {
         return () -> {
             try (InputStream i = url.openStream()) {
@@ -70,9 +83,16 @@ public non-sealed interface EmojiSource extends Implementation.ExtensionProvidab
         };
     }
 
+    /// Loads an emoji from a given [Icon] instance, allowing interop with JDAs system
+    ///
+    /// @param name the emojis name
+    /// @param icon the emojis [Icon]
     static EmojiSource fromIcon(String name, Icon icon) {
         return () -> Map.of(name, icon);
     }
 
+    /// @return a map, mapping the emojis name to it's [Icon] instance
+    ///
+    /// @apiNote This method will be called blocking and sequentially, I/O will therefore delay startup.
     Map<String, Icon> get();
 }
