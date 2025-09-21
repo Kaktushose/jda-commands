@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
-import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -25,10 +24,10 @@ import java.util.*;
 ///
 /// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
 ///   - your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it`
-///   - the string is a directly inserted localization messages that happens to have it's prior `$` part to match a bundle name and is later to match a message key, e.g.
+///   - the string is a directly inserted localization messages containing `$`, that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
 ///     - you have a bundle called `my_bundle`
 ///     - you have a message key called `my-key` in that bundle
-///     - and you want to print the message `my_bundle$my-key` to the user
+///     - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
 ///
 /// In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 /// Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
@@ -158,12 +157,6 @@ public class I18n {
         return localizer.localize(locale, bundle, key, placeholder)
                 .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
                 .orElse(combinedKey);
-    }
-
-    public static void main(String[] args) {
-        I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())));
-        String localized = i18n.localize(Locale.ENGLISH, "key$huhu");
-        System.out.println(localized);
     }
 
     /// This method returns the localized message found by the provided [Locale] and key

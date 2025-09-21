@@ -11,13 +11,13 @@ If a certain message for a key isn't found, the key is returned as the messages 
 ### The dollar ($) character
 The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 
-Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
-- your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it`
-- the string is a [directly inserted localization messages](#directly-inserting-localization-messages) 
-  that happens to have it's prior `$` part to match a bundle name and is later to match a message key, e.g.
+In practically all cases this doesn't really bother you, because there are only 2 niche situations where the dollar has to be escaped:
+- your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it` (the default bundle should be used here)
+- the string is a [directly inserted localization messages](#directly-inserting-localization-messages) containing `$`,
+  that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
   - you have a bundle called `my_bundle`
   - you have a message key called `my-key` in that bundle
-  - and you want to print the message `my_bundle$my-key` to the user
+  - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
 
 In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
@@ -69,7 +69,6 @@ A String value (whether in an annotation, embed, modal or component) will be res
 3. used as raw value
 
 An example of this can be found [here](#example-fluava).
-
 
 ## Variables/Placeholders
 Most localization systems support variables or placeholders to insert dynamic values into a message.
