@@ -871,6 +871,21 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Writing own Middlewares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-only-for-certain-interaction-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run only for certain interaction controllers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1357,6 +1372,26 @@ annotation:
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Implementation.Middleware</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">NORMAL</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingMiddleware</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Middleware</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div></p>
+<h3 id="run-only-for-certain-interaction-controllers">Run only for certain interaction controllers<a class="headerlink" href="#run-only-for-certain-interaction-controllers" title="Permanent link">&para;</a></h3>
+<p>If you want your Middleware to only run for certain interaction controllers, just implement <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html#runFor()">Middleware#runFor()</a>
+returning the classes of the interaction controllers for which the middleware should run.</p>
+<p>!!! example (run only for HelloController.java)
+```java
+@Middleware(priority = Priority.NORMAL)
+public class CustomMiddleware implements Middleware {
+private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);</p>
+<div class="language-text highlight"><pre><span></span><code>    @Override
+    public void accept(InvocationContext&lt;?&gt; context) {
+        log.info(&quot;run custom middleware&quot;);
+    }
+
+    @Override
+    public Collection&lt;Class&lt;?&gt;&gt; runFor() {
+        return List.of(HelloController.class);
+    }
+}
+```
+</code></pre></div>
 
 
 
