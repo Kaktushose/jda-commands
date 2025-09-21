@@ -100,8 +100,24 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block"><p>This class serves as an interface for application localization.</p>
 <p>It is mostly a wrapper around <a href="Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> but supports flexible specification of the bundle to be used.</p>
-<p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle#key</code>.
-For example a message with key <code>user#not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
+<p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle$key</code>.
+For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
+<h4 id="dollar-sign-heading">dollar sign</h4>
+<p>The dollar (<code>$</code>) is a reserved character for <a href="#bundles">bundle name separation</a>.</p>
+<p>Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:</p>
+<ul>
+<li>your message key contains <code>$</code> and no bundle is explicitly stated, e.g. <code>key.with$.in.it</code></li>
+<li>the string is a directly inserted localization messages containing <code>$</code>, that happens to have it's prior <code>$</code> part to match a bundle name and its after <code>$</code> part to match a message key, e.g.
+<ul>
+<li>you have a bundle called <code>my_bundle</code></li>
+<li>you have a message key called <code>my-key</code> in that bundle</li>
+<li>and you want to print the message <code>my_bundle$my-key</code> to the user (not the message stored under &quot;my-key&quot; in the bundle &quot;my_bundle&quot;)</li>
+</ul>
+</li>
+</ul>
+<p>In these cases just prefix your whole message with a <code>$</code>, e.g. <code>$my_bundle$my-key</code> or <code>$key.with$.in.it</code>.
+Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.</p>
+<h3 id="bundle-name-traversal-heading">bundle name traversal</h3>
 <p>If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 <a href="Bundle"><code>@Bundle(&quot;mybundle&quot;)</code></a> annotation with following order:</p>
 <ol>
@@ -151,16 +167,16 @@ package my.app;
 </code></pre>
 <p>The order in which the bundle name is searched for is following:</p>
 <ol>
-<li>method <code>A#aOne()</code></li>
-<li>method <code>A#aTwo()</code></li>
+<li>method <code>A$aOne()</code></li>
+<li>method <code>A$aTwo()</code></li>
 <li>class <code>A</code></li>
 <li><code>package-info.java</code> of package <code>my.app</code></li>
-<li>method <code>B#bOne()</code></li>
-<li>method <code>B#two()</code></li>
+<li>method <code>B$bOne()</code></li>
+<li>method <code>B$two()</code></li>
 </ol>
 <p>The found bundle would be <code>pack_bundle</code>.</p>
 <p>If <a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)</code></a>
-would be called in, for example, <code>B#bTwo</code> the bundle would be <code>mB_bundle</code>.</p>
+would be called in, for example, <code>B$bTwo</code> the bundle would be <code>mB_bundle</code>.</p>
 </div>
 </div>
 </section>
@@ -321,8 +337,9 @@ in the given bundle.</div>
 <div class="block"><p>This method returns the localized method found by the provided <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
 in the given bundle.</p>
 <p>The bundle can be either explicitly stated by adding it to the
-key in the following format: <code>bundle#key</code>. Alternatively, the bundle name can also be
+key in the following format: <code>bundle$key</code>. Alternatively, the bundle name can also be
 contextual retrieved by a search for the <a href="../annotations/i18n/Bundle.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.i18n"><code>Bundle</code></a> annotation, see class docs.</p>
+<p>Please note that the character <code>$</code> is forbidden in bundle names.</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -345,7 +362,7 @@ contextual retrieved by a search for the <a href="../annotations/i18n/Bundle.htm
 <div class="block"><p>This method returns the localized message found by the provided <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
 in the given bundle.</p>
 <p>The bundle can be either explicitly stated by adding it to the
-key in the following format: <code>bundle#key</code>. Alternatively, the bundle name can also be
+key in the following format: <code>bundle$key</code>. Alternatively, the bundle name can also be
 contextual retrieved by a search for the <a href="../annotations/i18n/Bundle.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.i18n"><code>Bundle</code></a> annotation, see class docs.</p>
 </div>
 <dl class="notes">
