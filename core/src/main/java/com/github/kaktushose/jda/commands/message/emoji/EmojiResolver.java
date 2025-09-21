@@ -20,8 +20,11 @@ public class EmojiResolver {
 
     private final Map<String, Emoji> emojis;
 
+    /// Constructs a new instance of [EmojiResolver] with the given application emojis and all Unicode emojis supported by discord.
+    /// If one of the passed application emojis has the same alias as a Unicode emoji, the app emojis takes precedence.
+    ///
     /// @param applicationEmojis a list of all application emojis of this bot
-    public EmojiResolver(List<ApplicationEmoji> applicationEmojis) {
+    public EmojiResolver(Collection<ApplicationEmoji> applicationEmojis) {
         Map<String, Emoji> emojis = new HashMap<>();
 
         for (net.fellbaum.jemoji.Emoji current : EmojiManager.getAllEmojis()) {
@@ -37,7 +40,7 @@ public class EmojiResolver {
         this.emojis = Collections.unmodifiableMap(emojis);
     }
 
-    /// Resolves the emoji aliases of a string according the javadocs of this class.
+    /// Resolves the emoji aliases of a string according to the javadocs of this class.
     ///
     /// @param msg The string to be resolved
     ///

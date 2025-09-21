@@ -43,7 +43,8 @@ public sealed class JDACException extends RuntimeException
         super(errorMessages.apply(Locale.ENGLISH, key, Map.of()), cause);
     }
 
-    /// Creates a new JDACException and loads the error message from the given key, placeholder and cause.
+    /// Creates a new JDACException with the given cause, loads the error message from the given key and inserts
+    /// the placeholders.
     ///
     /// @param key   the key of the error message
     /// @param cause the cause of the exception

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class EmojiResolverTest {
+class EmojiResolverTest {
 
     @Test
     void unicode_not_found_emoji() {
