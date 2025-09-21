@@ -69,8 +69,6 @@ jreleaser {
                     stagingRepository("build/staging-deploy")
                     setStage("UPLOAD")
                 }
-            }
-            mavenCentral {
                 create("snapshot") {
                     active = Active.SNAPSHOT
                     snapshotSupported = true
