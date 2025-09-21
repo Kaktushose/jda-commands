@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/snapshots
       - "[0-9]+.[0-9]+.x"
 
 jobs:
@@ -34,7 +33,7 @@ jobs:
                 echo "cant change major nor minor version in tail branch"
                 exit 1
             fi
-          elif [[ $branch != "feature/snapshots" ]]
+          elif [[ $branch != "main" ]]
           then
             echo "should be only executed on main or tail branch"
             exit 1
@@ -109,7 +108,7 @@ jobs:
 
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
             echo "active=RELEASE" >> "$GITHUB_OUTPUT"
-          elif [ "$branch" == "feature/snapshots" ]; then
+          elif [ "$branch" == "main" ]; then
             echo "active=SNAPSHOT" >> "$GITHUB_OUTPUT"
           else
             echo "active=NEVER" >> "$GITHUB_OUTPUT"
