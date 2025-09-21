@@ -70,15 +70,13 @@ jreleaser {
                     setStage("UPLOAD")
                 }
             }
-            nexus2 {
+            mavenCentral {
                 create("sonatype") {
                     active = Active.SNAPSHOT
                     snapshotSupported = true
-                    applyMavenCentralRules = true
-                    closeRepository = true
-                    releaseRepository = true
-                    snapshotUrl = "https://central.sonatype.com/repository/maven-snapshots/"
+                    url = "https://central.sonatype.com/repository/maven-snapshots/"
                     stagingRepository("build/staging-deploy")
+                    setStage("UPLOAD")
                 }
             }
         }
