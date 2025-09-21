@@ -70,8 +70,8 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#getMiddlewares()" tabindex="0">getMiddlewares()</a></li>
 <li><a href="#forAllOrdered(java.util.function.Consumer)" tabindex="0">forAllOrdered(Consumer)</a></li>
+<li><a href="#forOrdered(java.lang.Class,java.util.function.Consumer)" tabindex="0">forOrdered(Class, Consumer)</a></li>
 </ol>
 </li>
 </ol>
@@ -125,10 +125,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executed the given task for all registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s ordered by their <a href="../Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a></div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMiddlewares()" class="member-name-link">getMiddlewares</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forOrdered(java.lang.Class,java.util.function.Consumer)" class="member-name-link">forOrdered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;controllerClass,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;&nbsp;task)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a set of all registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s, regardless of their priority.</div>
+<div class="block">Executed the given task registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s that should run for this interaction controller
+ordered by their <a href="../Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a>.</div>
 </div>
 </div>
 </div>
@@ -166,19 +168,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getMiddlewares()">
-<h3>getMiddlewares</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;</span>&nbsp;<span class="element-name">getMiddlewares</span>()</div>
-<div class="block">Returns a set of all registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s, regardless of their priority.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>a set of all registered middlewares <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="forAllOrdered(java.util.function.Consumer)">
 <h3>forAllOrdered</h3>
 <div class="horizontal-scroll">
@@ -186,6 +175,22 @@ loadScripts(document, 'script');</script>
 <div class="block">Executed the given task for all registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s ordered by their <a href="../Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a></div>
 <dl class="notes">
 <dt>Parameters:</dt>
+<dd><code>task</code> - The task to be executed</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="forOrdered(java.lang.Class,java.util.function.Consumer)">
+<h3>forOrdered</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">forOrdered</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;controllerClass,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;&nbsp;task)</span></div>
+<div class="block">Executed the given task registered <a href="../Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Middleware</code></a>s that should run for this interaction controller
+ordered by their <a href="../Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware"><code>Priority</code></a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>controllerClass</code> - the interaction controllers class</dd>
 <dd><code>task</code> - The task to be executed</dd>
 </dl>
 </div>
