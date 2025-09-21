@@ -37,6 +37,41 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
     }
     ```
 
+### Snapshots
+Additionally to normal releases, snapshots of each commit to the main branch are published to maven central.
+
+=== "Maven"
+    ```xml title="pom.xml"
+    <repositories>
+        <repository>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
+    <dependency>
+        <groupId>io.github.kaktushose</groupId>
+        <artifactId>jda-commands</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </dependency>
+    ```
+=== "Gradle (Kotlin DSL)"
+    ```kotlin title="build.gradle.kts"
+    repositories {
+        maven("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+    dependencies {
+        implementation("io.github.kaktushose:jda-commands:4.0.0-SNAPSHOT")
+    }
+    ```
+=== "Gradle (Groovy DSL)"
+    ```groovy title="build.gradle"
+    repositories {
+        maven { url = uri('https://central.sonatype.com/repository/maven-snapshots/') }
+    }
+    dependencies {
+        implementation 'io.github.kaktushose:jda-commands:4.0.0-SNAPSHOT"'
+    }
+    ```
+
 ## IntelliJ Plugin
 
 We also provide an IntelliJ Plugin that performs some Code Inspection. It validates method references, which are 
