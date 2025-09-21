@@ -76,6 +76,11 @@ public class EmojiResolver {
         for (int i = 0; i < msg.length(); i++) {
             char c = msg.charAt(i);
 
+            if (c == ' ' && referenceStart != -1) {
+                referenceStart = -1;
+                continue;
+            }
+
             outer: if (c == ':') {
                 if (i >= 1 && msg.charAt(i - 1) == '\\') {
                     String literal = msg.substring(nextLiteralStart, i - 1);

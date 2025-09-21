@@ -63,4 +63,11 @@ public class EmojiResolverTest {
         String resolved = new EmojiResolver(List.of()).resolve(text);
         Assertions.assertEquals("Hi: \uD83D\uDE02", resolved);
     }
+
+    @Test
+    void unicode_non_escaped_colon() {
+        String text = "Hi: :joy: huhu:: lolo escaped\\: hehe";
+        String resolved = new EmojiResolver(List.of()).resolve(text);
+        Assertions.assertEquals("Hi: \uD83D\uDE02 huhu:: lolo escaped: hehe", resolved);
+    }
 }
