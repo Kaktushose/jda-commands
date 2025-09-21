@@ -101,7 +101,6 @@ jobs:
   maven_central:
     runs-on: ubuntu-latest
     needs: check_if_release
-    if: ${{ needs.check_if_release.outputs.release == 'true' }}
     steps:
       - name: Find active deployment
         id: find_active
