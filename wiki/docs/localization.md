@@ -162,6 +162,14 @@ class at the very beginning.
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
 
+## LocalizationFunction (JDA) / slash command localization
+JDA uses the [`LocalizationFunction`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html) for localizing slash commands.
+We implement this interface based on our `I18n` class as described above.
+
+If you want to disable slash commands localization just call [`JDACBuilder#localizeCommands(false)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder#localizeCommands(boolean)).
+
+See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
+
 ## Default Implementation
 By default, JDA-Commands supports localization with help of the [Fluava](https://github.com/Goldmensch/fluava) library, a [Project Fluent](https://projectfluent.org/) implementation for Java.
 You can provide an own instance of the [`Fluava`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling
@@ -214,9 +222,3 @@ src/
 ```
 
 Such a structure has the two bundles `component` and `default` and a locale specific file for German and English for each bundle.
-
-## LocalizationFunction (JDA)
-JDA uses the [`LocalizationFunction`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html) for localizing slash commands.
-We implement this interface based on our `I18n` class as described above.
-
-See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
