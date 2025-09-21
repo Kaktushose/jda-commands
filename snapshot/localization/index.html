@@ -1103,6 +1103,15 @@ You're not viewing the latest stable version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#localizationfunction-jda-slash-command-localization" class="md-nav__link">
+    <span class="md-ellipsis">
+      LocalizationFunction (JDA) / slash command localization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#default-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       Default Implementation
@@ -1132,15 +1141,6 @@ You're not viewing the latest stable version.
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#localizationfunction-jda" class="md-nav__link">
-    <span class="md-ellipsis">
-      LocalizationFunction (JDA)
-    </span>
-  </a>
   
 </li>
       
@@ -1573,6 +1573,11 @@ would be called in, for example, <code>B#bTwo</code> the bundle would be <code>m
 </details>
 <h3 id="default-bundle">Default Bundle<a class="headerlink" href="#default-bundle" title="Permanent link">&para;</a></h3>
 <p>If no bundle is found with the above techniques, a bundle called <code>default</code> will be used.</p>
+<h2 id="localizationfunction-jda-slash-command-localization">LocalizationFunction (JDA) / slash command localization<a class="headerlink" href="#localizationfunction-jda-slash-command-localization" title="Permanent link">&para;</a></h2>
+<p>JDA uses the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html"><code>LocalizationFunction</code></a> for localizing slash commands.
+We implement this interface based on our <code>I18n</code> class as described above.</p>
+<p>If you want to disable slash commands localization just call <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder#localizeCommands(boolean)"><code>JDACBuilder#localizeCommands(false)</code></a>.</p>
+<p>See the <a href="https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java">JDA Docs</a> for details.</p>
 <h2 id="default-implementation">Default Implementation<a class="headerlink" href="#default-implementation" title="Permanent link">&para;</a></h2>
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
 You can provide an own instance of the <a href="https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html"><code>Fluava</code></a> class by calling
@@ -1617,10 +1622,6 @@ but with a slightly more flexible structure.</p>
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>│  │  ├─ default_en.ftl
 </span></code></pre></div>
 <p>Such a structure has the two bundles <code>component</code> and <code>default</code> and a locale specific file for German and English for each bundle.</p>
-<h2 id="localizationfunction-jda">LocalizationFunction (JDA)<a class="headerlink" href="#localizationfunction-jda" title="Permanent link">&para;</a></h2>
-<p>JDA uses the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html"><code>LocalizationFunction</code></a> for localizing slash commands.
-We implement this interface based on our <code>I18n</code> class as described above.</p>
-<p>See the <a href="https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java">JDA Docs</a> for details.</p>
 
 
 
