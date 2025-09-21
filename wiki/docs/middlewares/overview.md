@@ -60,7 +60,6 @@ annotation:
 public class LoggingMiddleware implements Middleware {...}
 ```
 
-
 ### Run only for certain interaction controllers
 If you want your Middleware to only run for certain interaction controllers, just implement [Middleware#runFor()](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html#runFor())
 returning the classes of the interaction controllers for which the middleware should run.
