@@ -64,10 +64,21 @@ jreleaser {
         maven {
             mavenCentral {
                 create("sonatype") {
-                    active = Active.ALWAYS
+                    active = Active.RELEASE
                     url = "https://central.sonatype.com/api/v1/publisher"
                     stagingRepository("build/staging-deploy")
                     setStage("UPLOAD")
+                }
+            }
+            nexus2 {
+                create("sonatype") {
+                    active = Active.SNAPSHOT
+                    snapshotSupported = true
+                    applyMavenCentralRules = true
+                    closeRepository = true
+                    releaseRepository = true
+                    url = "https://central.sonatype.com/repository/maven-snapshots/"
+                    stagingRepository("build/staging-deploy")
                 }
             }
         }
