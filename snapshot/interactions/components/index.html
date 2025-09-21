@@ -1435,6 +1435,10 @@ as retrieved by a key. For more information on how to use the localization syste
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onButton</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div>
 </div>
+<p>!!! warning The dollar sign ($)
+    The dollar sign is a reserved character for bundle name separation.
+    In most cases that shouldn't bother you but if you encounter any problems,
+    please read the notes <a href="../../localization/#the-dollar--character">here</a>.</p>
 <h2 id="buttons">Buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h2>
 <p>Buttons are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html"><code>@Button</code></a>. 
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.

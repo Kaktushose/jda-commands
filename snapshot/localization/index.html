@@ -1001,6 +1001,21 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Localization Messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-dollar-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      The dollar ($) character
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1438,6 +1453,17 @@ which is used as the main entrypoint for localization. This class can be used by
 <p>Localization messages are identified by their corresponding key. A key can be freely chosen but might be limited by
 the restrictions of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html"><code>Localizer</code></a> implementation.</p>
 <p>If a certain message for a key isn't found, the key is returned as the messages value.</p>
+<h3 id="the-dollar-character">The dollar ($) character<a class="headerlink" href="#the-dollar-character" title="Permanent link">&para;</a></h3>
+<p>The dollar (<code>$</code>) is a reserved character for <a href="#bundles">bundle name separation</a>.</p>
+<p>In practically all cases this doesn't really bother you, because there are only 2 niche situations where the dollar has to be escaped:
+- your message key contains <code>$</code> and no bundle is explicitly stated, e.g. <code>key.with$.in.it</code> (the default bundle should be used here)
+- the string is a <a href="#directly-inserting-localization-messages">directly inserted localization messages</a> containing <code>$</code>,
+  that happens to have it's prior <code>$</code> part to match a bundle name and its after <code>$</code> part to match a message key, e.g.
+  - you have a bundle called <code>my_bundle</code>
+  - you have a message key called <code>my-key</code> in that bundle
+  - and you want to print the message <code>my_bundle$my-key</code> to the user (not the message stored under "my-key" in the bundle "my_bundle")</p>
+<p>In these cases just prefix your whole message with a <code>$</code>, e.g. <code>$my_bundle$my-key</code> or <code>$key.with$.in.it</code>.
+Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.</p>
 <h2 id="implicit-localization">Implicit Localization<a class="headerlink" href="#implicit-localization" title="Permanent link">&para;</a></h2>
 <p>Instead of using the localization API manually through the <code>I18n</code> class, JDA-Commands allows for implicit usage of
 localization keys in many common places. These include:</p>
@@ -1511,9 +1537,11 @@ the used method.</p>
 <p>Localization bundles are a known concept from Javas <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html">ResourceBundles</a>. JDA-Commands supports different bundles of
 localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html"><code>@Bundle("bundle_name")</code></a>
 annotation.</p>
+<p>!!! warning the dollar sign ($)
+    Please note that the character <code>$</code> is forbidden in bundle names.</p>
 <h3 id="via-key">Via Key<a class="headerlink" href="#via-key" title="Permanent link">&para;</a></h3>
-<p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle#key</code>.
-For example a message with key <code>user#not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
+<p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle$key</code>.
+For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
 <h3 id="via-annotation">Via Annotation<a class="headerlink" href="#via-annotation" title="Permanent link">&para;</a></h3>
 <p>If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html"><code>@Bundle</code></a>
@@ -1561,15 +1589,15 @@ class at the very beginning.</p>
 </span></code></pre></div></p>
 <p>The order in which the bundle name is searched for is following:</p>
 <ol>
-<li>method <code>A#aOne()</code></li>
-<li>method <code>A#aTwo()</code></li>
+<li>method <code>A$aOne()</code></li>
+<li>method <code>A$aTwo()</code></li>
 <li>class <code>A</code></li>
 <li><code>package-info.java</code> of package <code>my.app</code></li>
-<li>method <code>B#bOne()</code></li>
-<li>method <code>B#bTwo()</code></li>
+<li>method <code>B$bOne()</code></li>
+<li>method <code>B$bTwo()</code></li>
 </ol>
 <p>The found bundle would be <code>package_bundle</code>. If <code>I18n#localize(Locale, String, I18n.Entry...)</code>
-would be called in, for example, <code>B#bTwo</code> the bundle would be <code>method_bundle</code>.</p>
+would be called in, for example, <code>B$bTwo</code> the bundle would be <code>method_bundle</code>.</p>
 </details>
 <h3 id="default-bundle">Default Bundle<a class="headerlink" href="#default-bundle" title="Permanent link">&para;</a></h3>
 <p>If no bundle is found with the above techniques, a bundle called <code>default</code> will be used.</p>
