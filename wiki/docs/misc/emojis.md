@@ -9,7 +9,7 @@ Please note that the emoji aliases are resolved after localization takes place, 
 localization messages regardless of the used [Localizer](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html)!
 
 ### Escaping the colon `:`
-Normally it shouldn't be necessary to escape the colon when using emojis, but in case any troubles occur you can 
+Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
 just prefix it with `\` (in java `\\`) to escape it.
 
 ## Unicode emojis

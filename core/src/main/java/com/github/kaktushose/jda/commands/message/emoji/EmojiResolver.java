@@ -12,7 +12,8 @@ import java.util.*;
 /// enclosed by a colon `:`. For example the Unicode alias `:joy:` will be replaced by 😂 and the
 /// app emoji `:app_emote:` by its uploaded file.
 ///
-/// Colons (`:`) that aren't part of an alias have to be escaped by prefixing them with a backslash `\\`.
+/// Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
+/// just prefix it with `\` (in java `\\`) to escape it.
 ///
 /// Supported are all discord emojis, their skin tone variants and the app emotes for this bot.
 /// App emotes with the same name as a Unicode one will override later.
