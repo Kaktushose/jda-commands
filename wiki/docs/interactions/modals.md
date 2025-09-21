@@ -28,6 +28,10 @@ as retrieved by a key. For more information on how to use the localization syste
     public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
     ```
 
+## Unicode and application emojis
+JDA-Commands has built in support for Unicode and application emoji aliases.
+If you want to use them, just take a look [here](../misc/emojis.md).
+
 ## Text Inputs
 You can add text inputs to a modal by adding String parameters annotated with [`@TextInput`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html).
 The label and other metadata of the text input is passed to the annotation. 

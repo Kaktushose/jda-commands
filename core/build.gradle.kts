@@ -17,10 +17,9 @@ dependencies {
     api(libs.org.jetbrains.annotations)
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)
+    api(libs.net.fellbaum.jemoji)
 
-    api(libs.io.github.classgraph)
-
-    implementation(libs.net.fellbaum.jemoji)
+    implementation(libs.io.github.classgraph)
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
