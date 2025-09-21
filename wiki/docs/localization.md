@@ -8,6 +8,20 @@ the restrictions of the used [`Localizer`](https://kaktushose.github.io/jda-comm
 
 If a certain message for a key isn't found, the key is returned as the messages value.
 
+### The dollar ($) character
+The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
+
+In practically all cases this doesn't really bother you, because there are only 2 niche situations where the dollar has to be escaped:
+- your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it` (the default bundle should be used here)
+- the string is a [directly inserted localization messages](#directly-inserting-localization-messages) containing `$`,
+  that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
+  - you have a bundle called `my_bundle`
+  - you have a message key called `my-key` in that bundle
+  - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
+
+In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
+Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
+
 ## Implicit Localization
 Instead of using the localization API manually through the `I18n` class, JDA-Commands allows for implicit usage of
 localization keys in many common places. These include:
@@ -56,7 +70,6 @@ A String value (whether in an annotation, embed, modal or component) will be res
 
 An example of this can be found [here](#example-fluava).
 
-
 ## Variables/Placeholders
 Most localization systems support variables or placeholders to insert dynamic values into a message.
 
@@ -93,9 +106,12 @@ Localization bundles are a known concept from Javas [ResourceBundles](https://do
 localization files by adding them to the localization key or using the [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
 annotation.
 
+!!! warning the dollar sign ($)
+    Please note that the character `$` is forbidden in bundle names.
+
 ### Via Key
-To state which bundle to use the direct way is to include it in the key following the format `bundle#key`.
-For example a message with key `user#not-found` will be searched for in the bundle `user` and the key `not-found`.
+To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
+For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 
 ### Via Annotation
 
@@ -149,15 +165,15 @@ class at the very beginning.
 
     The order in which the bundle name is searched for is following:
 
-    1. method `A#aOne()`
-    2. method `A#aTwo()`
+    1. method `A$aOne()`
+    2. method `A$aTwo()`
     3. class `A`
     4. `package-info.java` of package `my.app`
-    5. method `B#bOne()`
-    6. method `B#bTwo()`
+    5. method `B$bOne()`
+    6. method `B$bTwo()`
 
     The found bundle would be `package_bundle`. If `I18n#localize(Locale, String, I18n.Entry...)`
-    would be called in, for example, `B#bTwo` the bundle would be `method_bundle`.
+    would be called in, for example, `B$bTwo` the bundle would be `method_bundle`.
 
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
