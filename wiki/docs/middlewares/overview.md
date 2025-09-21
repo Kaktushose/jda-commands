@@ -68,7 +68,7 @@ returning the classes of the interaction controllers for which the middleware sh
 ```java
 @Middleware(priority = Priority.NORMAL)
 public class CustomMiddleware implements Middleware {
-private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
+private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);
 
         @Override
         public void accept(InvocationContext<?> context) {

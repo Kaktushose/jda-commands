@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 /// Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add
-/// more info the [com.github.kaktushose.jda.commands.dispatching.context.InvocationContext]. Middlewares can have different [Priorities][com.github.kaktushose.jda.commands.dispatching.middleware.Priority] dictating their priority
+/// more info to the [InvocationContext]. Middlewares can have different [Priorities][Priority] dictating their priority
 /// on execution.
 ///
 /// Register them at the [com.github.kaktushose.jda.commands.JDACBuilder#middleware(Priority, Middleware)]  or use the
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 /// ```java
 /// @Middleware(priority = Priority.NORMAL)
 /// public class CustomMiddleware implements Middleware {
-///     private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
+///     private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);
 ///
 ///     @Override
 ///     public void accept(InvocationContext<?> context) {
@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 /// ```java
 /// @Middleware(priority = Priority.NORMAL)
 /// public class CustomMiddleware implements Middleware {
-///     private static final Logger log = LoggerFactory.getLogger(FirstMiddleware.class);
+///     private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);
 ///
 ///     @Override
 ///     public void accept(InvocationContext<?> context) {
