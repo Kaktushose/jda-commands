@@ -6,7 +6,6 @@ import org.jspecify.annotations.NullMarked;
 module io.github.kaktushose.jda.commands.core {
     requires com.fasterxml.jackson.databind;
     requires net.dv8tion.jda;
-    requires org.reflections;
     requires java.desktop;
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
@@ -17,6 +16,7 @@ module io.github.kaktushose.jda.commands.core {
     requires transitive jakarta.inject;
     requires transitive dev.goldmensch.fluava;
     requires org.apache.commons.collections4;
+    requires io.github.classgraph;
 
     // base package
     exports com.github.kaktushose.jda.commands;

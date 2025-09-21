@@ -23,6 +23,11 @@ public final class ConfigurationException extends JDACException {
         super(key, cause);
     }
 
+    /// {@inheritDoc}
+    public ConfigurationException(String key, Throwable cause, I18n.Entry... placeholder) {
+        super(key, cause, placeholder);
+    }
+
     @Override
     public String getMessage() {
         return "Error while trying to configure jda-commands: " + super.getMessage();

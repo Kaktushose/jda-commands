@@ -20,4 +20,6 @@ java {
 
     withSourcesJar()
     withJavadocJar()
+
+    modularity.inferModulePath.set(true)
 }

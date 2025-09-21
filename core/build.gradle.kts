@@ -12,12 +12,13 @@ val mockitoAgent = configurations.create("mockitoAgent")
 dependencies {
     api(libs.org.jspecify)
     api(libs.net.dv8tion.jda)
-    api(libs.org.reflections.reflections)
     api(libs.org.slf4j.slf4j.api)
     api(libs.com.fasterxml.jackson.core)
     api(libs.org.jetbrains.annotations)
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)
+
+    api(libs.io.github.classgraph)
 
     implementation(libs.net.fellbaum.jemoji)
 

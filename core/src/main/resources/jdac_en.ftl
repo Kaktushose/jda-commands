@@ -27,6 +27,7 @@ wrong-labels = Failed to add child command: { $command }. { $labelCount ->
     }
 subcommand-with-children = Cannot transform node with children to SubcommandData.
 null-member-context-command = Member for context command is null (not executed in a guild). This should not be possible.
+emoji-not-loadable-from-resource = An error occoured while loading emoji called { $name } from resources at { $path }.
 
 # Invalid Declaration
 blank-name = Command name must be not blank.

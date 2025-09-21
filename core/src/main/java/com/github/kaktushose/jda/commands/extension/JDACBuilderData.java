@@ -100,7 +100,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
         this.packages = packages;
         this.context = context;
         this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
-        this.emojiSources = List.of(EmojiSource.reflective(baseClass, "emojis"));
+        this.emojiSources = List.of(EmojiSource.reflective(baseClass));
     }
 
     @SuppressWarnings("unchecked")
@@ -319,38 +319,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     protected MessageResolver messageResolver() {
         if (messageResolver == null) {
-            Collection<EmojiSource> emojiSources = emojiSources();
-
-            context.performTask(jda -> emojiSources.stream()
-                    .map(EmojiSource::get)
-                    .map(Map::entrySet)
-                    .flatMap(Set::stream)
-                    .forEach(entry -> {
-                        Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
-                                .mapToResult()
-                                .complete();
-
-                        if (result.isSuccess()) {
-                            log.debug("Registered application emoji with name {}", entry.getKey());
-                            return;
-                        }
-
-                        if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
-                            List<String> codes = e.getSchemaErrors()
-                                    .stream()
-                                    .map(ErrorResponseException.SchemaError::getErrors)
-                                    .flatMap(List::stream)
-                                    .map(ErrorResponseException.ErrorCode::getCode)
-                                    .toList();
-
-                            if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
-                                log.debug("Application emoji with name {} already registered", entry.getKey());
-                                return;
-                            }
-                        }
-
-                        log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
-                    }), true);
+            registerAppEmojis();
 
             List<ApplicationEmoji> applicationEmojis = context().applicationEmojis();
             messageResolver = new MessageResolver(i18n(), new EmojiResolver(applicationEmojis));
@@ -358,4 +327,38 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
         return messageResolver;
     }
+
+    private void registerAppEmojis() {
+        context.performTask(jda -> emojiSources.stream()
+                .map(EmojiSource::get)
+                .map(Map::entrySet)
+                .flatMap(Set::stream)
+                .forEach(entry -> {
+                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
+                            .mapToResult()
+                            .complete();
+
+                    if (result.isSuccess()) {
+                        log.debug("Registered new application emoji with name {}", entry.getKey());
+                        return;
+                    }
+
+                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
+                        List<String> codes = e.getSchemaErrors()
+                                .stream()
+                                .map(ErrorResponseException.SchemaError::getErrors)
+                                .flatMap(List::stream)
+                                .map(ErrorResponseException.ErrorCode::getCode)
+                                .toList();
+
+                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
+                            log.debug("Application emoji with name {} already registered", entry.getKey());
+                            return;
+                        }
+                    }
+
+                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
+                }), true);
+    }
+
 }
