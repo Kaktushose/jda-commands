@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: check labels
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           labels=$(gh api --jq '.labels.[].name' /repos/Kaktushose/jda-commands/pulls/${{ github.event.number }})
           comments=$(gh api --jq '.[].body' /repos/Kaktushose/jda-commands/issues/${{ github.event.number }}/comments)
