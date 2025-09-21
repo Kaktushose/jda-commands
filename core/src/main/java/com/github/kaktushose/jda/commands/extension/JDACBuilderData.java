@@ -99,8 +99,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
-        this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
-        this.emojiSources = List.of(EmojiSource.reflective(baseClass));
+        this.classFinders = List.of(ClassFinder.reflective(packages));
+        this.emojiSources = List.of(EmojiSource.reflective());
     }
 
     @SuppressWarnings("unchecked")

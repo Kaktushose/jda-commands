@@ -27,12 +27,16 @@ public non-sealed interface EmojiSource extends Implementation.ExtensionProvidab
 
     Logger log = LoggerFactory.getLogger(EmojiSource.class);
 
-    static EmojiSource reflective(Class<?> klass) {
+    static EmojiSource reflective(String... paths) {
         record EmojiFile(Resource resource, String name) {}
+
+        String[] acceptedPaths = paths.length == 0
+                ? new String[]{"emoji"}
+                : paths;
 
         return () -> {
             try (ScanResult result = new ClassGraph()
-                    .acceptPaths("emoji")
+                    .acceptPaths(acceptedPaths)
                     .scan()) {
 
                 ResourceList allResources = result.getAllResources();
