@@ -34,7 +34,7 @@ jobs:
                 echo "cant change major nor minor version in tail branch"
                 exit 1
             fi
-          elif [[ $branch != "main" ]]
+          elif [[ $branch != "feature/snapshots" ]]
           then
             echo "should be only executed on main or tail branch"
             exit 1
