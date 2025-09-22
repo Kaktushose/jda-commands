@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.exceptions;
 
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 
 /// Will be thrown if anything goes wrong while configuring jda-commands.
 public final class ConfigurationException extends JDACException {
@@ -21,6 +21,11 @@ public final class ConfigurationException extends JDACException {
     /// @param cause the cause of the internal exception
     public ConfigurationException(String key, Throwable cause) {
         super(key, cause);
+    }
+
+    /// {@inheritDoc}
+    public ConfigurationException(String key, Throwable cause, I18n.Entry... placeholder) {
+        super(key, cause, placeholder);
     }
 
     @Override

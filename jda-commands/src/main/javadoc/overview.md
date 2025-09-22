@@ -141,6 +141,8 @@ This JDA-Commands Extension allows the automatic discovering of implementations 
 - [GuildScopeProvider](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
 - [ErrorMessageFactory](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html)
 - [Descriptor](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html)
+- [ClassFinder](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definition/description/ClassFinder.html)
+- [EmojiSource](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html)
 
 To make these implementations discoverable please annotate the involved classes with [`@Implementation`](io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html).
 If you're implementing a

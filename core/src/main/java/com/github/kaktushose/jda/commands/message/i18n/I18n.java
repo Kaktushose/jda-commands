@@ -1,10 +1,10 @@
-package com.github.kaktushose.jda.commands.i18n;
+package com.github.kaktushose.jda.commands.message.i18n;
 
 import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.i18n.internal.JDACLocalizationFunction;
+import com.github.kaktushose.jda.commands.message.i18n.internal.JDACLocalizationFunction;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -99,7 +99,7 @@ import java.util.*;
 ///
 /// The found bundle would be `pack_bundle`.
 ///
-/// If [I18n#localize(java.util.Locale, java.lang.String, com.github.kaktushose.jda.commands.i18n.I18n.Entry...)]
+/// If [I18n#localize(java.util.Locale, java.lang.String, I18n.Entry...)]
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
 public class I18n {
 

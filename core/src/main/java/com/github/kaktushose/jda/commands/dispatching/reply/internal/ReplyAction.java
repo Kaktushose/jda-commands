@@ -3,7 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal
@@ -43,7 +44,7 @@ public final class ReplyAction implements Reply {
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
     private final GenericInteractionCreateEvent event;
     private final InteractionDefinition definition;
-    private final I18n i18n;
+    private final MessageResolver messageResolver;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean keepComponents;
@@ -54,15 +55,15 @@ public final class ReplyAction implements Reply {
     ///
     /// @param event       the corresponding [GenericInteractionCreateEvent]
     /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
-    /// @param i18n        the [I18n] instance to use for localization
+    /// @param messageResolver the [MessageResolver] instance to use for message resolution
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
     public ReplyAction(GenericInteractionCreateEvent event,
                        InteractionDefinition definition,
-                       I18n i18n,
+                       MessageResolver messageResolver,
                        InteractionDefinition.ReplyConfig replyConfig) {
         this.event = event;
         this.definition = definition;
-        this.i18n = i18n;
+        this.messageResolver = messageResolver;
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
@@ -72,7 +73,7 @@ public final class ReplyAction implements Reply {
 
     @Override
     public Message reply(String message, I18n.Entry... placeholder) {
-        builder.setContent(i18n.localize(event.getUserLocale().toLocale(), message, placeholder));
+        builder.setContent(messageResolver.resolve(message, event.getUserLocale().toLocale(), placeholder));
         return reply();
     }
 

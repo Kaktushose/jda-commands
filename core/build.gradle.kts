@@ -12,12 +12,14 @@ val mockitoAgent = configurations.create("mockitoAgent")
 dependencies {
     api(libs.org.jspecify)
     api(libs.net.dv8tion.jda)
-    api(libs.org.reflections.reflections)
     api(libs.org.slf4j.slf4j.api)
     api(libs.com.fasterxml.jackson.core)
     api(libs.org.jetbrains.annotations)
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)
+    api(libs.net.fellbaum.jemoji)
+
+    implementation(libs.io.github.classgraph)
 
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 

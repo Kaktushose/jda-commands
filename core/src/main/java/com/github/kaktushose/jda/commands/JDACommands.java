@@ -22,8 +22,9 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -60,13 +61,14 @@ public final class JDACommands {
                 InteractionDefinition.ReplyConfig globalReplyConfig,
                 CommandDefinition.CommandConfig globalCommandConfig,
                 I18n i18n,
+                MessageResolver messageResolver,
                 Embeds embeds,
                 boolean shutdownJDA) {
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n));
+        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n, messageResolver));
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
         this.shutdownJDA = shutdownJDA;
@@ -123,7 +125,7 @@ public final class JDACommands {
         interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
         updater.updateAllCommands();
 
-        jdaContext.performTask(it -> it.addEventListener(jdaEventListener));
+        jdaContext.performTask(it -> it.addEventListener(jdaEventListener), false);
         log.info("Finished loading!");
 
     }
@@ -134,7 +136,7 @@ public final class JDACommands {
     /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
-        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener));
+        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
 
         if (shutdownJDA) {
             jdaContext.shutdown();

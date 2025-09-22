@@ -12,10 +12,9 @@ public non-sealed interface ClassFinder extends Implementation.ExtensionProvidab
 
     /// This provides a reflections based implementation of [ClassFinder]
     ///
-    /// @param baseClass The [Class] providing the used [ClassLoader]
     /// @param packages  a list of packages that should be scanned
-    static ClassFinder reflective(Class<?> baseClass, String... packages) {
-        return new ReflectiveClassFinder(baseClass, packages);
+    static ClassFinder reflective(String... packages) {
+        return new ReflectiveClassFinder(packages);
     }
 
     /// This provides an array backed implementation of [ClassFinder] that just returns the explicitly stated classes.

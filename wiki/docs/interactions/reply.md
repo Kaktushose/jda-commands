@@ -14,6 +14,10 @@ as retrieved by a key. For more information on how to use the localization syste
     event.with().ephemeral(true).reply("my.localizatoin.key");
     ```
 
+## Unicode and application emojis
+JDA-Commands has built in support for Unicode and application emoji aliases.
+If you want to use them, just take a look [here](../misc/emojis.md).
+
 ## Text Messages
 The simplest way of sending a reply is using the [`reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String))
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 

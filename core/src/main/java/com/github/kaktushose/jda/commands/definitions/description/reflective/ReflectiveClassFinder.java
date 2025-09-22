@@ -1,12 +1,9 @@
 package com.github.kaktushose.jda.commands.definitions.description.reflective;
 
 import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import org.jetbrains.annotations.ApiStatus;
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 
 import java.lang.annotation.Annotation;
 import java.util.SequencedCollection;
@@ -14,28 +11,21 @@ import java.util.SequencedCollection;
 @ApiStatus.Internal
 public class ReflectiveClassFinder implements ClassFinder {
 
-    private final Class<?> clazz;
     private final String[] packages;
 
-    public ReflectiveClassFinder(Class<?> clazz, String[] packages) {
-        this.clazz = clazz;
+    public ReflectiveClassFinder(String[] packages) {
         this.packages = packages;
     }
 
     @Override
     public SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
-        var filter = new FilterBuilder();
-        for (String pkg : packages) {
-            filter.includePackage(pkg);
+        try(ScanResult result = new ClassGraph()
+                .acceptPackages(packages)
+                .enableAnnotationInfo()
+                .enableClassInfo()
+                .scan()) {
+            return result.getClassesWithAnnotation(annotationClass)
+                    .loadClasses();
         }
-
-        var config = new ConfigurationBuilder()
-                .setScanners(Scanners.SubTypes, Scanners.TypesAnnotated)
-                .setUrls(ClasspathHelper.forClass(clazz))
-                .filterInputsBy(filter);
-        var reflections = new Reflections(config);
-        return reflections.getTypesAnnotatedWith(annotationClass)
-                .stream()
-                .toList();
     }
 }

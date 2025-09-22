@@ -19,15 +19,21 @@ import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.extension.Implementation.ExtensionProvidable;
 import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
-import com.github.kaktushose.jda.commands.i18n.FluavaLocalizer;
-import com.github.kaktushose.jda.commands.i18n.I18n;
-import com.github.kaktushose.jda.commands.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiSource;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.permissions.DefaultPermissionsProvider;
 import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import com.github.kaktushose.jda.commands.scope.DefaultGuildScopeProvider;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.utils.Result;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +44,7 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 
 /// Readonly view of a [JDACBuilder]. Acts as a snapshot of the current builder state during jda-commands startup.
 ///
@@ -72,6 +78,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     protected @Nullable Localizer localizer = null;
 
     // loadable by extensions (addition)
+    protected Collection<EmojiSource> emojiSources;
     protected Collection<ClassFinder> classFinders;
     protected final Set<Entry<Priority, Middleware>> middlewares = new HashSet<>();
     protected final Map<Class<? extends Annotation>, Validator<?, ?>> validators = new HashMap<>();
@@ -86,12 +93,14 @@ public sealed class JDACBuilderData permits JDACBuilder {
 
     protected @Nullable Embeds embeds = null;
     private @Nullable I18n i18n = null;
+    private @Nullable MessageResolver messageResolver = null;
 
     protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;
-        this.classFinders = List.of(ClassFinder.reflective(baseClass, packages));
+        this.classFinders = List.of(ClassFinder.reflective(packages));
+        this.emojiSources = List.of(EmojiSource.reflective());
     }
 
     @SuppressWarnings("unchecked")
@@ -124,7 +133,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
             Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())),
             PermissionsProvider.class, DefaultPermissionsProvider::new,
-            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds(i18n())),
+            ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds(messageResolver())),
             GuildScopeProvider.class, DefaultGuildScopeProvider::new,
             Descriptor.class, () -> Descriptor.REFLECTIVE
     );
@@ -246,6 +255,16 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
+    /// @return the [EmojiSource]s to be used. Can be added via an [Extension]
+    public Collection<EmojiSource> emojiSources() {
+        Collection<EmojiSource> all = implementations(EmojiSource.class)
+                .stream()
+                .map(Entry::getValue)
+                .collect(Collectors.toSet());
+        all.addAll(emojiSources);
+        return all;
+    }
+
     /// @return a [ClassFinder] that searches in all [ClassFinder]s returned by [#classFinders()]
     public ClassFinder mergedClassFinder() {
         Collection<ClassFinder> classFinders = classFinders();
@@ -290,11 +309,57 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return all;
     }
 
-    public Embeds embeds(I18n i18n) {
-        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), i18n));
+    protected Embeds embeds(MessageResolver messageResolver) {
+        return embeds != null ? embeds : (embeds = new Embeds(Collections.emptyList(), Collections.emptyMap(), messageResolver));
     }
 
+    /// @return the used [I18n] instance
     public I18n i18n() {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
+
+    protected MessageResolver messageResolver() {
+        if (messageResolver == null) {
+            registerAppEmojis();
+
+            List<ApplicationEmoji> applicationEmojis = context().applicationEmojis();
+            messageResolver = new MessageResolver(i18n(), new EmojiResolver(applicationEmojis));
+        }
+
+        return messageResolver;
+    }
+
+    private void registerAppEmojis() {
+        context.performTask(jda -> emojiSources.stream()
+                .map(EmojiSource::get)
+                .map(Map::entrySet)
+                .flatMap(Set::stream)
+                .forEach(entry -> {
+                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
+                            .mapToResult()
+                            .complete();
+
+                    if (result.isSuccess()) {
+                        log.debug("Registered new application emoji with name {}", entry.getKey());
+                        return;
+                    }
+
+                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
+                        List<String> codes = e.getSchemaErrors()
+                                .stream()
+                                .map(ErrorResponseException.SchemaError::getErrors)
+                                .flatMap(List::stream)
+                                .map(ErrorResponseException.ErrorCode::getCode)
+                                .toList();
+
+                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
+                            log.debug("Application emoji with name {} already registered", entry.getKey());
+                            return;
+                        }
+                    }
+
+                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
+                }), true);
+    }
+
 }

@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 import java.lang.invoke.MethodType;
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
 import static java.util.Map.entry;
 
 /// Representation of a slash command option.

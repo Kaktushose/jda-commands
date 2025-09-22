@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.guice.internal;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import net.dv8tion.jda.api.JDA;

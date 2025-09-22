@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.Uns
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.SelectMenuComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import org.jspecify.annotations.Nullable;
 
