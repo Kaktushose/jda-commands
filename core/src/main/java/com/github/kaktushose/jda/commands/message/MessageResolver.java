@@ -25,8 +25,8 @@ public class MessageResolver {
         this.emojiResolver = emojiResolver;
     }
 
-    /// Please visit the docs of [I18n#localize(Locale, String, I18n.Entry...)]
-    /// and [EmojiResolver#resolve(String)]
+    /// First localizes the given message (see [I18n#localize(Locale, String, I18n.Entry...)]) and then attempts to
+    /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
     /// @param locale the locale to use for i18n
@@ -38,8 +38,8 @@ public class MessageResolver {
         return emojiResolver.resolve(localized);
     }
 
-    /// Please visit the docs of [I18n#localize(Locale, String, I18n.Entry...)]
-    /// and [EmojiResolver#resolve(String)]
+    /// First localizes the given message (see [I18n#localize(Locale, String, I18n.Entry...)]) and then attempts to
+    /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
     /// @param locale the locale to use for i18n
