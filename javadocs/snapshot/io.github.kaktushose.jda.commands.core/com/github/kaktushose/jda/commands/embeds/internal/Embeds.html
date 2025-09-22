@@ -66,7 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" tabindex="0">Embeds(Collection, Map, I18n)</a></li>
+<li><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" tabindex="0">Embeds(Collection, Map, MessageResolver)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#sources()" tabindex="0">sources()</a></li>
 <li><a href="#placeholders()" tabindex="0">placeholders()</a></li>
-<li><a href="#i18n()" tabindex="0">i18n()</a></li>
+<li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
 </ol>
 </li>
 </ol>
@@ -103,7 +103,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public record </span><span class="element-name type-name-label">Embeds</span>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a>&gt;&nbsp;sources, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders, <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)
+</span><span class="modifiers">public record </span><span class="element-name type-name-label">Embeds</span>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a>&gt;&nbsp;sources, <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders, <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Container for immutably holding the embed configuration made by <a href="../EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds"><code>EmbedConfig</code></a>.</div>
 </div>
@@ -133,9 +133,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" class="member-name-link">Embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">Embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</code></div>
+ <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>Embeds</code> record class.</div>
 </div>
@@ -179,10 +179,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
+<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholders()" class="member-name-link">placeholders</a>()</code></div>
@@ -217,18 +217,18 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)">
+<section class="detail" id="&lt;init&gt;(java.util.Collection,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)">
 <h3>Embeds</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Embeds</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</span></div>
+ <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Creates an instance of a <code>Embeds</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>sources</code> - the value for the <a href="#param-sources"><code>sources</code></a> record component</dd>
 <dd><code>placeholders</code> - the value for the <a href="#param-placeholders"><code>placeholders</code></a> record component</dd>
-<dd><code>i18n</code> - the value for the <code>i18n</code> record component</dd>
+<dd><code>messageResolver</code> - the value for the <code>messageResolver</code> record component</dd>
 </dl>
 </div>
 </section>
@@ -366,14 +366,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="i18n()">
-<h3>i18n</h3>
+<section class="detail" id="messageResolver()">
+<h3>messageResolver</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
+<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>i18n</code> record component</dd>
+<dd>the value of the <code>messageResolver</code> record component</dd>
 </dl>
 </div>
 </section>

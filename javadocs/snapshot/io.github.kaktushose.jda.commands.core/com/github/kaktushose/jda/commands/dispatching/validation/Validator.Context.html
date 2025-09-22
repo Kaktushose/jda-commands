@@ -72,8 +72,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#invocationContext()" tabindex="0">invocationContext()</a></li>
-<li><a href="#failMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">failMessage(String, I18n.Entry...)</a></li>
-<li><a href="#fail(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">fail(String, I18n.Entry...)</a></li>
+<li><a href="#failMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">failMessage(String, I18n.Entry...)</a></li>
+<li><a href="#fail(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">fail(String, I18n.Entry...)</a></li>
 </ol>
 </li>
 </ol>
@@ -127,16 +127,16 @@ has some utility methods useful for error messages.</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fail(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">fail</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;failMessage,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fail(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">fail</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;failMessage,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Used to fail a validation and cancel the <a href="../context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>InvocationContext</code></a></div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#failMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">failMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#failMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">failMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This method returns a formatted, optionally localized, error message based on <a href="../../embeds/error/ErrorMessageFactory.html#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)"><code>ErrorMessageFactory.getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</code></a>.</div>
+<div class="block">This method returns a formatted, optionally resolved (and localized), error message based on <a href="../../embeds/error/ErrorMessageFactory.html#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)"><code>ErrorMessageFactory.getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a><wbr>&lt;?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invocationContext()" class="member-name-link">invocationContext</a>()</code></div>
@@ -193,26 +193,33 @@ has some utility methods useful for error messages.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="failMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="failMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>failMessage</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></span>&nbsp;<span class="element-name">failMessage</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
-<div class="block">This method returns a formatted, optionally localized, error message based on <a href="../../embeds/error/ErrorMessageFactory.html#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)"><code>ErrorMessageFactory.getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</code></a>.</div>
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+<div class="block">This method returns a formatted, optionally resolved (and localized), error message based on <a href="../../embeds/error/ErrorMessageFactory.html#getConstraintFailedMessage(com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)"><code>ErrorMessageFactory.getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>content</code> - the message or localization key</dd>
 <dd><code>placeholder</code> - the variables used for localization</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a></li>
+<li><a href="../../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="fail(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="fail(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>fail</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">fail</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;failMessage,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Used to fail a validation and cancel the <a href="../context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>InvocationContext</code></a></div>
 <dl class="notes">
 <dt>Parameters:</dt>

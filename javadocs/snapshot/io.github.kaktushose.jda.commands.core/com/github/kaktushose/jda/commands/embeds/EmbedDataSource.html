@@ -69,7 +69,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#file(java.nio.file.Path)" tabindex="0">file(Path)</a></li>
 <li><a href="#inputStream(java.io.InputStream)" tabindex="0">inputStream(InputStream)</a></li>
 <li><a href="#dataObject(net.dv8tion.jda.api.utils.data.DataObject)" tabindex="0">dataObject(DataObject)</a></li>
-<li><a href="#get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" tabindex="0">get(String, Map, I18n)</a></li>
+<li><a href="#get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" tabindex="0">get(String, Map, MessageResolver)</a></li>
 </ol>
 </li>
 </ol>
@@ -115,9 +115,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Constructs a new <a href="EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds"><code>EmbedDataSource</code></a> using a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link"><code>Path</code></a> pointing to a JSON file as its source.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</code></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Retrieves an <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</div>
 </div>
@@ -226,18 +226,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)">
+<section class="detail" id="get(java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)">
 <h3>get</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a>&gt;</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</span></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Retrieves an <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>embed</code> - the name of the embed to retrieve</dd>
 <dd><code>placeholders</code> - a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a> of placeholders to use</dd>
-<dd><code>i18n</code> - the <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> instance to use</dd>
+<dd><code>messageResolver</code> - the <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance to use</dd>
 <dt>Returns:</dt>
 <dd>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a> holding the <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> constructed from the retrieved embed json or an empty <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link"><code>Optional</code></a>
 if no embed was found for the given name</dd>

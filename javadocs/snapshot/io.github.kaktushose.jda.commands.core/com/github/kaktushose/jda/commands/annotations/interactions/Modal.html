@@ -83,7 +83,7 @@ loadScripts(document, 'script');</script>
 <div class="block"><p>Methods annotated with <a href="Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a> will be registered as a modal at startup.</p>
 <p>Therefore, the method must be declared inside a class that is annotated with
 <a href="Interaction.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Interaction</code></a>. Text inputs are defined via method parameters that must be annotated with <a href="TextInput.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>TextInput</code></a>.</p>
-<p>You can reply with a modal by calling <a href="../../dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>ModalReplyableEvent.replyModal(String, I18n.Entry...)</code></a>.</p>
+<p>You can reply with a modal by calling <a href="../../dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>ModalReplyableEvent.replyModal(String, I18n.Entry...)</code></a>.</p>
 <h3 id="example--heading">Example:</h3>
 <pre><code>@Modal(&quot;My Modal&quot;)
 public void onModal(ModalEvent event, @TextInput(&quot;Type here&quot;) String input) { ... }

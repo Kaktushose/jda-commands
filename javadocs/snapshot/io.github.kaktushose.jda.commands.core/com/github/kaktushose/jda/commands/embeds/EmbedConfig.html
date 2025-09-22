@@ -70,7 +70,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">placeholders(I18n.Entry...)</a></li>
+<li><a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">placeholders(I18n.Entry...)</a></li>
 <li><a href="#placeholders(java.util.Map)" tabindex="0">placeholders(Map)</a></li>
 <li><a href="#sources(com.github.kaktushose.jda.commands.embeds.EmbedDataSource...)" tabindex="0">sources(EmbedDataSource...)</a></li>
 <li><a href="#errorSource(com.github.kaktushose.jda.commands.embeds.EmbedDataSource)" tabindex="0">errorSource(EmbedDataSource)</a></li>
@@ -107,9 +107,9 @@ object must follow the <a href="https://discord.com/developers/docs/resources/me
 }
 </code></pre>
 <h2 id="localization-heading">Localization</h2>
-<p>The Embed API supports localization via the <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> class. The embed fields can either contain a localization key
-a direct localization message in a format supported by the <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> implementation.</p>
-<p>For the default <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> implementation, which uses <code>Fluava</code>, this could look like this:</p>
+<p>The Embed API supports localization via the <a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> class. The embed fields can either contain a localization key
+a direct localization message in a format supported by the <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> implementation.</p>
+<p>For the default <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> implementation, which uses <code>Fluava</code>, this could look like this:</p>
 <pre><code class="language-json">{
    &quot;example&quot;: {
       &quot;title&quot;: &quot;example-title&quot;, // localization key
@@ -118,7 +118,7 @@ a direct localization message in a format supported by the <a href="../i18n/Loca
 }
 </code></pre>
 <h2 id="global-placeholders-heading">Global Placeholders</h2>
-<p>Use <a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>placeholders(I18n.Entry...)</code></a> to define placeholders that will be globally available for any <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</p>
+<p>Use <a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>placeholders(I18n.Entry...)</code></a> to define placeholders that will be globally available for any <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</p>
 </div>
 </div>
 </section>
@@ -142,7 +142,7 @@ a direct localization message in a format supported by the <a href="../i18n/Loca
 from.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds one or more new global placeholders.</div>
 </div>
@@ -172,14 +172,14 @@ the name of the placeholder and the value of the map the value to replace the pl
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>placeholders</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedConfig</a></span>&nbsp;<span class="element-name">placeholders</span><wbr><span class="parameters">(<a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
+<div class="member-signature"><span class="return-type"><a href="EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedConfig</a></span>&nbsp;<span class="element-name">placeholders</span><wbr><span class="parameters">(<a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
 <div class="block">Adds one or more new global placeholders. Global placeholders will be available for any <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> loaded by this API.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>placeholders</code> - the <a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>entries</code></a> to add</dd>
+<dd><code>placeholders</code> - the <a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>entries</code></a> to add</dd>
 <dt>Returns:</dt>
 <dd>this instance for fluent interface</dd>
 </dl>

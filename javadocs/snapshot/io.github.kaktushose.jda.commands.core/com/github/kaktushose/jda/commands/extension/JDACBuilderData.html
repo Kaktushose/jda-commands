@@ -80,6 +80,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#guildScopeProvider" tabindex="0">guildScopeProvider</a></li>
 <li><a href="#descriptor" tabindex="0">descriptor</a></li>
 <li><a href="#localizer" tabindex="0">localizer</a></li>
+<li><a href="#emojiSources" tabindex="0">emojiSources</a></li>
 <li><a href="#classFinders" tabindex="0">classFinders</a></li>
 <li><a href="#middlewares" tabindex="0">middlewares</a></li>
 <li><a href="#validators" tabindex="0">validators</a></li>
@@ -113,12 +114,14 @@ loadScripts(document, 'script');</script>
 <li><a href="#guildScopeProvider()" tabindex="0">guildScopeProvider()</a></li>
 <li><a href="#descriptor()" tabindex="0">descriptor()</a></li>
 <li><a href="#classFinders()" tabindex="0">classFinders()</a></li>
+<li><a href="#emojiSources()" tabindex="0">emojiSources()</a></li>
 <li><a href="#mergedClassFinder()" tabindex="0">mergedClassFinder()</a></li>
 <li><a href="#middlewares()" tabindex="0">middlewares()</a></li>
 <li><a href="#validators()" tabindex="0">validators()</a></li>
 <li><a href="#typeAdapters()" tabindex="0">typeAdapters()</a></li>
-<li><a href="#embeds(com.github.kaktushose.jda.commands.i18n.I18n)" tabindex="0">embeds(I18n)</a></li>
+<li><a href="#embeds(com.github.kaktushose.jda.commands.message.MessageResolver)" tabindex="0">embeds(MessageResolver)</a></li>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
+<li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
 </ol>
 </li>
 </ol>
@@ -179,57 +182,60 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>protected @Nullable <a href="../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#embeds" class="member-name-link">embeds</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected @Nullable <a href="../embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></div>
-<div class="col-second even-row-color"><code><a href="#errorMessageFactory" class="member-name-link">errorMessageFactory</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji">EmojiSource</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#emojiSources" class="member-name-link">emojiSources</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#expirationStrategy" class="member-name-link">expirationStrategy</a></code></div>
+<div class="col-first odd-row-color"><code>protected @Nullable <a href="../embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#errorMessageFactory" class="member-name-link">errorMessageFactory</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#extensionData" class="member-name-link">extensionData</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy</a></code></div>
+<div class="col-second even-row-color"><code><a href="#expirationStrategy" class="member-name-link">expirationStrategy</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="internal/ExtensionFilter.html" title="class in com.github.kaktushose.jda.commands.extension.internal">ExtensionFilter</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#extensionFilter" class="member-name-link">extensionFilter</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#extensionData" class="member-name-link">extensionData</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
-<div class="col-second even-row-color"><code><a href="#globalCommandConfig" class="member-name-link">globalCommandConfig</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="internal/ExtensionFilter.html" title="class in com.github.kaktushose.jda.commands.extension.internal">ExtensionFilter</a></code></div>
+<div class="col-second even-row-color"><code><a href="#extensionFilter" class="member-name-link">extensionFilter</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#globalReplyConfig" class="member-name-link">globalReplyConfig</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#globalCommandConfig" class="member-name-link">globalCommandConfig</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected @Nullable <a href="../scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope">GuildScopeProvider</a></code></div>
-<div class="col-second even-row-color"><code><a href="#guildScopeProvider" class="member-name-link">guildScopeProvider</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
+<div class="col-second even-row-color"><code><a href="#globalReplyConfig" class="member-name-link">globalReplyConfig</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension</a>&lt;<a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#loadedExtensions" class="member-name-link">loadedExtensions</a></code></div>
+<div class="col-first odd-row-color"><code>protected @Nullable <a href="../scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope">GuildScopeProvider</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#guildScopeProvider" class="member-name-link">guildScopeProvider</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#localizeCommands" class="member-name-link">localizeCommands</a></code></div>
+<div class="col-first even-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension</a>&lt;<a href="Extension.Data.html" title="interface in com.github.kaktushose.jda.commands.extension">Extension.Data</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#loadedExtensions" class="member-name-link">loadedExtensions</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected @Nullable <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n">Localizer</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#localizer" class="member-name-link">localizer</a></code></div>
+<div class="col-first odd-row-color"><code>protected boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#localizeCommands" class="member-name-link">localizeCommands</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final org.slf4j.Logger</code></div>
-<div class="col-second even-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-first even-row-color"><code>protected @Nullable <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n">Localizer</a></code></div>
+<div class="col-second even-row-color"><code><a href="#localizer" class="member-name-link">localizer</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>, <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#middlewares" class="member-name-link">middlewares</a></code></div>
+<div class="col-first odd-row-color"><code>static final org.slf4j.Logger</code></div>
+<div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color"><code><a href="#packages" class="member-name-link">packages</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>, <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#middlewares" class="member-name-link">middlewares</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected @Nullable <a href="../permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions">PermissionsProvider</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#permissionsProvider" class="member-name-link">permissionsProvider</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#packages" class="member-name-link">packages</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#shutdownJDA" class="member-name-link">shutdownJDA</a></code></div>
+<div class="col-first even-row-color"><code>protected @Nullable <a href="../permissions/PermissionsProvider.html" title="interface in com.github.kaktushose.jda.commands.permissions">PermissionsProvider</a></code></div>
+<div class="col-second even-row-color"><code><a href="#permissionsProvider" class="member-name-link">permissionsProvider</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#typeAdapters" class="member-name-link">typeAdapters</a></code></div>
+<div class="col-first odd-row-color"><code>protected boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#shutdownJDA" class="member-name-link">shutdownJDA</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#validators" class="member-name-link">validators</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;io.github.kaktushose.proteus.type.Type&lt;?&gt;, io.github.kaktushose.proteus.type.Type&lt;?&gt;&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in com.github.kaktushose.jda.commands.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#typeAdapters" class="member-name-link">typeAdapters</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#validators" class="member-name-link">validators</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -280,35 +286,41 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/description/Descriptor.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">Descriptor</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#descriptor()" class="member-name-link">descriptor</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embeds(com.github.kaktushose.jda.commands.i18n.I18n)" class="member-name-link">embeds</a><wbr>(<a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embeds(com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">embeds</a><wbr>(<a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#errorMessageFactory()" class="member-name-link">errorMessageFactory</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji">EmojiSource</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#emojiSources()" class="member-name-link">emojiSources</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expirationStrategy()" class="member-name-link">expirationStrategy</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#errorMessageFactory()" class="member-name-link">errorMessageFactory</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalCommandConfig()" class="member-name-link">globalCommandConfig</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expirationStrategy()" class="member-name-link">expirationStrategy</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalReplyConfig()" class="member-name-link">globalReplyConfig</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalCommandConfig()" class="member-name-link">globalCommandConfig</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope">GuildScopeProvider</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#guildScopeProvider()" class="member-name-link">guildScopeProvider</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#globalReplyConfig()" class="member-name-link">globalReplyConfig</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../scope/GuildScopeProvider.html" title="interface in com.github.kaktushose.jda.commands.scope">GuildScopeProvider</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#guildScopeProvider()" class="member-name-link">guildScopeProvider</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizeCommands()" class="member-name-link">localizeCommands</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n">Localizer</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizer()" class="member-name-link">localizer</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizeCommands()" class="member-name-link">localizeCommands</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/description/ClassFinder.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">ClassFinder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mergedClassFinder()" class="member-name-link">mergedClassFinder</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n">Localizer</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizer()" class="member-name-link">localizer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../definitions/description/ClassFinder.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">ClassFinder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mergedClassFinder()" class="member-name-link">mergedClassFinder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="../dispatching/middleware/Priority.html" title="enum class in com.github.kaktushose.jda.commands.dispatching.middleware">Priority</a>, <a href="../dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a>&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#middlewares()" class="member-name-link">middlewares</a>()</code></div>
@@ -455,7 +467,15 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="localizer">
 <h3>localizer</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n">Localizer</a></span>&nbsp;<span class="element-name">localizer</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n">Localizer</a></span>&nbsp;<span class="element-name">localizer</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="emojiSources">
+<h3>emojiSources</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji">EmojiSource</a>&gt;</span>&nbsp;<span class="element-name">emojiSources</span></div>
 </div>
 </section>
 </li>
@@ -635,7 +655,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">localizeCommands</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>whether JDA-Commands should use the <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a> feature to localize commands.</dd>
+<dd>whether JDA-Commands should use the <a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> feature to localize commands.</dd>
 </dl>
 </div>
 </section>
@@ -656,10 +676,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="localizer()">
 <h3>localizer</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n">Localizer</a></span>&nbsp;<span class="element-name">localizer</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n">Localizer</a></span>&nbsp;<span class="element-name">localizer</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> to be used. Can be added via an <a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a></dd>
+<dd>the <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> to be used. Can be added via an <a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a></dd>
 </dl>
 </div>
 </section>
@@ -725,6 +745,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="emojiSources()">
+<h3>emojiSources</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji">EmojiSource</a>&gt;</span>&nbsp;<span class="element-name">emojiSources</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the <a href="../message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiSource</code></a>s to be used. Can be added via an <a href="Extension.html" title="interface in com.github.kaktushose.jda.commands.extension"><code>Extension</code></a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="mergedClassFinder()">
 <h3>mergedClassFinder</h3>
 <div class="horizontal-scroll">
@@ -773,10 +805,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="embeds(com.github.kaktushose.jda.commands.i18n.I18n)">
+<section class="detail" id="embeds(com.github.kaktushose.jda.commands.message.MessageResolver)">
 <h3>embeds</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></span>&nbsp;<span class="element-name">embeds</span><wbr><span class="parameters">(<a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></span>&nbsp;<span class="element-name">embeds</span><wbr><span class="parameters">(<a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
 </div>
 </section>
 </li>
@@ -784,7 +816,19 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="i18n()">
 <h3>i18n</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the used <a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="messageResolver()">
+<h3>messageResolver</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
 </div>
 </section>
 </li>

@@ -40,10 +40,12 @@ com.github.kaktushose.jda.commands.exceptions
 com.github.kaktushose.jda.commands.exceptions.internal
 com.github.kaktushose.jda.commands.extension
 com.github.kaktushose.jda.commands.extension.internal
-com.github.kaktushose.jda.commands.i18n
-com.github.kaktushose.jda.commands.i18n.internal
 com.github.kaktushose.jda.commands.internal
 com.github.kaktushose.jda.commands.internal.register
+com.github.kaktushose.jda.commands.message
+com.github.kaktushose.jda.commands.message.emoji
+com.github.kaktushose.jda.commands.message.i18n
+com.github.kaktushose.jda.commands.message.i18n.internal
 com.github.kaktushose.jda.commands.permissions
 com.github.kaktushose.jda.commands.scope
 module:io.github.kaktushose.jda.commands.extension.guice

@@ -65,8 +65,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" tabindex="0">of(EmbedBuilder, String, Map, I18n)</a></li>
-<li><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" tabindex="0">of(DataObject, String, Map, I18n)</a></li>
+<li><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" tabindex="0">of(EmbedBuilder, String, Map, MessageResolver)</a></li>
+<li><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" tabindex="0">of(DataObject, String, Map, MessageResolver)</a></li>
 <li><a href="#locale(java.util.Locale)" tabindex="0">locale(Locale)</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#title(java.lang.String)" tabindex="0">title(String)</a></li>
@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#fields()" tabindex="0">fields()</a></li>
 <li><a href="#clear()" tabindex="0">clear()</a></li>
 <li><a href="#placeholders(java.util.Map)" tabindex="0">placeholders(Map)</a></li>
-<li><a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">placeholders(I18n.Entry...)</a></li>
+<li><a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">placeholders(I18n.Entry...)</a></li>
 <li><a href="#build()" tabindex="0">build()</a></li>
 <li><a href="#toMessageCreateData()" tabindex="0">toMessageCreateData()</a></li>
 <li><a href="#toMessageEditData()" tabindex="0">toMessageEditData()</a></li>
@@ -163,7 +163,7 @@ loaded via <a href="EmbedDataSource.html" title="interface in com.github.kaktush
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a> just like <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html#build()" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>EmbedBuilder.build()</code></a>, but will also localize this embed based on the
-<a href="#locale(java.util.Locale)"><code>locale(Locale)</code></a> and <a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>placeholders</code></a> provided.</div>
+<a href="#locale(java.util.Locale)"><code>locale(Locale)</code></a> and <a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>placeholders</code></a> provided.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
@@ -217,25 +217,25 @@ loaded via <a href="EmbedDataSource.html" title="interface in com.github.kaktush
 <div class="block">Gets the name of this embed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</code></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</code></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds all the provided <a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>placeholders</code></a> to this embed instance.</div>
+<div class="block">Adds all the provided <a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>placeholders</code></a> to this embed instance.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholders(java.util.Map)" class="member-name-link">placeholders</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
@@ -296,13 +296,13 @@ loaded via <a href="EmbedDataSource.html" title="interface in com.github.kaktush
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)">
+<section class="detail" id="of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</span></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Constructs a new <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -314,13 +314,13 @@ loaded via <a href="EmbedDataSource.html" title="interface in com.github.kaktush
 </section>
 </li>
 <li>
-<section class="detail" id="of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.i18n.I18n)">
+<section class="detail" id="of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,com.github.kaktushose.jda.commands.message.MessageResolver)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n</a>&nbsp;i18n)</span></div>
+ <a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Constructs a new <a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -345,7 +345,7 @@ loaded via <a href="EmbedDataSource.html" title="interface in com.github.kaktush
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">
-<li><a href="../i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>I18n</code></a></li>
+<li><a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a></li>
 </ul>
 </dd>
 </dl>
@@ -707,7 +707,7 @@ by in the <a href="EmbedDataSource.html" title="interface in com.github.kaktusho
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">placeholders</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</span></div>
 <div class="block"><p>Adds all the provided placeholders to this embed instance. The values will be replaced when <a href="#build()"><code>build()</code></a> is called.</p>
 <p>Existing entries with the same keys will be overwritten.</p>
-<p>Internally this uses the localization system, thus placeholders are limited by the used <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> implementation</p>
+<p>Internally this uses the localization system, thus placeholders are limited by the used <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> implementation</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -719,17 +719,17 @@ by in the <a href="EmbedDataSource.html" title="interface in com.github.kaktusho
 </section>
 </li>
 <li>
-<section class="detail" id="placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>placeholders</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">placeholders</span><wbr><span class="parameters">(<a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
-<div class="block"><p>Adds all the provided <a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>placeholders</code></a> to this embed instance. The values will be replaced when <a href="#build()"><code>build()</code></a> is called.</p>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in com.github.kaktushose.jda.commands.embeds">Embed</a></span>&nbsp;<span class="element-name">placeholders</span><wbr><span class="parameters">(<a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
+<div class="block"><p>Adds all the provided <a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>placeholders</code></a> to this embed instance. The values will be replaced when <a href="#build()"><code>build()</code></a> is called.</p>
 <p>Existing entries with the same keys will be overwritten.</p>
-<p>Internally this uses the localization system, thus placeholders are limited by the used <a href="../i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.i18n"><code>Localizer</code></a> implementation</p>
+<p>Internally this uses the localization system, thus placeholders are limited by the used <a href="../message/i18n/Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> implementation</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>placeholders</code> - the <a href="../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n"><code>entries</code></a> to add</dd>
+<dd><code>placeholders</code> - the <a href="../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>entries</code></a> to add</dd>
 <dt>Returns:</dt>
 <dd>this instance for fluent interface</dd>
 </dl>
@@ -742,7 +742,7 @@ by in the <a href="EmbedDataSource.html" title="interface in com.github.kaktusho
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a></span>&nbsp;<span class="element-name">build</span>()</div>
 <div class="block">Returns a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a> just like <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html#build()" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>EmbedBuilder.build()</code></a>, but will also localize this embed based on the
-<a href="#locale(java.util.Locale)"><code>locale(Locale)</code></a> and <a href="#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)"><code>placeholders</code></a> provided.</div>
+<a href="#locale(java.util.Locale)"><code>locale(Locale)</code></a> and <a href="#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>placeholders</code></a> provided.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the built, sendable <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a></dd>

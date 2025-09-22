@@ -72,14 +72,15 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(java.lang.String)" tabindex="0">JDACException(String)</a></li>
-<li><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">JDACException(String, I18n.Entry...)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">JDACException(String, I18n.Entry...)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable)" tabindex="0">JDACException(String, Throwable)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">JDACException(String, Throwable, I18n.Entry...)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#errorMessage(java.lang.String)" tabindex="0">errorMessage(String)</a></li>
-<li><a href="#errorMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" tabindex="0">errorMessage(String, I18n.Entry...)</a></li>
+<li><a href="#errorMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">errorMessage(String, I18n.Entry...)</a></li>
 </ol>
 </li>
 </ol>
@@ -154,8 +155,8 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Creates a new JDACException and loads the error message from the given key.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">JDACException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">JDACException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Creates a new JDACException, loads the error message from the given key and inserts the placeholders.</div>
 </div>
@@ -163,6 +164,13 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new JDACException and loads the error message from the given key and cause.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">JDACException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new JDACException with the given cause, loads the error message from the given key and inserts
+the placeholders.</div>
 </div>
 </div>
 </section>
@@ -184,8 +192,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Retrieves an error message from the error bundle.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)" class="member-name-link">errorMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">errorMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Retrieves an error message from the error bundle and inserts the placeholders.</div>
 </div>
@@ -239,16 +247,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>JDACException</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">JDACException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Creates a new JDACException, loads the error message from the given key and inserts the placeholders.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>key</code> - the key of the error message</dd>
-<dd><code>placeholder</code> - the <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">placeholders</a> to insert</dd>
+<dd><code>placeholder</code> - the <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">placeholders</a> to insert</dd>
 </dl>
 </div>
 </section>
@@ -264,6 +272,24 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>key</code> - the key of the error message</dd>
 <dd><code>cause</code> - the cause of the exception</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.Throwable,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<h3>JDACException</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">JDACException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause,
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+<div class="block">Creates a new JDACException with the given cause, loads the error message from the given key and inserts
+the placeholders.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - the key of the error message</dd>
+<dd><code>cause</code> - the cause of the exception</dd>
+<dd><code>placeholder</code> - the <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">placeholders</a> to insert</dd>
 </dl>
 </div>
 </section>
@@ -292,16 +318,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="errorMessage(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)">
+<section class="detail" id="errorMessage(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
 <h3>errorMessage</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">errorMessage</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Retrieves an error message from the error bundle and inserts the placeholders.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>key</code> - the key of the error message</dd>
-<dd><code>placeholder</code> - the <a href="../../i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.i18n">placeholders</a> to insert</dd>
+<dd><code>placeholder</code> - the <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">placeholders</a> to insert</dd>
 <dt>Returns:</dt>
 <dd>the error message</dd>
 </dl>
