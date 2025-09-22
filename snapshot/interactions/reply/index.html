@@ -792,6 +792,15 @@ You're not viewing the latest stable version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#unicode-and-application-emojis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unicode and application emojis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#text-messages" class="md-nav__link">
     <span class="md-ellipsis">
       Text Messages
@@ -1424,6 +1433,9 @@ as retrieved by a key. For more information on how to use the localization syste
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">event</span><span class="p">.</span><span class="na">with</span><span class="p">().</span><span class="na">ephemeral</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;my.localizatoin.key&quot;</span><span class="p">);</span>
 </span></code></pre></div>
 </div>
+<h2 id="unicode-and-application-emojis">Unicode and application emojis<a class="headerlink" href="#unicode-and-application-emojis" title="Permanent link">&para;</a></h2>
+<p>JDA-Commands has built in support for Unicode and application emoji aliases.
+If you want to use them, just take a look <a href="../../misc/emojis/">here</a>.</p>
 <h2 id="text-messages">Text Messages<a class="headerlink" href="#text-messages" title="Permanent link">&para;</a></h2>
 <p>The simplest way of sending a reply is using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String)"><code>reply(String)</code></a>
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 

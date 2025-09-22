@@ -8,10 +8,8 @@
       
       
       
-        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/misc/reflection/">
+        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/misc/emojis/">
       
-      
-        <link rel="prev" href="../error-handling/">
       
       
       
@@ -20,7 +18,7 @@
     
     
       
-        <title>Avoiding Reflections (ClassFinder & Descriptor) - JDA-Commands Wiki</title>
+        <title>Emojis - JDA-Commands Wiki</title>
       
     
     
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#avoiding-reflections" class="md-skip">
+        <a href="#emojis" class="md-skip">
           Skip to content
         </a>
       
@@ -132,7 +130,7 @@ You're not viewing the latest stable version.
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Avoiding Reflections (ClassFinder & Descriptor)
+              Emojis
             
           </span>
         </div>
@@ -353,12 +351,10 @@ You're not viewing the latest stable version.
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../embeds/" class="md-tabs__link">
           
   
@@ -1081,31 +1077,26 @@ You're not viewing the latest stable version.
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1118,7 +1109,7 @@ You're not viewing the latest stable version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Misc
@@ -1175,32 +1166,10 @@ You're not viewing the latest stable version.
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Avoiding Reflections (ClassFinder & Descriptor)
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../reflection/" class="md-nav__link">
         
   
   
@@ -1211,53 +1180,6 @@ You're not viewing the latest stable version.
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#classfinder" class="md-nav__link">
-    <span class="md-ellipsis">
-      ClassFinder
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#descriptor" class="md-nav__link">
-    <span class="md-ellipsis">
-      Descriptor
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#emojisource" class="md-nav__link">
-    <span class="md-ellipsis">
-      EmojiSource
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1311,53 +1233,71 @@ You're not viewing the latest stable version.
   
 
 
-<h1 id="avoiding-reflections">Avoiding Reflections<a class="headerlink" href="#avoiding-reflections" title="Permanent link">&para;</a></h1>
-<p>JDA-Commands uses <code>java.lang.reflect</code> in two places:</p>
+<h1 id="emojis">Emojis<a class="headerlink" href="#emojis" title="Permanent link">&para;</a></h1>
+<p>JDA-Commands supports using emoji aliases for Unicode and application emojis in all places where <a href="../../localization/#implicit-localization">localization</a> is done implicitly.</p>
+<p>JDA-Commands emoji aliases are very similar to the ones used by the discord client. 
+They follow the same format <code>:emoji_name:</code> for both Unicode and application emojis. 
+Setting the skintone like <code>:emoji_name::skin-tone-5:</code> is supported too.</p>
+<p>Please note that the emoji aliases are resolved after localization takes place, so you can also use them in your
+localization messages regardless of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html">Localizer</a>!</p>
+<h3 id="escaping-the-colon">Escaping the colon <code>:</code><a class="headerlink" href="#escaping-the-colon" title="Permanent link">&para;</a></h3>
+<p>Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
+just prefix it with <code>\</code> (in java <code>\\</code>) to escape it.</p>
+<h2 id="unicode-emojis">Unicode emojis<a class="headerlink" href="#unicode-emojis" title="Permanent link">&para;</a></h2>
+<p>If you want to avoid annoying encoding issues with hardcoded Unicode emojis, you can just use the known discord
+client aliases in JDA-Commands too.</p>
+<p>We're using the amazing <a href="https://github.com/felldo/jemoji">JEmoji</a> library to resolve Unicode discord aliases. 
+If something doesn't feel right with the used aliases/emojis please reach out to them :)</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hi :smiley:&quot;</span><span class="p">);</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>results in the message <code>Hi 😀</code> displayed to the user.</p>
+</div>
+<h2 id="application-emojis">Application emojis<a class="headerlink" href="#application-emojis" title="Permanent link">&para;</a></h2>
+<p>Application emojis can be used exactly the same as Unicode emojis in messages with the custom emoji name as the alias.
+If an application emoji is called the same as a Unicode emoji alias, the application emoji takes precedence.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>JDA-Commands fetches and caches all application emojis upon startup. Therefore, JDA-Commands has to be restarted
+if changes are made to them.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hi :my_custom_emoji:&quot;</span><span class="p">);</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>results in the message <code>Hi &lt;you custom emoji here&gt;</code> displayed to the user.</p>
+</div>
+<h3 id="automatic-application-emojis-registration">Automatic application emojis registration<a class="headerlink" href="#automatic-application-emojis-registration" title="Permanent link">&para;</a></h3>
+<p>Adding application emojis manually in the webinterface is an annoying task, but for your luck JDA-Commands comes with tools
+to register your emojis automatically upon startup. Please note that we cannot unregister application emojis due to api limits. </p>
+<p>Similar to how <a href="../reflection/#classfinder">ClassFinders</a> work, JDA-Commands uses <a href="../reflection/#emojisource">EmojiSources</a>
+to load your application emojis from different places. Per default there are 3 types of <code>EmojiSources</code>:</p>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html"><code>ClassFinder</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html"><code>Descriptor</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html"><code>EmojiSource</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#reflective(java.lang.String...)">EmojiSource#reflective(String... paths)</a>
+  that searches the classpath (resources) for files in the stated directories/packages.</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromUrl(java.langString,java.net.URL)">EmojiSource#fromUrl(String name, URL url)</a>
+  that loads an emoji with the given name from this URL</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon)">EmojiSource#fromIcon(String name, Icon icon)</a>
+  that just works as an interop to JDAs own emoji api</li>
 </ul>
-<p>If you want to completely avoid <code>java.lang.reflect</code> you have to provide your own implementations.</p>
-<h2 id="classfinder">ClassFinder<a class="headerlink" href="#classfinder" title="Permanent link">&para;</a></h2>
-<p><code>ClassFinders</code> are used to provide instances of <code>Class</code> that will be scanned for interactions or custom implementations. 
-You can register at the JDA-Commands Builder.</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="na">classFinders</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomClassFinder</span><span class="p">())</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-<p>Use <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html#explicit(java.lang.Class...)"><code>ClassFinder#explicit(...)</code></a>
-if you want to explicitly add a <code>Class</code>. </p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Calling <code>classFinders(...)</code> on the builder will override existing class finders. If you want to keep the default 
-reflective class finder, you have to add it again via <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html#reflective(java.lang.Class,java.lang.String...)"><code>ClassFinder#reflective(...)</code></a>. </p>
+<p>If no <a href="../reflection/#emojisource">EmojiSources</a> are set by the user in the JDA-Commands Builder, the resource directory <code>emojis</code> will be searched for application emojis per default.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>If your resource directory looks like:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>emojis/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    laughing.gif
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    hola.png
+</span></code></pre></div></p>
+<p>then JDA-Commands will register the application emojis "laughting" and "hola" upon startup.</p>
 </div>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">.</span><span class="na">classFinders</span><span class="p">(</span><span class="n">ClassFinder</span><span class="p">.</span><span class="na">explicit</span><span class="p">(</span><span class="n">ForeignClass</span><span class="p">.</span><span class="na">class</span><span class="p">),</span><span class="w"> </span><span class="n">ClassFinder</span><span class="p">.</span><span class="na">reflective</span><span class="p">(</span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;com.package&quot;</span><span class="p">))</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-<h2 id="descriptor">Descriptor<a class="headerlink" href="#descriptor" title="Permanent link">&para;</a></h2>
-<p>A <code>Descriptor</code> takes a <code>Class</code> as input and transforms it into a <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassDescription.html"><code>ClassDescription</code></a>.
-Descriptors can also be registered using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html"><code>@Implementation</code></a>
-annotation. Alternatively, register them at the JDA-Commands Builder.</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">.</span><span class="na">descriptor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomDescriptor</span><span class="p">());</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-<h2 id="emojisource">EmojiSource<a class="headerlink" href="#emojisource" title="Permanent link">&para;</a></h2>
-<p><a href="../emojis/#automatic-application-emojis-registration">EmojiSources</a> are used to load application emojis that should be registered automatically upon startup for you. 
-They're similar to <a href="#classfinder">ClassFinders</a>.</p>
-<p>You can register them at the JDA-Commands Builder or via the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html"><code>@Implementation</code></a> annotation.</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">.</span><span class="na">emojiSources</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomEmojiSource</span><span class="p">())</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Calling <code>emojiSources(...)</code> on the builder will override existing emoji sources. If you want to keep the default
-reflective emoji source, you have to add it again via <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#reflective(java.lang.String...)"><code>EmojiSource#reflective(...)</code></a>. </p>
-</div>
+<p>If you want to use custom EmojiSources just take a look <a href="../reflection/#emojisource">here</a></p>
 
 
 
@@ -1390,28 +1330,6 @@ reflective emoji source, you have to add it again via <a href="https://kaktushos
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../error-handling/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Error Handling">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                Error Handling
-              </div>
-            </div>
-          </a>
-        
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">
