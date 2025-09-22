@@ -12,7 +12,8 @@ import java.util.*;
 /// enclosed by a colon `:`. For example the Unicode alias `:joy:` will be replaced by 😂 and the
 /// app emoji `:app_emote:` by its uploaded file.
 ///
-/// Colons (`:`) that aren't part of an alias have to be escaped by prefixing them with a backslash `\\`.
+/// Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
+/// just prefix it with `\` (in java `\\`) to escape it.
 ///
 /// Supported are all discord emojis, their skin tone variants and the app emotes for this bot.
 /// App emotes with the same name as a Unicode one will override later.
@@ -20,8 +21,11 @@ public class EmojiResolver {
 
     private final Map<String, Emoji> emojis;
 
+    /// Constructs a new instance of [EmojiResolver] with the given application emojis and all Unicode emojis supported by discord.
+    /// If one of the passed application emojis has the same alias as a Unicode emoji, the app emojis takes precedence.
+    ///
     /// @param applicationEmojis a list of all application emojis of this bot
-    public EmojiResolver(List<ApplicationEmoji> applicationEmojis) {
+    public EmojiResolver(Collection<ApplicationEmoji> applicationEmojis) {
         Map<String, Emoji> emojis = new HashMap<>();
 
         for (net.fellbaum.jemoji.Emoji current : EmojiManager.getAllEmojis()) {
@@ -37,7 +41,7 @@ public class EmojiResolver {
         this.emojis = Collections.unmodifiableMap(emojis);
     }
 
-    /// Resolves the emoji aliases of a string according the javadocs of this class.
+    /// Resolves the emoji aliases of a string according to the javadocs of this class.
     ///
     /// @param msg The string to be resolved
     ///

@@ -33,14 +33,14 @@ public non-sealed interface EmojiSource extends Implementation.ExtensionProvidab
     /// This implementation of [EmojiSource] scans the classpath for emoji files under the given paths. (resource directory names)
     /// The file name will be used as the emoji name.
     ///
-    /// If no path is passed as an argument, the default path "emoji" will be used.
+    /// If no path is passed as an argument, the default path "emojis" will be used.
     ///
     /// @param paths the paths to scan (resource directories)
     static EmojiSource reflective(String... paths) {
         record EmojiFile(Resource resource, String name) {}
 
         String[] acceptedPaths = paths.length == 0
-                ? new String[]{"emoji"}
+                ? new String[]{"emojis"}
                 : paths;
 
         return () -> {
@@ -91,6 +91,8 @@ public non-sealed interface EmojiSource extends Implementation.ExtensionProvidab
         return () -> Map.of(name, icon);
     }
 
+    /// This method is called during startup to load the to be registered application emojis.
+    ///
     /// @return a map, mapping the emojis name to it's [Icon] instance
     ///
     /// @apiNote This method will be called blocking and sequentially, I/O will therefore delay startup.

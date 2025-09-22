@@ -3,13 +3,13 @@ JDA-Commands supports using emoji aliases for Unicode and application emojis in 
 
 JDA-Commands emoji aliases are very similar to the ones used by the discord client. 
 They follow the same format `:emoji_name:` for both Unicode and application emojis. 
-Settings the skintone like `:emoji_name::skin-tone-5:` is supported too.
+Setting the skintone like `:emoji_name::skin-tone-5:` is supported too.
 
 Please note that the emoji aliases are resolved after localization takes place, so you can also use them in your
 localization messages regardless of the used [Localizer](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html)!
 
 ### Escaping the colon `:`
-Normally it shouldn't be necessary to escape the colon when using emojis, but in case any troubles occur you can 
+Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
 just prefix it with `\` (in java `\\`) to escape it.
 
 ## Unicode emojis
@@ -61,7 +61,7 @@ to load your application emojis from different places. Per default there are 3 t
 - [EmojiSource#fromIcon(String name, Icon icon)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon))
   that just works as an interop to JDAs own emoji api
 
-If no [EmojiSources](reflection.md#emojisource) are set by the user in the JDA-Commands Builder, the resource directory `emoji` will be searched for application emojis per default.
+If no [EmojiSources](reflection.md#emojisource) are set by the user in the JDA-Commands Builder, the resource directory `emojis` will be searched for application emojis per default.
 
 !!! example
     If your resource directory looks like:
