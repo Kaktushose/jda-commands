@@ -16,7 +16,7 @@ This is the official documentation for jda-commands. If you are new to jda-comma
 Having trouble or found a bug?
 
 - Check out the [Examples](https://github.com/Kaktushose/jda-commands/tree/main/src/examples)
-- Join the [Discord Server](https://discord.gg/JYWezvQ)
+- Join the [Discord Server](https://discord.gg/vWrFfwsuJT)
 - Or open an [Issue](https://github.com/Kaktushose/jda-commands/issues)
 
 ## Getting JDA-Commands
