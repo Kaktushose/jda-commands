@@ -101,4 +101,5 @@ nav:
       - Embed API: misc/embeds.md
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
+      - Emojis: misc/emojis.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/
