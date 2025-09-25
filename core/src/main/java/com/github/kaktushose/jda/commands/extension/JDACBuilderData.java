@@ -319,7 +319,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     /// @return the used [MessageResolver] instance
-    public MessageResolver messageResolver() {
+    protected MessageResolver messageResolver() {
         if (messageResolver == null) {
             registerAppEmojis();
 
