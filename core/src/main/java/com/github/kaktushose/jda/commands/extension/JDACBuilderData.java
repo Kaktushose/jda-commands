@@ -318,7 +318,8 @@ public sealed class JDACBuilderData permits JDACBuilder {
         return i18n != null ? i18n : (i18n = new I18n(descriptor(), localizer()));
     }
 
-    protected MessageResolver messageResolver() {
+    /// @return the used [MessageResolver] instance
+    public MessageResolver messageResolver() {
         if (messageResolver == null) {
             registerAppEmojis();
 
