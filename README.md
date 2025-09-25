@@ -34,7 +34,7 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 - and many more!
 
-If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or the [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/).
+If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/) and join our [Discord server](https://discord.gg/tmq9BrZEKb).
 
 ## Example
 
