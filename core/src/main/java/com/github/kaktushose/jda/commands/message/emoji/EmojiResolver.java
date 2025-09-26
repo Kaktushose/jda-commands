@@ -82,7 +82,6 @@ public class EmojiResolver {
 
             if (c == ' ' && referenceStart != -1) {
                 referenceStart = -1;
-                continue;
             }
 
             outer: if (c == ':') {

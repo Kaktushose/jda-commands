@@ -70,4 +70,11 @@ class EmojiResolverTest {
         String resolved = new EmojiResolver(List.of()).resolve(text);
         Assertions.assertEquals("Hi: \uD83D\uDE02 huhu:: lolo escaped: hehe", resolved);
     }
+
+    @Test
+    void single_colon_at_end_with_whitespace() {
+        String text = "Currently following channels are registered as release channels: ";
+        String resolved = new EmojiResolver(List.of()).resolve(text);
+        Assertions.assertEquals("Currently following channels are registered as release channels: ", resolved);
+    }
 }
