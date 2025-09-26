@@ -22,7 +22,6 @@ import java.lang.annotation.*;
 /// - [ErrorMessageFactory]
 /// - [Descriptor]
 /// - [Localizer]
-/// - [ClassFinder]
 /// - [EmojiSource]
 ///
 /// Additionally, the following classes can be also automatically registered via their dedicated annotations.

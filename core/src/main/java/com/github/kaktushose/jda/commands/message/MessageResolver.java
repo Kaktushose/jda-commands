@@ -50,4 +50,18 @@ public class MessageResolver {
         String localized = i18n.localize(locale, message, placeholder);
         return emojiResolver.resolve(localized);
     }
+
+    /// Gets the underlying [I18n] instance
+    ///
+    /// @return the used [I18n] instance
+    public I18n i18n() {
+        return i18n;
+    }
+
+    /// Gets the underlying [EmojiResolver] instance
+    ///
+    /// @return the used [EmojiResolver] instance
+    public EmojiResolver emojiResolver() {
+        return emojiResolver;
+    }
 }
