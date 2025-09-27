@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 /// - trailing and leading whitespace or newline of the reference name is trimmed (see [String#trim()]).
 /// - to escape the `{` character just prefix it with `\\` (backslashes can be used _unescaped_ in the rest of the string)
 ///
+/// Invalid placeholders will just be treated as literal text.
+///
 /// To get a variables string representation, this resolver:
 ///
 /// 1. calls [Proteus#convert(Object, Type, Type)] trying to convert the values to [`Type.of(String.class)`](Type#of(Class))

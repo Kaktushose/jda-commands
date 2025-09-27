@@ -13,7 +13,7 @@ The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 
 In practically all cases this doesn't really bother you, because there are only 2 niche situations where the dollar has to be escaped:
 - your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it` (the default bundle should be used here)
-- the string is a [directly inserted localization messages](#directly-inserting-localization-messages) containing `$`,
+- the string is a "raw" message containing `$`,
   that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
   - you have a bundle called `my_bundle`
   - you have a message key called `my-key` in that bundle
@@ -29,7 +29,7 @@ localization keys in many common places. These include:
 - Component API including the corresponding annotations like [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html),
  [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html) etc.
 - Reply API, for example the string content of a message [`Reply#reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String))
-- (Slash commands are supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda))
+- (Slash commands are supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization))
 
 JDA-Commands will first try to find a localization message based on the provided String (as the key) and the users locale
 retrieved by [`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
@@ -55,21 +55,6 @@ public class ComponentTest {
 
 In this example, the bundle `component` will be searched for the key `command-reply`.
 
-## Directly Inserting Localization Messages
-In some cases, especially while testing it's common to hardcode a messages content.
-But often times you still want to use dynamic placeholders.
-
-For your luck JDA-Commands treats hardcoded values (where a localization key would normally be used) as the content of 
-a localization message, thus supporting all functionality of the used [`Localizer`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html) implementation.
-
-A String value (whether in an annotation, embed, modal or component) will be resolved by following order:
-
-1. searched for as a localization key
-2. treated as localization message content
-3. used as raw value
-
-An example of this can be found [here](#example-fluava).
-
 ## Variables/Placeholders
 Most localization systems support variables or placeholders to insert dynamic values into a message.
 
@@ -93,7 +78,7 @@ public class ComponentTest {
                 .reply();
     }
     
-    @Button("Hello { $name }")
+    @Button("has_variables_in_the_message")
     public void onButton(ComponentEvent event) {
         ...
     }

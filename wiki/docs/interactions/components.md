@@ -19,7 +19,7 @@ as retrieved by a key. For more information on how to use the localization syste
 !!! warning The dollar sign ($)
     The dollar sign is a reserved character for bundle name separation.
     In most cases that shouldn't bother you but if you encounter any problems,
-    please read the notes [here](../localization.md#the-dollar--character).
+    please read the notes [here](../localization.md#the-dollar-character).
 
 ## Unicode and application emojis
 JDA-Commands has built in support for Unicode and application emoji aliases.
