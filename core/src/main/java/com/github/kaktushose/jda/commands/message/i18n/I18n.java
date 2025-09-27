@@ -171,9 +171,7 @@ public class I18n {
     /// @param placeholder the placeholder to be used
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
-        Map<String, @Nullable Object> map = Arrays.stream(placeholder)
-                .collect(HashMap::new, (m,e)-> m.put(e.name(), e.value()), HashMap::putAll);
-        return localize(locale, key, map);
+        return localize(locale, key, Entry.toMap(placeholder));
     }
 
     /// This method returns an [Entry] containing the name and value provided.
@@ -193,7 +191,12 @@ public class I18n {
     ///
     /// @param name the placeholders name
     /// @param value the value to be substituted
-    public record Entry(String name, @Nullable Object value) {}
+    public record Entry(String name, @Nullable Object value) {
+        public static Map<String, @Nullable Object> toMap(Entry... placeholder) {
+            return Arrays.stream(placeholder)
+                    .collect(HashMap::new, (m,e)-> m.put(e.name(), e.value()), HashMap::putAll);
+        }
+    }
 
     private String findBundle() {
         return walker.walk(stream -> stream

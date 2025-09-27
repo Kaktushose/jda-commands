@@ -1,7 +1,8 @@
 package com.github.kaktushose.jda.commands.message;
 
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.variables.VariableResolver;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -34,7 +35,8 @@ public class MessageResolver {
     ///
     /// @return the resolved message
     public String resolve(String message, Locale locale, Map<String, @Nullable Object> placeholder) {
-        String localized = i18n.localize(locale, message, placeholder);
+        String formatted = VariableResolver.resolve(message, placeholder);
+        String localized = i18n.localize(locale, formatted, placeholder);
         return emojiResolver.resolve(localized);
     }
 
@@ -47,7 +49,6 @@ public class MessageResolver {
     ///
     /// @return the resolved message
     public String resolve(String message, Locale locale, I18n.Entry... placeholder) {
-        String localized = i18n.localize(locale, message, placeholder);
-        return emojiResolver.resolve(localized);
+        return resolve(message, locale, I18n.Entry.toMap(placeholder));
     }
 }
