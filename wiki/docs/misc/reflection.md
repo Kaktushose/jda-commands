@@ -43,7 +43,7 @@ JDACommands.builder(jda, Main.class)
 
 
 ## EmojiSource
-[EmojiSources](emojis.md#automatic-application-emojis-registration) are used to load application emojis that should be registered automatically upon startup for you. 
+[EmojiSources](../message/emojis.md#automatic-application-emojis-registration) are used to load application emojis that should be registered automatically upon startup for you. 
 They're similar to [ClassFinders](#classfinder).
 
 You can register them at the JDA-Commands Builder or via the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html) annotation.

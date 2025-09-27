@@ -4,10 +4,12 @@
 
 ## Localization and Placeholders
 To avoid hardcoded values, all string properties of a component/the content of a message can be replaced by a localization key as supported by the
-current used [Localization System](../localization.md).
+current used [Localization System](../message/localization.md).
 
-Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
-as retrieved by a key. For more information on how to use the localization system please visit [this page](../localization.md).
+Furthermore, it's possible to directly use placeholders.
+For more information on how to use placeholders please visit [this page](../message/placeholder.md).
+
+Also take a look at the general [message resolution documentation](../message/overview.md).
 
 !!! example
     ```java
@@ -16,7 +18,7 @@ as retrieved by a key. For more information on how to use the localization syste
 
 ## Unicode and application emojis
 JDA-Commands has built in support for Unicode and application emoji aliases.
-If you want to use them, just take a look [here](../misc/emojis.md).
+If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Text Messages
 The simplest way of sending a reply is using the [`reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#reply(java.lang.String))
@@ -223,7 +225,7 @@ Placeholders can be passed not only to the [`Embed`](https://kaktushose.github.i
 object, but also directly to the `#embed(...)` method:
 !!! example
     ```java
-    event.with().embeds("welcome", I18n.entry("user", "Kaktushose")).reply();
+    event.with().embeds("welcome", Entry.entry("user", "Kaktushose")).reply();
     ```
 
 ## ReplyConfig

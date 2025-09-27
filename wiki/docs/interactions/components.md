@@ -5,10 +5,12 @@
 
 ## Localization and Placeholders
 To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
-current used [Localization System](../localization.md).
+current used [Localization System](../message/localization.md).
 
-Furthermore, it's possible to directly insert a localization messages content. It will be treated exactly the same
-as retrieved by a key. For more information on how to use the localization system please visit [this page](../localization.md).
+Furthermore, it's possible to directly use placeholders.
+For more information on how to use placeholders please visit [this page](../message/placeholder.md).
+
+Also take a look at the general [message resolution documentation](../message/overview.md).
 
 !!! example "Example (with Fluava)"
     ```java
@@ -19,11 +21,11 @@ as retrieved by a key. For more information on how to use the localization syste
 !!! warning The dollar sign ($)
     The dollar sign is a reserved character for bundle name separation.
     In most cases that shouldn't bother you but if you encounter any problems,
-    please read the notes [here](../localization.md#the-dollar-character).
+    please read the notes [here](../message/localization.md#the-dollar-character).
 
 ## Unicode and application emojis
 JDA-Commands has built in support for Unicode and application emoji aliases.
-If you want to use them, just take a look [here](../misc/emojis.md).
+If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Buttons
 Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 

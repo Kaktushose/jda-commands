@@ -100,12 +100,11 @@ to set the locale the Embed should be localized with. When replying to interacti
 to retrieve the user locale. The Embed will be localized once [`#build()`](https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html#build())
 is called. 
 
-See the [Localization Section](../localization.md) of this wiki for details.
+See the [Localization Section](../message/localization.md) of this wiki for details.
 
-## Placeholders
-You can add placeholders to your Embeds by piggybacking the localization feature. JDA-Commands treats hardcoded values 
-(where a localization key would normally be used) as the content of a localization message, thus supporting all 
-functionality of the used localization system, such as placeholders.
+## Placeholders and emojis (message resolution)
+You can add placeholders to your Embeds just like in many other places in this framework. JDA-Commands will resolve
+embeds according to the documentation [here](../message/overview.md).
 
 !!! example
     ```json title="embeds.json"
@@ -121,7 +120,7 @@ method to insert the placeholder values.
 !!! example
     ```java
     Embed embed = ...;
-    embed.placeholders(I18n.entry("user", "Kaktushose"));
+    embed.placeholders(Entry.entry("user", "Kaktushose"));
     ```
 
 You can of course also use your placeholders regularly inside the localization files. 
@@ -131,7 +130,7 @@ A special feature of the Embed API is that you can define global placeholders fo
 !!! example
     ```java
     JDACommands.builder(jda, Main.class)
-        .embeds(config -> config.placeholders(I18n.entry("bot-name", "JDA-Commands Bot")))
+        .embeds(config -> config.placeholders(Entry.entry("bot-name", "JDA-Commands Bot")))
         .start();
     ``` 
 Global placeholders can be used anywhere inside your Embeds.

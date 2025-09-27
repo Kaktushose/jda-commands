@@ -92,15 +92,18 @@ nav:
       - Permissions System: middlewares/permissions.md
       - Cooldown System: middlewares/cooldown.md
   - Dependency Injection: di.md
-  - Localization: localization.md
-  - Extensions:
-      - Overview: extension/overview.md
-      - Writing Extensions: extension/writing.md
-      - Configuration: extension/configuring.md
+  - Message:
+      - Overview: message/overview.md
+      - Emojis: message/emojis.md
+      - Placeholders: message/placeholder.md
+      - Localization: message/localization.md
   - Misc:
       - Embed API: misc/embeds.md
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
-      - Emojis: misc/emojis.md
-      - Placeholders: misc/placeholder.md
+      - Extensions:
+          - Overview: misc/extension/overview.md
+          - Writing Extensions: misc/extension/writing.md
+          - Configuration: misc/extension/configuring.md
+
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/

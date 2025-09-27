@@ -23,13 +23,9 @@ In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-ke
 Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
 
 ## Implicit Localization
-Instead of using the localization API manually through the `I18n` class, JDA-Commands allows for implicit usage of
-localization keys in many common places. These include:
-
-- Component API including the corresponding annotations like [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html),
- [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html) etc.
-- Reply API, for example the string content of a message [`Reply#reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String))
-- (Slash commands are supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization))
+Due to the [implicit resolution of messages](overview.md#implicit-resolution), localization is also done in many common places
+automatically for you. Furthermore, the localization of Slash commands 
+is supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization).
 
 JDA-Commands will first try to find a localization message based on the provided String (as the key) and the users locale
 retrieved by [`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
@@ -37,7 +33,7 @@ and if not found, will use the String directly as the content.
 
 !!! warning
     Localization of [`MessageCreateData`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html) is not supported implicitly.
-    To localize such messages you have to manually use [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)).
+    To localize such messages you have to manually use [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.messages.placeholder.Entry...)).
 
 ### Example
 ```java
@@ -56,17 +52,11 @@ public class ComponentTest {
 In this example, the bundle `component` will be searched for the key `command-reply`.
 
 ## Variables/Placeholders
-Most localization systems support variables or placeholders to insert dynamic values into a message.
-
-JDA-Commands provides this functionality in many places by using [`I18n.Entry`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.Entry.html).
-Often you will find a vararg of this class at the end of a method parameters list. By adding entries
-there (preferably by using [`I18n#entry`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#entry(java.lang.String,java.lang.Object))
-as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
-the used method.
+To learn more about placeholders take a look [here](placeholder.md)
 
 ### Example (Fluava)
 ```java
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 @Interaction
 public class ComponentTest {
@@ -104,7 +94,7 @@ If no bundle is specified, it will traverse the stack (the called methods) and s
 [`@Bundle`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
 annotation with following order:
 
-1. Method that called [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...))
+1. Method that called [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...))
 2. Other called methods in the same class
 3. This methods class
 4. The class' packages `package-info.java` file
@@ -157,7 +147,7 @@ class at the very beginning.
     5. method `B$bOne()`
     6. method `B$bTwo()`
 
-    The found bundle would be `package_bundle`. If `I18n#localize(Locale, String, I18n.Entry...)`
+    The found bundle would be `package_bundle`. If `I18n#localize(Locale, String, Entry...)`
     would be called in, for example, `B$bTwo` the bundle would be `method_bundle`.
 
 ### Default Bundle
