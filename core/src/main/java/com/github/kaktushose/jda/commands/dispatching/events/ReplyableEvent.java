@@ -19,7 +19,7 @@ import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -38,7 +38,7 @@ import java.util.Optional;
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
-/// You can either reply directly by using one of the `reply` methods, like [#reply(String, I18n.Entry...)], or you can call
+/// You can either reply directly by using one of the `reply` methods, like [#reply(String, Entry...)], or you can call
 /// [#with()] to use a [ConfigurableReply] to append components or override reply settings from the
 /// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
 ///
@@ -88,7 +88,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, I18n.Entry...)] to reply directly.
+    /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
         deferReply(replyConfig.ephemeral());
     }
@@ -104,7 +104,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, I18n.Entry...)] to reply directly.
+    /// Use [#reply(String, Entry...)] to reply directly.
     ///
     /// @param ephemeral yes
     public abstract void deferReply(boolean ephemeral);
@@ -218,7 +218,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param message     {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public Message reply(String message, I18n.Entry... placeholder) {
+    public Message reply(String message, Entry... placeholder) {
         return newReply().reply(message, placeholder);
     }
 

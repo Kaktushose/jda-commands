@@ -3,6 +3,7 @@ package com.github.kaktushose.jda.commands.embeds;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import dev.goldmensch.fluava.Fluava;
 
 import java.nio.file.Path;
@@ -41,14 +42,14 @@ import java.util.Map;
 ///```
 ///
 /// # Global Placeholders
-/// Use [#placeholders(I18n.Entry...)] to define placeholders that will be globally available for any [Embed].
+/// Use [#placeholders(Entry...)] to define placeholders that will be globally available for any [Embed].
 public interface EmbedConfig {
 
     /// Adds one or more new global placeholders. Global placeholders will be available for any [Embed] loaded by this API.
     ///
-    /// @param placeholders the [`entries`][I18n.Entry] to add
+    /// @param placeholders the [`entries`][Entry] to add
     /// @return this instance for fluent interface
-    EmbedConfig placeholders(I18n.Entry... placeholders);
+    EmbedConfig placeholders(Entry... placeholders);
 
     /// Adds global placeholders with the values of the given map, where the key of the map represents
     /// the name of the placeholder and the value of the map the value to replace the placeholder with.

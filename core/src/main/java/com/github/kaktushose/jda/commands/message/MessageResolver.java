@@ -2,13 +2,14 @@ package com.github.kaktushose.jda.commands.message;
 
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
-import com.github.kaktushose.jda.commands.message.variables.PlaceholderResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import com.github.kaktushose.jda.commands.message.placeholder.PlaceholderResolver;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Map;
 
-/// The MessageResolver combines [I18n#localize(Locale, String, I18n.Entry...)] and
+/// The MessageResolver combines [I18n#localize(Locale, String, Entry...)] and
 /// [EmojiResolver#resolve(String)].
 ///
 /// It will resolve the message in following order:
@@ -31,7 +32,7 @@ public class MessageResolver {
     }
 
     /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
-    /// localizes the resulting message (see [I18n#localize(Locale, String, I18n.Entry...)]) and lastly attempts to
+    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
     /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
@@ -46,7 +47,7 @@ public class MessageResolver {
     }
 
     /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
-    /// localizes the resulting message (see [I18n#localize(Locale, String, I18n.Entry...)]) and lastly attempts to
+    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
     /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
@@ -54,7 +55,7 @@ public class MessageResolver {
     /// @param placeholder the placeholders to use for i18n
     ///
     /// @return the resolved message
-    public String resolve(String message, Locale locale, I18n.Entry... placeholder) {
-        return resolve(message, locale, I18n.Entry.toMap(placeholder));
+    public String resolve(String message, Locale locale, Entry... placeholder) {
+        return resolve(message, locale, Entry.toMap(placeholder));
     }
 }

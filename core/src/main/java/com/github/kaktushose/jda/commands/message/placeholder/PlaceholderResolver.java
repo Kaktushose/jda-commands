@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.message.variables;
+package com.github.kaktushose.jda.commands.message.placeholder;
 
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;

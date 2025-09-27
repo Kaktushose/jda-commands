@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.annotations.interactions;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 /// Therefore, the method must be declared inside a class that is annotated with
 /// [Interaction]. Text inputs are defined via method parameters that must be annotated with [TextInput].
 ///
-/// You can reply with a modal by calling [ModalReplyableEvent#replyModal(String, I18n.Entry...)].
+/// You can reply with a modal by calling [ModalReplyableEvent#replyModal(String, Entry...)].
 ///
 /// ## Example:
 /// ```

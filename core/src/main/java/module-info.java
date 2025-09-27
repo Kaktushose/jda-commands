@@ -67,10 +67,11 @@ module io.github.kaktushose.jda.commands.core {
     // extensions
     exports com.github.kaktushose.jda.commands.extension;
 
-    // i18n/messages
+    // i18n/messages/emojis/placeholder
     exports com.github.kaktushose.jda.commands.message.i18n;
     exports com.github.kaktushose.jda.commands.message;
     exports com.github.kaktushose.jda.commands.message.emoji;
+    exports com.github.kaktushose.jda.commands.message.placeholder;
 
     uses com.github.kaktushose.jda.commands.extension.Extension;
 }

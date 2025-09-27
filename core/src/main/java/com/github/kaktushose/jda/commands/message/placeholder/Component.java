@@ -1,4 +1,4 @@
-package com.github.kaktushose.jda.commands.message.variables;
+package com.github.kaktushose.jda.commands.message.placeholder;
 
 public sealed interface Component {
     record VariableReference(String name) implements  Component {}

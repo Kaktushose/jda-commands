@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -335,22 +336,22 @@ public class Embed {
         return this;
     }
 
-    /// Adds all the provided [`placeholders`][I18n.Entry] to this embed instance. The values will be replaced when [#build()] is called.
+    /// Adds all the provided [`placeholders`][Entry] to this embed instance. The values will be replaced when [#build()] is called.
     ///
     /// Existing entries with the same keys will be overwritten.
     ///
     /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
     ///
-    /// @param placeholders the [`entries`][I18n.Entry] to add
+    /// @param placeholders the [`entries`][Entry] to add
     /// @return this instance for fluent interface
-    public Embed placeholders(I18n.Entry... placeholders) {
+    public Embed placeholders(Entry... placeholders) {
         this.placeholders.putAll(Arrays.stream(placeholders)
                 .collect(HashMap::new, (m,e)->m.put(e.name(), e.value()), HashMap::putAll));
         return this;
     }
 
     /// Returns a [MessageEmbed] just like [EmbedBuilder#build()], but will also localize this embed based on the
-    /// [#locale(Locale)] and [`placeholders`][#placeholders(I18n.Entry...)] provided.
+    /// [#locale(Locale)] and [`placeholders`][#placeholders(Entry...)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {

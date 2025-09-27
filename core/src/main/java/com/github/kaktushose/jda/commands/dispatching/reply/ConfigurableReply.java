@@ -22,6 +22,7 @@ import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -42,7 +43,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -184,13 +185,13 @@ public sealed class ConfigurableReply permits SendableReply {
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, I18n.Entry...)]
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...)]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(String message, I18n.Entry... placeholder) {
+    public Message reply(String message, Entry... placeholder) {
         return replyAction.reply(message, placeholder);
     }
 
@@ -234,10 +235,10 @@ public sealed class ConfigurableReply permits SendableReply {
     /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
     ///
     /// @param embed   the name of the [Embed] to send
-    /// @param entry   the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
-    /// @param entries the placeholders to use. See [Embed#placeholders(I18n.Entry...)]
+    /// @param entry   the placeholders to use. See [Embed#placeholders(Entry...)]
+    /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
     /// @return a new [SendableReply]
-    public SendableReply embeds(String embed, I18n.Entry entry, I18n.Entry... entries) {
+    public SendableReply embeds(String embed, Entry entry, Entry... entries) {
         Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
