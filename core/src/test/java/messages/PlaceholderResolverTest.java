@@ -1,6 +1,6 @@
 package messages;
 
-import com.github.kaktushose.jda.commands.message.variables.VariableResolver;
+import com.github.kaktushose.jda.commands.message.variables.PlaceholderResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder;
 import io.github.kaktushose.proteus.mapping.Mapper;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-public class VariableResolverTest {
+public class PlaceholderResolverTest {
 
     @Test
     void variable_not_found() {
@@ -21,7 +21,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ $not_found }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("null", resolved);
     }
 
@@ -33,7 +33,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ $var }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("this is a variable", resolved);
     }
 
@@ -49,7 +49,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ $data }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("my data", resolved);
     }
 
@@ -61,7 +61,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ var }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("this is a variable", resolved);
     }
 
@@ -73,7 +73,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ number }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("12", resolved);
     }
 
@@ -85,7 +85,7 @@ public class VariableResolverTest {
         );
 
         String text = "My number: { number }";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("My number: 12", resolved);
     }
 
@@ -97,7 +97,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ number } was my number";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("12 was my number", resolved);
     }
 
@@ -109,7 +109,7 @@ public class VariableResolverTest {
         );
 
         String text = "My number { number } is cool";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("My number 12 is cool", resolved);
     }
 
@@ -121,7 +121,7 @@ public class VariableResolverTest {
         );
 
         String text = "Escaped: \\{ number } }}fad}} adf}}";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("Escaped: { number } }}fad}} adf}}", resolved);
     }
 
@@ -133,7 +133,7 @@ public class VariableResolverTest {
         );
 
         String text = "{ number ";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("{ number ", resolved);
     }
 
@@ -148,7 +148,7 @@ public class VariableResolverTest {
                 { number 
                 
                 }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("12", resolved);
     }
 
@@ -163,7 +163,7 @@ public class VariableResolverTest {
                 { line 
                 break
                 }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -176,7 +176,7 @@ public class VariableResolverTest {
 
         String text = """
                 { white space }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -189,7 +189,7 @@ public class VariableResolverTest {
 
         String text = """
                 { do$llar }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -202,7 +202,7 @@ public class VariableResolverTest {
 
         String text = """
                 { bra{ }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -215,7 +215,7 @@ public class VariableResolverTest {
 
         String text = """
                 empty: {  }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -232,7 +232,7 @@ public class VariableResolverTest {
                 \\ { number 
                 
                 }""";
-        String resolved = VariableResolver.resolve(text, variables);
+        String resolved = PlaceholderResolver.resolve(text, variables);
         Assertions.assertEquals("""
                 \\\\\\ \\ some backslash \\
                 

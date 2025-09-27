@@ -155,7 +155,6 @@ public class I18n {
                 : bundleSplit[0];
 
         return localizer.localize(locale, bundle, key, placeholder)
-                .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
                 .orElse(combinedKey);
     }
 
