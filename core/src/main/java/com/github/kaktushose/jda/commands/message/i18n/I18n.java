@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassDescripti
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.message.i18n.internal.JDACLocalizationFunction;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -99,7 +100,7 @@ import java.util.*;
 ///
 /// The found bundle would be `pack_bundle`.
 ///
-/// If [I18n#localize(java.util.Locale, java.lang.String, I18n.Entry...)]
+/// If [I18n#localize(java.util.Locale, java.lang.String, Entry...)]
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
 public class I18n {
 
@@ -155,7 +156,6 @@ public class I18n {
                 : bundleSplit[0];
 
         return localizer.localize(locale, bundle, key, placeholder)
-                .or(() -> localizer.localizeMessage(locale, combinedKey, placeholder))
                 .orElse(combinedKey);
     }
 
@@ -171,29 +171,8 @@ public class I18n {
     /// @param placeholder the placeholder to be used
     /// @return the localized message or the key if not found
     public String localize(Locale locale, String key, Entry... placeholder) {
-        Map<String, @Nullable Object> map = Arrays.stream(placeholder)
-                .collect(HashMap::new, (m,e)-> m.put(e.name(), e.value()), HashMap::putAll);
-        return localize(locale, key, map);
+        return localize(locale, key, Entry.toMap(placeholder));
     }
-
-    /// This method returns an [Entry] containing the name and value provided.
-    /// It comes in handy when imported with a static import.
-    ///
-    /// @param name the name of the placeholder
-    /// @param value the value of the placeholder
-    ///
-    /// @return the [Entry] consisting of the name and value
-    public static Entry entry(String name, @Nullable Object value) {
-        return new Entry(name, value);
-    }
-
-    /// A placeholder identified by its name with the value to be substituted.
-    ///
-    /// Placeholders of message with the given name are replaced by the given value during localization.
-    ///
-    /// @param name the placeholders name
-    /// @param value the value to be substituted
-    public record Entry(String name, @Nullable Object value) {}
 
     private String findBundle() {
         return walker.walk(stream -> stream

@@ -4,8 +4,8 @@ import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
 import io.github.kaktushose.proteus.type.Type;
@@ -87,8 +87,8 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         }
 
         @Override
-        public Configuration placeholders(I18n.Entry... placeholders) {
-            this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value)));
+        public Configuration placeholders(Entry... placeholders) {
+            this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value)));
             return this;
         }
 

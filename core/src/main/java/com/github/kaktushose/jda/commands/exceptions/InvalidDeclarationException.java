@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.exceptions;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ParameterDescription;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 
 import java.util.stream.Collectors;
 
@@ -19,7 +19,7 @@ public final class InvalidDeclarationException extends JDACException {
 
     /// @param key         the bundle key of the error message
     /// @param placeholder the placeholders to insert
-    public InvalidDeclarationException(String key, I18n.Entry... placeholder) {
+    public InvalidDeclarationException(String key, Entry... placeholder) {
         super(key, placeholder);
     }
 

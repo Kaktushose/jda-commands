@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
 @FunctionalInterface

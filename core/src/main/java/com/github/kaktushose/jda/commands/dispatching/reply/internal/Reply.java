@@ -2,6 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -23,13 +24,13 @@ public sealed interface Reply permits ReplyableEvent, ReplyAction {
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    Message reply(String message, I18n.Entry... placeholder);
+    Message reply(String message, Entry... placeholder);
 
     /// Acknowledgement of this event with a [MessageEmbed].
     ///

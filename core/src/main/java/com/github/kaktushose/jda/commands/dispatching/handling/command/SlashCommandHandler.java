@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {

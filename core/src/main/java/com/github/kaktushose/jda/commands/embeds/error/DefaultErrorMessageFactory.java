@@ -6,7 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.message.i18n.I18n.Entry;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
 ///

@@ -3,8 +3,8 @@ package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static com.github.kaktushose.jda.commands.message.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal
@@ -72,7 +72,7 @@ public final class ReplyAction implements Reply {
     }
 
     @Override
-    public Message reply(String message, I18n.Entry... placeholder) {
+    public Message reply(String message, Entry... placeholder) {
         builder.setContent(messageResolver.resolve(message, event.getUserLocale().toLocale(), placeholder));
         return reply();
     }
