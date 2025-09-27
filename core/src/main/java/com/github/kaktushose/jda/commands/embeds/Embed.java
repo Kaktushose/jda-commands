@@ -357,7 +357,7 @@ public class Embed {
     public MessageEmbed build() {
         String json = data.toString();
         try {
-            JsonNode node = localize(mapper.readTree(json));
+            JsonNode node = resolve(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
         } catch (JsonProcessingException e) {
             throw new InternalException("localization-json-error", e);
@@ -371,13 +371,13 @@ public class Embed {
         }
     }
 
-    private JsonNode localize(JsonNode node) {
+    private JsonNode resolve(JsonNode node) {
         if (node instanceof ObjectNode objectNode) {
             Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
             while (iterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = iterator.next();
                 JsonNode child = entry.getValue();
-                JsonNode newChild = localize(child);
+                JsonNode newChild = resolve(child);
                 if (newChild.isTextual()) {
                     objectNode.put(entry.getKey(), messageResolver.resolve(newChild.asText(), locale, placeholders));
                 } else {
@@ -387,7 +387,7 @@ public class Embed {
         } else if (node instanceof ArrayNode arrayNode) {
             for (int i = 0; i < arrayNode.size(); i++) {
                 JsonNode child = arrayNode.get(i);
-                arrayNode.set(i, localize(child));
+                arrayNode.set(i, resolve(child));
             }
         }
         return node;
