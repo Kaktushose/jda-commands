@@ -5,10 +5,14 @@ import urllib.request
 from markdown.extensions import Extension
 from markdown.treeprocessors import Treeprocessor
 
-"""
-We have to cache them here, because mkdocs is loading markdown extensions multiple times
-"""
+# We have to cache them here, because mkdocs is loading markdown extensions multiple times
 _index_cache = {}
+
+def read_url(url):
+    if not url.startswith("https://"):
+        raise ValueError("Only https:// URLs are allowed")
+
+    return urllib.request.urlopen(url).read()
 
 class Index:
     def __init__(self, urls):
@@ -27,7 +31,7 @@ class Index:
 
     def load_members(self):
         for url in self.urls:
-            text = urllib.request.urlopen(url + '/member-search-index.js').read()
+            text = read_url(url + '/member-search-index.js')
             json_text = text.removeprefix(b'memberSearchIndex = ').removesuffix(b';updateSearchResults();').strip()
             data = json.loads(json_text)
 
@@ -42,16 +46,20 @@ class Index:
 
     def load_packages(self):
         for url in self.urls:
-            text = urllib.request.urlopen(url + '/package-search-index.js').read()
+            text = read_url(url + '/package-search-index.js')
             json_text = text.removeprefix(b'packageSearchIndex = ').removesuffix(b';updateSearchResults();').strip()
             data = json.loads(json_text)
 
-            self.i_pkg[url] = data
+            index = dict()
+            for e in data:
+                index[e['l']] = e
+
+            self.i_pkg[url] = index
 
     def module_name(self, url, pkg):
-        for e in self.i_pkg[url]:
-            if e['l'] == pkg and 'm' in e:
-                return e['m']
+        e = self.i_pkg[url][pkg]
+        if e['l'] == pkg and 'm' in e:
+            return e['m']
         return None
 
     def url(self, pkg, klass, method):
@@ -114,7 +122,6 @@ class JavaDocExtension(Extension):
 
     def extendMarkdown(self, md):
         md.treeprocessors.register(JavaDocProcessor(md, self.getConfig("urls")), 'javadoc_link_processor', 15)
-        pass
 
 def makeExtension(**kwargs):
     return JavaDocExtension(**kwargs)

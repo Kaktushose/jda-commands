@@ -1,4 +1,5 @@
 mkdocs-material
 mkdocs-open-in-new-tab
 mike
+setuptools
 -e ./extensions/javadoc
