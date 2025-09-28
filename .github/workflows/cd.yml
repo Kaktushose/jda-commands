@@ -94,12 +94,11 @@ jobs:
         run: |
           git pull
 
-          pip install -r wiki/requirements.txt
-
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
-
+          
           cd wiki
+          pip install -r requirements.txt
           
           sed -i -e 's/JAVADOC_VERSION/${{ needs.javadoc_target_dir.outputs.target }}/g' mkdocs.yml
           
@@ -124,6 +123,7 @@ jobs:
         id: find_active
         run: |
           branch=${{ github.ref_name }}
+          exit 1
 
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
             echo "active=RELEASE" >> "$GITHUB_OUTPUT"
