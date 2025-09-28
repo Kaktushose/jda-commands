@@ -74,7 +74,7 @@ markdown_extensions:
   - pymdownx.superfences
   - javadoc_extension:
       urls:
-        - 'https://kaktushose.github.io/jda-commands/javadocs/4/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/'
         - 'https://docs.jda.wiki/'
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
 
@@ -111,5 +111,4 @@ nav:
           - Overview: misc/extension/overview.md
           - Writing Extensions: misc/extension/writing.md
           - Configuration: misc/extension/configuring.md
-
-  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4/
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/

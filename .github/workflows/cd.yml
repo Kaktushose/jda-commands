@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "[0-9]+.[0-9]+.x"
+      - "wiki/javadoc-references-in-wiki"
 
 jobs:
   check_if_release:
@@ -40,9 +41,11 @@ jobs:
             exit 1
           fi
 
-  javadoc:
+  javadoc_target_dir:
     runs-on: ubuntu-latest
     needs: check_if_release
+    outputs:
+      target: ${{ steps.target_dir.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,28 +56,34 @@ jobs:
 
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
             echo "name=${{ needs.check_if_release.outputs.version_major }}.${{ needs.check_if_release.outputs.version_minor }}" >> "$GITHUB_OUTPUT"
-          elif [ "$branch" == "main" ]; then
+          elif [ "$branch" == "wiki/javadoc-references-in-wiki" ]; then
             echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
+
+  javadoc:
+    runs-on: ubuntu-latest
+    needs: javadoc_target_dir
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: ./.github/workflows/setup-gradle
       - name: Generate Documentation
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         run: |
           ./gradlew javadoc
       - name: Deploy docs
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./jda-commands/build/docs/javadoc
           branch: gh-pages
-          target-folder: javadocs/${{ steps.target_dir.outputs.name }}
+          target-folder: javadocs/${{ needs.javadoc_target_dir.outputs.target }}
 
   wiki:
     runs-on: ubuntu-latest
-    needs: check_if_release
-    if: ${{ needs.check_if_release.outputs.release == 'true' }}
+    needs: [ javadoc_target_dir, check_if_release ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -91,8 +100,15 @@ jobs:
           git config --global user.name github-actions[bot]
 
           cd wiki
-          mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
-          mike set-default ${{ needs.check_if_release.outputs.version }}
+          
+          sed -i -e 's/JAVADOC_VERSION/${{ needs.javadoc_target_dir.outputs.target }}/g' mkdocs.yml
+          
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then 
+            mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
+            mike set-default ${{ needs.check_if_release.outputs.version }}
+          else 
+            mike deploy snapshot
+          fi
       - name: Deploy Wiki
         run: |
           git pull
