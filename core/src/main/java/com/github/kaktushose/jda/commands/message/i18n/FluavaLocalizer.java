@@ -22,9 +22,11 @@ public final class FluavaLocalizer implements Localizer {
 
     private final Fluava fluava;
 
-    /// @param fluava the [Fluava] instance to use
-    public FluavaLocalizer(Fluava fluava) {
-        this.fluava = fluava;
+    /// @param parent the [Fluava] instance to use
+    public FluavaLocalizer(Fluava parent) {
+        this.fluava = Fluava.builder(parent)
+                .functions(config -> config.fallbackToString(true))
+                .build();
     }
 
 
