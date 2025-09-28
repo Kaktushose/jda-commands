@@ -30,10 +30,16 @@
 
             java = jdk;
         };
+
+        pythonPackages = with pkgs; [
+            virtualenv
+            python312Packages.pip
+            python312
+        ];
        in {
          devShells.default = pkgs.mkShell {
            name = "JDA-Commands";
-           packages = with pkgs; [git jdk gradle maven pkgs.temurin-bin mkdocs python312Packages.mkdocs-material ];
+           packages = with pkgs; [git jdk gradle maven pkgs.temurin-bin ] ++ pythonPackages;
            JDK24 = jdk;
          };
        };

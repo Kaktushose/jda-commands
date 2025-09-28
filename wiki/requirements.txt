@@ -1,3 +1,4 @@
 mkdocs-material
 mkdocs-open-in-new-tab
 mike
+-e ./extensions/javadoc

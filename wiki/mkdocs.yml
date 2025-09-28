@@ -45,11 +45,11 @@ extra:
     default: wiki
     provider: mike
 
-copyright: Copyright &copy; 2025 Kaktushose
+copyright: Copyright &copy; 2025 Kaktushose & Goldmensch
 
 plugins:
   - search
-#  - open-in-new-tab
+  - open-in-new-tab
 
 markdown_extensions:
   - pymdownx.blocks.caption
@@ -72,6 +72,12 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - javadoc_extension:
+      urls:
+        - 'https://kaktushose.github.io/jda-commands/javadocs/4/'
+        - 'https://docs.jda.wiki/'
+        - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
+
 
 nav:
   - Home: index.md
