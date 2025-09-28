@@ -2,4 +2,5 @@ mkdocs-material
 mkdocs-open-in-new-tab
 mike
 setuptools
+requests
 -e ./extensions/javadoc

@@ -1,6 +1,6 @@
 import json
 import re
-import urllib.request
+import requests
 
 from markdown.extensions import Extension
 from markdown.treeprocessors import Treeprocessor
@@ -9,10 +9,9 @@ from markdown.treeprocessors import Treeprocessor
 _index_cache = {}
 
 def read_url(url):
-    if not url.startswith("https://"):
-        raise ValueError("Only https:// URLs are allowed")
-
-    return urllib.request.urlopen(url).read()
+    resp = requests.get(url)
+    resp.raise_for_status()
+    return resp.text
 
 class Index:
     def __init__(self, urls):
@@ -32,7 +31,7 @@ class Index:
     def load_members(self):
         for url in self.urls:
             text = read_url(url + '/member-search-index.js')
-            json_text = text.removeprefix(b'memberSearchIndex = ').removesuffix(b';updateSearchResults();').strip()
+            json_text = text.removeprefix('memberSearchIndex = ').removesuffix(';updateSearchResults();').strip()
             data = json.loads(json_text)
 
             index = dict()
@@ -47,7 +46,7 @@ class Index:
     def load_packages(self):
         for url in self.urls:
             text = read_url(url + '/package-search-index.js')
-            json_text = text.removeprefix(b'packageSearchIndex = ').removesuffix(b';updateSearchResults();').strip()
+            json_text = text.removeprefix('packageSearchIndex = ').removesuffix(';updateSearchResults();').strip()
             data = json.loads(json_text)
 
             index = dict()
@@ -88,19 +87,21 @@ class Index:
         return base
 
 
-"""
-regex will match: java.util.com.MyClass#foo(String,int,boolean) -->
-    group 1: package (optional)
-    group 2: class name
-    group 3: method name + parameters (optional)
-"""
 class JavaDocProcessor(Treeprocessor):
     def __init__(self, md, urls):
         super().__init__(md)
 
         self.index = Index(urls)
 
+
     def run(self, root):
+        """
+        regex will match: java.util.com.MyClass#foo(String,int,boolean) -->
+        group 1: package (optional)
+        group 2: class name
+        group 3: method name + parameters (optional)
+        """
+
         pattern = re.compile(r'([\w.]*\.)?(\w+)(?:#(\w+\(.*\)))?$')
         for el in root.iter('a'):
             href = el.get('href', '')
