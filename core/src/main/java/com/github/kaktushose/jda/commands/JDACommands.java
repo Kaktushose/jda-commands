@@ -48,6 +48,7 @@ public final class JDACommands {
     private final Embeds embeds;
     private final CommandDefinition.CommandConfig globalCommandConfig;
     private final I18n i18n;
+    private final MessageResolver messageResolver;
     private final boolean shutdownJDA;
 
     JDACommands(JDAContext jdaContext,
@@ -64,6 +65,7 @@ public final class JDACommands {
                 MessageResolver messageResolver,
                 Embeds embeds,
                 boolean shutdownJDA) {
+        this.messageResolver = messageResolver;
         this.i18n = i18n;
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
@@ -153,6 +155,14 @@ public final class JDACommands {
     /// @return the [I18n] instance
     public I18n i18n() {
         return i18n;
+    }
+
+    /// Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.
+    /// This can be used to do localization and/or resolve emoji aliases used in messages.
+    ///
+    /// @return the [MessageResolver] instance
+    public MessageResolver messageResolver() {
+        return messageResolver;
     }
 
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name

@@ -51,7 +51,6 @@ Currently, extensions support to provide custom implementations of any class ext
 [`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html),
 that is:
 
-- `ClassFinder`
 - `Descriptor`
 - `InteractionControllerInstantiator`
 - `ErrorMessageFactory`
