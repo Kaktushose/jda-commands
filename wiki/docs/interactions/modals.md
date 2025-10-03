@@ -24,7 +24,7 @@ Also take a look at the general [message resolution documentation](../message/ov
     public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
     ```
 
-!!! example "Placeholder example" 
+!!! example "Placeholder Example" 
     ```java
     @Modal("{ $modal_name }")
     public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
