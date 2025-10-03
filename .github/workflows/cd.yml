@@ -13,6 +13,7 @@ jobs:
       release: ${{ steps.check.outputs.release }}
       version: ${{ steps.check.outputs.version }}
       version_major: ${{ steps.check.outputs.version_major }}
+      version_minor: ${{ steps.check.outputs.version_minor }}
       title: ${{ steps.check.outputs.title }}
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +52,7 @@ jobs:
           branch=${GITHUB_REF#refs/heads/}
 
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
-            echo "name=${{ needs.check_if_release.outputs.version_major }}" >> "$GITHUB_OUTPUT"
+            echo "name=${{ needs.check_if_release.outputs.version_major }}.${{ needs.check_if_release.outputs.version_minor }}" >> "$GITHUB_OUTPUT"
           elif [ "$branch" == "main" ]; then
             echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
