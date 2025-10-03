@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.fellbaum.jemoji.EmojiManager;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /// The [EmojiResolver] replaces emoji aliases in strings with their formatted value.
 ///
@@ -47,28 +48,18 @@ public class EmojiResolver {
     ///
     /// @return the resolved string
     public String resolve(String msg) {
-        List<Component> components = parse(msg);
-        List<Component.Literal> replaced = replaceEmojiAliases(components);
-        return join(replaced);
-    }
-
-    private String join(List<Component.Literal> components) {
-        StringBuilder builder = new StringBuilder();
-        components.forEach(literal -> builder.append(literal.value()));
-        return builder.toString();
-    }
-
-    private List<Component.Literal> replaceEmojiAliases(List<Component> components) {
-        return components.stream()
+        return parse(msg)
+                .stream()
                 .map(component -> switch (component) {
-                        case Component.EmojiReference(String name) -> {
-                            Emoji found = emojis.get(name);
-                            if (found == null) yield new Component.Literal(name);
-                            yield new Component.Literal(found.getFormatted());
-                        }
-                        case Component.Literal l -> l;
-                    })
-                .toList();
+                    case Component.EmojiReference(String name) -> {
+                        Emoji found = emojis.get(name);
+                        yield found == null
+                                ? name
+                                : found.getFormatted();
+                    }
+                    case Component.Literal(String value) -> value;
+                })
+                .collect(Collectors.joining());
     }
 
 

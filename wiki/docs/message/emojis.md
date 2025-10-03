@@ -1,5 +1,7 @@
 # Emojis
-JDA-Commands supports using emoji aliases for Unicode and application emojis in all places where [localization](../localization.md#implicit-localization) is done implicitly.
+JDA-Commands supports using emoji aliases for Unicode and application emojis in all places where [localization](localization.md#implicit-localization) is done implicitly.
+
+This is done after [placeholder resolution](placeholder.md) and [localization](localization.md) took place.
 
 JDA-Commands emoji aliases are very similar to the ones used by the discord client. 
 They follow the same format `:emoji_name:` for both Unicode and application emojis. 
@@ -51,7 +53,7 @@ If an application emoji is called the same as a Unicode emoji alias, the applica
 Adding application emojis manually in the webinterface is an annoying task, but for your luck JDA-Commands comes with tools
 to register your emojis automatically upon startup. Please note that we cannot unregister application emojis due to api limits. 
 
-Similar to how [ClassFinders](reflection.md#classfinder) work, JDA-Commands uses [EmojiSources](reflection.md#emojisource)
+Similar to how [ClassFinders](../misc/reflection.md#classfinder) work, JDA-Commands uses [EmojiSources](../misc/reflection.md#emojisource)
 to load your application emojis from different places. Per default there are 3 types of `EmojiSources`:
 
 - [EmojiSource#reflective(String... paths)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#reflective(java.lang.String...))
@@ -61,7 +63,7 @@ to load your application emojis from different places. Per default there are 3 t
 - [EmojiSource#fromIcon(String name, Icon icon)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon))
   that just works as an interop to JDAs own emoji api
 
-If no [EmojiSources](reflection.md#emojisource) are set by the user in the JDA-Commands Builder, the resource directory `emojis` will be searched for application emojis per default.
+If no [EmojiSources](../misc/reflection.md#emojisource) are set by the user in the JDA-Commands Builder, the resource directory `emojis` will be searched for application emojis per default.
 
 !!! example
     If your resource directory looks like:
@@ -73,5 +75,5 @@ If no [EmojiSources](reflection.md#emojisource) are set by the user in the JDA-C
     
     then JDA-Commands will register the application emojis "laughting" and "hola" upon startup.
 
-If you want to use custom EmojiSources just take a look [here](reflection.md#emojisource)
+If you want to use custom EmojiSources just take a look [here](../misc/reflection.md#emojisource)
     

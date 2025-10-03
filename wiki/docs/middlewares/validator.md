@@ -22,7 +22,7 @@ An error message is sent, if a parameter constraint fails:
 
 _You can customize this error message, find more about it [here](../misc/error-handling.md#error-messages)._
 
-The fail messages of these two default constraints be [localized](../localization.md) with the localization keys 
+The fail messages of these two default constraints can be [localized](../message/localization.md) with the localization keys 
 `validator.noperm.fail` or `validator.perm.fail` respectively. 
 
 ## Writing own Validators

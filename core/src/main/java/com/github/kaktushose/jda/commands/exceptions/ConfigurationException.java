@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.exceptions;
 
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 
 /// Will be thrown if anything goes wrong while configuring jda-commands.
 public final class ConfigurationException extends JDACException {
@@ -13,7 +13,7 @@ public final class ConfigurationException extends JDACException {
 
     /// @param key         the bundle key of the error message
     /// @param placeholder the placeholders to insert
-    public ConfigurationException(String key, I18n.Entry... placeholder) {
+    public ConfigurationException(String key, Entry... placeholder) {
         super(key, placeholder);
     }
 
@@ -24,7 +24,7 @@ public final class ConfigurationException extends JDACException {
     }
 
     /// {@inheritDoc}
-    public ConfigurationException(String key, Throwable cause, I18n.Entry... placeholder) {
+    public ConfigurationException(String key, Throwable cause, Entry... placeholder) {
         super(key, cause, placeholder);
     }
 

@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import org.jspecify.annotations.Nullable;
 
@@ -26,7 +26,7 @@ public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S
     protected @Nullable Integer minValues;
     protected @Nullable Integer maxValues;
 
-    public SelectMenuComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    public SelectMenuComponent(String method, @Nullable Class<?> origin, Entry[] placeholder) {
         super(method, origin, placeholder);
     }
 

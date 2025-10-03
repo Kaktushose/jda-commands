@@ -8,6 +8,7 @@ import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.lang.annotation.Annotation;
@@ -49,7 +50,7 @@ public interface Validator<T, A extends Annotation> {
     /// Validates an argument.
     ///
     /// If the parameter doesn't pass the validation, you can cancel this interaction by invoking
-    /// [Context#fail(String, I18n.Entry...)] with an appropriated error message.
+    /// [Context#fail(String, Entry...)] with an appropriated error message.
     ///
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
@@ -81,7 +82,7 @@ public interface Validator<T, A extends Annotation> {
         ///
         /// @see MessageResolver
         /// @see I18n
-        public MessageCreateData failMessage(String content, I18n.Entry... placeholder) {
+        public MessageCreateData failMessage(String content, Entry... placeholder) {
             String localized = invocationContext.messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
@@ -92,7 +93,7 @@ public interface Validator<T, A extends Annotation> {
         /// @param failMessage the message or localization key
         /// @param placeholder the variables used for localization
         /// @see InvocationContext#cancel(MessageCreateData)
-        public void fail(String failMessage, I18n.Entry... placeholder) {
+        public void fail(String failMessage, Entry... placeholder) {
             invocationContext.cancel(failMessage(failMessage, placeholder));
         }
     }

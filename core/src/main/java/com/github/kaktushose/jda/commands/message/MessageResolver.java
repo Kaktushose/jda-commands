@@ -1,17 +1,23 @@
 package com.github.kaktushose.jda.commands.message;
 
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import com.github.kaktushose.jda.commands.message.placeholder.PlaceholderResolver;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Map;
 
-/// The MessageResolver combines [I18n#localize(Locale, String, I18n.Entry...)] and
+/// The MessageResolver combines [I18n#localize(Locale, String, Entry...)] and
 /// [EmojiResolver#resolve(String)].
 ///
-/// It will first do localization with help of [I18n] and then apply the returned string
-/// to [EmojiResolver] to resolve Unicode aliases and application emojis.
+/// It will resolve the message in following order:
+///
+/// 1. resolve placeholders with help of [PlaceholderResolver]
+/// 2. do localization with help of [I18n]
+/// 3. resolve emojis with help [EmojiResolver]
+///
 ///
 /// Please note that this class is a helper and doesn't have own resolving logic, it's more of a pipeline
 /// to [EmojiResolver] and [I18n]. It is not intended to be directly used by end users but part of the public api
@@ -25,7 +31,8 @@ public class MessageResolver {
         this.emojiResolver = emojiResolver;
     }
 
-    /// First localizes the given message (see [I18n#localize(Locale, String, I18n.Entry...)]) and then attempts to
+    /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
+    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
     /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
@@ -34,11 +41,13 @@ public class MessageResolver {
     ///
     /// @return the resolved message
     public String resolve(String message, Locale locale, Map<String, @Nullable Object> placeholder) {
-        String localized = i18n.localize(locale, message, placeholder);
+        String formatted = PlaceholderResolver.resolve(message, placeholder);
+        String localized = i18n.localize(locale, formatted, placeholder);
         return emojiResolver.resolve(localized);
     }
 
-    /// First localizes the given message (see [I18n#localize(Locale, String, I18n.Entry...)]) and then attempts to
+    /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
+    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
     /// resolve emojis (see [EmojiResolver#resolve(String)]).
     ///
     /// @param message the message to be resolved
@@ -46,9 +55,8 @@ public class MessageResolver {
     /// @param placeholder the placeholders to use for i18n
     ///
     /// @return the resolved message
-    public String resolve(String message, Locale locale, I18n.Entry... placeholder) {
-        String localized = i18n.localize(locale, message, placeholder);
-        return emojiResolver.resolve(localized);
+    public String resolve(String message, Locale locale, Entry... placeholder) {
+        return resolve(message, locale, Entry.toMap(placeholder));
     }
 
     /// Gets the underlying [I18n] instance

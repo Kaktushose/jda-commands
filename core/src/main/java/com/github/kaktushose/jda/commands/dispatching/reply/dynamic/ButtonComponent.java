@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.dispatching.reply.Component;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
@@ -16,7 +16,7 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     private @Nullable String label;
     private @Nullable String url;
 
-    public ButtonComponent(String method, @Nullable Class<?> origin, I18n.Entry[] placeholder) {
+    public ButtonComponent(String method, @Nullable Class<?> origin, Entry[] placeholder) {
         super(method, origin, placeholder);
     }
 

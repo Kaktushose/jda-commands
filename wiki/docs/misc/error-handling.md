@@ -35,7 +35,7 @@ Or use the `@Implementation` annotation (requires the [Guice Extension](../di.md
 public class OwnErrorMessageFactory implements ErrorMessageFactory {...}
 ```
 
-To make things easier, these error messages can also be loaded from a `JSON` source using the [Embed API](./embeds.md). 
+To make things easier, these error messages can also be loaded from a `JSON` source using the [Embed API](../message/embeds.md). 
 Therefore, you have to pass an [`EmbedDataSource`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html) to the [`EmbedConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedConfig.html#errorSource(com.github.kaktushose.jda.commands.embeds.EmbedDataSource)).
 ```java
 JDACommands.builder(jda, Main.class)

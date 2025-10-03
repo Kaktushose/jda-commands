@@ -47,16 +47,4 @@ public final class FluavaLocalizer implements Localizer {
                 ? Optional.empty()
                 : Optional.of(result);
     }
-
-
-    /// {@inheritDoc}
-    ///
-    /// @param locale    {@inheritDoc}
-    /// @param arguments {@inheritDoc}
-    /// @param content   {@inheritDoc}
-    /// @return {@inheritDoc}
-    @Override
-    public Optional<String> localizeMessage(Locale locale, String content, Map<String, Object> arguments) {
-        return fluava.ofMessage(content, locale).toOptional().map(message -> message.apply(arguments));
-    }
 }

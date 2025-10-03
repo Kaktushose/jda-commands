@@ -10,6 +10,7 @@ import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -335,28 +336,28 @@ public class Embed {
         return this;
     }
 
-    /// Adds all the provided [`placeholders`][I18n.Entry] to this embed instance. The values will be replaced when [#build()] is called.
+    /// Adds all the provided [`placeholders`][Entry] to this embed instance. The values will be replaced when [#build()] is called.
     ///
     /// Existing entries with the same keys will be overwritten.
     ///
     /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
     ///
-    /// @param placeholders the [`entries`][I18n.Entry] to add
+    /// @param placeholders the [`entries`][Entry] to add
     /// @return this instance for fluent interface
-    public Embed placeholders(I18n.Entry... placeholders) {
+    public Embed placeholders(Entry... placeholders) {
         this.placeholders.putAll(Arrays.stream(placeholders)
                 .collect(HashMap::new, (m,e)->m.put(e.name(), e.value()), HashMap::putAll));
         return this;
     }
 
     /// Returns a [MessageEmbed] just like [EmbedBuilder#build()], but will also localize this embed based on the
-    /// [#locale(Locale)] and [`placeholders`][#placeholders(I18n.Entry...)] provided.
+    /// [#locale(Locale)] and [`placeholders`][#placeholders(Entry...)] provided.
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {
         String json = data.toString();
         try {
-            JsonNode node = localize(mapper.readTree(json));
+            JsonNode node = resolve(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
         } catch (JsonProcessingException e) {
             throw new InternalException("localization-json-error", e);
@@ -370,13 +371,13 @@ public class Embed {
         }
     }
 
-    private JsonNode localize(JsonNode node) {
+    private JsonNode resolve(JsonNode node) {
         if (node instanceof ObjectNode objectNode) {
             Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
             while (iterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = iterator.next();
                 JsonNode child = entry.getValue();
-                JsonNode newChild = localize(child);
+                JsonNode newChild = resolve(child);
                 if (newChild.isTextual()) {
                     objectNode.put(entry.getKey(), messageResolver.resolve(newChild.asText(), locale, placeholders));
                 } else {
@@ -386,7 +387,7 @@ public class Embed {
         } else if (node instanceof ArrayNode arrayNode) {
             for (int i = 0; i < arrayNode.size(); i++) {
                 JsonNode child = arrayNode.get(i);
-                arrayNode.set(i, localize(child));
+                arrayNode.set(i, resolve(child));
             }
         }
         return node;

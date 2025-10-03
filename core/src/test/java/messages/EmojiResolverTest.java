@@ -1,4 +1,4 @@
-package emoji;
+package messages;
 
 import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
 import org.junit.jupiter.api.Assertions;
@@ -76,5 +76,22 @@ class EmojiResolverTest {
         String text = "Currently following channels are registered as release channels: ";
         String resolved = new EmojiResolver(List.of()).resolve(text);
         Assertions.assertEquals("Currently following channels are registered as release channels: ", resolved);
+    }
+
+    @Test
+    void multiline() {
+        String text = """
+                Currently following channels are registered as release channels:\s
+                - this one :joy:
+                - and this not :not_joy:
+               """;
+
+
+        String resolved = new EmojiResolver(List.of()).resolve(text);
+        Assertions.assertEquals("""
+                Currently following channels are registered as release channels:\s
+                - this one 😂
+                - and this not :not_joy:
+               """, resolved);
     }
 }
