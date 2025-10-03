@@ -72,6 +72,8 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" tabindex="0">resolve(String, Locale, Map)</a></li>
 <li><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">resolve(String, Locale, I18n.Entry...)</a></li>
+<li><a href="#i18n()" tabindex="0">i18n()</a></li>
+<li><a href="#emojiResolver()" tabindex="0">emojiResolver()</a></li>
 </ol>
 </li>
 </ol>
@@ -126,6 +128,16 @@ to allow manual execution of the frameworks resolving logic for dynamic values i
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji">EmojiResolver</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#emojiResolver()" class="member-name-link">emojiResolver</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the underlying <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a> instance</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the underlying <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
@@ -212,6 +224,32 @@ resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"
 <dd><code>placeholder</code> - the placeholders to use for i18n</dd>
 <dt>Returns:</dt>
 <dd>the resolved message</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="i18n()">
+<h3>i18n</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
+<div class="block">Gets the underlying <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the used <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="emojiResolver()">
+<h3>emojiResolver</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji">EmojiResolver</a></span>&nbsp;<span class="element-name">emojiResolver</span>()</div>
+<div class="block">Gets the underlying <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a> instance</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the used <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a> instance</dd>
 </dl>
 </div>
 </section>

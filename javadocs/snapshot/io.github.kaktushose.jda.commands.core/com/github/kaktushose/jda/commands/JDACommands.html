@@ -71,6 +71,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#shutdown()" tabindex="0">shutdown()</a></li>
 <li><a href="#updateGuildCommands()" tabindex="0">updateGuildCommands()</a></li>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
+<li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
 <li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
 <li><a href="#getSelectMenu(java.lang.Class,java.lang.String)" tabindex="0">getSelectMenu(Class, String)</a></li>
 <li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
@@ -154,28 +155,33 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Exposes the localization functionality of JDA-Commands to be used elsewhere in the application</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdown()" class="member-name-link">shutdown</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdown()" class="member-name-link">shutdown</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Shuts down this JDACommands instance, making it unable to receive any events from Discord.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.JDA,java.lang.Class,java.lang.String...)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.sharding.ShardManager,java.lang.Class,java.lang.String...)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link">ShardManager</a>&nbsp;shardManager,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.JDA,java.lang.Class,java.lang.String...)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands()" class="member-name-link">updateGuildCommands</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in com.github.kaktushose.jda.commands">JDACommands</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.sharding.ShardManager,java.lang.Class,java.lang.String...)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link">ShardManager</a>&nbsp;shardManager,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz,
+ <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;packages)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands()" class="member-name-link">updateGuildCommands</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
 </div>
 </div>
@@ -308,6 +314,20 @@ be shutdown too.</p>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the <a href="message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="messageResolver()">
+<h3>messageResolver</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
+<div class="block">Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.
+This can be used to do localization and/or resolve emoji aliases used in messages.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the <a href="message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance</dd>
 </dl>
 </div>
 </section>
