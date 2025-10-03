@@ -50,7 +50,7 @@ In our example the following commands will be registered:
 - `/moderation kick`
 - `/moderation ban`
 
-To simplify things, you can also use the [`@Interaction`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html)
+To simplify things, you can also use the [`@Interaction`](jdac -> Interaction)
 to add a base name to all slash commands in a command controller:
 ```java
 @Interaction("moderation")

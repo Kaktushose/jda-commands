@@ -72,12 +72,13 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-  - javadoc_extension:
+  - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
       urls:
-        - 'https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/'
-        - 'https://docs.jda.wiki/'
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
-
+        - alias: 'jda'
+          url: 'https://docs.jda.wiki/'
+        - alias: 'jdac'
+          url: 'https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/'
 
 nav:
   - Home: index.md
