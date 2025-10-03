@@ -19,7 +19,7 @@ import java.util.Map;
 /// 3. resolve emojis with help [EmojiResolver]
 ///
 ///
-/// Please note that this class is a helper and doesn't have ow resolving logic, it's morne of a pipeline
+/// Please note that this class is a helper and doesn't have own resolving logic, it's more of a pipeline
 /// to [EmojiResolver] and [I18n]. It is not intended to be directly used by end users but part of the public api
 /// to allow manual execution of the frameworks resolving logic for dynamic values if needed.
 public class MessageResolver {
