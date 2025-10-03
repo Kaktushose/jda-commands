@@ -17,13 +17,14 @@ They are applied to the string provided by the user in following order:
 
 The resulting string is then send to discord or returned to the user.
 
-### Implicit resolution
-Instead of manually using the `MessageResolver` class, JDA-Commands allows for implicit resolution
+## Usage
+Instead of manually using the [`MessageResolver`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html)
+class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:
 
 - [Component API](../interactions/components.md) including the corresponding annotations like [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html),
   [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html) etc.
-- [Embed API](../misc/embeds.md) 
+- [Embed API](embeds.md) 
 - [Reply API](../interactions/reply.md), for example the string content of a message [`Reply#reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String))
 
 If you are using localization, please take a look at [implicit localization](localization.md#implicit-localization).

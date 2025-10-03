@@ -1,7 +1,7 @@
 # Emojis
 JDA-Commands supports using emoji aliases for Unicode and application emojis in all places where [localization](localization.md#implicit-localization) is done implicitly.
 
-This is done after [variable resolution](placeholder.md) and [localization](localization.md) took place.
+This is done after [placeholder resolution](placeholder.md) and [localization](localization.md) took place.
 
 JDA-Commands emoji aliases are very similar to the ones used by the discord client. 
 They follow the same format `:emoji_name:` for both Unicode and application emojis. 

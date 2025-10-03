@@ -68,12 +68,16 @@ public class ComponentTest {
                 .reply();
     }
     
-    @Button("has_variables_in_the_message")
+    @Button("button_name")
     public void onButton(ComponentEvent event) {
         ...
     }
 
 }
+```
+
+```properties title="default_en.ftl"
+button_name = Hello { $name }
 ```
 
 ## Bundles

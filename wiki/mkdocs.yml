@@ -97,8 +97,8 @@ nav:
       - Emojis: message/emojis.md
       - Placeholders: message/placeholder.md
       - Localization: message/localization.md
+      - Embed API: message/embeds.md
   - Misc:
-      - Embed API: misc/embeds.md
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
       - Extensions:

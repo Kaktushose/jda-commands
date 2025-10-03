@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.message.placeholder;
 
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
@@ -8,11 +9,19 @@ import java.util.Map;
 
 /// A placeholder identified by its name with the value to be substituted.
 ///
-/// Placeholders of message with the given name are replaced by the given value during localization.
 ///
 /// @param name the placeholders name
 /// @param value the value to be substituted
+/// @see PlaceholderResolver
+/// @see I18n
 public record Entry(String name, @Nullable Object value) {
+
+    /// Takes a varargs array of [Entries][Entry] and transforms it into a [Map], where [Entry#name()] is the key
+    /// [Entry#value()] will be mapped to.
+    ///
+    /// @param placeholder the [Entries][Entry] to transform into a [Map]
+    ///
+    /// @return a [Map] representing the passed [Entries][Entry]
     public static Map<String, @Nullable Object> toMap(Entry... placeholder) {
         return Arrays.stream(placeholder)
                 .collect(HashMap::new, (m, e) -> m.put(e.name(), e.value()), HashMap::putAll);

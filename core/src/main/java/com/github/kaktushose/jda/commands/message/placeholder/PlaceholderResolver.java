@@ -50,7 +50,7 @@ public class PlaceholderResolver {
                 .stream()
                 .map(component -> switch (component) {
                     case Component.Literal(String value) -> value;
-                    case Component.VariableReference(String reference) -> getPlaceholder(reference, placeholder);
+                    case Component.PlaceholderReference(String reference) -> getPlaceholder(reference, placeholder);
                 })
                 .collect(Collectors.joining());
     }
@@ -108,7 +108,7 @@ public class PlaceholderResolver {
                     continue;
                 }
 
-                components.add(new Component.VariableReference(reference));
+                components.add(new Component.PlaceholderReference(reference));
 
                 i = closingBracket;
                 nextLiteralStart = i+1;

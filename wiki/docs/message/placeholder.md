@@ -1,7 +1,5 @@
 # Placeholders
-JDA-Commands supports resolving named placeholders/variables in all places where [localization](localization.md#implicit-localization) is done implicitly.
-
-This is done prior to [localization](localization.md).
+JDA-Commands supports resolving named placeholders/variables as explained [before](overview.md)
 
 ## Format
 The placeholders format is similar to [project fluent](https://projectfluent.org/fluent/guide/) but with some
@@ -27,6 +25,10 @@ The overall placeholder format is `{ $your_placeholder }`, with following proper
     - `{ dollar$sign }`
     - `{ bra{cket}` (will result in `{ bra}` as plain text and `{cket}` as placeholder)
     - `{ new \n line }` (meant is new line in the middle of the reference name)
+
+    ```java
+    event.reply("Hello { $user }!", Entry.entry("user", event.getUser().getAsMention()));
+    ```
 
 Invalid placeholders will just be treated as literal text.
 

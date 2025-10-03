@@ -100,11 +100,11 @@ to set the locale the Embed should be localized with. When replying to interacti
 to retrieve the user locale. The Embed will be localized once [`#build()`](https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html#build())
 is called. 
 
-See the [Localization Section](../message/localization.md) of this wiki for details.
+See the [Localization Section](localization.md) of this wiki for details.
 
 ## Placeholders and emojis (message resolution)
-You can add placeholders to your Embeds just like in many other places in this framework. JDA-Commands will resolve
-embeds according to the documentation [here](../message/overview.md).
+You can add placeholders to your Embeds just like in many other places in this framework. JDA-Commands will resolve the
+content of embeds according to the documentation [here](overview.md).
 
 !!! example
     ```json title="embeds.json"

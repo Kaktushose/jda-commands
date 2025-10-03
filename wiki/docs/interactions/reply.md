@@ -191,7 +191,7 @@ calling `#modify`.
     ```
 
 ## Embeds
-JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../misc/embeds.md) of this wiki for
+JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../message/embeds.md) of this wiki for
 setup instructions. Once you have your [`EmbedDataSources`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html)
 configured you can start using Embeds in your replies. 
 
