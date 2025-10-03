@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/middlewares/typeadapter/">
+        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/message/overview/">
       
       
-        <link rel="prev" href="../overview/">
+        <link rel="prev" href="../../di/">
       
       
-        <link rel="next" href="../validator/">
+        <link rel="next" href="../emojis/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Type Adapters - JDA-Commands Wiki</title>
+        <title>Overview - JDA-Commands Wiki</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#type-adapters" class="md-skip">
+        <a href="#messages" class="md-skip">
           Skip to content
         </a>
       
@@ -134,7 +134,7 @@ You're not viewing the latest stable version.
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Type Adapters
+              Overview
             
           </span>
         </div>
@@ -277,13 +277,11 @@ You're not viewing the latest stable version.
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../overview/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../middlewares/overview/" class="md-tabs__link">
           
   
   
@@ -318,11 +316,13 @@ You're not viewing the latest stable version.
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../message/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -736,31 +736,26 @@ You're not viewing the latest stable version.
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -773,7 +768,7 @@ You're not viewing the latest stable version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Middlewares
@@ -787,7 +782,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../../middlewares/overview/" class="md-nav__link">
         
   
   
@@ -807,32 +802,10 @@ You're not viewing the latest stable version.
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Type Adapters
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../middlewares/typeadapter/" class="md-nav__link">
         
   
   
@@ -843,53 +816,6 @@ You're not viewing the latest stable version.
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#default-type-adapters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Default Type Adapters
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-own-type-adapters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Writing Own Type Adapters
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Messages
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -902,7 +828,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../validator/" class="md-nav__link">
+      <a href="../../middlewares/validator/" class="md-nav__link">
         
   
   
@@ -925,7 +851,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../permissions/" class="md-nav__link">
+      <a href="../../middlewares/permissions/" class="md-nav__link">
         
   
   
@@ -948,7 +874,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../cooldown/" class="md-nav__link">
+      <a href="../../middlewares/cooldown/" class="md-nav__link">
         
   
   
@@ -997,26 +923,31 @@ You're not viewing the latest stable version.
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -1029,7 +960,7 @@ You're not viewing the latest stable version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Message
@@ -1040,10 +971,32 @@ You're not viewing the latest stable version.
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../message/overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1054,6 +1007,44 @@ You're not viewing the latest stable version.
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1066,7 +1057,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../message/emojis/" class="md-nav__link">
+      <a href="../emojis/" class="md-nav__link">
         
   
   
@@ -1089,7 +1080,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../message/placeholder/" class="md-nav__link">
+      <a href="../placeholder/" class="md-nav__link">
         
   
   
@@ -1112,7 +1103,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../message/localization/" class="md-nav__link">
+      <a href="../localization/" class="md-nav__link">
         
   
   
@@ -1135,7 +1126,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../message/embeds/" class="md-nav__link">
+      <a href="../embeds/" class="md-nav__link">
         
   
   
@@ -1415,87 +1406,38 @@ You're not viewing the latest stable version.
   
 
 
-<h1 id="type-adapters">Type Adapters<a class="headerlink" href="#type-adapters" title="Permanent link">&para;</a></h1>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html"><code>TypeAdapters</code></a>
-are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.</p>
-<h2 id="default-type-adapters">Default Type Adapters<a class="headerlink" href="#default-type-adapters" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands uses <a href="https://github.com/Kaktushose/proteus">Proteus</a> for its type adapting system. Proteus supports all
-widening and narrowing primitive conversions as defined by the Java Language Specification. Additionally, JDA-Commands
-has implemented default type adapters for JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html"><code>GuildChannel</code></a>
-and its subtypes.</p>
-<p>Thus, you can add all primitive types and their respective wrapper types as well as any underlying type of the 
-<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html"><code>OptionType</code></a> enum
-as a parameter to your slash command methods. See <a href="../../interactions/commands/#command-options">Command Options</a>
-for details.</p>
-<h2 id="writing-own-type-adapters">Writing Own Type Adapters<a class="headerlink" href="#writing-own-type-adapters" title="Permanent link">&para;</a></h2>
-<p>As mentioned above, JDA-Commands uses <a href="https://github.com/Kaktushose/proteus">Proteus</a> under the hood for type adapting.
-The <a href=""><code>TypeAdapter</code></a> interface is simply a subtype of Proteus' <a href="https://kaktushose.github.io/proteus/javadocs/snapshot/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html"><code>UniMapper</code></a>.
-The following example only covers the registration part for JDA-Commands. Please refer to the <a href="https://kaktushose.github.io/proteus/wiki/"><code>documentation</code></a>
-of Proteus for implementation details. </p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Command</label><label for="__tabbed_1_2">Type Adapter (<code>@Implementation</code> Registration)</label><label for="__tabbed_1_3">Type Adapter (Builder Registration)</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="w"> </span><span class="n">profile</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
-</span></code></pre></div>
+<h1 id="messages">Messages<a class="headerlink" href="#messages" title="Permanent link">&para;</a></h1>
+<p>Messages are a central part of JDA-Commands, they include content send to the user via the reply API,
+strings used in framework annotations and modals and much more.</p>
+<p>To provide the best user experience possible, JDA-Commands comes included with <a href="../localization/">localization</a>,
+support for <a href="../placeholder/">placeholders</a> and <a href="../emojis/">Unicode and app emojis</a>. In many places in the framework,
+these feature are applied <a href="#implicit-resolution">implicitly</a>.</p>
+<h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h2>
+<p>The features listed above are all pipelined together with help of the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html">MessageResolver</a>.</p>
+<p>They are applied to the string provided by the user in following order:</p>
+<ol>
+<li><a href="../placeholder/">resolution of placeholders</a></li>
+<li><a href="../localization/">localization</a></li>
+<li><a href="../emojis/">resolution of emoji aliases</a></li>
+</ol>
+<p>The resulting string is then send to discord or returned to the user.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>Instead of manually using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html"><code>MessageResolver</code></a>
+class, JDA-Commands allows for implicit resolution
+of messages in many common please. These include:</p>
+<ul>
+<li><a href="../../interactions/components/">Component API</a> including the corresponding annotations like <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html"><code>@Button</code></a>,
+  <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html"><code>@Modal</code></a> etc.</li>
+<li><a href="../embeds/">Embed API</a> </li>
+<li><a href="../../interactions/reply/">Reply API</a>, for example the string content of a message <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String)"><code>Reply#reply(String)</code></a></li>
+</ul>
+<p>If you are using localization, please take a look at <a href="../localization/#implicit-localization">implicit localization</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Message resolution of content in <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html"><code>MessageCreateData</code></a> is not supported implicitly.
+You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html">MessageResolver</a>
+to resolve such messages.</p>
 </div>
-<div class="tabbed-block">
-<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Implementation.TypeAdapter</span><span class="p">(</span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserProfileTypeAdapter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">TypeAdapter</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">MappingResult</span><span class="o">&lt;</span><span class="n">UserProfile</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">from</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">MappingContext</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">MappingResult</span><span class="p">.</span><span class="na">lossless</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">(</span><span class="n">source</span><span class="p">));</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<p><div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserProfileTypeAdapter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">TypeAdapter</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">MappingResult</span><span class="o">&lt;</span><span class="n">CustomType</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">from</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">MappingContext</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">MappingResult</span><span class="p">.</span><span class="na">lossless</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">(</span><span class="n">source</span><span class="p">));</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
-</span></code></pre></div>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">.</span><span class="na">adapter</span><span class="p">(</span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserProfileTypeAdapter</span><span class="p">());</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div></p>
-</div>
-</div>
-</div>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If your type adapter is simple enough, you could also just use lambda expressions: 
-<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="p">.</span><span class="na">adapter</span><span class="p">(</span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">MappingResult</span><span class="p">.</span><span class="na">lossless</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">UserProfile</span><span class="p">(</span><span class="n">source</span><span class="p">)));</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div></p>
-</div>
-<p>Your own types will be mapped to <code>OptionType.STRING</code> by default. You can
-override this mapping by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html"><code>@Param</code></a>
-annotation.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@Param</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OptionType</span><span class="p">.</span><span class="na">USER</span><span class="p">)</span><span class="w"> </span><span class="n">UserProfile</span><span class="w"> </span><span class="n">profile</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<p>For our example this would also mean that we would need to update the <code>UserProfileTypeAdapter</code> to use <code>User</code> instead of
-<code>String</code> as its source type. </p>
-<h2 id="error-messages">Error Messages<a class="headerlink" href="#error-messages" title="Permanent link">&para;</a></h2>
-<p>If the type adapting fails an error message will be sent to the user:</p>
-<p><img alt="Type Adapter Error Message" src="../../assets/adapter.png" /></p>
-<p><em>You can customize this error message, find more about it <a href="../../misc/error-handling/#error-messages">here</a>.</em></p>
 
 
 
@@ -1533,7 +1475,7 @@ annotation.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../overview/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+          <a href="../../di/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Dependency Injection">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1543,20 +1485,20 @@ annotation.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Overview
+                Dependency Injection
               </div>
             </div>
           </a>
         
         
           
-          <a href="../validator/" class="md-footer__link md-footer__link--next" aria-label="Next: Validators (Parameter Constraints)">
+          <a href="../emojis/" class="md-footer__link md-footer__link--next" aria-label="Next: Emojis">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Validators (Parameter Constraints)
+                Emojis
               </div>
             </div>
             <div class="md-footer__button md-icon">

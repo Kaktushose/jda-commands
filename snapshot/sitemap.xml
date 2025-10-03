@@ -9,22 +9,6 @@
          <lastmod>2025-10-03</lastmod>
     </url>
     <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/localization/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/extension/configuring/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/extension/overview/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/extension/writing/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
          <loc>https://kaktushose.github.io/wiki/snapshot/interactions/commands/</loc>
          <lastmod>2025-10-03</lastmod>
     </url>
@@ -42,6 +26,26 @@
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/snapshot/interactions/reply/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/message/embeds/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/message/emojis/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/message/localization/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/message/overview/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/message/placeholder/</loc>
          <lastmod>2025-10-03</lastmod>
     </url>
     <url>
@@ -65,19 +69,23 @@
          <lastmod>2025-10-03</lastmod>
     </url>
     <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/misc/embeds/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
-         <loc>https://kaktushose.github.io/wiki/snapshot/misc/emojis/</loc>
-         <lastmod>2025-10-03</lastmod>
-    </url>
-    <url>
          <loc>https://kaktushose.github.io/wiki/snapshot/misc/error-handling/</loc>
          <lastmod>2025-10-03</lastmod>
     </url>
     <url>
          <loc>https://kaktushose.github.io/wiki/snapshot/misc/reflection/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/misc/extension/configuring/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/misc/extension/overview/</loc>
+         <lastmod>2025-10-03</lastmod>
+    </url>
+    <url>
+         <loc>https://kaktushose.github.io/wiki/snapshot/misc/extension/writing/</loc>
          <lastmod>2025-10-03</lastmod>
     </url>
     <url>
