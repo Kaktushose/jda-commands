@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException {
 
-    protected static final Bundle errorMessages = new Fluava(Locale.ENGLISH, Map.of()).loadBundle("jdac");
+    protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac");
 
     /// Creates a new JDACException and loads the error message from the given key.
     ///
