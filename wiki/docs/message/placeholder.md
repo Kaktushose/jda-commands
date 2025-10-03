@@ -41,7 +41,7 @@ there (preferably by using [`Enrty#entry`](https://kaktushose.github.io/jda-comm
 as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
 the used method.
 
-### string representation
+### String Representation
 To get a variables string representation, JDA-Commands will:
 
 1. call [Proteus#convert(Object, Type, Type)](https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type))
