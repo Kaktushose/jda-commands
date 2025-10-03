@@ -46,6 +46,7 @@ com.github.kaktushose.jda.commands.message
 com.github.kaktushose.jda.commands.message.emoji
 com.github.kaktushose.jda.commands.message.i18n
 com.github.kaktushose.jda.commands.message.i18n.internal
+com.github.kaktushose.jda.commands.message.placeholder
 com.github.kaktushose.jda.commands.permissions
 com.github.kaktushose.jda.commands.scope
 module:io.github.kaktushose.jda.commands.extension.guice

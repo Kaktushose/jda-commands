@@ -84,8 +84,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#interactionInstance(java.lang.Class)" tabindex="0">interactionInstance(Class)</a></li>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
 <li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
-<li><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">localize(String, I18n.Entry...)</a></li>
-<li><a href="#resolve(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">resolve(String, I18n.Entry...)</a></li>
+<li><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">localize(String, Entry...)</a></li>
+<li><a href="#resolve(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">resolve(String, Entry...)</a></li>
 <li><a href="#getTypeRaw()" tabindex="0">getTypeRaw()</a></li>
 <li><a href="#getToken()" tabindex="0">getToken()</a></li>
 <li><a href="#getGuild()" tabindex="0">getGuild()</a></li>
@@ -267,8 +267,8 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <div class="block">Returns the <a href="../context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>KeyValueStore</code></a> of this <a href="../../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a localization message for the given key using the underlying <a href="../../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance.</div>
 </div>
@@ -278,8 +278,8 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 <div class="block">Gets the <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolved the given message with help of the underlying <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance,
 thus performing localization and emoji resolution.</div>
@@ -457,14 +457,14 @@ that is bound to the underlying <a href="../../../../../../../../index.html#runt
 </section>
 </li>
 <li>
-<section class="detail" id="localize(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="localize(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>localize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">localize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
 <div class="block"><p>Gets a localization message for the given key using the underlying <a href="../../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance.</p>
 <p>Automatically resolves the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent.getUserLocale()</code></a>.
-Use <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a> (obtained via <a href="#i18n()"><code>i18n()</code></a>) if you want to use a different locale.</p>
+Use <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a> (obtained via <a href="#i18n()"><code>i18n()</code></a>) if you want to use a different locale.</p>
 </div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -474,15 +474,15 @@ Use <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.St
 </section>
 </li>
 <li>
-<section class="detail" id="resolve(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="resolve(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>resolve</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholders)</span></div>
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
 <div class="block"><p>Resolved the given message with help of the underlying <a href="../../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance,
 thus performing localization and emoji resolution.</p>
 <p>Automatically resolves the <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent.getUserLocale()</code></a>.
-Use <a href="../../message/MessageResolver.html#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>MessageResolver.resolve(String, Locale, I18n.Entry...)</code></a> (obtained via <a href="#messageResolver()"><code>messageResolver()</code></a>) if you want to use a different locale.</p>
+Use <a href="../../message/MessageResolver.html#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>MessageResolver.resolve(String, Locale, Entry...)</code></a> (obtained via <a href="#messageResolver()"><code>messageResolver()</code></a>) if you want to use a different locale.</p>
 </div>
 <dl class="notes">
 <dt>Returns:</dt>

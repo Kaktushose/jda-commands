@@ -82,11 +82,11 @@ loadScripts(document, 'script');</script>
 <li><a href="#keepComponents(boolean)" tabindex="0">keepComponents(boolean)</a></li>
 <li><a href="#keepSelections(boolean)" tabindex="0">keepSelections(boolean)</a></li>
 <li><a href="#builder(java.util.function.Consumer)" tabindex="0">builder(Consumer)</a></li>
-<li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">reply(String, I18n.Entry...)</a></li>
+<li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">reply(String, Entry...)</a></li>
 <li><a href="#embeds(java.lang.String...)" tabindex="0">embeds(String...)</a></li>
 <li><a href="#embeds(com.github.kaktushose.jda.commands.embeds.Embed...)" tabindex="0">embeds(Embed...)</a></li>
 <li><a href="#embeds(java.lang.String,java.util.function.Consumer)" tabindex="0">embeds(String, Consumer)</a></li>
-<li><a href="#embeds(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">embeds(String, I18n.Entry, I18n.Entry...)</a></li>
+<li><a href="#embeds(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">embeds(String, Entry, Entry...)</a></li>
 <li><a href="#components(java.lang.String...)" tabindex="0">components(String...)</a></li>
 <li><a href="#components(com.github.kaktushose.jda.commands.dispatching.reply.Component...)" tabindex="0">components(Component...)</a></li>
 </ol>
@@ -215,9 +215,9 @@ public class ExampleCommand {
 <div class="block">Acknowledgement of this event with one or more <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>s.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SendableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">SendableReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embeds(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>&nbsp;entry,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;entries)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#embeds(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>&nbsp;entry,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;entries)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</div>
 </div>
@@ -243,8 +243,8 @@ public class ExampleCommand {
 <div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
@@ -416,16 +416,16 @@ are also manipulated by the Reply API, like content or embeds, may lead to unexp
 </section>
 </li>
 <li>
-<section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Acknowledgement of this event with a text message.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>message</code> - the message to send or the localization key</dd>
-<dd><code>placeholder</code> - the placeholders to use to perform localization, see <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a></dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a></dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 <dt>Implementation Requirements:</dt>
@@ -491,20 +491,20 @@ returned directly.</p>
 </section>
 </li>
 <li>
-<section class="detail" id="embeds(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="embeds(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>embeds</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SendableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">SendableReply</a></span>&nbsp;<span class="element-name">embeds</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;embed,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>&nbsp;entry,
- <a href="../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;entries)</span></div>
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>&nbsp;entry,
+ <a href="../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;entries)</span></div>
 <div class="block"><p>Acknowledgement of this event with an <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a>.</p>
 <p>Resolves the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> based on the given name. See <a href="../../embeds/EmbedConfig.html" title="interface in com.github.kaktushose.jda.commands.embeds"><code>EmbedConfig</code></a> for more information.</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>embed</code> - the name of the <a href="../../embeds/Embed.html" title="class in com.github.kaktushose.jda.commands.embeds"><code>Embed</code></a> to send</dd>
-<dd><code>entry</code> - the placeholders to use. See <a href="../../embeds/Embed.html#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>Embed.placeholders(I18n.Entry...)</code></a></dd>
-<dd><code>entries</code> - the placeholders to use. See <a href="../../embeds/Embed.html#placeholders(com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>Embed.placeholders(I18n.Entry...)</code></a></dd>
+<dd><code>entry</code> - the placeholders to use. See <a href="../../embeds/Embed.html#placeholders(com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>Embed.placeholders(Entry...)</code></a></dd>
+<dd><code>entries</code> - the placeholders to use. See <a href="../../embeds/Embed.html#placeholders(com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>Embed.placeholders(Entry...)</code></a></dd>
 <dt>Returns:</dt>
 <dd>a new <a href="SendableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply"><code>SendableReply</code></a></dd>
 </dl>

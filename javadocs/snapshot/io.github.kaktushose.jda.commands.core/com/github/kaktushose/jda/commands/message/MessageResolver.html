@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" tabindex="0">resolve(String, Locale, Map)</a></li>
-<li><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">resolve(String, Locale, I18n.Entry...)</a></li>
+<li><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">resolve(String, Locale, Entry...)</a></li>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
 <li><a href="#emojiResolver()" tabindex="0">emojiResolver()</a></li>
 </ol>
@@ -91,10 +91,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MessageResolver</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block"><p>The MessageResolver combines <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a> and
+<div class="block"><p>The MessageResolver combines <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a> and
 <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>.</p>
-<p>It will first do localization with help of <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> and then apply the returned string
-to <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a> to resolve Unicode aliases and application emojis.</p>
+<p>It will resolve the message in following order:</p>
+<ol>
+<li>resolve placeholders with help of <a href="placeholder/PlaceholderResolver.html" title="class in com.github.kaktushose.jda.commands.message.placeholder"><code>PlaceholderResolver</code></a></li>
+<li>do localization with help of <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a></li>
+<li>resolve emojis with help <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a></li>
+</ol>
 <p>Please note that this class is a helper and doesn't have own resolving logic, it's more of a pipeline
 to <a href="emoji/EmojiResolver.html" title="class in com.github.kaktushose.jda.commands.message.emoji"><code>EmojiResolver</code></a> and <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a>. It is not intended to be directly used by end users but part of the public api
 to allow manual execution of the frameworks resolving logic for dynamic values if needed.</p>
@@ -139,11 +143,12 @@ to allow manual execution of the frameworks resolving logic for dynamic values i
 <div class="block">Gets the underlying <a href="i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
- <a href="i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+ <a href="placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">First localizes the given message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a>) and then attempts to
+<div class="block">First resolves the variables in the given message (see <a href="placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
+localizes the resulting message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
 resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
@@ -151,7 +156,8 @@ resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">First localizes the given message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a>) and then attempts to
+<div class="block">First resolves the variables in the given message (see <a href="placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
+localizes the resulting message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
 resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
 </div>
 </div>
@@ -195,7 +201,8 @@ resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</span></div>
-<div class="block">First localizes the given message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a>) and then attempts to
+<div class="block">First resolves the variables in the given message (see <a href="placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
+localizes the resulting message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
 resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -209,13 +216,14 @@ resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"
 </section>
 </li>
 <li>
-<section class="detail" id="resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="resolve(java.lang.String,java.util.Locale,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>resolve</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
- <a href="i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
-<div class="block">First localizes the given message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>I18n.localize(Locale, String, I18n.Entry...)</code></a>) and then attempts to
+ <a href="placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
+<div class="block">First resolves the variables in the given message (see <a href="placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
+localizes the resulting message (see <a href="i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
 resolve emojis (see <a href="emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
 <dl class="notes">
 <dt>Parameters:</dt>

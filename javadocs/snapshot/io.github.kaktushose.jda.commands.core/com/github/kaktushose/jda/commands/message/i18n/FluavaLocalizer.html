@@ -71,7 +71,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" tabindex="0">localize(Locale, String, String, Map)</a></li>
-<li><a href="#localizeMessage(java.util.Locale,java.lang.String,java.util.Map)" tabindex="0">localizeMessage(Locale, String, Map)</a></li>
 </ol>
 </li>
 </ol>
@@ -140,13 +139,6 @@ effected by this.</p>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method localizes a given key for a specific bundle and locale.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizeMessage(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localizeMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This method localizes the given message content for the specific locale and arguments.</div>
-</div>
 </div>
 </div>
 </div>
@@ -211,29 +203,6 @@ For further information regarding functionality, you can take a look at the docu
 <dd><code>arguments</code> - values for placeholder in the message</dd>
 <dt>Returns:</dt>
 <dd>the localized message or <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> if no key is found/an error occurred</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="localizeMessage(java.util.Locale,java.lang.String,java.util.Map)">
-<h3>localizeMessage</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">localizeMessage</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
- <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</span></div>
-<div class="block">This method localizes the given message content for the specific locale and arguments.
-The purpose of this method is to support replacing placeholders in text fields of components, embeds
-and modals that aren't retrieved from <a href="Localizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)"><code>Localizer.localize(Locale, String, String, Map)</code></a></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Localizer.html#localizeMessage(java.util.Locale,java.lang.String,java.util.Map)">localizeMessage</a></code>&nbsp;in interface&nbsp;<code><a href="Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n">Localizer</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>locale</code> - the asked for locale</dd>
-<dd><code>content</code> - the content of the message to be localized, the content should be treated as if it's received from some localization file</dd>
-<dd><code>arguments</code> - values for placeholder in the message</dd>
-<dt>Returns:</dt>
-<dd>the localized message or <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> if an error occurred</dd>
 </dl>
 </div>
 </section>

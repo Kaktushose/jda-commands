@@ -61,7 +61,6 @@ loadScripts(document, 'script');</script>
 <button class="hide-sidebar"><span>Hide sidebar&nbsp;</span>&#10094;</button><button class="show-sidebar">&#10095;<span>&nbsp;Show sidebar</span></button>
 <ol class="toc-list">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#field-summary" tabindex="0">Field Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
@@ -78,8 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#localize(java.util.Locale,java.lang.String,java.util.Map)" tabindex="0">localize(Locale, String, Map)</a></li>
-<li><a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">localize(Locale, String, I18n.Entry...)</a></li>
-<li><a href="#entry(java.lang.String,java.lang.Object)" tabindex="0">entry(String, Object)</a></li>
+<li><a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">localize(Locale, String, Entry...)</a></li>
 <li><a href="#localizationFunction()" tabindex="0">localizationFunction()</a></li>
 </ol>
 </li>
@@ -121,7 +119,7 @@ Now the bundle will be treated as not stated explicitly and the dollar sign will
 <p>If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 <a href="Bundle"><code>@Bundle(&quot;mybundle&quot;)</code></a> annotation with following order:</p>
 <ol>
-<li>method that called <a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>localize(Locale, String, Entry...)</code></a></li>
+<li>method that called <a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>localize(Locale, String, Entry...)</code></a></li>
 <li>other called methods in the same class</li>
 <li>this methods class</li>
 <li>the class' packages <code>package-info.java</code> file</li>
@@ -175,30 +173,13 @@ package my.app;
 <li>method <code>B$two()</code></li>
 </ol>
 <p>The found bundle would be <code>pack_bundle</code>.</p>
-<p>If <a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)"><code>localize(java.util.Locale, java.lang.String, I18n.Entry...)</code></a>
+<p>If <a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)"><code>localize(java.util.Locale, java.lang.String, Entry...)</code></a>
 would be called in, for example, <code>B$bTwo</code> the bundle would be <code>mB_bundle</code>.</p>
 </div>
 </div>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<li>
-<section class="nested-class-summary" id="nested-class-summary">
-<h2>Nested Class Summary</h2>
-<div class="caption"><span>Nested Classes</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Class</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="I18n.Entry.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">A placeholder identified by its name with the value to be substituted.</div>
-</div>
-</div>
-</section>
-</li>
 <!-- =========== FIELD SUMMARY =========== -->
 <li>
 <section class="field-summary" id="field-summary">
@@ -233,34 +214,28 @@ would be called in, for example, <code>B$bTwo</code> the bundle would be <code>m
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#entry(java.lang.String,java.lang.Object)" class="member-name-link">entry</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">This method returns an <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n.Entry</code></a> containing the name and value provided.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+ <a href="../placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method returns the localized message found by the provided <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
 in the given bundle.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;combinedKey,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method returns the localized method found by the provided <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
 in the given bundle.</div>
 </div>
@@ -353,12 +328,12 @@ contextual retrieved by a search for the <a href="../../annotations/i18n/Bundle.
 </section>
 </li>
 <li>
-<section class="detail" id="localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>localize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">localize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block"><p>This method returns the localized message found by the provided <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
 in the given bundle.</p>
 <p>The bundle can be either explicitly stated by adding it to the
@@ -372,24 +347,6 @@ contextual retrieved by a search for the <a href="../../annotations/i18n/Bundle.
 <dd><code>placeholder</code> - the placeholder to be used</dd>
 <dt>Returns:</dt>
 <dd>the localized message or the key if not found</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="entry(java.lang.String,java.lang.Object)">
-<h3>entry</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a></span>&nbsp;<span class="element-name">entry</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
-<div class="block">This method returns an <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n.Entry</code></a> containing the name and value provided.
-It comes in handy when imported with a static import.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - the name of the placeholder</dd>
-<dd><code>value</code> - the value of the placeholder</dd>
-<dt>Returns:</dt>
-<dd>the <a href="I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n.Entry</code></a> consisting of the name and value</dd>
 </dl>
 </div>
 </section>

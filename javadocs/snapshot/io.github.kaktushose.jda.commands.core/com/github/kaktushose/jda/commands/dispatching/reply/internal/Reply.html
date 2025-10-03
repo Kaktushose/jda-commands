@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" tabindex="0">reply(String, I18n.Entry...)</a></li>
+<li><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" tabindex="0">reply(String, Entry...)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" tabindex="0">reply(MessageEmbed, MessageEmbed...)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
 </ol>
@@ -114,8 +114,8 @@ always share the same reply methods.</p>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+ <a href="../../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
@@ -145,16 +145,16 @@ always share the same reply methods.</p>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.message.i18n.I18n.Entry...)">
+<section class="detail" id="reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
- <a href="../../../message/i18n/I18n.Entry.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n.Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="../../../message/placeholder/Entry.html" title="class in com.github.kaktushose.jda.commands.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block">Acknowledgement of this event with a text message.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>message</code> - the message to send or the localization key</dd>
-<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale , String, I18n.Entry...) ]</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]</dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 <dt>Implementation Requirements:</dt>
