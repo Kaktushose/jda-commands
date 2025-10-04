@@ -1,3 +1,4 @@
 mkdocs-material
 mkdocs-open-in-new-tab
 mike
+markdown_javadoc_references
