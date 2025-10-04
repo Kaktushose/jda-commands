@@ -182,6 +182,10 @@ JDACommands.builder(jda, Main.class)
     To set a fallback bundle you have to pass it to the constructor of the `Fluava` class. In the above example the fallback locale
     is German.
 
+!!! note
+    JDA-Commands will set [FluavaBuilder.FunctionConfig#fallbackToString(boolean)](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))
+    to `true` when using `FluavaLocalizer` thus always enabling falling back to `Object#toString()` if necessary.
+
 ### Localization Keys
 Since [`Project Fluent`](https://projectfluent.org/) doesn't support dots (`.`) in localization keys, the [Fluava](https://github.com/Goldmensch/fluava) 
 integration will change all dots to dashes (`-`). For example, `my.key` will become `my-get`. This change also effects 
