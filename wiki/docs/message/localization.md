@@ -171,16 +171,20 @@ You can provide an own instance of the [`Fluava`](https://goldmensch.github.io/f
 the appropriate builder method.
 
 ```java
-    Fluava myFluava = new Fluava(Locale.GERMAN);
+Fluava myFluava = Fluava.create(Locale.ENGLISH);
 
-    JDACommands.builder(jda, Main.class)
-       .localizer(new FluavaLocalizer(myFluava))
-       .start();
+JDACommands.builder(jda, Main.class)
+    .localizer(new FluavaLocalizer(myFluava))
+    .start();
 ```
 
 !!! tip
     To set a fallback bundle you have to pass it to the constructor of the `Fluava` class. In the above example the fallback locale
     is German.
+
+!!! note
+    JDA-Commands will set [FluavaBuilder.FunctionConfig#fallbackToString(boolean)](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))
+    to `true` when using `FluavaLocalizer` thus always enabling falling back to `Object#toString()` if necessary.
 
 ### Localization Keys
 Since [`Project Fluent`](https://projectfluent.org/) doesn't support dots (`.`) in localization keys, the [Fluava](https://github.com/Goldmensch/fluava) 

@@ -131,7 +131,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     }
 
     private final Map<Class<?>, Supplier<Object>> defaults = Map.of(
-            Localizer.class, () -> new FluavaLocalizer(new Fluava(Locale.ENGLISH, Map.of())),
+            Localizer.class, () -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)),
             PermissionsProvider.class, DefaultPermissionsProvider::new,
             ErrorMessageFactory.class, () -> new DefaultErrorMessageFactory(embeds(messageResolver())),
             GuildScopeProvider.class, DefaultGuildScopeProvider::new,
