@@ -101,7 +101,8 @@ effected by this.</p>
 </div>
 <dl class="notes">
 <dt>Implementation Note:</dt>
-<dd>This class caches all loaded bundles.</dd>
+<dd>This class caches all loaded bundles. Also, a sub instance of the passed Fluava instance
+is created with <code>FluavaBuilder.FunctionConfig.fallbackToString(boolean)</code> set to <code>true</code>.</dd>
 </dl>
 </div>
 </section>
@@ -115,7 +116,7 @@ effected by this.</p>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(dev.goldmensch.fluava.Fluava)" class="member-name-link">FluavaLocalizer</a><wbr>(dev.goldmensch.fluava.Fluava&nbsp;fluava)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(dev.goldmensch.fluava.Fluava)" class="member-name-link">FluavaLocalizer</a><wbr>(dev.goldmensch.fluava.Fluava&nbsp;parent)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -160,10 +161,10 @@ effected by this.</p>
 <section class="detail" id="&lt;init&gt;(dev.goldmensch.fluava.Fluava)">
 <h3>FluavaLocalizer</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FluavaLocalizer</span><wbr><span class="parameters">(dev.goldmensch.fluava.Fluava&nbsp;fluava)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FluavaLocalizer</span><wbr><span class="parameters">(dev.goldmensch.fluava.Fluava&nbsp;parent)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>fluava</code> - the <code>Fluava</code> instance to use</dd>
+<dd><code>parent</code> - the <code>Fluava</code> instance to use</dd>
 </dl>
 </div>
 </section>
