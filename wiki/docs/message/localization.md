@@ -171,11 +171,11 @@ You can provide an own instance of the [`Fluava`](https://goldmensch.github.io/f
 the appropriate builder method.
 
 ```java
-    Fluava myFluava = new Fluava(Locale.GERMAN);
+Fluava myFluava = Fluava.create(Locale.ENGLISH);
 
-    JDACommands.builder(jda, Main.class)
-       .localizer(new FluavaLocalizer(myFluava))
-       .start();
+JDACommands.builder(jda, Main.class)
+    .localizer(new FluavaLocalizer(myFluava))
+    .start();
 ```
 
 !!! tip
