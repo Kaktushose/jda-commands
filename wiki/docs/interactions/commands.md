@@ -319,7 +319,7 @@ JDA-Commands will apply clashing CommandConfigs in the following hierarchy:
 3. global `CommandConfig`
 
 ### enabledFor
-Sets the [`Discord Permissions`](net.dv8tion.jda.api.Permission) a command will be enabled for. By default, a command 
+Sets the [`Discord Permissions`][[net.dv8tion.jda.api.Permission]] a command will be enabled for. By default, a command 
 will be enabled for every permission.
 !!! danger
     Guild admins can modify these permissions at any time! If you want to enforce permissions or secure a critical command

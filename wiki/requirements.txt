@@ -1,4 +1,5 @@
 mkdocs-material
 mkdocs-open-in-new-tab
 mike
-markdown_javadoc_references
+markdown_javadoc_references>=0.2
+click==8.2.1
