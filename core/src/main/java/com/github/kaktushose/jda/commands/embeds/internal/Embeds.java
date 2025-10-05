@@ -121,7 +121,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         ///
         /// @return an [Embeds] instance for usage inside [DefaultErrorMessageFactory]
         public Embeds buildError() {
-            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), Map.of(), messageResolver);
+            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), placeholders, messageResolver);
         }
     }
 }
