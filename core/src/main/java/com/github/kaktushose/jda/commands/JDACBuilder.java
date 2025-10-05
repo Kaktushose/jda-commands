@@ -259,14 +259,13 @@ public final class JDACBuilder extends JDACBuilderData {
             // this order matters!
             I18n i18n = i18n();
             MessageResolver messageResolver = messageResolver();
-            ErrorMessageFactory errorMessageFactory = errorMessageFactory();
-            configureEmbeds.accept(messageResolver, errorMessageFactory);
+            configureEmbeds.accept(messageResolver, errorMessageFactory());
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
                     new TypeAdapters(typeAdapters()),
-                    new Middlewares(middlewares(), errorMessageFactory, permissionsProvider()),
-                    errorMessageFactory,
+                    new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
+                    errorMessageFactory(),
                     guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
