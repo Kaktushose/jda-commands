@@ -32,7 +32,7 @@ public class PermissionValidator implements Validator<Member, Perm> {
 
         Helpers.checkDetached(member, PermissionValidator.class);
         if (!member.hasPermission(permissions)) {
-            context.fail("validator.perm.fail@Member is missing at least one permission that is required");
+            context.fail("Member is missing at least one permission that is required");
         }
     }
 }
