@@ -23,8 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Bundle("embeds")
 class EmbedTest {
@@ -144,5 +143,15 @@ class EmbedTest {
                 .add("6", "6");
 
         assertEquals(expected, actual.build());
+    }
+
+    @Test
+    void modificationsShouldNotModifySource() {
+        Embed first = embeds.get("sourceModification");
+
+        first.title("Modified Title");
+
+        Embed second = embeds.get("sourceModification");
+        assertEquals("Original Title", second.build().getTitle());
     }
 }
