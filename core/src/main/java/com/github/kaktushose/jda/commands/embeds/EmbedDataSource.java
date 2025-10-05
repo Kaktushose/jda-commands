@@ -68,10 +68,12 @@ public interface EmbedDataSource {
     /// @return a new [EmbedDataSource]
     static EmbedDataSource dataObject(DataObject dataObject) {
         return (embed, placeholders, messageResolver) -> {
-            if (!dataObject.hasKey(embed)) {
+            // create copy so modifications don't affect the source DataObject
+            DataObject copy = DataObject.fromJson(dataObject.toJson());
+            if (!copy.hasKey(embed)) {
                 return Optional.empty();
             }
-            return Optional.of(Embed.of(dataObject.getObject(embed), embed, placeholders, messageResolver));
+            return Optional.of(Embed.of(copy.getObject(embed), embed, placeholders, messageResolver));
         };
     }
 
