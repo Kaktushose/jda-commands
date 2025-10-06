@@ -302,7 +302,7 @@ public void onBanMember(CommandEvent event, User user) { ... }
 ## Additional Settings
 Use the <com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig> annotation to configure the 
 following settings. You can either annotate a command method directly or annotate the interaction controller class. It 
-is also possible to set a [global command config](com.github.kaktushose.jda.commands.JDACBuilder#globalCommandConfig(com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)) 
+is also possible to set a [global command config][[com.github.kaktushose.jda.commands.JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)]]
 at the builder:
 
 !!! example "Global CommandConfig"
@@ -332,21 +332,21 @@ public void onCommand(CommandEvent event) {...}
 ```
 
 ### context
-Sets the [InteractionContextTypes](net.dv8tion.jda.api.interactions.InteractionContextType)
+Sets the [InteractionContextTypes][[net.dv8tion.jda.api.interactions.InteractionContextType]]
 of a command. The default value is <net.dv8tion.jda.api.interactions.InteractionContextType#GUILD>.
 
 ```java
-@CommandConfig(context = {InteractionContextType#GUILD, InteractionContextType#BOT_DM})
+@CommandConfig(context = {InteractionContextType.GUILD, InteractionContextType.BOT_DM})
 @Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```
 
 ### integration
-Sets the [IntegrationTypes](net.dv8tion.jda.api.interactions.IntegrationType)
-of a command. The default value is <net.dv8tion.jda.api.interactions.integration#GUILD_INSTALL>.
+Sets the [IntegrationTypes][[net.dv8tion.jda.api.interactions.IntegrationType]]
+of a command. The default value is <net.dv8tion.jda.api.interactions.IntegrationType#GUILD_INSTALL>.
 
 ```java
-@CommandConfig(integration = {IntegrationType#GUILD_INSTALL, IntegrationType#USER_INSTALL})
+@CommandConfig(integration = {IntegrationType.GUILD_INSTALL, IntegrationType.USER_INSTALL})
 @Command(value = "example")
 public void onCommand(CommandEvent event) {...}
 ```

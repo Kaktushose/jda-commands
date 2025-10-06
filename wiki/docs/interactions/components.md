@@ -48,7 +48,7 @@ Sets the style of a button.
     ```
 
 !!! note
-    <net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle#PREMIUM> is not supported by JDA-Commands.
+    <net.dv8tion.jda.api.components.buttons.ButtonStyle#PREMIUM> is not supported by JDA-Commands.
 
 ### emoji
 Sets the emoji of a button.
@@ -74,13 +74,13 @@ The second parameter must be a <java.util.List>.
 
 The placeholder and other metadata of the String Select Menu is passed to the annotation. 
 
-Select Options are defined by annotating the method with <com.github.kaktushose.jda.commands.annotations.interactions.SelectOption>.
+Select Options are defined by annotating the method with <com.github.kaktushose.jda.commands.annotations.interactions.MenuOption>.
 
 !!! example
     ```java
-    @SelectOption(label= "Pizza", value = "pizza")
-    @SelectOption(label= "Hamburger", value = "hamburger")
-    @SelectOption(label= "Sushi", value = "Sushi")
+    @MenuOption(label= "Pizza", value = "pizza")
+    @MenuOption(label= "Hamburger", value = "hamburger")
+    @MenuOption(label= "Sushi", value = "Sushi")
     @StringSelectMenu("What's your favourite food?")
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
     ```
@@ -124,7 +124,7 @@ When using `SelectTarget.CHANNEL` you can limit the selectable channel types wit
     ```
 
 #### Default Values
-You can set the [default values](net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue)
+You can set the [default values][[net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue]]
 of the Entity Select Menu by using respectively the `defaultChannels`, `defaultRoles` or `defaultUsers` fields. 
 
 !!! example

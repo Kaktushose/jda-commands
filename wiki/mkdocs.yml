@@ -78,7 +78,7 @@ markdown_extensions:
         - alias: 'jda'
           url: 'https://docs.jda.wiki/'
         - alias: 'jdac'
-          url: 'https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/'
+          url: 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
 
 nav:
   - Home: index.md
