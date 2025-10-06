@@ -1,4 +1,3 @@
-# hooks/log_current_file.py
 import logging
 
 def on_page_markdown(markdown, page, config, files):
