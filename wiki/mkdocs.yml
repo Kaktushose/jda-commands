@@ -80,6 +80,9 @@ markdown_extensions:
         - alias: 'jdac'
           url: 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
 
+hooks:
+  - hooks/on_page_logging.py
+
 nav:
   - Home: index.md
   - Getting Started:
