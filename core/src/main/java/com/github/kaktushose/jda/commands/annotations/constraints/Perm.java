@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.constraints;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
@@ -19,5 +20,5 @@ public @interface Perm {
     /// Returns the discord permission(s) the element must have.
     ///
     /// @return the discord permission(s) the element must have.
-    String[] value();
+    Permission[] value();
 }

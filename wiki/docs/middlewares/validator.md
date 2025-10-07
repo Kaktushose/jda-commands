@@ -13,7 +13,7 @@ JDA-Commands comes with the following default constraints:
 !!! example
     ```java
     @Command("ban")
-    public void onBan(CommandEvent event, @NotPerm("ADMINISTRATOR") Member target) {...}
+    public void onBan(CommandEvent event, @NotPerm(Permission.ADMINISTRATOR) Member target) {...}
     ```
 
 An error message is sent, if a parameter constraint fails:
