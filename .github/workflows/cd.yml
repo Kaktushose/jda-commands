@@ -40,9 +40,11 @@ jobs:
             exit 1
           fi
 
-  javadoc:
+  javadoc_target_dir:
     runs-on: ubuntu-latest
     needs: check_if_release
+    outputs:
+      target: ${{ steps.target_dir.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,41 +60,55 @@ jobs:
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
           fi
+
+  javadoc:
+    runs-on: ubuntu-latest
+    needs: javadoc_target_dir
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: ./.github/workflows/setup-gradle
       - name: Generate Documentation
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         run: |
           ./gradlew javadoc
       - name: Deploy docs
-        if: ${{ steps.target_dir.outputs.name != 'ignore' }}
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./jda-commands/build/docs/javadoc
           branch: gh-pages
-          target-folder: javadocs/${{ steps.target_dir.outputs.name }}
+          target-folder: javadocs/${{ needs.javadoc_target_dir.outputs.target }}
 
   wiki:
     runs-on: ubuntu-latest
-    needs: check_if_release
-    if: ${{ needs.check_if_release.outputs.release == 'true' }}
+    needs: [ javadoc_target_dir, check_if_release ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
+          cache: pip
       - name: Build & Deploy Wiki
         run: |
           git pull
-
-          pip install -r wiki/requirements.txt
-
+          
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
-
+          
           cd wiki
-          mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
-          mike set-default ${{ needs.check_if_release.outputs.version }}
+          pip install -r requirements.txt
+          
+          # replace all JDAC_JAVADOC_VERSION with actual version
+          grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/${{ needs.javadoc_target_dir.outputs.target }}/g'
+          
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then 
+            mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
+            mike set-default ${{ needs.check_if_release.outputs.version }}
+          else 
+            mike deploy snapshot
+          fi
       - name: Deploy Wiki
         run: |
           git pull
@@ -133,7 +149,7 @@ jobs:
 
   create-gh-draft-release:
     runs-on: ubuntu-latest
-    needs: [ check_if_release, maven_central ]
+    needs: [ check_if_release, maven_central, javadoc_target_dir ]
     if: ${{ needs.maven_central.outputs.active == 'RELEASE' }}
     steps:
       - uses: actions/checkout@v4
@@ -148,9 +164,9 @@ jobs:
             TBD
 
             ## :page_facing_up: Docs
-            You can find the wiki for this version [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/${{ needs.check_if_release.outputs.version }}/).
+            You can find the wiki for this version [here](https://kaktushose.github.io/jda-commands/${{ needs.check_if_release.outputs.version }}/).
 
-            To visit this version's javadocs click [here](https://REPO_OWNER.github.io/REPO_WO_OWNER_NAME/javadocs/${{ needs.check_if_release.outputs.version_major }}/).
+            To visit this version's javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.javadoc_target_dir.outputs.target }}/).
 
             ## :package: Download / Usage
             ### Gradle

@@ -1,10 +1,10 @@
 # Localization
-JDA-Commands provides the [`I18n`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html) class,
+JDA-Commands provides the <I18n> class,
 which is used as the main entrypoint for localization. This class can be used by users of the framework to localize their messages.
 
 ## Localization Messages
 Localization messages are identified by their corresponding key. A key can be freely chosen but might be limited by
-the restrictions of the used [`Localizer`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html) implementation.
+the restrictions of the used <Localizer> implementation.
 
 If a certain message for a key isn't found, the key is returned as the messages value.
 
@@ -28,12 +28,12 @@ automatically for you. Furthermore, the localization of Slash commands
 is supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization).
 
 JDA-Commands will first try to find a localization message based on the provided String (as the key) and the users locale
-retrieved by [`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
+retrieved by <GenericInteractionCreateEvent#getUserLocale()>
 and if not found, will use the String directly as the content.
 
 !!! warning
-    Localization of [`MessageCreateData`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html) is not supported implicitly.
-    To localize such messages you have to manually use [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.messages.placeholder.Entry...)).
+    Localization of <MessageCreateData> is not supported implicitly.
+    To localize such messages you have to manually use <I18n#localize(Locale,String,Entry...)`>.
 
 ### Example
 ```java
@@ -81,8 +81,8 @@ button_name = Hello { $name }
 ```
 
 ## Bundles
-Localization bundles are a known concept from Javas [ResourceBundles](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html). JDA-Commands supports different bundles of
-localization files by adding them to the localization key or using the [`@Bundle("bundle_name")`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
+Localization bundles are a known concept from Javas <ResourceBundle>. JDA-Commands supports different bundles of
+localization files by adding them to the localization key or using the <Bundle>
 annotation.
 
 !!! warning the dollar sign ($)
@@ -95,10 +95,10 @@ For example a message with key `user$not-found` will be searched for in the bund
 ### Via Annotation
 
 If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
-[`@Bundle`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html)
+<Bundle>
 annotation with following order:
 
-1. Method that called [`I18n#localize(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/I18n.html#localize(java.util.Locale,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...))
+1. Method that called <I18n#localize(Locale,String,Entry...)`>
 2. Other called methods in the same class
 3. This methods class
 4. The class' packages `package-info.java` file
@@ -158,16 +158,16 @@ class at the very beginning.
 If no bundle is found with the above techniques, a bundle called `default` will be used.
 
 ## LocalizationFunction (JDA) / slash command localization
-JDA uses the [`LocalizationFunction`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/ResourceBundleLocalizationFunction.html) for localizing slash commands.
+JDA uses the <LocalizationFunction> for localizing slash commands.
 We implement this interface based on our `I18n` class as described above.
 
-If you want to disable slash commands localization just call [`JDACBuilder#localizeCommands(false)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder#localizeCommands(boolean)).
+If you want to disable slash commands localization just call [JDACBuilder#localizeCommands(false)][[JDACBuilder#localizeCommands(boolean)]].
 
 See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
 
 ## Default Implementation
 By default, JDA-Commands supports localization with help of the [Fluava](https://github.com/Goldmensch/fluava) library, a [Project Fluent](https://projectfluent.org/) implementation for Java.
-You can provide an own instance of the [`Fluava`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling
+You can provide an own instance of the [Fluava](https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling
 the appropriate builder method.
 
 ```java
@@ -192,8 +192,8 @@ integration will change all dots to dashes (`-`). For example, `my.key` will bec
 all JDA Slash Command localization keys.
 
 ### Localization files
-[Fluava](https://github.com/Goldmensch/fluava) supports the loading and discovery of bundles on the classpath 
-(resource directory) similar to Javas [`ResourceBundle`](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html)
+<fluava -> Fluava> supports the loading and discovery of bundles on the classpath 
+(resource directory) similar to Javas <ResourceBundle>
 but with a slightly more flexible structure.
 
 The classpath will be lazily searched for a fluent file given a specific locale with the following order:

@@ -3,7 +3,7 @@
 ## Entrypoint
 
 The entrypoint of the Extension API is the so called
-[`Extension`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html)
+<com.github.kaktushose.jda.commands.extension.Extension>
 interface, which your extensions _"entry class"_ must implement:
 
 ```java
@@ -12,10 +12,10 @@ public class MyExtension implements Extension<?> {}
 
 ### `Extension.Data`
 
-Furthermore, each entry class must override the [`Extension#init(T data)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#init(T)) method,
+Furthermore, each entry class must override the <Extension#init(T)> method,
 which will be called when JDA-Commands loads the extension. It can be used to configure extension specific options with help of
 an own implementation of
-[`Extension.Data`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.Data.html).
+<Extension.Data>.
 
 ```java
 public class MyExtension implements Extension<Void> {
@@ -48,7 +48,7 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ## Providing Implementations
 Currently, extensions support to provide custom implementations of any class extending
-[`ExtensionProvideable`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.ExtensionProvidable.html),
+<ExtensionProvidable>,
 that is:
 
 - `Descriptor`
@@ -60,9 +60,9 @@ that is:
 - `PermissionsProvider`
 - `GuildScopeProvider`
 
-To provide custom implementations we have to implement the [`Extensions#providedImplementations()`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#providedImplementations()) method.
+To provide custom implementations we have to implement the <Extension#providedImplementations()> method.
 This method returns a collection of all implementations that an extension provides, wrapped in an instance of
-[`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html).
+<com.github.kaktushose.jda.commands.extension.Implementation>
 
 ```java
 public class MyExtension implements Extension<MyExtensionData> {
@@ -135,14 +135,14 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 ```
 
 ### The `Implementation` class
-The [`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html)
+The <com.github.kaktushose.jda.commands.extension.Implementation>
 class has 2 main purposes: State which class the custom implementation is for and providing instance(s) of those custom implementations.
 
-To provide a custom implementation you have to create an instance of [`Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html) and provide
+To provide a custom implementation you have to create an instance of <com.github.kaktushose.jda.commands.extension.Implementation> and provide
 
 1. the `type` of this Extension [(that is a class/interface extending ExtensionProvidable](#providing-implementations))
 2. a `supplier` in form of `java.util.fuction.Function` that takes
-  [`JDACBuilderData`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html)
+  <JDACBuilderData>
   as an argument and returns a list of instances of custom implementations for the specific type
 
 
@@ -161,7 +161,7 @@ It's also important that only the following types support multiple instances:
 - `Implementation.ValidatorContainer` (wrapper type for Validator)
 
 For all other types
-[`single(Class<T>,Function<JDACBuilderData,T> supplier)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html#single(java.lang.Class,java.util.function.Function))
+<Implementation#single(Class,Function)>
 should be used.
 
 The provided instance of `JDACBuilderData` only supports read access to the builder, which can be used to obtain any other
@@ -173,7 +173,7 @@ extensions for the needed implementation, thus cycling dependencies will result 
     which is useful for dynamic registration of custom implementation.
 
 ## Registration
-Custom extensions are found with help of Javas [ServiceLoader API](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html).
+Custom extensions are found with help of Javas [ServiceLoader API][[ServiceLoader]].
 
 To register the above `MyExtension` we have to create a file in our `resources\META-INF` directory called
 `com.github.kaktushose.jda.commands.extension.Extension`.

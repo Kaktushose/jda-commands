@@ -3,13 +3,13 @@
 ## Exceptions
 JDA-Commands defines a set of custom runtime exceptions that can occur:
  
-- [`ConfigurationException`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/exceptions/ConfigurationException.html) will be thrown if anything goes wrong while configuring JDA-Commands.
-- [`InvalidDeclarationException`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/exceptions/InvalidDeclarationException.html) will be thrown if any errors are made in the declaration of interactions.
-- [`InternalException`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/exceptions/InternalException.html) will be thrown if anything goes wrong internally. These errors should be [reported](https://github.com/Kaktushose/jda-commands/issues/new) to the devs.
+- <com.github.kaktushose.jda.commands.exceptions.ConfigurationException> will be thrown if anything goes wrong while configuring JDA-Commands.
+- <com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException> will be thrown if any errors are made in the declaration of interactions.
+- <com.github.kaktushose.jda.commands.exceptions.InternalException> will be thrown if anything goes wrong internally. These errors should be [reported](https://github.com/Kaktushose/jda-commands/issues/new) to the devs.
 
-If a [`ConfigurationException`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/exceptions/ConfigurationException.html)
-or [`InvalidDeclarationException`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/exceptions/InvalidDeclarationException.html)
-occurs during startup, JDA-Commands will shut down itself as well as JDA. To disable this behaviour, set [`JDACBuilder#shutdownJDA(boolean)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#shutdownJDA(boolean))
+If a <com.github.kaktushose.jda.commands.exceptions.ConfigurationException>
+or <com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException>
+occurs during startup, JDA-Commands will shut down itself as well as JDA. To disable this behaviour, set <JDACBuilder#shutdownJDA(boolean)>
 to `false`. 
 
 ## Error Messages
@@ -22,7 +22,7 @@ As mentioned before, JDA-Commands has a set of error messages it uses all over t
 - Timed Out Component Message (see [Runtime Concept](../start/runtime.md#components-and-modals))
 - Type Adapting Failed Message (see [Type Adapters](../middlewares/typeadapter.md))
 
-You can customize these error messages by providing an implementation of [`ErrorMessageFactory`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html).
+You can customize these error messages by providing an implementation of <ErrorMessageFactory>.
 You have to register it at the JDA-Commands Builder:
 ```java
 JDACommands.builder(jda, Main.class)
@@ -36,7 +36,7 @@ public class OwnErrorMessageFactory implements ErrorMessageFactory {...}
 ```
 
 To make things easier, these error messages can also be loaded from a `JSON` source using the [Embed API](../message/embeds.md). 
-Therefore, you have to pass an [`EmbedDataSource`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html) to the [`EmbedConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedConfig.html#errorSource(com.github.kaktushose.jda.commands.embeds.EmbedDataSource)).
+Therefore, you have to pass an <EmbedDataSource> to the <EmbedConfig>.
 ```java
 JDACommands.builder(jda, Main.class)
     .embeds(config -> config.errorSource(EmbedDataSource.file(Path.of("errorEmbeds.json")))

@@ -1,22 +1,22 @@
 # Embed API
 ## EmbedDataSource
-In JDA, you define Embeds by using the [`EmbedBuilder`](https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html), 
-which eventually gets built into a [`MessageEmbed`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html).
+In JDA, you define Embeds by using the <EmbedBuilder>
+which eventually gets built into a <MessageEmbed>.
 `MessageEmbeds` can be serialized into (and deserialized from) `JSON`. 
 
 !!! tip inline end
     For details on the `JSON` format of Embeds, see the [Discord Documentation](https://discord.com/developers/docs/resources/message#embed-object)
     or use one the various [Online Embed Builders](https://glitchii.github.io/embedbuilder/).
 
-JDA-Commands takes advantage of this and provides the [`EmbedDataSource`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html) 
+JDA-Commands takes advantage of this and provides the <EmbedDataSource>
 interface to load Embeds from a `JSON` object. It supports the following sources by default:
 
 - a raw `JSON` String
 - a `*.json` file either located externally or inside the `resources` folder
-- an [`InputStream`](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/InputStream.html)
-- JDAs [`DataObject`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html)
+- an <InputStream>
+- JDAs <DataObject>
 
-You can also provide your own sources by implementing the [`EmbedDataSource`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html)
+You can also provide your own sources by implementing the <EmbedDataSource>
 interface. 
 
 The `JSON` object can contain an arbitrary amount of Embeds as child objects. The name of these child objects must be unique
@@ -35,8 +35,8 @@ and will be later used to load the respective Embed.
     }
     ```
 
-When configuring JDA-Commands, you can then use the [`EmbedConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedConfig.html#sources(com.github.kaktushose.jda.commands.embeds.EmbedDataSource...))
-to add one or multiple [`EmbedDataSources`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html)
+When configuring JDA-Commands, you can then use the <EmbedConfig>
+to add one or multiple [EmbedDataSources][[EmbedDataSource]]
 to later load Embeds from at various places.
 !!! example
     ```java
@@ -46,13 +46,13 @@ to later load Embeds from at various places.
     ```
 
 ## Loading Embeds
-You can either use the [`JDACommands`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACommands.html#embed(java.lang.String))
-or the [`ReplyableEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#embed(java.lang.String))
+You can either use the <JDACommands>
+or the <ReplyableEvent>
 class to load embeds into an object.  
 
-Embeds don't get loaded directly into a JDA [`MessageEmbed`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html)
-or [`EmbedBuilder`](https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html) object. Instead, JDA-Commands provides
-a subclass of [`EmbedBuilder`](https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html), simply called [`Embed`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html). 
+Embeds don't get loaded directly into a JDA <MessageEmbed>
+or <EmbedBuilder> object. Instead, JDA-Commands provides
+a subclass of <EmbedBuilder>, simply called <Embed>. 
 It provides some additional utility, e.g. when dealing with fields, and is also required for the localization and 
 placeholder feature. 
 
@@ -75,7 +75,7 @@ placeholder feature.
     
 !!! tip
     The `#embed(String)` method will throw an `IllegalArgumentException` if no Embed with the given name was found. Use the 
-    [`#findEmbed(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/search.html?q=findEmbed) method, which
+    <JDACommands#findEmbed(String)> method, which
     returns an Optional, if you cannot ensure that the Embed exists.
 
 See the [Reply Section](../interactions/reply.md#embeds) of this wiki to learn more about on how to use Embeds for your
@@ -94,10 +94,10 @@ which uses Fluava, this could look like this:
     }
     ```
 
-Use [`Embed#locale(Locale)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html#locale(java.util.Locale))
+Use <Embed#locale(Locale)>
 to set the locale the Embed should be localized with. When replying to interactions, this is done automatically by using
-[`GenericInteractionCreateData#getUserLocale()`](https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale())
-to retrieve the user locale. The Embed will be localized once [`#build()`](https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html#build())
+<GenericInteractionCreateEvent#getUserLocale()>
+to retrieve the user locale. The Embed will be localized once <Embed#build()>
 is called. 
 
 See the [Localization Section](localization.md) of this wiki for details.
@@ -115,7 +115,7 @@ content of embeds according to the documentation [here](overview.md).
         }
     }
     ```
-You can then use the [Embed#placeholders(...)](https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/Embed.html#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...))
+You can then use the <Embed#placeholders(Entry...)>
 method to insert the placeholder values.
 !!! example
     ```java
@@ -126,7 +126,7 @@ method to insert the placeholder values.
 You can of course also use your placeholders regularly inside the localization files. 
 
 ### Global Placeholders
-A special feature of the Embed API is that you can define global placeholders for your Embeds using the [`EmbedConfig`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedConfig.html#placeholders(com.github.kaktushose.jda.commands.i18n.I18n.Entry...)).
+A special feature of the Embed API is that you can define global placeholders for your Embeds using the <EmbedConfig>.
 !!! example
     ```java
     JDACommands.builder(jda, Main.class)

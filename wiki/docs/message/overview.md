@@ -7,7 +7,7 @@ support for [placeholders](placeholder.md) and [Unicode and app emojis](emojis.m
 these feature are applied [implicitly](#implicit-resolution).
 
 ## Resolution
-The features listed above are all pipelined together with help of the [MessageResolver](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html).
+The features listed above are all pipelined together with help of the <MessageResolver>.
 
 They are applied to the string provided by the user in following order:
 
@@ -18,19 +18,19 @@ They are applied to the string provided by the user in following order:
 The resulting string is then send to discord or returned to the user.
 
 ## Usage
-Instead of manually using the [`MessageResolver`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html)
+Instead of manually using the <MessageResolver>
 class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:
 
-- [Component API](../interactions/components.md) including the corresponding annotations like [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html),
-  [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html) etc.
+- [Component API](../interactions/components.md) including the corresponding annotations like <com.github.kaktushose.jda.commands.annotations.interactions.Button>,
+  <com.github.kaktushose.jda.commands.annotations.interactions.Modal> etc.
 - [Embed API](embeds.md) 
-- [Reply API](../interactions/reply.md), for example the string content of a message [`Reply#reply(String)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#reply(java.lang.String))
+- [Reply API](../interactions/reply.md), for example the string content of a message <Reply#reply(String,Entry...)>
 
 If you are using localization, please take a look at [implicit localization](localization.md#implicit-localization).
 
 !!! warning
-    Message resolution of content in [`MessageCreateData`](https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html) is not supported implicitly.
-    You have to use [MessageResolver](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html)
+    Message resolution of content in <MessageCreateData> is not supported implicitly.
+    You have to use <MessageResolver>
     to resolve such messages.
 
