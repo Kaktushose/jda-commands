@@ -5,9 +5,9 @@ with the respective annotation.
 ## Default Validators
 JDA-Commands comes with the following default constraints:
 
-- [`@Perm`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html):
+- <Perm>:
   The user or member that have the specified discord permission.
-- [`@NotPerm`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html):
+- <NotPerm>:
   The user or member that **doesn't** have the specified discord permission.
 
 !!! example
@@ -32,7 +32,7 @@ First, you need to create an annotation type for your validator. Your annotation
 
 - [x] `@Target` must be `ElementType.PARAMETER`
 - [x] `RetentionPolicy` must be `RUNTIME`
-- [x] Must be annotated with [`@Constraint`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Constraint.html)
+- [x] Must be annotated with <Constraint>
 defining the valid types for this annotation. 
 
 !!! example
@@ -46,11 +46,11 @@ defining the valid types for this annotation.
     ```
 
 ### 2. Creating the Validator
-Secondly, you must create the actual validator by implementing the [`Validator`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html)
+Secondly, you must create the actual validator by implementing the <com.github.kaktushose.jda.commands.dispatching.validation.Validator>
 interface. 
 
-The `apply(...)` method will give you the argument (command option) as well as the annotation object. 
-If the constraint should fail, you must call [`context.fail(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.Context.html#fail(java.lang.String,com.github.kaktushose.jda.commands.i18n.I18n.Entry...)). 
+The <com.github.kaktushose.jda.commands.dispatching.validation.Validator#apply(T,A,Context)> method will give you the argument (command option) as well as the annotation object. 
+If the constraint should fail, you must call <Context#fail(String, Entry...)>
 
 !!! example
     ```java
