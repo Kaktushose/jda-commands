@@ -3,7 +3,7 @@
 ## Overview
 
 One of the core concepts in JDA-Commands is the so-called `Runtime`. It will be mentioned frequently here and in the 
-[Javadocs](https://kaktushose.github.io/jda-commands/javadocs/4/). A `Runtime` delegates the JDA events to their 
+[Javadocs](https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/). A `Runtime` delegates the JDA events to their 
 corresponding `EventHandlers` and manages the used virtual threads.
 
 A new `Runtime` is created each time a:

@@ -25,7 +25,7 @@ The simplest way of sending a reply is using the <ReplyableEvent#reply(java.lang
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 
 original message instead of sending a new one by default.
 
-The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
+The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
 
 ## Reply Configuration
 You can change this default behaviour by calling <ReplyableEvent#with()>

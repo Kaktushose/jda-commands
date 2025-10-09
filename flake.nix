@@ -39,7 +39,7 @@
        in {
          devShells.default = pkgs.mkShell {
            name = "JDA-Commands";
-           packages = with pkgs; [git jdk gradle maven pkgs.temurin-bin ] ++ pythonPackages;
+           packages = with pkgs; [git jdk gradle maven pkgs.temurin-bin findutils ] ++ pythonPackages;
            JDK24 = jdk;
          };
        };

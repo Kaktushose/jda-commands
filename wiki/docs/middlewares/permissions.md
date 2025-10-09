@@ -65,7 +65,7 @@ implementation will always fail, because both `MODERATOR` and `ADMIN` are invali
 
 ### PermissionsProvider Implementation
 The <PermissionsProvider>
-has two almost identical [`hasPermissions(...)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail) methods.
+has two almost identical [`hasPermissions(...)`](https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/permissions/PermissionsProvider.html#method-detail) methods.
 
 The first one gives you an `User` object, the second one a 
 `Member` object. Therefore, the first method is for interactions that are not executed on a guild (e.g. DMs) and the 

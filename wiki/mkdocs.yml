@@ -76,7 +76,7 @@ markdown_extensions:
       urls:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
         - 'https://docs.jda.wiki/'
-        - 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
 
 hooks:
   - hooks/on_page_logging.py
@@ -113,4 +113,4 @@ nav:
           - Overview: misc/extension/overview.md
           - Writing Extensions: misc/extension/writing.md
           - Configuration: misc/extension/configuring.md
-  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JAVADOC_VERSION/
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/
