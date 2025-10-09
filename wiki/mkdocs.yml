@@ -75,10 +75,8 @@ markdown_extensions:
   - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
       urls:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
-        - alias: 'jda'
-          url: 'https://docs.jda.wiki/'
-        - alias: 'jdac'
-          url: 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
+        - 'https://docs.jda.wiki/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
 
 hooks:
   - hooks/on_page_logging.py
