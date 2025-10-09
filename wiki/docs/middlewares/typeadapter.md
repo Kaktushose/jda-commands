@@ -15,7 +15,7 @@ for details.
 
 ## Writing Own Type Adapters
 As mentioned above, JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) under the hood for type adapting.
-The <com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter> interface is simply a subtype of Proteus' [`UniMapper`](https://kaktushose.github.io/proteus/javadocs/snapshot/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html).
+The <com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter> interface is simply a subtype of Proteus' <proteus -> UniMapper>
 The following example only covers the registration part for JDA-Commands. Please refer to the [`documentation`](https://kaktushose.github.io/proteus/wiki/)
 of Proteus for implementation details. 
 

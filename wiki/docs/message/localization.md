@@ -188,7 +188,7 @@ integration will change all dots to dashes (`-`). For example, `my.key` will bec
 all JDA Slash Command localization keys.
 
 ### Localization files
-[Fluava](https://github.com/Goldmensch/fluava) supports the loading and discovery of bundles on the classpath 
+<fluava -> Fluava> supports the loading and discovery of bundles on the classpath 
 (resource directory) similar to Javas <ResourceBundle>
 but with a slightly more flexible structure.
 

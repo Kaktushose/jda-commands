@@ -46,8 +46,8 @@ the used method.
 ### String Representation
 To get a variables string representation, JDA-Commands will:
 
-1. call [Proteus#convert(Object, Type, Type)](https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type))
-trying to convert the value to [`Type.of(String.class)`](https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/type/Type.html#of(java.lang.Class))
+1. call <proteus -> Proteus#convert(S, Type, Type)>
+trying to convert the value to [`Type.of(String.class)`][[proteus -> Type#of(Class)]]
 2. if not successful, just call <Object#toString()>
 
 If a variable couldn't be found, `null` will be inserted.

@@ -77,6 +77,12 @@ markdown_extensions:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
         - 'https://docs.jda.wiki/'
         - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+        - alias: 'fluava'
+          url: 'https://goldmensch.github.io/fluava/javadocs/0/'
+          auto_searched: 'false'
+        - alias: 'proteus'
+          url: 'https://kaktushose.github.io/proteus/javadocs/0/'
+          auto_searched: 'false'
 
 hooks:
   - hooks/on_page_logging.py
