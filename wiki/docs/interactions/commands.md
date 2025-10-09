@@ -5,7 +5,7 @@
 
 ## Slash Commands
 SlashCommands are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Command>.
-The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent>.
+The first parameter must always be a <CommandEvent>.
 The name and other metadata of the command is passed to the annotation.
 ```java
 @Command(value = "example", desc = "This is an example command")
@@ -81,8 +81,8 @@ JDA-Commands will attempt to type adapt the command options. You can find a conc
 You can also [register your own type adapters](../middlewares/typeadapter.md).
 
 #### OptionType
-The parameters will automatically be mapped to the best fitting <net.dv8tion.jda.api.interactions.commands.OptionType>,
-defaulting to <net.dv8tion.jda.api.interactions.commands.OptionType#STRING>. You can override this mapping by using the 
+The parameters will automatically be mapped to the best fitting <OptionType>,
+defaulting to <OptionType#STRING>. You can override this mapping by using the 
 <com.github.kaktushose.jda.commands.annotations.interactions.Param> annotation. 
 ```java
 @Command("ban")
@@ -92,7 +92,7 @@ public void onBanMember(CommandEvent event, @Param(type = OptionType.USER) IMent
 ```
 
 #### Name & Description
-Use the <com.github.kaktushose.jda.commands.annotations.interactions.Param> annotation to set a name and a description 
+Use the <Param> annotation to set a name and a description 
 for a command option. By default, the parameter name will be used as the option name.
 ```java
 @Command("ban")
@@ -143,7 +143,7 @@ public void onBanMember(CommandEvent event,
 ---
 
 #### Optional
-In order to make a command option optional, annotate the parameter with <com.github.kaktushose.jda.commands.annotations.interactions.Param>.
+In order to make a command option optional, annotate the parameter with <Param>.
 ```java
 @Command("ban")
 public void onBanMember(CommandEvent event, Member target, @Param(optional = true) String reason, @Param(optional = true) int delDays) {
@@ -151,7 +151,7 @@ public void onBanMember(CommandEvent event, Member target, @Param(optional = tru
 }
 ```
 
-Alternatively, you can wrap the parameter in an <java.util.Optional>.
+Alternatively, you can wrap the parameter in an <Optional>.
 ```java
 @Command("ban")
 public void onBanMember(CommandEvent event, Member target, Optional<String> reason, Optional<Integer> delDays) {
@@ -163,7 +163,7 @@ public void onBanMember(CommandEvent event, Member target, Optional<String> reas
     Required options must be added before non-required options.
 
 #### Choices
-Use the <com.github.kaktushose.jda.commands.annotations.interactions.Choices> annotation to add choices to a command option:
+Use the <Choices> annotation to add choices to a command option:
 ```java
 @Command("ban")
 public void onBanMember(CommandEvent event, 
@@ -187,7 +187,7 @@ public void onBanMember(CommandEvent event,
 
 #### Auto Complete
 You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
-<com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete>. Auto Complete handlers are always bound to 
+AutoComplete>. Auto Complete handlers are always bound to 
 one or more slash commands. 
 
 The slash commands can either be referenced by the:
@@ -268,7 +268,7 @@ one handler. An auto complete handler that explicitly supports a command option 
 that is implicitly registered.
 
 #### Min & Max Value
-Use the <com.github.kaktushose.jda.commands.annotations.constraints.Min> or <com.github.kaktushose.jda.commands.annotations.constraints.Max>
+Use the <Min> or <Max>
 annotation to set the minimum and maximum value for numeral options. 
 !!! example
     ```java
@@ -280,11 +280,11 @@ annotation to set the minimum and maximum value for numeral options.
 
 ## Context Commands
 Both types of context commands are defined by the same <com.github.kaktushose.jda.commands.annotations.interactions.Command>
-annotation. The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent>.
+annotation. The first parameter must always be a <CommandEvent>.
 The name and other metadata of the command is passed to the annotation.
 
 ### Message Context
-For message context commands the second method parameter must be a <net.dv8tion.jda.api.entities.Message>
+For message context commands the second method parameter must be a <Message>
 and the `type` must be <net.dv8tion.jda.api.interactions.commands.Command.Type#MESSAGE>.
 ```java
 @Command(value = "Delete this message", type = Command.Type.MESSAGE)
@@ -292,8 +292,8 @@ public void onDeleteMessage(CommandEvent event, Message target) { ... }
 ```
 
 ### User Context
-For user context commands the second method parameter must be a <net.dv8tion.jda.api.entities.User>
-and the `type` must be <net.dv8tion.jda.api.interactions.commands.Command.Type#USER>.
+For user context commands the second method parameter must be a <User>
+and the `type` must be <Command.Type#USER>.
 ```java
 @Command(value = "Ban this user", type = Command.Type.USER)
 public void onBanMember(CommandEvent event, User user) { ... }
@@ -302,7 +302,7 @@ public void onBanMember(CommandEvent event, User user) { ... }
 ## Additional Settings
 Use the <com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig> annotation to configure the 
 following settings. You can either annotate a command method directly or annotate the interaction controller class. It 
-is also possible to set a [global command config][[com.github.kaktushose.jda.commands.JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)]]
+is also possible to set a [global command config][[JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)]]
 at the builder:
 
 !!! example "Global CommandConfig"
@@ -332,8 +332,8 @@ public void onCommand(CommandEvent event) {...}
 ```
 
 ### context
-Sets the [InteractionContextTypes][[net.dv8tion.jda.api.interactions.InteractionContextType]]
-of a command. The default value is <net.dv8tion.jda.api.interactions.InteractionContextType#GUILD>.
+Sets the [InteractionContextTypes][[InteractionContextType]]
+of a command. The default value is <InteractionContextType#GUILD>.
 
 ```java
 @CommandConfig(context = {InteractionContextType.GUILD, InteractionContextType.BOT_DM})
@@ -342,8 +342,8 @@ public void onCommand(CommandEvent event) {...}
 ```
 
 ### integration
-Sets the [IntegrationTypes][[net.dv8tion.jda.api.interactions.IntegrationType]]
-of a command. The default value is <net.dv8tion.jda.api.interactions.IntegrationType#GUILD_INSTALL>.
+Sets the [IntegrationTypes][[IntegrationType]]
+of a command. The default value is <IntegrationType#GUILD_INSTALL>.
 
 ```java
 @CommandConfig(integration = {IntegrationType.GUILD_INSTALL, IntegrationType.USER_INSTALL})
@@ -369,7 +369,7 @@ Sets whether a command should be registered as a `global` or as a `guild` comman
 public void onCommand(CommandEvent event) {...}
 ```
 
-When having guild scoped commands you have to use the <com.github.kaktushose.jda.commands.scope.GuildScopeProvider> to 
+When having guild scoped commands you have to use the <GuildScopeProvider> to 
 tell JDA-Commands what guilds a command should be registered for. 
 
 Let's say we have a paid feature in our bot:
@@ -382,7 +382,7 @@ Let's say we have a paid feature in our bot:
     }
     ```
 
-We then need to implement a <com.github.kaktushose.jda.commands.scope.GuildScopeProvider> to only register this command
+We then need to implement a <GuildScopeProvider> to only register this command
 for guilds that have paid for that feature:
 !!! example
     ```java

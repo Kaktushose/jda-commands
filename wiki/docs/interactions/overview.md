@@ -5,7 +5,7 @@
 
 ## Structure
 In JDA-Commands you define interactions as methods. These methods must be contained in a class annotated with 
-[`@Interaction`][[com.github.kaktushose.jda.commands.annotations.interactions.Interaction]],
+<com.github.kaktushose.jda.commands.annotations.interactions.Interaction>,
 which is also referred to as the _interaction controller_. 
 
 Each method controls one interaction. The interaction data gets defined by annotations and sometimes by the method signature. 
@@ -62,7 +62,7 @@ public class CookieClicker {
 Let's see what's going on here:
 
 - The `/cookie clicker` command is an entrypoint for starting a new conversation. Everytime the command gets executed
-JDA will hand over a [`SlashCommandInteractionEvent`][[net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent]]
+JDA will hand over a [`SlashCommandInteractionEvent`][[SlashCommandInteractionEvent]]
 to JDA-Commands, which is used to create a new [Runtime](../start/runtime.md). 
 
 - This [Runtime](../start/runtime.md) will then create a new instance of the `CookieClicker` class. This instance is used

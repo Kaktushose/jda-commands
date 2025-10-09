@@ -21,15 +21,15 @@ JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Text Messages
-The simplest way of sending a reply is using the <com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent#reply(java.lang.String, Entry...)>
+The simplest way of sending a reply is using the <ReplyableEvent#reply(java.lang.String, Entry...)>
 method. This will send a non-ephemeral text message. If the event has already been replied to, this method will edit the 
 original message instead of sending a new one by default.
 
 The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
 
 ## Reply Configuration
-You can change this default behaviour by calling <com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent#with()>
-before sending the reply. This will return a <com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply>
+You can change this default behaviour by calling <ReplyableEvent#with()>
+before sending the reply. This will return a <ConfigurableReply>
 object to you, you can use to modify settings:
 
 !!! example "Ephemeral Reply"
@@ -44,7 +44,7 @@ object to you, you can use to modify settings:
 
 ## Components
 ### Replying with Components
-The <com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply>
+The <ConfigurableReply>
 object is also used to attach components. You reference components by the name of the method they are defined with, just
 like we did before with [modals](./modals.md#replying-with-modals).
 
@@ -86,7 +86,7 @@ If you want to add multiple components to the same action row, just pass the met
 
 ### Enabling & Disabling
 By default, all components are enabled. If you want to attach a disabled component, you need to wrap it by calling
-<com.github.kaktushose.jda.commands.dispatching.reply.Component#disabled(java.lang.String, Entry...)>
+<Component#disabled(java.lang.String, Entry...)>
 
 
 If you want to add multiple components to the same action row, with some of them enabled and some disabled, you need to
@@ -107,13 +107,13 @@ components when sending a message edit, unless they are explicitly reattached.
 JDA-Commands flips this behaviour and will keep your components attached by default. 
 
 You can disable this by calling
-[`keepComponents(false)`][[com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply#keepComponents(boolean)]]:
+[`keepComponents(false)`][[ConfigurableReply#keepComponents(boolean)]]:
 !!! example
     ```java
     event.with().keepComponents(false).reply("Message edit!");
     ```
 
-Alternatively you can call <com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent#removeComponents()>
+Alternatively you can call <ReplyableEvent#removeComponents()>
 which will remove all components attached to a message.
 
 ---
@@ -141,7 +141,7 @@ which will remove all components attached to a message.
         ![Cookie Clicker](../assets/cookie-clicker.gif)
 
 ### Foreign Components
-You can attach components that were defined in a different class by using the <com.github.kaktushose.jda.commands.dispatching.reply.Component#enabled(java.lang.Class,java.lang.String, Entry...)>
+You can attach components that were defined in a different class by using the <Component#enabled(java.lang.Class,java.lang.String, Entry...)>
 class again. In addition to the method name, you must also pass the class reference in that case.
 
 !!! example
@@ -179,7 +179,7 @@ them on your own.
     ```
 
 ### Dynamic Components
-Just like with Modals, you can dynamically modify components too. Use the <com.github.kaktushose.jda.commands.dispatching.reply.Component#enabled(java.lang.Class,java.lang.String,Entry...)>
+Just like with Modals, you can dynamically modify components too. Use the <Component#enabled(java.lang.Class,java.lang.String,Entry...)>
 class to access a builder object, which wraps the JDA builder. Alternatively, you can access the native JDA builder by
 calling `#modify`.
 
@@ -192,11 +192,11 @@ calling `#modify`.
 
 ## Embeds
 JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../message/embeds.md) of this wiki for
-setup instructions. Once you have your <com.github.kaktushose.jda.commands.embeds.EmbedDataSource>
+setup instructions. Once you have your <EmbedDataSource>
 configured you can start using Embeds in your replies. 
 
-Use the <com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply> object, which is accessed by calling 
-<com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent#with()>, 
+Use the <ConfigurableReply> object, which is accessed by calling 
+<ReplyableEvent#with()>, 
 to attach Embeds to your reply. The easiest way of replying with an Embed is to simply pass the Embeds name:
 !!! example
     ```java
@@ -209,7 +209,7 @@ You can also pass multiple names or call the `#embed(...)` method multiple times
     
     event.with().embeds("welcome").embeds("goodbye").reply();
     ```
-For modifying you can either use the <com.github.kaktushose.jda.commands.embeds.Embed> object or use a callback:
+For modifying you can either use the <Embed> object or use a callback:
 !!! example
     === "Embed Object"
         ```java
@@ -222,7 +222,7 @@ For modifying you can either use the <com.github.kaktushose.jda.commands.embeds.
         event.with().embeds("welcome", embed -> embed.title("New title")).reply();
         ```
 
-Placeholders can be passed not only to the <com.github.kaktushose.jda.commands.embeds.Embed>
+Placeholders can be passed not only to the <Embed>
 object, but also directly to the `#embed(...)` method:
 !!! example
     ```java
@@ -230,7 +230,7 @@ object, but also directly to the `#embed(...)` method:
     ```
 
 ## ReplyConfig
-The [`@ReplyConfig`][[com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig]]
+The <com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig>
 annotation provides a way to modify the default behaviour for the `editReply`, `ephemeral` and `keepComponents` settings. 
 You can either annotate single methods or entire interaction controllers. 
 
@@ -247,7 +247,7 @@ You can either annotate single methods or entire interaction controllers.
     }
     ```
 
-Alternatively, you can set a [global reply config][[com.github.kaktushose.jda.commands.JDACBuilder#globalReplyConfig(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)]]
+Alternatively, you can set a [global reply config][[JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)]]
 at the builder:
 
 !!! example "Global ReplyConfig"
