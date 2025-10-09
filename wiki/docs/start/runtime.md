@@ -8,9 +8,9 @@ corresponding `EventHandlers` and manages the used virtual threads.
 
 A new `Runtime` is created each time a:
 
-- [`SlashCommandInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html)
-- [`GenericContextInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html)
-- [`CommandAutoCompleteInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html)
+- <SlashCommandInteractionEvent>
+- <GenericContextInteractionEvent>
+- <CommandAutoCompleteInteractionEvent>
 
 is provided by JDA or if an interaction is marked as [*independent*](#independent).
 
@@ -27,7 +27,7 @@ then passed to the corresponding `Runtime`.
 
 Each `Runtime` will run in its own virtual thread, called `JDAC Runtime-Thread <UUID>`. The `Runtime` will wait for new
 incoming events and then delegate them to the correct `EventHandler`. For instance, a
-[`SlashCommandInteractionEvent`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html)
+<SlashCommandInteractionEvent>
 will be passed to the `SlashCommandHandler`.
 
 The `EventHandler` will _again_ run in its own virtual thread, named `JDAC EventHandler-Thread <UUID>`, isolated from 
@@ -43,13 +43,13 @@ the runtime one. Other incoming events are only executed when the previous one h
 
 By default, JDA-Commands will handle the lifetime of Runtimes for you. Every `Runtime` will be closed **15 minutes** 
 after its creation. This time span is oriented towards the lifespan of the 
-[`InteractionHook`](https://javadoc.io/doc/net.dv8tion/JDA/latest/net/dv8tion/jda/api/interactions/InteractionHook.html). 
+<InteractionHook>. 
 
 ### Explicit
 
 You can disable the default behaviour by setting the 
-[`ExpirationStrategy`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.html) to 
-[`EXPLICIT`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Explicit.html).
+<ExpirationStrategy> to 
+<ExpirationStrategy#EXPLICIT>.
 
 
 ```java title="Main.java" 
@@ -58,7 +58,7 @@ JDACommands.builder(jda, Main.class)
         .start();
 ```
 
-This will prevent any `Runtime` from closing until [`closeRuntime`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#closeRuntime())
+This will prevent any `Runtime` from closing until <Event#closeRuntime()>
 is explicitly called.
 
 !!! example
