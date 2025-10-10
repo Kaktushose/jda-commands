@@ -1,7 +1,5 @@
 package definitions.slash;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Max;
-import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;

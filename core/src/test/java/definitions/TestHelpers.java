@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class TestHelpers {
 
-    private static final Validators validators = new Validators(Map.of());
+    public static final Validators validators = new Validators(Map.of());
 
     public static MethodBuildContext getBuildContext(Class<?> controller, String method) {
         var clazz = new ReflectiveDescriptor().describe(controller);

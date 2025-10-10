@@ -1,9 +1,5 @@
 package definitions.slash.options;
 
-import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
-import com.github.kaktushose.jda.commands.annotations.constraints.Max;
-import com.github.kaktushose.jda.commands.annotations.constraints.Min;
-import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
@@ -15,7 +11,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Comman
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
@@ -24,13 +19,8 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,6 +51,16 @@ class OptionDataTest {
             entry(ThreadChannel.class, OptionType.CHANNEL),
             entry(VoiceChannel.class, OptionType.CHANNEL),
             entry(Message.Attachment.class, OptionType.ATTACHMENT)
+    );
+
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TO_BOXED = Map.of(
+            int.class, Integer.class,
+            long.class, Long.class,
+            char.class, Character.class,
+            byte.class, Byte.class,
+            double.class, Double.class,
+            float.class, Float.class,
+            boolean.class, Boolean.class
     );
 
     @Test
@@ -120,6 +120,17 @@ class OptionDataTest {
         for (Class<?> type : CLASS_TO_OPTION_TYPE.keySet()) {
             OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, validators);
             assertEquals(CLASS_TO_OPTION_TYPE.get(type), build.optionType());
+        }
+    }
+
+    @Test
+    void optionData_withPrimitiveType_shouldBoxCorrectly() {
+        Validators validators = new Validators(Map.of());
+        ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
+
+        for (Class<?> type : PRIMITIVE_TO_BOXED.keySet()) {
+            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, validators);
+            assertEquals(PRIMITIVE_TO_BOXED.get(type), build.resolvedType());
         }
     }
 
@@ -200,6 +211,5 @@ class OptionDataTest {
         @Command("valueChoices")
         public void valueChoices(CommandEvent event, @Choices({"one:1", "two:2"}) String argument) {
         }
-
     }
 }
