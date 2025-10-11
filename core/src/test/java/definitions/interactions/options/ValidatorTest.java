@@ -1,4 +1,4 @@
-package definitions.slash.options;
+package definitions.interactions.options;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
 import com.github.kaktushose.jda.commands.annotations.constraints.Max;

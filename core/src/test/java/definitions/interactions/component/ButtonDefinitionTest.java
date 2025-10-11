@@ -1,4 +1,4 @@
-package definitions.slash.component;
+package definitions.interactions.component;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
@@ -20,12 +20,6 @@ import java.util.Set;
 import static definitions.TestHelpers.getBuildContext;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Clean, comprehensive tests for {@link ButtonDefinition}.
- *
- * Note: we intentionally don't import net.dv8tion.jda.api.interactions.components.buttons.Button
- * to avoid a name clash with the {@code @Button} annotation. We use `var` for JDA Button instances.
- */
 class ButtonDefinitionTest {
 
     // -------------------------
@@ -231,11 +225,6 @@ class ButtonDefinitionTest {
 
         @Button("classOnlyPermissionButton")
         public void classOnlyPermissionButton(ComponentEvent event) {
-        }
-
-        @Button("methodOnlyPermissionButton")
-        @Permissions("USER")
-        public void methodOnlyPermissionButton(ComponentEvent event) {
         }
 
         @Button("mergedPermissionButton")

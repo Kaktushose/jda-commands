@@ -1,4 +1,4 @@
-package definitions.slash;
+package definitions.interactions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;

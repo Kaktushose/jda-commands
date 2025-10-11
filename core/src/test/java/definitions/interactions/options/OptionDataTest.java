@@ -1,4 +1,4 @@
-package definitions.slash.options;
+package definitions.interactions.options;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Choices;
 import com.github.kaktushose.jda.commands.annotations.interactions.Command;
