@@ -2,6 +2,8 @@ package definitions;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
+import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
@@ -13,9 +15,11 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TestHelpers {
 
@@ -28,13 +32,24 @@ public class TestHelpers {
                 validators,
                 ResourceBundleLocalizationFunction.empty().build(),
                 controller.getAnnotation(Interaction.class),
-                Set.of(),
+                permissions(clazz),
                 SlashCommandDefinition.CooldownDefinition.build(null),
                 clazz,
                 methodDescription(controller, method),
                 autoCompleteDefinitions(clazz),
                 new CommandDefinition.CommandConfig()
         );
+    }
+
+    private static Set<String> permissions(ClassDescription clazz) {
+        return clazz.annotations()
+                .stream()
+                .filter(ann -> ann.type() == Permissions.class)
+                .map(AnnotationDescription::value)
+                .map(Permissions.class::cast)
+                .map(Permissions::value)
+                .flatMap(Arrays::stream)
+                .collect(Collectors.toSet());
     }
 
     private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
