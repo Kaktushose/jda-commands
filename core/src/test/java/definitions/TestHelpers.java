@@ -26,6 +26,10 @@ public class TestHelpers {
     public static final Validators validators = new Validators(Map.of());
 
     public static MethodBuildContext getBuildContext(Class<?> controller, String method) {
+        return getBuildContextOptionalAutoComplete(controller, method, false);
+    }
+
+    public static MethodBuildContext getBuildContextOptionalAutoComplete(Class<?> controller, String method, boolean autoComplete) {
         var clazz = new ReflectiveDescriptor().describe(controller);
 
         return new MethodBuildContext(
@@ -36,9 +40,16 @@ public class TestHelpers {
                 SlashCommandDefinition.CooldownDefinition.build(null),
                 clazz,
                 methodDescription(controller, method),
-                autoCompleteDefinitions(clazz),
+                autoComplete ? autoCompleteDefinitions(clazz) : Set.of(),
                 new CommandDefinition.CommandConfig()
         );
+    }
+
+    private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
+        return clazz.methods().stream()
+                .filter(it -> it.annotation(AutoComplete.class).isPresent())
+                .map(method -> AutoCompleteDefinition.build(clazz, method))
+                .toList();
     }
 
     private static Set<String> permissions(ClassDescription clazz) {
@@ -50,13 +61,6 @@ public class TestHelpers {
                 .map(Permissions::value)
                 .flatMap(Arrays::stream)
                 .collect(Collectors.toSet());
-    }
-
-    private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
-        return clazz.methods().stream()
-                .filter(it -> it.annotation(AutoComplete.class).isPresent())
-                .map(method -> AutoCompleteDefinition.build(clazz, method))
-                .toList();
     }
 
     private static MethodDescription methodDescription(Class<?> controller, String method) {

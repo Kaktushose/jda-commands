@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.getBuildContextOptionalAutoComplete;
 
 public class AutoCompleteDefinitionTest {
 
@@ -59,7 +60,7 @@ public class AutoCompleteDefinitionTest {
 
     @Test
     void testWithoutOption_shouldBeRegisteredForAllOptions() {
-        AutoCompleteDefinition definition = buildAutoComplete("someCommandAutoComplete", TestControllerWorking.class);
+        AutoCompleteDefinition definition = buildWorking("someCommandAutoComplete");
         SlashCommandDefinition slash = buildSlash("someCommand");
         for (OptionDataDefinition option : slash.commandOptions()) {
             Assertions.assertNotNull(option.autoComplete());
@@ -69,7 +70,7 @@ public class AutoCompleteDefinitionTest {
 
     @Test
     void testWithoutOption_shouldBeRegisteredForFirstOption() {
-        AutoCompleteDefinition definition = buildAutoComplete("someOtherCommandAutoComplete", TestControllerWorking.class);
+        AutoCompleteDefinition definition = buildWorking("someOtherCommandAutoComplete");
         SlashCommandDefinition slash = buildSlash("someOtherCommand");
         var list = new ArrayList<>(slash.commandOptions());
 
@@ -80,16 +81,18 @@ public class AutoCompleteDefinitionTest {
     }
 
     private AutoCompleteDefinition build(String method) {
-        return buildAutoComplete(method, TestController.class);
+        MethodBuildContext context = getBuildContext(TestController.class, method);
+        return AutoCompleteDefinition.build(context.clazz(), context.method());
     }
 
-    private AutoCompleteDefinition buildAutoComplete(String method, Class<?> klass) {
-        MethodBuildContext context = getBuildContext(klass, method);
+    private AutoCompleteDefinition buildWorking(String method) {
+        MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
         return AutoCompleteDefinition.build(context.clazz(), context.method());
     }
 
     private SlashCommandDefinition buildSlash(String method) {
-        return SlashCommandDefinition.build(getBuildContext(TestControllerWorking.class, method));
+        MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
+        return SlashCommandDefinition.build(context);
     }
 
     @Interaction
