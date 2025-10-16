@@ -75,8 +75,8 @@ markdown_extensions:
   - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
       urls:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
-        - 'https://docs.jda.wiki/'
-        - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+        - 'https://javadoc.io/doc/net.dv8tion/JDA/5.6.1/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
         - alias: 'fluava'
           url: 'https://goldmensch.github.io/fluava/javadocs/0/'
           auto_searched: 'false'

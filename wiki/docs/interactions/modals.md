@@ -44,7 +44,7 @@ The label and other metadata of the text input is passed to the annotation.
 
 Text Inputs can be configured with the following fields:
 ### style
-Sets the <net.dv8tion.jda.api.components.textinput.TextInputStyle>. 
+Sets the <TextInputStyle>. 
 The default value is <TextInputStyle#PARAGRAPH>.
 !!! example
     ```java
