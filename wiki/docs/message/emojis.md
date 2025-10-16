@@ -8,7 +8,7 @@ They follow the same format `:emoji_name:` for both Unicode and application emoj
 Setting the skintone like `:emoji_name::skin-tone-5:` is supported too.
 
 Please note that the emoji aliases are resolved after localization takes place, so you can also use them in your
-localization messages regardless of the used [Localizer](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/i18n/Localizer.html)!
+localization messages regardless of the used <Localizer>!
 
 ### Escaping the colon `:`
 Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
@@ -56,11 +56,11 @@ to register your emojis automatically upon startup. Please note that we cannot u
 Similar to how [ClassFinders](../misc/reflection.md#classfinder) work, JDA-Commands uses [EmojiSources](../misc/reflection.md#emojisource)
 to load your application emojis from different places. Per default there are 3 types of `EmojiSources`:
 
-- [EmojiSource#reflective(String... paths)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#reflective(java.lang.String...))
+- <EmojiSource#reflective(String...)>
   that searches the classpath (resources) for files in the stated directories/packages.
-- [EmojiSource#fromUrl(String name, URL url)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromUrl(java.langString,java.net.URL))
+- <EmojiSource#fromUrl(String, URL)>
   that loads an emoji with the given name from this URL
-- [EmojiSource#fromIcon(String name, Icon icon)](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon))
+- <EmojiSource#fromIcon(String, Icon)>
   that just works as an interop to JDAs own emoji api
 
 If no [EmojiSources](../misc/reflection.md#emojisource) are set by the user in the JDA-Commands Builder, the resource directory `emojis` will be searched for application emojis per default.

@@ -1,21 +1,21 @@
 # Type Adapters
-[`TypeAdapters`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/adapter/TypeAdapter.html)
+[TypeAdapters][[com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]]
 are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.
 
 ## Default Type Adapters
 JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) for its type adapting system. Proteus supports all
 widening and narrowing primitive conversions as defined by the Java Language Specification. Additionally, JDA-Commands
-has implemented default type adapters for JDAs [`GuildChannel`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html)
+has implemented default type adapters for JDAs <GuildChannel>
 and its subtypes.
 
 Thus, you can add all primitive types and their respective wrapper types as well as any underlying type of the 
-[`OptionType`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionType.html) enum
+<OptionType> enum
 as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
 for details.
 
 ## Writing Own Type Adapters
 As mentioned above, JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) under the hood for type adapting.
-The [`TypeAdapter`]() interface is simply a subtype of Proteus' [`UniMapper`](https://kaktushose.github.io/proteus/javadocs/snapshot/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html).
+The <com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter> interface is simply a subtype of Proteus' <proteus -> UniMapper>
 The following example only covers the registration part for JDA-Commands. Please refer to the [`documentation`](https://kaktushose.github.io/proteus/wiki/)
 of Proteus for implementation details. 
 
@@ -66,7 +66,7 @@ of Proteus for implementation details.
 
 
 Your own types will be mapped to `OptionType.STRING` by default. You can
-override this mapping by using the [`@Param`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html)
+override this mapping by using the <Param>
 annotation.
 !!! example
     ```java

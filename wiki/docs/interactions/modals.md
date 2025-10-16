@@ -1,8 +1,8 @@
 # Modals
 
 ## Overview
-Modals are defined by annotating a method with [`@Modal`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html).
-The first parameter must always be a [`ModalEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html).
+Modals are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Modal>.
+The first parameter must always be a <ModalEvent>.
 
 ```java
 @Modal("My Modal")
@@ -35,7 +35,7 @@ JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Text Inputs
-You can add text inputs to a modal by adding String parameters annotated with [`@TextInput`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/TextInput.html).
+You can add text inputs to a modal by adding String parameters annotated with <com.github.kaktushose.jda.commands.annotations.interactions.TextInput>.
 The label and other metadata of the text input is passed to the annotation. 
 
 !!! tip
@@ -44,8 +44,8 @@ The label and other metadata of the text input is passed to the annotation.
 
 Text Inputs can be configured with the following fields:
 ### style
-Sets the [`TextInputStyle`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/text/TextInputStyle.html). 
-The default value is [`TextInputStyle.PARAGRAPH`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/text/TextInputStyle.html#PARAGRAPH).
+Sets the <TextInputStyle>. 
+The default value is <TextInputStyle#PARAGRAPH>.
 !!! example
     ```java
     @Modal("Ban reason")
@@ -85,9 +85,10 @@ Sets whether the text input is required. The default value is `true`.
     ```
 
 ## Replying with Modals
-You can reply to [`CommandEvents`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html)
-and [`ComponentEvents`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html)
-with a Modal by calling [`replyModal(methodName)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String))
+
+You can reply to [`CommandEvents`][[CommandEvent]] 
+and [`ComponentEvents`][[com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent]]
+with a Modal by calling <ModalReplyableEvent#replyModal(java.lang.String,Entry...)>
 on the event.
 
 !!! example
@@ -105,7 +106,7 @@ on the event.
 
 ### Dynamic Modals
 Sometimes you want to modify a Modal dynamically at runtime. You can do so by calling
-[`replyModal(methodName, function)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,java.util.function.Function)).
+<ModalReplyableEvent#replyModal(java.lang.String,java.util.function.Function)>
 
 !!! example
     ```java

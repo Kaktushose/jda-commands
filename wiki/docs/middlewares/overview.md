@@ -1,9 +1,9 @@
 # Middlewares
 Middlewares run just before an interaction event gets dispatched. They are used to perform additional checks or add more 
-info the [`InvocationContext`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html).
+info the <InvocationContext>.
 Middlewares are intended to provide a flexible system for extending the execution chain.
 
-They are executed based on their [`Priority`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Priority.html)
+They are executed based on their <Priority>
 in the following order:
 
 1. `PERMISSIONS`: Middlewares with this priority will **always** be executed first
@@ -16,10 +16,10 @@ If one middleware fails, the entire interaction execution gets immediately abort
 ## Default Middlewares
 JDA-Commands uses its own Middleware API internally to implement some features. All these features can either be 
 *extended* or *replaced* by the user. You can either register your own implementations at the respective builder method
-or use the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html) annotation.
+or use the <com.github.kaktushose.jda.commands.guice.Implementation> annotation.
 
 !!! note
-    Using the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html)
+    Using the <com.github.kaktushose.jda.commands.guice.Implementation>
     annotation requires the guice integration (shipped by default). You can read more about it [here](../di.md).
 
 Middlewares provided by JDA-Commands include:
@@ -31,8 +31,8 @@ Middlewares provided by JDA-Commands include:
 
 ## Writing own Middlewares
 
-You can write your own middlewares by implementing the [`Middleware`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html) interface.
-You can cancel an execution by calling [`context.cancel(message)`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)).
+You can write your own middlewares by implementing the <com.github.kaktushose.jda.commands.dispatching.middleware.Middleware> interface.
+You can cancel an execution by calling <InvocationContext#cancel(MessageCreateData)>.
 
 
 !!! example
@@ -46,14 +46,14 @@ You can cancel an execution by calling [`context.cancel(message)`](https://kaktu
     }
     ```
 
-Then, either register your Middleware at the [builder](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#middleware(com.github.kaktushose.jda.commands.dispatching.middleware.Priority,com.github.kaktushose.jda.commands.dispatching.middleware.Middleware)):
+Then, either register your Middleware at the [builder][[JDACBuilder#middleware(Priority,Middleware)]]:
 ```java
 JDACommands.builder(jda, Main.class)
     .middleware(Priority.NORMAL, new LoggingMiddleware());
     .start();
 ```
 
-or use the [`@Implementation`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html)
+or use the <com.github.kaktushose.jda.commands.guice.Implementation>
 annotation:
 ```java
 @Implementation.Middleware(priority = Priority.NORMAL)
@@ -61,7 +61,7 @@ public class LoggingMiddleware implements Middleware {...}
 ```
 
 ### Run only for certain interaction controllers
-If you want your Middleware to only run for certain interaction controllers, just implement [Middleware#runFor()](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html#runFor())
+If you want your Middleware to only run for certain interaction controllers, just implement <Middleware#runFor()>
 returning the classes of the interaction controllers for which the middleware should run.
 
 !!! example (run only for HelloController.java)

@@ -18,7 +18,7 @@ Also take a look at the general [message resolution documentation](../message/ov
     public void onButton(ComponentEvent event) {...}
     ```
 
-!!! warning The dollar sign ($)
+!!! warning "The Dollar Sign ($)"
     The dollar sign is a reserved character for bundle name separation.
     In most cases that shouldn't bother you but if you encounter any problems,
     please read the notes [here](../message/localization.md#the-dollar-character).
@@ -28,8 +28,8 @@ JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Buttons
-Buttons are defined by annotating a method with [`@Button`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html). 
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
+Buttons are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Button>. 
+The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
 The label and other metadata of the button is passed to the annotation.
 ```java
 @Button("example")
@@ -48,8 +48,7 @@ Sets the style of a button.
     ```
 
 !!! note
-    [`ButtonStyle.PREMIUM`](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/buttons/ButtonStyle.html#PREMIUM) 
-    is not supported by JDA-Commands.
+    <ButtonStyle#PREMIUM> is not supported by JDA-Commands.
 
 ### emoji
 Sets the emoji of a button.
@@ -69,20 +68,19 @@ Buttons that have a link cannot be executed, but they are still defined like nor
 
 ## Select Menus
 ### String Select Menus
-String Select Menus are defined by annotating a method with [`@StringSelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html).
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
-The second parameter must be a [`List`](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html).
+String Select Menus are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu>
+The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
+The second parameter must be a <java.util.List>.
 
 The placeholder and other metadata of the String Select Menu is passed to the annotation. 
 
-Select Options are defined by annotating the method with
-[`@SelectOption`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/SelectOption.html).
+Select Options are defined by annotating the method with <MenuOption>.
 
 !!! example
     ```java
-    @SelectOption(label= "Pizza", value = "pizza")
-    @SelectOption(label= "Hamburger", value = "hamburger")
-    @SelectOption(label= "Sushi", value = "Sushi")
+    @MenuOption(label= "Pizza", value = "pizza")
+    @MenuOption(label= "Hamburger", value = "hamburger")
+    @MenuOption(label= "Sushi", value = "Sushi")
     @StringSelectMenu("What's your favourite food?")
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
     ```
@@ -102,9 +100,9 @@ String Select Menus support up to 25 options. You can set the minimum and maximu
     ```
 
 ### Entity Select Menus
-Entity Select Menus are defined by annotating a method with [`@EntitySelectMenu`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html).
-The first parameter must always be a [`ComponentEvent`](https://kaktushose.github.io/jda-commands/javadocs/4/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html).
-The second parameter must be of type [`Mentions`](https://docs.jda.wiki/net/dv8tion/jda/api/entities/Mentions.html).
+Entity Select Menus are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu>.
+The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
+The second parameter must be of type <Mentions>.
 
 !!! example
     ```java
@@ -126,7 +124,7 @@ When using `SelectTarget.CHANNEL` you can limit the selectable channel types wit
     ```
 
 #### Default Values
-You can set the [default values](https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/EntitySelectMenu.DefaultValue.html)
+You can set the [default values][[EntitySelectMenu.DefaultValue]]
 of the Entity Select Menu by using respectively the `defaultChannels`, `defaultRoles` or `defaultUsers` fields. 
 
 !!! example
