@@ -299,6 +299,15 @@ and the `type` must be <Command.Type#USER>.
 public void onBanMember(CommandEvent event, User user) { ... }
 ```
 
+Alternatively, you can also use <Member> in the method signature. However, this only works for 
+<InteractionContextType#GUILD>.
+
+```java
+@Command(value = "Ban this user", type = Command.Type.USER)
+@CommandConfig(context = InteractionContextType.GUILD) // default value
+public void onBanMember(CommandEvent event, Member member) { ... }
+```
+
 ## Additional Settings
 Use the <com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig> annotation to configure the 
 following settings. You can either annotate a command method directly or annotate the interaction controller class. It 
