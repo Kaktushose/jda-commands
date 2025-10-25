@@ -106,8 +106,8 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         if (embeds.exists("insufficientPermissions")) {
             return embeds.get("insufficientPermissions")
                     .placeholders(
-                            new Entry("name", context.definition().displayName()),
-                            new Entry("permissions", permissions)
+                            entry("name", context.definition().displayName()),
+                            entry("permissions", permissions)
                     ).toMessageCreateData();
         }
 
@@ -128,7 +128,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     @Override
     public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
         if (embeds.exists("constraintFailed")) {
-            return embeds.get("constraintFailed").placeholders(new Entry("message", message)).toMessageCreateData();
+            return embeds.get("constraintFailed").placeholders(entry("message", message)).toMessageCreateData();
         }
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
                 .setColor(Color.ORANGE)
@@ -166,7 +166,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         }
 
         if (embeds.exists("cooldown")) {
-            return embeds.get("cooldown").placeholders(new Entry("cooldown", cooldown)).toMessageCreateData();
+            return embeds.get("cooldown").placeholders(entry("cooldown", cooldown.toString())).toMessageCreateData();
         }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
@@ -192,7 +192,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         );
 
         if (embeds.exists("executionFailed")) {
-            return embeds.get("executionFailed").placeholders(new Entry("error", error)).toMessageCreateData();
+            return embeds.get("executionFailed").placeholders(entry("error", error)).toMessageCreateData();
         }
 
         return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()

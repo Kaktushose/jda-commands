@@ -131,7 +131,7 @@ public record OptionDataDefinition(
             }
             throw new InvalidDeclarationException(
                     "invalid-option-data",
-                    entry("type", resolvedType),
+                    entry("type", resolvedType.getName()),
                     entry("guessedType", guessedType)
             );
         }
@@ -222,7 +222,7 @@ public record OptionDataDefinition(
     public OptionData toJDAEntity() {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
             throw new ConfigurationException("no-type-adapting-path",
-                    entry("optionType", optionType),
+                    entry("optionType", optionType.name()),
                     entry("source", OPTION_TYPE_TO_CLASS.get(optionType).getName()),
                     entry("target", declaredType.getName())
             );

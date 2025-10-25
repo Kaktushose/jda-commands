@@ -99,8 +99,8 @@ public final class Helpers {
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),
-                    entry("expected", methodSignature.stream().toList()),
-                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList())
+                    entry("expected", methodSignature.stream().toList().toString()),
+                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
             );
         }
     }

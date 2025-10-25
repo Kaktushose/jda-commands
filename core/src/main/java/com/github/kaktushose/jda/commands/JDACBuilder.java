@@ -256,6 +256,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         try {
+            log.info("Starting JDA-Commands...");
             // this order matters!
             I18n i18n = i18n();
             MessageResolver messageResolver = messageResolver();

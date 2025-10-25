@@ -145,7 +145,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> Type.of(Double.class);
             case ATTACHMENT -> Type.of(Message.Attachment.class);
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "invalid-option-type", entry("type", type)
+                    "invalid-option-type", entry("type", type.name())
             );
         };
     }
@@ -168,7 +168,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             case NUMBER -> optionMapping.getAsDouble();
             case ATTACHMENT -> optionMapping.getAsAttachment();
             case UNKNOWN, SUB_COMMAND, SUB_COMMAND_GROUP -> throw new InternalException(
-                    "invalid-option-type", entry("type", optionMapping)
+                    "invalid-option-type", entry("type", optionMapping.getName())
             );
         };
     }
