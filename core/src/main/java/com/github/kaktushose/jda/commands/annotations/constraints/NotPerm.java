@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.annotations.constraints;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.lang.annotation.ElementType;
@@ -18,5 +19,5 @@ public @interface NotPerm {
     /// Returns the discord permission(s) the element must not have.
     ///
     /// @return the discord permission(s) the element must not have.
-    String[] value();
+    Permission[] value();
 }

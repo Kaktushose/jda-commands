@@ -17,7 +17,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Representation of a modal.
 ///

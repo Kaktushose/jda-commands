@@ -1,0 +1,46 @@
+name: "Check if release"
+descriptions: "Checks if this commit should trigger a release"
+
+inputs:
+  msg:
+    default: ${{ github.event.head_commit.message }}
+  skip-gradle-check:
+    default: false
+
+outputs:
+  release:
+    value: ${{ steps.check.outputs.release }}
+  version:
+    value: ${{ steps.check.outputs.version }}
+  version_major:
+    value: ${{ steps.check.outputs.version_major }}
+  version_minor:
+    value: ${{ steps.check.outputs.version_minor }}
+  title:
+    value: ${{ steps.check.outputs.title }}
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: jbang
+      uses: jbangdev/setup-jbang@main
+    - id: check
+      shell: bash
+      run: jbang ./.github/workflows/check-if-release/java/CheckRelease.java
+      env:
+        MSG: ${{ inputs.msg }}
+    - uses: ./.github/workflows/setup-gradle
+      if: ${{ steps.check.outputs.release == 'true' && inputs.skip-gradle-check != 'true' }}
+    - name: verify project version defined in gradle
+      id: verify
+      if: ${{ steps.check.outputs.release == 'true' && inputs.skip-gradle-check != 'true' }}
+      shell: bash
+      run: |
+        project_version=$( gradle properties -q | awk '/^version:/ {print $2}' )
+        if [[ "$project_version" != "${{ steps.check.outputs.version }}" ]]; then
+          echo "Project version defined in gradle is unequal to release version"
+          echo "Release version: ${{ steps.check.outputs.version }}"
+          echo "Project version: $project_version"
+          exit 1
+        fi

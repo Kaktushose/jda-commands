@@ -10,7 +10,6 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /// Central registry for all [Middleware]s.
 public class Middlewares {
@@ -35,16 +34,6 @@ public class Middlewares {
         this.middlewares = Collections.unmodifiableSortedMap(middlewareMap);
     }
 
-    /// Returns a set of all registered [Middleware]s, regardless of their priority.
-    ///
-    /// @return a set of all registered middlewares [Middleware]s
-    public Set<Middleware> getMiddlewares() {
-        return middlewares.sequencedValues()
-                .stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toUnmodifiableSet());
-    }
-
     /// Executed the given task for all registered [Middleware]s ordered by their [Priority]
     ///
     /// @param task The task to be executed
@@ -52,6 +41,19 @@ public class Middlewares {
         for (Set<Middleware> value : middlewares.values()) {
             value.forEach(task);
         }
+    }
+
+    /// Executed the given task registered [Middleware]s that should run for this interaction controller
+    /// ordered by their [Priority].
+    ///
+    /// @param controllerClass the interaction controllers class
+    /// @param task The task to be executed
+    public void forOrdered(Class<?> controllerClass, Consumer<Middleware> task) {
+        forAllOrdered(middleware -> {
+            if (middleware.runFor() == null || middleware.runFor().contains(controllerClass)) {
+                task.accept(middleware);
+            }
+        });
     }
 
 }

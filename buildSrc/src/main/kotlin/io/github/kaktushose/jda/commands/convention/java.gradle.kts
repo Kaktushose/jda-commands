@@ -9,13 +9,17 @@ plugins {
 }
 
 java {
-    targetCompatibility = JavaVersion.VERSION_24
-    sourceCompatibility = JavaVersion.VERSION_24
+    val javaVersion = property("java.version") as String
+
+    targetCompatibility = JavaVersion.valueOf("VERSION_${javaVersion}")
+    sourceCompatibility = JavaVersion.valueOf("VERSION_${javaVersion}")
 
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 
     withSourcesJar()
     withJavadocJar()
+
+    modularity.inferModulePath.set(true)
 }

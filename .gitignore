@@ -11,3 +11,4 @@ src/main/resources
 
 **/build/
 .gradle/
+/wiki/.venv/

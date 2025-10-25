@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.embeds;
 
 
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
 
@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// An [EmbedDataSource] is used to retrieve [Embed]s based on a unique name from various sources.
 @FunctionalInterface
@@ -67,11 +67,13 @@ public interface EmbedDataSource {
     /// @param dataObject the [DataObject] to retrieve embeds from
     /// @return a new [EmbedDataSource]
     static EmbedDataSource dataObject(DataObject dataObject) {
-        return (embed, placeholders, i18n) -> {
-            if (!dataObject.hasKey(embed)) {
+        return (embed, placeholders, messageResolver) -> {
+            // create copy so modifications don't affect the source DataObject
+            DataObject copy = DataObject.fromJson(dataObject.toJson());
+            if (!copy.hasKey(embed)) {
                 return Optional.empty();
             }
-            return Optional.of(Embed.of(dataObject.getObject(embed), embed, placeholders, i18n));
+            return Optional.of(Embed.of(copy.getObject(embed), embed, placeholders, messageResolver));
         };
     }
 
@@ -79,9 +81,9 @@ public interface EmbedDataSource {
     ///
     /// @param embed        the name of the embed to retrieve
     /// @param placeholders a [Map] of placeholders to use
-    /// @param i18n         the [I18n] instance to use
+    /// @param messageResolver the [MessageResolver] instance to use
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    Optional<Embed> get(String embed, Map<String, Object> placeholders, I18n i18n);
+    Optional<Embed> get(String embed, Map<String, Object> placeholders, MessageResolver messageResolver);
 }

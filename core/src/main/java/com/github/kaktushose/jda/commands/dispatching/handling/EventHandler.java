@@ -75,7 +75,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
 
         log.debug("Executing middlewares...");
-        middlewares.forAllOrdered(middleware -> {
+        middlewares.forOrdered(context.definition().classDescription().clazz(), middleware -> {
             log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
             middleware.accept(context);
         });

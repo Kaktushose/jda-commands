@@ -11,7 +11,7 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///
@@ -53,9 +53,9 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
     /// @param modal       the method name of the [Modal] you want to reply with
-    /// @param placeholder the [I18n.Entry] placeholders to use for localization
+    /// @param placeholder the [Entry] placeholders to use for localization
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal, I18n.Entry... placeholder) {
+    public void replyModal(String modal, Entry... placeholder) {
         replyModal(modal, builder -> builder.placeholder(placeholder));
     }
 

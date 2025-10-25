@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.exceptions.internal;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException {
 
-    protected static final Bundle errorMessages = new Fluava(Locale.ENGLISH, Map.of()).loadBundle("jdac");
+    protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac");
 
     /// Creates a new JDACException and loads the error message from the given key.
     ///
@@ -30,8 +30,8 @@ public sealed class JDACException extends RuntimeException
     /// Creates a new JDACException, loads the error message from the given key and inserts the placeholders.
     ///
     /// @param key         the key of the error message
-    /// @param placeholder the [placeholders][I18n.Entry] to insert
-    public JDACException(String key, I18n.Entry... placeholder) {
+    /// @param placeholder the [placeholders][Entry] to insert
+    public JDACException(String key, Entry... placeholder) {
         super(errorMessage(key, placeholder));
     }
 
@@ -41,6 +41,16 @@ public sealed class JDACException extends RuntimeException
     /// @param cause the cause of the exception
     public JDACException(String key, Throwable cause) {
         super(errorMessages.apply(Locale.ENGLISH, key, Map.of()), cause);
+    }
+
+    /// Creates a new JDACException with the given cause, loads the error message from the given key and inserts
+    /// the placeholders.
+    ///
+    /// @param key   the key of the error message
+    /// @param cause the cause of the exception
+    /// @param placeholder the [placeholders][Entry] to insert
+    public JDACException(String key, Throwable cause, Entry... placeholder) {
+        super(errorMessage(key, placeholder), cause);
     }
 
     /// Retrieves an error message from the error bundle.
@@ -54,11 +64,11 @@ public sealed class JDACException extends RuntimeException
     /// Retrieves an error message from the error bundle and inserts the placeholders.
     ///
     /// @param key         the key of the error message
-    /// @param placeholder the [placeholders][I18n.Entry] to insert
+    /// @param placeholder the [placeholders][Entry] to insert
     /// @return the error message
-    public static String errorMessage(String key, I18n.Entry... placeholder) {
+    public static String errorMessage(String key, Entry... placeholder) {
         return errorMessages.apply(Locale.ENGLISH, key,
-                Arrays.stream(placeholder).collect(Collectors.toUnmodifiableMap(I18n.Entry::name, I18n.Entry::value))
+                Arrays.stream(placeholder).collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value))
         );
     }
 }

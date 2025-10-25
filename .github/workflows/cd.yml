@@ -1,0 +1,190 @@
+name: Release Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - "[0-9]+.[0-9]+.x"
+
+jobs:
+  check_if_release:
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+      version: ${{ steps.check.outputs.version }}
+      version_major: ${{ steps.check.outputs.version_major }}
+      version_minor: ${{ steps.check.outputs.version_minor }}
+      title: ${{ steps.check.outputs.title }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        uses: ./.github/workflows/check-if-release
+      - name: Check if version acceptable
+        id: rules_check
+        run: |
+          branch=${{ github.ref_name }}
+          regex="([0-9]+)\.([0-9]+)\.x"
+          
+          if [[ $branch =~ $regex ]]
+          then
+            if [[ ${BASH_REMATCH[1]} == "${{ steps.check.outputs.version_major }}" && ${BASH_REMATCH[2]} == "${{ steps.check.outputs.version_minor }}" ]]
+            then
+                echo fine
+            else
+                echo "cant change major nor minor version in tail branch"
+                exit 1
+            fi
+          elif [[ $branch != "main" ]]
+          then
+            echo "should be only executed on main or tail branch"
+            exit 1
+          fi
+
+  javadoc_target_dir:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    outputs:
+      target: ${{ steps.target_dir.outputs.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Find target directory
+        id: target_dir
+        run: |
+          branch=${GITHUB_REF#refs/heads/}
+
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
+            echo "name=${{ needs.check_if_release.outputs.version_major }}.${{ needs.check_if_release.outputs.version_minor }}" >> "$GITHUB_OUTPUT"
+          elif [ "$branch" == "main" ]; then
+            echo "name=snapshot" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=ignore" >> "$GITHUB_OUTPUT"
+          fi
+
+  javadoc:
+    runs-on: ubuntu-latest
+    needs: javadoc_target_dir
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-gradle
+      - name: Generate Documentation
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
+        run: |
+          ./gradlew javadoc
+      - name: Deploy docs
+        if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./jda-commands/build/docs/javadoc
+          branch: gh-pages
+          target-folder: javadocs/${{ needs.javadoc_target_dir.outputs.target }}
+
+  wiki:
+    runs-on: ubuntu-latest
+    needs: [ javadoc_target_dir, check_if_release ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+          cache: pip
+      - name: Build & Deploy Wiki
+        run: |
+          git pull
+          
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          
+          cd wiki
+          pip install -r requirements.txt
+          
+          # replace all JDAC_JAVADOC_VERSION with actual version
+          grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/${{ needs.javadoc_target_dir.outputs.target }}/g'
+          
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then 
+            mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
+            mike set-default ${{ needs.check_if_release.outputs.version }}
+          else 
+            mike deploy snapshot
+          fi
+      - name: Deploy Wiki
+        run: |
+          git pull
+          git push origin gh-pages
+
+  maven_central:
+    runs-on: ubuntu-latest
+    needs: check_if_release
+    outputs:
+      active: ${{ steps.find_active.outputs.active }}
+    steps:
+      - name: Find active deployment
+        id: find_active
+        run: |
+          branch=${{ github.ref_name }}
+
+          if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
+            echo "active=RELEASE" >> "$GITHUB_OUTPUT"
+          elif [ "$branch" == "main" ]; then
+            echo "active=SNAPSHOT" >> "$GITHUB_OUTPUT"
+          else
+            echo "active=NEVER" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-gradle
+      - name: Build and deploy
+        env:
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.jreleaser_gpg_public_key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.jreleaser_gpg_secret_key }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_USERNAME: ${{ secrets.jreleaser_user }}
+          JRELEASER_NEXUS2_USERNAME:  ${{ secrets.jreleaser_user }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_PASSWORD: ${{ secrets.jreleaser_password }}
+          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.jreleaser_password }}
+          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: ${{ steps.find_active.outputs.active }}
+        run: |
+          ./gradlew clean jreleaserDeploy
+
+  create-gh-draft-release:
+    runs-on: ubuntu-latest
+    needs: [ check_if_release, maven_central, javadoc_target_dir ]
+    if: ${{ needs.maven_central.outputs.active == 'RELEASE' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: "\U0001f680 v${{ needs.check_if_release.outputs.version }} | ${{ needs.check_if_release.outputs.title }}"
+          tag_name: "v${{ needs.check_if_release.outputs.version }}"
+          generate_release_notes: true
+          body: |
+            ## :telescope: Overview
+            TBD
+
+            ## :page_facing_up: Docs
+            You can find the wiki for this version [here](https://kaktushose.github.io/jda-commands/${{ needs.check_if_release.outputs.version }}/).
+
+            To visit this version's javadocs click [here](https://kaktushose.github.io/jda-commands/javadocs/${{ needs.javadoc_target_dir.outputs.target }}/).
+
+            ## :package: Download / Usage
+            ### Gradle
+            ```kotlin
+            repositories {
+              mavenCentral()
+            }
+
+            dependencies {
+              implementation("MVN_GROUP:MVN_ARTIFACT:${{ needs.check_if_release.outputs.version }}")
+            }
+            ```
+
+            ### Maven
+            ```xml
+            <dependency>
+              <groupId>MVN_GROUP</groupId>
+              <artifactId>MVN_ARTIFACT</artifactId>
+              <version>${{ needs.check_if_release.outputs.version }}</version>
+            </dependency>
+            ```

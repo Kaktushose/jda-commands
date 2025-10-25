@@ -1,0 +1,122 @@
+site_name: JDA-Commands Wiki
+site_url: https://kaktushose.github.io/wiki/
+
+theme:
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - toc.follow
+    - search.share
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/book-open-page-variant
+    admonition:
+      link: octicons/link-16
+  palette:
+    scheme: slate
+    primary: teal
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  custom_dir: overrides
+
+repo_name: JDA-Commands
+repo_url: https://github.com/kaktushose/jda-commands
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kaktushose
+  version:
+    default: wiki
+    provider: mike
+
+copyright: Copyright &copy; 2025 Kaktushose & Goldmensch
+
+plugins:
+  - search
+  - open-in-new-tab
+
+markdown_extensions:
+  - pymdownx.blocks.caption
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
+      urls:
+        - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
+        - 'https://javadoc.io/doc/net.dv8tion/JDA/5.6.1/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+        - alias: 'fluava'
+          url: 'https://goldmensch.github.io/fluava/javadocs/0/'
+          auto_searched: 'false'
+        - alias: 'proteus'
+          url: 'https://kaktushose.github.io/proteus/javadocs/0/'
+          auto_searched: 'false'
+
+hooks:
+  - hooks/on_page_logging.py
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: start/installation.md
+      - Quick Start Guide: start/quick-start.md
+      - Runtime Concept: start/runtime.md
+  - Interactions:
+      - Overview: interactions/overview.md
+      - Commands: interactions/commands.md
+      - Components: interactions/components.md
+      - Modals: interactions/modals.md
+      - Reply API: interactions/reply.md
+  - Middlewares:
+      - Overview: middlewares/overview.md
+      - Type Adapters: middlewares/typeadapter.md
+      - Validators (Parameter Constraints): middlewares/validator.md
+      - Permissions System: middlewares/permissions.md
+      - Cooldown System: middlewares/cooldown.md
+  - Dependency Injection: di.md
+  - Message:
+      - Overview: message/overview.md
+      - Emojis: message/emojis.md
+      - Placeholders: message/placeholder.md
+      - Localization: message/localization.md
+      - Embed API: message/embeds.md
+  - Misc:
+      - Error Handling: misc/error-handling.md
+      - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
+      - Extensions:
+          - Overview: misc/extension/overview.md
+          - Writing Extensions: misc/extension/writing.md
+          - Configuration: misc/extension/configuring.md
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/

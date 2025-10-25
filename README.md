@@ -1,5 +1,6 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-5.5.1-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Release badge](https://release-badges-generator.vercel.app/api/releases.svg?user=kaktushose&repo=jda-commands&gradient=92e236,92e236)](https://github.com/Kaktushose/proteus/releases/latest)[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
+[![Release badge](https://release-badges-generator.vercel.app/api/releases.svg?user=kaktushose&repo=jda-commands&gradient=92e236,92e236)](https://github.com/Kaktushose/proteus/releases/latest)
+[![Java CI](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kaktushose/jda-commands/actions/workflows/ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
@@ -27,11 +28,13 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 - Multithreaded event handling using VirtualThreads
 
 
-- First-hand localization support (via [project fluent](https://projectfluent.org/))
+- First-hand localization support (via [project fluent](https://projectfluent.org/) or custom implementation)
 
 - Usage of [jSpecify](https://jspecify.dev/) nullability annotations
 
-If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or the [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/).
+- and many more!
+
+If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/) and join our [Discord server](https://discord.gg/tmq9BrZEKb).
 
 ## Example
 
@@ -70,7 +73,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 <dependency>
    <groupId>io.github.kaktushose</groupId>
    <artifactId>jda-commands</artifactId>
-   <version>4.0.0-beta.9</version>
+   <version>4.0.0-beta.8</version>
 </dependency>
 ```
 
@@ -80,7 +83,7 @@ repositories {
    mavenCentral()
 }
 dependencies {
-   implementation("io.github.kaktushose:jda-commands:4.0.0-beta.9")
+   implementation("io.github.kaktushose:jda-commands:4.0.0-beta.8")
 }
 ```
 

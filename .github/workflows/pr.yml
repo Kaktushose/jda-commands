@@ -1,0 +1,37 @@
+name: pr.yml
+on:
+  pull_request_target:
+
+jobs:
+  label:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label pr automatically
+        uses: actions/labeler@v5
+        with:
+          sync-labels: true
+
+
+  check_wiki:
+    needs: label
+    runs-on: ubuntu-latest
+    steps:
+      - name: check labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          labels=$(gh api --jq '.labels.[].name' /repos/Kaktushose/jda-commands/pulls/${{ github.event.number }})
+          comments=$(gh api --jq '.[].body' /repos/Kaktushose/jda-commands/issues/${{ github.event.number }}/comments)
+          
+          if echo "$labels" | grep -qx "type:feature"; then
+            if ! echo "$labels" | grep -qx "meta:wiki"; then
+              if ! echo "$comments" | grep -qxi "no wiki"; then
+                echo "::error::Feature PRs have to document changes in wiki! To disable this behaviour comment 'no wiki'"
+                exit 1
+              fi
+            fi
+          fi
+          

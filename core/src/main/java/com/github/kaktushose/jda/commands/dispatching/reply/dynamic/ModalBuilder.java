@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition.TextInputDefinition;
 import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 import static net.dv8tion.jda.api.interactions.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.
@@ -26,7 +26,7 @@ public class ModalBuilder {
     private final CustomId customId;
     private final List<TextInputDefinition> components = new ArrayList<>(MAX_COMPONENTS);
     private final ModalDefinition modalDefinition;
-    private final Collection<I18n.Entry> placeholder = new ArrayList<>();
+    private final Collection<Entry> placeholder = new ArrayList<>();
     private @Nullable String title;
     private Function<Modal.Builder, Modal.Builder> callback = Function.identity();
 
@@ -47,7 +47,7 @@ public class ModalBuilder {
     }
 
     /// @param placeholder the placeholders to be used for localization
-    public ModalBuilder placeholder(I18n.Entry... placeholder) {
+    public ModalBuilder placeholder(Entry... placeholder) {
         this.placeholder.addAll(Arrays.asList(placeholder));
         return this;
     }
@@ -95,24 +95,23 @@ public class ModalBuilder {
         Modal.Builder builder = definition.toJDAEntity(customId).createCopy();
         callback.apply(builder);
 
-        localize(builder);
+        resolve(builder);
 
         return builder.build();
     }
 
-    private void localize(Modal.Builder builder) {
-        I18n.Entry[] entries = placeholder.toArray(I18n.Entry[]::new);
-        I18n i18n = event.i18n();
+    private void resolve(Modal.Builder builder) {
+        Entry[] entries = placeholder.toArray(Entry[]::new);
         Locale locale = event.getUserLocale().toLocale();
 
-        builder.setTitle(i18n.localize(locale, builder.getTitle(), entries));
+        builder.setTitle(resolve(builder.getTitle(), locale, entries));
         for (LayoutComponent layout : builder.getComponents()) {
             for (ItemComponent component : layout.getComponents()) {
                 if (component instanceof TextInput text) {
                     layout.updateComponent(component, copyWith(text,
-                            i18n.localize(locale, text.getLabel(), entries),
-                            localize(text.getPlaceHolder(), locale, entries),
-                            localize(text.getValue(), locale, entries))
+                            resolve(text.getLabel(), locale, entries),
+                            resolve(text.getPlaceHolder(), locale, entries),
+                            resolve(text.getValue(), locale, entries))
                     );
                 }
             }
@@ -130,9 +129,9 @@ public class ModalBuilder {
     }
 
     @Nullable
-    private String localize(@Nullable String val, Locale locale, I18n.Entry... entries) {
+    private String resolve(@Nullable String val, Locale locale, Entry... entries) {
         if (val == null) return null;
-        return event.i18n().localize(locale, val, entries);
+        return event.messageResolver().resolve(val, locale, entries);
     }
 
 }

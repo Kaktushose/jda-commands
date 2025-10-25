@@ -59,7 +59,7 @@
   },
   "placeholders": {
     "author": {
-      "url": " { $author-url }",
+      "url": "{ $author-url }",
       "icon_url": "{ $author-icon-url }",
       "name": "{ $author-name }"
     },
@@ -147,5 +147,8 @@
         "inline": false
       }
     ]
+  },
+  "sourceModification": {
+    "title": "Original Title"
   }
 }

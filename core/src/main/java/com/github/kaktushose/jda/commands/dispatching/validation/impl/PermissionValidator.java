@@ -4,11 +4,7 @@ import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.internal.Helpers;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /// A [Validator] implementation that checks the [Perm] constraint.
 ///
@@ -20,18 +16,8 @@ public class PermissionValidator implements Validator<Member, Perm> {
     /// @param context the corresponding [InvocationContext]
     @Override
     public void apply(Member member, Perm perm, Context context) {
-        Set<Permission> permissions = new HashSet<>();
-        try {
-            for (String permission : perm.value()) {
-                permissions.add(Permission.valueOf(permission));
-            }
-        } catch (IllegalArgumentException ignored) {
-            return;
-        }
-
-
         Helpers.checkDetached(member, PermissionValidator.class);
-        if (!member.hasPermission(permissions)) {
+        if (!member.hasPermission(perm.value())) {
             context.fail("Member is missing at least one permission that is required");
         }
     }

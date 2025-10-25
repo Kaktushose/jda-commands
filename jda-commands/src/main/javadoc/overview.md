@@ -16,7 +16,7 @@ This is the official documentation for jda-commands. If you are new to jda-comma
 Having trouble or found a bug?
 
 - Check out the [Examples](https://github.com/Kaktushose/jda-commands/tree/main/src/examples)
-- Join the [Discord Server](https://discord.gg/JYWezvQ)
+- Join the [Discord Server](https://discord.gg/vWrFfwsuJT)
 - Or open an [Issue](https://github.com/Kaktushose/jda-commands/issues)
 
 ## Getting JDA-Commands
@@ -141,6 +141,8 @@ This JDA-Commands Extension allows the automatic discovering of implementations 
 - [GuildScopeProvider](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/scope/GuildScopeProvider.html)
 - [ErrorMessageFactory](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.html)
 - [Descriptor](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/Descriptor.html)
+- [ClassFinder](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definition/description/ClassFinder.html)
+- [EmojiSource](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html)
 
 To make these implementations discoverable please annotate the involved classes with [`@Implementation`](io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html).
 If you're implementing a

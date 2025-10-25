@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 import java.lang.invoke.MethodType;
 import java.util.*;
 
-import static com.github.kaktushose.jda.commands.i18n.I18n.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 import static java.util.Map.entry;
 
 /// Representation of a slash command option.
@@ -143,7 +143,7 @@ public record OptionDataDefinition(
                 .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
                     var validator = validatorRegistry.get(it, resolvedType)
-                            .orElseThrow(() -> new InvalidDeclarationException(
+                            .orElseThrow(() -> new ConfigurationException(
                                     "no-validator-found",
                                     entry("annotation", it.type().getName()),
                                     entry("parameter", parameter.name()))
@@ -154,14 +154,14 @@ public record OptionDataDefinition(
         // Param
         String name = parameter.name();
         String description = "empty description";
-        boolean isOptional = false;
+        boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
         var param = parameter.annotation(Param.class);
         if (param.isPresent()) {
             Param annotation = param.get();
             name = annotation.name().isEmpty() ? name : annotation.name();
             description = annotation.value().isEmpty() ? description : annotation.value();
-            isOptional = annotation.optional() | parameter.type().equals(Optional.class);
+            isOptional = annotation.optional();
             if (annotation.type() != OptionType.UNKNOWN) {
                 optionType = annotation.type();
             }
