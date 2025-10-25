@@ -123,7 +123,7 @@ public record SlashCommandDefinition(
                     entry("name", parameter.name()),
                     entry("command", command),
                     entry("possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
-            )));
+                    )));
             return null;
         }
         if (possibleAutoCompletes.isEmpty()) {
@@ -148,13 +148,12 @@ public record SlashCommandDefinition(
                 .setContexts(commandConfig.context())
                 .setNSFW(commandConfig.isNSFW())
                 .setLocalizationFunction(localizationFunction)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
-        commandOptions.forEach(parameter -> {
-            if (CommandEvent.class.isAssignableFrom(parameter.declaredType())) {
-                return;
-            }
-            command.addOptions(parameter.toJDAEntity());
-        });
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
+                .addOptions(commandOptions.stream()
+                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                        .map(OptionDataDefinition::toJDAEntity)
+                        .toList()
+                );
         return command;
     }
 
@@ -162,13 +161,12 @@ public record SlashCommandDefinition(
     ///
     /// @return the [SubcommandData]
     public SubcommandData toSubcommandData(String name) {
-        SubcommandData command = new SubcommandData(
-                name,
-                description.replaceAll("N/A", "no description")
-
-        );
-        commandOptions.forEach(parameter -> command.addOptions(parameter.toJDAEntity()));
-        return command;
+        return new SubcommandData(name, description.replaceAll("N/A", "no description"))
+                .addOptions(commandOptions.stream()
+                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                        .map(OptionDataDefinition::toJDAEntity)
+                        .toList()
+                );
     }
 
     @Override

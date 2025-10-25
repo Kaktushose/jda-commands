@@ -23,7 +23,7 @@ public record AutoCompleteDefinition(ClassDescription classDescription,
     ///
     /// @param clazz  the corresponding [ClassDescription]
     /// @param method the corresponding [MethodDescription]
-    /// @return an [Optional] holding the [AutoCompleteDefinition]
+    /// @return the [AutoCompleteDefinition]
     public static AutoCompleteDefinition build(ClassDescription clazz, MethodDescription method) {
         Helpers.checkSignature(method, List.of(AutoCompleteEvent.class));
 
