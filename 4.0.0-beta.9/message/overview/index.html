@@ -1413,7 +1413,7 @@ strings used in framework annotations and modals and much more.</p>
 support for <a href="../placeholder/">placeholders</a> and <a href="../emojis/">Unicode and app emojis</a>. In many places in the framework,
 these feature are applied <a href="#implicit-resolution">implicitly</a>.</p>
 <h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h2>
-<p>The features listed above are all pipelined together with help of the <a href="MessageResolver">Invalid reference to MessageResolver</a>.</p>
+<p>The features listed above are all pipelined together with help of the <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html">MessageResolver</a>.</p>
 <p>They are applied to the string provided by the user in following order:</p>
 <ol>
 <li><a href="../placeholder/">resolution of placeholders</a></li>
@@ -1422,20 +1422,20 @@ these feature are applied <a href="#implicit-resolution">implicitly</a>.</p>
 </ol>
 <p>The resulting string is then send to discord or returned to the user.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Instead of manually using the <a href="MessageResolver">Invalid reference to MessageResolver</a>
+<p>Instead of manually using the <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html">MessageResolver</a>
 class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:</p>
 <ul>
-<li><a href="../../interactions/components/">Component API</a> including the corresponding annotations like <a href="com.github.kaktushose.jda.commands.annotations.interactions.Button">Invalid reference to com.github.kaktushose.jda.commands.annotations.interactions.Button</a>,
-  <a href="com.github.kaktushose.jda.commands.annotations.interactions.Modal">Invalid reference to com.github.kaktushose.jda.commands.annotations.interactions.Modal</a> etc.</li>
+<li><a href="../../interactions/components/">Component API</a> including the corresponding annotations like <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Button.html">@Button</a>,
+  <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html">@Modal</a> etc.</li>
 <li><a href="../embeds/">Embed API</a> </li>
-<li><a href="../../interactions/reply/">Reply API</a>, for example the string content of a message <a href="Reply#reply(String,Entry...)">Invalid reference to Reply#reply(String,Entry...)</a></li>
+<li><a href="../../interactions/reply/">Reply API</a>, for example the string content of a message <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html#reply(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">Reply#reply(String, Entry...)</a></li>
 </ul>
 <p>If you are using localization, please take a look at <a href="../localization/#implicit-localization">implicit localization</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Message resolution of content in <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/utils/messages/MessageCreateData.html">MessageCreateData</a> is not supported implicitly.
-You have to use <a href="MessageResolver">Invalid reference to MessageResolver</a>
+You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/4.0/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html">MessageResolver</a>
 to resolve such messages.</p>
 </div>
 
