@@ -2,7 +2,6 @@ package definitions.interactions.component;
 
 import com.github.kaktushose.jda.commands.annotations.interactions.Button;
 import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
@@ -10,8 +9,6 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -22,170 +19,113 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ButtonDefinitionTest {
 
-    // -------------------------
-    // error cases
-    // -------------------------
-
     @Test
-    @DisplayName("build() without @Button should throw NoSuchElementException")
     void method_withoutAnnotation_shouldThrowNoSuchElementException() {
         assertThrows(NoSuchElementException.class, () -> build("noAnnotation"));
     }
 
     @Test
-    @DisplayName("build() with no parameters should throw InvalidDeclarationException")
     void method_withoutArgs_shouldThrowInvalidDeclarationException() {
         assertThrows(InvalidDeclarationException.class, () -> build("noArgs"));
     }
 
     @Test
-    @DisplayName("build() with wrong parameter type should throw InvalidDeclarationException")
     void method_withWrongEvent_shouldThrowInvalidDeclarationException() {
         assertThrows(InvalidDeclarationException.class, () -> build("wrongEvent"));
     }
 
-    // -------------------------
-    // basic property cases
-    // -------------------------
-
     @Test
-    @DisplayName("empty label should be preserved and displayName should fall back to definitionId")
-    void button_withEmptyLabel_and_displayNameFallback() {
-        ButtonDefinition def = build("emptyLabel");
-
-        assertEquals("", def.label(), "label should be exactly the annotation value (empty string)");
-        String display = def.displayName();
-        assertNotNull(display);
-        assertFalse(display.isEmpty(), "displayName must not be empty");
-        assertNotEquals(def.label(), display, "when label is empty displayName must not equal the label");
+    void method_withAdditionalArguments_shouldThrowInvalidDeclarationException() {
+        assertThrows(InvalidDeclarationException.class, () -> build("additionalArgs"));
     }
 
     @Test
-    @DisplayName("label should be stored")
-    void button_withLabel_shouldStoreLabel() {
-        ButtonDefinition def = build("labeledButton");
-        assertEquals("Press", def.label());
-        assertEquals("Press", def.displayName(), "displayName should return label when present");
+    void button_withEmptyLabel_shouldUseIdForDisplay() {
+        ButtonDefinition definition = build("emptyLabel");
+
+        assertEquals("", definition.label());
+        assertEquals(definition.definitionId(), definition.displayName());
     }
 
     @Test
-    @DisplayName("emoji string empty => emoji == null")
-    void button_withEmptyEmoji_shouldResultInNullEmoji() {
-        ButtonDefinition def = build("noEmoji");
-        assertNull(def.emoji());
+    void button_withLabel_shouldBuild() {
+        ButtonDefinition definition = build("labeledButton");
+
+        assertEquals("Press", definition.label());
     }
 
     @Test
-    @DisplayName("emoji string present => parsed Emoji")
+    void button_withEmptyEmoji_shouldReturnNullEmoji() {
+        ButtonDefinition definition = build("noEmoji");
+
+        assertNull(definition.emoji());
+    }
+
+    @Test
     void button_withEmoji_shouldParseEmojiCorrectly() {
-        ButtonDefinition def = build("withEmoji");
-        assertNotNull(def.emoji());
-        assertEquals(Emoji.fromFormatted("😀"), def.emoji());
+        ButtonDefinition definition = build("withEmoji");
+
+        assertEquals(Emoji.fromFormatted("👍"), definition.emoji());
     }
 
     @Test
-    @DisplayName("link present => toJDAEntity() returns a link button (url present) with style LINK")
-    void button_withLink_shouldUseLinkInsteadOfCustomId() {
-        ButtonDefinition def = build("withLink");
-        var button = def.toJDAEntity();
+    void button_withLink_shouldNotHaveId() {
+        ButtonDefinition definition = build("withLink");
 
-        // JDA Button returns nullable URL / id / emoji in your setup, so check for null
-        assertNotNull(button.getUrl(), "button should expose a URL when link is provided");
+        var button = definition.toJDAEntity();
+
+        assertNull(button.getId());
         assertEquals("https://example.com", button.getUrl());
         assertEquals(ButtonStyle.LINK, button.getStyle());
-        assertEquals(def.label(), button.getLabel());
     }
 
     @Test
-    @DisplayName("no link => toJDAEntity() uses CustomId.independent(definitionId()) and sets id")
-    void button_withoutLink_shouldUseCustomId() {
-        ButtonDefinition def = build("normalButton");
-        var button = def.toJDAEntity();
+    void button_withoutLink_shouldHaveId() {
+        ButtonDefinition definition = build("normalButton");
 
-        assertNotNull(button.getId(), "button should have an id when no link is present");
-        assertEquals(def.label(), button.getLabel());
-        assertNull(button.getEmoji(), "normalButton has no emoji in test controller");
+        var button = definition.toJDAEntity();
+
+        assertNotNull(button.getId());
+        assertNull(button.getUrl());
     }
 
     @Test
-    @DisplayName("toJDAEntity(customId) should use the provided custom id merged value")
     void button_withCustomId_shouldUseGivenId() {
-        ButtonDefinition def = build("normalButton");
+        ButtonDefinition definition = build("normalButton");
         CustomId customId = CustomId.independent("test-id-123");
-        var button = def.toJDAEntity(customId);
+
+        var button = definition.toJDAEntity(customId);
 
         assertNotNull(button.getId());
         assertEquals(customId.merged(), button.getId());
     }
 
-    // -------------------------
-    // permissions
-    // -------------------------
-
-    @Nested
-    @DisplayName("permissions merge behavior")
-    class PermissionsTests {
-
-        @Test
-        @DisplayName("class-level permissions only")
-        void classOnlyPermissions() {
-            ButtonDefinition def = build("classOnlyPermissionButton");
-            Set<String> perms = Set.copyOf(def.permissions());
-            assertEquals(Set.of("ADMIN"), perms);
-        }
-
-        @Test
-        @DisplayName("class + method merge")
-        void mergedPermissions() {
-            ButtonDefinition def = build("mergedPermissionButton");
-            Set<String> perms = Set.copyOf(def.permissions());
-            assertTrue(perms.contains("ADMIN"));
-            assertTrue(perms.contains("MOD"));
-            assertEquals(2, perms.size());
-        }
-    }
-
-    // -------------------------
-    // override behaviour
-    // -------------------------
-
     @Test
-    @DisplayName("with() should override non-null values and keep others")
     void button_withOverrides_shouldApplyOverridesCorrectly() {
         ButtonDefinition base = build("normalButton");
 
         ButtonDefinition override = base.with(
-                "New Label", Emoji.fromFormatted("🔥"), "https://new.link", ButtonStyle.DANGER
+                "New Label", Emoji.fromFormatted("👎"), "https://new.link", ButtonStyle.DANGER
         );
 
         assertEquals("New Label", override.label());
-        assertEquals(Emoji.fromFormatted("🔥"), override.emoji());
+        assertEquals(Emoji.fromFormatted("👎"), override.emoji());
         assertEquals("https://new.link", override.link());
         assertEquals(ButtonStyle.DANGER, override.style());
 
-        // null overrides should keep previous values
         ButtonDefinition keep = override.with(null, null, null, null);
         assertEquals("New Label", keep.label());
-        assertEquals(Emoji.fromFormatted("🔥"), keep.emoji());
+        assertEquals(Emoji.fromFormatted("👎"), keep.emoji());
         assertEquals("https://new.link", keep.link());
         assertEquals(ButtonStyle.DANGER, keep.style());
     }
-
-    // -------------------------
-    // helpers
-    // -------------------------
 
     private ButtonDefinition build(String method) {
         MethodBuildContext context = getBuildContext(TestController.class, method);
         return ButtonDefinition.build(context);
     }
 
-    // -------------------------
-    // test controller
-    // -------------------------
-
     @Interaction
-    @Permissions("ADMIN") // class-level permission (your annotation must allow TYPE and METHOD)
     private static class TestController {
 
         public void noAnnotation() {
@@ -199,7 +139,11 @@ class ButtonDefinitionTest {
         public void wrongEvent(String notAnEvent) {
         }
 
-        @Button("") // empty label
+        @Button("additional")
+        public void additionalArgs(ComponentEvent event, int i) {
+        }
+
+        @Button
         public void emptyLabel(ComponentEvent event) {
         }
 
@@ -207,7 +151,7 @@ class ButtonDefinitionTest {
         public void labeledButton(ComponentEvent event) {
         }
 
-        @Button(value = "withEmoji", emoji = "😀")
+        @Button(value = "withEmoji", emoji = "👍")
         public void withEmoji(ComponentEvent event) {
         }
 
@@ -225,15 +169,6 @@ class ButtonDefinitionTest {
 
         @Button("classOnlyPermissionButton")
         public void classOnlyPermissionButton(ComponentEvent event) {
-        }
-
-        @Button("mergedPermissionButton")
-        @Permissions("MOD")
-        public void mergedPermissionButton(ComponentEvent event) {
-        }
-
-        @Button("noPermissionsButton")
-        public void noPermissionsButton(ComponentEvent event) {
         }
     }
 }

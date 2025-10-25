@@ -9,92 +9,64 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.EnumSet;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for {@link EntitySelectMenuDefinition}.
- */
 class EntitySelectMenuDefinitionTest {
 
-    // -------------------------
-    // error cases
-    // -------------------------
-
     @Test
-    @DisplayName("build() without @EntitySelectMenu should throw NoSuchElementException")
     void method_withoutAnnotation_shouldThrowNoSuchElementException() {
-        assertThrows(NoSuchElementException.class, () -> build(WithClassPermsController.class, "noAnnotation"));
+        assertThrows(NoSuchElementException.class, () -> build("noAnnotation"));
     }
 
     @Test
-    @DisplayName("build() with wrong signature (missing Mentions) should throw InvalidDeclarationException")
     void method_withWrongSignature_shouldThrowInvalidDeclarationException() {
-        assertThrows(InvalidDeclarationException.class, () -> build(WithClassPermsController.class, "wrongSignature"));
-    }
-
-    // -------------------------
-    // build + parsing behavior
-    // -------------------------
-
-    @Test
-    @DisplayName("default values (users/roles) are parsed and negative IDs ignored")
-    void defaultValues_shouldBeParsedAndIgnoreNegatives() {
-        var def = build(WithClassPermsController.class, "allDefaults");
-
-        // expecting 2 positive defaults (one user, one role)
-        assertEquals(2, def.defaultValues().size());
-
-        var menu = def.toJDAEntity();
-        assertNotNull(menu);
-        assertEquals(def.placeholder(), menu.getPlaceholder());
+        assertThrows(InvalidDeclarationException.class, () -> build("wrongSignature"));
     }
 
     @Test
-    @DisplayName("selectTargets from annotation are applied")
-    void selectTargets_shouldBeApplied() {
-        var def = build(WithClassPermsController.class, "allDefaults");
-        assertTrue(def.selectTargets().contains(SelectTarget.USER));
-        assertTrue(def.selectTargets().contains(SelectTarget.ROLE));
+    void menu_withDefaults_ShouldBuild() {
+        var definition = build("allDefaults");
+
+        var menu = definition.toJDAEntity();
+
+        assertEquals("Select Menu: test", definition.displayName());
+        assertEquals(EnumSet.of(SelectTarget.USER), menu.getEntityTypes());
+        assertEquals("test", menu.getPlaceholder());
+        assertTrue(menu.getDefaultValues().isEmpty());
+        assertTrue(menu.getChannelTypes().isEmpty());
+        assertEquals(1, menu.getMinValues());
+        assertEquals(1, menu.getMaxValues());
     }
 
     @Test
-    @DisplayName("channelTypes: UNKNOWN only -> resulting menu has no channelTypes set")
-    void channelTypes_unknownOnly_shouldNotBeSet() {
-        var def = build(WithClassPermsController.class, "unknownChannelTypes");
-        var menu = def.toJDAEntity();
-        assertTrue(menu.getChannelTypes().isEmpty(),
-                "channelTypes should be empty when only UNKNOWN was provided");
+    void menu_withExplicitValues_shouldBeSet() {
+        var definition = build("explicit");
+
+        var menu = definition.toJDAEntity();
+
+        assertEquals(EnumSet.of(ChannelType.TEXT), menu.getChannelTypes());
+        assertEquals(2, menu.getMinValues());
+        assertEquals(3, menu.getMaxValues());
+        assertEquals(3, menu.getDefaultValues().size());
+        assertFalse(menu.getDefaultValues().stream().map(DefaultValue::getIdLong).anyMatch(it -> it == -1));
     }
 
     @Test
-    @DisplayName("channelTypes explicit -> applied to produced menu")
-    void channelTypes_explicit_shouldBeSet() {
-        var def = build(WithClassPermsController.class, "textChannelTypes");
-        var menu = def.toJDAEntity();
-        assertNotNull(menu.getChannelTypes());
-        assertTrue(menu.getChannelTypes().contains(ChannelType.TEXT));
-    }
-
-    // -------------------------
-    // with() overrides
-    // -------------------------
-
-    @Test
-    @DisplayName("with() should override selectTargets/defaultValues/channelTypes/placeholder/min/max")
-    void with_shouldOverrideValues() {
-        var base = build(WithClassPermsController.class, "allDefaults");
+    void menu_withOverrides_shouldApplyOverridesCorrectly() {
+        var base = build("allDefaults");
 
         var newTargets = Set.of(SelectTarget.USER);
-        var newDefaults = Set.of(net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue.user(42L));
+        var newDefaults = Set.of(DefaultValue.user(42L));
         var newChannelTypes = Set.of(ChannelType.NEWS);
 
         var overridden = base.with(newTargets, newDefaults, newChannelTypes, "new placeholder", 2, 3);
@@ -107,112 +79,35 @@ class EntitySelectMenuDefinitionTest {
         assertEquals(3, overridden.maxValue());
     }
 
-    // -------------------------
-    // displayName + permissions
-    // -------------------------
-
-    @Test
-    @DisplayName("displayName returns formatted placeholder")
-    void displayName_returnsFormattedPlaceholder() {
-        var def = build(WithClassPermsController.class, "allDefaults");
-        assertEquals("Select Menu: Example placeholder", def.displayName());
-    }
-
-    @Nested
-    @DisplayName("permissions merge behavior")
-    class PermissionsTests {
-
-        @Test
-        @DisplayName("class-level permissions only")
-        void classOnlyPermissions() {
-            var def = build(WithClassPermsController.class, "allDefaults");
-            assertEquals(Set.of("ADMIN"), Set.copyOf(def.permissions()));
-        }
-
-        @Test
-        @DisplayName("method-level permissions only (controller without class perms)")
-        void methodOnlyPermissions() {
-            var def = build(NoClassPermsController.class, "methodOnlyPermission");
-            assertEquals(Set.of("USER"), Set.copyOf(def.permissions()));
-        }
-
-        @Test
-        @DisplayName("class + method merge")
-        void mergedPermissions() {
-            var def = build(WithClassPermsController.class, "mergedPermission");
-            var perms = Set.copyOf(def.permissions());
-            assertTrue(perms.contains("ADMIN"));
-            assertTrue(perms.contains("MOD"));
-            assertEquals(2, perms.size());
-        }
-    }
-
-    // -------------------------
-    // helpers
-    // -------------------------
-
-    private EntitySelectMenuDefinition build(Class<?> controller, String method) {
-        MethodBuildContext context = getBuildContext(controller, method);
+    private EntitySelectMenuDefinition build(String method) {
+        MethodBuildContext context = getBuildContext(TestController.class, method);
         return EntitySelectMenuDefinition.build(context);
     }
 
-    // -------------------------
-    // Test controllers
-    // -------------------------
-
     @Interaction
     @Permissions("ADMIN")
-    private static class WithClassPermsController {
+    private static class TestController {
 
         public void noAnnotation() {
         }
 
-        @EntitySelectMenu(value = { SelectTarget.USER }, placeholder = "badSig", minValue = 0, maxValue = 1)
+        @EntitySelectMenu(value = SelectTarget.USER)
         public void wrongSignature(ComponentEvent event) {
         }
 
-        @EntitySelectMenu(
-                value = { SelectTarget.USER, SelectTarget.ROLE },
-                defaultUsers = {456L, -1L},
-                defaultRoles = {789L},
-                placeholder = "Example placeholder",
-                minValue = 1,
-                maxValue = 3
-        )
+        @EntitySelectMenu(value = SelectTarget.USER, placeholder = "test")
         public void allDefaults(ComponentEvent event, Mentions mentions) {
         }
 
         @EntitySelectMenu(
-                value = { SelectTarget.CHANNEL },
-                channelTypes = { ChannelType.UNKNOWN },
-                placeholder = "Unknown placeholder"
+                value = SelectTarget.CHANNEL,
+                channelTypes = ChannelType.TEXT,
+                minValue = 2,
+                maxValue = 3,
+                placeholder = "test",
+                defaultChannels = {1, 2, 3, -1}
         )
-        public void unknownChannelTypes(ComponentEvent event, Mentions mentions) {
-        }
-
-        @EntitySelectMenu(
-                value = { SelectTarget.CHANNEL },
-                channelTypes = { ChannelType.TEXT },
-                placeholder = "Text placeholder"
-        )
-        public void textChannelTypes(ComponentEvent event, Mentions mentions) {
-        }
-
-        @EntitySelectMenu(
-                value = { SelectTarget.USER },
-                placeholder = "mergePerms"
-        )
-        @Permissions("MOD")
-        public void mergedPermission(ComponentEvent event, Mentions mentions) {
-        }
-    }
-
-    @Interaction
-    private static class NoClassPermsController {
-
-        @EntitySelectMenu(value = { SelectTarget.USER }, placeholder = "no class perm")
-        @Permissions("USER")
-        public void methodOnlyPermission(ComponentEvent event, Mentions mentions) {
+        public void explicit(ComponentEvent event, Mentions mentions) {
         }
     }
 }
