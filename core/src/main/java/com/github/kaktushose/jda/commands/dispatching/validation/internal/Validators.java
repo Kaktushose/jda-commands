@@ -41,12 +41,11 @@ public class Validators {
     /// @param annotation the class of the annotation
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
-    @SuppressWarnings("unchecked")
-    public <T, A extends Annotation> Optional<Validator<T, A>> get(AnnotationDescription<A> annotation, Class<T> type) {
-        Validator<T, A> validator = (Validator<T, A>) validators.get(annotation.type());
+    public Result get(AnnotationDescription<? extends Annotation> annotation, Class<?> type) {
+        Validator<?, ?> validator = validators.get(annotation.type());
 
-        if (validator == null || annotation.annotation(Constraint.class).isEmpty()) {
-            return Optional.empty();
+        if (validator == null) {
+            return new Result.NotFound();
         }
 
         Constraint constraint = annotation.annotation(Constraint.class).orElseThrow();
@@ -54,8 +53,19 @@ public class Validators {
         boolean typesCompatible = Arrays.stream(constraint.value())
                 .anyMatch(klass -> Proteus.global().existsPath(Type.of(type), Type.of(klass)));
 
-        if (!typesCompatible) return Optional.empty();
+        if (!typesCompatible) {
+            return new Result.UnsupportedType(Arrays.asList(constraint.value()));
+        }
 
-        return Optional.of(validator);
+        return new Result.Success(validator);
+    }
+
+    public sealed interface Result {
+
+        record NotFound() implements Result {}
+
+        record UnsupportedType(Collection<Class<?>> supportedTypes) implements Result {}
+
+        record Success(Validator<?, ?> validator) implements Result {}
     }
 }

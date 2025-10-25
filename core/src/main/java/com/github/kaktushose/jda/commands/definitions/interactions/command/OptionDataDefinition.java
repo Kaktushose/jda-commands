@@ -33,6 +33,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.lang.invoke.MethodType;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 import static java.util.Map.entry;
@@ -142,13 +143,25 @@ public record OptionDataDefinition(
                 .filter(it -> it.annotation(Constraint.class).isPresent())
                 .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
-                    var validator = validatorRegistry.get(it, resolvedType)
-                            .orElseThrow(() -> new ConfigurationException(
-                                    "no-validator-found",
-                                    entry("annotation", it.type().getName()),
-                                    entry("parameter", parameter.name()))
-                            );
-                    constraints.add(new ConstraintDefinition(validator, it));
+                    switch (validatorRegistry.get(it, resolvedType)) {
+                        case Validators.Result.NotFound _ -> throw new ConfigurationException(
+                                "no-validator-found",
+                                entry("annotation", it.type().getName()),
+                                entry("parameter", parameter.name())
+                        );
+                        case Validators.Result.UnsupportedType(Collection<Class<?>> supportedTypes) ->
+                                throw new ConfigurationException(
+                                        "validator-type-not-supported",
+                                        entry("annotation", it.type().getName()),
+                                        entry("parameter", parameter.name()),
+                                        entry("supportedTypes", supportedTypes.stream()
+                                                .map(Class::getName)
+                                                .collect(Collectors.joining("\n    -> "))
+                                        )
+                                );
+                        case Validators.Result.Success(Validator<?, ?> validator) ->
+                                constraints.add(new ConstraintDefinition(validator, it));
+                    }
                 });
 
         // Param
