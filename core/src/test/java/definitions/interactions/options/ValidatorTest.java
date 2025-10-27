@@ -11,6 +11,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.command.Slash
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.validation.impl.PermissionValidator;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
+import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import org.jspecify.annotations.Nullable;
@@ -37,13 +38,18 @@ class ValidatorTest {
     }
 
     @Test
+    void minMaxAnnotation_withWrongType_shouldThrowInvalidDeclarationException() {
+        assertThrows(InvalidDeclarationException.class, () -> build("minMaxWrongType"));
+    }
+
+    @Test
     void constraint_withNoValidatorImplementation_shouldThrowConfigurationException() {
         assertThrows(ConfigurationException.class, () -> build("noValidator"));
     }
 
     @Test
     void constraint_withWrongConstraintType_shouldThrow() {
-        assertThrows(ConfigurationException.class, () -> build("wrongConstraintType"));
+        assertThrows(InvalidDeclarationException.class, () -> build("wrongConstraintType"));
     }
 
     @Test
@@ -71,6 +77,10 @@ class ValidatorTest {
 
         @Command("minMax")
         public void minMax(CommandEvent event, @Min(1) int min, @Max(1) int max) {
+        }
+
+        @Command("minMaxWrongType")
+        public void minMaxWrongType(CommandEvent event, @Min(1) String min, @Max(1) String max) {
         }
 
         @Command("noValidator")

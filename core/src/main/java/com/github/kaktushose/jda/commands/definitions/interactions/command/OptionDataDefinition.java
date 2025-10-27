@@ -141,7 +141,6 @@ public record OptionDataDefinition(
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
                 .filter(it -> it.annotation(Constraint.class).isPresent())
-                .filter(it -> !(it.type().equals(Min.class) || it.type().equals(Max.class)))
                 .forEach(it -> {
                     switch (validatorRegistry.get(it, resolvedType)) {
                         case Validators.Result.NotFound _ -> throw new ConfigurationException(
@@ -150,7 +149,7 @@ public record OptionDataDefinition(
                                 entry("parameter", parameter.name())
                         );
                         case Validators.Result.UnsupportedType(Collection<Class<?>> supportedTypes) ->
-                                throw new ConfigurationException(
+                                throw new InvalidDeclarationException(
                                         "validator-type-not-supported",
                                         entry("annotation", it.type().getName()),
                                         entry("parameter", parameter.name()),
@@ -161,6 +160,7 @@ public record OptionDataDefinition(
                                 );
                         case Validators.Result.Success(Validator<?, ?> validator) ->
                                 constraints.add(new ConstraintDefinition(validator, it));
+                        case Validators.Result.DiscordHandled _ -> {}
                     }
                 });
 
