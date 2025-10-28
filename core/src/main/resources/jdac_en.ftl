@@ -42,10 +42,6 @@ validator-type-not-supported =
 wildcard-optional = Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard.
 unknown-command-type = Unknown command type isn't allowed here.
 invalid-context-command-type = Invalid command type for context command! Must either be USER or MESSAGE
-modal-parameter-count = Invalid amount of parameters. { $ count ->
-        [0] Modals need at least one TextInput.
-        *[other] Modals only support up to 5 TextInputs.
-    }
 invalid-parameter = { $index ->
         [one] First
         [two] Second

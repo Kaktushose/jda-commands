@@ -41,21 +41,12 @@ public record ModalDefinition(
         var method = context.method();
         var modal = method.annotation(com.github.kaktushose.jda.commands.annotations.interactions.Modal.class).orElseThrow();
 
-        // Modals support up to 5 TextInputs
-        if (method.parameters().isEmpty() || method.parameters().size() > 6) {
-            throw new InvalidDeclarationException("modal-parameter-count", entry("count", method.parameters().size()));
-        }
-
         Helpers.checkParameterType(method, 0, ModalEvent.class);
 
         List<TextInputDefinition> textInputs = new ArrayList<>();
         for (int i = 1; i < method.parameters().size(); i++) {
             var parameter = List.copyOf(method.parameters()).get(i);
             TextInputDefinition.build(parameter).ifPresent(textInputs::add);
-        }
-
-        if (textInputs.isEmpty()) {
-            throw new InvalidDeclarationException("modal-parameter-count", entry("count", 0));
         }
 
         List<Class<?>> signature = new ArrayList<>();
