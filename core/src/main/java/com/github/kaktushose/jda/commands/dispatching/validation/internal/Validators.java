@@ -1,6 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.validation.internal;
 
 import com.github.kaktushose.jda.commands.annotations.constraints.Constraint;
+import com.github.kaktushose.jda.commands.annotations.constraints.Max;
+import com.github.kaktushose.jda.commands.annotations.constraints.Min;
 import com.github.kaktushose.jda.commands.annotations.constraints.NotPerm;
 import com.github.kaktushose.jda.commands.annotations.constraints.Perm;
 import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
@@ -41,21 +43,35 @@ public class Validators {
     /// @param annotation the class of the annotation
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
-    @SuppressWarnings("unchecked")
-    public <T, A extends Annotation> Optional<Validator<T, A>> get(AnnotationDescription<A> annotation, Class<T> type) {
-        Validator<T, A> validator = (Validator<T, A>) validators.get(annotation.type());
-
-        if (validator == null || annotation.annotation(Constraint.class).isEmpty()) {
-            return Optional.empty();
-        }
-
+    public Result get(AnnotationDescription<? extends Annotation> annotation, Class<?> type) {
         Constraint constraint = annotation.annotation(Constraint.class).orElseThrow();
 
         boolean typesCompatible = Arrays.stream(constraint.value())
                 .anyMatch(klass -> Proteus.global().existsPath(Type.of(type), Type.of(klass)));
+        if (!typesCompatible) {
+            return new Result.UnsupportedType(Arrays.asList(constraint.value()));
+        }
 
-        if (!typesCompatible) return Optional.empty();
+        if (annotation.type().equals(Min.class) || annotation.type().equals(Max.class)) {
+            return new Result.DiscordHandled();
+        }
 
-        return Optional.of(validator);
+        Validator<?, ?> validator = validators.get(annotation.type());
+        if (validator == null) {
+            return new Result.NotFound();
+        }
+        return new Result.Success(validator);
+    }
+
+    public sealed interface Result {
+
+        record NotFound() implements Result {}
+
+        record UnsupportedType(Collection<Class<?>> supportedTypes) implements Result {}
+
+        record Success(Validator<?, ?> validator) implements Result {}
+
+        /// This currently only applies to [Min] and [Max]
+        record DiscordHandled() implements Result {}
     }
 }
