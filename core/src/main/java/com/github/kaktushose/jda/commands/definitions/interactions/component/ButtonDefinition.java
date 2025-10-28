@@ -89,16 +89,20 @@ public record ButtonDefinition(
     /// @return the [Button]
     @Override
     public Button toJDAEntity(CustomId customId) {
-        String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
-        if (emoji == null) {
-            return Button.of(style, idOrUrl, label);
-        } else {
-            return Button.of(style, idOrUrl, label, emoji);
+        try {
+            String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
+            if (emoji == null) {
+                return Button.of(style, idOrUrl, label);
+            } else {
+                return Button.of(style, idOrUrl, label, emoji);
+            }
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
         }
     }
 
     @Override
     public String displayName() {
-        return label.isEmpty() ? definitionId() : label;
+        return "Button: %s".formatted(label.isEmpty() ? definitionId() : label);
     }
 }

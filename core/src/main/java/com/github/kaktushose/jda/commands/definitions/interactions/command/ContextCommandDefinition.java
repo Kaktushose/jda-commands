@@ -80,13 +80,17 @@ public record ContextCommandDefinition(
     /// @return the [CommandData]
     @Override
     public CommandData toJDAEntity() {
-        var command = Commands.context(commandType, name);
-        command.setContexts(commandConfig.context());
-        command.setIntegrationTypes(commandConfig.integration())
-                .setNSFW(commandConfig.isNSFW())
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
-                .setLocalizationFunction(localizationFunction);
-        return command;
+        try {
+            var command = Commands.context(commandType, name);
+            command.setContexts(commandConfig.context());
+            command.setIntegrationTypes(commandConfig.integration())
+                    .setNSFW(commandConfig.isNSFW())
+                    .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
+                    .setLocalizationFunction(localizationFunction);
+            return command;
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
+        }
     }
 
     @Override

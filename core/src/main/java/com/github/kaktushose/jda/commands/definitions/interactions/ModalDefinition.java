@@ -84,16 +84,20 @@ public record ModalDefinition(
     /// @return the [Modal]
     /// @see CustomId#independent(String)
     public Modal toJDAEntity(CustomId customId) {
-        var modal = Modal.create(customId.merged(), title);
+        try {
+            var modal = Modal.create(customId.merged(), title);
 
-        textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
+            textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
 
-        return modal.build();
+            return modal.build();
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
+        }
     }
 
     @Override
     public String displayName() {
-        return title;
+        return "Modal: %s".formatted(title);
     }
 
     /// Representation of a modal text input defined by

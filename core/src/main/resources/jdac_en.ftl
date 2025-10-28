@@ -30,7 +30,6 @@ null-member-context-command = Member for context command is null (not executed i
 emoji-not-loadable-from-resource = An error occoured while loading emoji called { $name } from resources at { $path }.
 
 # Invalid Declaration
-blank-name = Command name must be not blank.
 command-name-length = Invalid command name "{ $name }" for slash command "{ $method }". Slash commands can only have up to 3 labels.
 invalid-option-data = { $type } is no valid option data type. { $guessedType ->
         [other] Perhaps you wanted to write { $guessedType }?
@@ -60,6 +59,9 @@ incorrect-method-signature =
 incorrect-method-signature-hint = You forgot to add { $parameter } as the first parameter of the method.
 member-context-guild = User context commands which use a Member object are only allowed to use InteractionContextType.GUILD.
     Change the InteractionContextType or use an User object instead.
+jda-exception =
+    { $cause }
+    Interaction: "{ $type }" defined at "{ $class }#{ $method }".
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".

@@ -111,22 +111,26 @@ public record EntitySelectMenuDefinition(
     /// @return the [EntitySelectMenu]
     @Override
     public EntitySelectMenu toJDAEntity(CustomId customId) {
-        var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
-                .setDefaultValues(defaultValues)
-                .setPlaceholder(placeholder)
-                .setRequiredRange(minValue, maxValue);
+        try {
+            var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
+                    .setDefaultValues(defaultValues)
+                    .setPlaceholder(placeholder)
+                    .setRequiredRange(minValue, maxValue);
 
-        // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can assume that
-        // no channel type was selected
-        channelTypes.remove(ChannelType.UNKNOWN);
-        if (!channelTypes.isEmpty()) {
-            menu.setChannelTypes(channelTypes);
+            // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can assume that
+            // no channel type was selected
+            channelTypes.remove(ChannelType.UNKNOWN);
+            if (!channelTypes.isEmpty()) {
+                menu.setChannelTypes(channelTypes);
+            }
+            return menu.build();
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
         }
-        return menu.build();
     }
 
     @Override
     public String displayName() {
-        return "Select Menu: %s".formatted(placeholder);
+        return "Entity Select Menu: %s".formatted(placeholder);
     }
 }

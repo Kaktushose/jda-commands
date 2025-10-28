@@ -116,16 +116,20 @@ public record StringSelectMenuDefinition(
     /// @return the [StringSelectMenu]
     @Override
     public StringSelectMenu toJDAEntity(CustomId customId) {
-        return StringSelectMenu.create(customId.merged())
-                .setPlaceholder(placeholder)
-                .setRequiredRange(minValue, maxValue)
-                .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
-                .build();
+        try {
+            return StringSelectMenu.create(customId.merged())
+                    .setPlaceholder(placeholder)
+                    .setRequiredRange(minValue, maxValue)
+                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
+                    .build();
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
+        }
     }
 
     @Override
     public String displayName() {
-        return "Select Menu: %s".formatted(placeholder);
+        return "String Select Menu: %s".formatted(placeholder);
     }
 
     /// Representation of a select option for a string select menu defined by a [MenuOption].
