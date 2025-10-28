@@ -76,6 +76,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#checkSignature(com.github.kaktushose.jda.commands.definitions.description.MethodDescription,java.util.SequencedCollection)" tabindex="0">checkSignature(MethodDescription, SequencedCollection)</a></li>
 <li><a href="#checkSignatureUserContext(com.github.kaktushose.jda.commands.definitions.description.MethodDescription)" tabindex="0">checkSignatureUserContext(MethodDescription)</a></li>
 <li><a href="#checkDetached(net.dv8tion.jda.api.entities.detached.IDetachableEntity,java.lang.Class)" tabindex="0">checkDetached(IDetachableEntity, Class)</a></li>
+<li><a href="#jdaException(java.lang.IllegalArgumentException,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" tabindex="0">jdaException(IllegalArgumentException, InteractionDefinition)</a></li>
 <li><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.features.internal.Invokable,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">replyConfig(Invokable, InteractionDefinition.ReplyConfig)</a></li>
 <li><a href="#commandConfig(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" tabindex="0">commandConfig(MethodBuildContext)</a></li>
 <li><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" tabindex="0">errorContext(GenericInteractionCreateEvent, InteractionDefinition)</a></li>
@@ -158,15 +159,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#permissions(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" class="member-name-link">permissions</a><wbr>(<a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a>&nbsp;context)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../exceptions/InvalidDeclarationException.html" title="class in com.github.kaktushose.jda.commands.exceptions">InvalidDeclarationException</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#jdaException(java.lang.IllegalArgumentException,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" class="member-name-link">jdaException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a>&nbsp;cause,
+ <a href="../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#permissions(com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext)" class="member-name-link">permissions</a><wbr>(<a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">MethodBuildContext</a>&nbsp;context)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Extracts the permissions from a <a href="../definitions/interactions/MethodBuildContext.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>MethodBuildContext</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.features.internal.Invokable,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">replyConfig</a><wbr>(<a href="../definitions/features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a>&nbsp;definition,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#replyConfig(com.github.kaktushose.jda.commands.definitions.features.internal.Invokable,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">replyConfig</a><wbr>(<a href="../definitions/features/internal/Invokable.html" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a>&nbsp;definition,
  <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition.ReplyConfig</a>&nbsp;fallback)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">The <a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> that should be used when sending replies.</div>
 </div>
 </div>
@@ -272,6 +277,15 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkDetached</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/detached/IDetachableEntity.html" title="class or interface in net.dv8tion.jda.api.entities.detached" class="external-link">IDetachableEntity</a>&nbsp;entity,
  <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="jdaException(java.lang.IllegalArgumentException,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)">
+<h3>jdaException</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../exceptions/InvalidDeclarationException.html" title="class in com.github.kaktushose.jda.commands.exceptions">InvalidDeclarationException</a></span>&nbsp;<span class="element-name">jdaException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a>&nbsp;cause,
+ <a href="../definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</span></div>
 </div>
 </section>
 </li>
