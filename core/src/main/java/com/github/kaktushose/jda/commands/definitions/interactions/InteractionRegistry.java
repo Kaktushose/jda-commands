@@ -187,14 +187,13 @@ public record InteractionRegistry(Validators validators,
     }
 
     private void testIntegrity(Set<Definition> definitions) {
-        definitions.stream()
-                .filter(definition -> definition instanceof ComponentDefinition<?>)
-                .map(ComponentDefinition.class::cast)
-                .forEach(JDAEntity::toJDAEntity);
-        definitions.stream()
-                .filter(definition -> definition instanceof ModalDefinition)
-                .map(ModalDefinition.class::cast)
-                .forEach(definition -> definition.toJDAEntity(CustomId.independent(definition.definitionId())));
+        for (Definition definition : definitions) {
+            switch (definition) {
+                case ComponentDefinition<?> component -> component.toJDAEntity();
+                case ModalDefinition modal -> modal.toJDAEntity(CustomId.independent(modal.definitionId()));
+                default -> {}
+            }
+        }
     }
 
     /// Attempts to find a [Definition] of type [T] based on the given [Predicate].
