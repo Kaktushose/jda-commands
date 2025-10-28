@@ -19,16 +19,14 @@
         system,
         ...
       }: let
-        javaVersion = 24;
+        javaVersion = 25;
 
-        jdk = pkgs."temurin-bin-${toString javaVersion}";
-        gradle = pkgs.gradle.override {
+        jdk = pkgs.javaPackages.compiler.temurin-bin."jdk-${toString javaVersion}";
+        gradle = pkgs.gradle_9.override {
             javaToolchains = [
                 jdk
                 pkgs.temurin-bin
             ];
-
-            java = jdk;
         };
 
         pythonPackages = with pkgs; [
@@ -39,8 +37,8 @@
        in {
          devShells.default = pkgs.mkShell {
            name = "JDA-Commands";
-           packages = with pkgs; [git jdk gradle maven pkgs.temurin-bin findutils ] ++ pythonPackages;
-           JDK24 = jdk;
+           packages = with pkgs; [git findutils ] ++ pythonPackages ++ [ gradle jdk ];
+           NIX_JDK = jdk;
          };
        };
     };
