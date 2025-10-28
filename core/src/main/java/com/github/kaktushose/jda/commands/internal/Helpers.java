@@ -129,6 +129,16 @@ public final class Helpers {
         }
     }
 
+    public static InvalidDeclarationException jdaException(IllegalArgumentException cause, InteractionDefinition definition) {
+        return new InvalidDeclarationException(
+                "jda-exception",
+                entry("cause", cause.getMessage()),
+                entry("type", definition.displayName()),
+                entry("class", definition.classDescription().name()),
+                entry("method", definition.methodDescription().name())
+        );
+    }
+
     /// The [InteractionDefinition.ReplyConfig] that should be used when sending replies.
     ///
     /// @param definition the [`interaction definition`][Invokable] to build the [InteractionDefinition.ReplyConfig] from

@@ -88,7 +88,7 @@ class StringSelectMenuDefinitionTest {
     @Test
     void displayName_shouldReturnFormattedPlaceholder() {
         StringSelectMenuDefinition def = build("singleOption");
-        assertEquals("Select Menu: Choose one", def.displayName());
+        assertEquals("String Select Menu: Choose one", def.displayName());
     }
 
     private StringSelectMenuDefinition build(String method) {

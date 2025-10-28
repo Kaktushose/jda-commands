@@ -61,12 +61,8 @@ public record SlashCommandDefinition(
                 .replaceAll(" +", " ")
                 .trim();
 
-        if (name.isBlank()) {
-            throw new InvalidDeclarationException("blank-name");
-        }
-
-        String[] split = name.split(" ");
-        if (split.length > 3) {
+        // we have to enforce this here to not break the CommandTree
+        if (name.split(" ").length > 3) {
             throw new InvalidDeclarationException(
                     "command-name-length",
                     entry("name", name),
@@ -140,33 +136,42 @@ public record SlashCommandDefinition(
     /// @return the [SlashCommandData]
     @Override
     public SlashCommandData toJDAEntity() {
-        SlashCommandData command = Commands.slash(
-                name,
-                description.replaceAll("N/A", "no description")
-        );
-        command.setIntegrationTypes(commandConfig.integration())
-                .setContexts(commandConfig.context())
-                .setNSFW(commandConfig.isNSFW())
-                .setLocalizationFunction(localizationFunction)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
-                .addOptions(commandOptions.stream()
-                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                        .map(OptionDataDefinition::toJDAEntity)
-                        .toList()
-                );
-        return command;
+        try {
+            SlashCommandData command = Commands.slash(
+                    name,
+                    description.replaceAll("N/A", "no description")
+            );
+
+            command.setIntegrationTypes(commandConfig.integration())
+                    .setContexts(commandConfig.context())
+                    .setNSFW(commandConfig.isNSFW())
+                    .setLocalizationFunction(localizationFunction)
+                    .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
+                    .addOptions(commandOptions.stream()
+                            .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                            .map(OptionDataDefinition::toJDAEntity)
+                            .toList()
+                    );
+            return command;
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
+        }
     }
 
     /// Transforms this definition into [SubcommandData].
     ///
     /// @return the [SubcommandData]
     public SubcommandData toSubcommandData(String name) {
-        return new SubcommandData(name, description.replaceAll("N/A", "no description"))
-                .addOptions(commandOptions.stream()
-                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                        .map(OptionDataDefinition::toJDAEntity)
-                        .toList()
-                );
+        try {
+            return new SubcommandData(name, description.replaceAll("N/A", "no description"))
+                    .addOptions(commandOptions.stream()
+                            .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                            .map(OptionDataDefinition::toJDAEntity)
+                            .toList()
+                    );
+        } catch (IllegalArgumentException e) {
+            throw Helpers.jdaException(e, this);
+        }
     }
 
     @Override

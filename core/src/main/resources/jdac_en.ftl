@@ -30,7 +30,6 @@ null-member-context-command = Member for context command is null (not executed i
 emoji-not-loadable-from-resource = An error occoured while loading emoji called { $name } from resources at { $path }.
 
 # Invalid Declaration
-blank-name = Command name must be not blank.
 command-name-length = Invalid command name "{ $name }" for slash command "{ $method }". Slash commands can only have up to 3 labels.
 invalid-option-data = { $type } is no valid option data type. { $guessedType ->
         [other] Perhaps you wanted to write { $guessedType }?
@@ -43,10 +42,6 @@ validator-type-not-supported =
 wildcard-optional = Generic parameter of Optional cannot be parsed to class. Please provide a valid generic type and don't use any wildcard.
 unknown-command-type = Unknown command type isn't allowed here.
 invalid-context-command-type = Invalid command type for context command! Must either be USER or MESSAGE
-modal-parameter-count = Invalid amount of parameters. { $ count ->
-        [0] Modals need at least one TextInput.
-        *[other] Modals only support up to 5 TextInputs.
-    }
 invalid-parameter = { $index ->
         [one] First
         [two] Second
@@ -60,6 +55,9 @@ incorrect-method-signature =
 incorrect-method-signature-hint = You forgot to add { $parameter } as the first parameter of the method.
 member-context-guild = User context commands which use a Member object are only allowed to use InteractionContextType.GUILD.
     Change the InteractionContextType or use an User object instead.
+jda-exception =
+    { $cause }
+    Interaction: "{ $type }" defined at "{ $class }#{ $method }".
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".
