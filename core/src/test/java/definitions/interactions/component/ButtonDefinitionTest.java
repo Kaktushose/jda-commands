@@ -44,7 +44,7 @@ class ButtonDefinitionTest {
         ButtonDefinition definition = build("emptyLabel");
 
         assertEquals("", definition.label());
-        assertEquals(definition.definitionId(), definition.displayName());
+        assertEquals("Button: %s".formatted(definition.definitionId()), definition.displayName());
     }
 
     @Test

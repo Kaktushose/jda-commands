@@ -39,7 +39,7 @@ class EntitySelectMenuDefinitionTest {
 
         var menu = definition.toJDAEntity();
 
-        assertEquals("Select Menu: test", definition.displayName());
+        assertEquals("Entity Select Menu: test", definition.displayName());
         assertEquals(EnumSet.of(SelectTarget.USER), menu.getEntityTypes());
         assertEquals("test", menu.getPlaceholder());
         assertTrue(menu.getDefaultValues().isEmpty());
