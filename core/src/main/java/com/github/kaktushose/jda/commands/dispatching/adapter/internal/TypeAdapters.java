@@ -36,6 +36,7 @@ public class TypeAdapters {
     private static final Type<GuildChannelUnion> CHANNEL = Type.of(GuildChannelUnion.class);
     private static final Type<Role> ROLE = Type.of(Role.class);
     private static final Type<IMentionable> MENTIONABLE = Type.of(IMentionable.class);
+    private static final Type<Long> INTEGER = Type.of(Long.class);
     private static final Type<Double> NUMBER = Type.of(Double.class);
     private final Proteus proteus;
 
@@ -44,6 +45,7 @@ public class TypeAdapters {
     public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
         proteus = Proteus.global();
 
+        proteus.from(INTEGER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
