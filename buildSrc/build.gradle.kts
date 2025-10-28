@@ -8,11 +8,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jreleaser:org.jreleaser.gradle.plugin:1.17.0")
+    implementation("org.jreleaser:org.jreleaser.gradle.plugin:1.20.0")
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
