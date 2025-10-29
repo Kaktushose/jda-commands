@@ -264,7 +264,7 @@ public final class JDACBuilder extends JDACBuilderData {
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
-                    new TypeAdapters(typeAdapters()),
+                    new TypeAdapters(typeAdapters(), i18n),
                     new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
                     errorMessageFactory(),
                     guildScopeProvider(),
