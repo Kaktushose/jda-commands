@@ -4,13 +4,19 @@ import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.message.i18n.internal.JDACLocalizationFunction;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 
 /// This class serves as an interface for application localization.
@@ -111,6 +117,7 @@ public class I18n {
             "java."
     );
 
+    private final String ERROR_BUNDLE = "jdac_error";
 
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
@@ -154,6 +161,12 @@ public class I18n {
         String key = bundleSplit.length == 2
                 ? bundleSplit[1]
                 : bundleSplit[0];
+
+        if (bundle.equals(ERROR_BUNDLE)) {
+            localizer.localize(locale, ERROR_BUNDLE, key, placeholder)
+                    .or(() -> localizer.localize(locale, ERROR_BUNDLE + "_default", key, placeholder))
+                    .orElseThrow(() -> new InternalException("no-error-msg-in-bundle", entry("key", key)));
+        }
 
         return localizer.localize(locale, bundle, key, placeholder)
                 .orElse(combinedKey);
