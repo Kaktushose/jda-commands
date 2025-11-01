@@ -117,7 +117,7 @@ public class I18n {
             "java."
     );
 
-    private final String ERROR_BUNDLE = "jdac_error";
+    private final String JDAC_BUNDLE = "jdac";
 
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
@@ -162,10 +162,10 @@ public class I18n {
                 ? bundleSplit[1]
                 : bundleSplit[0];
 
-        if (bundle.equals(ERROR_BUNDLE)) {
-            localizer.localize(locale, ERROR_BUNDLE, key, placeholder)
-                    .or(() -> localizer.localize(locale, ERROR_BUNDLE + "_default", key, placeholder))
-                    .orElseThrow(() -> new InternalException("no-error-msg-in-bundle", entry("key", key)));
+        if (bundle.equals(JDAC_BUNDLE)) {
+            return localizer.localize(locale, JDAC_BUNDLE, key, placeholder)
+                    .or(() -> localizer.localize(locale, JDAC_BUNDLE + "_default", key, placeholder))
+                    .orElseThrow(() -> new InternalException("error-msg-not-in-bundle", entry("key", key)));
         }
 
         return localizer.localize(locale, bundle, key, placeholder)

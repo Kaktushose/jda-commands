@@ -19,7 +19,7 @@ public class NotPermissionValidator implements Validator<Member, NotPerm> {
     public void apply(Member member, NotPerm perm, Context context) {
         Helpers.checkDetached(member, NotPermissionValidator.class);
         if (member.hasPermission(perm.value())) {
-            context.fail("member-has-unallowed-permission");
+            context.fail("jdac$member-has-unallowed-permission");
         }
     }
 }
