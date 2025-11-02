@@ -270,6 +270,7 @@ public final class JDACBuilder extends JDACBuilderData {
                     guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
+                            i18n,
                             localizeCommands() ? i18n.localizationFunction() : (_) -> Map.of(),
                             descriptor()
                     ),

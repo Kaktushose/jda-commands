@@ -56,6 +56,9 @@ public record SlashCommandDefinition(
         var method = context.method();
         var interaction = context.interaction();
         var command = method.annotation(Command.class).orElseThrow();
+        String description = command.desc().equals("N/A")
+                ? context.i18n().localize(Locale.ENGLISH, "jdac$no-description")
+                : command.desc();
 
         String name = String.join(" ", interaction.value(), command.value())
                 .replaceAll(" +", " ")
@@ -80,7 +83,7 @@ public record SlashCommandDefinition(
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.validators())
+                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.i18n(), context.validators())
                 )
                 .toList();
 
@@ -101,7 +104,7 @@ public record SlashCommandDefinition(
                 name,
                 Helpers.commandConfig(context),
                 context.localizationFunction(),
-                command.desc(),
+                description,
                 commandOptions,
                 cooldownDefinition
         );
@@ -139,7 +142,7 @@ public record SlashCommandDefinition(
         try {
             SlashCommandData command = Commands.slash(
                     name,
-                    description.replaceAll("N/A", "no description")
+                    description
             );
 
             command.setIntegrationTypes(commandConfig.integration())
@@ -163,7 +166,7 @@ public record SlashCommandDefinition(
     /// @return the [SubcommandData]
     public SubcommandData toSubcommandData(String name) {
         try {
-            return new SubcommandData(name, description.replaceAll("N/A", "no description"))
+            return new SubcommandData(name, description)
                     .addOptions(commandOptions.stream()
                             .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
                             .map(OptionDataDefinition::toJDAEntity)

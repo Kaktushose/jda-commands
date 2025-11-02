@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.definitions.Definition;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.features.JDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
@@ -16,6 +15,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.component.men
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -31,6 +31,7 @@ import static com.github.kaktushose.jda.commands.definitions.interactions.comman
 
 /// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(Validators validators,
+                                  I18n i18n,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
                                   Set<Definition> definitions
@@ -42,9 +43,10 @@ public record InteractionRegistry(Validators validators,
     ///
     /// @param registry   the corresponding [Validators]
     /// @param function   the [LocalizationFunction] to use
+    /// @param i18n       the [I18n] instance to use
     /// @param descriptor the [Descriptor] to use
-    public InteractionRegistry(Validators registry, LocalizationFunction function, Descriptor descriptor) {
-        this(registry, function, descriptor, new HashSet<>());
+    public InteractionRegistry(Validators registry, I18n i18n, LocalizationFunction function, Descriptor descriptor) {
+        this(registry, i18n, function, descriptor, new HashSet<>());
     }
 
     /// Scans all given classes and registers the interactions defined in them.
@@ -94,6 +96,7 @@ public record InteractionRegistry(Validators validators,
                 clazz,
                 validators,
                 localizationFunction,
+                i18n,
                 interaction,
                 permissions,
                 cooldown,
@@ -121,6 +124,7 @@ public record InteractionRegistry(Validators validators,
     private Set<Definition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
                                                    LocalizationFunction localizationFunction,
+                                                   I18n i18n,
                                                    Interaction interaction,
                                                    Set<String> permissions,
                                                    @Nullable CooldownDefinition cooldown,
@@ -131,6 +135,7 @@ public record InteractionRegistry(Validators validators,
             final MethodBuildContext context = new MethodBuildContext(
                     validators,
                     localizationFunction,
+                    i18n,
                     interaction,
                     permissions,
                     cooldown,
