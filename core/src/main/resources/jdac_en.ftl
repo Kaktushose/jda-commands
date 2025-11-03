@@ -20,7 +20,9 @@ reply-failed = Cannot reply to { $event }.
 command-input-mismatch = Command input doesn't match command options length.
 proteus-error = A Proteus error occurred: { $message }.
 invalid-option-type = Invalid option type: { $type }.
-localization-json-error = Embed localization failed because of underlying JSON error.
+localization-json-error =
+    Embed localization failed because of underlying JSON parsing error. This might be due to invalid user input. Raw JSON:
+    { $rawJson }
 wrong-labels = Failed to add child command: { $command }. { $labelCount ->
         [0] Cannot add child with empty labels.
         *[other] Cannot add a child with more than { $labelCount } labels.

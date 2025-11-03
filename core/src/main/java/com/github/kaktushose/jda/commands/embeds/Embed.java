@@ -1,12 +1,11 @@
 package com.github.kaktushose.jda.commands.embeds;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.exceptions.ParsingException;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.i18n.Localizer;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
@@ -28,6 +27,7 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 import static net.dv8tion.jda.api.EmbedBuilder.URL_PATTERN;
 import static net.dv8tion.jda.api.EmbedBuilder.ZERO_WIDTH_SPACE;
 
@@ -359,8 +359,8 @@ public class Embed {
         try {
             JsonNode node = resolve(mapper.readTree(json));
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
-        } catch (JsonProcessingException e) {
-            throw new InternalException("localization-json-error", e);
+        } catch (Exception e) {
+            throw new ParsingException(e, entry("rawJson", json));
         }
     }
 
