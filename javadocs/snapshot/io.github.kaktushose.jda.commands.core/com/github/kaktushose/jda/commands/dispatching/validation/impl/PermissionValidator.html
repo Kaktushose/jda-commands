@@ -180,13 +180,13 @@ implements <a href="../Validator.html" title="interface in com.github.kaktushose
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">apply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Member</a>&nbsp;member,
  <a href="../../../annotations/constraints/Perm.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.constraints">Perm</a>&nbsp;perm,
  <a href="../Validator.Context.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation">Validator.Context</a>&nbsp;context)</span></div>
-<div class="block">Validates an argument. The argument must be a user or member that has the specified discord permission.</div>
+<div class="block">Validates an argument. The argument must be a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a> that has the specified discord permission.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../Validator.html#apply(T,A,com.github.kaktushose.jda.commands.dispatching.validation.Validator.Context)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../Validator.html" title="interface in com.github.kaktushose.jda.commands.dispatching.validation">Validator</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Member</a>,<wbr><a href="../../../annotations/constraints/Perm.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.constraints">Perm</a>&gt;</code></dd>
 <dt>Parameters:</dt>
-<dd><code>member</code> - the argument to validate</dd>
-<dd><code>perm</code> - the corresponding annotation</dd>
+<dd><code>member</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Member</code></a> to check</dd>
+<dd><code>perm</code> - the <a href="../../../annotations/constraints/Perm.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.constraints"><code>Perm</code></a> to use</dd>
 <dd><code>context</code> - the corresponding <a href="../../context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context"><code>InvocationContext</code></a></dd>
 </dl>
 </div>
