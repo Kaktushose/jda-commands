@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// The annotated element must be a user or member that **doesn't** have the specified discord permission.
+/// The annotated element must be a [Member] that **doesn't** have the specified discord permission.
 ///
 /// @see Constraint
 @Target(ElementType.PARAMETER)
@@ -16,8 +16,8 @@ import java.lang.annotation.Target;
 @Constraint({Member.class})
 public @interface NotPerm {
 
-    /// Returns the discord permission(s) the element must not have.
+    /// Returns the discord permission(s) the [Member] must not have.
     ///
-    /// @return the discord permission(s) the element must not have.
+    /// @return the discord permission(s) the [Member] must not have.
     Permission[] value();
 }

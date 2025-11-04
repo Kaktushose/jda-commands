@@ -11,9 +11,11 @@ import net.dv8tion.jda.api.entities.Member;
 /// @see Perm
 public class PermissionValidator implements Validator<Member, Perm> {
 
-    /// Validates an argument. The argument must be a user or member that has the specified discord permission.
+    /// Validates an argument. The argument must be a [Member] that has the specified discord permission.
     ///
     /// @param context the corresponding [InvocationContext]
+    /// @param member the [Member] to check
+    /// @param perm the [Perm] to use
     @Override
     public void apply(Member member, Perm perm, Context context) {
         Helpers.checkDetached(member, PermissionValidator.class);

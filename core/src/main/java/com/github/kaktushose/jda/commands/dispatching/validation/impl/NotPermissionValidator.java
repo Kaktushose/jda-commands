@@ -11,10 +11,12 @@ import net.dv8tion.jda.api.entities.Member;
 /// @see NotPerm
 public class NotPermissionValidator implements Validator<Member, NotPerm> {
 
-    /// Validates an argument. The argument must be a user or member that **doesn't** have the specified discord
+    /// Validates an argument. The argument must be a [Member] that **doesn't** have the specified discord
     /// permission.
     ///
     /// @param context the corresponding [InvocationContext]
+    /// @param member the [Member] to check
+    /// @param perm the [NotPerm] to use
     @Override
     public void apply(Member member, NotPerm perm, Context context) {
         Helpers.checkDetached(member, NotPermissionValidator.class);
