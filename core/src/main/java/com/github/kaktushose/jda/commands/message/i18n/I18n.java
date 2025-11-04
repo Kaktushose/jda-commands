@@ -26,7 +26,7 @@ import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry
 /// To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
 /// For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 ///
-/// ### dollar sign
+/// ## dollar sign
 /// The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 ///
 /// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
@@ -38,6 +38,13 @@ import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry
 ///
 /// In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 /// Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
+///
+/// ## Special bundle names
+/// JDA-Commands uses a special bundle called 'jdac' to allow the customization of certain error messages and general strings
+/// used by the framework that are presented to the user of the discord bot later. That means:
+/// The bundle name 'jdac' is reserved by JDA-Commands and cannot be used for your own localization messages.
+///
+/// For information on what strings are localizable/customizable please visit our wiki.
 ///
 /// ## bundle name traversal
 /// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
@@ -145,7 +152,8 @@ public class I18n {
     /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
-    /// Please note that the character `$` is forbidden in bundle names.
+    /// Please note that the character `$` is forbidden in bundle names and the bundle name 'jdac' is reserved.
+    /// For further information visit the class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
     /// @param combinedKey the messages key
