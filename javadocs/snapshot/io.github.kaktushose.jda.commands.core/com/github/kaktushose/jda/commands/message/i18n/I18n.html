@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <p>It is mostly a wrapper around <a href="Localizer.html" title="interface in com.github.kaktushose.jda.commands.message.i18n"><code>Localizer</code></a> but supports flexible specification of the bundle to be used.</p>
 <p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle$key</code>.
 For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
-<h4 id="dollar-sign-heading">dollar sign</h4>
+<h3 id="dollar-sign-heading">dollar sign</h3>
 <p>The dollar (<code>$</code>) is a reserved character for <a href="#bundles">bundle name separation</a>.</p>
 <p>Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:</p>
 <ul>
@@ -108,6 +108,11 @@ For example a message with key <code>user$not-found</code> will be searched for 
 </ul>
 <p>In these cases just prefix your whole message with a <code>$</code>, e.g. <code>$my_bundle$my-key</code> or <code>$key.with$.in.it</code>.
 Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.</p>
+<h3 id="special-bundle-names-heading">Special bundle names</h3>
+<p>JDA-Commands uses a special bundle called 'jdac' to allow the customization of certain error messages and general strings
+used by the framework that are presented to the user of the discord bot later. That means:
+The bundle name 'jdac' is reserved by JDA-Commands and cannot be used for your own localization messages.</p>
+<p>For information on what strings are localizable/customizable please visit our wiki.</p>
 <h3 id="bundle-name-traversal-heading">bundle name traversal</h3>
 <p>If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
 <a href="Bundle"><code>@Bundle(&quot;mybundle&quot;)</code></a> annotation with following order:</p>
@@ -307,7 +312,8 @@ in the given bundle.</p>
 <p>The bundle can be either explicitly stated by adding it to the
 key in the following format: <code>bundle$key</code>. Alternatively, the bundle name can also be
 contextual retrieved by a search for the <a href="../../annotations/i18n/Bundle.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.i18n"><code>Bundle</code></a> annotation, see class docs.</p>
-<p>Please note that the character <code>$</code> is forbidden in bundle names.</p>
+<p>Please note that the character <code>$</code> is forbidden in bundle names and the bundle name 'jdac' is reserved.
+For further information visit the class docs.</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
