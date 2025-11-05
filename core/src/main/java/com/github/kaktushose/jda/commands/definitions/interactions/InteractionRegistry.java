@@ -147,15 +147,14 @@ public record InteractionRegistry(Validators validators,
 
 
             // to be replaced with scoped values
-            InvalidDeclarationException.CONTEXT.set(method);
-            Definition definition = construct(method, context);
+            ScopedValue.where(InvalidDeclarationException.CONTEXT, method).run(() -> {
+                Definition definition = construct(method, context);
 
-            if (definition != null) {
-                log.debug("Found interaction: {}", definition);
-                definitions.add(definition);
-            }
-
-            InvalidDeclarationException.CONTEXT.remove();
+                if (definition != null) {
+                    log.debug("Found interaction: {}", definition);
+                    definitions.add(definition);
+                }
+            });
         }
         return definitions;
     }

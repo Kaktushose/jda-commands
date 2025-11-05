@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /// Will be thrown if any errors are made in the declaration of interactions.
 public final class InvalidDeclarationException extends JDACException {
 
-    public static final ThreadLocal<MethodDescription> CONTEXT = new ThreadLocal<>();
+    public static final ScopedValue<MethodDescription> CONTEXT = ScopedValue.newInstance();
 
     /// @param key the bundle key of the error message
     public InvalidDeclarationException(String key) {

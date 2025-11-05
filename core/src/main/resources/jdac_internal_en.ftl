@@ -61,6 +61,7 @@ member-context-guild = User context commands which use a Member object are only 
 jda-exception =
     { $cause }
     Interaction: "{ $type }" defined at "{ $class }#{ $method }".
+should-never-be-thrown = This exception should never be thrown!
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".
