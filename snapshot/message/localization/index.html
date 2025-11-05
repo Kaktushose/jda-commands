@@ -1207,6 +1207,30 @@ You're not viewing the latest stable version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#localization-of-default-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Localization of default messages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Localization of default messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#localizationfunction-jda-slash-command-localization" class="md-nav__link">
     <span class="md-ellipsis">
       LocalizationFunction (JDA) / slash command localization
@@ -1616,7 +1640,8 @@ To localize such messages you have to manually use <I18n#localize(Locale,String,
 localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html">@Bundle</a>
 annotation.</p>
 <p>!!! warning the dollar sign ($)
-    Please note that the character <code>$</code> is forbidden in bundle names.</p>
+    Please note that the character <code>$</code> is forbidden in bundle names.
+    Additionally, the bundle name 'jdac' is reserved, for more information visit <a href="#localization-of-default-messages">this section</a> </p>
 <h3 id="via-key">Via Key<a class="headerlink" href="#via-key" title="Permanent link">&para;</a></h3>
 <p>To state which bundle to use the direct way is to include it in the key following the format <code>bundle$key</code>.
 For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
@@ -1679,6 +1704,32 @@ would be called in, for example, <code>B$bTwo</code> the bundle would be <code>m
 </details>
 <h3 id="default-bundle">Default Bundle<a class="headerlink" href="#default-bundle" title="Permanent link">&para;</a></h3>
 <p>If no bundle is found with the above techniques, a bundle called <code>default</code> will be used.</p>
+<h2 id="localization-of-default-messages">Localization of default messages<a class="headerlink" href="#localization-of-default-messages" title="Permanent link">&para;</a></h2>
+<p>JDA-Commands sometimes presents error messages or strings to the user of the discord bot, that aren't defined by the developer
+per default. For most cases the default values for these messages shipped with JDA-Commands will be sufficient, but some developers might like to 
+customize such messages or localize them (if supported). </p>
+<p>For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):</p>
+<ul>
+<li><code>member-missing-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html">@Perm</a></li>
+<li><code>member-has-unallowed-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> has the permission forbidden by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html">@NotPerm</a></li>
+<li><code>member-required-got-user</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> is required, but only a user was given as a slash command option input</li>
+<li><code>no-description</code> -&gt; if no description was stated for a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html">slash command</a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html">slash command option</a></li>
+</ul>
+<p>Please note that the messages:</p>
+<ul>
+<li><code>member-required-got-user</code></li>
+<li><code>no-description</code></li>
+</ul>
+<p>Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#ENGLISH">ENGLISH</a>.
+However, you can localize the <code>no-description</code> on a per command basis using the <a href="#localizationfunction-jda-slash-command-localization">localization function</a></p>
+<p>If you're using Fluava as your localization system and your fallback locale isn't <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#ENGLISH">ENGLISH</a>, 
+your fallback locale will be searched for the messages too according to the bundle rules defined <a href="https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Bundle.html">here</a>.
+For example, if you have <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#GERMAN">GERMAN</a> as your fallback locale and the following <code>jdac_de.ftl</code> bundle, the message for
+<code>no-description</code> will be <code>Keine Beschreibung angegeben!</code>.</p>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><span class="filename">jdac_de.ftl</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>member-missing-permission = Du hast nicht die benötigte Berechtigung!
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>no-description = Keine Beschreibung angegeben!
+</span></code></pre></div>
 <h2 id="localizationfunction-jda-slash-command-localization">LocalizationFunction (JDA) / slash command localization<a class="headerlink" href="#localizationfunction-jda-slash-command-localization" title="Permanent link">&para;</a></h2>
 <p>JDA uses the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html">LocalizationFunction</a> for localizing slash commands.
 We implement this interface based on our <code>I18n</code> class as described above.</p>
@@ -1688,11 +1739,11 @@ We implement this interface based on our <code>I18n</code> class as described ab
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
 You can provide an own instance of the <a href="https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html">Fluava</a> class by calling
 the appropriate builder method.</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">ENGLISH</span><span class="p">);</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">.</span><span class="na">localizer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FluavaLocalizer</span><span class="p">(</span><span class="n">myFluava</span><span class="p">))</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">ENGLISH</span><span class="p">);</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">.</span><span class="na">localizer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FluavaLocalizer</span><span class="p">(</span><span class="n">myFluava</span><span class="p">))</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1723,14 +1774,14 @@ but with a slightly more flexible structure.</p>
 </ol>
 <p>If a key isn't found in any of the above files, the same procedure will be done for the given "fallback" locale.</p>
 <p>A resource folder structure could for example look like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>src/
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├─ main/
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│  ├─ resources/
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│  │  ├─ component/
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│  │  │  ├─ de.ftl
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│  │  │  ├─ en.ftl
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│  │  ├─ default_de.ftl
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│  │  ├─ default_en.ftl
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>src/
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├─ main/
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>│  ├─ resources/
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>│  │  ├─ component/
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>│  │  │  ├─ de.ftl
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>│  │  │  ├─ en.ftl
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│  │  ├─ default_de.ftl
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>│  │  ├─ default_en.ftl
 </span></code></pre></div>
 <p>Such a structure has the two bundles <code>component</code> and <code>default</code> and a locale specific file for German and English for each bundle.</p>
 
