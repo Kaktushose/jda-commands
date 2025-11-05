@@ -87,7 +87,7 @@ annotation.
 
 !!! warning the dollar sign ($)
     Please note that the character `$` is forbidden in bundle names.
-    Additionally, the bundle name 'jdac' is reserved, for more information visit [this section](#localization-of-content-used-by-the-framework) 
+    Additionally, the bundle name 'jdac' is reserved, for more information visit [this section](#localization-of-default-messages) 
 
 ### Via Key
 To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
@@ -176,10 +176,11 @@ Please note that the messages:
 - `no-description`
 
 Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale [ENGLISH][[Locale#ENGLISH]].
+However, you can localize the `no-description` on a per command basis using the [localization function](#localizationfunction-jda-slash-command-localization)
 
 If you're using Fluava as your localization system and your fallback locale isn't [ENGLISH][[Locale#ENGLISH]], 
 your fallback locale will be searched for the messages too according to the bundle rules defined [here][[fluava -> Bundle]].
-For example, if you have [GERMAN][[Locale#GERMAN]] as your fallback locale and following `jdac_de.ftl`. The message for
+For example, if you have [GERMAN][[Locale#GERMAN]] as your fallback locale and the following `jdac_de.ftl` bundle, the message for
 `no-description` will be `Keine Beschreibung angegeben!`.
 
 ### Example
