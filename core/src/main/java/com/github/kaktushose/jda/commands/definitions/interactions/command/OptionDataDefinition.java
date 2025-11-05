@@ -17,6 +17,7 @@ import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
 import com.github.kaktushose.jda.commands.exceptions.ConfigurationException;
 import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -113,12 +114,14 @@ public record OptionDataDefinition(
 
     /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param validatorRegistry the corresponding [Validators]
+    /// @param parameter            the [ParameterDescription] to build the [OptionDataDefinition] from
+    /// @param autoComplete         the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
+    /// @param i18n                 the [I18n] instance to use
+    /// @param validatorRegistry    the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
+                                             I18n i18n,
                                              Validators validatorRegistry) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
@@ -166,7 +169,7 @@ public record OptionDataDefinition(
 
         // Param
         String name = parameter.name();
-        String description = "empty description";
+        String description = i18n.localize(Locale.ENGLISH, "jdac$no-description");
         boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
         var param = parameter.annotation(Param.class);

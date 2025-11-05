@@ -1,6 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.adapter.internal;
 
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.type.Type;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -42,14 +44,14 @@ public class TypeAdapters {
 
     /// Constructs a new TypeAdapters.
     @SuppressWarnings("unchecked")
-    public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters) {
+    public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters, I18n i18n) {
         proteus = Proteus.global();
 
         proteus.from(INTEGER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure("A member is required, but only a user got provided")), IGNORE);
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.localize(Locale.ENGLISH, "jdac$member-required-got-user"))), IGNORE);
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)

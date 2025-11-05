@@ -4,13 +4,19 @@ import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
 import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
 import com.github.kaktushose.jda.commands.definitions.description.Description;
 import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.message.i18n.internal.JDACLocalizationFunction;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 
 /// This class serves as an interface for application localization.
@@ -20,7 +26,7 @@ import java.util.*;
 /// To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
 /// For example a message with key `user$not-found` will be searched for in the bundle `user` and the key `not-found`.
 ///
-/// ### dollar sign
+/// ## dollar sign
 /// The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 ///
 /// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
@@ -32,6 +38,13 @@ import java.util.*;
 ///
 /// In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 /// Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
+///
+/// ## Special bundle names
+/// JDA-Commands uses a special bundle called 'jdac' to allow the customization of certain error messages and general strings
+/// used by the framework that are presented to the user of the discord bot later. That means:
+/// The bundle name 'jdac' is reserved by JDA-Commands and cannot be used for your own localization messages.
+///
+/// For information on what strings are localizable/customizable please visit our wiki.
 ///
 /// ## bundle name traversal
 /// If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
@@ -111,6 +124,7 @@ public class I18n {
             "java."
     );
 
+    private final String JDAC_BUNDLE = "jdac";
 
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
@@ -138,7 +152,8 @@ public class I18n {
     /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
     /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
     ///
-    /// Please note that the character `$` is forbidden in bundle names.
+    /// Please note that the character `$` is forbidden in bundle names and the bundle name 'jdac' is reserved.
+    /// For further information visit the class docs.
     ///
     /// @param locale the [Locale] to be used to localize the key
     /// @param combinedKey the messages key
@@ -154,6 +169,12 @@ public class I18n {
         String key = bundleSplit.length == 2
                 ? bundleSplit[1]
                 : bundleSplit[0];
+
+        if (bundle.equals(JDAC_BUNDLE)) {
+            return localizer.localize(locale, JDAC_BUNDLE, key, placeholder)
+                    .or(() -> localizer.localize(locale, JDAC_BUNDLE + "_default", key, placeholder))
+                    .orElseThrow(() -> new InternalException("error-msg-not-in-bundle", entry("key", key)));
+        }
 
         return localizer.localize(locale, bundle, key, placeholder)
                 .orElse(combinedKey);

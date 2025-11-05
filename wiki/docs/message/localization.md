@@ -87,6 +87,7 @@ annotation.
 
 !!! warning the dollar sign ($)
     Please note that the character `$` is forbidden in bundle names.
+    Additionally, the bundle name 'jdac' is reserved, for more information visit [this section](#localization-of-default-messages) 
 
 ### Via Key
 To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
@@ -156,6 +157,37 @@ class at the very beginning.
 
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
+
+## Localization of default messages
+JDA-Commands sometimes presents error messages or strings to the user of the discord bot, that aren't defined by the developer
+per default. For most cases the default values for these messages shipped with JDA-Commands will be sufficient, but some developers might like to 
+customize such messages or localize them (if supported). 
+
+For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):
+
+- `member-missing-permission` -> if a <net.dv8tion.jda.api.entities.Member> doesn't have the permission required by <Perm>
+- `member-has-unallowed-permission` -> if a <net.dv8tion.jda.api.entities.Member> has the permission forbidden by <NotPerm>
+- `member-required-got-user` -> if a <net.dv8tion.jda.api.entities.Member> is required, but only a user was given as a slash command option input
+- `no-description` -> if no description was stated for a [slash command][[SlashCommandDefinition]] or [slash command option][[OptionDataDefinition]]
+
+Please note that the messages:
+
+- `member-required-got-user`
+- `no-description`
+
+Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale [ENGLISH][[Locale#ENGLISH]].
+However, you can localize the `no-description` on a per command basis using the [localization function](#localizationfunction-jda-slash-command-localization)
+
+If you're using Fluava as your localization system and your fallback locale isn't [ENGLISH][[Locale#ENGLISH]], 
+your fallback locale will be searched for the messages too according to the bundle rules defined [here][[fluava -> Bundle]].
+For example, if you have [GERMAN][[Locale#GERMAN]] as your fallback locale and the following `jdac_de.ftl` bundle, the message for
+`no-description` will be `Keine Beschreibung angegeben!`.
+
+### Example
+```ftl title='jdac_de.ftl'
+member-missing-permission = Du hast nicht die benötigte Berechtigung!
+no-description = Keine Beschreibung angegeben!
+```
 
 ## LocalizationFunction (JDA) / slash command localization
 JDA uses the <LocalizationFunction> for localizing slash commands.

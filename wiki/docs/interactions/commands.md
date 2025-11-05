@@ -299,7 +299,7 @@ and the `type` must be <Command.Type#USER>.
 public void onBanMember(CommandEvent event, User user) { ... }
 ```
 
-Alternatively, you can also use <Member> in the method signature. However, this only works for 
+Alternatively, you can also use <net.dv8tion.jda.api.entities.Member> in the method signature. However, this only works for 
 <InteractionContextType#GUILD>.
 
 ```java

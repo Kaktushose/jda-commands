@@ -13,15 +13,17 @@ import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildCo
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestHelpers {
+
+    public static final I18n I18N = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
 
     public static final Validators validators = new Validators(Map.of());
 
@@ -35,6 +37,7 @@ public class TestHelpers {
         return new MethodBuildContext(
                 validators,
                 ResourceBundleLocalizationFunction.empty().build(),
+                I18N,
                 controller.getAnnotation(Interaction.class),
                 permissions(clazz),
                 SlashCommandDefinition.CooldownDefinition.build(null),

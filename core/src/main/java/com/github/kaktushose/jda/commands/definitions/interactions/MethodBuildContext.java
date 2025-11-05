@@ -6,6 +6,7 @@ import com.github.kaktushose.jda.commands.definitions.description.MethodDescript
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -18,6 +19,7 @@ import java.util.Set;
 public record MethodBuildContext(
         Validators validators,
         LocalizationFunction localizationFunction,
+        I18n i18n,
         Interaction interaction,
         Set<String> permissions,
         @Nullable CooldownDefinition cooldownDefinition,

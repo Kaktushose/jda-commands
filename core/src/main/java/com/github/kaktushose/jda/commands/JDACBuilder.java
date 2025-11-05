@@ -264,12 +264,13 @@ public final class JDACBuilder extends JDACBuilderData {
             JDACommands jdaCommands = new JDACommands(
                     context(),
                     expirationStrategy(),
-                    new TypeAdapters(typeAdapters()),
+                    new TypeAdapters(typeAdapters(), i18n),
                     new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
                     errorMessageFactory(),
                     guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
+                            i18n,
                             localizeCommands() ? i18n.localizationFunction() : (_) -> Map.of(),
                             descriptor()
                     ),

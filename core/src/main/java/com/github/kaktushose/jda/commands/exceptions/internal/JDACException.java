@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 /// Base exception for all exceptions thrown by JDA-Commands.
 ///
-/// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_en.ftl" located in the resources folder.
+/// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_internal_en.ftl" located in the resources folder.
 public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException, ParsingException {
 
-    protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac");
+    protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
 
     /// Creates a new JDACException and loads the error message from the given key.
     ///
