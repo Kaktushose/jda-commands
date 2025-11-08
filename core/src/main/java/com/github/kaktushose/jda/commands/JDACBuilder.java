@@ -282,22 +282,10 @@ public final class JDACBuilder extends JDACBuilderData {
                     globalCommandConfig()
             );
 
-
             JDACommands jdaCommands = new JDACommands(
                     holyGrail,
                     context(),
-                    holyGrail.expirationStrategy(),
-                    holyGrail.adapterRegistry(),
-                    holyGrail.middlewares(),
-                    holyGrail.errorMessageFactory(),
                     guildScopeProvider(),
-                    holyGrail.interactionRegistry(),
-                    holyGrail.instanceProvider(),
-                    holyGrail.globalReplyConfig(),
-                    holyGrail.globalCommandConfig(),
-                    holyGrail.i18n(),
-                    holyGrail.messageResolver(),
-                    holyGrail.embeds(),
                     shutdownJDA()
             );
 
