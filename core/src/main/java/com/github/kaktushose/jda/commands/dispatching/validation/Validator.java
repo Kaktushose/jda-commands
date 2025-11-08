@@ -58,7 +58,7 @@ public interface Validator<T, A extends Annotation> {
     void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
-    /// has some utility methods useful for error messages.
+    /// has some util methods useful for error messages.
     class Context {
         private final InvocationContext<?> invocationContext;
         private final ErrorMessageFactory errorMessageFactory;
@@ -83,7 +83,7 @@ public interface Validator<T, A extends Annotation> {
         /// @see MessageResolver
         /// @see I18n
         public MessageCreateData failMessage(String content, Entry... placeholder) {
-            String localized = invocationContext.messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
+            String localized = invocationContext.util().messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

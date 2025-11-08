@@ -1,9 +1,8 @@
 package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
+import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
@@ -42,9 +41,9 @@ import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry
 public final class ReplyAction implements Reply {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    private final GenericInteractionCreateEvent event;
-    private final InteractionDefinition definition;
-    private final MessageResolver messageResolver;
+
+    private final GenericInteractionCreateEvent event = RichInvocationContext.getContext().event();
+
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean keepComponents;
@@ -53,17 +52,8 @@ public final class ReplyAction implements Reply {
 
     /// Constructs a new ReplyAction.
     ///
-    /// @param event       the corresponding [GenericInteractionCreateEvent]
-    /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
-    /// @param messageResolver the [MessageResolver] instance to use for message resolution
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ReplyAction(GenericInteractionCreateEvent event,
-                       InteractionDefinition definition,
-                       MessageResolver messageResolver,
-                       InteractionDefinition.ReplyConfig replyConfig) {
-        this.event = event;
-        this.definition = definition;
-        this.messageResolver = messageResolver;
+    public ReplyAction(InteractionDefinition.ReplyConfig replyConfig) {
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
@@ -73,7 +63,7 @@ public final class ReplyAction implements Reply {
 
     @Override
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(messageResolver.resolve(message, event.getUserLocale().toLocale(), placeholder));
+        builder.setContent(RichInvocationContext.getHolyGrail().messageResolver().resolve(message, RichInvocationContext.getUserLocale(), placeholder));
         return reply();
     }
 
@@ -122,6 +112,8 @@ public final class ReplyAction implements Reply {
     }
 
     public Message reply() {
+        InteractionDefinition definition = RichInvocationContext.getContext().definition();
+
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);

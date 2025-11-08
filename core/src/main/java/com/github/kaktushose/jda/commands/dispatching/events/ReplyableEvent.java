@@ -5,7 +5,6 @@ import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectM
 import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
@@ -62,20 +61,16 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// Constructs a new ReplyableEvent.
     ///
     /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param interactionRegistry the corresponding [InteractionRegistry]
     /// @param runtime             the [Runtime] this event lives in
     /// @param definition          the [InteractionDefinition] this event belongs to
-    /// @param embeds              the corresponding [Embeds]
     protected ReplyableEvent(T event,
-                             InteractionRegistry interactionRegistry,
                              Runtime runtime,
                              InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig replyConfig,
-                             Embeds embeds) {
-        super(event, interactionRegistry, runtime);
+                             InteractionDefinition.ReplyConfig replyConfig) {
+        super(event, runtime);
         this.replyConfig = replyConfig;
         this.definition = definition;
-        this.embeds = embeds;
+        this.embeds = runtime.holyGrail().embeds();
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -174,7 +169,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
         var className = origin == null ? definition.classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
-        var definition = registry.find(type, false, it -> it.definitionId().equals(id));
+        var definition = runtime.holyGrail().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
@@ -209,7 +204,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(event, definition, messageResolver(), newReply(), embeds, registry, runtimeId());
+        return new ConfigurableReply(newReply());
     }
 
     /// {@inheritDoc}
@@ -243,6 +238,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(event, definition, messageResolver(), replyConfig);
+        return new ReplyAction(replyConfig);
     }
 }

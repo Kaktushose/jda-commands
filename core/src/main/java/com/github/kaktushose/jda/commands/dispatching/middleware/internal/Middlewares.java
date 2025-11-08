@@ -11,7 +11,7 @@ import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
 import java.util.*;
 import java.util.function.Consumer;
 
-/// Central registry for all [Middleware]s.
+/// Central interactionRegistry for all [Middleware]s.
 public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;

@@ -3,13 +3,11 @@ package com.github.kaktushose.jda.commands.dispatching.events;
 import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -35,19 +33,15 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// Constructs a new ModalReplyableEvent.
     ///
     /// @param event       the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry    the corresponding [InteractionRegistry]
     /// @param runtime     the [Runtime] this event lives in
     /// @param definition  the [InteractionDefinition] this event belongs to
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    /// @param embeds      the corresponding [Embeds]
     protected ModalReplyableEvent(T event,
-                                  InteractionRegistry registry,
                                   Runtime runtime,
                                   InteractionDefinition definition,
-                                  InteractionDefinition.ReplyConfig replyConfig,
-                                  Embeds embeds
+                                  InteractionDefinition.ReplyConfig replyConfig
     ) {
-        super(event, registry, runtime, definition, replyConfig, embeds);
+        super(event, runtime, definition, replyConfig);
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
@@ -67,7 +61,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     public void replyModal(String modal, Function<ModalBuilder, ModalBuilder> callback) {
         if (event instanceof IModalCallback modalCallback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
-            var modalDefinition = registry.find(ModalDefinition.class, false, it ->
+            var modalDefinition = runtime.holyGrail().interactionRegistry().find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
             var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();

@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
+import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -261,27 +262,45 @@ public final class JDACBuilder extends JDACBuilderData {
             I18n i18n = i18n();
             MessageResolver messageResolver = messageResolver();
             configureEmbeds.accept(messageResolver, errorMessageFactory());
-            JDACommands jdaCommands = new JDACommands(
-                    context(),
-                    expirationStrategy(),
-                    new TypeAdapters(typeAdapters(), i18n),
+
+            HolyGrail holyGrail = new HolyGrail(
                     new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
                     errorMessageFactory(),
-                    guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
                             i18n,
                             localizeCommands() ? i18n.localizationFunction() : (_) -> Map.of(),
                             descriptor()
                     ),
+                    new TypeAdapters(typeAdapters(), i18n),
+                    expirationStrategy(),
                     controllerInstantiator(),
-                    globalReplyConfig(),
-                    globalCommandConfig(),
+                    embeds(messageResolver),
                     i18n,
                     messageResolver,
-                    embeds(messageResolver),
+                    globalReplyConfig(),
+                    globalCommandConfig()
+            );
+
+
+            JDACommands jdaCommands = new JDACommands(
+                    holyGrail,
+                    context(),
+                    holyGrail.expirationStrategy(),
+                    holyGrail.adapterRegistry(),
+                    holyGrail.middlewares(),
+                    holyGrail.errorMessageFactory(),
+                    guildScopeProvider(),
+                    holyGrail.interactionRegistry(),
+                    holyGrail.instanceProvider(),
+                    holyGrail.globalReplyConfig(),
+                    holyGrail.globalCommandConfig(),
+                    holyGrail.i18n(),
+                    holyGrail.messageResolver(),
+                    holyGrail.embeds(),
                     shutdownJDA()
             );
+
             jdaCommands.start(mergedClassFinder());
             return jdaCommands;
         } catch (JDACException e) {

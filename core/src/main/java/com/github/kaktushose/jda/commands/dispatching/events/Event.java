@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
@@ -9,8 +8,8 @@ import com.github.kaktushose.jda.commands.dispatching.events.interactions.Compon
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
@@ -43,17 +42,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         permits ReplyableEvent, AutoCompleteEvent {
 
     protected final T event;
-    protected final InteractionRegistry registry;
-    private final Runtime runtime;
+    protected final Runtime runtime;
 
     /// Constructs a new Event.
     ///
     /// @param event    the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime  the [Runtime] this event lives in
-    protected Event(T event, InteractionRegistry registry, Runtime runtime) {
+    protected Event(T event, Runtime runtime) {
         this.event = event;
-        this.registry = registry;
         this.runtime = runtime;
     }
 
@@ -104,14 +100,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [I18n] instance.
     public I18n i18n() {
-        return runtime.i18n();
+        return runtime.holyGrail().i18n();
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return runtime.messageResolver();
+        return runtime.holyGrail().messageResolver();
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.

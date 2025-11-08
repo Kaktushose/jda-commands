@@ -16,7 +16,7 @@ import io.github.kaktushose.proteus.type.Type;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
-/// Central registry for all [Validator]s.
+/// Central interactionRegistry for all [Validator]s.
 ///
 /// @implNote The business logic for checking a commands options is implemented by [ConstraintMiddleware]
 /// @see Validator

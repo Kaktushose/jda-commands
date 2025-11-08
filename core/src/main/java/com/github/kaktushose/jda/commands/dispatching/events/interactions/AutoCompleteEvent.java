@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -22,12 +21,10 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     /// Constructs a new AutoCompleteEvent.
     ///
     /// @param event    the [CommandAutoCompleteInteractionEvent] this event holds
-    /// @param registry the corresponding [InteractionRegistry]
     /// @param runtime  the corresponding [Runtime]
     public AutoCompleteEvent(CommandAutoCompleteInteractionEvent event,
-                             InteractionRegistry registry,
                              Runtime runtime) {
-        super(event, registry, runtime);
+        super(event, runtime);
     }
 
     /**

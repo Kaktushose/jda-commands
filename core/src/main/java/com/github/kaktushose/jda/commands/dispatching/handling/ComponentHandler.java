@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
@@ -21,17 +21,17 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ComponentHandler extends EventHandler<GenericComponentInteractionCreateEvent> {
 
-    public ComponentHandler(DispatchingContext dispatchingContext) {
-        super(dispatchingContext);
+    public ComponentHandler(HolyGrail holyGrail) {
+        super(holyGrail);
     }
 
     @Override
     protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
-        var component = registry.find(ComponentDefinition.class, true, it ->
+        var component = interactionRegistry.find(ComponentDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
 
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, dispatchingContext.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, holyGrail.globalReplyConfig());
 
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
@@ -39,16 +39,17 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case ButtonInteractionEvent _ -> new ArrayList<>();
             default -> throw new InternalException("default-switch");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
+        arguments.addFirst(new ComponentEvent(genericEvent, runtime, component, replyConfig));
 
         return new InvocationContext<>(
-                genericEvent,
-                dispatchingContext.i18n(),
-                dispatchingContext.messageResolver(),
-                runtime.keyValueStore(),
-                component,
-                replyConfig,
-                arguments
+                new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),
+                new InvocationContext.Data<>(
+                    genericEvent,
+                    runtime.keyValueStore(),
+                    component,
+                    replyConfig,
+                    arguments
+                )
         );
     }
 }

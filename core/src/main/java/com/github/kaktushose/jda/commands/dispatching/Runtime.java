@@ -10,8 +10,6 @@ import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCo
 import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
 import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -44,35 +42,36 @@ import java.util.concurrent.LinkedBlockingQueue;
 public final class Runtime implements Closeable {
 
     private static final Logger log = LoggerFactory.getLogger(Runtime.class);
-    private final ExpirationStrategy expirationStrategy;
+
     private final SlashCommandHandler slashCommandHandler;
     private final AutoCompleteHandler autoCompleteHandler;
     private final ContextCommandHandler contextCommandHandler;
     private final ComponentHandler componentHandler;
-    private final String id;
-    private final BlockingQueue<GenericInteractionCreateEvent> blockingQueue;
-    private final Thread executionThread;
-    private final KeyValueStore keyValueStore = new KeyValueStore();
     private final ModalHandler modalHandler;
-    private final InteractionControllerInstantiator instanceProvider;
-    private final I18n i18n;
-    private final MessageResolver messageResolver;
+
+    private final String id;
+    private final BlockingQueue<GenericInteractionCreateEvent> eventQueue;
+    private final Thread executionThread;
+
+    private final KeyValueStore keyValueStore = new KeyValueStore();
+
+    private final InteractionControllerInstantiator runtimeBoundInstanceProvider;
+    private final HolyGrail holyGrail;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, DispatchingContext dispatchingContext, JDA jda) {
+    private Runtime(String id, HolyGrail holyGrail, JDA jda) {
         this.id = id;
-        expirationStrategy = dispatchingContext.expirationStrategy();
-        blockingQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(dispatchingContext);
-        autoCompleteHandler = new AutoCompleteHandler(dispatchingContext);
-        contextCommandHandler = new ContextCommandHandler(dispatchingContext);
-        componentHandler = new ComponentHandler(dispatchingContext);
-        modalHandler = new ModalHandler(dispatchingContext);
-        i18n = dispatchingContext.i18n();
-        messageResolver = dispatchingContext.messageResolver();
 
-        this.instanceProvider = dispatchingContext.instanceProvider().forRuntime(id, jda);
+        this.holyGrail = holyGrail;
+        eventQueue = new LinkedBlockingQueue<>();
+        slashCommandHandler = new SlashCommandHandler(holyGrail);
+        autoCompleteHandler = new AutoCompleteHandler(holyGrail);
+        contextCommandHandler = new ContextCommandHandler(holyGrail);
+        componentHandler = new ComponentHandler(holyGrail);
+        modalHandler = new ModalHandler(holyGrail);
+
+        this.runtimeBoundInstanceProvider = holyGrail.instanceProvider().forRuntime(id, jda);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -80,8 +79,8 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, DispatchingContext dispatchingContext, JDA jda) {
-        var runtime = new Runtime(id, dispatchingContext, jda);
+    public static Runtime startNew(String id, HolyGrail holyGrail, JDA jda) {
+        var runtime = new Runtime(id, holyGrail, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -92,7 +91,7 @@ public final class Runtime implements Closeable {
     private void checkForEvents() {
         try {
             while (!Thread.interrupted()) {
-                GenericInteractionCreateEvent incomingEvent = blockingQueue.take();
+                GenericInteractionCreateEvent incomingEvent = eventQueue.take();
 
                 Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
             }
@@ -119,23 +118,19 @@ public final class Runtime implements Closeable {
     }
 
     public void queueEvent(GenericInteractionCreateEvent event) {
-        blockingQueue.add(event);
+        eventQueue.add(event);
     }
 
     public KeyValueStore keyValueStore() {
         return keyValueStore;
     }
 
-    public I18n i18n() {
-        return i18n;
-    }
-
-    public MessageResolver messageResolver() {
-        return messageResolver;
+    public HolyGrail holyGrail() {
+        return holyGrail;
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
-        return instanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
+        return runtimeBoundInstanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
     }
 
     @Override
@@ -144,7 +139,7 @@ public final class Runtime implements Closeable {
     }
 
     public boolean isClosed() {
-        if (expirationStrategy instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (holyGrail.expirationStrategy() instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;

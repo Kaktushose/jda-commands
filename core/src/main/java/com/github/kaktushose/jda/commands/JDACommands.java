@@ -11,7 +11,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRe
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -22,9 +22,9 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -51,7 +51,8 @@ public final class JDACommands {
     private final MessageResolver messageResolver;
     private final boolean shutdownJDA;
 
-    JDACommands(JDAContext jdaContext,
+    JDACommands(HolyGrail holyGrail,
+                JDAContext jdaContext,
                 ExpirationStrategy expirationStrategy,
                 TypeAdapters typeAdapters,
                 Middlewares middlewares,
@@ -70,7 +71,7 @@ public final class JDACommands {
         this.jdaContext = jdaContext;
         this.interactionRegistry = interactionRegistry;
         this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n, messageResolver));
+        this.jdaEventListener = new JDAEventListener(holyGrail);
         this.globalCommandConfig = globalCommandConfig;
         this.embeds = embeds;
         this.shutdownJDA = shutdownJDA;

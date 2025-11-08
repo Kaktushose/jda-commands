@@ -26,7 +26,7 @@ import static io.github.kaktushose.proteus.mapping.Mapper.uni;
 import static io.github.kaktushose.proteus.mapping.MappingResult.failure;
 import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 
-/// Central registry for all type adapters.
+/// Central interactionRegistry for all type adapters.
 ///
 /// @see TypeAdapter
 @ApiStatus.Internal

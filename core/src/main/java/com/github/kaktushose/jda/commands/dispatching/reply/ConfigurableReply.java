@@ -9,7 +9,7 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
@@ -20,8 +20,8 @@ import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -68,50 +68,26 @@ public sealed class ConfigurableReply permits SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
     protected final ReplyAction replyAction;
-    private final GenericInteractionCreateEvent event;
-    private final InteractionDefinition definition;
-    private final MessageResolver messageResolver;
-    private final Embeds embeds;
-    private final InteractionRegistry registry;
-    private final String runtimeId;
+    private final GenericInteractionCreateEvent event = RichInvocationContext.getContext().event();
+    private final InteractionDefinition definition = RichInvocationContext.getContext().definition();
+    private final MessageResolver messageResolver = RichInvocationContext.getHolyGrail().messageResolver();
+    private final Embeds embeds = RichInvocationContext.getHolyGrail().embeds();
+    private final InteractionRegistry registry = RichInvocationContext.getHolyGrail().interactionRegistry();
+    private final String runtimeId = RichInvocationContext.getRuntime().id();
 
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param event       the [GenericInteractionCreateEvent] that should be responded to
-    /// @param definition  the [InteractionDefinition] belonging to the event
-    /// @param messageResolver the corresponding [MessageResolver] instance
     /// @param replyAction the underlying [ReplyAction]
-    /// @param embeds      the corresponding [Embeds] instance
-    /// @param registry    the corresponding [InteractionRegistry]
-    /// @param runtimeId   the corresponding [Runtime]
-    public ConfigurableReply(GenericInteractionCreateEvent event,
-                             InteractionDefinition definition,
-                             MessageResolver messageResolver,
-                             ReplyAction replyAction,
-                             Embeds embeds,
-                             InteractionRegistry registry,
-                             String runtimeId) {
-        this.event = event;
-        this.definition = definition;
-        this.messageResolver = messageResolver;
+    public ConfigurableReply(ReplyAction replyAction) {
         this.replyAction = replyAction;
-        this.embeds = embeds;
-        this.registry = registry;
-        this.runtimeId = runtimeId;
     }
 
     /// Constructs a new ConfigurableReply.
     ///
     /// @param configurableReply the [ConfigurableReply] to copy
     public ConfigurableReply(ConfigurableReply configurableReply) {
-        this.event = configurableReply.event;
-        this.definition = configurableReply.definition;
-        this.messageResolver = configurableReply.messageResolver;
         this.replyAction = configurableReply.replyAction;
-        this.embeds = configurableReply.embeds;
-        this.registry = configurableReply.registry;
-        this.runtimeId = configurableReply.runtimeId;
     }
 
     /// Whether to send ephemeral replies. Default value is `false`.
