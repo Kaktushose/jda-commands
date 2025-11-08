@@ -14,6 +14,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middle
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
@@ -108,6 +109,12 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+
+            // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
+            // error message.
+            if (exception instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+                return;
+            }
 
             // if the throwing event is a component event we should remove the component to prevent further executions
             if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
