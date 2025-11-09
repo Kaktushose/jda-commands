@@ -3,12 +3,11 @@ package com.github.kaktushose.jda.commands.dispatching.handling.command;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.DispatchingContext;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
@@ -44,26 +43,27 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(DispatchingContext dispatchingContext) {
-        super(dispatchingContext);
+    public SlashCommandHandler(FrameworkContext context) {
+        super(context);
     }
 
     @Override
     @Nullable
     protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
-        SlashCommandDefinition command = registry.find(SlashCommandDefinition.class, true, it ->
+        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
 
         return parseArguments(command, event, runtime)
                 .map(args -> new InvocationContext<>(
-                        event,
-                        dispatchingContext.i18n(),
-                        dispatchingContext.messageResolver(),
-                        runtime.keyValueStore(),
-                        command,
-                        Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
-                        args)
+                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
+                        new InvocationContext.Data<>(
+                            event,
+                            runtime.keyValueStore(),
+                            command,
+                            Helpers.replyConfig(command, context.globalReplyConfig()),
+                            args)
+                        )
                 ).orElse(null);
     }
 
@@ -74,12 +74,12 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
         var optionDataDefinitions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
+        parsedArguments.addFirst(new CommandEvent());
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new InternalException("command-input-mismatch");
@@ -111,9 +111,9 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
-                            new ReplyAction(event, command, dispatchingContext.messageResolver(), replyConfig).reply(
-                                    errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
-                            );
+                            event.reply(errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure))
+                                    .setEphemeral(replyConfig.ephemeral())
+                                    .queue();
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +19,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
+@ApiStatus.Internal
 public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);
     private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
-    private final DispatchingContext context;
+    private final FrameworkContext context;
 
-    public JDAEventListener(DispatchingContext context) {
+    public JDAEventListener(FrameworkContext context) {
         this.context = context;
     }
-
 
     @Override
     @SubscribeEvent
