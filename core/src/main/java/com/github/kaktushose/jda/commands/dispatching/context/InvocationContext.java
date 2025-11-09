@@ -16,6 +16,8 @@ import java.util.SequencedCollection;
 /// Bundles data that is important for the execution of an interaction, especially for invoking the user defined method.
 ///
 /// @param <T>           The used type of [GenericInteractionCreateEvent]
+/// @param data          The data hold by this [InvocationContext], including the event, interaction definition etc.
+/// @param util          A set of framework functionalities exposed to the user, including [I18n] etc.
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         Utility util,
         Data<T> data
@@ -31,11 +33,17 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         return data.definition;
     }
 
+    /// An object providing access to some framework functionality.
+    ///
+    /// @param i18n             The [I18n] class used by JDA-Commands
+    /// @param messageResolver  The [MessageResolver] class used by JDA-Commands
     public record Utility(
             I18n i18n,
             MessageResolver messageResolver
     ) {}
 
+    /// An object holding data exposed to the user that is crucial for invoking the user defined method.
+    ///
     /// @param <T>           The used type of [GenericInteractionCreateEvent]
     /// @param event         the underlying jda event
     /// @param keyValueStore the [KeyValueStore] belonging to this interaction over its whole lifetime
