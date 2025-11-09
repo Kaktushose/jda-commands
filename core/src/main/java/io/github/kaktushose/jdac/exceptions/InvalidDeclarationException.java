@@ -26,7 +26,7 @@ public final class InvalidDeclarationException extends JDACException {
     @SuppressWarnings("ConstantValue")
     @Override
     public String getMessage() {
-        if (CONTEXT.get() == null) return super.getMessage();
+        if (!CONTEXT.isBound()) return super.getMessage();
         MethodDescription method = CONTEXT.get();
 
         String prefix = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
