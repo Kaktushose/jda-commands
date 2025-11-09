@@ -8,7 +8,7 @@ import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
@@ -35,18 +35,18 @@ public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
-    private final HolyGrail holyGrail;
+    private final FrameworkContext frameworkContext;
     private final SlashCommandUpdater updater;
     private final boolean shutdownJDA;
 
-    JDACommands(HolyGrail holyGrail,
+    JDACommands(FrameworkContext frameworkContext,
                 JDAContext jdaContext,
                 GuildScopeProvider guildScopeProvider,
                 boolean shutdownJDA) {
-        this.holyGrail = holyGrail;
+        this.frameworkContext = frameworkContext;
         this.jdaContext = jdaContext;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, holyGrail.interactionRegistry());
-        this.jdaEventListener = new JDAEventListener(holyGrail);
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
+        this.jdaEventListener = new JDAEventListener(frameworkContext);
         this.shutdownJDA = shutdownJDA;
     }
 
@@ -97,7 +97,7 @@ public final class JDACommands {
     }
 
     void start(ClassFinder classFinder) {
-        holyGrail.interactionRegistry().index(classFinder.search(Interaction.class), holyGrail.globalCommandConfig());
+        frameworkContext.interactionRegistry().index(classFinder.search(Interaction.class), frameworkContext.globalCommandConfig());
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener), false);
@@ -127,7 +127,7 @@ public final class JDACommands {
     ///
     /// @return the [I18n] instance
     public I18n i18n() {
-        return holyGrail.i18n();
+        return frameworkContext.i18n();
     }
 
     /// Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.
@@ -135,7 +135,7 @@ public final class JDACommands {
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return holyGrail.messageResolver();
+        return frameworkContext.messageResolver();
     }
 
     /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
@@ -148,7 +148,7 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = holyGrail.interactionRegistry().find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = frameworkContext.interactionRegistry().find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -163,7 +163,7 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = holyGrail.interactionRegistry().find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = frameworkContext.interactionRegistry().find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -175,7 +175,7 @@ public final class JDACommands {
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return holyGrail.embeds().get(name);
+        return frameworkContext.embeds().get(name);
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -185,7 +185,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = holyGrail.embeds();
+        Embeds embeds = frameworkContext.embeds();
 
         if (!embeds.exists(name)) {
             return Optional.empty();

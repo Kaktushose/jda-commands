@@ -5,7 +5,7 @@ import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
@@ -263,7 +263,7 @@ public final class JDACBuilder extends JDACBuilderData {
             MessageResolver messageResolver = messageResolver();
             configureEmbeds.accept(messageResolver, errorMessageFactory());
 
-            HolyGrail holyGrail = new HolyGrail(
+            FrameworkContext frameworkContext = new FrameworkContext(
                     new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
                     errorMessageFactory(),
                     new InteractionRegistry(
@@ -283,7 +283,7 @@ public final class JDACBuilder extends JDACBuilderData {
             );
 
             JDACommands jdaCommands = new JDACommands(
-                    holyGrail,
+                    frameworkContext,
                     context(),
                     guildScopeProvider(),
                     shutdownJDA()

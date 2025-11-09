@@ -11,8 +11,10 @@ import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import org.jetbrains.annotations.ApiStatus;
 
-public record HolyGrail(
+@ApiStatus.Internal
+public record FrameworkContext(
         Middlewares middlewares,
         ErrorMessageFactory errorMessageFactory,
         InteractionRegistry interactionRegistry,
@@ -22,8 +24,7 @@ public record HolyGrail(
         Embeds embeds,
         I18n i18n,
         MessageResolver messageResolver,
-
         InteractionDefinition.ReplyConfig globalReplyConfig,
         CommandDefinition.CommandConfig globalCommandConfig
-        ) {
+) {
 }

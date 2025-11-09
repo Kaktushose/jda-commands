@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling.command;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -19,8 +19,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
-    public ContextCommandHandler(HolyGrail holyGrail) {
-        super(holyGrail);
+    public ContextCommandHandler(FrameworkContext context) {
+        super(context);
     }
 
     @Override
@@ -29,7 +29,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
                 it.name().equals(event.getFullCommandName())
         );
 
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, holyGrail.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
 
         Object target = event.getTarget();
         if (event instanceof UserContextInteractionEvent userEvent) {
@@ -40,7 +40,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
         }
 
         return new InvocationContext<>(
-                new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),
+                new InvocationContext.Utility(context.i18n(), context.messageResolver()),
                 new InvocationContext.Data<>(event, runtime.keyValueStore(), command, replyConfig,
                         List.of(new CommandEvent(), target)
                 )

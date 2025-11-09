@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getFramework;
 import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
@@ -61,7 +62,7 @@ public final class ReplyAction implements Reply {
 
     @Override
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(RichInvocationContext.getHolyGrail().messageResolver().resolve(message, RichInvocationContext.getUserLocale(), placeholder));
+        builder.setContent(getFramework().messageResolver().resolve(message, RichInvocationContext.getUserLocale(), placeholder));
         return reply();
     }
 

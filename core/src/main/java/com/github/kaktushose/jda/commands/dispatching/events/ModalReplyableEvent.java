@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getHolyGrail;
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getFramework;
 import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getInvocationContext;
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
@@ -50,7 +50,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
         if (jdaEvent() instanceof IModalCallback modalCallback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
-            var modalDefinition = getHolyGrail().interactionRegistry().find(ModalDefinition.class, false, it ->
+            var modalDefinition = getFramework().interactionRegistry().find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
             var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();

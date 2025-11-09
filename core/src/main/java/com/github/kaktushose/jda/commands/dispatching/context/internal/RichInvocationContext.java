@@ -1,14 +1,16 @@
 package com.github.kaktushose.jda.commands.dispatching.context.internal;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Locale;
 
+@ApiStatus.Internal
 public record RichInvocationContext(
         InvocationContext<?> invocationContext,
         Runtime runtime
@@ -26,8 +28,8 @@ public record RichInvocationContext(
         return getRichContext().runtime();
     }
 
-    public static HolyGrail getHolyGrail() {
-        return getRuntime().holyGrail();
+    public static FrameworkContext getFramework() {
+        return getRuntime().framework();
     }
 
     public static Locale getUserLocale() {

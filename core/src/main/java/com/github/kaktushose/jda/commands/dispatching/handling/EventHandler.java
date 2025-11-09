@@ -2,7 +2,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
@@ -49,19 +49,18 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final HolyGrail holyGrail;
+    protected final FrameworkContext context;
     protected final Middlewares middlewares;
     protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(HolyGrail holyGrail) {
-        this.holyGrail = holyGrail;
-
-        this.middlewares = holyGrail.middlewares();
-        this.interactionRegistry = holyGrail.interactionRegistry();
-        this.adapterRegistry = holyGrail.adapterRegistry();
-        this.errorMessageFactory = holyGrail.errorMessageFactory();
+    public EventHandler(FrameworkContext context) {
+        this.context = context;
+        this.middlewares = context.middlewares();
+        this.interactionRegistry = context.interactionRegistry();
+        this.adapterRegistry = context.adapterRegistry();
+        this.errorMessageFactory = context.errorMessageFactory();
     }
 
     @Nullable

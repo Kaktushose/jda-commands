@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling.command;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
@@ -43,8 +43,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(HolyGrail holyGrail) {
-        super(holyGrail);
+    public SlashCommandHandler(FrameworkContext context) {
+        super(context);
     }
 
     @Override
@@ -56,12 +56,12 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         return parseArguments(command, event, runtime)
                 .map(args -> new InvocationContext<>(
-                        new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),
+                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
                         new InvocationContext.Data<>(
                             event,
                             runtime.keyValueStore(),
                             command,
-                            Helpers.replyConfig(command, holyGrail.globalReplyConfig()),
+                            Helpers.replyConfig(command, context.globalReplyConfig()),
                             args)
                         )
                 ).orElse(null);
@@ -74,7 +74,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, holyGrail.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");

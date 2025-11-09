@@ -56,22 +56,21 @@ public final class Runtime implements Closeable {
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
     private final InteractionControllerInstantiator runtimeBoundInstanceProvider;
-    private final HolyGrail holyGrail;
+    private final FrameworkContext context;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, HolyGrail holyGrail, JDA jda) {
+    private Runtime(String id, FrameworkContext context, JDA jda) {
         this.id = id;
-
-        this.holyGrail = holyGrail;
+        this.context = context;
         eventQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(holyGrail);
-        autoCompleteHandler = new AutoCompleteHandler(holyGrail);
-        contextCommandHandler = new ContextCommandHandler(holyGrail);
-        componentHandler = new ComponentHandler(holyGrail);
-        modalHandler = new ModalHandler(holyGrail);
+        slashCommandHandler = new SlashCommandHandler(context);
+        autoCompleteHandler = new AutoCompleteHandler(context);
+        contextCommandHandler = new ContextCommandHandler(context);
+        componentHandler = new ComponentHandler(context);
+        modalHandler = new ModalHandler(context);
 
-        this.runtimeBoundInstanceProvider = holyGrail.instanceProvider().forRuntime(id, jda);
+        this.runtimeBoundInstanceProvider = context.instanceProvider().forRuntime(id, jda);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -79,8 +78,8 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, HolyGrail holyGrail, JDA jda) {
-        var runtime = new Runtime(id, holyGrail, jda);
+    public static Runtime startNew(String id, FrameworkContext context, JDA jda) {
+        var runtime = new Runtime(id, context, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -125,8 +124,8 @@ public final class Runtime implements Closeable {
         return keyValueStore;
     }
 
-    public HolyGrail holyGrail() {
-        return holyGrail;
+    public FrameworkContext framework() {
+        return context;
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
@@ -139,7 +138,7 @@ public final class Runtime implements Closeable {
     }
 
     public boolean isClosed() {
-        if (holyGrail.expirationStrategy() instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (context.expirationStrategy() instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;

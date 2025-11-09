@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +19,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
+@ApiStatus.Internal
 public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);
     private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
-    private final HolyGrail holyGrail;
+    private final FrameworkContext context;
 
-    public JDAEventListener(HolyGrail context) {
-        this.holyGrail = context;
+    public JDAEventListener(FrameworkContext context) {
+        this.context = context;
     }
 
     @Override
@@ -37,7 +39,7 @@ public final class JDAEventListener extends ListenerAdapter {
             // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
                  CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, holyGrail, jdaEvent.getJDA()));
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
             // check events with custom id (components or modals)
             default -> onCustomIdEvent(jdaEvent);
         };
@@ -47,7 +49,7 @@ public final class JDAEventListener extends ListenerAdapter {
                 componentEvent.deferEdit().setComponents().queue();
                 componentEvent.getHook()
                         .setEphemeral(true)
-                        .sendMessage(holyGrail.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
+                        .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
                         .queue();
             } else {
                 log.debug("Received unknown event: {}", jdaEvent);
@@ -77,7 +79,7 @@ public final class JDAEventListener extends ListenerAdapter {
                     runtimes.get(customId.runtimeId());
             // independent components always get their own runtime
             case GenericComponentInteractionCreateEvent _ when customId.isIndependent() ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, holyGrail, jdaEvent.getJDA()));
+                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, context, jdaEvent.getJDA()));
             default -> null;
         };
     }

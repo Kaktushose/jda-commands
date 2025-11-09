@@ -91,14 +91,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [I18n] instance.
     public I18n i18n() {
-        return getRuntime().holyGrail().i18n();
+        return getRuntime().framework().i18n();
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return getRuntime().holyGrail().messageResolver();
+        return getRuntime().framework().messageResolver();
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.

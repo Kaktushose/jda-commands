@@ -3,7 +3,7 @@ package com.github.kaktushose.jda.commands.dispatching.handling;
 import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
-import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
-    public ModalHandler(HolyGrail holyGrail) {
-        super(holyGrail);
+    public ModalHandler(FrameworkContext frameworkContext) {
+        super(frameworkContext);
     }
 
     @Override
@@ -29,13 +29,13 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, holyGrail.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, context.globalReplyConfig());
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
         arguments.addFirst(new ModalEvent());
 
         return new InvocationContext<>(
-                new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),
+                new InvocationContext.Utility(context.i18n(), context.messageResolver()),
                 new InvocationContext.Data<>(
                     event,
                     runtime.keyValueStore(),

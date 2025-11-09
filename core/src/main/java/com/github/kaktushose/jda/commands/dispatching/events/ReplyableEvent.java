@@ -152,7 +152,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
         var className = origin == null ? getInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
-        var definition = getHolyGrail().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
+        var definition = getFramework().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
@@ -164,7 +164,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return getHolyGrail().embeds().get(name, jdaEvent().getUserLocale().toLocale());
+        return getFramework().embeds().get(name, jdaEvent().getUserLocale().toLocale());
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -174,7 +174,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = getHolyGrail().embeds();
+        Embeds embeds = getFramework().embeds();
         if (!embeds.exists(name)) {
             return Optional.empty();
         }

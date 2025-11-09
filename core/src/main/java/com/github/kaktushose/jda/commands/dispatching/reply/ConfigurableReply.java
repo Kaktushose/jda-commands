@@ -169,7 +169,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param embeds the name of the [Embed]s to send
     /// @return a new [SendableReply]
     public SendableReply embeds(String... embeds) {
-        return embeds(Arrays.stream(embeds).map(it -> getHolyGrail().embeds().get(it, getJdaEvent().getUserLocale().toLocale())).toArray(Embed[]::new));
+        return embeds(Arrays.stream(embeds).map(it -> getFramework().embeds().get(it, getJdaEvent().getUserLocale().toLocale())).toArray(Embed[]::new));
     }
 
     /// Acknowledgement of this event with one or more [Embed]s.
@@ -191,7 +191,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
-        Embed resolved = getHolyGrail().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
+        Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         consumer.accept(resolved);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -206,7 +206,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, Entry entry, Entry... entries) {
-        Embed resolved = getHolyGrail().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
+        Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -346,11 +346,11 @@ public sealed class ConfigurableReply permits SendableReply {
     }
 
     private String resolve(String key, Component<?, ?, ?, ?> component) {
-        return getHolyGrail().messageResolver().resolve(key, getJdaEvent().getUserLocale().toLocale(), component.placeholder());
+        return getFramework().messageResolver().resolve(key, getJdaEvent().getUserLocale().toLocale(), component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
-        InteractionRegistry registry = getHolyGrail().interactionRegistry();
+        InteractionRegistry registry = getFramework().interactionRegistry();
 
         try {
             // this cast is effective safe
