@@ -58,7 +58,7 @@ public interface Validator<T, A extends Annotation> {
     void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
-    /// has some util methods useful for error messages.
+    /// has some utility methods useful for error messages.
     class Context {
         private final InvocationContext<?> invocationContext;
         private final ErrorMessageFactory errorMessageFactory;
