@@ -76,13 +76,26 @@ markdown_extensions:
       urls:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
         - 'https://javadoc.io/doc/net.dv8tion/JDA/5.6.1/'
-        - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/snapshot/'
         - alias: 'fluava'
           url: 'https://goldmensch.github.io/fluava/javadocs/0/'
           auto_searched: 'false'
         - alias: 'proteus'
           url: 'https://kaktushose.github.io/proteus/javadocs/0/'
           auto_searched: 'false'
+      autolink-format: |
+        name = None
+        match ref:
+          case Klass():
+            name = ref.name
+          case Field():
+            name = f'{ref.klass.name}#{ref.name}'
+          case Method():
+            name = f'{ref.klass.name}#{ref.name}({ref.parameter_names_joined()})'
+        
+        element = etree.Element('code')
+        element.text = name
+        return element
 
 hooks:
   - hooks/on_page_logging.py
