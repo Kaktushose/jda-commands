@@ -1,6 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -18,15 +17,6 @@ import java.util.stream.Collectors;
 /// @see Event
 public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractionEvent> {
 
-    /// Constructs a new AutoCompleteEvent.
-    ///
-    /// @param event    the [CommandAutoCompleteInteractionEvent] this event holds
-    /// @param runtime  the corresponding [Runtime]
-    public AutoCompleteEvent(CommandAutoCompleteInteractionEvent event,
-                             Runtime runtime) {
-        super(event, runtime);
-    }
-
     /**
      * Reply with up to {@value OptionData#MAX_CHOICES} choices which can be picked from by the user.
      * <br>The user may continue writing inputs instead of using one of your choices.
@@ -43,7 +33,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  </ul>
      */
     public void replyChoices(Collection<Command.Choice> choices) {
-        event.replyChoices(choices).queue();
+        jdaEvent().replyChoices(choices).queue();
     }
 
     /**
@@ -232,7 +222,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     ///
     /// @return The option name
     public String getName() {
-        return event.getFocusedOption().getName();
+        return jdaEvent().getFocusedOption().getName();
     }
 
     /// The query value that the user is currently typing.
@@ -242,13 +232,13 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
     ///
     /// @return The current auto-completable query value
     public String getValue() {
-        return event.getFocusedOption().getValue();
+        return jdaEvent().getFocusedOption().getValue();
     }
 
     /// The expected option type for this query.
     ///
     /// @return The option type expected from this auto-complete response
     public OptionType getOptionType() {
-        return event.getFocusedOption().getType();
+        return jdaEvent().getFocusedOption().getType();
     }
 }

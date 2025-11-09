@@ -1,5 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.context.internal;
 
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
@@ -9,15 +10,20 @@ import java.util.Locale;
 
 public record RichInvocationContext(
         InvocationContext<?> invocationContext,
-        Runtime runtime
+        Runtime runtime,
+        InteractionDefinition.ReplyConfig specificReplyConfig
 
 ) {
-    public static InvocationContext<?> getContext() {
-        return EventHandler.RICH_INVOCATION_CONTEXT.get().invocationContext();
+    public static RichInvocationContext getRichContext() {
+        return EventHandler.RICH_INVOCATION_CONTEXT.get();
+    }
+
+    public static InvocationContext<?> getInvocationContext() {
+        return getRichContext().invocationContext();
     }
 
     public static Runtime getRuntime() {
-        return EventHandler.RICH_INVOCATION_CONTEXT.get().runtime();
+        return getRichContext().runtime();
     }
 
     public static HolyGrail getHolyGrail() {
@@ -25,6 +31,6 @@ public record RichInvocationContext(
     }
 
     public static Locale getUserLocale() {
-        return getContext().event().getUserLocale().toLocale();
+        return getInvocationContext().event().getUserLocale().toLocale();
     }
 }

@@ -1,7 +1,5 @@
 package com.github.kaktushose.jda.commands.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.Event;
 import com.github.kaktushose.jda.commands.dispatching.events.ModalReplyableEvent;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
@@ -17,19 +15,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 /// @see ModalReplyableEvent
 public final class ComponentEvent extends ModalReplyableEvent<GenericComponentInteractionCreateEvent> {
 
-    /// Constructs a new CommandEvent.
-    ///
-    /// @param event       the [GenericComponentInteractionCreateEvent] this event holds
-    /// @param runtime     the corresponding [Runtime]
-    /// @param definition  the corresponding [InteractionDefinition]
-    /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ComponentEvent(GenericComponentInteractionCreateEvent event,
-                          Runtime runtime,
-                          InteractionDefinition definition,
-                          InteractionDefinition.ReplyConfig replyConfig) {
-        super(event, runtime, definition, replyConfig);
-    }
-
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
@@ -37,12 +22,12 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
     /// @return [T] the event
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
-        return type.cast(event);
+        return type.cast(jdaEvent());
     }
 
     @Override
     public void deferReply(boolean ephemeral) {
-        event.deferReply(ephemeral).complete();
+        jdaEvent().deferReply(ephemeral).complete();
     }
 
     /// No-op acknowledgement of this interaction.
@@ -57,6 +42,6 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// Use [#reply(String, Entry...)] to edit it directly.
     public void deferEdit() {
-        event.deferEdit().complete();
+        jdaEvent().deferEdit().complete();
     }
 }

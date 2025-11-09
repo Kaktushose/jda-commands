@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
 import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
@@ -34,6 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.*;
+
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
@@ -54,24 +55,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         permits ModalEvent, ModalReplyableEvent {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
-    protected final InteractionDefinition definition;
-    private final InteractionDefinition.ReplyConfig replyConfig;
-    private final Embeds embeds;
-
-    /// Constructs a new ReplyableEvent.
-    ///
-    /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param runtime             the [Runtime] this event lives in
-    /// @param definition          the [InteractionDefinition] this event belongs to
-    protected ReplyableEvent(T event,
-                             Runtime runtime,
-                             InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig replyConfig) {
-        super(event, runtime);
-        this.replyConfig = replyConfig;
-        this.definition = definition;
-        this.embeds = runtime.holyGrail().embeds();
-    }
 
     /// Acknowledge this interaction and defer the reply to a later time.
     ///
@@ -85,7 +68,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
-        deferReply(replyConfig.ephemeral());
+        deferReply(getRichContext().specificReplyConfig().ephemeral());
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -109,9 +92,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
     public void removeComponents() {
         log.debug("Reply Debug: Removing components from original message");
-        if (event instanceof IReplyCallback callback) {
-            if (!event.isAcknowledged()) {
-                callback.deferReply(replyConfig.ephemeral()).queue();
+        if (jdaEvent() instanceof IReplyCallback callback) {
+            if (!jdaEvent().isAcknowledged()) {
+                callback.deferReply(getRichContext().specificReplyConfig().ephemeral()).queue();
             }
             callback.getHook().editOriginalComponents().queue();
         }
@@ -167,9 +150,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     @SuppressWarnings("unchecked")
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
-        var className = origin == null ? definition.classDescription().name() : origin.getName();
+        var className = origin == null ? getInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
-        var definition = runtime.holyGrail().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
+        var definition = getHolyGrail().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
@@ -181,7 +164,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return embeds.get(name, event.getUserLocale().toLocale());
+        return getHolyGrail().embeds().get(name, jdaEvent().getUserLocale().toLocale());
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -191,6 +174,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
+        Embeds embeds = getHolyGrail().embeds();
         if (!embeds.exists(name)) {
             return Optional.empty();
         }
@@ -238,6 +222,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(replyConfig);
+        return new ReplyAction(getRichContext().specificReplyConfig());
     }
 }

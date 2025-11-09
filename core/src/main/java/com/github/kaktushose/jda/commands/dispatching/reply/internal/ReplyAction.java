@@ -42,7 +42,7 @@ public final class ReplyAction implements Reply {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
 
-    private final GenericInteractionCreateEvent event = RichInvocationContext.getContext().event();
+    private final GenericInteractionCreateEvent event = RichInvocationContext.getInvocationContext().event();
 
     private MessageCreateBuilder builder;
     private boolean ephemeral;
@@ -112,7 +112,7 @@ public final class ReplyAction implements Reply {
     }
 
     public Message reply() {
-        InteractionDefinition definition = RichInvocationContext.getContext().definition();
+        InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
 
         switch (event) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->

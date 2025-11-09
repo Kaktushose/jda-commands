@@ -13,6 +13,7 @@ import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
 import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
 import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
 import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -78,7 +79,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             return;
         }
 
-        RichInvocationContext richContext = new RichInvocationContext(invocationContext, runtime);
+        InteractionDefinition.ReplyConfig specificReplyConfig = Helpers.replyConfig(invocationContext.definition(), holyGrail.globalReplyConfig());
+        RichInvocationContext richContext = new RichInvocationContext(invocationContext, runtime, specificReplyConfig);
 
         ScopedValue.where(RICH_INVOCATION_CONTEXT, richContext).run(() -> {
             log.debug("Executing middlewares...");

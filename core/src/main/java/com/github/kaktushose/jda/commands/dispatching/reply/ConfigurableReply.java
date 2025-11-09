@@ -68,8 +68,8 @@ public sealed class ConfigurableReply permits SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
     protected final ReplyAction replyAction;
-    private final GenericInteractionCreateEvent event = RichInvocationContext.getContext().event();
-    private final InteractionDefinition definition = RichInvocationContext.getContext().definition();
+    private final GenericInteractionCreateEvent event = RichInvocationContext.getInvocationContext().event();
+    private final InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
     private final MessageResolver messageResolver = RichInvocationContext.getHolyGrail().messageResolver();
     private final Embeds embeds = RichInvocationContext.getHolyGrail().embeds();
     private final InteractionRegistry registry = RichInvocationContext.getHolyGrail().interactionRegistry();

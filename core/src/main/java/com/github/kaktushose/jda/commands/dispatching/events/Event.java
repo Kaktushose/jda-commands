@@ -1,7 +1,7 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
+import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
@@ -27,6 +27,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getRuntime;
+
 
 /// Abstract base event for all interaction events, like [CommandEvent].
 ///
@@ -41,30 +43,19 @@ import java.util.Locale;
 public abstract sealed class Event<T extends GenericInteractionCreateEvent> implements Interaction
         permits ReplyableEvent, AutoCompleteEvent {
 
-    protected final T event;
-    protected final Runtime runtime;
-
-    /// Constructs a new Event.
-    ///
-    /// @param event    the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param runtime  the [Runtime] this event lives in
-    protected Event(T event, Runtime runtime) {
-        this.event = event;
-        this.runtime = runtime;
-    }
-
     /// Returns the underlying [GenericInteractionCreateEvent] of this event
     ///
     /// @return the [GenericInteractionCreateEvent]
+    @SuppressWarnings("unchecked")
     public T jdaEvent() {
-        return this.event;
+        return (T) RichInvocationContext.getInvocationContext().event();
     }
 
     /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.
     ///
     /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
     public String runtimeId() {
-        return runtime.id();
+        return getRuntime().id();
     }
 
     /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new jda events belonging to this interaction, resulting
@@ -73,7 +64,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// This is only needed if the expiration strategy
     /// [ExpirationStrategy.Explicit] is used.
     public void closeRuntime() {
-        runtime.close();
+        getRuntime().close();
     }
 
     /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
@@ -83,7 +74,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [KeyValueStore]
     public KeyValueStore kv() {
-        return runtime.keyValueStore();
+        return getRuntime().keyValueStore();
     }
 
     /// Returns an instance of a class annotated with [`Interaction`][com.github.kaktushose.jda.commands.annotations.interactions.Interaction],
@@ -92,7 +83,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the interaction class instance
     @Nullable
     public <I> I interactionInstance(Class<I> interactionClass) {
-        return runtime.interactionInstance(interactionClass);
+        return getRuntime().interactionInstance(interactionClass);
     }
 
 
@@ -100,14 +91,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [I18n] instance.
     public I18n i18n() {
-        return runtime.holyGrail().i18n();
+        return getRuntime().holyGrail().i18n();
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return runtime.holyGrail().messageResolver();
+        return getRuntime().holyGrail().messageResolver();
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.
@@ -117,7 +108,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the localized message or the key if not found
     public String localize(String key, Entry... placeholders) {
-        return i18n().localize(event.getUserLocale().toLocale(), key, placeholders);
+        return i18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
     }
 
     /// Resolved the given message with help of the underlying [MessageResolver] instance,
@@ -128,80 +119,80 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the resolved message
     public String resolve(String message, Entry... placeholders) {
-        return messageResolver().resolve(message, event.getUserLocale().toLocale(), placeholders);
+        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), placeholders);
     }
 
 
     @Override
     public int getTypeRaw() {
-        return event.getTypeRaw();
+        return jdaEvent().getTypeRaw();
     }
 
     @Override
     public String getToken() {
-        return event.getToken();
+        return jdaEvent().getToken();
     }
 
     @Nullable
     @Override
     public Guild getGuild() {
-        return event.getGuild();
+        return jdaEvent().getGuild();
     }
 
     @Override
     public User getUser() {
-        return event.getUser();
+        return jdaEvent().getUser();
     }
 
     @Nullable
     @Override
     public Member getMember() {
-        return event.getMember();
+        return jdaEvent().getMember();
     }
 
     @Override
     public boolean isAcknowledged() {
-        return event.isAcknowledged();
+        return jdaEvent().isAcknowledged();
     }
 
     @Nullable
     @Override
     public Channel getChannel() {
-        return event.getChannel();
+        return jdaEvent().getChannel();
     }
 
     @Override
     public long getChannelIdLong() {
-        return event.getChannelIdLong();
+        return jdaEvent().getChannelIdLong();
     }
 
     @Override
     public DiscordLocale getUserLocale() {
-        return event.getUserLocale();
+        return jdaEvent().getUserLocale();
     }
 
     @Override
     public List<Entitlement> getEntitlements() {
-        return event.getEntitlements();
+        return jdaEvent().getEntitlements();
     }
 
     @Override
     public JDA getJDA() {
-        return event.getJDA();
+        return jdaEvent().getJDA();
     }
 
     @Override
     public long getIdLong() {
-        return event.getIdLong();
+        return jdaEvent().getIdLong();
     }
 
     @Override
     public IntegrationOwners getIntegrationOwners() {
-        return event.getIntegrationOwners();
+        return jdaEvent().getIntegrationOwners();
     }
 
     @Override
     public InteractionContextType getContext() {
-        return event.getContext();
+        return jdaEvent().getContext();
     }
 }
