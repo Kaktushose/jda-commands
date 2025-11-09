@@ -147,7 +147,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
             if (implementations.isEmpty()) {
                 if (!defaults.containsKey(type)) {
                     if (shutdownJDA()) context.shutdown();
-                    throw new ConfigurationException("no-implementation", entry("type", type.getName()));
+                    throw new ConfigurationException("missing-implementation", entry("type", type.getName()));
                 }
 
                 return defaults.get(type).get();
