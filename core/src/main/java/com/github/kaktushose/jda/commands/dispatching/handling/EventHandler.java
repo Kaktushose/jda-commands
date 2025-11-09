@@ -41,7 +41,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
-    // will be replaced with ScopedValues when available
     public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);

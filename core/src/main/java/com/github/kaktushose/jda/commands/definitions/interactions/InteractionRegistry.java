@@ -146,7 +146,6 @@ public record InteractionRegistry(Validators validators,
             );
 
 
-            // to be replaced with scoped values
             ScopedValue.where(InvalidDeclarationException.CONTEXT, method).run(() -> {
                 Definition definition = construct(method, context);
 
