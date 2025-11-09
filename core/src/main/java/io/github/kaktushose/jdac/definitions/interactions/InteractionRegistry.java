@@ -9,7 +9,6 @@ import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinit
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
@@ -76,8 +75,6 @@ public record InteractionRegistry(Validators validators,
                 .filter(rule -> commandDefinitions.stream().noneMatch(command ->
                         command.name().startsWith(rule.command()) || command.methodDescription().name().equals(rule.command()))
                 ).forEach(s -> log.warn("No slash commands found matching {}", s));
-
-        testIntegrity(definitions);
 
         log.debug("Successfully registered {} interaction controller(s) with a total of {} interaction(s)!",
                 count,
@@ -187,16 +184,6 @@ public record InteractionRegistry(Validators validators,
         }
 
         return null;
-    }
-
-    private void testIntegrity(Set<Definition> definitions) {
-        for (Definition definition : definitions) {
-            switch (definition) {
-                case ComponentDefinition<?> component -> component.toJDAEntity();
-                case ModalDefinition modal -> modal.toJDAEntity(CustomId.independent(modal.definitionId()));
-                default -> {}
-            }
-        }
     }
 
     /// Attempts to find a [Definition] of type [T] based on the given [Predicate].
