@@ -172,7 +172,6 @@ For this task the reserved bundle 'jdac' was defined, allowing the customization
 
 Please note that the messages:
 
-- `member-required-got-user`
 - `no-description`
 
 Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale [ENGLISH][[Locale#ENGLISH]].

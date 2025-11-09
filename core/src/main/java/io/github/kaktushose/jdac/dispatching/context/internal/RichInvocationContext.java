@@ -16,6 +16,11 @@ public record RichInvocationContext(
         Runtime runtime
 
 ) {
+
+    public static boolean isSet() {
+        return EventHandler.RICH_INVOCATION_CONTEXT.isBound();
+    }
+
     public static RichInvocationContext getRichContext() {
         return EventHandler.RICH_INVOCATION_CONTEXT.get();
     }
