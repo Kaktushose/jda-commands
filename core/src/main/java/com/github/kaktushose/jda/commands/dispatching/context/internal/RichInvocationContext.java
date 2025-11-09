@@ -5,6 +5,7 @@ import com.github.kaktushose.jda.commands.dispatching.HolyGrail;
 import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
 import java.util.Locale;
 
@@ -32,5 +33,9 @@ public record RichInvocationContext(
 
     public static Locale getUserLocale() {
         return getInvocationContext().event().getUserLocale().toLocale();
+    }
+
+    public static GenericInteractionCreateEvent getJdaEvent() {
+        return getInvocationContext().event();
     }
 }

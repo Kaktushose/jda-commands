@@ -7,7 +7,6 @@ import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -34,6 +33,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
@@ -41,8 +41,6 @@ import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry
 public final class ReplyAction implements Reply {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-
-    private final GenericInteractionCreateEvent event = RichInvocationContext.getInvocationContext().event();
 
     private MessageCreateBuilder builder;
     private boolean ephemeral;
@@ -114,23 +112,23 @@ public final class ReplyAction implements Reply {
     public Message reply() {
         InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
 
-        switch (event) {
+        switch (getJdaEvent()) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
+            default -> throw new InternalException("reply-failed", entry("getJdaEvent()", getJdaEvent().getClass().getName()));
         }
-        if (event instanceof ModalInteractionEvent modalEvent) {
+        if (getJdaEvent() instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
         }
-        var hook = ((IDeferrableCallback) event).getHook();
+        var hook = ((IDeferrableCallback) getJdaEvent()).getHook();
 
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
                 definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
         );
-        if (event instanceof ComponentInteraction interaction && keepComponents) {
+        if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
         }
         if (editReply) {
@@ -149,12 +147,12 @@ public final class ReplyAction implements Reply {
         for (LayoutComponent layoutComponent : components) {
             for (ActionComponent actionComponent : layoutComponent.getActionComponents()) {
                 ActionComponent newComponent = switch (actionComponent) {
-                    case StringSelectMenu selectMenu when event instanceof StringSelectInteractionEvent selectEvent -> selectMenu
+                    case StringSelectMenu selectMenu when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu
                             .createCopy()
                             .setDefaultValues(selectEvent.getValues())
                             .build();
 
-                    case EntitySelectMenu selectMenu when event instanceof EntitySelectInteractionEvent selectEvent -> {
+                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
 
                         Collection<DefaultValue> defaultValues = new HashSet<>();
                         Mentions mentions = selectEvent.getInteraction().getMentions();
@@ -179,13 +177,13 @@ public final class ReplyAction implements Reply {
     }
 
     private void deferReply(IReplyCallback callback) {
-        if (!event.isAcknowledged()) {
+        if (!getJdaEvent().isAcknowledged()) {
             callback.deferReply(ephemeral).queue();
         }
     }
 
     private void deferEdit(IMessageEditCallback callback) {
-        if (!event.isAcknowledged()) {
+        if (!getJdaEvent().isAcknowledged()) {
             callback.deferEdit().queue();
         }
     }

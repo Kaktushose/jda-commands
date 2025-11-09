@@ -1,7 +1,6 @@
 package com.github.kaktushose.jda.commands.dispatching.events;
 
 import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
-import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
@@ -27,6 +26,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
 import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getRuntime;
 
 
@@ -48,7 +48,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the [GenericInteractionCreateEvent]
     @SuppressWarnings("unchecked")
     public T jdaEvent() {
-        return (T) RichInvocationContext.getInvocationContext().event();
+        return (T) getJdaEvent();
     }
 
     /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.

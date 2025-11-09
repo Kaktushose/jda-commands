@@ -9,7 +9,6 @@ import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefiniti
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
 import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
 import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
@@ -17,10 +16,8 @@ import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringS
 import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.embeds.Embed;
 import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
 import com.github.kaktushose.jda.commands.message.i18n.I18n;
 import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
@@ -43,6 +40,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.*;
 import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
@@ -68,13 +66,6 @@ public sealed class ConfigurableReply permits SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
     protected final ReplyAction replyAction;
-    private final GenericInteractionCreateEvent event = RichInvocationContext.getInvocationContext().event();
-    private final InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
-    private final MessageResolver messageResolver = RichInvocationContext.getHolyGrail().messageResolver();
-    private final Embeds embeds = RichInvocationContext.getHolyGrail().embeds();
-    private final InteractionRegistry registry = RichInvocationContext.getHolyGrail().interactionRegistry();
-    private final String runtimeId = RichInvocationContext.getRuntime().id();
-
 
     /// Constructs a new ConfigurableReply.
     ///
@@ -178,7 +169,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param embeds the name of the [Embed]s to send
     /// @return a new [SendableReply]
     public SendableReply embeds(String... embeds) {
-        return embeds(Arrays.stream(embeds).map(it -> this.embeds.get(it, event.getUserLocale().toLocale())).toArray(Embed[]::new));
+        return embeds(Arrays.stream(embeds).map(it -> getHolyGrail().embeds().get(it, getJdaEvent().getUserLocale().toLocale())).toArray(Embed[]::new));
     }
 
     /// Acknowledgement of this event with one or more [Embed]s.
@@ -200,7 +191,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
-        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        Embed resolved = getHolyGrail().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         consumer.accept(resolved);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -215,7 +206,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
     /// @return a new [SendableReply]
     public SendableReply embeds(String embed, Entry entry, Entry... entries) {
-        Embed resolved = embeds.get(embed, event.getUserLocale().toLocale());
+        Embed resolved = getHolyGrail().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -276,7 +267,7 @@ public sealed class ConfigurableReply permits SendableReply {
         List<ItemComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
-                    .orElseGet(() -> definition.methodDescription().declaringClass().getName());
+                    .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
             String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 
             if (replyAction.components()
@@ -355,10 +346,12 @@ public sealed class ConfigurableReply permits SendableReply {
     }
 
     private String resolve(String key, Component<?, ?, ?, ?> component) {
-        return messageResolver.resolve(key, event.getUserLocale().toLocale(), component.placeholder());
+        return getHolyGrail().messageResolver().resolve(key, getJdaEvent().getUserLocale().toLocale(), component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
+        InteractionRegistry registry = getHolyGrail().interactionRegistry();
+
         try {
             // this cast is effective safe
             D definition = registry.find(component.definitionClass(), false, it ->
@@ -375,13 +368,12 @@ public sealed class ConfigurableReply permits SendableReply {
             }
             throw e;
         }
-
     }
 
     private CustomId createId(InteractionDefinition definition, boolean staticComponent) {
         return staticComponent
                 ? CustomId.independent(definition.definitionId())
-                : new CustomId(runtimeId, definition.definitionId());
+                : new CustomId(getRuntime().id(), definition.definitionId());
     }
 }
 
