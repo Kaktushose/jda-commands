@@ -1569,11 +1569,11 @@ You're not viewing the latest stable version.
 
 
 <h1 id="localization">Localization<a class="headerlink" href="#localization" title="Permanent link">&para;</a></h1>
-<p>JDA-Commands provides the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/i18n/I18n.html">I18n</a> class,
+<p>JDA-Commands provides the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html">I18n</a> class,
 which is used as the main entrypoint for localization. This class can be used by users of the framework to localize their messages.</p>
 <h2 id="localization-messages">Localization Messages<a class="headerlink" href="#localization-messages" title="Permanent link">&para;</a></h2>
 <p>Localization messages are identified by their corresponding key. A key can be freely chosen but might be limited by
-the restrictions of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/i18n/Localizer.html">Localizer</a> implementation.</p>
+the restrictions of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html">Localizer</a> implementation.</p>
 <p>If a certain message for a key isn't found, the key is returned as the messages value.</p>
 <h3 id="the-dollar-character">The dollar ($) character<a class="headerlink" href="#the-dollar-character" title="Permanent link">&para;</a></h3>
 <p>The dollar (<code>$</code>) is a reserved character for <a href="#bundles">bundle name separation</a>.</p>
@@ -1637,7 +1637,7 @@ To localize such messages you have to manually use <I18n#localize(Locale,String,
 </span></code></pre></div>
 <h2 id="bundles">Bundles<a class="headerlink" href="#bundles" title="Permanent link">&para;</a></h2>
 <p>Localization bundles are a known concept from Javas <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ResourceBundle.html">ResourceBundle</a>. JDA-Commands supports different bundles of
-localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html">@Bundle</a>
+localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html">@Bundle</a>
 annotation.</p>
 <p>!!! warning the dollar sign ($)
     Please note that the character <code>$</code> is forbidden in bundle names.
@@ -1647,7 +1647,7 @@ annotation.</p>
 For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
 <h3 id="via-annotation">Via Annotation<a class="headerlink" href="#via-annotation" title="Permanent link">&para;</a></h3>
 <p>If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/i18n/Bundle.html">@Bundle</a>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html">@Bundle</a>
 annotation with following order:</p>
 <ol>
 <li>Method that called <I18n#localize(Locale,String,Entry...)`></li>
@@ -1710,10 +1710,10 @@ per default. For most cases the default values for these messages shipped with J
 customize such messages or localize them (if supported). </p>
 <p>For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):</p>
 <ul>
-<li><code>member-missing-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/Perm.html">@Perm</a></li>
-<li><code>member-has-unallowed-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> has the permission forbidden by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/constraints/NotPerm.html">@NotPerm</a></li>
+<li><code>member-missing-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html">@Perm</a></li>
+<li><code>member-has-unallowed-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> has the permission forbidden by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/NotPerm.html">@NotPerm</a></li>
 <li><code>member-required-got-user</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> is required, but only a user was given as a slash command option input</li>
-<li><code>no-description</code> -&gt; if no description was stated for a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html">slash command</a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/OptionDataDefinition.html">slash command option</a></li>
+<li><code>no-description</code> -&gt; if no description was stated for a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/SlashCommandDefinition.html">slash command</a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html">slash command option</a></li>
 </ul>
 <p>Please note that the messages:</p>
 <ul>
@@ -1733,7 +1733,7 @@ For example, if you have <a href="https://docs.oracle.com/en/java/javase/24/docs
 <h2 id="localizationfunction-jda-slash-command-localization">LocalizationFunction (JDA) / slash command localization<a class="headerlink" href="#localizationfunction-jda-slash-command-localization" title="Permanent link">&para;</a></h2>
 <p>JDA uses the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html">LocalizationFunction</a> for localizing slash commands.
 We implement this interface based on our <code>I18n</code> class as described above.</p>
-<p>If you want to disable slash commands localization just call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#localizeCommands(boolean)">JDACBuilder#localizeCommands(false)</a>.</p>
+<p>If you want to disable slash commands localization just call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#localizeCommands(boolean)">JDACBuilder#localizeCommands(false)</a>.</p>
 <p>See the <a href="https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java">JDA Docs</a> for details.</p>
 <h2 id="default-implementation">Default Implementation<a class="headerlink" href="#default-implementation" title="Permanent link">&para;</a></h2>
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
