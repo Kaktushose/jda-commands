@@ -41,8 +41,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
-    // will be replaced with ScopedValues when available
-    public static final ThreadLocal<Boolean> INVOCATION_PERMITTED = ThreadLocal.withInitial(() -> false);
+    public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
@@ -102,8 +101,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             );
             Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
-            INVOCATION_PERMITTED.set(true);
-            definition.invoke(instance, invocation);
+            ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
         } catch (Exception exception) {
             log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class

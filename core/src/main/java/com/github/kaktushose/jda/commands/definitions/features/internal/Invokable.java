@@ -32,13 +32,19 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
     @Nullable
     default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
-        if (!EventHandler.INVOCATION_PERMITTED.get()) {
+        if (!EventHandler.INVOCATION_PERMITTED.orElse(false)) {
             throw new InternalException("invocation-not-permitted");
         }
         SequencedCollection<Object> arguments = invocation.rawArguments();
 
-        EventHandler.INVOCATION_PERMITTED.set(false);
-        return methodDescription().invoker().invoke(instance, arguments);
+        // ScopedValue#call uses a generic for the exception, thus we have to handle the most common type between IllegalAccessException and InvocationTargetException
+        try {
+            return ScopedValue.where(EventHandler.INVOCATION_PERMITTED, false).call(() -> methodDescription().invoker().invoke(instance, arguments));
+        } catch (IllegalAccessException | InternalException e) {
+            throw e;
+        } catch (ReflectiveOperationException e) {
+            throw new InternalException("should-never-be-thrown", e);
+        }
     }
 
     /// The [ClassDescription] of the declaring class of the [#methodDescription()].
