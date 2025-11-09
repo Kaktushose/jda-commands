@@ -1,14 +1,14 @@
-package io.github.kaktushose.jdac.dispatching.handling;
+package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
-import io.github.kaktushose.jdac.dispatching.DispatchingContext;
-import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
-import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.internal.Helpers;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -21,17 +21,17 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ComponentHandler extends EventHandler<GenericComponentInteractionCreateEvent> {
 
-    public ComponentHandler(DispatchingContext dispatchingContext) {
-        super(dispatchingContext);
+    public ComponentHandler(FrameworkContext context) {
+        super(context);
     }
 
     @Override
     protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
-        var component = registry.find(ComponentDefinition.class, true, it ->
+        var component = interactionRegistry.find(ComponentDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
 
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, dispatchingContext.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, context.globalReplyConfig());
 
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
@@ -39,16 +39,17 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case ButtonInteractionEvent _ -> new ArrayList<>();
             default -> throw new InternalException("default-switch");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, registry, runtime, component, replyConfig, dispatchingContext.embeds()));
+        arguments.addFirst(new ComponentEvent());
 
         return new InvocationContext<>(
-                genericEvent,
-                dispatchingContext.i18n(),
-                dispatchingContext.messageResolver(),
-                runtime.keyValueStore(),
-                component,
-                replyConfig,
-                arguments
+                new InvocationContext.Utility(context.i18n(), context.messageResolver()),
+                new InvocationContext.Data<>(
+                    genericEvent,
+                    runtime.keyValueStore(),
+                    component,
+                    replyConfig,
+                    arguments
+                )
         );
     }
 }

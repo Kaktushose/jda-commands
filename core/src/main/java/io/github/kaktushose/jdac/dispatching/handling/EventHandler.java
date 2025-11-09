@@ -1,17 +1,18 @@
-package io.github.kaktushose.jdac.dispatching.handling;
+package com.github.kaktushose.jda.commands.dispatching.handling;
 
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.dispatching.DispatchingContext;
-import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
-import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
-import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.dispatching.middleware.Priority;
-import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
-import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -42,22 +43,24 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
+    public static final ScopedValue<RichInvocationContext> RICH_INVOCATION_CONTEXT = ScopedValue.newInstance();
+
     public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final DispatchingContext dispatchingContext;
+    protected final FrameworkContext context;
     protected final Middlewares middlewares;
-    protected final InteractionRegistry registry;
+    protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(DispatchingContext dispatchingContext) {
-        this.dispatchingContext = dispatchingContext;
-        this.middlewares = dispatchingContext.middlewares();
-        this.registry = dispatchingContext.registry();
-        this.adapterRegistry = dispatchingContext.adapterRegistry();
-        this.errorMessageFactory = dispatchingContext.errorMessageFactory();
+    public EventHandler(FrameworkContext context) {
+        this.context = context;
+        this.middlewares = context.middlewares();
+        this.interactionRegistry = context.interactionRegistry();
+        this.adapterRegistry = context.adapterRegistry();
+        this.errorMessageFactory = context.errorMessageFactory();
     }
 
     @Nullable
@@ -67,25 +70,29 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        InvocationContext<T> context = prepare(e, runtime);
+        InvocationContext<T> invocationContext = prepare(e, runtime);
 
-        if (context == null || Thread.interrupted()) {
+        if (invocationContext == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
             return;
         }
 
-        log.debug("Executing middlewares...");
-        middlewares.forOrdered(context.definition().classDescription().clazz(), middleware -> {
-            log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-            middleware.accept(context);
+        RichInvocationContext richContext = new RichInvocationContext(invocationContext, runtime);
+
+        ScopedValue.where(RICH_INVOCATION_CONTEXT, richContext).run(() -> {
+            log.debug("Executing middlewares...");
+            middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
+                log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
+                middleware.accept(invocationContext);
+            });
+
+            if (Thread.interrupted()) {
+                log.debug("Interaction execution cancelled by middleware");
+                return;
+            }
+
+            invoke(invocationContext, runtime);
         });
-
-        if (Thread.interrupted()) {
-            log.debug("Interaction execution cancelled by middleware");
-            return;
-        }
-
-        invoke(context, runtime);
     }
 
     private void invoke(InvocationContext<T> invocation, Runtime runtime) {

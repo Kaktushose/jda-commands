@@ -35,7 +35,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
         if (!EventHandler.INVOCATION_PERMITTED.orElse(false)) {
             throw new InternalException("invocation-not-permitted");
         }
-        SequencedCollection<Object> arguments = invocation.rawArguments();
+        SequencedCollection<Object> arguments = invocation.data().rawArguments();
 
         // ScopedValue#call uses a generic for the exception, thus we have to handle the most common type between IllegalAccessException and InvocationTargetException
         try {

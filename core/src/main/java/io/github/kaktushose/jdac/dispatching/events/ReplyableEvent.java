@@ -1,25 +1,23 @@
-package io.github.kaktushose.jdac.dispatching.events;
+package com.github.kaktushose.jda.commands.dispatching.events;
 
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
-import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
-import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
-import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
-import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
-import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.Reply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
-import io.github.kaktushose.jdac.embeds.Embed;
-import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
+import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
+import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
+import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.Reply;
+import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -34,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.*;
 
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
@@ -55,28 +55,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         permits ModalEvent, ModalReplyableEvent {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
-    protected final InteractionDefinition definition;
-    private final InteractionDefinition.ReplyConfig replyConfig;
-    private final Embeds embeds;
-
-    /// Constructs a new ReplyableEvent.
-    ///
-    /// @param event               the subtype [T] of [GenericInteractionCreateEvent]
-    /// @param interactionRegistry the corresponding [InteractionRegistry]
-    /// @param runtime             the [Runtime] this event lives in
-    /// @param definition          the [InteractionDefinition] this event belongs to
-    /// @param embeds              the corresponding [Embeds]
-    protected ReplyableEvent(T event,
-                             InteractionRegistry interactionRegistry,
-                             Runtime runtime,
-                             InteractionDefinition definition,
-                             InteractionDefinition.ReplyConfig replyConfig,
-                             Embeds embeds) {
-        super(event, interactionRegistry, runtime);
-        this.replyConfig = replyConfig;
-        this.definition = definition;
-        this.embeds = embeds;
-    }
 
     /// Acknowledge this interaction and defer the reply to a later time.
     ///
@@ -90,7 +68,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
-        deferReply(replyConfig.ephemeral());
+        deferReply(getReplyConfig().ephemeral());
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -114,9 +92,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
     public void removeComponents() {
         log.debug("Reply Debug: Removing components from original message");
-        if (event instanceof IReplyCallback callback) {
-            if (!event.isAcknowledged()) {
-                callback.deferReply(replyConfig.ephemeral()).queue();
+        if (jdaEvent() instanceof IReplyCallback callback) {
+            if (!jdaEvent().isAcknowledged()) {
+                callback.deferReply(getReplyConfig().ephemeral()).queue();
             }
             callback.getHook().editOriginalComponents().queue();
         }
@@ -172,9 +150,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     @SuppressWarnings("unchecked")
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
-        var className = origin == null ? definition.classDescription().name() : origin.getName();
+        var className = origin == null ? getInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
-        var definition = registry.find(type, false, it -> it.definitionId().equals(id));
+        var definition = getFramework().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
@@ -186,7 +164,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return embeds.get(name, event.getUserLocale().toLocale());
+        return getFramework().embeds().get(name, jdaEvent().getUserLocale().toLocale());
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -196,6 +174,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
+        Embeds embeds = getFramework().embeds();
         if (!embeds.exists(name)) {
             return Optional.empty();
         }
@@ -209,7 +188,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(event, definition, messageResolver(), newReply(), embeds, registry, runtimeId());
+        return new ConfigurableReply(newReply());
     }
 
     /// {@inheritDoc}
@@ -243,6 +222,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(event, definition, messageResolver(), replyConfig);
+        return new ReplyAction(getReplyConfig());
     }
 }

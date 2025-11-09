@@ -1,31 +1,23 @@
-package io.github.kaktushose.jdac;
+package com.github.kaktushose.jda.commands;
 
-import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
-import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
-import io.github.kaktushose.jdac.definitions.description.ClassFinder;
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.DispatchingContext;
-import io.github.kaktushose.jdac.dispatching.JDAEventListener;
-import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
-import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
-import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
-import io.github.kaktushose.jdac.embeds.Embed;
-import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
-import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
+import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
+import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
+import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
+import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
+import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
+import com.github.kaktushose.jda.commands.embeds.Embed;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -43,36 +35,18 @@ public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
-    private final InteractionRegistry interactionRegistry;
+    private final FrameworkContext frameworkContext;
     private final SlashCommandUpdater updater;
-    private final Embeds embeds;
-    private final CommandDefinition.CommandConfig globalCommandConfig;
-    private final I18n i18n;
-    private final MessageResolver messageResolver;
     private final boolean shutdownJDA;
 
-    JDACommands(JDAContext jdaContext,
-                ExpirationStrategy expirationStrategy,
-                TypeAdapters typeAdapters,
-                Middlewares middlewares,
-                ErrorMessageFactory errorMessageFactory,
+    JDACommands(FrameworkContext frameworkContext,
+                JDAContext jdaContext,
                 GuildScopeProvider guildScopeProvider,
-                InteractionRegistry interactionRegistry,
-                InteractionControllerInstantiator instanceProvider,
-                InteractionDefinition.ReplyConfig globalReplyConfig,
-                CommandDefinition.CommandConfig globalCommandConfig,
-                I18n i18n,
-                MessageResolver messageResolver,
-                Embeds embeds,
                 boolean shutdownJDA) {
-        this.messageResolver = messageResolver;
-        this.i18n = i18n;
+        this.frameworkContext = frameworkContext;
         this.jdaContext = jdaContext;
-        this.interactionRegistry = interactionRegistry;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, interactionRegistry);
-        this.jdaEventListener = new JDAEventListener(new DispatchingContext(middlewares, errorMessageFactory, interactionRegistry, typeAdapters, expirationStrategy, instanceProvider, globalReplyConfig, embeds, i18n, messageResolver));
-        this.globalCommandConfig = globalCommandConfig;
-        this.embeds = embeds;
+        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
+        this.jdaEventListener = new JDAEventListener(frameworkContext);
         this.shutdownJDA = shutdownJDA;
     }
 
@@ -123,7 +97,7 @@ public final class JDACommands {
     }
 
     void start(ClassFinder classFinder) {
-        interactionRegistry.index(classFinder.search(Interaction.class), globalCommandConfig);
+        frameworkContext.interactionRegistry().index(classFinder.search(Interaction.class), frameworkContext.globalCommandConfig());
         updater.updateAllCommands();
 
         jdaContext.performTask(it -> it.addEventListener(jdaEventListener), false);
@@ -153,7 +127,7 @@ public final class JDACommands {
     ///
     /// @return the [I18n] instance
     public I18n i18n() {
-        return i18n;
+        return frameworkContext.i18n();
     }
 
     /// Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.
@@ -161,10 +135,10 @@ public final class JDACommands {
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return messageResolver;
+        return frameworkContext.messageResolver();
     }
 
-    /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.
@@ -174,7 +148,7 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = interactionRegistry.find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = frameworkContext.interactionRegistry().find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -189,7 +163,7 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = interactionRegistry.find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = frameworkContext.interactionRegistry().find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -201,7 +175,7 @@ public final class JDACommands {
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return embeds.get(name);
+        return frameworkContext.embeds().get(name);
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -211,6 +185,8 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
+        Embeds embeds = frameworkContext.embeds();
+
         if (!embeds.exists(name)) {
             return Optional.empty();
         }

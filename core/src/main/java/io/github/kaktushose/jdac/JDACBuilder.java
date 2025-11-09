@@ -1,34 +1,35 @@
-package io.github.kaktushose.jdac;
+package com.github.kaktushose.jda.commands;
 
-import io.github.kaktushose.jdac.definitions.description.ClassFinder;
-import io.github.kaktushose.jdac.definitions.description.Descriptor;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
-import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
-import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
-import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
-import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.dispatching.middleware.Priority;
-import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
-import io.github.kaktushose.jdac.dispatching.validation.Validator;
-import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
-import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
-import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.extension.Extension;
-import io.github.kaktushose.jdac.extension.JDACBuilderData;
-import io.github.kaktushose.jdac.extension.internal.ExtensionFilter;
-import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.emoji.EmojiSource;
-import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
-import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.i18n.Localizer;
-import io.github.kaktushose.jdac.permissions.PermissionsProvider;
-import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
+import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
+import com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter;
+import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
+import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
+import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
+import com.github.kaktushose.jda.commands.dispatching.middleware.Priority;
+import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
+import com.github.kaktushose.jda.commands.dispatching.validation.Validator;
+import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
+import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
+import com.github.kaktushose.jda.commands.embeds.error.DefaultErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
+import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
+import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
+import com.github.kaktushose.jda.commands.extension.Extension;
+import com.github.kaktushose.jda.commands.extension.JDACBuilderData;
+import com.github.kaktushose.jda.commands.extension.internal.ExtensionFilter;
+import com.github.kaktushose.jda.commands.message.MessageResolver;
+import com.github.kaktushose.jda.commands.message.emoji.EmojiSource;
+import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
+import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import com.github.kaktushose.jda.commands.message.i18n.Localizer;
+import com.github.kaktushose.jda.commands.permissions.PermissionsProvider;
+import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Icon;
@@ -261,27 +262,33 @@ public final class JDACBuilder extends JDACBuilderData {
             I18n i18n = i18n();
             MessageResolver messageResolver = messageResolver();
             configureEmbeds.accept(messageResolver, errorMessageFactory());
-            JDACommands jdaCommands = new JDACommands(
-                    context(),
-                    expirationStrategy(),
-                    new TypeAdapters(typeAdapters(), i18n),
+
+            FrameworkContext frameworkContext = new FrameworkContext(
                     new Middlewares(middlewares(), errorMessageFactory(), permissionsProvider()),
                     errorMessageFactory(),
-                    guildScopeProvider(),
                     new InteractionRegistry(
                             new Validators(validators()),
                             i18n,
                             localizeCommands() ? i18n.localizationFunction() : (_) -> Map.of(),
                             descriptor()
                     ),
+                    new TypeAdapters(typeAdapters(), i18n),
+                    expirationStrategy(),
                     controllerInstantiator(),
-                    globalReplyConfig(),
-                    globalCommandConfig(),
+                    embeds(messageResolver),
                     i18n,
                     messageResolver,
-                    embeds(messageResolver),
+                    globalReplyConfig(),
+                    globalCommandConfig()
+            );
+
+            JDACommands jdaCommands = new JDACommands(
+                    frameworkContext,
+                    context(),
+                    guildScopeProvider(),
                     shutdownJDA()
             );
+
             jdaCommands.start(mergedClassFinder());
             return jdaCommands;
         } catch (JDACException e) {

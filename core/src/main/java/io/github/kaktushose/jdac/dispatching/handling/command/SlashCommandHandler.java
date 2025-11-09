@@ -1,16 +1,15 @@
-package io.github.kaktushose.jdac.dispatching.handling.command;
+package com.github.kaktushose.jda.commands.dispatching.handling.command;
 
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
-import io.github.kaktushose.jdac.dispatching.DispatchingContext;
-import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
-import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
-import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.internal.Helpers;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
+import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
+import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
+import com.github.kaktushose.jda.commands.dispatching.Runtime;
+import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
+import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -27,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
@@ -44,26 +43,27 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(DispatchingContext dispatchingContext) {
-        super(dispatchingContext);
+    public SlashCommandHandler(FrameworkContext context) {
+        super(context);
     }
 
     @Override
     @Nullable
     protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
-        SlashCommandDefinition command = registry.find(SlashCommandDefinition.class, true, it ->
+        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
 
         return parseArguments(command, event, runtime)
                 .map(args -> new InvocationContext<>(
-                        event,
-                        dispatchingContext.i18n(),
-                        dispatchingContext.messageResolver(),
-                        runtime.keyValueStore(),
-                        command,
-                        Helpers.replyConfig(command, dispatchingContext.globalReplyConfig()),
-                        args)
+                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
+                        new InvocationContext.Data<>(
+                            event,
+                            runtime.keyValueStore(),
+                            command,
+                            Helpers.replyConfig(command, context.globalReplyConfig()),
+                            args)
+                        )
                 ).orElse(null);
     }
 
@@ -74,12 +74,12 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, dispatchingContext.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
         var optionDataDefinitions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, registry, runtime, command, replyConfig, dispatchingContext.embeds()));
+        parsedArguments.addFirst(new CommandEvent());
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new InternalException("command-input-mismatch");
@@ -111,9 +111,9 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                     switch (failure.errorType()) {
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
-                            new ReplyAction(event, command, dispatchingContext.messageResolver(), replyConfig).reply(
-                                    errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure)
-                            );
+                            event.reply(errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure))
+                                    .setEphemeral(replyConfig.ephemeral())
+                                    .queue();
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(

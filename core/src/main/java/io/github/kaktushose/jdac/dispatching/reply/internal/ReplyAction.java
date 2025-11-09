@@ -1,10 +1,9 @@
-package io.github.kaktushose.jdac.dispatching.reply.internal;
+package com.github.kaktushose.jda.commands.dispatching.reply.internal;
 
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
+import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
+import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
+import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -35,16 +34,16 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getFramework;
+import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
+import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal
 public final class ReplyAction implements Reply {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    private final GenericInteractionCreateEvent event;
-    private final InteractionDefinition definition;
-    private final MessageResolver messageResolver;
+
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean keepComponents;
@@ -53,17 +52,8 @@ public final class ReplyAction implements Reply {
 
     /// Constructs a new ReplyAction.
     ///
-    /// @param event       the corresponding [GenericInteractionCreateEvent]
-    /// @param definition  the corresponding [InteractionDefinition]. This is mostly needed by the [ConfigurableReply]
-    /// @param messageResolver the [MessageResolver] instance to use for message resolution
     /// @param replyConfig the [InteractionDefinition.ReplyConfig] to use
-    public ReplyAction(GenericInteractionCreateEvent event,
-                       InteractionDefinition definition,
-                       MessageResolver messageResolver,
-                       InteractionDefinition.ReplyConfig replyConfig) {
-        this.event = event;
-        this.definition = definition;
-        this.messageResolver = messageResolver;
+    public ReplyAction(InteractionDefinition.ReplyConfig replyConfig) {
         this.ephemeral = replyConfig.ephemeral();
         this.editReply = replyConfig.editReply();
         this.keepComponents = replyConfig.keepComponents();
@@ -73,7 +63,7 @@ public final class ReplyAction implements Reply {
 
     @Override
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(messageResolver.resolve(message, event.getUserLocale().toLocale(), placeholder));
+        builder.setContent(getFramework().messageResolver().resolve(message, RichInvocationContext.getUserLocale(), placeholder));
         return reply();
     }
 
@@ -122,23 +112,26 @@ public final class ReplyAction implements Reply {
     }
 
     public Message reply() {
-        switch (event) {
+        InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
+
+        GenericInteractionCreateEvent jdaEvent = getJdaEvent();
+        switch (jdaEvent) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new InternalException("reply-failed", entry("event", event.getClass().getName()));
+            default -> throw new InternalException("reply-failed", entry("getJdaEvent()", jdaEvent.getClass().getName()));
         }
-        if (event instanceof ModalInteractionEvent modalEvent) {
+        if (jdaEvent instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
         }
-        var hook = ((IDeferrableCallback) event).getHook();
+        var hook = ((IDeferrableCallback) jdaEvent).getHook();
 
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
                 definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
         );
-        if (event instanceof ComponentInteraction interaction && keepComponents) {
+        if (jdaEvent instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
         }
         if (editReply) {
@@ -157,12 +150,12 @@ public final class ReplyAction implements Reply {
         for (LayoutComponent layoutComponent : components) {
             for (ActionComponent actionComponent : layoutComponent.getActionComponents()) {
                 ActionComponent newComponent = switch (actionComponent) {
-                    case StringSelectMenu selectMenu when event instanceof StringSelectInteractionEvent selectEvent -> selectMenu
+                    case StringSelectMenu selectMenu when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu
                             .createCopy()
                             .setDefaultValues(selectEvent.getValues())
                             .build();
 
-                    case EntitySelectMenu selectMenu when event instanceof EntitySelectInteractionEvent selectEvent -> {
+                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
 
                         Collection<DefaultValue> defaultValues = new HashSet<>();
                         Mentions mentions = selectEvent.getInteraction().getMentions();
@@ -187,13 +180,13 @@ public final class ReplyAction implements Reply {
     }
 
     private void deferReply(IReplyCallback callback) {
-        if (!event.isAcknowledged()) {
+        if (!getJdaEvent().isAcknowledged()) {
             callback.deferReply(ephemeral).queue();
         }
     }
 
     private void deferEdit(IMessageEditCallback callback) {
-        if (!event.isAcknowledged()) {
+        if (!getJdaEvent().isAcknowledged()) {
             callback.deferEdit().queue();
         }
     }
