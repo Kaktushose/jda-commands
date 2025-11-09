@@ -30,7 +30,7 @@ wrong-labels = Failed to add child command: { $command }. { $labelCount ->
 subcommand-with-children = Cannot transform node with children to SubcommandData.
 null-member-context-command = Member for context command is null (not executed in a guild). This should not be possible.
 emoji-not-loadable-from-resource = An error occoured while loading emoji called { $name } from resources at { $path }.
-error-msg-not-in-bundle = "No error messages could be found for key { $key }, searched in bundle 'jdac_error' and 'jdac_error_default'"
+default-msg-not-in-bundle = "No messages could be found for key { $key }, searched in bundle 'jdac' and 'jdac_default'"
 
 # Invalid Declaration
 command-name-length = Invalid command name "{ $name }" for slash command "{ $method }". Slash commands can only have up to 3 labels.

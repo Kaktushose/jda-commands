@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.message.i18n;
 
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.i18n.Bundle;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.Description;
@@ -125,6 +126,7 @@ public class I18n {
     );
 
     private final String JDAC_BUNDLE = "jdac";
+    private final FluavaLocalizer defaultsLocalizer = new FluavaLocalizer(Fluava.create(Locale.ENGLISH));
 
     // TODO make this configurable
     private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
@@ -137,6 +139,7 @@ public class I18n {
     private final Localizer localizer;
     private final LocalizationFunction localizationFunction = new JDACLocalizationFunction(this);
     private final ThreadLocal<ClassDescription> last = new ThreadLocal<>();
+
 
     /// @param descriptor the [Description] to be used to get the [Bundle] annotation
     /// @param localizer the used [Localizer] to retrieve the messages
@@ -172,8 +175,8 @@ public class I18n {
 
         if (bundle.equals(JDAC_BUNDLE)) {
             return localizer.localize(locale, JDAC_BUNDLE, key, placeholder)
-                    .or(() -> localizer.localize(locale, JDAC_BUNDLE + "_default", key, placeholder))
-                    .orElseThrow(() -> new InternalException("error-msg-not-in-bundle", entry("key", key)));
+                    .or(() -> defaultsLocalizer.localize(locale, JDAC_BUNDLE + "_default", key, placeholder))
+                    .orElseThrow(() -> new InternalException("default-msg-not-in-bundle", entry("key", key)));
         }
 
         return localizer.localize(locale, bundle, key, placeholder)
