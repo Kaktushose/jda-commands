@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 
 import static com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
 
-/// Central interactionRegistry for all [InteractionDefinition]s.
+/// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(Validators validators,
                                   I18n i18n,
                                   LocalizationFunction localizationFunction,

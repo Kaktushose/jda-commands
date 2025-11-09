@@ -7,6 +7,7 @@ import com.github.kaktushose.jda.commands.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -113,23 +114,24 @@ public final class ReplyAction implements Reply {
     public Message reply() {
         InteractionDefinition definition = RichInvocationContext.getInvocationContext().definition();
 
-        switch (getJdaEvent()) {
+        GenericInteractionCreateEvent jdaEvent = getJdaEvent();
+        switch (jdaEvent) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default -> throw new InternalException("reply-failed", entry("getJdaEvent()", getJdaEvent().getClass().getName()));
+            default -> throw new InternalException("reply-failed", entry("getJdaEvent()", jdaEvent.getClass().getName()));
         }
-        if (getJdaEvent() instanceof ModalInteractionEvent modalEvent) {
+        if (jdaEvent instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
         }
-        var hook = ((IDeferrableCallback) getJdaEvent()).getHook();
+        var hook = ((IDeferrableCallback) jdaEvent).getHook();
 
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
                 definition.displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
         );
-        if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
+        if (jdaEvent instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
         }
         if (editReply) {
