@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.adapter.internal;
 
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
+import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
@@ -22,7 +23,6 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getUserLocale;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.isSet;
 import static io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy.IGNORE;
 import static io.github.kaktushose.proteus.mapping.Mapper.uni;
 import static io.github.kaktushose.proteus.mapping.MappingResult.failure;
@@ -53,7 +53,7 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.localize(isSet() ? getUserLocale() : Locale.ENGLISH, "jdac$member-required-got-user"))), IGNORE);
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.localize(RichInvocationContext.scopeBound() ? getUserLocale() : Locale.ENGLISH, "jdac$member-required-got-user"))), IGNORE);
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)

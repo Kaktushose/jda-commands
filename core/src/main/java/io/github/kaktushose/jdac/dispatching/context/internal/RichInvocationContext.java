@@ -17,7 +17,7 @@ public record RichInvocationContext(
 
 ) {
 
-    public static boolean isSet() {
+    public static boolean scopeBound() {
         return EventHandler.RICH_INVOCATION_CONTEXT.isBound();
     }
 
