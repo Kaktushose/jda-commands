@@ -32,7 +32,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, holyGrail.globalReplyConfig());
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent(event, runtime, modal, replyConfig));
+        arguments.addFirst(new ModalEvent());
 
         return new InvocationContext<>(
                 new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),

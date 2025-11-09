@@ -41,7 +41,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                                             runtime.keyValueStore(),
                                             definition,
                                             Helpers.replyConfig(slashCommandDefinition, holyGrail.globalReplyConfig()),
-                                            List.of(new AutoCompleteEvent(event, runtime))
+                                            List.of(new AutoCompleteEvent())
                                         )
                                 )
                         ).orElseGet(() -> {

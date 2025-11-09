@@ -8,7 +8,6 @@ import com.github.kaktushose.jda.commands.dispatching.Runtime;
 import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
 import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
 import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
 import com.github.kaktushose.jda.commands.exceptions.InternalException;
 import com.github.kaktushose.jda.commands.internal.Helpers;
 import io.github.kaktushose.proteus.Proteus;
@@ -80,7 +79,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
         log.debug("Type adapting arguments...");
         var optionDataDefinitions = List.copyOf(command.commandOptions());
-        parsedArguments.addFirst(new CommandEvent(event, runtime, command, replyConfig));
+        parsedArguments.addFirst(new CommandEvent());
 
         if (optionMappings.size() != optionDataDefinitions.size()) {
             throw new InternalException("command-input-mismatch");

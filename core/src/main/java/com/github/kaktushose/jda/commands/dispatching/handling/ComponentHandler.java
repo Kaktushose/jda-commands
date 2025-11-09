@@ -39,7 +39,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
             case ButtonInteractionEvent _ -> new ArrayList<>();
             default -> throw new InternalException("default-switch");
         };
-        arguments.addFirst(new ComponentEvent(genericEvent, runtime, component, replyConfig));
+        arguments.addFirst(new ComponentEvent());
 
         return new InvocationContext<>(
                 new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),

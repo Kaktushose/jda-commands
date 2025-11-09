@@ -42,7 +42,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
         return new InvocationContext<>(
                 new InvocationContext.Utility(holyGrail.i18n(), holyGrail.messageResolver()),
                 new InvocationContext.Data<>(event, runtime.keyValueStore(), command, replyConfig,
-                        List.of(new CommandEvent(event, runtime, command, replyConfig), target)
+                        List.of(new CommandEvent(), target)
                 )
         );
     }
