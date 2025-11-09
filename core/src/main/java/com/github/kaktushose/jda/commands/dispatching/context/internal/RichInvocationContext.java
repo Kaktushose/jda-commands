@@ -11,8 +11,7 @@ import java.util.Locale;
 
 public record RichInvocationContext(
         InvocationContext<?> invocationContext,
-        Runtime runtime,
-        InteractionDefinition.ReplyConfig specificReplyConfig
+        Runtime runtime
 
 ) {
     public static RichInvocationContext getRichContext() {
@@ -37,5 +36,9 @@ public record RichInvocationContext(
 
     public static GenericInteractionCreateEvent getJdaEvent() {
         return getInvocationContext().event();
+    }
+
+    public static InteractionDefinition.ReplyConfig getReplyConfig() {
+        return getInvocationContext().data().replyConfig();
     }
 }

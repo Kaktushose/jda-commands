@@ -68,7 +68,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
-        deferReply(getRichContext().specificReplyConfig().ephemeral());
+        deferReply(getReplyConfig().ephemeral());
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -94,7 +94,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         log.debug("Reply Debug: Removing components from original message");
         if (jdaEvent() instanceof IReplyCallback callback) {
             if (!jdaEvent().isAcknowledged()) {
-                callback.deferReply(getRichContext().specificReplyConfig().ephemeral()).queue();
+                callback.deferReply(getReplyConfig().ephemeral()).queue();
             }
             callback.getHook().editOriginalComponents().queue();
         }
@@ -222,6 +222,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     private ReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(getRichContext().specificReplyConfig());
+        return new ReplyAction(getReplyConfig());
     }
 }
