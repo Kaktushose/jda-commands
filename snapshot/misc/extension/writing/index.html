@@ -1462,7 +1462,7 @@ You're not viewing the latest stable version.
 <h1 id="writing-an-extension">Writing an Extension<a class="headerlink" href="#writing-an-extension" title="Permanent link">&para;</a></h1>
 <h2 id="entrypoint">Entrypoint<a class="headerlink" href="#entrypoint" title="Permanent link">&para;</a></h2>
 <p>The entrypoint of the Extension API is the so called
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html">Extension</a>
+<a href="io.github.kaktushose.jdac.extension.Extension">Invalid reference to io.github.kaktushose.jdac.extension.Extension</a>
 interface, which your extensions <em>"entry class"</em> must implement:</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div>
@@ -1515,7 +1515,7 @@ that is:</p>
 </ul>
 <p>To provide custom implementations we have to implement the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html#providedImplementations()">Extension#providedImplementations()</a> method.
 This method returns a collection of all implementations that an extension provides, wrapped in an instance of
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html">Implementation</a></p>
+<a href="io.github.kaktushose.jdac.extension.Implementation">Invalid reference to io.github.kaktushose.jdac.extension.Implementation</a></p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nd">@Override</span>
@@ -1581,9 +1581,9 @@ It should, of course, be the same instance then each time. </p>
 </span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">MyExtensionData</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">someOption</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="p">.</span><span class="na">Data</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div>
 <h3 id="the-implementation-class">The <code>Implementation</code> class<a class="headerlink" href="#the-implementation-class" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html">Implementation</a>
+<p>The <a href="io.github.kaktushose.jdac.extension.Implementation">Invalid reference to io.github.kaktushose.jdac.extension.Implementation</a>
 class has 2 main purposes: State which class the custom implementation is for and providing instance(s) of those custom implementations.</p>
-<p>To provide a custom implementation you have to create an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Implementation.html">Implementation</a> and provide</p>
+<p>To provide a custom implementation you have to create an instance of <a href="io.github.kaktushose.jdac.extension.Implementation">Invalid reference to io.github.kaktushose.jdac.extension.Implementation</a> and provide</p>
 <ol>
 <li>the <code>type</code> of this Extension <a href="#providing-implementations">(that is a class/interface extending ExtensionProvidable</a>)</li>
 <li>a <code>supplier</code> in form of <code>java.util.fuction.Function</code> that takes
@@ -1616,17 +1616,17 @@ which is useful for dynamic registration of custom implementation.</p>
 <h2 id="registration">Registration<a class="headerlink" href="#registration" title="Permanent link">&para;</a></h2>
 <p>Custom extensions are found with help of Javas <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ServiceLoader.html">ServiceLoader API</a>.</p>
 <p>To register the above <code>MyExtension</code> we have to create a file in our <code>resources\META-INF</code> directory called
-<code>com.github.kaktushose.jda.commands.extension.Extension</code>.</p>
+<code>io.github.kaktushose.jdac.extension.Extension</code>.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>src
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>└── main
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    └── resources
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        └── META-INF
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>            └── com.github.kaktushose.jda.commands.extension.Extension
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>            └── io.github.kaktushose.jdac.extension.Extension
 </span></code></pre></div>
 <p>The full class name of our class <code>MyExtension</code> (e.g. <code>my.package.MyExtension</code>) must be the content of this file.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-text highlight"><span class="filename">com.github.kaktushose.jda.commands.extension.Extension</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>my.package.MyExtension
+<div class="language-text highlight"><span class="filename">io.github.kaktushose.jdac.extension.Extension</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>my.package.MyExtension
 </span></code></pre></div>
 </div>
 <p>The extension can now be found and loaded by JDA-Commands.</p>

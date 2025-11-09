@@ -1481,9 +1481,9 @@ defining the valid types for this annotation. </li>
 </span></code></pre></div>
 </div>
 <h3 id="2-creating-the-validator">2. Creating the Validator<a class="headerlink" href="#2-creating-the-validator" title="Permanent link">&para;</a></h3>
-<p>Secondly, you must create the actual validator by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html">@Validator</a>
+<p>Secondly, you must create the actual validator by implementing the <a href="io.github.kaktushose.jdac.dispatching.validation.Validator">Invalid reference to io.github.kaktushose.jdac.dispatching.validation.Validator</a>
 interface. </p>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.html#apply(T,A,com.github.kaktushose.jda.commands.dispatching.validation.Validator.Context)">Validator#apply(T, A, Validator.Context)</a> method will give you the argument (command option) as well as the annotation object. 
+<p>The <a href="io.github.kaktushose.jdac.dispatching.validation.Validator#apply(T,A,Context)">Invalid reference to io.github.kaktushose.jdac.dispatching.validation.Validator#apply(T,A,Context)</a> method will give you the argument (command option) as well as the annotation object. 
 If the constraint should fail, you must call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.Context.html#fail(java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)">Validator.Context#fail(String, Entry...)</a></p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

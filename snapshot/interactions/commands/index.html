@@ -1581,7 +1581,7 @@ You're not viewing the latest stable version.
 <a href="https://jda.wiki/using-jda/interactions/">JDA wiki</a> first. We assume that the basic structure of interactions is known.</p>
 </div>
 <h2 id="slash-commands">Slash Commands<a class="headerlink" href="#slash-commands" title="Permanent link">&para;</a></h2>
-<p>SlashCommands are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Command.html">@Command</a>.
+<p>SlashCommands are defined by annotating a method with <a href="io.github.kaktushose.jdac.annotations.interactions.Command">Invalid reference to io.github.kaktushose.jdac.annotations.interactions.Command</a>.
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html">CommandEvent</a>.
 The name and other metadata of the command is passed to the annotation.
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;example&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This is an example command&quot;</span><span class="p">)</span>
@@ -1623,7 +1623,7 @@ doesn't show up.</p>
 <li><code>/moderation kick</code></li>
 <li><code>/moderation ban</code></li>
 </ul>
-<p>To simplify things, you can also use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Interaction.html">@Interaction</a>
+<p>To simplify things, you can also use the <a href="io.github.kaktushose.jdac.annotations.interactions.Interaction">Invalid reference to io.github.kaktushose.jdac.annotations.interactions.Interaction</a>
 to add a base name to all slash commands in a command controller:
 <div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@Interaction</span><span class="p">(</span><span class="s">&quot;moderation&quot;</span><span class="p">)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ModerationCommands</span><span class="w"> </span><span class="p">{</span>
@@ -1651,7 +1651,7 @@ JDA-Commands will attempt to type adapt the command options. You can find a conc
 <h4 id="optiontype">OptionType<a class="headerlink" href="#optiontype" title="Permanent link">&para;</a></h4>
 <p>The parameters will automatically be mapped to the best fitting <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/OptionType.html">OptionType</a>,
 defaulting to <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/OptionType.html#STRING">OptionType#STRING</a>. You can override this mapping by using the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Param.html">@Param</a> annotation. 
+<a href="io.github.kaktushose.jdac.annotations.interactions.Param">Invalid reference to io.github.kaktushose.jdac.annotations.interactions.Param</a> annotation. 
 <div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;ban&quot;</span><span class="p">)</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBanMember</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@Param</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OptionType</span><span class="p">.</span><span class="na">USER</span><span class="p">)</span><span class="w"> </span><span class="n">IMentionable</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">(...)</span>
@@ -1841,7 +1841,7 @@ annotation to set the minimum and maximum value for numeral options. </p>
 </span></code></pre></div>
 </div>
 <h2 id="context-commands">Context Commands<a class="headerlink" href="#context-commands" title="Permanent link">&para;</a></h2>
-<p>Both types of context commands are defined by the same <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Command.html">@Command</a>
+<p>Both types of context commands are defined by the same <a href="io.github.kaktushose.jdac.annotations.interactions.Command">Invalid reference to io.github.kaktushose.jdac.annotations.interactions.Command</a>
 annotation. The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html">CommandEvent</a>.
 The name and other metadata of the command is passed to the annotation.</p>
 <h3 id="message-context">Message Context<a class="headerlink" href="#message-context" title="Permanent link">&para;</a></h3>
@@ -1863,7 +1863,7 @@ and the <code>type</code> must be <a href="https://javadoc.io/static/net.dv8tion
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onBanMember</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Member</span><span class="w"> </span><span class="n">member</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <h2 id="additional-settings">Additional Settings<a class="headerlink" href="#additional-settings" title="Permanent link">&para;</a></h2>
-<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html">@CommandConfig</a> annotation to configure the 
+<p>Use the <a href="io.github.kaktushose.jdac.annotations.interactions.CommandConfig">Invalid reference to io.github.kaktushose.jdac.annotations.interactions.CommandConfig</a> annotation to configure the 
 following settings. You can either annotate a command method directly or annotate the interaction controller class. It 
 is also possible to set a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#globalCommandConfig(com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)">global command config</a>
 at the builder:</p>
@@ -1955,10 +1955,10 @@ for guilds that have paid for that feature:</p>
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
-<p>or simply annotate the <code>PremiumGuildsProvider</code> class with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html">@Implementation</a>.</p>
+<p>or simply annotate the <code>PremiumGuildsProvider</code> class with <a href="io.github.kaktushose.jdac.guice.Implementation">Invalid reference to io.github.kaktushose.jdac.guice.Implementation</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.html">@Implementation</a> annotation requires the guice integration 
+<p>Using the <a href="io.github.kaktushose.jdac.guice.Implementation">Invalid reference to io.github.kaktushose.jdac.guice.Implementation</a> annotation requires the guice integration 
 (shipped by default). You can read more about it <a href="../../di/">here</a>.   </p>
 </div>
 
