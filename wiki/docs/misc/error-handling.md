@@ -3,12 +3,12 @@
 ## Exceptions
 JDA-Commands defines a set of custom runtime exceptions that can occur:
  
-- <com.github.kaktushose.jda.commands.exceptions.ConfigurationException> will be thrown if anything goes wrong while configuring JDA-Commands.
-- <com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException> will be thrown if any errors are made in the declaration of interactions.
-- <com.github.kaktushose.jda.commands.exceptions.InternalException> will be thrown if anything goes wrong internally. These errors should be [reported](https://github.com/Kaktushose/jda-commands/issues/new) to the devs.
+- <io.github.kaktushose.jdac.exceptions.ConfigurationException> will be thrown if anything goes wrong while configuring JDA-Commands.
+- <io.github.kaktushose.jdac.exceptions.InvalidDeclarationException> will be thrown if any errors are made in the declaration of interactions.
+- <io.github.kaktushose.jdac.exceptions.InternalException> will be thrown if anything goes wrong internally. These errors should be [reported](https://github.com/Kaktushose/jda-commands/issues/new) to the devs.
 
-If a <com.github.kaktushose.jda.commands.exceptions.ConfigurationException>
-or <com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException>
+If a <io.github.kaktushose.jdac.exceptions.ConfigurationException>
+or <io.github.kaktushose.jdac.exceptions.InvalidDeclarationException>
 occurs during startup, JDA-Commands will shut down itself as well as JDA. To disable this behaviour, set <JDACBuilder#shutdownJDA(boolean)>
 to `false`. 
 

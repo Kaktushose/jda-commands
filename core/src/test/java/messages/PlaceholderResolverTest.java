@@ -1,6 +1,6 @@
 package messages;
 
-import com.github.kaktushose.jda.commands.message.placeholder.PlaceholderResolver;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder;
 import io.github.kaktushose.proteus.mapping.Mapper;

@@ -36,10 +36,10 @@ Invalid placeholders will just be treated as literal text.
 To escape the opening bracket `{` just prefix it with `\`, like `My escaped placeholder \{ this_is_text }`.
 
 ## Placeholders
-JDA-Commands provides a way to set placeholder values by using <com.github.kaktushose.jda.commands.message.placeholder.Entry>.
+JDA-Commands provides a way to set placeholder values by using <io.github.kaktushose.jdac.message.placeholder.Entry>.
 
 Often you will find a vararg of this class at the end of a method parameters list. By adding entries
-there (preferably by using <com.github.kaktushose.jda.commands.message.placeholder.Entry#entry(String,Object)>)
+there (preferably by using <io.github.kaktushose.jdac.message.placeholder.Entry#entry(String,Object)>)
 as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
 the used method.
 

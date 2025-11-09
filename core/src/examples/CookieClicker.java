@@ -1,9 +1,9 @@
-import com.github.kaktushose.jda.commands.annotations.interactions.Button;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.SlashCommand;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.Component;
+import io.github.kaktushose.jdac.annotations.interactions.Button;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.SlashCommand;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.dispatching.reply.Component;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 
 @Interaction

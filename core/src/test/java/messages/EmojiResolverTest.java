@@ -1,6 +1,6 @@
 package messages;
 
-import com.github.kaktushose.jda.commands.message.emoji.EmojiResolver;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -46,10 +46,10 @@ defining the valid types for this annotation.
     ```
 
 ### 2. Creating the Validator
-Secondly, you must create the actual validator by implementing the <com.github.kaktushose.jda.commands.dispatching.validation.Validator>
+Secondly, you must create the actual validator by implementing the <io.github.kaktushose.jdac.dispatching.validation.Validator>
 interface. 
 
-The <com.github.kaktushose.jda.commands.dispatching.validation.Validator#apply(T,A,Context)> method will give you the argument (command option) as well as the annotation object. 
+The <io.github.kaktushose.jdac.dispatching.validation.Validator#apply(T,A,Context)> method will give you the argument (command option) as well as the annotation object. 
 If the constraint should fail, you must call <Context#fail(String, Entry...)>
 
 !!! example

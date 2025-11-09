@@ -22,8 +22,8 @@ Instead of manually using the <MessageResolver>
 class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:
 
-- [Component API](../interactions/components.md) including the corresponding annotations like <com.github.kaktushose.jda.commands.annotations.interactions.Button>,
-  <com.github.kaktushose.jda.commands.annotations.interactions.Modal> etc.
+- [Component API](../interactions/components.md) including the corresponding annotations like <io.github.kaktushose.jdac.annotations.interactions.Button>,
+  <io.github.kaktushose.jdac.annotations.interactions.Modal> etc.
 - [Embed API](embeds.md) 
 - [Reply API](../interactions/reply.md), for example the string content of a message <Reply#reply(String,Entry...)>
 

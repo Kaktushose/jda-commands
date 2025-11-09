@@ -1,10 +1,10 @@
 package definitions.description;
 
 
-import com.github.kaktushose.jda.commands.annotations.i18n.Bundle;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Param;
-import com.github.kaktushose.jda.commands.definitions.description.*;
+import io.github.kaktushose.jdac.annotations.i18n.Bundle;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.Param;
+import io.github.kaktushose.jdac.definitions.description.*;
 import definitions.description.environment.BaseClass;
 import definitions.description.environment.nested.NestedClass;
 import org.junit.jupiter.api.BeforeAll;

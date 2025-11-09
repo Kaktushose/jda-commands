@@ -1,12 +1,12 @@
 package definitions.interactions.component;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Button;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.annotations.interactions.Button;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
+import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.junit.jupiter.api.Test;

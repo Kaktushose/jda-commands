@@ -28,6 +28,6 @@ method. You need to pass the following two parameters:
 !!! example "Exclude default Guice Extension"
     ```java
     JDACommands.builder(jda, Main.class)
-            .filterExtensions(FilterStrategy.EXCLUDE, "com.github.kaktushose.jda.commands.guice")
+            .filterExtensions(FilterStrategy.EXCLUDE, "io.github.kaktushose.jdac.guice")
             .start();
     ```

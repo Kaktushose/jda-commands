@@ -44,7 +44,7 @@ JDACommands.builder(jda, Main.class)
 
 You define interactions as methods. They are made up from the method annotations and in some cases the method signature, e.g. 
 for command options.
-These methods must be contained in a class annotated with <com.github.kaktushose.jda.commands.annotations.interactions.Interaction>.
+These methods must be contained in a class annotated with <io.github.kaktushose.jdac.annotations.interactions.Interaction>.
 
 ```java
 @Interaction
@@ -60,12 +60,12 @@ public class HelloWorld {
 
 The following interaction types are available:
 
-- <com.github.kaktushose.jda.commands.annotations.interactions.Command>
-- <com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete>
-- <com.github.kaktushose.jda.commands.annotations.interactions.Command>
-- <com.github.kaktushose.jda.commands.annotations.interactions.Button>
-- <com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu>
-- <com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu>
-- <com.github.kaktushose.jda.commands.annotations.interactions.Modal>
+- <io.github.kaktushose.jdac.annotations.interactions.Command>
+- <io.github.kaktushose.jdac.annotations.interactions.AutoComplete>
+- <io.github.kaktushose.jdac.annotations.interactions.Command>
+- <io.github.kaktushose.jdac.annotations.interactions.Button>
+- <io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu>
+- <io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu>
+- <io.github.kaktushose.jdac.annotations.interactions.Modal>
 
 You can read more about the different interaction types [here](../interactions/overview.md).

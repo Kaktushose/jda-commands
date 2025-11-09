@@ -1,7 +1,7 @@
 # Modals
 
 ## Overview
-Modals are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Modal>.
+Modals are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.Modal>.
 The first parameter must always be a <ModalEvent>.
 
 ```java
@@ -35,7 +35,7 @@ JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Text Inputs
-You can add text inputs to a modal by adding String parameters annotated with <com.github.kaktushose.jda.commands.annotations.interactions.TextInput>.
+You can add text inputs to a modal by adding String parameters annotated with <io.github.kaktushose.jdac.annotations.interactions.TextInput>.
 The label and other metadata of the text input is passed to the annotation. 
 
 !!! tip
@@ -87,7 +87,7 @@ Sets whether the text input is required. The default value is `true`.
 ## Replying with Modals
 
 You can reply to [`CommandEvents`][[CommandEvent]] 
-and [`ComponentEvents`][[com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent]]
+and [`ComponentEvents`][[io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent]]
 with a Modal by calling <ModalReplyableEvent#replyModal(java.lang.String,Entry...)>
 on the event.
 

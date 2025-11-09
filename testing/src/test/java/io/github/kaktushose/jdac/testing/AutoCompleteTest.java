@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac.testing;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
-import com.github.kaktushose.jda.commands.annotations.interactions.Command;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
+import io.github.kaktushose.jdac.annotations.interactions.Command;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

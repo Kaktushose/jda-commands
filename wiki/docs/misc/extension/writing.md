@@ -3,7 +3,7 @@
 ## Entrypoint
 
 The entrypoint of the Extension API is the so called
-<com.github.kaktushose.jda.commands.extension.Extension>
+<io.github.kaktushose.jdac.extension.Extension>
 interface, which your extensions _"entry class"_ must implement:
 
 ```java
@@ -62,7 +62,7 @@ that is:
 
 To provide custom implementations we have to implement the <Extension#providedImplementations()> method.
 This method returns a collection of all implementations that an extension provides, wrapped in an instance of
-<com.github.kaktushose.jda.commands.extension.Implementation>
+<io.github.kaktushose.jdac.extension.Implementation>
 
 ```java
 public class MyExtension implements Extension<MyExtensionData> {
@@ -135,10 +135,10 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 ```
 
 ### The `Implementation` class
-The <com.github.kaktushose.jda.commands.extension.Implementation>
+The <io.github.kaktushose.jdac.extension.Implementation>
 class has 2 main purposes: State which class the custom implementation is for and providing instance(s) of those custom implementations.
 
-To provide a custom implementation you have to create an instance of <com.github.kaktushose.jda.commands.extension.Implementation> and provide
+To provide a custom implementation you have to create an instance of <io.github.kaktushose.jdac.extension.Implementation> and provide
 
 1. the `type` of this Extension [(that is a class/interface extending ExtensionProvidable](#providing-implementations))
 2. a `supplier` in form of `java.util.fuction.Function` that takes
@@ -176,20 +176,20 @@ extensions for the needed implementation, thus cycling dependencies will result 
 Custom extensions are found with help of Javas [ServiceLoader API][[ServiceLoader]].
 
 To register the above `MyExtension` we have to create a file in our `resources\META-INF` directory called
-`com.github.kaktushose.jda.commands.extension.Extension`.
+`io.github.kaktushose.jdac.extension.Extension`.
 
 ```
 src
 └── main
     └── resources
         └── META-INF
-            └── com.github.kaktushose.jda.commands.extension.Extension
+            └── io.github.kaktushose.jdac.extension.Extension
 ```
 
 The full class name of our class `MyExtension` (e.g. `my.package.MyExtension`) must be the content of this file.
 
 !!! example
-    ```text title="com.github.kaktushose.jda.commands.extension.Extension"
+    ```text title="io.github.kaktushose.jdac.extension.Extension"
     my.package.MyExtension
     ```
 

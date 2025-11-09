@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.testing.reply;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;

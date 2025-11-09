@@ -1,12 +1,12 @@
 package definitions.config;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Button;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import io.github.kaktushose.jdac.annotations.interactions.Button;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.internal.Helpers;
 import definitions.TestHelpers;
 import org.junit.jupiter.api.Test;
 

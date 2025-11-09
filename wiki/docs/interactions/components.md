@@ -28,8 +28,8 @@ JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
 ## Buttons
-Buttons are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Button>. 
-The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
+Buttons are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.Button>. 
+The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
 The label and other metadata of the button is passed to the annotation.
 ```java
 @Button("example")
@@ -68,8 +68,8 @@ Buttons that have a link cannot be executed, but they are still defined like nor
 
 ## Select Menus
 ### String Select Menus
-String Select Menus are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu>
-The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
+String Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu>
+The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
 The second parameter must be a <java.util.List>.
 
 The placeholder and other metadata of the String Select Menu is passed to the annotation. 
@@ -100,8 +100,8 @@ String Select Menus support up to 25 options. You can set the minimum and maximu
     ```
 
 ### Entity Select Menus
-Entity Select Menus are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu>.
-The first parameter must always be a <com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent>.
+Entity Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu>.
+The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
 The second parameter must be of type <Mentions>.
 
 !!! example

@@ -1,8 +1,8 @@
 package definitions.description;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
-import com.github.kaktushose.jda.commands.guice.Implementation;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.guice.Implementation;
 import definitions.description.environment.BaseClass;
 import definitions.description.environment.SubClass;
 import definitions.description.environment.nested.NestedClass;

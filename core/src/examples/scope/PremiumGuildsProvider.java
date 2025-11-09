@@ -1,4 +1,4 @@
-import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.util.Set;

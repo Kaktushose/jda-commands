@@ -1,10 +1,10 @@
 package definitions.interactions;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Command;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import io.github.kaktushose.jdac.annotations.interactions.Command;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.internal.Helpers;
 import definitions.TestHelpers;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,12 @@
 package definitions.interactions.component;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.EntitySelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
+import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;

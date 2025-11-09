@@ -1,7 +1,7 @@
 package testing;
 
-import com.github.kaktushose.jda.commands.entities.JDACommands;
-import com.github.kaktushose.jda.commands.entities.JDACommandsBuilder;
+import io.github.kaktushose.jdac.entities.JDACommands;
+import io.github.kaktushose.jdac.entities.JDACommandsBuilder;
 import net.dv8tion.jda.api.JDA;
 
 public class Main {

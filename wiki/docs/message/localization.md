@@ -56,7 +56,7 @@ To learn more about placeholders take a look [here](placeholder.md)
 
 ### Example (Fluava)
 ```java
-import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @Interaction
 public class ComponentTest {

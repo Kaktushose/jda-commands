@@ -63,11 +63,11 @@ This annotation allows the automatic instantiation and registration for implemen
 - <PermissionsProvider>
 - <GuildScopeProvider>
 - <ErrorMessageFactory>
-- <com.github.kaktushose.jda.commands.definitions.description.Descriptor>
+- <io.github.kaktushose.jdac.definitions.description.Descriptor>
 
-- <com.github.kaktushose.jda.commands.dispatching.middleware.Middleware> + <Implementation.Middleware#priority()> set
-- <com.github.kaktushose.jda.commands.dispatching.validation.Validator> + <Implementation.Validator#annotation()> set
-- <com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter> + <Implementation.TypeAdapter#source()> & <Implementation.TypeAdapter#target()> set
+- <io.github.kaktushose.jdac.dispatching.middleware.Middleware> + <Implementation.Middleware#priority()> set
+- <io.github.kaktushose.jdac.dispatching.validation.Validator> + <Implementation.Validator#annotation()> set
+- <io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter> + <Implementation.TypeAdapter#source()> & <Implementation.TypeAdapter#target()> set
 
 The annotated classes will be instantiated with help of `com.google.inject.Injector` similar to interaction controllers.
 
