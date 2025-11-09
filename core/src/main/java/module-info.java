@@ -3,7 +3,7 @@ import org.jspecify.annotations.NullMarked;
 /// The base module of jda-commands.
 ///
 @NullMarked
-module io.github.kaktushose.jda.commands.core {
+module io.github.kaktushose.jdac.core {
     requires com.fasterxml.jackson.databind;
     requires net.dv8tion.jda;
     requires java.desktop;

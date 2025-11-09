@@ -3,9 +3,9 @@ import org.jspecify.annotations.NullMarked;
 /// An extension to JDA-Commands providing Google's Guice as a dependency injection framework.
 ///
 @NullMarked
-module io.github.kaktushose.jda.commands.extension.guice {
+module io.github.kaktushose.jdac.guice {
     requires transitive org.jspecify;
-    requires transitive io.github.kaktushose.jda.commands.core;
+    requires transitive io.github.kaktushose.jdac.core;
     requires transitive org.jetbrains.annotations;
 
     requires com.google.guice;
