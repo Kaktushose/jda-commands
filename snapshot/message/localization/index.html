@@ -1707,7 +1707,7 @@ would be called in, for example, <code>B$bTwo</code> the bundle would be <code>m
 <h2 id="localization-of-default-messages">Localization of default messages<a class="headerlink" href="#localization-of-default-messages" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands sometimes presents error messages or strings to the user of the discord bot, that aren't defined by the developer
 per default. For most cases the default values for these messages shipped with JDA-Commands will be sufficient, but some developers might like to 
-customize such messages or localize them (if supported). </p>
+localize them (if supported). </p>
 <p>For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):</p>
 <ul>
 <li><code>member-missing-permission</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html">@Perm</a></li>
@@ -1715,17 +1715,6 @@ customize such messages or localize them (if supported). </p>
 <li><code>member-required-got-user</code> -&gt; if a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Member.html">Member</a> is required, but only a user was given as a slash command option input</li>
 <li><code>no-description</code> -&gt; if no description was stated for a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/SlashCommandDefinition.html">slash command</a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html">slash command option</a></li>
 </ul>
-<p>Please note that the messages:</p>
-<ul>
-<li><code>member-required-got-user</code></li>
-<li><code>no-description</code></li>
-</ul>
-<p>Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#ENGLISH">ENGLISH</a>.
-However, you can localize the <code>no-description</code> on a per command basis using the <a href="#localizationfunction-jda-slash-command-localization">localization function</a></p>
-<p>If you're using Fluava as your localization system and your fallback locale isn't <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#ENGLISH">ENGLISH</a>, 
-your fallback locale will be searched for the messages too according to the bundle rules defined <a href="https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Bundle.html">here</a>.
-For example, if you have <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html#GERMAN">GERMAN</a> as your fallback locale and the following <code>jdac_de.ftl</code> bundle, the message for
-<code>no-description</code> will be <code>Keine Beschreibung angegeben!</code>.</p>
 <h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
 <div class="language-text highlight"><span class="filename">jdac_de.ftl</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>member-missing-permission = Du hast nicht die benötigte Berechtigung!
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>no-description = Keine Beschreibung angegeben!
