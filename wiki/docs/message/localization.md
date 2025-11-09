@@ -161,7 +161,7 @@ If no bundle is found with the above techniques, a bundle called `default` will 
 ## Localization of default messages
 JDA-Commands sometimes presents error messages or strings to the user of the discord bot, that aren't defined by the developer
 per default. For most cases the default values for these messages shipped with JDA-Commands will be sufficient, but some developers might like to 
-customize such messages or localize them (if supported). 
+localize them (if supported). 
 
 For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):
 
@@ -169,19 +169,6 @@ For this task the reserved bundle 'jdac' was defined, allowing the customization
 - `member-has-unallowed-permission` -> if a <net.dv8tion.jda.api.entities.Member> has the permission forbidden by <NotPerm>
 - `member-required-got-user` -> if a <net.dv8tion.jda.api.entities.Member> is required, but only a user was given as a slash command option input
 - `no-description` -> if no description was stated for a [slash command][[SlashCommandDefinition]] or [slash command option][[OptionDataDefinition]]
-
-Please note that the messages:
-
-- `member-required-got-user`
-- `no-description`
-
-Cannot be localized as their value is fetched when the locale of the user isn't known. They will always be retrieved for the locale [ENGLISH][[Locale#ENGLISH]].
-However, you can localize the `no-description` on a per command basis using the [localization function](#localizationfunction-jda-slash-command-localization)
-
-If you're using Fluava as your localization system and your fallback locale isn't [ENGLISH][[Locale#ENGLISH]], 
-your fallback locale will be searched for the messages too according to the bundle rules defined [here][[fluava -> Bundle]].
-For example, if you have [GERMAN][[Locale#GERMAN]] as your fallback locale and the following `jdac_de.ftl` bundle, the message for
-`no-description` will be `Keine Beschreibung angegeben!`.
 
 ### Example
 ```ftl title='jdac_de.ftl'
