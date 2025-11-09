@@ -23,8 +23,13 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         for (DiscordLocale locale : DiscordLocale.values()) {
             if (locale == DiscordLocale.UNKNOWN) continue;
 
-            String result = localizer.localize(locale.toLocale(), localizationKey, Map.of());
-            if (!result.equals(localizationKey)) localizations.put(locale, result);
+            String result = localizer.localize(locale.toLocale(), localizationKey);
+            if (!result.equals(localizationKey)) {
+                localizations.put(locale, result);
+            } else if (localizationKey.contains("description")) {
+                String noDescriptionLocalized = localizer.localize(locale.toLocale(), "jdac$no-description");
+                localizations.put(locale, noDescriptionLocalized);
+            }
         }
         return localizations;
     }
