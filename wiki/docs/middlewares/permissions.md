@@ -12,11 +12,11 @@ have no influence on.
     or secure a critical command further you should use the permissions system of JDA-Commands.
 
 ## Adding Permissions to an Interaction
-Use the <com.github.kaktushose.jda.commands.annotations.interactions.Permissions>
+Use the <io.github.kaktushose.jdac.annotations.interactions.Permissions>
 annotation to add permissions to an interaction. This isn't limited to slash commands, but can
 be any type of interaction. 
 
-The <com.github.kaktushose.jda.commands.annotations.interactions.Permissions>
+The <io.github.kaktushose.jdac.annotations.interactions.Permissions>
 annotation takes an arbitrary amount of Strings as input. Each String defines a `permission` that must be present. By default,
 you can pass Discord Permissions, like `BAN_MEMBERS`. JDA-Commands will then check if the executor has the respective
 Discord Permission before executing the interaction. 

@@ -1,13 +1,13 @@
 package io.github.kaktushose.jdac.testing;
 
-import com.github.kaktushose.jda.commands.JDACBuilder;
-import com.github.kaktushose.jda.commands.JDACommands;
-import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
-import com.github.kaktushose.jda.commands.message.i18n.Localizer;
+import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.JDACommands;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
+import io.github.kaktushose.jdac.message.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;

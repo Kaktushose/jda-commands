@@ -4,7 +4,7 @@
     [JDA wiki](https://jda.wiki/using-jda/interactions/) first. We assume that the basic structure of interactions is known.
 
 ## Slash Commands
-SlashCommands are defined by annotating a method with <com.github.kaktushose.jda.commands.annotations.interactions.Command>.
+SlashCommands are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.Command>.
 The first parameter must always be a <CommandEvent>.
 The name and other metadata of the command is passed to the annotation.
 ```java
@@ -50,7 +50,7 @@ In our example the following commands will be registered:
 - `/moderation kick`
 - `/moderation ban`
 
-To simplify things, you can also use the <com.github.kaktushose.jda.commands.annotations.interactions.Interaction>
+To simplify things, you can also use the <io.github.kaktushose.jdac.annotations.interactions.Interaction>
 to add a base name to all slash commands in a command controller:
 ```java
 @Interaction("moderation")
@@ -83,7 +83,7 @@ You can also [register your own type adapters](../middlewares/typeadapter.md).
 #### OptionType
 The parameters will automatically be mapped to the best fitting <OptionType>,
 defaulting to <OptionType#STRING>. You can override this mapping by using the 
-<com.github.kaktushose.jda.commands.annotations.interactions.Param> annotation. 
+<io.github.kaktushose.jdac.annotations.interactions.Param> annotation. 
 ```java
 @Command("ban")
 public void onBanMember(CommandEvent event, @Param(type = OptionType.USER) IMentionable target) {
@@ -279,7 +279,7 @@ annotation to set the minimum and maximum value for numeral options.
     ```
 
 ## Context Commands
-Both types of context commands are defined by the same <com.github.kaktushose.jda.commands.annotations.interactions.Command>
+Both types of context commands are defined by the same <io.github.kaktushose.jdac.annotations.interactions.Command>
 annotation. The first parameter must always be a <CommandEvent>.
 The name and other metadata of the command is passed to the annotation.
 
@@ -309,7 +309,7 @@ public void onBanMember(CommandEvent event, Member member) { ... }
 ```
 
 ## Additional Settings
-Use the <com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig> annotation to configure the 
+Use the <io.github.kaktushose.jdac.annotations.interactions.CommandConfig> annotation to configure the 
 following settings. You can either annotate a command method directly or annotate the interaction controller class. It 
 is also possible to set a [global command config][[JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)]]
 at the builder:
@@ -416,7 +416,7 @@ Finally, we have to register our `PremiumGuildsProvider`. We can either pass it 
         .start();
     ```
 
-or simply annotate the `PremiumGuildsProvider` class with <com.github.kaktushose.jda.commands.guice.Implementation>.
+or simply annotate the `PremiumGuildsProvider` class with <io.github.kaktushose.jdac.guice.Implementation>.
 !!! note
-    Using the <com.github.kaktushose.jda.commands.guice.Implementation> annotation requires the guice integration 
+    Using the <io.github.kaktushose.jdac.guice.Implementation> annotation requires the guice integration 
     (shipped by default). You can read more about it [here](../di.md).   

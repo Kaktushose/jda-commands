@@ -5,7 +5,7 @@
 
 ## Structure
 In JDA-Commands you define interactions as methods. These methods must be contained in a class annotated with 
-<com.github.kaktushose.jda.commands.annotations.interactions.Interaction>,
+<io.github.kaktushose.jdac.annotations.interactions.Interaction>,
 which is also referred to as the _interaction controller_. 
 
 Each method controls one interaction. The interaction data gets defined by annotations and sometimes by the method signature. 

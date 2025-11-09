@@ -2,7 +2,7 @@
 JDA-Commands uses `java.lang.reflect` in two places:
 
 - <ClassFinder>
-- <com.github.kaktushose.jda.commands.definitions.description.Descriptor>
+- <io.github.kaktushose.jdac.definitions.description.Descriptor>
 - <EmojiSource>
 
 If you want to completely avoid `java.lang.reflect` you have to provide your own implementations.
@@ -32,7 +32,7 @@ JDACommands.builder(jda, Main.class)
 
 ## Descriptor
 A `Descriptor` takes a `Class` as input and transforms it into a <ClassDescription>.
-Descriptors can also be registered using the <com.github.kaktushose.jda.commands.guice.Implementation>
+Descriptors can also be registered using the <io.github.kaktushose.jdac.guice.Implementation>
 annotation. Alternatively, register them at the JDA-Commands Builder.
 
 ```java
@@ -46,7 +46,7 @@ JDACommands.builder(jda, Main.class)
 [EmojiSources](../message/emojis.md#automatic-application-emojis-registration) are used to load application emojis that should be registered automatically upon startup for you. 
 They're similar to [ClassFinders](#classfinder).
 
-You can register them at the JDA-Commands Builder or via the <com.github.kaktushose.jda.commands.guice.Implementation> annotation.
+You can register them at the JDA-Commands Builder or via the <io.github.kaktushose.jdac.guice.Implementation> annotation.
 
 ```java
 JDACommands.builder(jda, Main.class)

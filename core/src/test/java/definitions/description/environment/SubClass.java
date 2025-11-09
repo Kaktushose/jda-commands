@@ -1,6 +1,6 @@
 package definitions.description.environment;
 
-import com.github.kaktushose.jda.commands.guice.Implementation;
+import io.github.kaktushose.jdac.guice.Implementation;
 
 @Implementation
 public class SubClass extends BaseClass {

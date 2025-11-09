@@ -16,10 +16,10 @@ If one middleware fails, the entire interaction execution gets immediately abort
 ## Default Middlewares
 JDA-Commands uses its own Middleware API internally to implement some features. All these features can either be 
 *extended* or *replaced* by the user. You can either register your own implementations at the respective builder method
-or use the <com.github.kaktushose.jda.commands.guice.Implementation> annotation.
+or use the <io.github.kaktushose.jdac.guice.Implementation> annotation.
 
 !!! note
-    Using the <com.github.kaktushose.jda.commands.guice.Implementation>
+    Using the <io.github.kaktushose.jdac.guice.Implementation>
     annotation requires the guice integration (shipped by default). You can read more about it [here](../di.md).
 
 Middlewares provided by JDA-Commands include:
@@ -31,7 +31,7 @@ Middlewares provided by JDA-Commands include:
 
 ## Writing own Middlewares
 
-You can write your own middlewares by implementing the <com.github.kaktushose.jda.commands.dispatching.middleware.Middleware> interface.
+You can write your own middlewares by implementing the <io.github.kaktushose.jdac.dispatching.middleware.Middleware> interface.
 You can cancel an execution by calling <InvocationContext#cancel(MessageCreateData)>.
 
 
@@ -53,7 +53,7 @@ JDACommands.builder(jda, Main.class)
     .start();
 ```
 
-or use the <com.github.kaktushose.jda.commands.guice.Implementation>
+or use the <io.github.kaktushose.jdac.guice.Implementation>
 annotation:
 ```java
 @Implementation.Middleware(priority = Priority.NORMAL)

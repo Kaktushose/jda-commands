@@ -1,20 +1,20 @@
 package definitions;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.AutoComplete;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.Permissions;
-import com.github.kaktushose.jda.commands.definitions.description.AnnotationDescription;
-import com.github.kaktushose.jda.commands.definitions.description.ClassDescription;
-import com.github.kaktushose.jda.commands.definitions.description.Descriptor;
-import com.github.kaktushose.jda.commands.definitions.description.MethodDescription;
-import com.github.kaktushose.jda.commands.definitions.description.reflective.ReflectiveDescriptor;
-import com.github.kaktushose.jda.commands.definitions.interactions.AutoCompleteDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.MethodBuildContext;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.validation.internal.Validators;
-import com.github.kaktushose.jda.commands.message.i18n.FluavaLocalizer;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
+import io.github.kaktushose.jdac.definitions.description.ClassDescription;
+import io.github.kaktushose.jdac.definitions.description.Descriptor;
+import io.github.kaktushose.jdac.definitions.description.MethodDescription;
+import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveDescriptor;
+import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
+import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
+import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 

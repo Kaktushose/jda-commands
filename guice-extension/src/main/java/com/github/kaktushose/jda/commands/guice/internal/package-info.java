@@ -1,1 +1,0 @@
-package com.github.kaktushose.jda.commands.guice.internal;

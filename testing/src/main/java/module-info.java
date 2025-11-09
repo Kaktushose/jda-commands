@@ -1,6 +1,6 @@
-module io.github.kaktushose.jda.commands.testing {
-    requires transitive io.github.kaktushose.jda.commands.core;
-    requires transitive io.github.kaktushose.jda.commands.extension.guice;
+module io.github.kaktushose.jdac.testing {
+    requires transitive io.github.kaktushose.jdac.core;
+    requires transitive io.github.kaktushose.jdac.guice;
     requires net.dv8tion.jda;
     requires org.jetbrains.annotations;
     requires org.mockito;

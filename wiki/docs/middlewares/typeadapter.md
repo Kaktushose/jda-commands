@@ -1,5 +1,5 @@
 # Type Adapters
-[TypeAdapters][[com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter]]
+[TypeAdapters][[io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter]]
 are a part of the execution chain. They are used to adapt the input of a slash command to the correct type needed to invoke the method.
 
 ## Default Type Adapters
@@ -15,7 +15,7 @@ for details.
 
 ## Writing Own Type Adapters
 As mentioned above, JDA-Commands uses [Proteus](https://github.com/Kaktushose/proteus) under the hood for type adapting.
-The <com.github.kaktushose.jda.commands.dispatching.adapter.TypeAdapter> interface is simply a subtype of Proteus' <proteus -> UniMapper>
+The <io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter> interface is simply a subtype of Proteus' <proteus -> UniMapper>
 The following example only covers the registration part for JDA-Commands. Please refer to the [`documentation`](https://kaktushose.github.io/proteus/wiki/)
 of Proteus for implementation details. 
 

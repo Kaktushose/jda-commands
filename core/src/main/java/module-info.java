@@ -3,7 +3,7 @@ import org.jspecify.annotations.NullMarked;
 /// The base module of jda-commands.
 ///
 @NullMarked
-module io.github.kaktushose.jda.commands.core {
+module io.github.kaktushose.jdac.core {
     requires com.fasterxml.jackson.databind;
     requires net.dv8tion.jda;
     requires java.desktop;
@@ -19,59 +19,59 @@ module io.github.kaktushose.jda.commands.core {
     requires io.github.classgraph;
 
     // base package
-    exports com.github.kaktushose.jda.commands;
+    exports io.github.kaktushose.jdac;
 
     // annotations
-    exports com.github.kaktushose.jda.commands.annotations.constraints;
-    exports com.github.kaktushose.jda.commands.annotations.interactions;
-    exports com.github.kaktushose.jda.commands.annotations.i18n;
+    exports io.github.kaktushose.jdac.annotations.constraints;
+    exports io.github.kaktushose.jdac.annotations.interactions;
+    exports io.github.kaktushose.jdac.annotations.i18n;
 
     // definitions
-    exports com.github.kaktushose.jda.commands.definitions;
-    exports com.github.kaktushose.jda.commands.definitions.interactions;
-    exports com.github.kaktushose.jda.commands.definitions.interactions.command;
-    exports com.github.kaktushose.jda.commands.definitions.interactions.component;
-    exports com.github.kaktushose.jda.commands.definitions.interactions.component.menu;
-    exports com.github.kaktushose.jda.commands.definitions.description;
-    exports com.github.kaktushose.jda.commands.definitions.features;
+    exports io.github.kaktushose.jdac.definitions;
+    exports io.github.kaktushose.jdac.definitions.interactions;
+    exports io.github.kaktushose.jdac.definitions.interactions.command;
+    exports io.github.kaktushose.jdac.definitions.interactions.component;
+    exports io.github.kaktushose.jdac.definitions.interactions.component.menu;
+    exports io.github.kaktushose.jdac.definitions.description;
+    exports io.github.kaktushose.jdac.definitions.features;
 
     // dispatching api
-    exports com.github.kaktushose.jda.commands.dispatching.expiration;
-    exports com.github.kaktushose.jda.commands.dispatching.context;
+    exports io.github.kaktushose.jdac.dispatching.expiration;
+    exports io.github.kaktushose.jdac.dispatching.context;
 
-    exports com.github.kaktushose.jda.commands.dispatching.reply;
-    exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic;
-    exports com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu;
+    exports io.github.kaktushose.jdac.dispatching.reply;
+    exports io.github.kaktushose.jdac.dispatching.reply.dynamic;
+    exports io.github.kaktushose.jdac.dispatching.reply.dynamic.menu;
 
-    exports com.github.kaktushose.jda.commands.dispatching.adapter;
+    exports io.github.kaktushose.jdac.dispatching.adapter;
 
-    exports com.github.kaktushose.jda.commands.dispatching.events;
-    exports com.github.kaktushose.jda.commands.dispatching.events.interactions;
+    exports io.github.kaktushose.jdac.dispatching.events;
+    exports io.github.kaktushose.jdac.dispatching.events.interactions;
 
-    exports com.github.kaktushose.jda.commands.dispatching.middleware;
+    exports io.github.kaktushose.jdac.dispatching.middleware;
 
-    exports com.github.kaktushose.jda.commands.dispatching.validation;
+    exports io.github.kaktushose.jdac.dispatching.validation;
 
-    exports com.github.kaktushose.jda.commands.dispatching.instance;
+    exports io.github.kaktushose.jdac.dispatching.instance;
 
     // embed
-    exports com.github.kaktushose.jda.commands.embeds;
-    exports com.github.kaktushose.jda.commands.embeds.error;
+    exports io.github.kaktushose.jdac.embeds;
+    exports io.github.kaktushose.jdac.embeds.error;
 
     // permissions api
-    exports com.github.kaktushose.jda.commands.permissions;
+    exports io.github.kaktushose.jdac.permissions;
 
     // command scope api
-    exports com.github.kaktushose.jda.commands.scope;
+    exports io.github.kaktushose.jdac.scope;
 
     // extensions
-    exports com.github.kaktushose.jda.commands.extension;
+    exports io.github.kaktushose.jdac.extension;
 
     // i18n/messages/emojis/placeholder
-    exports com.github.kaktushose.jda.commands.message.i18n;
-    exports com.github.kaktushose.jda.commands.message;
-    exports com.github.kaktushose.jda.commands.message.emoji;
-    exports com.github.kaktushose.jda.commands.message.placeholder;
+    exports io.github.kaktushose.jdac.message.i18n;
+    exports io.github.kaktushose.jdac.message;
+    exports io.github.kaktushose.jdac.message.emoji;
+    exports io.github.kaktushose.jdac.message.placeholder;
 
-    uses com.github.kaktushose.jda.commands.extension.Extension;
+    uses io.github.kaktushose.jdac.extension.Extension;
 }
