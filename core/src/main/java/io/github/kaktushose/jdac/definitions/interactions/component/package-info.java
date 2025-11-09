@@ -1,2 +1,2 @@
-/// [`Definitions`][com.github.kaktushose.jda.commands.definitions.Definition] that represent component interactions.
+/// [`Definitions`][io.github.kaktushose.jdac.definitions.Definition] that represent component interactions.
 package io.github.kaktushose.jdac.definitions.interactions.component;

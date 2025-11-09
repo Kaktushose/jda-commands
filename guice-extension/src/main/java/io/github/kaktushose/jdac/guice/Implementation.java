@@ -94,7 +94,7 @@ public @interface Implementation {
     }
 
     /// A class annotated with [Validator] will be automatically searched for and instantiated as a
-    /// [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator] by guice.
+    /// [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] by guice.
     ///
     /// ### Example
     /// ```java
@@ -121,10 +121,10 @@ public @interface Implementation {
     @Scope
     @interface Validator {
 
-        /// Gets the annotation the [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator]
+        /// Gets the annotation the [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator]
         /// should be mapped to.
         ///
-        /// @return the annotation the [`Validator`][com.github.kaktushose.jda.commands.dispatching.validation.Validator]
+        /// @return the annotation the [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator]
         /// should be mapped to
         Class<? extends Annotation> annotation();
 

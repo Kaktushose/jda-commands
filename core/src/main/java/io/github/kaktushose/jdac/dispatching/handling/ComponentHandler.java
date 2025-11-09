@@ -1,14 +1,14 @@
-package com.github.kaktushose.jda.commands.dispatching.handling;
+package io.github.kaktushose.jdac.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
+import io.github.kaktushose.jdac.dispatching.FrameworkContext;
+import io.github.kaktushose.jdac.dispatching.Runtime;
+import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;

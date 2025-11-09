@@ -1,11 +1,11 @@
-package com.github.kaktushose.jda.commands.dispatching.context;
+package io.github.kaktushose.jdac.dispatching.context;
 
-import com.github.kaktushose.jda.commands.definitions.features.internal.Invokable;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory.ErrorContext;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import io.github.kaktushose.jdac.definitions.features.internal.Invokable;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
@@ -49,7 +49,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @param keyValueStore the [KeyValueStore] belonging to this interaction over its whole lifetime
     /// @param definition    the [InteractionDefinition] defining this interaction (referring to the user defined method)
     /// @param replyConfig   the [InteractionDefinition.ReplyConfig] to use
-    /// @param rawArguments  the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, com.github.kaktushose.jda.commands.dispatching.context.InvocationContext)]
+    /// @param rawArguments  the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, io.github.kaktushose.jdac.dispatching.context.InvocationContext)]
     public record Data<T extends GenericInteractionCreateEvent>(
             T event,
             KeyValueStore keyValueStore,

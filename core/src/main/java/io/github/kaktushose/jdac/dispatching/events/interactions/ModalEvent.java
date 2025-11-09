@@ -1,8 +1,8 @@
-package com.github.kaktushose.jda.commands.dispatching.events.interactions;
+package io.github.kaktushose.jdac.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.events.Event;
-import com.github.kaktushose.jda.commands.dispatching.events.ReplyableEvent;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.dispatching.events.Event;
+import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 

@@ -1,23 +1,23 @@
-package com.github.kaktushose.jda.commands;
+package io.github.kaktushose.jdac;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.CommandScope;
-import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
-import com.github.kaktushose.jda.commands.annotations.interactions.Interaction;
-import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.definitions.description.ClassFinder;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
-import com.github.kaktushose.jda.commands.dispatching.JDAEventListener;
-import com.github.kaktushose.jda.commands.embeds.Embed;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
-import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.internal.register.SlashCommandUpdater;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
-import com.github.kaktushose.jda.commands.scope.GuildScopeProvider;
+import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
+import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
+import io.github.kaktushose.jdac.dispatching.FrameworkContext;
+import io.github.kaktushose.jdac.dispatching.JDAEventListener;
+import io.github.kaktushose.jdac.embeds.Embed;
+import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.embeds.EmbedDataSource;
+import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
@@ -138,7 +138,7 @@ public final class JDACommands {
         return frameworkContext.messageResolver();
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.

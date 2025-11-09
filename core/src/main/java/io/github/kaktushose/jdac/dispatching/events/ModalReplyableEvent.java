@@ -1,14 +1,14 @@
-package com.github.kaktushose.jda.commands.dispatching.events;
+package io.github.kaktushose.jdac.dispatching.events;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.Modal;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ModalBuilder;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.annotations.interactions.Modal;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.ModalBuilder;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getFramework;
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getInvocationContext;
-import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getFramework;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getInvocationContext;
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///

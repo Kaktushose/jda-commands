@@ -1,9 +1,9 @@
-package com.github.kaktushose.jda.commands.dispatching.reply.internal;
+package io.github.kaktushose.jdac.dispatching.reply.internal;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getFramework;
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
-import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getFramework;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Implementation of [Reply] handling all the business logic of sending messages.
 @ApiStatus.Internal

@@ -1,15 +1,15 @@
-package com.github.kaktushose.jda.commands.dispatching.handling.command;
+package io.github.kaktushose.jdac.dispatching.handling.command;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.ContextCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
+import io.github.kaktushose.jdac.dispatching.FrameworkContext;
+import io.github.kaktushose.jdac.dispatching.Runtime;
+import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;

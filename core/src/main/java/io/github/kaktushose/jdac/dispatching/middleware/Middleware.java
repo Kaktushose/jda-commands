@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /// more info to the [InvocationContext]. Middlewares can have different [Priorities][Priority] dictating their priority
 /// on execution.
 ///
-/// Register them at the [com.github.kaktushose.jda.commands.JDACBuilder#middleware(Priority, Middleware)]  or use the
+/// Register them at the [io.github.kaktushose.jdac.JDACBuilder#middleware(Priority, Middleware)]  or use the
 /// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html)
 /// annotation of the guice extension.
 ///

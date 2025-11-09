@@ -66,8 +66,8 @@ import java.util.Optional;
 /// ```
 /// **Using [Member] will enforce [InteractionContextType#GUILD] on the command!**
 /// @see Interaction
-/// @see com.github.kaktushose.jda.commands.annotations.interactions.Interaction Interaction
-/// @see com.github.kaktushose.jda.commands.annotations.constraints.Constraint Constraint
+/// @see io.github.kaktushose.jdac.annotations.interactions.Interaction Interaction
+/// @see io.github.kaktushose.jdac.annotations.constraints.Constraint Constraint
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Command {

@@ -1,12 +1,12 @@
-package com.github.kaktushose.jda.commands.dispatching.handling;
+package io.github.kaktushose.jdac.dispatching.handling;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.command.OptionDataDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.SlashCommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.FrameworkContext;
-import com.github.kaktushose.jda.commands.dispatching.Runtime;
-import com.github.kaktushose.jda.commands.dispatching.context.InvocationContext;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.internal.Helpers;
+import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
+import io.github.kaktushose.jdac.dispatching.FrameworkContext;
+import io.github.kaktushose.jdac.dispatching.Runtime;
+import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
+import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import org.jetbrains.annotations.ApiStatus;

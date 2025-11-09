@@ -1,15 +1,15 @@
-package com.github.kaktushose.jda.commands.dispatching.events;
+package io.github.kaktushose.jdac.dispatching.events;
 
-import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.AutoCompleteEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.middleware.Middleware;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
+import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
+import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
+import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -26,8 +26,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getJdaEvent;
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.getRuntime;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getRuntime;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -77,7 +77,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return getRuntime().keyValueStore();
     }
 
-    /// Returns an instance of a class annotated with [`Interaction`][com.github.kaktushose.jda.commands.annotations.interactions.Interaction],
+    /// Returns an instance of a class annotated with [`Interaction`][io.github.kaktushose.jdac.annotations.interactions.Interaction],
     /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the interaction class instance

@@ -1,15 +1,15 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package io.github.kaktushose.jdac.dispatching;
 
-import com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore;
-import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.handling.AutoCompleteHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.ComponentHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.EventHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.ModalHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.command.ContextCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.handling.command.SlashCommandHandler;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
+import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
+import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
+import io.github.kaktushose.jdac.dispatching.handling.AutoCompleteHandler;
+import io.github.kaktushose.jdac.dispatching.handling.ComponentHandler;
+import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
+import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
+import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
+import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
+import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.exceptions.InternalException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;

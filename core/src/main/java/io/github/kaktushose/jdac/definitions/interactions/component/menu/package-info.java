@@ -1,2 +1,2 @@
-/// [`Definitions`][com.github.kaktushose.jda.commands.definitions.Definition] that represent select menu interactions.
+/// [`Definitions`][io.github.kaktushose.jdac.definitions.Definition] that represent select menu interactions.
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;

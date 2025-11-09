@@ -92,7 +92,7 @@ public record ModalDefinition(
     }
 
     /// Representation of a modal text input defined by
-    /// [`TextInput`][com.github.kaktushose.jda.commands.annotations.interactions.TextInput]
+    /// [`TextInput`][io.github.kaktushose.jdac.annotations.interactions.TextInput]
     public record TextInputDefinition(
             ParameterDescription parameter,
             String label,

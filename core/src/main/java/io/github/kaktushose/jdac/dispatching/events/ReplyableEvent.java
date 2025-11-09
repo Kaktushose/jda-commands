@@ -1,23 +1,23 @@
-package com.github.kaktushose.jda.commands.dispatching.events;
+package io.github.kaktushose.jdac.dispatching.events;
 
-import com.github.kaktushose.jda.commands.annotations.interactions.EntitySelectMenu;
-import com.github.kaktushose.jda.commands.annotations.interactions.StringSelectMenu;
-import com.github.kaktushose.jda.commands.definitions.features.CustomIdJDAEntity;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.CommandEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ComponentEvent;
-import com.github.kaktushose.jda.commands.dispatching.events.interactions.ModalEvent;
-import com.github.kaktushose.jda.commands.dispatching.reply.ConfigurableReply;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.Reply;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
-import com.github.kaktushose.jda.commands.embeds.Embed;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
-import com.github.kaktushose.jda.commands.embeds.EmbedDataSource;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
+import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.reply.internal.Reply;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.embeds.Embed;
+import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.embeds.EmbedDataSource;
+import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -33,14 +33,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.*;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
 /// You can either reply directly by using one of the `reply` methods, like [#reply(String, Entry...)], or you can call
 /// [#with()] to use a [ConfigurableReply] to append components or override reply settings from the
-/// [`ReplyConfig`][com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig].
+/// [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig].
 ///
 /// Example:
 /// ```
@@ -100,7 +100,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         }
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and transforms it into a JDA [Button].
     ///
     /// The button will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
@@ -112,7 +112,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return getComponent(button, null, ButtonDefinition.class);
     }
 
-    /// Gets a [`Button`][com.github.kaktushose.jda.commands.annotations.interactions.Button] based on the method name
+    /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///
     /// The button will be [`runtime`]({@docRoot}/index.html#runtime-concept-heading)-independent.

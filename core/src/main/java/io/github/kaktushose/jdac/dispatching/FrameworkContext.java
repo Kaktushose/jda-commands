@@ -1,16 +1,16 @@
-package com.github.kaktushose.jda.commands.dispatching;
+package io.github.kaktushose.jdac.dispatching;
 
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition;
-import com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters;
-import com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy;
-import com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator;
-import com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares;
-import com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory;
-import com.github.kaktushose.jda.commands.embeds.internal.Embeds;
-import com.github.kaktushose.jda.commands.message.MessageResolver;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
+import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
+import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
+import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

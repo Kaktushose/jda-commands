@@ -1,6 +1,6 @@
-package com.github.kaktushose.jda.commands.dispatching.events.interactions;
+package io.github.kaktushose.jdac.dispatching.events.interactions;
 
-import com.github.kaktushose.jda.commands.dispatching.events.Event;
+import io.github.kaktushose.jdac.dispatching.events.Event;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;

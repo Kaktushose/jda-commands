@@ -34,9 +34,9 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     LocalizationFunction localizationFunction();
 
     /// Stores the configuration values for registering commands. This acts as a representation of
-    /// [com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig]
+    /// [io.github.kaktushose.jdac.annotations.interactions.CommandConfig]
     ///
-    /// @see com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig
+    /// @see io.github.kaktushose.jdac.annotations.interactions.CommandConfig
     record CommandConfig(InteractionContextType[] context, IntegrationType[] integration,
                          CommandScope scope, boolean isNSFW, Permission[] enabledPermissions) {
 
@@ -67,7 +67,7 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
 
         /// Constructs a new CommandConfig.
         ///
-        /// @param config the [`@CommandConfig`][com.github.kaktushose.jda.commands.annotations.interactions.CommandConfig] to represent
+        /// @param config the [`@CommandConfig`][io.github.kaktushose.jdac.annotations.interactions.CommandConfig] to represent
         public CommandConfig(io.github.kaktushose.jdac.annotations.interactions.CommandConfig config) {
             this(config.context(), config.integration(), config.scope(), config.isNSFW(), config.enabledFor());
         }

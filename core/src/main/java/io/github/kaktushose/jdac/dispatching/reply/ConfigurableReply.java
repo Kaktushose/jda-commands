@@ -1,25 +1,25 @@
-package com.github.kaktushose.jda.commands.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.reply;
 
-import com.github.kaktushose.jda.commands.JDACBuilder;
-import com.github.kaktushose.jda.commands.annotations.interactions.ReplyConfig;
-import com.github.kaktushose.jda.commands.definitions.interactions.CustomId;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry;
-import com.github.kaktushose.jda.commands.definitions.interactions.ModalDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ButtonDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.ComponentDefinition;
-import com.github.kaktushose.jda.commands.definitions.interactions.component.menu.SelectMenuDefinition;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.ButtonComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.internal.UnspecificComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.dynamic.menu.StringSelectComponent;
-import com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction;
-import com.github.kaktushose.jda.commands.embeds.Embed;
-import com.github.kaktushose.jda.commands.embeds.EmbedConfig;
-import com.github.kaktushose.jda.commands.exceptions.InternalException;
-import com.github.kaktushose.jda.commands.exceptions.internal.JDACException;
-import com.github.kaktushose.jda.commands.message.i18n.I18n;
-import com.github.kaktushose.jda.commands.message.placeholder.Entry;
+import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
+import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.embeds.Embed;
+import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -40,8 +40,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.github.kaktushose.jda.commands.dispatching.context.internal.RichInvocationContext.*;
-import static com.github.kaktushose.jda.commands.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
