@@ -57,12 +57,11 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.DispatchingContext,net.dv8tion.jda.api.JDA)" tabindex="0">startNew(String, DispatchingContext, JDA)</a></li>
+<li><a href="#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)" tabindex="0">startNew(String, FrameworkContext, JDA)</a></li>
 <li><a href="#id()" tabindex="0">id()</a></li>
 <li><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" tabindex="0">queueEvent(GenericInteractionCreateEvent)</a></li>
 <li><a href="#keyValueStore()" tabindex="0">keyValueStore()</a></li>
-<li><a href="#i18n()" tabindex="0">i18n()</a></li>
-<li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
+<li><a href="#framework()" tabindex="0">framework()</a></li>
 <li><a href="#interactionInstance(java.lang.Class)" tabindex="0">interactionInstance(Class)</a></li>
 <li><a href="#close()" tabindex="0">close()</a></li>
 <li><a href="#isClosed()" tabindex="0">isClosed()</a></li>
@@ -121,8 +120,8 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#close()" class="member-name-link">close</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#framework()" class="member-name-link">framework</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#id()" class="member-name-link">id</a>()</code></div>
@@ -136,17 +135,14 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyValueStore()" class="member-name-link">keyValueStore</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">queueEvent</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">queueEvent</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.DispatchingContext,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a>&nbsp;dispatchingContext,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
+ <a href="FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a>&nbsp;context,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -165,11 +161,11 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.DispatchingContext,net.dv8tion.jda.api.JDA)">
+<section class="detail" id="startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)">
 <h3>startNew</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></span>&nbsp;<span class="element-name">startNew</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a>&nbsp;dispatchingContext,
+ <a href="FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a>&nbsp;context,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</span></div>
 </div>
 </section>
@@ -199,18 +195,10 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 </section>
 </li>
 <li>
-<section class="detail" id="i18n()">
-<h3>i18n</h3>
+<section class="detail" id="framework()">
+<h3>framework</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="messageResolver()">
-<h3>messageResolver</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></span>&nbsp;<span class="element-name">framework</span>()</div>
 </div>
 </section>
 </li>

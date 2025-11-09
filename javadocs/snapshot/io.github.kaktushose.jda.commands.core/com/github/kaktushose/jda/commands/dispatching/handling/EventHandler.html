@@ -59,18 +59,19 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
+<li><a href="#RICH_INVOCATION_CONTEXT" tabindex="0">RICH_INVOCATION_CONTEXT</a></li>
 <li><a href="#INVOCATION_PERMITTED" tabindex="0">INVOCATION_PERMITTED</a></li>
 <li><a href="#log" tabindex="0">log</a></li>
-<li><a href="#dispatchingContext" tabindex="0">dispatchingContext</a></li>
+<li><a href="#context" tabindex="0">context</a></li>
 <li><a href="#middlewares" tabindex="0">middlewares</a></li>
-<li><a href="#registry" tabindex="0">registry</a></li>
+<li><a href="#interactionRegistry" tabindex="0">interactionRegistry</a></li>
 <li><a href="#adapterRegistry" tabindex="0">adapterRegistry</a></li>
 <li><a href="#errorMessageFactory" tabindex="0">errorMessageFactory</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" tabindex="0">EventHandler(DispatchingContext)</a></li>
+<li><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" tabindex="0">EventHandler(FrameworkContext)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -138,24 +139,27 @@ In this step the user implemented method is called with help of the right <a hre
 <div class="col-first even-row-color"><code>protected final <a href="../adapter/internal/TypeAdapters.html" title="class in com.github.kaktushose.jda.commands.dispatching.adapter.internal">TypeAdapters</a></code></div>
 <div class="col-second even-row-color"><code><a href="#adapterRegistry" class="member-name-link">adapterRegistry</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#dispatchingContext" class="member-name-link">dispatchingContext</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="../FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#context" class="member-name-link">context</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>protected final <a href="../../embeds/error/ErrorMessageFactory.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory</a></code></div>
 <div class="col-second even-row-color"><code><a href="#errorMessageFactory" class="member-name-link">errorMessageFactory</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html" title="class or interface in java.lang" class="external-link">ScopedValue</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#INVOCATION_PERMITTED" class="member-name-link">INVOCATION_PERMITTED</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#interactionRegistry" class="member-name-link">interactionRegistry</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final org.slf4j.Logger</code></div>
-<div class="col-second even-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html" title="class or interface in java.lang" class="external-link">ScopedValue</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#INVOCATION_PERMITTED" class="member-name-link">INVOCATION_PERMITTED</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../middleware/internal/Middlewares.html" title="class in com.github.kaktushose.jda.commands.dispatching.middleware.internal">Middlewares</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#middlewares" class="member-name-link">middlewares</a></code></div>
+<div class="col-first odd-row-color"><code>static final org.slf4j.Logger</code></div>
+<div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a></code></div>
-<div class="col-second even-row-color"><code><a href="#registry" class="member-name-link">registry</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="../middleware/internal/Middlewares.html" title="class in com.github.kaktushose.jda.commands.dispatching.middleware.internal">Middlewares</a></code></div>
+<div class="col-second even-row-color"><code><a href="#middlewares" class="member-name-link">middlewares</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html" title="class or interface in java.lang" class="external-link">ScopedValue</a><wbr>&lt;<a href="../context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#RICH_INVOCATION_CONTEXT" class="member-name-link">RICH_INVOCATION_CONTEXT</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -167,7 +171,7 @@ In this step the user implemented method is called with help of the right <a hre
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">EventHandler</a><wbr>(<a href="../DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a>&nbsp;dispatchingContext)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">EventHandler</a><wbr>(<a href="../FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a>&nbsp;context)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -212,6 +216,14 @@ In this step the user implemented method is called with help of the right <a hre
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="RICH_INVOCATION_CONTEXT">
+<h3>RICH_INVOCATION_CONTEXT</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html" title="class or interface in java.lang" class="external-link">ScopedValue</a>&lt;<a href="../context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a>&gt;</span>&nbsp;<span class="element-name">RICH_INVOCATION_CONTEXT</span></div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="INVOCATION_PERMITTED">
 <h3>INVOCATION_PERMITTED</h3>
 <div class="horizontal-scroll">
@@ -228,10 +240,10 @@ In this step the user implemented method is called with help of the right <a hre
 </section>
 </li>
 <li>
-<section class="detail" id="dispatchingContext">
-<h3>dispatchingContext</h3>
+<section class="detail" id="context">
+<h3>context</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></span>&nbsp;<span class="element-name">dispatchingContext</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></span>&nbsp;<span class="element-name">context</span></div>
 </div>
 </section>
 </li>
@@ -244,10 +256,10 @@ In this step the user implemented method is called with help of the right <a hre
 </section>
 </li>
 <li>
-<section class="detail" id="registry">
-<h3>registry</h3>
+<section class="detail" id="interactionRegistry">
+<h3>interactionRegistry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a></span>&nbsp;<span class="element-name">registry</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../definitions/interactions/InteractionRegistry.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a></span>&nbsp;<span class="element-name">interactionRegistry</span></div>
 </div>
 </section>
 </li>
@@ -276,10 +288,10 @@ In this step the user implemented method is called with help of the right <a hre
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)">
+<section class="detail" id="&lt;init&gt;(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)">
 <h3>EventHandler</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EventHandler</span><wbr><span class="parameters">(<a href="../DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a>&nbsp;dispatchingContext)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EventHandler</span><wbr><span class="parameters">(<a href="../FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a>&nbsp;context)</span></div>
 </div>
 </section>
 </li>

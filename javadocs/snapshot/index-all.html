@@ -79,7 +79,7 @@ context.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#adapterRegistry" class="member-name-link">adapterRegistry</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#adapterRegistry()" class="member-name-link">adapterRegistry()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#adapterRegistry()" class="member-name-link">adapterRegistry()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>adapterRegistry</code> record component.</div>
 </dd>
@@ -230,13 +230,11 @@ should be mapped to.</div>
 <dd>
 <div class="block">This class is a subclass of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime)" class="member-name-link">AutoCompleteEvent(CommandAutoCompleteInteractionEvent, InteractionRegistry, Runtime)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">AutoCompleteEvent</a></dt>
-<dd>
-<div class="block">Constructs a new AutoCompleteEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html#%3Cinit%3E()" class="member-name-link">AutoCompleteEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">AutoCompleteEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling">AutoCompleteHandler</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">AutoCompleteHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">AutoCompleteHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">AutoCompleteHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/AutoCompleteHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">AutoCompleteHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html#%3Cinit%3E(java.lang.String,java.util.Set)" class="member-name-link">AutoCompleteRule(String, Set)</a> - Constructor for record class com.github.kaktushose.jda.commands.definitions.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/AutoCompleteDefinition.AutoCompleteRule.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions">AutoCompleteDefinition.AutoCompleteRule</a></dt>
 <dd>
@@ -575,6 +573,8 @@ that contain meta information about classes, methods und parameters, similar to 
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context</a> - package com.github.kaktushose.jda.commands.dispatching.context</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context.internal</a> - package com.github.kaktushose.jda.commands.dispatching.context.internal</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/package-summary.html">com.github.kaktushose.jda.commands.dispatching.events</a> - package com.github.kaktushose.jda.commands.dispatching.events</dt>
 <dd>
 <div class="block">Abstract event classes that build the foundation for specific event implementations.</div>
@@ -730,10 +730,8 @@ service provider interface.</div>
 <dd>
 <div class="block">This class is a subclass of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">CommandEvent(GenericCommandInteractionEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">CommandEvent</a></dt>
-<dd>
-<div class="block">Constructs a new CommandEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html#%3Cinit%3E()" class="member-name-link">CommandEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">CommandEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#commandOptions()" class="member-name-link">commandOptions()</a> - Method in record class com.github.kaktushose.jda.commands.definitions.interactions.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html" title="class in com.github.kaktushose.jda.commands.definitions.interactions.command">SlashCommandDefinition</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/command/SlashCommandDefinition.html#param-commandOptions"><code>commandOptions</code></a> record component.</div>
@@ -778,13 +776,11 @@ service provider interface.</div>
 <dd>
 <div class="block">This class is a subclass of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ComponentEvent(GenericComponentInteractionCreateEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ComponentEvent</a></dt>
-<dd>
-<div class="block">Constructs a new CommandEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html#%3Cinit%3E()" class="member-name-link">ComponentEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ComponentEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ComponentEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ComponentHandler</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">ComponentHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ComponentHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">ComponentHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ComponentHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ComponentHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#components()" class="member-name-link">components()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
@@ -805,7 +801,7 @@ messages and changing the <a href="io.github.kaktushose.jda.commands.core/com/gi
 <dd>
 <div class="block">Constructs a new ConfigurableReply.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.message.MessageResolver,com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction,com.github.kaktushose.jda.commands.embeds.internal.Embeds,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,java.lang.String)" class="member-name-link">ConfigurableReply(GenericInteractionCreateEvent, InteractionDefinition, MessageResolver, ReplyAction, Embeds, InteractionRegistry, String)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.reply.internal.ReplyAction)" class="member-name-link">ConfigurableReply(ReplyAction)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></dt>
 <dd>
 <div class="block">Constructs a new ConfigurableReply.</div>
 </dd>
@@ -850,6 +846,8 @@ messages and changing the <a href="io.github.kaktushose.jda.commands.core/com/gi
 <dd>
 <div class="block">Whether this StateSection has a value mapped to the key.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#context" class="member-name-link">context</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#context" class="member-name-link">context</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html#context()" class="member-name-link">context()</a> - Element in annotation interface com.github.kaktushose.jda.commands.annotations.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/CommandConfig.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions">CommandConfig</a></dt>
@@ -888,7 +886,7 @@ messages and changing the <a href="io.github.kaktushose.jda.commands.core/com/gi
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/ContextCommandHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">ContextCommandHandler</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling.command</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/ContextCommandHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">ContextCommandHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/ContextCommandHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">ContextCommandHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/ContextCommandHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">ContextCommandHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/ContextCommandHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">ContextCommandHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#controllerInstantiator" class="member-name-link">controllerInstantiator</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
@@ -935,6 +933,14 @@ messages and changing the <a href="io.github.kaktushose.jda.commands.core/com/gi
 </dl>
 <h2 class="title" id="I:D">D</h2>
 <dl class="index">
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#data()" class="member-name-link">data()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-data"><code>data</code></a> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#%3Cinit%3E(T,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)" class="member-name-link">Data(T, KeyValueStore, InteractionDefinition, InteractionDefinition.ReplyConfig, SequencedCollection)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>Data</code> record class.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html#dataObject(net.dv8tion.jda.api.utils.data.DataObject)" class="member-name-link">dataObject(DataObject)</a> - Static method in interface com.github.kaktushose.jda.commands.embeds.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/EmbedDataSource.html" title="interface in com.github.kaktushose.jda.commands.embeds"><code>EmbedDataSource</code></a> using a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link"><code>DataObject</code></a> as its source.</div>
@@ -1034,12 +1040,12 @@ for users that will be shown to the user.</div>
 <dd>
 <div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#definition" class="member-name-link">definition</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#definition()" class="member-name-link">definition()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#definition()" class="member-name-link">definition()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-definition"><code>definition</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#param-definition"><code>definition</code></a> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#definition()" class="member-name-link">definition()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.ErrorContext.html#definition()" class="member-name-link">definition()</a> - Method in interface com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></dt>
 <dd>
 <div class="block">The <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a> that models the interaction of the <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.ErrorContext.html#event()"><code>ErrorMessageFactory.ErrorContext.event()</code></a>.</div>
@@ -1138,16 +1144,6 @@ for users that will be shown to the user.</div>
 <dd>
 <div class="block">Creates an instance of a <code>DiscordHandled</code> record class.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#dispatchingContext" class="member-name-link">dispatchingContext</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/package-summary.html">com.github.kaktushose.jda.commands.dispatching</a></dt>
-<dd>
-<div class="block">A collection of classes relevant for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling"><code>EventHandler</code></a>s.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares,com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters,com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy,com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds,com.github.kaktushose.jda.commands.message.i18n.I18n,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">DispatchingContext(Middlewares, ErrorMessageFactory, InteractionRegistry, TypeAdapters, ExpirationStrategy, InteractionControllerInstantiator, InteractionDefinition.ReplyConfig, Embeds, I18n, MessageResolver)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>DispatchingContext</code> record class.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/Definition.html#displayName()" class="member-name-link">displayName()</a> - Method in interface com.github.kaktushose.jda.commands.definitions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/Definition.html" title="interface in com.github.kaktushose.jda.commands.definitions">Definition</a></dt>
 <dd>
 <div class="block">The human-readable name of this definition.</div>
@@ -1223,7 +1219,7 @@ for users that will be shown to the user.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#embeds" class="member-name-link">embeds</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#embeds()" class="member-name-link">embeds()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#embeds()" class="member-name-link">embeds()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>embeds</code> record component.</div>
 </dd>
@@ -1483,11 +1479,19 @@ should be enabled for by default.</div>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1496,6 +1500,10 @@ should be enabled for by default.</div>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.expiration.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html" title="class in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy.Inactivity</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1573,7 +1581,7 @@ should be enabled for by default.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#errorMessageFactory" class="member-name-link">errorMessageFactory</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#errorMessageFactory()" class="member-name-link">errorMessageFactory()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#errorMessageFactory()" class="member-name-link">errorMessageFactory()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>errorMessageFactory</code> record component.</div>
 </dd>
@@ -1599,12 +1607,12 @@ from.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.Configuration.html#errorSource(com.github.kaktushose.jda.commands.embeds.EmbedDataSource)" class="member-name-link">errorSource(EmbedDataSource)</a> - Method in class com.github.kaktushose.jda.commands.embeds.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.Configuration.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds.Configuration</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#event" class="member-name-link">event</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#event()" class="member-name-link">event()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#event()" class="member-name-link">event()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-event"><code>event</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#param-event"><code>event</code></a> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#event()" class="member-name-link">event()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.ErrorContext.html#event()" class="member-name-link">event()</a> - Method in interface com.github.kaktushose.jda.commands.embeds.error.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in com.github.kaktushose.jda.commands.embeds.error">ErrorMessageFactory.ErrorContext</a></dt>
 <dd>
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> in whose execution the error occurred.</div>
@@ -1613,15 +1621,13 @@ from.</div>
 <dd>
 <div class="block">Abstract base event for all interaction events, like <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/CommandEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions"><code>CommandEvent</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime)" class="member-name-link">Event(T, InteractionRegistry, Runtime)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
-<dd>
-<div class="block">Constructs a new Event.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#%3Cinit%3E()" class="member-name-link">Event()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler&lt;T&gt;</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling</a></dt>
 <dd>
 <div class="block">Implementations of this class are handling specific <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>s.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">EventHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">EventHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.FilterStrategy.html#EXCLUDE" class="member-name-link">EXCLUDE</a> - Enum constant in enum class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.FilterStrategy.html" title="enum class in com.github.kaktushose.jda.commands">JDACBuilder.FilterStrategy</a></dt>
 <dd>
@@ -1633,7 +1639,7 @@ from.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#expirationStrategy" class="member-name-link">expirationStrategy</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#expirationStrategy()" class="member-name-link">expirationStrategy()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#expirationStrategy()" class="member-name-link">expirationStrategy()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>expirationStrategy</code> record component.</div>
 </dd>
@@ -1765,6 +1771,14 @@ ordered by their <a href="io.github.kaktushose.jda.commands.core/com/github/kakt
 <dd>
 <div class="block">Creates a new child injector with its own <a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/InteractionControllerInstantiatorModule.html" title="class in com.github.kaktushose.jda.commands.guice.internal"><code>InteractionControllerInstantiatorModule</code></a> for each runtime.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#framework()" class="member-name-link">framework()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/package-summary.html">com.github.kaktushose.jda.commands.dispatching</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.middleware.internal.Middlewares,com.github.kaktushose.jda.commands.embeds.error.ErrorMessageFactory,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.adapter.internal.TypeAdapters,com.github.kaktushose.jda.commands.dispatching.expiration.ExpirationStrategy,com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator,com.github.kaktushose.jda.commands.embeds.internal.Embeds,com.github.kaktushose.jda.commands.message.i18n.I18n,com.github.kaktushose.jda.commands.message.MessageResolver,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)" class="member-name-link">FrameworkContext(Middlewares, ErrorMessageFactory, InteractionRegistry, TypeAdapters, ExpirationStrategy, InteractionControllerInstantiator, Embeds, I18n, MessageResolver, InteractionDefinition.ReplyConfig, CommandDefinition.CommandConfig)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>FrameworkContext</code> record class.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon)" class="member-name-link">fromIcon(String, Icon)</a> - Static method in interface com.github.kaktushose.jda.commands.message.emoji.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/emoji/EmojiSource.html" title="interface in com.github.kaktushose.jda.commands.message.emoji">EmojiSource</a></dt>
 <dd>
 <div class="block">Loads an emoji from a given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Icon.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Icon</code></a> instance, allowing interop with JDAs system</div>
@@ -1855,6 +1869,8 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getEntitlements()" class="member-name-link">getEntitlements()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getFramework()" class="member-name-link">getFramework()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getGuild()" class="member-name-link">getGuild()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDAContext.html#getGuildCache()" class="member-name-link">getGuildCache()</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDAContext.html" title="class in com.github.kaktushose.jda.commands">JDAContext</a></dt>
@@ -1873,7 +1889,11 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getIntegrationOwners()" class="member-name-link">getIntegrationOwners()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getInvocationContext()" class="member-name-link">getInvocationContext()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getJDA()" class="member-name-link">getJDA()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getJdaEvent()" class="member-name-link">getJdaEvent()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getMember()" class="member-name-link">getMember()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
@@ -1891,6 +1911,12 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <dd>
 <div class="block">The expected option type for this query.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getReplyConfig()" class="member-name-link">getReplyConfig()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getRichContext()" class="member-name-link">getRichContext()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getRuntime()" class="member-name-link">getRuntime()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#getSelectMenu(java.lang.Class,java.lang.String)" class="member-name-link">getSelectMenu(Class, String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
 <dd>
 <div class="block">Gets a <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/StringSelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/EntitySelectMenu.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>EntitySelectMenu</code></a> based on the method name and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.interactions.components.selections" class="external-link"><code>SelectMenu</code></a>.</div>
@@ -1930,6 +1956,8 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getUser()" class="member-name-link">getUser()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#getUserLocale()" class="member-name-link">getUserLocale()</a> - Static method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#getUserLocale()" class="member-name-link">getUserLocale()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html#getValue()" class="member-name-link">getValue()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/AutoCompleteEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">AutoCompleteEvent</a></dt>
@@ -1944,13 +1972,17 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>
 <div class="block">Returns the value of the <code>globalCommandConfig</code> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#globalCommandConfig()" class="member-name-link">globalCommandConfig()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>globalCommandConfig</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#globalCommandConfig()" class="member-name-link">globalCommandConfig()</a> - Method in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html#globalCommandConfig(com.github.kaktushose.jda.commands.definitions.interactions.command.CommandDefinition.CommandConfig)" class="member-name-link">globalCommandConfig(CommandDefinition.CommandConfig)</a> - Method in class com.github.kaktushose.jda.commands.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/JDACBuilder.html" title="class in com.github.kaktushose.jda.commands">JDACBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#globalReplyConfig" class="member-name-link">globalReplyConfig</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#globalReplyConfig()" class="member-name-link">globalReplyConfig()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#globalReplyConfig()" class="member-name-link">globalReplyConfig()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>globalReplyConfig</code> record component.</div>
 </dd>
@@ -2087,11 +2119,19 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -2100,6 +2140,10 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.expiration.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html" title="class in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy.Inactivity</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -2204,20 +2248,18 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 <dd>
 <div class="block">Returns the value of the <code>i18n</code> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#i18n()" class="member-name-link">i18n()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#i18n()" class="member-name-link">i18n()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#i18n()" class="member-name-link">i18n()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
-<dd>
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#param-i18n"><code>i18n</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#i18n()" class="member-name-link">i18n()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>
 <div class="block">Gets the <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/i18n/I18n.html" title="class in com.github.kaktushose.jda.commands.message.i18n"><code>I18n</code></a> instance.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#i18n()" class="member-name-link">i18n()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#i18n()" class="member-name-link">i18n()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>i18n</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#i18n()" class="member-name-link">i18n()</a> - Method in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/InteractionControllerInstantiatorModule.html#i18n()" class="member-name-link">i18n()</a> - Method in class com.github.kaktushose.jda.commands.guice.internal.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/InteractionControllerInstantiatorModule.html" title="class in com.github.kaktushose.jda.commands.guice.internal">InteractionControllerInstantiatorModule</a></dt>
@@ -2329,7 +2371,7 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/compo
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/GuiceInteractionControllerInstantiator.html#instance(java.lang.Class,com.github.kaktushose.jda.commands.dispatching.instance.InteractionControllerInstantiator.Context)" class="member-name-link">instance(Class, InteractionControllerInstantiator.Context)</a> - Method in class com.github.kaktushose.jda.commands.guice.internal.<a href="io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/internal/GuiceInteractionControllerInstantiator.html" title="class in com.github.kaktushose.jda.commands.guice.internal">GuiceInteractionControllerInstantiator</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#instanceProvider()" class="member-name-link">instanceProvider()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#instanceProvider()" class="member-name-link">instanceProvider()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>instanceProvider</code> record component.</div>
 </dd>
@@ -2388,6 +2430,12 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance(Class)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#interactionRegistry" class="member-name-link">interactionRegistry</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#interactionRegistry()" class="member-name-link">interactionRegistry()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>interactionRegistry</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/InteractionRegistry.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.definitions.interactions">InteractionRegistry</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/package-summary.html">com.github.kaktushose.jda.commands.definitions.interactions</a></dt>
 <dd>
 <div class="block">Central registry for all <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/interactions/InteractionDefinition.html" title="interface in com.github.kaktushose.jda.commands.definitions.interactions"><code>InteractionDefinition</code></a>s.</div>
@@ -2420,15 +2468,27 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#INVOCATION_PERMITTED" class="member-name-link">INVOCATION_PERMITTED</a> - Static variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#invocationContext()" class="member-name-link">invocationContext()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>invocationContext</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.Context.html#invocationContext()" class="member-name-link">invocationContext()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.validation.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/validation/Validator.Context.html" title="class in com.github.kaktushose.jda.commands.dispatching.validation">Validator.Context</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext&lt;T&gt;</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context</a></dt>
 <dd>
 <div class="block">Bundles data that is important for the execution of an interaction, especially for invoking the user defined method.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#%3Cinit%3E(T,com.github.kaktushose.jda.commands.message.i18n.I18n,com.github.kaktushose.jda.commands.message.MessageResolver,com.github.kaktushose.jda.commands.dispatching.context.KeyValueStore,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,java.util.SequencedCollection)" class="member-name-link">InvocationContext(T, I18n, MessageResolver, KeyValueStore, InteractionDefinition, InteractionDefinition.ReplyConfig, SequencedCollection)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.context.InvocationContext.Utility,com.github.kaktushose.jda.commands.dispatching.context.InvocationContext.Data)" class="member-name-link">InvocationContext(InvocationContext.Utility, InvocationContext.Data)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>InvocationContext</code> record class.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data&lt;T&gt;</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context</a></dt>
+<dd>
+<div class="block">An object holding data exposed to the user that is crucial for invoking the user defined method.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context</a></dt>
+<dd>
+<div class="block">An object providing access to some framework functionality.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/features/internal/Invokable.html" class="type-name-link" title="interface in com.github.kaktushose.jda.commands.definitions.features.internal">Invokable</a> - Interface in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/features/internal/package-summary.html">com.github.kaktushose.jda.commands.definitions.features.internal</a></dt>
 <dd>
@@ -2562,7 +2622,7 @@ the placeholders.</div>
 <dd>
 <div class="block">Handles incoming <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>s and maps them to their corresponding <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching"><code>Runtime</code></a>, creating new ones if needed.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">JDAEventListener(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html" title="class in com.github.kaktushose.jda.commands.dispatching">JDAEventListener</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">JDAEventListener(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/JDAEventListener.html" title="class in com.github.kaktushose.jda.commands.dispatching">JDAEventListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html#jdaException(java.lang.IllegalArgumentException,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition)" class="member-name-link">jdaException(IllegalArgumentException, InteractionDefinition)</a> - Static method in class com.github.kaktushose.jda.commands.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html" title="class in com.github.kaktushose.jda.commands.internal">Helpers</a></dt>
 <dd>&nbsp;</dd>
@@ -2609,9 +2669,9 @@ the placeholders.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#keepSelections(boolean)" class="member-name-link">keepSelections(boolean)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#keyValueStore()" class="member-name-link">keyValueStore()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#keyValueStore()" class="member-name-link">keyValueStore()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-keyValueStore"><code>keyValueStore</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#param-keyValueStore"><code>keyValueStore</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#keyValueStore()" class="member-name-link">keyValueStore()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
 <dd>&nbsp;</dd>
@@ -2796,20 +2856,18 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#mergedClassFinder()" class="member-name-link">mergedClassFinder()</a> - Method in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
-<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
-<dd>
-<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#param-messageResolver"><code>messageResolver</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
 <dd>
 <div class="block">Gets the <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/message/MessageResolver.html" title="class in com.github.kaktushose.jda.commands.message"><code>MessageResolver</code></a> instance</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class com.github.kaktushose.jda.commands.embeds.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/embeds/internal/Embeds.html" title="class in com.github.kaktushose.jda.commands.embeds.internal">Embeds</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
@@ -2905,7 +2963,7 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html#middlewares" class="member-name-link">middlewares</a> - Variable in class com.github.kaktushose.jda.commands.extension.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/JDACBuilderData.html" title="class in com.github.kaktushose.jda.commands.extension">JDACBuilderData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#middlewares()" class="member-name-link">middlewares()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#middlewares()" class="member-name-link">middlewares()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>middlewares</code> record component.</div>
 </dd>
@@ -2982,22 +3040,18 @@ for <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/co
 <dd>
 <div class="block">This class is a subclass of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.ModalInteractionEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ModalEvent(ModalInteractionEvent, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ModalEvent</a></dt>
-<dd>
-<div class="block">Constructs a new CommandEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html#%3Cinit%3E()" class="member-name-link">ModalEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.interactions.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/interactions/ModalEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events.interactions">ModalEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ModalHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ModalHandler</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ModalHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">ModalHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ModalHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ModalHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ModalHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">ModalHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/ModalHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">ModalHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent&lt;T&gt;</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/package-summary.html">com.github.kaktushose.jda.commands.dispatching.events</a></dt>
 <dd>
 <div class="block">Subtype of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>ReplyableEvent</code></a> that also supports replying with a <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/annotations/interactions/Modal.html" title="annotation interface in com.github.kaktushose.jda.commands.annotations.interactions"><code>Modal</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ModalReplyableEvent(T, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a></dt>
-<dd>
-<div class="block">Constructs a new ModalReplyableEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html#%3Cinit%3E()" class="member-name-link">ModalReplyableEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ModalReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ModalReplyableEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#modify(java.util.function.Function)" class="member-name-link">modify(Function)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html#modify(java.util.function.Function)" class="member-name-link">modify(Function)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ModalBuilder.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ModalBuilder</a></dt>
@@ -3396,9 +3450,9 @@ the name of the placeholder and the value of the map the value to replace the pl
 </dl>
 <h2 class="title" id="I:R">R</h2>
 <dl class="index">
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#rawArguments()" class="member-name-link">rawArguments()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#rawArguments()" class="member-name-link">rawArguments()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-rawArguments"><code>rawArguments</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#param-rawArguments"><code>rawArguments</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html#reflective(java.lang.String...)" class="member-name-link">reflective(String...)</a> - Static method in interface com.github.kaktushose.jda.commands.definitions.description.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/ClassFinder.html" title="interface in com.github.kaktushose.jda.commands.definitions.description">ClassFinder</a></dt>
 <dd>
@@ -3422,14 +3476,6 @@ the name of the placeholder and the value of the map the value to replace the pl
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/reflective/ReflectiveDescriptor.html#%3Cinit%3E()" class="member-name-link">ReflectiveDescriptor()</a> - Constructor for class com.github.kaktushose.jda.commands.definitions.description.reflective.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/reflective/ReflectiveDescriptor.html" title="class in com.github.kaktushose.jda.commands.definitions.description.reflective">ReflectiveDescriptor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html#registry" class="member-name-link">registry</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">Event</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#registry" class="member-name-link">registry</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#registry()" class="member-name-link">registry()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
-<dd>
-<div class="block">Returns the value of the <code>registry</code> record component.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html#remove(java.lang.String)" class="member-name-link">remove(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/KeyValueStore.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">KeyValueStore</a></dt>
 <dd>
 <div class="block">Removes the value mapping for a key.</div>
@@ -3518,17 +3564,15 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dd>
 <div class="block">Subtype of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/Event.html" title="class in com.github.kaktushose.jda.commands.dispatching.events"><code>Event</code></a> that supports replying to the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> with text messages.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#%3Cinit%3E(T,com.github.kaktushose.jda.commands.definitions.interactions.InteractionRegistry,com.github.kaktushose.jda.commands.dispatching.Runtime,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig,com.github.kaktushose.jda.commands.embeds.internal.Embeds)" class="member-name-link">ReplyableEvent(T, InteractionRegistry, Runtime, InteractionDefinition, InteractionDefinition.ReplyConfig, Embeds)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
-<dd>
-<div class="block">Constructs a new ReplyableEvent.</div>
-</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html#%3Cinit%3E()" class="member-name-link">ReplyableEvent()</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.events.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/events/ReplyableEvent.html" title="class in com.github.kaktushose.jda.commands.dispatching.events">ReplyableEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html#replyAction" class="member-name-link">replyAction</a> - Variable in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/ConfigurableReply.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">ConfigurableReply</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/package-summary.html">com.github.kaktushose.jda.commands.dispatching.reply.internal</a></dt>
 <dd>
 <div class="block">Implementation of <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/Reply.html" title="interface in com.github.kaktushose.jda.commands.dispatching.reply.internal"><code>Reply</code></a> handling all the business logic of sending messages.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#%3Cinit%3E(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition,com.github.kaktushose.jda.commands.message.MessageResolver,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ReplyAction(GenericInteractionCreateEvent, InteractionDefinition, MessageResolver, InteractionDefinition.ReplyConfig)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html#%3Cinit%3E(com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ReplyAction(InteractionDefinition.ReplyConfig)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.reply.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/internal/ReplyAction.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>
 <div class="block">Constructs a new ReplyAction.</div>
 </dd>
@@ -3576,9 +3620,9 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dd>
 <div class="block">Reply with up to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html#MAX_CHOICES" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">25</a> choices which can be picked from by the user.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#replyConfig()" class="member-name-link">replyConfig()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#replyConfig()" class="member-name-link">replyConfig()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-replyConfig"><code>replyConfig</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#param-replyConfig"><code>replyConfig</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html#replyConfig(com.github.kaktushose.jda.commands.definitions.features.internal.Invokable,com.github.kaktushose.jda.commands.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">replyConfig(Invokable, InteractionDefinition.ReplyConfig)</a> - Static method in class com.github.kaktushose.jda.commands.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/Helpers.html" title="class in com.github.kaktushose.jda.commands.internal">Helpers</a></dt>
 <dd>
@@ -3657,6 +3701,14 @@ resolve emojis (see <a href="io.github.kaktushose.jda.commands.core/com/github/k
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/definitions/description/MethodDescription.html#param-returnType"><code>returnType</code></a> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html#RICH_INVOCATION_CONTEXT" class="member-name-link">RICH_INVOCATION_CONTEXT</a> - Static variable in class com.github.kaktushose.jda.commands.dispatching.handling.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/EventHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling">EventHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a> - Record Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/package-summary.html">com.github.kaktushose.jda.commands.dispatching.context.internal</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.context.InvocationContext,com.github.kaktushose.jda.commands.dispatching.Runtime)" class="member-name-link">RichInvocationContext(InvocationContext, Runtime)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>RichInvocationContext</code> record class.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/CommandTree.html#root()" class="member-name-link">root()</a> - Method in record class com.github.kaktushose.jda.commands.internal.register.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/CommandTree.html" title="class in com.github.kaktushose.jda.commands.internal.register">CommandTree</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>root</code> record component.</div>
@@ -3668,6 +3720,10 @@ resolve emojis (see <a href="io.github.kaktushose.jda.commands.core/com/github/k
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html#runFor()" class="member-name-link">runFor()</a> - Method in interface com.github.kaktushose.jda.commands.dispatching.middleware.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/middleware/Middleware.html" title="interface in com.github.kaktushose.jda.commands.dispatching.middleware">Middleware</a></dt>
 <dd>
 <div class="block">Declares the interaction controllers for which this middleware should run.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#runtime()" class="member-name-link">runtime()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>runtime</code> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/package-summary.html">com.github.kaktushose.jda.commands.dispatching</a></dt>
 <dd>
@@ -3775,7 +3831,7 @@ resolve emojis (see <a href="io.github.kaktushose.jda.commands.core/com/github/k
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/SlashCommandHandler.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">SlashCommandHandler</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/package-summary.html">com.github.kaktushose.jda.commands.dispatching.handling.command</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/SlashCommandHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.DispatchingContext)" class="member-name-link">SlashCommandHandler(DispatchingContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/SlashCommandHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">SlashCommandHandler</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/SlashCommandHandler.html#%3Cinit%3E(com.github.kaktushose.jda.commands.dispatching.FrameworkContext)" class="member-name-link">SlashCommandHandler(FrameworkContext)</a> - Constructor for class com.github.kaktushose.jda.commands.dispatching.handling.command.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/handling/command/SlashCommandHandler.html" title="class in com.github.kaktushose.jda.commands.dispatching.handling.command">SlashCommandHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/SlashCommandUpdater.html" class="type-name-link" title="class in com.github.kaktushose.jda.commands.internal.register">SlashCommandUpdater</a> - Class in <a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/internal/register/package-summary.html">com.github.kaktushose.jda.commands.internal.register</a></dt>
 <dd>
@@ -3816,7 +3872,7 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.DispatchingContext,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew(String, DispatchingContext, JDA)</a> - Static method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html#startNew(java.lang.String,com.github.kaktushose.jda.commands.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew(String, FrameworkContext, JDA)</a> - Static method in class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/Runtime.html" title="class in com.github.kaktushose.jda.commands.dispatching">Runtime</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html#stringSelect(java.lang.Class,java.lang.String,com.github.kaktushose.jda.commands.message.placeholder.Entry...)" class="member-name-link">stringSelect(Class, String, Entry...)</a> - Static method in class com.github.kaktushose.jda.commands.dispatching.reply.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Component.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply">Component</a></dt>
 <dd>
@@ -4108,11 +4164,19 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.internal.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/internal/RichInvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context.internal">RichInvocationContext</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Data.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Data</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/DispatchingContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">DispatchingContext</a></dt>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -4121,6 +4185,10 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.expiration.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/expiration/ExpirationStrategy.Inactivity.html" title="class in com.github.kaktushose.jda.commands.dispatching.expiration">ExpirationStrategy.Inactivity</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html#toString()" class="member-name-link">toString()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/FrameworkContext.html" title="class in com.github.kaktushose.jda.commands.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -4275,6 +4343,14 @@ instantiates an instance of <a href="io.github.kaktushose.jda.commands.core/com/
 </dd>
 <dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ButtonComponent.html#url(java.lang.String)" class="member-name-link">url(String)</a> - Method in class com.github.kaktushose.jda.commands.dispatching.reply.dynamic.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/dynamic/ButtonComponent.html" title="class in com.github.kaktushose.jda.commands.dispatching.reply.dynamic">ButtonComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#util()" class="member-name-link">util()</a> - Method in record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.html#param-util"><code>util</code></a> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html#%3Cinit%3E(com.github.kaktushose.jda.commands.message.i18n.I18n,com.github.kaktushose.jda.commands.message.MessageResolver)" class="member-name-link">Utility(I18n, MessageResolver)</a> - Constructor for record class com.github.kaktushose.jda.commands.dispatching.context.<a href="io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/context/InvocationContext.Utility.html" title="class in com.github.kaktushose.jda.commands.dispatching.context">InvocationContext.Utility</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>Utility</code> record class.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:V">V</h2>
 <dl class="index">
