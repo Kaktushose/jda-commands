@@ -1437,7 +1437,7 @@ You're not viewing the latest stable version.
 They follow the same format <code>:emoji_name:</code> for both Unicode and application emojis. 
 Setting the skintone like <code>:emoji_name::skin-tone-5:</code> is supported too.</p>
 <p>Please note that the emoji aliases are resolved after localization takes place, so you can also use them in your
-localization messages regardless of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html">Localizer</a>!</p>
+localization messages regardless of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html"><code>Localizer</code></a>!</p>
 <h3 id="escaping-the-colon">Escaping the colon <code>:</code><a class="headerlink" href="#escaping-the-colon" title="Permanent link">&para;</a></h3>
 <p>Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
 just prefix it with <code>\</code> (in java <code>\\</code>) to escape it.</p>
@@ -1478,11 +1478,11 @@ to register your emojis automatically upon startup. Please note that we cannot u
 <p>Similar to how <a href="../../misc/reflection/#classfinder">ClassFinders</a> work, JDA-Commands uses <a href="../../misc/reflection/#emojisource">EmojiSources</a>
 to load your application emojis from different places. Per default there are 3 types of <code>EmojiSources</code>:</p>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#reflective(java.lang.String...)">EmojiSource#reflective(String...)</a>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#reflective(java.lang.String...)"><code>EmojiSource#reflective(String...)</code></a>
   that searches the classpath (resources) for files in the stated directories/packages.</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#fromUrl(java.lang.String,java.net.URL)">EmojiSource#fromUrl(String, URL)</a>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#fromUrl(java.lang.String,java.net.URL)"><code>EmojiSource#fromUrl(String, URL)</code></a>
   that loads an emoji with the given name from this URL</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon)">EmojiSource#fromIcon(String, Icon)</a>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon)"><code>EmojiSource#fromIcon(String, Icon)</code></a>
   that just works as an interop to JDAs own emoji api</li>
 </ul>
 <p>If no <a href="../../misc/reflection/#emojisource">EmojiSources</a> are set by the user in the JDA-Commands Builder, the resource directory <code>emojis</code> will be searched for application emojis per default.</p>

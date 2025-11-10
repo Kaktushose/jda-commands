@@ -1441,23 +1441,23 @@ You're not viewing the latest stable version.
 
 <h1 id="embed-api">Embed API<a class="headerlink" href="#embed-api" title="Permanent link">&para;</a></h1>
 <h2 id="embeddatasource">EmbedDataSource<a class="headerlink" href="#embeddatasource" title="Permanent link">&para;</a></h2>
-<p>In JDA, you define Embeds by using the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html">EmbedBuilder</a>
-which eventually gets built into a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html">MessageEmbed</a>.
+<p>In JDA, you define Embeds by using the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>
+which eventually gets built into a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>.
 <code>MessageEmbeds</code> can be serialized into (and deserialized from) <code>JSON</code>. </p>
 <div class="admonition tip inline end">
 <p class="admonition-title">Tip</p>
 <p>For details on the <code>JSON</code> format of Embeds, see the <a href="https://discord.com/developers/docs/resources/message#embed-object">Discord Documentation</a>
 or use one the various <a href="https://glitchii.github.io/embedbuilder/">Online Embed Builders</a>.</p>
 </div>
-<p>JDA-Commands takes advantage of this and provides the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html">EmbedDataSource</a>
+<p>JDA-Commands takes advantage of this and provides the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html"><code>EmbedDataSource</code></a>
 interface to load Embeds from a <code>JSON</code> object. It supports the following sources by default:</p>
 <ul>
 <li>a raw <code>JSON</code> String</li>
 <li>a <code>*.json</code> file either located externally or inside the <code>resources</code> folder</li>
-<li>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/InputStream.html">InputStream</a></li>
-<li>JDAs <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/utils/data/DataObject.html">DataObject</a></li>
+<li>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/InputStream.html"><code>InputStream</code></a></li>
+<li>JDAs <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/utils/data/DataObject.html"><code>DataObject</code></a></li>
 </ul>
-<p>You can also provide your own sources by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html">EmbedDataSource</a>
+<p>You can also provide your own sources by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html"><code>EmbedDataSource</code></a>
 interface. </p>
 <p>The <code>JSON</code> object can contain an arbitrary amount of Embeds as child objects. The name of these child objects must be unique
 and will be later used to load the respective Embed.</p>
@@ -1475,7 +1475,7 @@ and will be later used to load the respective Embed.</p>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>When configuring JDA-Commands, you can then use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedConfig.html">EmbedConfig</a>
+<p>When configuring JDA-Commands, you can then use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedConfig.html"><code>EmbedConfig</code></a>
 to add one or multiple <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html">EmbedDataSources</a>
 to later load Embeds from at various places.</p>
 <div class="admonition example">
@@ -1486,12 +1486,12 @@ to later load Embeds from at various places.</p>
 </span></code></pre></div>
 </div>
 <h2 id="loading-embeds">Loading Embeds<a class="headerlink" href="#loading-embeds" title="Permanent link">&para;</a></h2>
-<p>You can either use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html">JDACommands</a>
-or the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html">ReplyableEvent</a>
+<p>You can either use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html"><code>JDACommands</code></a>
+or the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html"><code>ReplyableEvent</code></a>
 class to load embeds into an object.  </p>
-<p>Embeds don't get loaded directly into a JDA <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html">MessageEmbed</a>
-or <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html">EmbedBuilder</a> object. Instead, JDA-Commands provides
-a subclass of <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html">EmbedBuilder</a>, simply called <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html">Embed</a>. 
+<p>Embeds don't get loaded directly into a JDA <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>
+or <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a> object. Instead, JDA-Commands provides
+a subclass of <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>, simply called <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html"><code>Embed</code></a>. 
 It provides some additional utility, e.g. when dealing with fields, and is also required for the localization and 
 placeholder feature. </p>
 <div class="admonition example">
@@ -1519,7 +1519,7 @@ placeholder feature. </p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>The <code>#embed(String)</code> method will throw an <code>IllegalArgumentException</code> if no Embed with the given name was found. Use the 
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html#findEmbed(java.lang.String)">JDACommands#findEmbed(String)</a> method, which
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html#findEmbed(java.lang.String)"><code>JDACommands#findEmbed(String)</code></a> method, which
 returns an Optional, if you cannot ensure that the Embed exists.</p>
 </div>
 <p>See the <a href="../../interactions/reply/#embeds">Reply Section</a> of this wiki to learn more about on how to use Embeds for your
@@ -1537,10 +1537,10 @@ which uses Fluava, this could look like this:</p>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>Use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#locale(java.util.Locale)">Embed#locale(Locale)</a>
+<p>Use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#locale(java.util.Locale)"><code>Embed#locale(Locale)</code></a>
 to set the locale the Embed should be localized with. When replying to interactions, this is done automatically by using
-<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()">GenericInteractionCreateEvent#getUserLocale()</a>
-to retrieve the user locale. The Embed will be localized once <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#build()">Embed#build()</a>
+<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()"><code>GenericInteractionCreateEvent#getUserLocale()</code></a>
+to retrieve the user locale. The Embed will be localized once <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#build()"><code>Embed#build()</code></a>
 is called. </p>
 <p>See the <a href="../localization/">Localization Section</a> of this wiki for details.</p>
 <h2 id="placeholders-and-emojis-message-resolution">Placeholders and emojis (message resolution)<a class="headerlink" href="#placeholders-and-emojis-message-resolution" title="Permanent link">&para;</a></h2>
@@ -1556,7 +1556,7 @@ content of embeds according to the documentation <a href="../overview/">here</a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>You can then use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)">Embed#placeholders(Entry...)</a>
+<p>You can then use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>Embed#placeholders(Entry...)</code></a>
 method to insert the placeholder values.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1566,7 +1566,7 @@ method to insert the placeholder values.</p>
 </div>
 <p>You can of course also use your placeholders regularly inside the localization files. </p>
 <h3 id="global-placeholders">Global Placeholders<a class="headerlink" href="#global-placeholders" title="Permanent link">&para;</a></h3>
-<p>A special feature of the Embed API is that you can define global placeholders for your Embeds using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedConfig.html">EmbedConfig</a>.</p>
+<p>A special feature of the Embed API is that you can define global placeholders for your Embeds using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedConfig.html"><code>EmbedConfig</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>

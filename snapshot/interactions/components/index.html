@@ -1557,8 +1557,8 @@ please read the notes <a href="../../message/localization/#the-dollar-character"
 <p>JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look <a href="../../message/emojis/">here</a>.</p>
 <h2 id="buttons">Buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h2>
-<p>Buttons are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html">@Button</a>. 
-The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html">ComponentEvent</a>.
+<p>Buttons are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html"><code>Button</code></a>. 
+The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
 The label and other metadata of the button is passed to the annotation.
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Button</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onButton</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
@@ -1574,7 +1574,7 @@ The label and other metadata of the button is passed to the annotation.
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/components/buttons/ButtonStyle.html#PREMIUM">ButtonStyle#PREMIUM</a> is not supported by JDA-Commands.</p>
+<p><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/components/buttons/ButtonStyle.html#PREMIUM"><code>ButtonStyle#PREMIUM</code></a> is not supported by JDA-Commands.</p>
 </div>
 <h3 id="emoji">emoji<a class="headerlink" href="#emoji" title="Permanent link">&para;</a></h3>
 <p>Sets the emoji of a button.</p>
@@ -1594,11 +1594,11 @@ The label and other metadata of the button is passed to the annotation.
 </div>
 <h2 id="select-menus">Select Menus<a class="headerlink" href="#select-menus" title="Permanent link">&para;</a></h2>
 <h3 id="string-select-menus">String Select Menus<a class="headerlink" href="#string-select-menus" title="Permanent link">&para;</a></h3>
-<p>String Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html">@StringSelectMenu</a>
-The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html">ComponentEvent</a>.
-The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a>.</p>
+<p>String Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html"><code>StringSelectMenu</code></a>
+The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
+The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html"><code>List</code></a>.</p>
 <p>The placeholder and other metadata of the String Select Menu is passed to the annotation. </p>
-<p>Select Options are defined by annotating the method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/MenuOption.html">@MenuOption</a>.</p>
+<p>Select Options are defined by annotating the method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/MenuOption.html"><code>MenuOption</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@MenuOption</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Pizza&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pizza&quot;</span><span class="p">)</span>
@@ -1622,9 +1622,9 @@ The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/2
 </span></code></pre></div>
 </div>
 <h3 id="entity-select-menus">Entity Select Menus<a class="headerlink" href="#entity-select-menus" title="Permanent link">&para;</a></h3>
-<p>Entity Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html">@EntitySelectMenu</a>.
-The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html">ComponentEvent</a>.
-The second parameter must be of type <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Mentions.html">Mentions</a>.</p>
+<p>Entity Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html"><code>EntitySelectMenu</code></a>.
+The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
+The second parameter must be of type <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Mentions.html"><code>Mentions</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@EntitySelectMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Who&#39;s your favourite user?&quot;</span><span class="p">)</span>

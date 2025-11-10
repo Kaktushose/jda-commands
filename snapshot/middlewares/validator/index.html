@@ -1445,9 +1445,9 @@ with the respective annotation. </p>
 <h2 id="default-validators">Default Validators<a class="headerlink" href="#default-validators" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands comes with the following default constraints:</p>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html">@Perm</a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html"><code>Perm</code></a>:
   The user or member that have the specified discord permission.</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/NotPerm.html">@NotPerm</a>:
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/NotPerm.html"><code>NotPerm</code></a>:
   The user or member that <strong>doesn't</strong> have the specified discord permission.</li>
 </ul>
 <div class="admonition example">
@@ -1467,7 +1467,7 @@ with the respective annotation. </p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>@Target</code> must be <code>ElementType.PARAMETER</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>RetentionPolicy</code> must be <code>RUNTIME</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Must be annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Constraint.html">@Constraint</a>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Must be annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Constraint.html"><code>Constraint</code></a>
 defining the valid types for this annotation. </li>
 </ul>
 <div class="admonition example">
@@ -1481,10 +1481,10 @@ defining the valid types for this annotation. </li>
 </span></code></pre></div>
 </div>
 <h3 id="2-creating-the-validator">2. Creating the Validator<a class="headerlink" href="#2-creating-the-validator" title="Permanent link">&para;</a></h3>
-<p>Secondly, you must create the actual validator by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html">@Validator</a>
+<p>Secondly, you must create the actual validator by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html"><code>Validator</code></a>
 interface. </p>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html#apply(T,A,io.github.kaktushose.jdac.dispatching.validation.Validator.Context)">Validator#apply(T, A, Validator.Context)</a> method will give you the argument (command option) as well as the annotation object. 
-If the constraint should fail, you must call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.Context.html#fail(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)">Validator.Context#fail(String, Entry...)</a></p>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html#apply(T,A,io.github.kaktushose.jdac.dispatching.validation.Validator.Context)"><code>Validator#apply(T, A, Validator.Context)</code></a> method will give you the argument (command option) as well as the annotation object. 
+If the constraint should fail, you must call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.Context.html#fail(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>Validator.Context#fail(String, Entry...)</code></a></p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MaxStringLengthValidator</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Validator</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">MaxString</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>

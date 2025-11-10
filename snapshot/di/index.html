@@ -1430,7 +1430,7 @@ configuration part. </p>
 </div>
 <p>If your using JDA-Commands via the <code>io.github.kaktushose:jda-commands:VERSION</code> artifact, an integration for 
 <a href="https://github.com/google/guice">Google's Guice</a> is shipped by default. </p>
-<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/GuiceExtensionData.html">GuiceExtensionData</a>
+<p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
 to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guice's Injector</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Configuring Guice</p>
@@ -1461,7 +1461,7 @@ to the JDA-Commands builder, which allows you to provide an own instance of <a h
 </div>
 <h2 id="implementation-annotation"><code>@Implementation</code> annotation<a class="headerlink" href="#implementation-annotation" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands has many interfaces to customize specific framework behaviour. 
-If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html">@Implementation</a>
+If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>
 annotation. </p>
 <p>This annotation allows the automatic instantiation and registration for implementations of following interfaces:</p>
 <div class="admonition note inline end">
@@ -1469,17 +1469,17 @@ annotation. </p>
 <p>If you're annotating an implementation of <code>Middleware</code>, <code>Validator</code> or <code>TypeAdapter</code> you have to provide additional configuration via the <code>@Implementation</code> annotation.</p>
 </div>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/permissions/PermissionsProvider.html">PermissionsProvider</a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/scope/GuildScopeProvider.html">GuildScopeProvider</a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/ErrorMessageFactory.html">ErrorMessageFactory</a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/permissions/PermissionsProvider.html"><code>PermissionsProvider</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/scope/GuildScopeProvider.html"><code>GuildScopeProvider</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/ErrorMessageFactory.html"><code>ErrorMessageFactory</code></a></li>
 <li>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Descriptor.html">Descriptor</a></p>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Descriptor.html"><code>Descriptor</code></a></p>
 </li>
 <li>
-<p><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Middleware.html">Middleware</a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Middleware.html#priority()">Implementation.Middleware#priority()</a> set</p>
+<p><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Middleware.html"><code>Middleware</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Middleware.html#priority()"><code>Implementation.Middleware#priority()</code></a> set</p>
 </li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html">@Validator</a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Validator.html#annotation()">Implementation.Validator#annotation()</a> set</li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#source()">Implementation.TypeAdapter#source()</a> &amp; <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#target()">Implementation.TypeAdapter#target()</a> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html"><code>Validator</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Validator.html#annotation()"><code>Implementation.Validator#annotation()</code></a> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html"><code>TypeAdapter</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#source()"><code>Implementation.TypeAdapter#source()</code></a> &amp; <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#target()"><code>Implementation.TypeAdapter#target()</code></a> set</li>
 </ul>
 <p>The annotated classes will be instantiated with help of <code>com.google.inject.Injector</code> similar to interaction controllers.</p>
 <div class="admonition example">
@@ -1502,7 +1502,7 @@ annotation. </p>
 </div>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
 <p>If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html">InteractionControllerInstantiator</a></p>
+implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html"><code>InteractionControllerInstantiator</code></a></p>
 <p>You can do this by either passing it to the builder or by creating your own <a href="../misc/extension/writing/">extension</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

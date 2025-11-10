@@ -1421,15 +1421,15 @@ are a part of the execution chain. They are used to adapt the input of a slash c
 <h2 id="default-type-adapters">Default Type Adapters<a class="headerlink" href="#default-type-adapters" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands uses <a href="https://github.com/Kaktushose/proteus">Proteus</a> for its type adapting system. Proteus supports all
 widening and narrowing primitive conversions as defined by the Java Language Specification. Additionally, JDA-Commands
-has implemented default type adapters for JDAs <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html">GuildChannel</a>
+has implemented default type adapters for JDAs <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/channel/middleman/GuildChannel.html"><code>GuildChannel</code></a>
 and its subtypes.</p>
 <p>Thus, you can add all primitive types and their respective wrapper types as well as any underlying type of the 
-<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/OptionType.html">OptionType</a> enum
+<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/commands/OptionType.html"><code>OptionType</code></a> enum
 as a parameter to your slash command methods. See <a href="../../interactions/commands/#command-options">Command Options</a>
 for details.</p>
 <h2 id="writing-own-type-adapters">Writing Own Type Adapters<a class="headerlink" href="#writing-own-type-adapters" title="Permanent link">&para;</a></h2>
 <p>As mentioned above, JDA-Commands uses <a href="https://github.com/Kaktushose/proteus">Proteus</a> under the hood for type adapting.
-The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html">TypeAdapter</a> interface is simply a subtype of Proteus' <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html">Mapper.UniMapper</a>
+The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html"><code>TypeAdapter</code></a> interface is simply a subtype of Proteus' <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/mapping/Mapper.UniMapper.html"><code>Mapper.UniMapper</code></a>
 The following example only covers the registration part for JDA-Commands. Please refer to the <a href="https://kaktushose.github.io/proteus/wiki/"><code>documentation</code></a>
 of Proteus for implementation details. </p>
 <div class="admonition example">
@@ -1480,7 +1480,7 @@ of Proteus for implementation details. </p>
 </span></code></pre></div></p>
 </div>
 <p>Your own types will be mapped to <code>OptionType.STRING</code> by default. You can
-override this mapping by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Param.html">@Param</a>
+override this mapping by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Param.html"><code>Param</code></a>
 annotation.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

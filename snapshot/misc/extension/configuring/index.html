@@ -1423,10 +1423,10 @@ to the JDA-Commands builder. In case of our <code>MyExtension</code> example, th
 <h2 id="filtering-found-extensions">Filtering found Extensions<a class="headerlink" href="#filtering-found-extensions" title="Permanent link">&para;</a></h2>
 <p>Filtering extensions is crucial for resolving cycling dependencies.
 To filter which extensions we want to include in our application, we can utilize the
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#filterExtensions(io.github.kaktushose.jdac.JDACBuilder.FilterStrategy,java.lang.String...)">JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)</a>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#filterExtensions(io.github.kaktushose.jdac.JDACBuilder.FilterStrategy,java.lang.String...)"><code>JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)</code></a>
 method. You need to pass the following two parameters:</p>
 <ol>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.FilterStrategy.html">JDACBuilder.FilterStrategy</a>,
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.FilterStrategy.html"><code>JDACBuilder.FilterStrategy</code></a>,
    which will either exclude (<code>FilterStrategy.EXCLUDE</code>) or include (<code>FilterStrategy.INCLUDE</code>) the passed extensions.</li>
 <li><code>String...</code> is an enumeration of the full class names, which should be either included or excluded.
    The strings will be matched to the full class names of the classes extending <code>Extension</code> using <code>String#startWith</code>, thus

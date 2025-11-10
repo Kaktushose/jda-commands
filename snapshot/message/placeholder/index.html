@@ -1445,7 +1445,7 @@ restrictions.</p>
 <ul>
 <li>the leading <code>$</code> is optional</li>
 <li>whitespace, newlines, <code>{</code> and <code>$</code> are forbidden inside the reference name</li>
-<li>trailing and leading whitespace or newline of the reference name is trimmed (see <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html#trim()">String#trim()</a>).</li>
+<li>trailing and leading whitespace or newline of the reference name is trimmed (see <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html#trim()"><code>String#trim()</code></a>).</li>
 <li>to escape the <code>{</code> character just prefix it with <code>\\</code> (backslashes can be used <em>unescaped</em> in the rest of the string)</li>
 </ul>
 <div class="admonition examples">
@@ -1470,17 +1470,17 @@ restrictions.</p>
 <h3 id="escaping">Escaping <code>{</code><a class="headerlink" href="#escaping" title="Permanent link">&para;</a></h3>
 <p>To escape the opening bracket <code>{</code> just prefix it with <code>\</code>, like <code>My escaped placeholder \{ this_is_text }</code>.</p>
 <h2 id="placeholders_1">Placeholders<a class="headerlink" href="#placeholders_1" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands provides a way to set placeholder values by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html">Entry</a>.</p>
+<p>JDA-Commands provides a way to set placeholder values by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html"><code>Entry</code></a>.</p>
 <p>Often you will find a vararg of this class at the end of a method parameters list. By adding entries
-there (preferably by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html#entry(java.lang.String,java.lang.Object)">Entry#entry(String, Object)</a>)
+there (preferably by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html#entry(java.lang.String,java.lang.Object)"><code>Entry#entry(String, Object)</code></a>)
 as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
 the used method.</p>
 <h3 id="string-representation">String Representation<a class="headerlink" href="#string-representation" title="Permanent link">&para;</a></h3>
 <p>To get a variables string representation, JDA-Commands will:</p>
 <ol>
-<li>call <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type)">Proteus#convert(S, Type, Type)</a>
+<li>call <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type)"><code>Proteus#convert(S, Type, Type)</code></a>
 trying to convert the value to <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/type/Type.html#of(java.lang.Class)"><code>Type.of(String.class)</code></a></li>
-<li>if not successful, just call <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></li>
+<li>if not successful, just call <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()"><code>Object#toString()</code></a></li>
 </ol>
 <p>If a variable couldn't be found, <code>null</code> will be inserted.</p>
 

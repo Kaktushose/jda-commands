@@ -1363,7 +1363,7 @@ You're not viewing the latest stable version.
 If you want it to be improved, feel free to <a href="https://github.com/Kaktushose/jda-commands/issues/new">open an issue</a>.</p>
 </div>
 <p>Slash commands can have a cooldown to limit their usage. The cooldown is applied <em>globally</em>, <em>per user</em>, <em>per command</em>. 
-You can add a cooldown by annotating a slash command method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Cooldown.html">@Cooldown</a>.</p>
+You can add a cooldown by annotating a slash command method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Cooldown.html"><code>Cooldown</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Cooldown</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">timeUnit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">MINUTES</span><span class="p">)</span>
