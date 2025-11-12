@@ -104,7 +104,6 @@ nav:
       - Type Adapters: middlewares/typeadapter.md
       - Validators (Parameter Constraints): middlewares/validator.md
       - Permissions System: middlewares/permissions.md
-      - Cooldown System: middlewares/cooldown.md
   - Dependency Injection: di.md
   - Message:
       - Overview: message/overview.md

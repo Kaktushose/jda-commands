@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.embeds.error;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.extension.Implementation.ExtensionProvidable;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -31,13 +30,6 @@ public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
     /// @param context the [ErrorContext]
     /// @return a [MessageCreateData] to send when a parameter constraint fails
     MessageCreateData getConstraintFailedMessage(ErrorContext context, String message);
-
-    /// Gets a [Message] to send when a command still has a cooldown.
-    ///
-    /// @param context the [ErrorContext]
-    /// @param ms      the remaining cooldown in milliseconds
-    /// @return a [MessageCreateData] to send when a command still has a cooldown
-    MessageCreateData getCooldownMessage(ErrorContext context, long ms);
 
     /// Gets a [MessageCreateData] to send when the command execution failed.
     ///
