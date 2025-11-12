@@ -40,7 +40,6 @@ public class TestHelpers {
                 I18N,
                 controller.getAnnotation(Interaction.class),
                 permissions(clazz),
-                SlashCommandDefinition.CooldownDefinition.build(null),
                 clazz,
                 methodDescription(controller, method),
                 autoComplete ? autoCompleteDefinitions(clazz) : Set.of(),
