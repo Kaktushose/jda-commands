@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.dispatching.middleware.internal;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.impl.ConstraintMiddleware;
-import io.github.kaktushose.jdac.dispatching.middleware.impl.CooldownMiddleware;
 import io.github.kaktushose.jdac.dispatching.middleware.impl.PermissionsMiddleware;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
@@ -19,8 +18,8 @@ public class Middlewares {
     public Middlewares(Collection<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
                 Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
+                Priority.NORMAL, new HashSet<>(List.of(new ConstraintMiddleware(errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
-                Priority.NORMAL, new HashSet<>(List.of(new ConstraintMiddleware(errorMessageFactory), new CooldownMiddleware(errorMessageFactory))),
                 Priority.LOW, new HashSet<>()
         ));
 

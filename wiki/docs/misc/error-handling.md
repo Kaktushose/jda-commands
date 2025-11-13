@@ -17,7 +17,6 @@ As mentioned before, JDA-Commands has a set of error messages it uses all over t
 
 - Command Execution Failed Message (used for Exceptions)
 - Constraint Failed Message (see [Validators](../middlewares/validator.md))
-- Cooldown Message (see [Command Cooldown](../middlewares/cooldown.md))
 - Insufficient Permissions Message (see [Permissions System](../middlewares/permissions.md))
 - Timed Out Component Message (see [Runtime Concept](../start/runtime.md#components-and-modals))
 - Type Adapting Failed Message (see [Type Adapters](../middlewares/typeadapter.md))

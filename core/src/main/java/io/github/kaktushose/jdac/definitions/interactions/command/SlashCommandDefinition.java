@@ -1,8 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
 import io.github.kaktushose.jdac.annotations.interactions.Command;
-import io.github.kaktushose.jdac.annotations.interactions.Cooldown;
-import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
@@ -21,7 +19,6 @@ import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFuncti
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
@@ -36,7 +33,6 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
-/// @param cooldown             the corresponding [CooldownDefinition]
 public record SlashCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -45,8 +41,7 @@ public record SlashCommandDefinition(
         CommandConfig commandConfig,
         LocalizationFunction localizationFunction,
         String description,
-        SequencedCollection<OptionDataDefinition> commandOptions,
-        CooldownDefinition cooldown
+        SequencedCollection<OptionDataDefinition> commandOptions
 ) implements CommandDefinition {
 
     /// Builds a new [SlashCommandDefinition] from the given [MethodBuildContext].
@@ -92,11 +87,6 @@ public record SlashCommandDefinition(
         commandOptions.forEach(it -> signature.add(it.declaredType()));
         Helpers.checkSignature(method, signature);
 
-        CooldownDefinition cooldownDefinition = CooldownDefinition.build(method.annotation(Cooldown.class).orElse(null));
-        if (cooldownDefinition.delay() == 0 && context.cooldownDefinition() != null) {
-            cooldownDefinition = context.cooldownDefinition();
-        }
-
         return new SlashCommandDefinition(
                 context.clazz(),
                 method,
@@ -105,8 +95,7 @@ public record SlashCommandDefinition(
                 Helpers.commandConfig(context),
                 context.localizationFunction(),
                 description,
-                commandOptions,
-                cooldownDefinition
+                commandOptions
         );
     }
 
@@ -185,25 +174,5 @@ public record SlashCommandDefinition(
     @Override
     public net.dv8tion.jda.api.interactions.commands.Command.Type commandType() {
         return net.dv8tion.jda.api.interactions.commands.Command.Type.SLASH;
-    }
-
-    /// Representation of a cooldown definition defined by [Cooldown].
-    ///
-    /// @param delay    the delay of the cooldown
-    /// @param timeUnit the [TimeUnit] of the specified delay
-    public record CooldownDefinition(long delay, TimeUnit timeUnit) implements Definition {
-
-        /// Builds a new [CooldownDefinition] from the given [Cooldown] annotation.
-        public static CooldownDefinition build(@Nullable Cooldown cooldown) {
-            if (cooldown == null) {
-                return new CooldownDefinition(0, TimeUnit.MILLISECONDS);
-            }
-            return new CooldownDefinition(cooldown.value(), cooldown.timeUnit());
-        }
-
-        @Override
-        public String displayName() {
-            return "Cooldown of %d %s".formatted(delay, timeUnit.name());
-        }
     }
 }
