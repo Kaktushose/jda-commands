@@ -65,6 +65,14 @@ jobs:
   javadoc:
     runs-on: ubuntu-latest
     needs: javadoc_target_dir
+
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,11 +89,18 @@ jobs:
           branch: gh-pages
           target-folder: javadocs/${{ needs.javadoc_target_dir.outputs.target }}
       - name: Deploy gh-pages
+        id: deployment
         uses: ./.github/workflows/deploy-pages
 
   wiki:
     runs-on: ubuntu-latest
     needs: [ javadoc_target_dir, check_if_release, javadoc ]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -117,6 +132,7 @@ jobs:
           git pull
           git push origin gh-pages
       - name: Deploy gh-pages
+        id: deployment
         uses: ./.github/workflows/deploy-pages
 
   maven_central:
