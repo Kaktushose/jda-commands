@@ -139,18 +139,18 @@ jobs:
           fi
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/setup-gradle
-      - name: Build and deploy
-        env:
-          JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.jreleaser_gpg_public_key }}
-          JRELEASER_GPG_SECRET_KEY: ${{ secrets.jreleaser_gpg_secret_key }}
-          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_USERNAME: ${{ secrets.jreleaser_user }}
-          JRELEASER_NEXUS2_USERNAME:  ${{ secrets.jreleaser_user }}
-          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_PASSWORD: ${{ secrets.jreleaser_password }}
-          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.jreleaser_password }}
-          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: ${{ steps.find_active.outputs.active }}
-        run: |
-          ./gradlew clean jreleaserDeploy
+#      - name: Build and deploy
+#        env:
+#          JRELEASER_GPG_PASSPHRASE: ${{ secrets.jreleaser_gpg_pass }}
+#          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.jreleaser_gpg_public_key }}
+#          JRELEASER_GPG_SECRET_KEY: ${{ secrets.jreleaser_gpg_secret_key }}
+#          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_USERNAME: ${{ secrets.jreleaser_user }}
+#          JRELEASER_NEXUS2_USERNAME:  ${{ secrets.jreleaser_user }}
+#          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_PASSWORD: ${{ secrets.jreleaser_password }}
+#          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.jreleaser_password }}
+#          JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: ${{ steps.find_active.outputs.active }}
+#        run: |
+#          ./gradlew clean jreleaserDeploy
 
   create-gh-draft-release:
     runs-on: ubuntu-latest
