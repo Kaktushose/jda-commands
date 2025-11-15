@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "[0-9]+.[0-9]+.x"
+      - 'ci/wiki-wait-for-javadoc'
 
 jobs:
   check_if_release:
@@ -55,7 +56,7 @@ jobs:
 
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then
             echo "name=${{ needs.check_if_release.outputs.version_major }}.${{ needs.check_if_release.outputs.version_minor }}" >> "$GITHUB_OUTPUT"
-          elif [ "$branch" == "main" ]; then
+          elif [ "$branch" == "ci/wiki-wait-for-javadoc" ]; then
             echo "name=snapshot" >> "$GITHUB_OUTPUT"
           else
             echo "name=ignore" >> "$GITHUB_OUTPUT"
@@ -72,17 +73,19 @@ jobs:
         if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         run: |
           ./gradlew javadoc
-      - name: Deploy docs
+      - name: Push docs
         if: ${{ needs.javadoc_target_dir.outputs.target != 'ignore' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./jda-commands/build/docs/javadoc
           branch: gh-pages
           target-folder: javadocs/${{ needs.javadoc_target_dir.outputs.target }}
+      - name: Deploy gh-pages
+        uses: ./.github/workflows/deploy-pages
 
   wiki:
     runs-on: ubuntu-latest
-    needs: [ javadoc_target_dir, check_if_release ]
+    needs: [ javadoc_target_dir, check_if_release, javadoc ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -109,10 +112,12 @@ jobs:
           else 
             mike deploy snapshot
           fi
-      - name: Deploy Wiki
+      - name: Push Wiki
         run: |
           git pull
           git push origin gh-pages
+      - name: Deploy gh-pages
+        uses: ./.github/workflows/deploy-pages
 
   maven_central:
     runs-on: ubuntu-latest
