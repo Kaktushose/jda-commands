@@ -1,0 +1,15 @@
+name: Source build & test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-java:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-gradle
+      - name: Build and test with Gradle
+        run: ./gradlew test
