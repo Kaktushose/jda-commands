@@ -12,4 +12,8 @@ runs:
         path: .
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
+    - name: Delete artifact
+      uses: actions/GeekyEggo@v5.1.0
+      with:
+        name: 'github-pages'
     - uses: actions/checkout@v5 # checkout base branch again
