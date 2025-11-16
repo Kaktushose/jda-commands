@@ -1,5 +1,7 @@
 # JDA-Commands
 
+<io.github.kaktushose.jdac.Test>
+
 A declarative, annotation driven interaction framework for JDA. Our goal is to remove any boilerplate code, so 
 you can focus solely on the business logic of your bot - writing bots has never been easier:
 
