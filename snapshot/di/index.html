@@ -1595,13 +1595,13 @@ your bot should use a dependency injection framework for all your tasks.</p>
 <h2 id="default-dependency-injection-framework-guice">Default Dependency Injection Framework - Guice<a class="headerlink" href="#default-dependency-injection-framework-guice" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>For information on how to use Google's Guice, please visit their <a href="https://github.com/google/guice/wiki/">documentation</a>. This wiki only covers the
+<p>For information on how to use Googles Guice, please visit their <a href="https://github.com/google/guice/wiki/">documentation</a>. This wiki only covers the
 configuration part. </p>
 </div>
 <p>If your using JDA-Commands via the <code>io.github.kaktushose:jda-commands:VERSION</code> artifact, an integration for 
-<a href="https://github.com/google/guice">Google's Guice</a> is shipped by default. </p>
+<a href="https://github.com/google/guice">Googles Guice</a> is shipped by default. </p>
 <p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
-to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guice's Injector</a>.</p>
+to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guices Injector</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Configuring Guice</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Injector</span><span class="w"> </span><span class="n">yourInjector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">YourOwnGuiceModule</span><span class="p">());</span>
@@ -1672,7 +1672,7 @@ annotation. </p>
 </div>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
 <p>If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html"><code>InteractionControllerInstantiator</code></a></p>
+implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html"><code>InteractionControllerInstantiator</code></a>.</p>
 <p>You can do this by either passing it to the builder or by creating your own <a href="../misc/extension/writing/">extension</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

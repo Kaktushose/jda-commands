@@ -1183,38 +1183,20 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Format">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#escaping" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providing-values" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Escaping {
+        Providing Values
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#placeholders_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Placeholders
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Placeholders">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#string-representation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1222,11 +1204,6 @@ You're not viewing the latest stable version.
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1609,10 +1586,7 @@ You're not viewing the latest stable version.
 
 
 <h1 id="placeholders">Placeholders<a class="headerlink" href="#placeholders" title="Permanent link">&para;</a></h1>
-<p>JDA-Commands supports resolving named placeholders/variables as explained <a href="../overview/">before</a></p>
 <h2 id="format">Format<a class="headerlink" href="#format" title="Permanent link">&para;</a></h2>
-<p>The placeholders format is similar to <a href="https://projectfluent.org/fluent/guide/">project fluent</a> but with some
-restrictions.</p>
 <p>The overall placeholder format is <code>{ $your_placeholder }</code>, with following properties:</p>
 <ul>
 <li>the leading <code>$</code> is optional</li>
@@ -1620,35 +1594,41 @@ restrictions.</p>
 <li>trailing and leading whitespace or newline of the reference name is trimmed (see <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html#trim()"><code>String#trim()</code></a>).</li>
 <li>to escape the <code>{</code> character just prefix it with <code>\\</code> (backslashes can be used <em>unescaped</em> in the rest of the string)</li>
 </ul>
-<div class="admonition examples">
-<p class="admonition-title">Examples</p>
-<p>valid placeholders:</p>
+<div class="admonition example">
+<p class="admonition-title">Valid Placeholders</p>
 <ul>
 <li><code>{ $your_placeholder }</code></li>
 <li><code>{ your_placeholder }</code></li>
 <li><code>{ \n your_placeholder \n}</code></li>
 </ul>
-<p>Invalid placeholders:</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Invalid Placeholders</p>
 <ul>
 <li><code>{ white space }</code></li>
 <li><code>{ dollar$sign }</code></li>
 <li><code>{ bra{cket}</code> (will result in <code>{ bra}</code> as plain text and <code>{cket}</code> as placeholder)</li>
 <li><code>{ new \n line }</code> (meant is new line in the middle of the reference name)</li>
 </ul>
+</div>
+<p>Invalid placeholders will just be treated as literal text.</p>
+<details class="tip">
+<summary>Escaping the opening bracket</summary>
+<p>To escape the opening bracket <code>{</code> just prefix it with <code>\</code>, like <code>My escaped placeholder \{ this_is_text }</code>.</p>
+</details>
+<h2 id="providing-values">Providing Values<a class="headerlink" href="#providing-values" title="Permanent link">&para;</a></h2>
+<p>JDA-Commands provides a way to set placeholder values by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html"><code>Entry</code></a>
+class.</p>
+<p>Often you will find a vararg of this class at the end of a method parameters list. By adding entries
+there (preferably by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html#entry(java.lang.String,java.lang.Object)"><code>Entry#entry(String, Object)</code></a>
+as a static import) it's possible for you to define placeholders for a given scope.</p>
+<div class="admonition example">
+<p class="admonition-title">Example Usage</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello { $user }!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Entry</span><span class="p">.</span><span class="na">entry</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">getUser</span><span class="p">().</span><span class="na">getAsMention</span><span class="p">()));</span>
 </span></code></pre></div>
 </div>
-<p>Invalid placeholders will just be treated as literal text.</p>
-<h3 id="escaping">Escaping <code>{</code><a class="headerlink" href="#escaping" title="Permanent link">&para;</a></h3>
-<p>To escape the opening bracket <code>{</code> just prefix it with <code>\</code>, like <code>My escaped placeholder \{ this_is_text }</code>.</p>
-<h2 id="placeholders_1">Placeholders<a class="headerlink" href="#placeholders_1" title="Permanent link">&para;</a></h2>
-<p>JDA-Commands provides a way to set placeholder values by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html"><code>Entry</code></a>.</p>
-<p>Often you will find a vararg of this class at the end of a method parameters list. By adding entries
-there (preferably by using <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html#entry(java.lang.String,java.lang.Object)"><code>Entry#entry(String, Object)</code></a>)
-as a static import) it's possible for you to define placeholders for a given scope defined by the javadocs of
-the used method.</p>
-<h3 id="string-representation">String Representation<a class="headerlink" href="#string-representation" title="Permanent link">&para;</a></h3>
-<p>To get a variables string representation, JDA-Commands will:</p>
+<h2 id="string-representation">String Representation<a class="headerlink" href="#string-representation" title="Permanent link">&para;</a></h2>
+<p>To get a variables string representation, JDA-Commands will </p>
 <ol>
 <li>call <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type)"><code>Proteus#convert(S, Type, Type)</code></a>
 trying to convert the value to <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/type/Type.html#of(java.lang.Class)"><code>Type.of(String.class)</code></a></li>

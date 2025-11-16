@@ -1813,7 +1813,7 @@ commands should be registered as a slash command, a sub command or a sub command
 </span></code></pre></div></p>
 <details class="tip">
 <summary>Debugging</summary>
-<p>JDA-Commands will log this tree on log-level <code>DEBUG</code>. This might help you with debugging, for example when command 
+<p>JDA-Commands will log this tree on log-level <code>DEBUG</code>. This might help you with debugging, for example when a command 
 doesn't show up.</p>
 </details>
 <p>In our example the following commands will be registered: </p>
@@ -1947,7 +1947,7 @@ specify both:
 </span></code></pre></div></p>
 <h4 id="auto-complete">Auto Complete<a class="headerlink" href="#auto-complete" title="Permanent link">&para;</a></h4>
 <p>You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
-AutoComplete&gt;. Auto Complete handlers are always bound to 
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/AutoComplete.html"><code>AutoComplete</code></a>. Auto Complete handlers are always bound to 
 one or more slash commands. </p>
 <p>The slash commands can either be referenced by the:</p>
 <ol>
@@ -2093,14 +2093,14 @@ further you should use the permissions system of JDA-Commands. You can read more
 </span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div>
 <h3 id="context">context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h3>
-<p>Sets the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/InteractionContextType.html">InteractionContextTypes</a>
+<p>Sets the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/InteractionContextType.html"><code>InteractionContextTypes</code></a>
 of a command. The default value is <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/InteractionContextType.html#GUILD"><code>InteractionContextType#GUILD</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nd">@CommandConfig</span><span class="p">(</span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">InteractionContextType</span><span class="p">.</span><span class="na">GUILD</span><span class="p">,</span><span class="w"> </span><span class="n">InteractionContextType</span><span class="p">.</span><span class="na">BOT_DM</span><span class="p">})</span>
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nd">@Command</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;example&quot;</span><span class="p">)</span>
 </span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{...}</span>
 </span></code></pre></div>
 <h3 id="integration">integration<a class="headerlink" href="#integration" title="Permanent link">&para;</a></h3>
-<p>Sets the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/IntegrationType.html">IntegrationTypes</a>
+<p>Sets the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/IntegrationType.html"><code>IntegrationTypes</code></a>
 of a command. The default value is <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/IntegrationType.html#GUILD_INSTALL"><code>IntegrationType#GUILD_INSTALL</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nd">@CommandConfig</span><span class="p">(</span><span class="n">integration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">IntegrationType</span><span class="p">.</span><span class="na">GUILD_INSTALL</span><span class="p">,</span><span class="w"> </span><span class="n">IntegrationType</span><span class="p">.</span><span class="na">USER_INSTALL</span><span class="p">})</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nd">@Command</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;example&quot;</span><span class="p">)</span>
@@ -2147,15 +2147,27 @@ for guilds that have paid for that feature:</p>
 </span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>Finally, we have to register our <code>PremiumGuildsProvider</code>. We can either pass it to the builder:</p>
+<p>Finally, we have to register our <code>PremiumGuildsProvider</code> either at the builder or by annotating it with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w">    </span><span class="p">.</span><span class="na">guildScopeProvider</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PremiumGuildsProvider</span><span class="p">())</span>
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><code>@Implementation</code></label><label for="__tabbed_2_2">Builder Registration</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nd">@Implementation</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PremiumGuildsProvider</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">GuildScopeProvider</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="p">...</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
-<p>or simply annotate the <code>PremiumGuildsProvider</code> class with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>.</p>
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">    </span><span class="p">.</span><span class="na">guildScopeProvider</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PremiumGuildsProvider</span><span class="p">())</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a> annotation requires the guice integration 

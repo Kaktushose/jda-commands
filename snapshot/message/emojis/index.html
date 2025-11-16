@@ -1147,21 +1147,10 @@ You're not viewing the latest stable version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#escaping-the-colon" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Escaping the colon :
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#unicode-emojis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Unicode emojis
+        Unicode Emojis
       
     </span>
   </a>
@@ -1172,19 +1161,19 @@ You're not viewing the latest stable version.
   <a href="#application-emojis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application emojis
+        Application Emojis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Application emojis">
+    <nav class="md-nav" aria-label="Application Emojis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#automatic-application-emojis-registration" class="md-nav__link">
+  <a href="#automatic-application-emoji-registration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic application emojis registration
+        Automatic Application Emoji Registration
       
     </span>
   </a>
@@ -1608,26 +1597,31 @@ You're not viewing the latest stable version.
 <p>JDA-Commands emoji aliases are very similar to the ones used by the discord client. 
 They follow the same format <code>:emoji_name:</code> for both Unicode and application emojis. 
 Setting the skintone like <code>:emoji_name::skin-tone-5:</code> is supported too.</p>
-<p>Please note that the emoji aliases are resolved after localization takes place, so you can also use them in your
-localization messages regardless of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html"><code>Localizer</code></a>!</p>
-<h3 id="escaping-the-colon">Escaping the colon <code>:</code><a class="headerlink" href="#escaping-the-colon" title="Permanent link">&para;</a></h3>
+<p>Since emoji aliases are resolved after localization takes place, you can also use them in your
+localization messages regardless of the used <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html"><code>Localizer</code></a>.</p>
+<details class="tip">
+<summary>Escaping the colon</summary>
 <p>Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
-just prefix it with <code>\</code> (in java <code>\\</code>) to escape it.</p>
-<h2 id="unicode-emojis">Unicode emojis<a class="headerlink" href="#unicode-emojis" title="Permanent link">&para;</a></h2>
-<p>If you want to avoid annoying encoding issues with hardcoded Unicode emojis, you can just use the known discord
+just prefix it with <code>\</code> (in Java <code>\\</code>) to escape it.</p>
+</details>
+<h2 id="unicode-emojis">Unicode Emojis<a class="headerlink" href="#unicode-emojis" title="Permanent link">&para;</a></h2>
+<p>If you want to avoid annoying encoding issues with hardcoded Unicode emojis, you can just use the known Discord
 client aliases in JDA-Commands too.</p>
-<p>We're using the amazing <a href="https://github.com/felldo/jemoji">JEmoji</a> library to resolve Unicode discord aliases. 
-If something doesn't feel right with the used aliases/emojis please reach out to them :)</p>
 <div class="admonition example">
-<p class="admonition-title">Example</p>
+<p class="admonition-title">Unicode Emoji</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hi :smiley:&quot;</span><span class="p">);</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>results in the message <code>Hi 😀</code> displayed to the user.</p>
+<p>This will reply with <code>Hi 😀</code> to the user.</p>
 </div>
-<h2 id="application-emojis">Application emojis<a class="headerlink" href="#application-emojis" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We're using the amazing <a href="https://github.com/felldo/jemoji">JEmoji</a> library to resolve Unicode Discord aliases.
+If something doesn't feel right with the used aliases/emojis please reach out to them <a href="https://github.com/felldo/JEmoji/issues">here</a>.</p>
+</div>
+<h2 id="application-emojis">Application Emojis<a class="headerlink" href="#application-emojis" title="Permanent link">&para;</a></h2>
 <p>Application emojis can be used exactly the same as Unicode emojis in messages with the custom emoji name as the alias.
 If an application emoji is called the same as a Unicode emoji alias, the application emoji takes precedence.</p>
 <div class="admonition warning">
@@ -1636,15 +1630,15 @@ If an application emoji is called the same as a Unicode emoji alias, the applica
 if changes are made to them.</p>
 </div>
 <div class="admonition example">
-<p class="admonition-title">Example</p>
+<p class="admonition-title">Application Emoji</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;example&quot;</span><span class="p">)</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hi :my_custom_emoji:&quot;</span><span class="p">);</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>results in the message <code>Hi &lt;you custom emoji here&gt;</code> displayed to the user.</p>
+<p>This will reply <code>Hi &lt;you custom emoji here&gt;</code> to the user.</p>
 </div>
-<h3 id="automatic-application-emojis-registration">Automatic application emojis registration<a class="headerlink" href="#automatic-application-emojis-registration" title="Permanent link">&para;</a></h3>
+<h3 id="automatic-application-emoji-registration">Automatic Application Emoji Registration<a class="headerlink" href="#automatic-application-emoji-registration" title="Permanent link">&para;</a></h3>
 <p>Adding application emojis manually in the webinterface is an annoying task, but for your luck JDA-Commands comes with tools
 to register your emojis automatically upon startup. Please note that we cannot unregister application emojis due to api limits. </p>
 <p>Similar to how <a href="../../misc/reflection/#classfinder">ClassFinders</a> work, JDA-Commands uses <a href="../../misc/reflection/#emojisource">EmojiSources</a>
@@ -1657,17 +1651,21 @@ to load your application emojis from different places. Per default there are 3 t
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html#fromIcon(java.lang.String,net.dv8tion.jda.api.entities.Icon)"><code>EmojiSource#fromIcon(String, Icon)</code></a>
   that just works as an interop to JDAs own emoji api</li>
 </ul>
+<hr />
 <p>If no <a href="../../misc/reflection/#emojisource">EmojiSources</a> are set by the user in the JDA-Commands Builder, the resource directory <code>emojis</code> will be searched for application emojis per default.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>If your resource directory looks like:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>emojis/
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    laughing.gif
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    hola.png
-</span></code></pre></div></p>
-<p>then JDA-Commands will register the application emojis "laughting" and "hola" upon startup.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>src/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├─ main/
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│  ├─ resources/
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│  │  ├─ emojis/
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│  │  │  ├─ laughing.gif
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│  │  │  ├─ hola.png
+</span></code></pre></div>
+then JDA-Commands will register the application emojis "laughing" and "hola" upon startup.</p>
 </div>
-<p>If you want to use custom EmojiSources just take a look <a href="../../misc/reflection/#emojisource">here</a></p>
+<p>If you want to use custom EmojiSources just take a look <a href="../../misc/reflection/#emojisource">here</a>.</p>
 
 
 

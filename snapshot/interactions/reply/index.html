@@ -1715,7 +1715,7 @@ You're not viewing the latest stable version.
 <h1 id="reply-building">Reply Building<a class="headerlink" href="#reply-building" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.</p>
+<p>All event types share the same Reply API. JDA-Commands will only acknowledge the interaction event just before sending the reply. If you need more time, e.g. for doing a database query, you can always manually acknowledge events by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#deferReply()"><code>event#deferReply()</code></a>.</p>
 </div>
 <h2 id="localization-and-placeholders">Localization and Placeholders<a class="headerlink" href="#localization-and-placeholders" title="Permanent link">&para;</a></h2>
 <p>To avoid hardcoded values, all string properties of a component/the content of a message can be replaced by a localization key as supported by the
@@ -1859,10 +1859,10 @@ instance of the class the component is defined in (<em><code>ButtonHelpers</code
 the <a href="../../start/runtime/">Runtime</a> will create one instance (and store it for potential future method calls). </p>
 <h3 id="lifetime">Lifetime<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h3>
 <p>As discussed <a href="../../start/runtime/#lifetime">earlier</a>, Runtimes have a limited lifetime. By default, JDA-Commands will close
-a Runtime after 15 minutes have passed. </p>
+a Runtime after 15 minutes of no activity have passed. </p>
 <div class="admonition danger">
 <p class="admonition-title">Component Lifetime</p>
-<p>This means all components belonging to that Runtime will stop working after 15 minutes!</p>
+<p>This means all components belonging to that Runtime will stop working once the Runtime is closed!</p>
 </div>
 <p>JDA-Commands will handle this case for you. This error message can be <a href="../../misc/error-handling/#error-messages">customized</a>.</p>
 <p><img alt="Expiration Message" src="../../assets/expiration.png" /></p>

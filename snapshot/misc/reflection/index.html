@@ -1589,7 +1589,7 @@ You're not viewing the latest stable version.
 
 
 <h1 id="avoiding-reflections">Avoiding Reflections<a class="headerlink" href="#avoiding-reflections" title="Permanent link">&para;</a></h1>
-<p>JDA-Commands uses <code>java.lang.reflect</code> in two places:</p>
+<p>JDA-Commands uses <code>java.lang.reflect</code> in three places:</p>
 <ul>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassFinder.html"><code>ClassFinder</code></a></li>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Descriptor.html"><code>Descriptor</code></a></li>
@@ -1623,7 +1623,7 @@ annotation. Alternatively, register them at the JDA-Commands Builder.</p>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 <h2 id="emojisource">EmojiSource<a class="headerlink" href="#emojisource" title="Permanent link">&para;</a></h2>
-<p><a href="../../message/emojis/#automatic-application-emojis-registration">EmojiSources</a> are used to load application emojis that should be registered automatically upon startup for you. 
+<p><a href="../../message/emojis/#automatic-application-emoji-registration">EmojiSources</a> are used to load application emojis that should be registered automatically upon startup for you. 
 They're similar to <a href="#classfinder">ClassFinders</a>.</p>
 <p>You can register them at the JDA-Commands Builder or via the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a> annotation.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
