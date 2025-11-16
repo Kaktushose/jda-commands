@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.function.Consumer;
 
-/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer)] when you need to do work with an [JDA] object.
+/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer, boolean)] when you need to do work with an [JDA] object.
 public final class JDAContext {
 
     public static final Logger log = LoggerFactory.getLogger(JDAContext.class);

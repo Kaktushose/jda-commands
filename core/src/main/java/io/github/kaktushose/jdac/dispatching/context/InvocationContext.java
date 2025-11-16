@@ -58,7 +58,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
             SequencedCollection<@Nullable Object> rawArguments
     ) {}
 
-    /// @return same as [#rawArguments()] but with [Optional]s replaced by `null`
+    /// @return same as [`data()#rawArguements`][Data#rawArguments()] but with [Optional]s replaced by `null`
     public SequencedCollection<@Nullable Object> arguments() {
         return data.rawArguments.stream()
                 .map(arg -> arg instanceof Optional<?> opt ? opt.orElse(null) : arg)
