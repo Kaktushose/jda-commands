@@ -126,9 +126,9 @@ jobs:
             mike deploy snapshot
           fi
       - name: Push Wiki
-        uses: ad-m/github-push-action@master
-        with:
-          branch: 'gh-pages'
+        run: |
+          git pull
+          git push origin gh-pages
       - name: Deploy gh-pages
         uses: ./.github/workflows/deploy-pages
 
