@@ -1,19 +1,10 @@
-name: Source and wiki build & test
+name: Wiki build & test
 
 on:
   push:
   pull_request:
 
 jobs:
-  build-java:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/setup-gradle
-      - name: Build and test with Gradle
-        run: ./gradlew test
-
   build-wiki:
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +19,7 @@ jobs:
           cd wiki
           pip install -r requirements.txt
 
-          sed -i -e 's/JAVADOC_VERSION/snapshot/g' mkdocs.yml
+          # replace all JDAC_JAVADOC_VERSION with actual version
+          grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/snapshot/g'
           
           mkdocs build --verbose

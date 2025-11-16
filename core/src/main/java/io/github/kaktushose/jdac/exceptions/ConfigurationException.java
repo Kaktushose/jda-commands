@@ -23,7 +23,6 @@ public final class ConfigurationException extends JDACException {
         super(key, cause);
     }
 
-    /// {@inheritDoc}
     public ConfigurationException(String key, Throwable cause, Entry... placeholder) {
         super(key, cause, placeholder);
     }

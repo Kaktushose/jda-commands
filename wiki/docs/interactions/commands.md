@@ -40,7 +40,7 @@ commands should be registered as a slash command, a sub command or a sub command
     └── ban
 ```
 ??? tip "Debugging"
-    JDA-Commands will log this tree on log-level `DEBUG`. This might help you with debugging, for example when command 
+    JDA-Commands will log this tree on log-level `DEBUG`. This might help you with debugging, for example when a command 
     doesn't show up.
 
 In our example the following commands will be registered: 
@@ -187,7 +187,7 @@ public void onBanMember(CommandEvent event,
 
 #### Auto Complete
 You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
-AutoComplete>. Auto Complete handlers are always bound to 
+<AutoComplete>. Auto Complete handlers are always bound to 
 one or more slash commands. 
 
 The slash commands can either be referenced by the:
@@ -341,7 +341,7 @@ public void onCommand(CommandEvent event) {...}
 ```
 
 ### context
-Sets the [InteractionContextTypes][[InteractionContextType]]
+Sets the [`InteractionContextTypes`][[InteractionContextType]]
 of a command. The default value is <InteractionContextType#GUILD>.
 
 ```java
@@ -351,7 +351,7 @@ public void onCommand(CommandEvent event) {...}
 ```
 
 ### integration
-Sets the [IntegrationTypes][[IntegrationType]]
+Sets the [`IntegrationTypes`][[IntegrationType]]
 of a command. The default value is <IntegrationType#GUILD_INSTALL>.
 
 ```java
@@ -408,15 +408,24 @@ for guilds that have paid for that feature:
     }
     ```
 
-Finally, we have to register our `PremiumGuildsProvider`. We can either pass it to the builder:
-!!! example
-    ```java
-    JDACommands.builder(jda, Main.class)
-        .guildScopeProvider(new PremiumGuildsProvider())
-        .start();
-    ```
+Finally, we have to register our `PremiumGuildsProvider` either at the builder or by annotating it with <io.github.kaktushose.jdac.guice.Implementation>.
 
-or simply annotate the `PremiumGuildsProvider` class with <io.github.kaktushose.jdac.guice.Implementation>.
+!!! example
+    === "`@Implementation`"
+        ```java
+        @Implementation
+        public class PremiumGuildsProvider implements GuildScopeProvider {
+            ...
+        }
+        ```
+
+    === "Builder Registration"
+        ```java
+        JDACommands.builder(jda, Main.class)
+            .guildScopeProvider(new PremiumGuildsProvider())
+            .start();
+        ```
+
 !!! note
     Using the <io.github.kaktushose.jdac.guice.Implementation> annotation requires the guice integration 
     (shipped by default). You can read more about it [here](../di.md).   

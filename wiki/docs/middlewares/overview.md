@@ -63,20 +63,22 @@ public class LoggingMiddleware implements Middleware {...}
 If you want your Middleware to only run for certain interaction controllers, just implement <Middleware#runFor()>
 returning the classes of the interaction controllers for which the middleware should run.
 
-!!! example (run only for HelloController.java)
-```java
-@Middleware(priority = Priority.NORMAL)
-public class CustomMiddleware implements Middleware {
-private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);
+!!! example "Run only for HelloController"
+    ```java
+    @Middleware(priority = Priority.NORMAL)
+    public class CustomMiddleware implements Middleware {
+    
+        private static final Logger log = LoggerFactory.getLogger(CustomMiddleware.class);
 
         @Override
         public void accept(InvocationContext<?> context) {
             log.info("run custom middleware");
         }
- 
+
         @Override
         public Collection<Class<?>> runFor() {
             return List.of(HelloController.class);
         }
     }
     ```
+

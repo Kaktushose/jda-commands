@@ -1,14 +1,14 @@
 # Quick Start Guide
 ## Entrypoint
 
-This is the easiest way of starting JDA-Commands. Besides your `JDA` (or `ShardManager`) instance, we also need a class
+This is the easiest way of starting JDA-Commands. Besides your <JDA> (or <ShardManager>) instance, we also need a class
 of the classpath to scan for interactions. 
 
 === "JDA"
     ```java
     public class Main {
             
-        public static void main(String[] args) {
+        void main() {
             JDA jda = yourJDABuilding();
             JDACommands.start(jda, Main.class);
         }
@@ -18,7 +18,7 @@ of the classpath to scan for interactions.
     ```java
     public class Main {
     
-        public static void main(String[] args) {
+        void main() {
             ShardManager shardManager = yourShardManagerBuilding();
             JDACommands.start(shardManager, Main.class);
         }
@@ -27,7 +27,7 @@ of the classpath to scan for interactions.
 
 You can also pass specific packages to exclusively scan:
 ```java
-JDACommands.start(jda, Main.class, "com.example.bot.commands");
+JDACommands.start(jda, Main.class, "com.example.bot");
 ```
 
 ### Builder

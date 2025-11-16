@@ -8,24 +8,25 @@ the restrictions of the used <Localizer> implementation.
 
 If a certain message for a key isn't found, the key is returned as the messages value.
 
-### The dollar ($) character
+## The Dollar ($) Character
 The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 
-In practically all cases this doesn't really bother you, because there are only 2 niche situations where the dollar has to be escaped:
-- your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it` (the default bundle should be used here)
-- the string is a "raw" message containing `$`,
-  that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
-  - you have a bundle called `my_bundle`
-  - you have a message key called `my-key` in that bundle
-  - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
+In practically all cases this doesn't really bother you, because there are only two edge cases where the dollar has to be escaped.
+
+??? note "Edge Cases"
+    - Your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it` (the default bundle should be used here)
+    - The string is a "raw" message containing `$`, that happens to have its prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.:
+        1. you have a bundle called `my_bundle`
+        2. you have a message key called `my-key` in that bundle
+        3. and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
 
 In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
 
 ## Implicit Localization
-Due to the [implicit resolution of messages](overview.md#implicit-resolution), localization is also done in many common places
-automatically for you. Furthermore, the localization of Slash commands 
-is supported trough JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization).
+Due to the [implicit resolution of messages](overview.md#usage), localization is also done in many common places
+automatically for you. Furthermore, the localization of Slash Commands 
+is supported through JDAs [`LocalizationFunction`](#localizationfunction-jda-slash-command-localization).
 
 JDA-Commands will first try to find a localization message based on the provided String (as the key) and the users locale
 retrieved by <GenericInteractionCreateEvent#getUserLocale()>
@@ -35,59 +36,58 @@ and if not found, will use the String directly as the content.
     Localization of <MessageCreateData> is not supported implicitly.
     To localize such messages you have to manually use <I18n#localize(Locale,String,Entry...)`>.
 
-### Example
-```java
-@Bundle("component")
-@Interaction
-public class ComponentTest {
-
-    @Command("say hi")
-    public void onCommand(CommandEvent event) {
-        event.reply("command-reply");
-    }
-
-}
-``` 
-
-In this example, the bundle `component` will be searched for the key `command-reply`.
-
-## Variables/Placeholders
-To learn more about placeholders take a look [here](placeholder.md)
-
-### Example (Fluava)
-```java
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-
-@Interaction
-public class ComponentTest {
-
-    @Command("say hi")
-    public void onCommand(CommandEvent event) {
-        event.with()
-                .components(Component.button("onButton", entry("name", event.getUser().getName())))
-                .reply();
-    }
+!!! example
+    ```java
+    @Bundle("component")
+    @Interaction
+    public class ComponentTest {
     
-    @Button("button_name")
-    public void onButton(ComponentEvent event) {
-        ...
+        @Command("say hi")
+        public void onCommand(CommandEvent event) {
+            event.reply("command-reply");
+        }
+    
     }
+    ```
+    In this example, the bundle `component` will be searched for the key `command-reply`.
 
-}
-```
+## Placeholders
+Your localization messages can also contain placeholders. To learn more about how to use placeholders take a look [here](placeholder.md).
 
-```properties title="default_en.ftl"
-button_name = Hello { $name }
-```
+!!! example "Example with [Fluava](#default-implementation)"
+    ```java
+    import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+    
+    @Interaction
+    public class ComponentTest {
+    
+        @Command("say hi")
+        public void onCommand(CommandEvent event) {
+            event.with()
+                    .components(Component.button("onButton", entry("name", event.getUser().getName())))
+                    .reply();
+        }
+        
+        @Button("button_name")
+        public void onButton(ComponentEvent event) {
+            ...
+        }
+    
+    }
+    ```
+    
+    ```properties title="default_en.ftl"
+    button_name = Hello { $name }
+    ```
 
 ## Bundles
 Localization bundles are a known concept from Javas <ResourceBundle>. JDA-Commands supports different bundles of
 localization files by adding them to the localization key or using the <Bundle>
 annotation.
 
-!!! warning the dollar sign ($)
+!!! warning "The Dollar Sign ($)"
     Please note that the character `$` is forbidden in bundle names.
-    Additionally, the bundle name 'jdac' is reserved, for more information visit [this section](#localization-of-default-messages) 
+    Additionally, the bundle name `jdac`is reserved, for more information visit [this section](#localization-of-default-messages). 
 
 ### Via Key
 To state which bundle to use the direct way is to include it in the key following the format `bundle$key`.
@@ -95,7 +95,7 @@ For example a message with key `user$not-found` will be searched for in the bund
 
 ### Via Annotation
 
-If no bundle is specified, it will traverse the stack (the called methods) and search for the nearest
+If no bundle is specified, JDA-Commands will traverse the stack (the called methods) and search for the nearest
 <Bundle>
 annotation with following order:
 
@@ -158,29 +158,29 @@ class at the very beginning.
 ### Default Bundle
 If no bundle is found with the above techniques, a bundle called `default` will be used.
 
-## Localization of default messages
-JDA-Commands sometimes presents error messages or strings to the user of the discord bot, that aren't defined by the developer
+## Localization of Default Messages
+JDA-Commands sometimes presents error messages or strings to the user of the Discord bot, that aren't defined by the developer
 per default. For most cases the default values for these messages shipped with JDA-Commands will be sufficient, but some developers might like to 
-localize them (if supported). 
+localize them. 
 
-For this task the reserved bundle 'jdac' was defined, allowing the customization of following messages (localization keys):
+For this task the reserved bundle `jdac` was defined, allowing the customization of following messages (localization keys):
 
-- `member-missing-permission` -> if a <net.dv8tion.jda.api.entities.Member> doesn't have the permission required by <Perm>
-- `member-has-unallowed-permission` -> if a <net.dv8tion.jda.api.entities.Member> has the permission forbidden by <NotPerm>
-- `member-required-got-user` -> if a <net.dv8tion.jda.api.entities.Member> is required, but only a user was given as a slash command option input
-- `no-description` -> if no description was stated for a [slash command][[SlashCommandDefinition]] or [slash command option][[OptionDataDefinition]]
+- `member-missing-permission`: if a <net.dv8tion.jda.api.entities.Member> doesn't have the permission required by <Perm>
+- `member-has-unallowed-permission`: if a <net.dv8tion.jda.api.entities.Member> has the permission forbidden by <NotPerm>
+- `member-required-got-user`: if a <net.dv8tion.jda.api.entities.Member> is required, but only a user was given as a slash command option input
+- `no-description`: if no description was stated for a [slash command][[SlashCommandDefinition]] or [slash command option][[OptionDataDefinition]]
 
-### Example
-```ftl title='jdac_de.ftl'
-member-missing-permission = Du hast nicht die benötigte Berechtigung!
-no-description = Keine Beschreibung angegeben!
-```
+!!! example
+    ```ftl title="jdac_de.ftl"
+    member-missing-permission = Du hast nicht die benötigte Berechtigung!
+    no-description = Keine Beschreibung angegeben!
+    ```
 
-## LocalizationFunction (JDA) / slash command localization
+## LocalizationFunction (JDA) / Slash Command Localization
 JDA uses the <LocalizationFunction> for localizing slash commands.
 We implement this interface based on our `I18n` class as described above.
 
-If you want to disable slash commands localization just call [JDACBuilder#localizeCommands(false)][[JDACBuilder#localizeCommands(boolean)]].
+If you want to disable slash commands localization just call [`JDACBuilder#localizeCommands(false)`][[JDACBuilder#localizeCommands(boolean)]].
 
 See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
 
@@ -197,20 +197,20 @@ JDACommands.builder(jda, Main.class)
     .start();
 ```
 
-!!! tip
-    To set a fallback bundle you have to pass it to the constructor of the `Fluava` class. In the above example the fallback locale
-    is German.
+!!! tip "Fallback Bundle"
+    To change the fallback bundle you have to pass it to the constructor of the `Fluava` class. In the above example the fallback locale
+    is German. The default fallback bundle is English.
 
 !!! note
-    JDA-Commands will set [FluavaBuilder.FunctionConfig#fallbackToString(boolean)](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))
-    to `true` when using `FluavaLocalizer` thus always enabling falling back to `Object#toString()` if necessary.
+    JDA-Commands will set [`FluavaBuilder.FunctionConfig#fallbackToString(boolean)`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))
+    to `true` when using `FluavaLocalizer`, thus always enabling falling back to `Object#toString()` if necessary.
 
 ### Localization Keys
 Since [`Project Fluent`](https://projectfluent.org/) doesn't support dots (`.`) in localization keys, the [Fluava](https://github.com/Goldmensch/fluava) 
-integration will change all dots to dashes (`-`). For example, `my.key` will become `my-get`. This change also effects 
+integration will change all dots to dashes (`-`). For example, `my.key` will become `my-key`. This change also effects 
 all JDA Slash Command localization keys.
 
-### Localization files
+### Localization Files
 <fluava -> Fluava> supports the loading and discovery of bundles on the classpath 
 (resource directory) similar to Javas <ResourceBundle>
 but with a slightly more flexible structure.

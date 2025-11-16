@@ -12,7 +12,7 @@ A new `Runtime` is created each time a:
 - <GenericContextInteractionEvent>
 - <CommandAutoCompleteInteractionEvent>
 
-is provided by JDA or if an interaction is marked as [*independent*](#independent).
+is provided by JDA or if a component is marked as [*independent*](#independent).
 
 Runtimes are executed in parallel, but events are processed sequentially by each `Runtime`.
 Every `EventHandler` called by a `Runtime` is executed in its own virtual thread, isolated from the runtime one.
@@ -41,8 +41,7 @@ the runtime one. Other incoming events are only executed when the previous one h
 
 ## Lifetime
 
-By default, JDA-Commands will handle the lifetime of Runtimes for you. Every `Runtime` will be closed **15 minutes** 
-after its creation. This time span is oriented towards the lifespan of the 
+By default, JDA-Commands will handle the lifetime of Runtimes for you. Every `Runtime` will be closed if it has benn inactive for **15 minutes**. This time span is oriented towards the lifespan of the 
 <InteractionHook>. 
 
 ### Explicit

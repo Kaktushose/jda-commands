@@ -1,6 +1,6 @@
 # Reply Building
 !!! note
-    All event types share the same Reply API. JDA-Commands will always acknowledge the interaction event for you.
+    All event types share the same Reply API. JDA-Commands will only acknowledge the interaction event just before sending the reply. If you need more time, e.g. for doing a database query, you can always manually acknowledge events by calling [`event#deferReply()`][[ReplyableEvent#deferReply()]].
 
 ## Localization and Placeholders
 To avoid hardcoded values, all string properties of a component/the content of a message can be replaced by a localization key as supported by the
@@ -157,10 +157,10 @@ the [Runtime](../start/runtime.md) will create one instance (and store it for po
 
 ### Lifetime
 As discussed [earlier](../start/runtime.md#lifetime), Runtimes have a limited lifetime. By default, JDA-Commands will close
-a Runtime after 15 minutes have passed. 
+a Runtime after 15 minutes of no activity have passed. 
 
 !!! danger "Component Lifetime"
-    This means all components belonging to that Runtime will stop working after 15 minutes!
+    This means all components belonging to that Runtime will stop working once the Runtime is closed!
 
 JDA-Commands will handle this case for you. This error message can be [customized](../misc/error-handling.md#error-messages).
 

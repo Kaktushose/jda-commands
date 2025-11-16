@@ -88,7 +88,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// @param classFinders the to be used [ClassFinder]s
     /// @apiNote This method overrides the underlying collection instead of adding to it.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
-    /// [ClassFinder#reflective(Class, String...)] too.
+    /// [ClassFinder#reflective(String...)] too.
     public JDACBuilder classFinders(ClassFinder... classFinders) {
         this.classFinders = new ArrayList<>(Arrays.asList(classFinders));
         return this;
@@ -100,7 +100,7 @@ public final class JDACBuilder extends JDACBuilderData {
     /// @param sources the to be used [EmojiSource]s
     /// @apiNote This method overrides the underlying collection instead of adding to it.
     /// If you want to add own [EmojiSource]s while keeping the default reflective implementation, you have to add it explicitly via
-    /// [EmojiSource#reflective(Class, String...)] too.
+    /// [EmojiSource#reflective(String...)] too.
     public JDACBuilder emojiSources(EmojiSource... sources) {
         this.emojiSources = new ArrayList<>(Arrays.asList(sources));
         return this;

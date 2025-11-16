@@ -1,5 +1,5 @@
 # Avoiding Reflections
-JDA-Commands uses `java.lang.reflect` in two places:
+JDA-Commands uses `java.lang.reflect` in three places:
 
 - <ClassFinder>
 - <io.github.kaktushose.jdac.definitions.description.Descriptor>
@@ -43,7 +43,7 @@ JDACommands.builder(jda, Main.class)
 
 
 ## EmojiSource
-[EmojiSources](../message/emojis.md#automatic-application-emojis-registration) are used to load application emojis that should be registered automatically upon startup for you. 
+[EmojiSources](../message/emojis.md#automatic-application-emoji-registration) are used to load application emojis that should be registered automatically upon startup for you. 
 They're similar to [ClassFinders](#classfinder).
 
 You can register them at the JDA-Commands Builder or via the <io.github.kaktushose.jdac.guice.Implementation> annotation.
