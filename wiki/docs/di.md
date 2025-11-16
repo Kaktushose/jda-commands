@@ -14,14 +14,14 @@ To allow the injection of own Objects in these instances, JDA-Commands provides 
 
 ## Default Dependency Injection Framework - Guice
 !!! warning
-    For information on how to use Google's Guice, please visit their [documentation](https://github.com/google/guice/wiki/). This wiki only covers the
+    For information on how to use Googles Guice, please visit their [documentation](https://github.com/google/guice/wiki/). This wiki only covers the
     configuration part. 
 
 If your using JDA-Commands via the `io.github.kaktushose:jda-commands:VERSION` artifact, an integration for 
-[Google's Guice](https://github.com/google/guice) is shipped by default. 
+[Googles Guice](https://github.com/google/guice) is shipped by default. 
 
 To customize this integration you can pass an instance of <GuiceExtensionData>
-to the JDA-Commands builder, which allows you to provide an own instance of [Guice's Injector](https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html).
+to the JDA-Commands builder, which allows you to provide an own instance of [Guices Injector](https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html).
 
 !!! example "Configuring Guice"
     ```java
@@ -92,7 +92,7 @@ The annotated classes will be instantiated with help of `com.google.inject.Injec
 
 ## Custom dependency injection integrations
 If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <InteractionControllerInstantiator>
+implementation of <InteractionControllerInstantiator>.
 
 You can do this by either passing it to the builder or by creating your own [extension](misc/extension/writing.md).
 

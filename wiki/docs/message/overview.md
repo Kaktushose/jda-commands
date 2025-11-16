@@ -15,7 +15,7 @@ They are applied to the string provided by the user in following order:
 2. [localization](localization.md)
 3. [resolution of emoji aliases](emojis.md)
 
-The resulting string is then send to discord or returned to the user.
+The resulting string is then send to Discord or returned to the user.
 
 ## Usage
 Instead of manually using the <MessageResolver>
