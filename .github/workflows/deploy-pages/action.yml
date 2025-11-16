@@ -1,0 +1,19 @@
+name: Deploy gh-pages branch
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v5
+      with:
+        ref: "gh-pages"
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
+    - name: Delete artifact
+      uses: geekyeggo/delete-artifact@v5.1.0
+      with:
+        name: 'github-pages'
+    - uses: actions/checkout@v5 # checkout base branch again
