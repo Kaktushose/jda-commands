@@ -1691,7 +1691,7 @@ corresponding <code>EventHandlers</code> and manages the used virtual threads.</
 <li><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html"><code>GenericContextInteractionEvent</code></a></li>
 <li><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html"><code>CommandAutoCompleteInteractionEvent</code></a></li>
 </ul>
-<p>is provided by JDA or if a component is marked as <a href="#independent"><em>independent</em></a>.</p>
+<p>is provided by JDA or if an interaction is marked as <a href="#independent"><em>independent</em></a>.</p>
 <p>Runtimes are executed in parallel, but events are processed sequentially by each <code>Runtime</code>.
 Every <code>EventHandler</code> called by a <code>Runtime</code> is executed in its own virtual thread, isolated from the runtime one.</p>
 <p>See <a href="#lifetime"><code>Lifetime</code></a> for details when a <code>Runtime</code> will close.</p>
@@ -1712,7 +1712,8 @@ without blocking the <code>JDA MainWS-ReadThread</code>.</p>
 </div>
 <p><img alt="Runtime Flowchart" src="../../assets/runtime.png" /></p>
 <h2 id="lifetime">Lifetime<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h2>
-<p>By default, JDA-Commands will handle the lifetime of Runtimes for you. Every <code>Runtime</code> will be closed if it has benn inactive for <strong>15 minutes</strong>. This time span is oriented towards the lifespan of the 
+<p>By default, JDA-Commands will handle the lifetime of Runtimes for you. Every <code>Runtime</code> will be closed <strong>15 minutes</strong> 
+after its creation. This time span is oriented towards the lifespan of the 
 <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/InteractionHook.html"><code>InteractionHook</code></a>. </p>
 <h3 id="explicit">Explicit<a class="headerlink" href="#explicit" title="Permanent link">&para;</a></h3>
 <p>You can disable the default behaviour by setting the 
