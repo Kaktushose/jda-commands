@@ -6,7 +6,6 @@ import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDe
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -23,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -134,45 +132,6 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                 .setColor(Color.ORANGE)
                 .setTitle("Parameter Error")
                 .setDescription(String.format("```%s```", message))
-                .build()
-        ).build();
-    }
-
-    /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-    @Override
-    public MessageCreateData getCooldownMessage(ErrorContext context, long ms) {
-        long secs = TimeUnit.MILLISECONDS.toSeconds(ms);
-        long seconds = secs % 60;
-        long minutes = (secs / 60) % 60;
-        long hours = (secs / (60 * 60)) % 24;
-
-        StringBuilder cooldown = new StringBuilder();
-        if (hours > 0) {
-            cooldown.append(hours).append(hours == 1 ? " hour" : " hours");
-        }
-        if (minutes > 0) {
-            if (!cooldown.isEmpty()) {
-                cooldown.append(" ");
-            }
-            cooldown.append(minutes).append(minutes == 1 ? " minute" : " minutes");
-        }
-        if (seconds > 0) {
-            if (!cooldown.isEmpty()) {
-                cooldown.append(" ");
-            }
-            cooldown.append(seconds).append(seconds == 1 ? " second" : " seconds");
-        }
-
-        if (embeds.exists("cooldown")) {
-            return embeds.get("cooldown").placeholders(entry("cooldown", cooldown.toString())).toMessageCreateData();
-        }
-
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Cooldown")
-                .setDescription(String.format("You cannot use this command for %s!", cooldown))
                 .build()
         ).build();
     }

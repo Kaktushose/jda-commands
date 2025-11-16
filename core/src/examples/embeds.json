@@ -43,11 +43,6 @@
     "description": "```{ $message }```",
     "color": "#ffc800"
   },
-  "cooldown": {
-    "title": "Cooldown",
-    "description": "You cannot use this command for {$ cooldown }!",
-    "color": "#ffc800"
-  },
   "wrongChannel": {
     "title": "Wrong Channel Type",
     "description": "This command cannot be executed in this type of channel!",

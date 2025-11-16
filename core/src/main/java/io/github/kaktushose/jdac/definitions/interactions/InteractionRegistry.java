@@ -26,8 +26,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition;
-
 /// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(Validators validators,
                                   I18n i18n,
@@ -85,8 +83,6 @@ public record InteractionRegistry(Validators validators,
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
-        // get controller level cooldown and use it if no command level cooldown is present
-        CooldownDefinition cooldown = clazz.annotation(Cooldown.class).map(CooldownDefinition::build).orElse(null);
 
         // index interactions
         return interactionDefinitions(
@@ -96,7 +92,6 @@ public record InteractionRegistry(Validators validators,
                 i18n,
                 interaction,
                 permissions,
-                cooldown,
                 autoCompletes,
                 globalCommandConfig
         );
@@ -124,7 +119,6 @@ public record InteractionRegistry(Validators validators,
                                                    I18n i18n,
                                                    Interaction interaction,
                                                    Set<String> permissions,
-                                                   @Nullable CooldownDefinition cooldown,
                                                    Collection<AutoCompleteDefinition> autocompletes,
                                                    CommandDefinition.CommandConfig globalCommandConfig) {
         Set<Definition> definitions = new HashSet<>(autocompletes);
@@ -135,7 +129,6 @@ public record InteractionRegistry(Validators validators,
                     i18n,
                     interaction,
                     permissions,
-                    cooldown,
                     clazz,
                     method,
                     autocompletes,

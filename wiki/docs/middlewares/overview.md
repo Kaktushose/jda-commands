@@ -27,7 +27,6 @@ Middlewares provided by JDA-Commands include:
 - [Type Adapters](./typeadapter.md)
 - [Parameter Validation](./validator.md)
 - [Permissions System](./permissions.md)
-- [Command Cooldown](./cooldown.md)
 
 ## Writing own Middlewares
 
