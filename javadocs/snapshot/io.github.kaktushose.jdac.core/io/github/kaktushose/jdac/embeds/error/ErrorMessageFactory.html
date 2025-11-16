@@ -61,7 +61,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#getTypeAdaptingFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" tabindex="0">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure)</a></li>
 <li><a href="#getInsufficientPermissionsMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext)" tabindex="0">getInsufficientPermissionsMessage(ErrorMessageFactory.ErrorContext)</a></li>
 <li><a href="#getConstraintFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.String)" tabindex="0">getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)</a></li>
-<li><a href="#getCooldownMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,long)" tabindex="0">getCooldownMessage(ErrorMessageFactory.ErrorContext, long)</a></li>
 <li><a href="#getCommandExecutionFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,java.lang.Throwable)" tabindex="0">getCommandExecutionFailedMessage(ErrorMessageFactory.ErrorContext, Throwable)</a></li>
 <li><a href="#getTimedOutComponentMessage(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" tabindex="0">getTimedOutComponentMessage(GenericInteractionCreateEvent)</a></li>
 </ol>
@@ -141,25 +140,19 @@ happen during an interaction execution, such as missing permissions or failing c
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a parameter constraint fails.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCooldownMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,long)" class="member-name-link">getCooldownMessage</a><wbr>(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
- long&nbsp;ms)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getInsufficientPermissionsMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext)" class="member-name-link">getInsufficientPermissionsMessage</a><wbr>(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> to send when a command still has a cooldown.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getInsufficientPermissionsMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext)" class="member-name-link">getInsufficientPermissionsMessage</a><wbr>(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a user is missing permissions.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTimedOutComponentMessage(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">getTimedOutComponentMessage</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTimedOutComponentMessage(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">getTimedOutComponentMessage</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when an incoming component interaction already timed out.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTypeAdaptingFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage</a><wbr>(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTypeAdaptingFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage</a><wbr>(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
  io.github.kaktushose.proteus.conversion.ConversionResult.Failure&lt;?&gt;&nbsp;failure)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
 </div>
 </div>
@@ -220,23 +213,6 @@ happen during an interaction execution, such as missing permissions or failing c
 <dd><code>context</code> - the <a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error"><code>ErrorMessageFactory.ErrorContext</code></a></dd>
 <dt>Returns:</dt>
 <dd>a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a parameter constraint fails</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getCooldownMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,long)">
-<h3>getCooldownMessage</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></span>&nbsp;<span class="element-name">getCooldownMessage</span><wbr><span class="parameters">(<a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a>&nbsp;context,
- long&nbsp;ms)</span></div>
-<div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> to send when a command still has a cooldown.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>context</code> - the <a href="ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error"><code>ErrorMessageFactory.ErrorContext</code></a></dd>
-<dd><code>ms</code> - the remaining cooldown in milliseconds</dd>
-<dt>Returns:</dt>
-<dd>a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when a command still has a cooldown</dd>
 </dl>
 </div>
 </section>

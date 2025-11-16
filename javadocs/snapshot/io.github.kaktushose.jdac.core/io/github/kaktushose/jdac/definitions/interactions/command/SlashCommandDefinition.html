@@ -60,7 +60,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition)" tabindex="0">SlashCommandDefinition(ClassDescription, MethodDescription, Collection, String, CommandDefinition.CommandConfig, LocalizationFunction, String, SequencedCollection, SlashCommandDefinition.CooldownDefinition)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection)" tabindex="0">SlashCommandDefinition(ClassDescription, MethodDescription, Collection, String, CommandDefinition.CommandConfig, LocalizationFunction, String, SequencedCollection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -81,7 +81,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#localizationFunction()" tabindex="0">localizationFunction()</a></li>
 <li><a href="#description()" tabindex="0">description()</a></li>
 <li><a href="#commandOptions()" tabindex="0">commandOptions()</a></li>
-<li><a href="#cooldown()" tabindex="0">cooldown()</a></li>
 </ol>
 </li>
 </ol>
@@ -107,7 +106,6 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-localizationFunction">localizationFunction</span></code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> to use for this command</dd>
 <dd><code><span id="param-description">description</span></code> - the command description</dd>
 <dd><code><span id="param-commandOptions">commandOptions</span></code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link"><code>SequencedCollection</code></a> of <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a>s</dd>
-<dd><code><span id="param-cooldown">cooldown</span></code> - the corresponding <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>SlashCommandDefinition.CooldownDefinition</code></a></dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -115,7 +113,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">SlashCommandDefinition</span>(<a href="../../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription, <a href="../../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions, <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a>&nbsp;cooldown)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">SlashCommandDefinition</span>(<a href="../../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription, <a href="../../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="CommandDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition</a></span></div>
 <div class="block">Representation of a slash command.</div>
@@ -127,17 +125,6 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <li>
 <section class="nested-class-summary" id="nested-class-summary">
 <h2>Nested Class Summary</h2>
-<div class="caption"><span>Nested Classes</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Class</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="SlashCommandDefinition.CooldownDefinition.html" class="type-name-link" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Representation of a cooldown definition defined by <a href="../../../annotations/interactions/Cooldown.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Cooldown</code></a>.</div>
-</div>
-</div>
 <div class="inherited-list">
 <h3 id="nested-classes-inherited-from-class-io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition">Nested classes/interfaces inherited from interface&nbsp;<a href="CommandDefinition.html#nested-class-summary" title="interface in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition</a></h3>
 <code><a href="CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a></code></div>
@@ -163,15 +150,14 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition)" class="member-name-link">SlashCommandDefinition</a><wbr>(<a href="../../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection)" class="member-name-link">SlashCommandDefinition</a><wbr>(<a href="../../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
  <a href="../../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions,
- <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a>&nbsp;cooldown)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>SlashCommandDefinition</code> record class.</div>
 </div>
@@ -214,64 +200,59 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Type.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Type</code></a> of this command.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cooldown()" class="member-name-link">cooldown</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#description()" class="member-name-link">description</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-cooldown"><code>cooldown</code></a> record component.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#description()" class="member-name-link">description</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-description"><code>description</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-localizationFunction"><code>localizationFunction</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-methodDescription"><code>methodDescription</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-permissions"><code>permissions</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJDAEntity()" class="member-name-link">toJDAEntity</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Transforms this definition into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SubcommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SubcommandData</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSubcommandData(java.lang.String)" class="member-name-link">toSubcommandData</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SubcommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SubcommandData</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSubcommandData(java.lang.String)" class="member-name-link">toSubcommandData</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Transforms this definition into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SubcommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SubcommandData</code></a>.</div>
 </div>
 </div>
@@ -298,7 +279,7 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection,io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition.CooldownDefinition)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,java.lang.String,java.util.SequencedCollection)">
 <h3>SlashCommandDefinition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SlashCommandDefinition</span><wbr><span class="parameters">(<a href="../../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
@@ -308,8 +289,7 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
  <a href="CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&nbsp;commandConfig,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions,
- <a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a>&nbsp;cooldown)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a>&gt;&nbsp;commandOptions)</span></div>
 <div class="block">Creates an instance of a <code>SlashCommandDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -321,7 +301,6 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <dd><code>localizationFunction</code> - the value for the <a href="#param-localizationFunction"><code>localizationFunction</code></a> record component</dd>
 <dd><code>description</code> - the value for the <a href="#param-description"><code>description</code></a> record component</dd>
 <dd><code>commandOptions</code> - the value for the <a href="#param-commandOptions"><code>commandOptions</code></a> record component</dd>
-<dd><code>cooldown</code> - the value for the <a href="#param-cooldown"><code>cooldown</code></a> record component</dd>
 </dl>
 </div>
 </section>
@@ -562,19 +541,6 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-commandOptions"><code>commandOptions</code></a> record component</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="cooldown()">
-<h3>cooldown</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SlashCommandDefinition.CooldownDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">SlashCommandDefinition.CooldownDefinition</a></span>&nbsp;<span class="element-name">cooldown</span>()</div>
-<div class="block">Returns the value of the <a href="#param-cooldown"><code>cooldown</code></a> record component.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the value of the <a href="#param-cooldown"><code>cooldown</code></a> record component</dd>
 </dl>
 </div>
 </section>
