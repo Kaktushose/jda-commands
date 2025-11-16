@@ -1,7 +1,5 @@
 # JDA-Commands
 
-<io.github.kaktushose.jdac.Test>
-
 A declarative, annotation driven interaction framework for JDA. Our goal is to remove any boilerplate code, so 
 you can focus solely on the business logic of your bot - writing bots has never been easier:
 
@@ -11,7 +9,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
       public class CookieClicker {
       
           private int counter;//(1)!
-      
+       
           @Command(value = "cookie clicker", desc = "Play cookie clicker")
           public void onClicker(CommandEvent event) {
               event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
