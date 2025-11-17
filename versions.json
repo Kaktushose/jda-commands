@@ -10,30 +10,5 @@
     "aliases": [
       "wiki"
     ]
-  },
-  {
-    "version": "4.0.0-beta.9",
-    "title": "4.0.0-beta.9",
-    "aliases": []
-  },
-  {
-    "version": "4.0.0-beta.8",
-    "title": "4.0.0-beta.8",
-    "aliases": []
-  },
-  {
-    "version": "4.0.0-beta.7",
-    "title": "4.0.0-beta.7",
-    "aliases": []
-  },
-  {
-    "version": "4.0.0-beta.6",
-    "title": "4.0.0-beta.6",
-    "aliases": []
-  },
-  {
-    "version": "4.0.0-beta.5",
-    "title": "4.0.0-beta.5",
-    "aliases": []
   }
 ]
