@@ -3,18 +3,19 @@ package io.github.kaktushose.jdac.configuration;
 import java.util.Collection;
 import java.util.Map;
 
-public record PropertyType<T>(
-        ValueType<T> valueType,
-        FallbackBehaviour fallbackBehaviour
-) {
-
-    public sealed interface ValueType<T> {
-        record Mapping<K, V>(Class<K> key, Class<V> value) implements ValueType<Map<K, V>> {}
-        record Enumeration<E>(Class<E> type) implements ValueType<Collection<E>> {}
-        record Instance<T>(Class<T> type) implements ValueType<T> {}
+public sealed interface PropertyType<T> {
+    record Mapping<K, V>(Class<K> key, Class<V> value, FallbackBehaviour fallbackBehaviour) implements PropertyType<Map<K, V>> {}
+    record Enumeration<E>(Class<E> type, FallbackBehaviour fallbackBehaviour) implements PropertyType<Collection<E>> {}
+    record Instance<T>(Class<T> type) implements PropertyType<T> {
+        @Override
+        public FallbackBehaviour fallbackBehaviour() {
+            throw new UnsupportedOperationException("fallback behaviour not supported on PropertyType.Instance");
+        }
     }
 
-    public enum FallbackBehaviour {
+    FallbackBehaviour fallbackBehaviour();
+
+    enum FallbackBehaviour {
         OVERRIDE,
         ACCUMULATE
     }

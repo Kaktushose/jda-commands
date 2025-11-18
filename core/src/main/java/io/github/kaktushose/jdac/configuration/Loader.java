@@ -5,6 +5,7 @@ import java.util.*;
 public final class Loader {
     private static final ScopedValue<List<PropertyType<?>>> STACK = ScopedValue.newInstance();
 
+    private final Map<PropertyType<?>, Object> cache = new HashMap<>();
     private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties;
 
     public Loader(Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties) {
@@ -27,14 +28,19 @@ public final class Loader {
 
     @SuppressWarnings("unchecked")
     private <T> T resolve(PropertyType<T> type) {
+        if (cache.containsKey(type)) return (T) cache.get(type);
+
         SortedSet<PropertyProvider<?>> providers = properties.get(type);
         if (providers == null) throw new UnsupportedOperationException("Add proper exception: value not set");
 
-        return switch (type.valueType()) {
-            case PropertyType.ValueType.Instance(var _) -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
-            case PropertyType.ValueType.Enumeration<?> _ -> handleEnumeration(providers, type);
-            case PropertyType.ValueType.Mapping<?, ?> _ -> handleMapping(providers, type);
+        T result = switch (type) {
+            case PropertyType.Instance(var _) -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
+            case PropertyType.Enumeration<?> _ -> handleEnumeration(providers, type);
+            case PropertyType.Mapping<?, ?> _ -> handleMapping(providers, type);
         };
+
+        cache.put(type, result);
+        return result;
     }
 
     private boolean shouldSkip(SortedSet<PropertyProvider<?>> providers, PropertyProvider<?> provider) {

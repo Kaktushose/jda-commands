@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.configuration;
 
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.definitions.description.Descriptor;
 
 import java.util.*;
 import java.util.function.Function;
@@ -15,7 +16,6 @@ public class JDACBuilder {
             String[] resources = ctx.get(PropertyTypes.PACKAGES).toArray(String[]::new);
             return List.of(ClassFinder.reflective(resources));
         });
-
     }
 
     private <T> void addFallback(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
@@ -35,6 +35,10 @@ public class JDACBuilder {
         return addUserProperty(PropertyTypes.CLASS_FINDER, _ -> List.of(classFinders));
     }
 
+    public JDACBuilder descriptor(Descriptor descriptor) {
+        return addUserProperty(PropertyTypes.DESCRIPTOR, _ -> descriptor);
+    }
+
     static void main() {
         JDACBuilder builder = new JDACBuilder();
         builder.packages("my package");
@@ -43,5 +47,6 @@ public class JDACBuilder {
         Loader loader = new Loader(builder.properties);
         var value = loader.get(PropertyTypes.CLASS_FINDER);
         System.out.println(value);
+        loader.get(PropertyTypes.CLASS_FINDER);
     }
 }
