@@ -34,7 +34,7 @@ public final class Loader {
         if (providers == null) throw new UnsupportedOperationException("Add proper exception: value not set");
 
         T result = switch (type) {
-            case PropertyType.Instance(var _) -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
+            case PropertyType.Instance<?> _ -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
             case PropertyType.Enumeration<?> _ -> handleEnumeration(providers, type);
             case PropertyType.Mapping<?, ?> _ -> handleMapping(providers, type);
         };
