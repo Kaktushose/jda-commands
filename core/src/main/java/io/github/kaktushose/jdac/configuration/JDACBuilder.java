@@ -1,5 +1,7 @@
 package io.github.kaktushose.jdac.configuration;
 
+import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.jdac.JDAContext;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -11,30 +13,107 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.extension.Extension;
 import io.github.kaktushose.jdac.extension.internal.ExtensionFilter;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
+import io.github.kaktushose.jdac.message.emoji.EmojiSource;
+import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.scope.DefaultGuildScopeProvider;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.utils.Result;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static dev.goldmensch.fluava.Bundle.log;
+
 public class JDACBuilder {
     private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
 
-    JDACBuilder() {
+    JDACBuilder(JDA jda) {
+        // must be set
+        addFallback(PropertyTypes.JDA_CONTEXT, _ -> new JDAContext(jda));
+
+        // defaults
         addFallback(PropertyTypes.PACKAGES, _ -> List.of());
 
+        addFallback(PropertyTypes.EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
+        addFallback(PropertyTypes.GLOBAL_COMMAND_CONFIG, _ -> new CommandDefinition.CommandConfig());
+        addFallback(PropertyTypes.SHUTDOWN_JDA, _ -> true);
+        addFallback(PropertyTypes.LOCALIZE_COMMANDS, _ -> true);
+        addFallback(PropertyTypes.LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+        addFallback(PropertyTypes.PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
+        addFallback(PropertyTypes.ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(PropertyTypes.EMBED_CONFIG).buildError()));
+        addFallback(PropertyTypes.GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
+        addFallback(PropertyTypes.DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
+
+        addFallback(PropertyTypes.EMOJI_SOURCES, _ -> List.of(EmojiSource.reflective()));
         addFallback(PropertyTypes.CLASS_FINDER, ctx -> {
             String[] resources = ctx.get(PropertyTypes.PACKAGES).toArray(String[]::new);
             return List.of(ClassFinder.reflective(resources));
         });
+
+        // non settable services
+        addFallback(PropertyTypes.EMBEDS, ctx -> ctx.get(PropertyTypes.EMBED_CONFIG).buildDefault());
+
+        addFallback(PropertyTypes.I18N, ctx -> new I18n(ctx.get(PropertyTypes.DESCRIPTOR), ctx.get(PropertyTypes.LOCALIZER)));
+        addFallback(PropertyTypes.MESSAGE_RESOLVER,
+                ctx -> new MessageResolver(ctx.get(PropertyTypes.I18N), ctx.get(PropertyTypes.EMOJI_RESOLVER)));
+
+        addFallback(PropertyTypes.EMOJI_RESOLVER, ctx -> {
+            JDAContext jdaContext = ctx.get(PropertyTypes.JDA_CONTEXT);
+            registerAppEmojis(jdaContext, ctx.get(PropertyTypes.EMOJI_SOURCES));
+
+            List<ApplicationEmoji> applicationEmojis = jdaContext.applicationEmojis();
+            return new EmojiResolver(applicationEmojis);
+        });
+    }
+
+    private void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
+        context.performTask(jda -> emojiSources.stream()
+                .map(EmojiSource::get)
+                .map(Map::entrySet)
+                .flatMap(Set::stream)
+                .forEach(entry -> {
+                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
+                            .mapToResult()
+                            .complete();
+
+                    if (result.isSuccess()) {
+                        log.debug("Registered new application emoji with name {}", entry.getKey());
+                        return;
+                    }
+
+                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
+                        List<String> codes = e.getSchemaErrors()
+                                .stream()
+                                .map(ErrorResponseException.SchemaError::getErrors)
+                                .flatMap(List::stream)
+                                .map(ErrorResponseException.ErrorCode::getCode)
+                                .toList();
+
+                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
+                            log.debug("Application emoji with name {} already registered", entry.getKey());
+                            return;
+                        }
+                    }
+
+                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
+                }), true);
     }
 
     private <T> void addFallback(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
@@ -59,7 +138,7 @@ public class JDACBuilder {
     }
 
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
-        return addUserProperty(PropertyTypes.EMBEDS, ctx -> {
+        return addUserProperty(PropertyTypes.EMBED_CONFIG, ctx -> {
             Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(PropertyTypes.MESSAGE_RESOLVER));
             try {
                 consumer.accept(embedConfig);
@@ -68,7 +147,7 @@ public class JDACBuilder {
                 throw e;
             }
 
-            return embedConfig.buildDefault();
+            return embedConfig;
         });
     }
 
@@ -133,7 +212,7 @@ public class JDACBuilder {
     }
 
     static void main() {
-        JDACBuilder builder = new JDACBuilder();
+        JDACBuilder builder = new JDACBuilder(null);
         builder.packages("my package");
 //        builder.classFinders(ClassFinder.explicit(String.class));
 

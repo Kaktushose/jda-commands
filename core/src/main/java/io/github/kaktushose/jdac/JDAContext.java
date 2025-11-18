@@ -29,7 +29,7 @@ public final class JDAContext {
     /// Constructs a new JDAContext.
     ///
     /// @param jda the [JDA] object
-    JDAContext(JDA jda) {
+    public JDAContext(JDA jda) {
         this.context = jda;
     }
 

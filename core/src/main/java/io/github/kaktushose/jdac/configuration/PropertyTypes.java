@@ -17,6 +17,7 @@ import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.extension.Extension;
 import io.github.kaktushose.jdac.extension.internal.ExtensionFilter;
 import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
@@ -41,13 +42,13 @@ public class PropertyTypes {
             new Enumeration<>("CLASS_FINDER", ClassFinder.class, OVERRIDE);
 
     public static final PropertyType<Collection<EmojiSource>> EMOJI_SOURCES =
-            new Enumeration<>("EMOJI_SOURCES", EmojiSource.class, ACCUMULATE);
+            new Enumeration<>("EMOJI_SOURCES", EmojiSource.class, OVERRIDE);
 
     public static final PropertyType<Descriptor> DESCRIPTOR =
             new Instance<>("DESCRIPTOR", Descriptor.class);
 
-    public static final PropertyType<Embeds> EMBEDS =
-            new Instance<>("EMBEDS", Embeds.class);
+    public static final PropertyType<Embeds.Configuration> EMBED_CONFIG =
+            new Instance<>("EMEBED_CONFIG", Embeds.Configuration.class);
 
     public static final PropertyType<Localizer> LOCALIZER =
             new Instance<>("LOCALIZER", Localizer.class);
@@ -101,8 +102,15 @@ public class PropertyTypes {
     public static final PropertyType<MessageResolver> MESSAGE_RESOLVER =
             new Instance<>("MESSAGE_RESOLVER", MessageResolver.class);
 
+    public static final PropertyType<EmojiResolver> EMOJI_RESOLVER =
+            new Instance<>("EMOJI_RESOLVER", EmojiResolver.class);
+
     public static final PropertyType<JDAContext> JDA_CONTEXT =
             new Instance<>("JDA_CONTEXT", JDAContext.class);
+
+    public static final PropertyType<Embeds> EMBEDS =
+            new Instance<>("EMBEDS", Embeds.class);
+
 
 
     @SuppressWarnings("unchecked")
