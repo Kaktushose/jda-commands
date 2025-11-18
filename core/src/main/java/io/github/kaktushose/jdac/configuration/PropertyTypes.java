@@ -37,83 +37,82 @@ import static io.github.kaktushose.jdac.configuration.PropertyType.Instance;
 public class PropertyTypes {
 
     public static final PropertyType<Collection<ClassFinder>> CLASS_FINDER =
-            new Enumeration<>("CLASS_FINDER", ClassFinder.class, OVERRIDE);
+            new Enumeration<>("CLASS_FINDER", PropertyType.Scope.ALL, ClassFinder.class, OVERRIDE);
 
     public static final PropertyType<Collection<EmojiSource>> EMOJI_SOURCES =
-            new Enumeration<>("EMOJI_SOURCES", EmojiSource.class, OVERRIDE);
+            new Enumeration<>("EMOJI_SOURCES", PropertyType.Scope.ALL, EmojiSource.class, OVERRIDE);
 
     public static final PropertyType<Descriptor> DESCRIPTOR =
-            new Instance<>("DESCRIPTOR", Descriptor.class);
+            new Instance<>("DESCRIPTOR", PropertyType.Scope.ALL, Descriptor.class);
 
     public static final PropertyType<Embeds.Configuration> EMBED_CONFIG =
-            new Instance<>("EMEBED_CONFIG", Embeds.Configuration.class);
+            new Instance<>("EMEBED_CONFIG", PropertyType.Scope.ALL, Embeds.Configuration.class);
 
     public static final PropertyType<Localizer> LOCALIZER =
-            new Instance<>("LOCALIZER", Localizer.class);
+            new Instance<>("LOCALIZER", PropertyType.Scope.ALL, Localizer.class);
 
     public static final PropertyType<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", InteractionControllerInstantiator.class);
+            new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", PropertyType.Scope.ALL, InteractionControllerInstantiator.class);
 
     public static final PropertyType<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-            new Enumeration<>("MIDDLEWARE", castUnsafe(Map.Entry.class), ACCUMULATE);
+            new Enumeration<>("MIDDLEWARE", PropertyType.Scope.ALL, castUnsafe(Map.Entry.class), ACCUMULATE);
 
     public static final PropertyType<Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Mapping<>("TYPE_ADAPTER", castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+            new Mapping<>("TYPE_ADAPTER", PropertyType.Scope.ALL, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
     public static final PropertyType<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-            new Mapping<>("VALIDATOR", castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+            new Mapping<>("VALIDATOR", PropertyType.Scope.ALL, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
     public static final PropertyType<PermissionsProvider> PERMISSION_PROVIDER =
-            new Instance<>("PERMISSION_PROVIDER", PermissionsProvider.class);
+            new Instance<>("PERMISSION_PROVIDER", PropertyType.Scope.ALL, PermissionsProvider.class);
 
     public static final PropertyType<ErrorMessageFactory> ERROR_MESSAGE_FACTORY =
-            new Instance<>("ERROR_MESSAGE_FACTORY", ErrorMessageFactory.class);
+            new Instance<>("ERROR_MESSAGE_FACTORY", PropertyType.Scope.ALL, ErrorMessageFactory.class);
 
     public static final PropertyType<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
-            new Instance<>("GUILD_SCOPE_PROVIDER", GuildScopeProvider.class);
+            new Instance<>("GUILD_SCOPE_PROVIDER", PropertyType.Scope.ALL, GuildScopeProvider.class);
 
     public static final PropertyType<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
-            new Instance<>("GLOBAL_REPLY_CONFIG", InteractionDefinition.ReplyConfig.class);
+            new Instance<>("GLOBAL_REPLY_CONFIG", PropertyType.Scope.ALL, InteractionDefinition.ReplyConfig.class);
 
     public static final PropertyType<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
-            new Instance<>("GLOBAL_COMMAND_CONFIG", CommandDefinition.CommandConfig.class);
+            new Instance<>("GLOBAL_COMMAND_CONFIG", PropertyType.Scope.ALL, CommandDefinition.CommandConfig.class);
 
 
     /// only user settable
-    ///
     public static final PropertyType<ExtensionFilter> EXTENSION_FILTER =
-            new Instance<>("EXTENSION_FILTER", ExtensionFilter.class);
+            new Instance<>("EXTENSION_FILTER", PropertyType.Scope.USER, ExtensionFilter.class);
 
     public static final PropertyType<Collection<String>> PACKAGES =
-            new Enumeration<>("PACKAGES", String.class, ACCUMULATE);
+            new Enumeration<>("PACKAGES", PropertyType.Scope.USER, String.class, ACCUMULATE);
 
     public static final PropertyType<ExpirationStrategy> EXPIRATION_STRATEGY =
-            new Instance<>("EXPIRATION_STRATEGY", ExpirationStrategy.class);
+            new Instance<>("EXPIRATION_STRATEGY", PropertyType.Scope.USER, ExpirationStrategy.class);
 
     public static final PropertyType<Boolean> LOCALIZE_COMMANDS =
-            new Instance<>("LOCALIZE_COMMANDS", Boolean.class);
+            new Instance<>("LOCALIZE_COMMANDS", PropertyType.Scope.USER, Boolean.class);
 
     public static final PropertyType<Boolean> SHUTDOWN_JDA =
-            new Instance<>("SHUTDOWN_JDA", Boolean.class);
+            new Instance<>("SHUTDOWN_JDA", PropertyType.Scope.USER, Boolean.class);
 
     public static final PropertyType<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
-            new Mapping<>("EXTENSION_DATA", castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+            new Mapping<>("EXTENSION_DATA", PropertyType.Scope.USER, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
 
     /// only created
     public static final PropertyType<I18n> I18N =
-            new Instance<>("I18N", I18n.class);
+            new Instance<>("I18N", PropertyType.Scope.PROVIDED, I18n.class);
 
     public static final PropertyType<MessageResolver> MESSAGE_RESOLVER =
-            new Instance<>("MESSAGE_RESOLVER", MessageResolver.class);
+            new Instance<>("MESSAGE_RESOLVER", PropertyType.Scope.PROVIDED, MessageResolver.class);
 
     public static final PropertyType<EmojiResolver> EMOJI_RESOLVER =
-            new Instance<>("EMOJI_RESOLVER", EmojiResolver.class);
+            new Instance<>("EMOJI_RESOLVER", PropertyType.Scope.PROVIDED, EmojiResolver.class);
 
     public static final PropertyType<JDAContext> JDA_CONTEXT =
-            new Instance<>("JDA_CONTEXT", JDAContext.class);
+            new Instance<>("JDA_CONTEXT", PropertyType.Scope.PROVIDED, JDAContext.class);
 
     public static final PropertyType<Embeds> EMBEDS =
-            new Instance<>("EMBEDS", Embeds.class);
+            new Instance<>("EMBEDS", PropertyType.Scope.PROVIDED, Embeds.class);
 
 
 

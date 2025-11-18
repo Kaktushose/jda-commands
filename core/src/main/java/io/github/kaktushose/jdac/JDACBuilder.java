@@ -130,11 +130,11 @@ public class JDACBuilder {
     }
 
     private <T> void addFallback(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
-        properties.add(new PropertyProvider<>(type, PropertyProvider.FALLBACK_PRIORITY, supplier));
+        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.FALLBACK_PRIORITY, supplier)));
     }
 
     private <T> JDACBuilder addUserProperty(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
-        properties.add(new PropertyProvider<>(type, PropertyProvider.USER_PRIORITY, supplier));
+        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.USER_PRIORITY, supplier)));
         return this;
     }
 

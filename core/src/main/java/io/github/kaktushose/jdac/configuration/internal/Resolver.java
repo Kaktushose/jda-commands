@@ -56,7 +56,7 @@ public final class Resolver {
 
     private boolean shouldSkip(SortedSet<PropertyProvider<?>> providers, PropertyProvider<?> provider) {
         return providers.size() > 1
-                && provider.priority() == PropertyProvider.FALLBACK_PRIORITY
+                && provider.priority() == Properties.FALLBACK_PRIORITY
                 && provider.type().fallbackBehaviour() == PropertyType.FallbackBehaviour.OVERRIDE;
     }
 

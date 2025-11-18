@@ -10,8 +10,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
 
-class Extensions {
-    public static final Logger log = LoggerFactory.getLogger(Extensions.class);
+class ExtensionLoader {
+    public static final Logger log = LoggerFactory.getLogger(ExtensionLoader.class);
 
     private final Collection<Extension<Extension.Data>> loaded = new ArrayList<>();
 
@@ -32,7 +32,11 @@ class Extensions {
 
     void register(Properties properties) {
         for (Extension<Extension.Data> extension : loaded) {
-            properties.addAll(extension.properties());
+            if (extension.getClass().getName().startsWith("io.github.kaktushose.jdac")) {
+                ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.addAll(extension.properties()));
+            } else {
+                properties.addAll(extension.properties());
+            }
         }
     }
 }
