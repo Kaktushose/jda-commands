@@ -2,15 +2,31 @@ package io.github.kaktushose.jdac.configuration;
 
 import java.util.*;
 
-public class Loader {
+public final class Loader {
+    private static final ScopedValue<List<PropertyType<?>>> STACK = ScopedValue.newInstance();
+
     private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties;
 
     public Loader(Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(PropertyType<T> type) {
+        if (STACK.isBound()) {
+            List<PropertyType<?>> stack = STACK.get();
+            if (stack.contains(type)) {
+                throw new UnsupportedOperationException("add good exception: cycling dependency detected %s".formatted(type));
+            }
+
+            stack.add(type);
+            return resolve(type);
+        } else {
+            return ScopedValue.where(STACK, new ArrayList<>(List.of(type))).call(() -> resolve(type));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T resolve(PropertyType<T> type) {
         SortedSet<PropertyProvider<?>> providers = properties.get(type);
         if (providers == null) throw new UnsupportedOperationException("Add proper exception: value not set");
 

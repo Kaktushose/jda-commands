@@ -38,7 +38,7 @@ public class JDACBuilder {
     static void main() {
         JDACBuilder builder = new JDACBuilder();
         builder.packages("my package");
-        builder.classFinders(ClassFinder.explicit(String.class));
+//        builder.classFinders(ClassFinder.explicit(String.class));
 
         Loader loader = new Loader(builder.properties);
         var value = loader.get(PropertyTypes.CLASS_FINDER);
