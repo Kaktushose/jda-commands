@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.extension;
 
 import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import org.jspecify.annotations.Nullable;
@@ -61,7 +62,7 @@ public interface Extension<T extends Extension.Data> {
     /// @return a collection of [Implementation]s
     /// @implNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
     /// is important, you should always return the same instance.
-    default Collection<Implementation<?>> providedImplementations() {
+    default Collection<PropertyProvider<?>> properties() {
         return List.of();
     }
 

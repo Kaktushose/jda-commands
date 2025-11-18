@@ -66,12 +66,14 @@ module io.github.kaktushose.jdac.core {
 
     // extensions
     exports io.github.kaktushose.jdac.extension;
+    exports io.github.kaktushose.jdac.configuration;
 
     // i18n/messages/emojis/placeholder
     exports io.github.kaktushose.jdac.message.i18n;
     exports io.github.kaktushose.jdac.message;
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
+    exports io.github.kaktushose.jdac.configuration.internal;
 
     uses io.github.kaktushose.jdac.extension.Extension;
 }

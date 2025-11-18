@@ -35,8 +35,6 @@ import static io.github.kaktushose.jdac.configuration.PropertyType.FallbackBehav
 import static io.github.kaktushose.jdac.configuration.PropertyType.Instance;
 
 public class PropertyTypes {
-    public static final PropertyType<Collection<String>> PACKAGES =
-        new Enumeration<>("PACKAGES", String.class, ACCUMULATE);
 
     public static final PropertyType<Collection<ClassFinder>> CLASS_FINDER =
             new Enumeration<>("CLASS_FINDER", ClassFinder.class, OVERRIDE);
@@ -55,9 +53,6 @@ public class PropertyTypes {
 
     public static final PropertyType<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
             new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", InteractionControllerInstantiator.class);
-
-    public static final PropertyType<ExpirationStrategy> EXPIRATION_STRATEGY =
-            new Instance<>("EXPIRATION_STRATEGY", ExpirationStrategy.class);
 
     public static final PropertyType<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
             new Enumeration<>("MIDDLEWARE", castUnsafe(Map.Entry.class), ACCUMULATE);
@@ -83,19 +78,28 @@ public class PropertyTypes {
     public static final PropertyType<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
             new Instance<>("GLOBAL_COMMAND_CONFIG", CommandDefinition.CommandConfig.class);
 
-    public static final PropertyType<Collection<Extension.Data>> EXTENSION_DATA =
-            new Enumeration<>("EXTENSION_DATA", Extension.Data.class, ACCUMULATE);
 
+    /// only user settable
+    ///
     public static final PropertyType<ExtensionFilter> EXTENSION_FILTER =
             new Instance<>("EXTENSION_FILTER", ExtensionFilter.class);
 
-    public static final PropertyType<Boolean> SHUTDOWN_JDA =
-            new Instance<>("SHUTDOWN_JDA", Boolean.class);
+    public static final PropertyType<Collection<String>> PACKAGES =
+            new Enumeration<>("PACKAGES", String.class, ACCUMULATE);
+
+    public static final PropertyType<ExpirationStrategy> EXPIRATION_STRATEGY =
+            new Instance<>("EXPIRATION_STRATEGY", ExpirationStrategy.class);
 
     public static final PropertyType<Boolean> LOCALIZE_COMMANDS =
             new Instance<>("LOCALIZE_COMMANDS", Boolean.class);
 
-    /// not a service
+    public static final PropertyType<Boolean> SHUTDOWN_JDA =
+            new Instance<>("SHUTDOWN_JDA", Boolean.class);
+
+    public static final PropertyType<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
+            new Mapping<>("EXTENSION_DATA", castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+
+    /// only created
     public static final PropertyType<I18n> I18N =
             new Instance<>("I18N", I18n.class);
 

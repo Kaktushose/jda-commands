@@ -2,6 +2,8 @@ package io.github.kaktushose.jdac;
 
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.configuration.*;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -45,13 +47,14 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.PropertyTypes.*;
 
 public class JDACBuilder {
     public static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
 
-    private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
+    private final Properties properties = new Properties();
 
     JDACBuilder(JDAContext jdaContext) {
         // must be set
@@ -59,6 +62,7 @@ public class JDACBuilder {
 
         // defaults
         addFallback(PACKAGES, _ -> List.of());
+        addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(FilterStrategy.EXCLUDE, List.of()));
 
         addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
         addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandDefinition.CommandConfig());
@@ -126,11 +130,11 @@ public class JDACBuilder {
     }
 
     private <T> void addFallback(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
-        properties.computeIfAbsent(type, _ -> new TreeSet<>()).add(new PropertyProvider<>(type, PropertyProvider.FALLBACK_PRIORITY, supplier));
+        properties.add(new PropertyProvider<>(type, PropertyProvider.FALLBACK_PRIORITY, supplier));
     }
 
     private <T> JDACBuilder addUserProperty(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
-        properties.computeIfAbsent(type, _ -> new TreeSet<>()).add(new PropertyProvider<>(type, PropertyProvider.USER_PRIORITY, supplier));
+        properties.add(new PropertyProvider<>(type, PropertyProvider.USER_PRIORITY, supplier));
         return this;
     }
 
@@ -205,7 +209,8 @@ public class JDACBuilder {
     }
 
     public JDACBuilder extensionData(Extension.Data... data) {
-        return addUserProperty(EXTENSION_DATA, _ -> Arrays.asList(data));
+        return addUserProperty(EXTENSION_DATA, _ -> Arrays.stream(data)
+                .collect(Collectors.toMap(Extension.Data::getClass, Function.identity())));
     }
 
     public JDACBuilder shutdownJDA(boolean shutdown) {
@@ -221,7 +226,7 @@ public class JDACBuilder {
     }
 
     public JDACommands start() {
-        Loader loader = new Loader(properties);
+        Resolver loader = properties.createResolver();
 
         try {
 
@@ -275,16 +280,5 @@ public class JDACBuilder {
         INCLUDE,
         /// excludes the defined classes
         EXCLUDE
-    }
-
-    static void main() {
-        JDACBuilder builder = new JDACBuilder(null);
-        builder.packages("my package");
-//        builder.classFinders(ClassFinder.explicit(String.class));
-
-        Loader loader = new Loader(builder.properties);
-        var value = loader.get(PropertyTypes.CLASS_FINDER);
-        System.out.println(value);
-        loader.get(PropertyTypes.CLASS_FINDER);
     }
 }

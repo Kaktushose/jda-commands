@@ -1,14 +1,17 @@
-package io.github.kaktushose.jdac.configuration;
+package io.github.kaktushose.jdac.configuration.internal;
+
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.configuration.PropertyType;
 
 import java.util.*;
 
-public final class Loader {
+public final class Resolver {
     private static final ScopedValue<List<PropertyType<?>>> STACK = ScopedValue.newInstance();
 
     private final Map<PropertyType<?>, Object> cache = new HashMap<>();
     private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties;
 
-    public Loader(Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties) {
+    Resolver(Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
     }
 
