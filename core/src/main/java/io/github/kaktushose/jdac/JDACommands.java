@@ -85,7 +85,7 @@ public final class JDACommands {
     /// @param packages package(s) to exclusively scan
     /// @return a new [JDACBuilder]
     public static JDACBuilder builder(JDA jda, Class<?> clazz, String... packages) {
-        return new JDACBuilder(new JDAContext(jda), clazz, packages);
+        return new JDACBuilder(new JDAContext(jda)).packages(packages);
     }
 
     /// Create a new builder.
@@ -93,7 +93,7 @@ public final class JDACommands {
     /// @param shardManager the corresponding [ShardManager] instance
     /// @return a new [JDACBuilder]
     public static JDACBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
-        return new JDACBuilder(new JDAContext(shardManager), clazz, packages);
+        return new JDACBuilder(new JDAContext(shardManager)).packages(packages);
     }
 
     void start(ClassFinder classFinder) {

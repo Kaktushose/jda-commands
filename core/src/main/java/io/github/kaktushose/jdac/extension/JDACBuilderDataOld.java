@@ -51,8 +51,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @implNote This class is used to give implementations of [Extension] access to properties involved in the creation of [JDACommands].
 ///
 /// Please note that this class only gives read not write access to the [JDACBuilder].
-public sealed class JDACBuilderData permits JDACBuilder {
-    public static final Logger log = LoggerFactory.getLogger(JDACBuilderData.class);
+public class JDACBuilderDataOld {
+    public static final Logger log = LoggerFactory.getLogger(JDACBuilderDataOld.class);
 
     // used for cycling dependency detection
     final List<Implementation<?>> alreadyCalled = new ArrayList<>();
@@ -95,7 +95,7 @@ public sealed class JDACBuilderData permits JDACBuilder {
     private @Nullable I18n i18n = null;
     private @Nullable MessageResolver messageResolver = null;
 
-    protected JDACBuilderData(Class<?> baseClass, String[] packages, JDAContext context) {
+    protected JDACBuilderDataOld(Class<?> baseClass, String[] packages, JDAContext context) {
         this.baseClass = baseClass;
         this.packages = packages;
         this.context = context;

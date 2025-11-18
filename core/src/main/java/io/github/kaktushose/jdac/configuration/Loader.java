@@ -20,7 +20,9 @@ public final class Loader {
             }
 
             stack.add(type);
-            return resolve(type);
+            T result = resolve(type);
+            stack.removeLast();
+            return result;
         } else {
             return ScopedValue.where(STACK, new ArrayList<>(List.of(type))).call(() -> resolve(type));
         }
@@ -31,7 +33,13 @@ public final class Loader {
         if (cache.containsKey(type)) return (T) cache.get(type);
 
         SortedSet<PropertyProvider<?>> providers = properties.get(type);
-        if (providers == null) throw new UnsupportedOperationException("Add proper exception: value not set");
+        if (providers == null) {
+            return switch (type) {
+                case PropertyType.Instance<?> _ -> throw new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type));
+                case PropertyType.Enumeration<?> _ -> (T) List.of();
+                case PropertyType.Mapping<?, ?> _ -> (T) Map.of();
+            };
+        }
 
         T result = switch (type) {
             case PropertyType.Instance<?> _ -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);

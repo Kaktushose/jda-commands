@@ -10,7 +10,7 @@ import io.github.kaktushose.jdac.extension.Implementation;
 import io.github.kaktushose.jdac.extension.Implementation.MiddlewareContainer;
 import io.github.kaktushose.jdac.extension.Implementation.TypeAdapterContainer;
 import io.github.kaktushose.jdac.extension.Implementation.ValidatorContainer;
-import io.github.kaktushose.jdac.extension.JDACBuilderData;
+import io.github.kaktushose.jdac.extension.JDACBuilderDataOld;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtensionModule;
 import io.github.kaktushose.jdac.guice.internal.GuiceInteractionControllerInstantiator;
 import com.google.inject.Guice;
@@ -97,7 +97,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         ));
     }
 
-    private <T> Stream<T> instances(JDACBuilderData builder, Class<? extends Annotation> annotation, Class<T> type) {
+    private <T> Stream<T> instances(JDACBuilderDataOld builder, Class<? extends Annotation> annotation, Class<T> type) {
         return builder.mergedClassFinder()
                 .search(annotation, type)
                 .stream()

@@ -47,16 +47,16 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @see Extension
 public record Implementation<T extends Implementation.ExtensionProvidable>(
         Class<T> type,
-        Function<JDACBuilderData, SequencedCollection<T>> supplier
+        Function<JDACBuilderDataOld, SequencedCollection<T>> supplier
 ) {
 
     public static <T extends ExtensionProvidable> Implementation<T> single(Class<T> type,
-                                                                           Function<JDACBuilderData,
+                                                                           Function<JDACBuilderDataOld,
                                                                            T> supplier) {
         return new Implementation<>(type, (builder -> List.of(supplier.apply(builder))));
     }
 
-    SequencedCollection<T> implementations(JDACBuilderData data) {
+    SequencedCollection<T> implementations(JDACBuilderDataOld data) {
         if (data.alreadyCalled.stream().anyMatch(provider -> provider.type.equals(type))) {
             throw new ConfigurationException("cycling-dependencies", entry("type", type.getName()), entry("data", format(data)));
         }
@@ -71,7 +71,7 @@ public record Implementation<T extends Implementation.ExtensionProvidable>(
         return apply;
     }
 
-    private String format(JDACBuilderData data) {
+    private String format(JDACBuilderDataOld data) {
         List<GraphEntry> stack = data.alreadyCalled.reversed().stream()
                 .map(provider -> {
                     var extension = data.implementations(provider.type).stream().findAny().map(Map.Entry::getKey).orElseThrow().getClass();
