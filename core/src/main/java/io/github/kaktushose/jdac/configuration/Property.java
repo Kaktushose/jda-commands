@@ -29,6 +29,7 @@ import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour
 import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour.OVERRIDE;
 import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 
+@SuppressWarnings("unused")
 public sealed interface Property<T> permits Property.Enumeration, Property.Instance, Property.Mapping {
     FallbackBehaviour fallbackBehaviour();
     String name();
@@ -117,7 +118,11 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Insta
              new Instance<>("MERGED_CLASS_FINDER", Scope.PROVIDED, ClassFinder.class);
 
 
-     Collection<Property<?>> LOADABLE = List.of(CLASS_FINDER, EMOJI_SOURCES, DESCRIPTOR, LOCALIZER,
+     Collection<Property<?>> LOADABLE = List.of(
+             CLASS_FINDER,
+             EMOJI_SOURCES,
+             DESCRIPTOR,
+             LOCALIZER,
              INTERACTION_CONTROLLER_INSTANTIATOR,
              MIDDLEWARE,
              TYPE_ADAPTER,
