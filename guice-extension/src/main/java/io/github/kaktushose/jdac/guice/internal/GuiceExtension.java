@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.guice;
+package io.github.kaktushose.jdac.guice.internal;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -9,8 +9,8 @@ import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
-import io.github.kaktushose.jdac.guice.internal.GuiceExtensionModule;
-import io.github.kaktushose.jdac.guice.internal.GuiceInteractionControllerInstantiator;
+import io.github.kaktushose.jdac.guice.GuiceExtensionData;
+import io.github.kaktushose.jdac.guice.Implementation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
