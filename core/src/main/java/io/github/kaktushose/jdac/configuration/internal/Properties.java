@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.PropertyType;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ public class Properties {
     public static final int FALLBACK_PRIORITY = 0;
     public static final int USER_PRIORITY = Integer.MAX_VALUE;
 
-    private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
+    private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
 
     private void checkScope(PropertyProvider<?> provider) {
         int priority = provider.priority();

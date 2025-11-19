@@ -50,7 +50,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.kaktushose.jdac.configuration.PropertyType.*;
+import static io.github.kaktushose.jdac.configuration.Property.*;
 import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
 
 public class JDACBuilder {
@@ -96,6 +96,12 @@ public class JDACBuilder {
             List<ApplicationEmoji> applicationEmojis = ctx.get(JDA_CONTEXT).applicationEmojis();
             return new EmojiResolver(applicationEmojis);
         });
+
+        addFallback(MERGED_CLASS_FINDER, ctx -> annotationClass -> ctx.get(CLASS_FINDER)
+                .stream()
+                .map(classFinder -> classFinder.search(annotationClass))
+                .flatMap(Collection::stream)
+                .toList());
     }
 
     private void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
@@ -131,11 +137,11 @@ public class JDACBuilder {
                 }), true);
     }
 
-    private <T> void addFallback(PropertyType<T> type, Function<PropertyProvider.Context, T> supplier) {
+    private <T> void addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
         ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.FALLBACK_PRIORITY, supplier)));
     }
 
-    private <T> JDACBuilder addUserProperty(PropertyType<T> type, Function<PropertyProvider.Context, T> supplier) {
+    private <T> JDACBuilder addUserProperty(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
         ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.USER_PRIORITY, supplier)));
         return this;
     }
@@ -259,13 +265,7 @@ public class JDACBuilder {
                     loader.get(SHUTDOWN_JDA)
             );
 
-            ClassFinder merged = annotationClass -> loader.get(CLASS_FINDER)
-                    .stream()
-                    .map(classFinder -> classFinder.search(annotationClass))
-                    .flatMap(Collection::stream)
-                    .toList();
-
-            jdaCommands.start(merged);
+            jdaCommands.start(loader.get(MERGED_CLASS_FINDER));
             return jdaCommands;
         } catch (JDACException e) {
             if (loader.get(SHUTDOWN_JDA)) {

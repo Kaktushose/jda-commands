@@ -1,22 +1,21 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
-import io.github.kaktushose.jdac.configuration.PropertyType;
-import io.github.kaktushose.jdac.configuration.type.Instance;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
 
 public interface InternalPropertyProviders {
     /// only user settable
-    PropertyType<Embeds.Configuration> EMBED_CONFIG =
-            new Instance<>("EMEBED_CONFIG", PropertyType.Scope.USER, Embeds.Configuration.class);
+    Property<Embeds.Configuration> EMBED_CONFIG =
+            new Property.Instance<>("EMEBED_CONFIG", Property.Scope.USER, Embeds.Configuration.class);
 
-    PropertyType<ExtensionFilter> EXTENSION_FILTER =
-            new Instance<>("EXTENSION_FILTER", PropertyType.Scope.USER, ExtensionFilter.class);
+    Property<ExtensionFilter> EXTENSION_FILTER =
+            new Property.Instance<>("EXTENSION_FILTER", Property.Scope.USER, ExtensionFilter.class);
 
     /// only created
-    PropertyType<JDAContext> JDA_CONTEXT =
-            new Instance<>("JDA_CONTEXT", PropertyType.Scope.PROVIDED, JDAContext.class);
+    Property<JDAContext> JDA_CONTEXT =
+            new Property.Instance<>("JDA_CONTEXT", Property.Scope.PROVIDED, JDAContext.class);
 
-    PropertyType<Embeds> EMBEDS =
-            new Instance<>("EMBEDS", PropertyType.Scope.PROVIDED, Embeds.class);
+    Property<Embeds> EMBEDS =
+            new Property.Instance<>("EMBEDS", Property.Scope.PROVIDED, Embeds.class);
 }

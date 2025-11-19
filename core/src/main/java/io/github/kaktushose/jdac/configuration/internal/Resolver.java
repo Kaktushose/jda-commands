@@ -1,26 +1,27 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.PropertyType;
-import io.github.kaktushose.jdac.configuration.type.Enumeration;
-import io.github.kaktushose.jdac.configuration.type.Instance;
-import io.github.kaktushose.jdac.configuration.type.Mapping;
+import io.github.kaktushose.jdac.internal.Helpers;
+import org.jspecify.annotations.NonNull;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public final class Resolver {
-    private static final ScopedValue<List<PropertyType<?>>> STACK = ScopedValue.newInstance();
+    private static final ScopedValue<List<Property<?>>> STACK = ScopedValue.newInstance();
 
-    private final Map<PropertyType<?>, Object> cache = new HashMap<>();
-    private final Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties;
+    private final Map<Property<?>, Object> cache = new HashMap<>();
+    private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties;
 
-    Resolver(Map<PropertyType<?>, SortedSet<PropertyProvider<?>>> properties) {
+    Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
     }
 
-    public <T> T get(PropertyType<T> type) {
+    public <T> T get(Property<T> type) {
         if (STACK.isBound()) {
-            List<PropertyType<?>> stack = STACK.get();
+            List<Property<?>> stack = STACK.get();
             if (stack.contains(type)) {
                 throw new UnsupportedOperationException("add good exception: cycling dependency detected %s".formatted(type));
             }
@@ -35,62 +36,52 @@ public final class Resolver {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T resolve(PropertyType<T> type) {
+    private <T> T resolve(Property<T> type) {
         if (cache.containsKey(type)) return (T) cache.get(type);
 
-        SortedSet<PropertyProvider<?>> providers = properties.get(type);
-        if (providers == null) {
-            return switch (type) {
-                case Instance<?> _ -> throw new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type));
-                case Enumeration<?> _ -> (T) List.of();
-                case Mapping<?, ?> _ -> (T) Map.of();
-            };
-        }
+        // safe by invariant
+        SortedSet<PropertyProvider<T>> providers = Helpers.castUnsafe(properties.getOrDefault(type, new TreeSet<>()));
 
         T result = switch (type) {
-            case Instance<?> _ -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
-            case Enumeration<?> _ -> handleEnumeration(providers, type);
-            case Mapping<?, ?> _ -> handleMapping(providers, type);
+            case Property.Instance<T> _ -> handleOne(providers, type);
+            case Property.Enumeration<?> _ -> (T) handleMany(Helpers.<SortedSet<PropertyProvider<Collection<Object>>>>castUnsafe(providers), ArrayList::new, List::addAll);
+            case Property.Mapping<?, ?> _ -> (T) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, Map::putAll);
         };
 
         cache.put(type, result);
+
         return result;
     }
 
-    private boolean shouldSkip(SortedSet<PropertyProvider<?>> providers, PropertyProvider<?> provider) {
+    private <T> boolean shouldSkip(SortedSet<PropertyProvider<T>> providers, PropertyProvider<T> provider) {
         return providers.size() > 1
                 && provider.priority() == Properties.FALLBACK_PRIORITY
-                && provider.type().fallbackBehaviour() == PropertyType.FallbackBehaviour.OVERRIDE;
+                && provider.type().fallbackBehaviour() == Property.FallbackBehaviour.OVERRIDE;
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> T handleEnumeration(SortedSet<PropertyProvider<?>> providers, PropertyType<T> type) {
-        List<Object> list = new ArrayList<>();
+    @NonNull
+    private <T> T handleOne(SortedSet<PropertyProvider<T>> providers, Property<T> type) {
+        return providers.stream()
+                .map(provider -> provider.supplier().apply(this::get))
+                .filter(Objects::nonNull) // intellij doens't understand the null check here
+                .findFirst()
+                .orElseThrow(() -> new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type)));
+    }
 
-        for (PropertyProvider<?> provider : providers) {
+    @NonNull
+    private <T, B extends T> T handleMany(SortedSet<PropertyProvider<T>> providers, Supplier<B> collectionSup, BiConsumer<B, T> adder) {
+        B collection = collectionSup.get();
+        for (PropertyProvider<T> provider : providers) {
             if (shouldSkip(providers, provider)) {
                 continue;
             }
 
-            list.addAll((Collection<?>) provider.supplier().apply(this::get));
+            T applied = provider.supplier().apply(this::get);
+            if (applied == null) continue;
+            adder.accept(collection, applied);
         }
 
-        return (T) list;
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T handleMapping(SortedSet<PropertyProvider<?>> providers, PropertyType<T> type) {
-        Map<Object, Object> map = new HashMap<>();
-
-        for (PropertyProvider<?> provider : providers) {
-            if (shouldSkip(providers, provider)) {
-                continue;
-            }
-
-            map.putAll((Map<Object, Object>) provider.supplier().apply(this::get));
-        }
-
-        return (T) map;
+        return collection;
     }
 
 }
