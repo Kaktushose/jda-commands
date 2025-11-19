@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.message.i18n;
 
-import io.github.kaktushose.jdac.extension.Implementation;
 import dev.goldmensch.fluava.Fluava;
 import org.jspecify.annotations.Nullable;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
 /// [Fluava].
 ///
 /// For an example implementation take a look at [FluavaLocalizer]
-public non-sealed interface Localizer extends Implementation.ExtensionProvidable {
+public interface Localizer {
 
     /// This method localizes a given key for a specific bundle and locale.
     /// If no message is found for this combination of locale, bundle and key or an error occurred

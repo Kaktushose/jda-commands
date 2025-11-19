@@ -1,7 +1,7 @@
-package io.github.kaktushose.jdac.extension.internal;
+package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.JDACBuilder;
-import io.github.kaktushose.jdac.extension.Extension;
+import io.github.kaktushose.jdac.configuration.Extension;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;

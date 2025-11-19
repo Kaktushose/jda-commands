@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.embeds.error;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.extension.Implementation.ExtensionProvidable;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -10,7 +9,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 /// happen during an interaction execution, such as missing permissions or failing constraints.
 ///
 /// @see DefaultErrorMessageFactory
-public non-sealed interface ErrorMessageFactory extends ExtensionProvidable {
+public interface ErrorMessageFactory {
 
     /// Gets a [MessageCreateData] to send when type adapting of the user input failed.
     ///

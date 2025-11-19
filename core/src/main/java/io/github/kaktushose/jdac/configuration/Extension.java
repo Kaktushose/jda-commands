@@ -1,7 +1,6 @@
-package io.github.kaktushose.jdac.extension;
+package io.github.kaktushose.jdac.configuration;
 
 import io.github.kaktushose.jdac.JDACBuilder;
-import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import org.jspecify.annotations.Nullable;
@@ -13,7 +12,7 @@ import java.util.List;
 /// in [JDACBuilder] to configure the framework.
 ///
 /// This interface provides ways to extend the framework with own functionality:
-/// - [#providedImplementations()]: By implementing this method and returning a collection of [Implementation]s, you can
+/// - [#providedImplementations()]: By implementing this method and returning a collection of [PropertyProvider]s, you can
 /// for example provide an own implementation of [InteractionControllerInstantiator] or [Descriptor]. These
 /// implementations will override the default ones.
 ///
@@ -57,9 +56,9 @@ public interface Extension<T extends Extension.Data> {
     /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type returned by [#dataType()].
     void init(@Nullable T data);
 
-    /// Gets a collection of [Implementation]s this [Extension] provides.
+    /// Gets a collection of [PropertyProvider]s this [Extension] provides.
     ///
-    /// @return a collection of [Implementation]s
+    /// @return a collection of [PropertyProvider]s
     /// @implNote Please note that this method is called multiple times during framework creation. If the identity of the implementations
     /// is important, you should always return the same instance.
     default Collection<PropertyProvider<?>> properties() {

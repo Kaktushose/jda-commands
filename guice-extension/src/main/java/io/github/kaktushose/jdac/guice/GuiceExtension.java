@@ -6,7 +6,7 @@ import io.github.kaktushose.jdac.configuration.ConfigurationContext;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.configuration.PropertyType;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
-import io.github.kaktushose.jdac.extension.Extension;
+import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtensionModule;
 import io.github.kaktushose.jdac.guice.internal.GuiceInteractionControllerInstantiator;
 import org.jetbrains.annotations.ApiStatus;

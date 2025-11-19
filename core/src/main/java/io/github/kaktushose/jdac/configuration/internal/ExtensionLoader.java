@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.configuration.PropertyType;
-import io.github.kaktushose.jdac.extension.Extension;
+import io.github.kaktushose.jdac.configuration.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
