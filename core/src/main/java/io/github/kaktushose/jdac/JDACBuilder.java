@@ -26,6 +26,7 @@ import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.internal.ExtensionFilter;
+import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
@@ -50,6 +51,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.PropertyType.*;
+import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
 
 public class JDACBuilder {
     public static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
@@ -81,7 +83,7 @@ public class JDACBuilder {
         });
         addFallback(EMBED_CONFIG, ctx -> new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER)));
 
-        // non settable services
+        // non settable/provided services
         addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG).buildDefault());
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
@@ -129,11 +131,11 @@ public class JDACBuilder {
                 }), true);
     }
 
-    private <T> void addFallback(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
+    private <T> void addFallback(PropertyType<T> type, Function<PropertyProvider.Context, T> supplier) {
         ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.FALLBACK_PRIORITY, supplier)));
     }
 
-    private <T> JDACBuilder addUserProperty(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
+    private <T> JDACBuilder addUserProperty(PropertyType<T> type, Function<PropertyProvider.Context, T> supplier) {
         ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.USER_PRIORITY, supplier)));
         return this;
     }
@@ -229,7 +231,6 @@ public class JDACBuilder {
         Resolver loader = properties.createResolver();
 
         try {
-
             log.info("Starting JDA-Commands...");
 
             FrameworkContext frameworkContext = new FrameworkContext(

@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac;
+package io.github.kaktushose.jdac.internal;
 
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import net.dv8tion.jda.api.JDA;
@@ -22,7 +22,7 @@ public final class JDAContext {
     /// Constructs a new JDAContext.
     ///
     /// @param shardManager the [ShardManager] object
-    JDAContext(ShardManager shardManager) {
+    public JDAContext(ShardManager shardManager) {
         this.context = shardManager;
     }
 

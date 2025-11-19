@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.configuration;
 
-import io.github.kaktushose.jdac.JDAContext;
 import io.github.kaktushose.jdac.configuration.type.Enumeration;
 import io.github.kaktushose.jdac.configuration.type.Instance;
 import io.github.kaktushose.jdac.configuration.type.Mapping;
@@ -15,8 +14,6 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.configuration.internal.ExtensionFilter;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
@@ -47,58 +44,52 @@ public sealed interface PropertyType<T> permits Enumeration, Instance, Mapping {
     enum Scope {
         PROVIDED,
         USER,
-        ALL
+        EXTENSION
     }
 
 
     /// settable by user + loadable by extension
     PropertyType<Collection<ClassFinder>> CLASS_FINDER =
-            new Enumeration<>("CLASS_FINDER", PropertyType.Scope.ALL, ClassFinder.class, OVERRIDE);
+            new Enumeration<>("CLASS_FINDER", PropertyType.Scope.EXTENSION, ClassFinder.class, OVERRIDE);
 
     PropertyType<Collection<EmojiSource>> EMOJI_SOURCES =
-            new Enumeration<>("EMOJI_SOURCES", PropertyType.Scope.ALL, EmojiSource.class, OVERRIDE);
+            new Enumeration<>("EMOJI_SOURCES", PropertyType.Scope.EXTENSION, EmojiSource.class, OVERRIDE);
 
     PropertyType<Descriptor> DESCRIPTOR =
-            new Instance<>("DESCRIPTOR", PropertyType.Scope.ALL, Descriptor.class);
+            new Instance<>("DESCRIPTOR", PropertyType.Scope.EXTENSION, Descriptor.class);
 
     PropertyType<Localizer> LOCALIZER =
-            new Instance<>("LOCALIZER", PropertyType.Scope.ALL, Localizer.class);
+            new Instance<>("LOCALIZER", PropertyType.Scope.EXTENSION, Localizer.class);
 
     PropertyType<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", PropertyType.Scope.ALL, InteractionControllerInstantiator.class);
+            new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", PropertyType.Scope.EXTENSION, InteractionControllerInstantiator.class);
 
     PropertyType<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-            new Enumeration<>("MIDDLEWARE", PropertyType.Scope.ALL, castUnsafe(Map.Entry.class), ACCUMULATE);
+            new Enumeration<>("MIDDLEWARE", PropertyType.Scope.EXTENSION, castUnsafe(Map.Entry.class), ACCUMULATE);
 
     PropertyType<Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Mapping<>("TYPE_ADAPTER", PropertyType.Scope.ALL, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+            new Mapping<>("TYPE_ADAPTER", PropertyType.Scope.EXTENSION, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
     PropertyType<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-            new Mapping<>("VALIDATOR", PropertyType.Scope.ALL, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+            new Mapping<>("VALIDATOR", PropertyType.Scope.EXTENSION, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
     PropertyType<PermissionsProvider> PERMISSION_PROVIDER =
-            new Instance<>("PERMISSION_PROVIDER", PropertyType.Scope.ALL, PermissionsProvider.class);
+            new Instance<>("PERMISSION_PROVIDER", PropertyType.Scope.EXTENSION, PermissionsProvider.class);
 
     PropertyType<ErrorMessageFactory> ERROR_MESSAGE_FACTORY =
-            new Instance<>("ERROR_MESSAGE_FACTORY", PropertyType.Scope.ALL, ErrorMessageFactory.class);
+            new Instance<>("ERROR_MESSAGE_FACTORY", PropertyType.Scope.EXTENSION, ErrorMessageFactory.class);
 
     PropertyType<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
-            new Instance<>("GUILD_SCOPE_PROVIDER", PropertyType.Scope.ALL, GuildScopeProvider.class);
+            new Instance<>("GUILD_SCOPE_PROVIDER", PropertyType.Scope.EXTENSION, GuildScopeProvider.class);
 
 
 
     /// only user settable
-     PropertyType<ExtensionFilter> EXTENSION_FILTER =
-            new Instance<>("EXTENSION_FILTER", PropertyType.Scope.USER, ExtensionFilter.class);
-
      PropertyType<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
             new Instance<>("GLOBAL_COMMAND_CONFIG", Scope.USER, CommandDefinition.CommandConfig.class);
 
      PropertyType<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
             new Instance<>("GLOBAL_REPLY_CONFIG", Scope.USER, InteractionDefinition.ReplyConfig.class);
-
-     PropertyType<Embeds.Configuration> EMBED_CONFIG =
-            new Instance<>("EMEBED_CONFIG", Scope.USER, Embeds.Configuration.class);
 
      PropertyType<Collection<String>> PACKAGES =
             new Enumeration<>("PACKAGES", PropertyType.Scope.USER, String.class, ACCUMULATE);
@@ -124,12 +115,6 @@ public sealed interface PropertyType<T> permits Enumeration, Instance, Mapping {
 
      PropertyType<EmojiResolver> EMOJI_RESOLVER =
             new Instance<>("EMOJI_RESOLVER", PropertyType.Scope.PROVIDED, EmojiResolver.class);
-
-     PropertyType<JDAContext> JDA_CONTEXT =
-            new Instance<>("JDA_CONTEXT", PropertyType.Scope.PROVIDED, JDAContext.class);
-
-     PropertyType<Embeds> EMBEDS =
-            new Instance<>("EMBEDS", PropertyType.Scope.PROVIDED, Embeds.class);
 
 
 

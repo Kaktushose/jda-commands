@@ -2,7 +2,6 @@ package io.github.kaktushose.jdac.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.github.kaktushose.jdac.configuration.ConfigurationContext;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.configuration.PropertyType;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
@@ -37,7 +36,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         this.injector = found.createChildInjector(new GuiceExtensionModule());
     }
 
-    private <T> PropertyProvider<T> property(PropertyType<T> type, Function<ConfigurationContext, T> supplier) {
+    private <T> PropertyProvider<T> property(PropertyType<T> type, Function<PropertyProvider.Context, T> supplier) {
         return new PropertyProvider<>(type, 10, supplier);
     }
 
