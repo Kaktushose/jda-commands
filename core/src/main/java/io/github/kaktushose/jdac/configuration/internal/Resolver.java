@@ -2,6 +2,9 @@ package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.configuration.PropertyType;
+import io.github.kaktushose.jdac.configuration.type.Enumeration;
+import io.github.kaktushose.jdac.configuration.type.Instance;
+import io.github.kaktushose.jdac.configuration.type.Mapping;
 
 import java.util.*;
 
@@ -38,16 +41,16 @@ public final class Resolver {
         SortedSet<PropertyProvider<?>> providers = properties.get(type);
         if (providers == null) {
             return switch (type) {
-                case PropertyType.Instance<?> _ -> throw new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type));
-                case PropertyType.Enumeration<?> _ -> (T) List.of();
-                case PropertyType.Mapping<?, ?> _ -> (T) Map.of();
+                case Instance<?> _ -> throw new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type));
+                case Enumeration<?> _ -> (T) List.of();
+                case Mapping<?, ?> _ -> (T) Map.of();
             };
         }
 
         T result = switch (type) {
-            case PropertyType.Instance<?> _ -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
-            case PropertyType.Enumeration<?> _ -> handleEnumeration(providers, type);
-            case PropertyType.Mapping<?, ?> _ -> handleMapping(providers, type);
+            case Instance<?> _ -> ((PropertyProvider<T>) providers.getLast()).supplier().apply(this::get);
+            case Enumeration<?> _ -> handleEnumeration(providers, type);
+            case Mapping<?, ?> _ -> handleMapping(providers, type);
         };
 
         cache.put(type, result);

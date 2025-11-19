@@ -49,7 +49,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.kaktushose.jdac.configuration.PropertyTypes.*;
+import static io.github.kaktushose.jdac.configuration.PropertyType.*;
 
 public class JDACBuilder {
     public static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);

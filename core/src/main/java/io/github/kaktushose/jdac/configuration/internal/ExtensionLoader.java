@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
-import io.github.kaktushose.jdac.configuration.PropertyTypes;
+import io.github.kaktushose.jdac.configuration.PropertyType;
 import io.github.kaktushose.jdac.extension.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ class ExtensionLoader {
 
     @SuppressWarnings("unchecked")
     void load(Resolver resolver) {
-        Map<Class<? extends Extension.Data>, Extension.Data> extensionData = resolver.get(PropertyTypes.EXTENSION_DATA);
+        Map<Class<? extends Extension.Data>, Extension.Data> extensionData = resolver.get(PropertyType.EXTENSION_DATA);
 
         ServiceLoader.load(Extension.class)
                 .stream()
                 .peek(provider -> log.debug("Found extension: {}", provider.type()))
-                .filter(resolver.get(PropertyTypes.EXTENSION_FILTER))
+                .filter(resolver.get(PropertyType.EXTENSION_FILTER))
                 .peek(provider -> log.debug("Using extension {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
                 .map(extension -> (Extension<Extension.Data>) extension)

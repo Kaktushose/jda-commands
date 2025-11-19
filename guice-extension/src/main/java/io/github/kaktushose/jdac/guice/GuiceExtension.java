@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import io.github.kaktushose.jdac.configuration.ConfigurationContext;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.configuration.PropertyType;
-import io.github.kaktushose.jdac.configuration.PropertyTypes;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.extension.Extension;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtensionModule;
@@ -47,8 +46,8 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         List<PropertyProvider<?>> implementations = new ArrayList<>();
 
         implementations.add(property(
-                PropertyTypes.INTERACTION_CONTROLLER_INSTANTIATOR,
-                ctx -> new GuiceInteractionControllerInstantiator(ctx.get(PropertyTypes.I18N), injector)
+                PropertyType.INTERACTION_CONTROLLER_INSTANTIATOR,
+                ctx -> new GuiceInteractionControllerInstantiator(ctx.get(PropertyType.I18N), injector)
         ));
 
 //        addDynamicImplementations(implementations);
