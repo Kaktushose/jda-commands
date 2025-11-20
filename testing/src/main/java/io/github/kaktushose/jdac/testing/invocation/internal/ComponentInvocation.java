@@ -7,7 +7,6 @@ import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvoc
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
-import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.requests.restaction.interactions.MessageEditCallbackAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
@@ -31,8 +30,6 @@ public abstract sealed class ComponentInvocation<T extends GenericComponentInter
         Message message = mock(Message.class);
         lenient().when(event.getMessage()).thenReturn(message);
         lenient().when(message.getComponents()).thenReturn(Optional.ofNullable(lastMessage).map(MessageEditData::getComponents).orElse(List.of()));
-
-        lenient().when(event.getInteraction()).thenReturn(mock(ComponentInteraction.class));
 
         lenient().when(event.replyModal(any(Modal.class))).then(invocation -> {
             modal.complete(invocation.getArgument(0));
