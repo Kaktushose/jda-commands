@@ -80,7 +80,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
             switch (property) {
                 case Property.Mapping<?, ?> m -> log.error("Cannot provide implementation of {} by annotating class with @Implementation.", m.value());
                 case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
-                case Property.Instance<?> i -> list.add(provider(i, ctx -> {
+                case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
                     List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
                     if (instances.size() == 1) return instances.getFirst();
                     if (instances.isEmpty()) return null;

@@ -43,7 +43,7 @@ public final class Resolver {
         SortedSet<PropertyProvider<T>> providers = Helpers.castUnsafe(properties.getOrDefault(type, new TreeSet<>()));
 
         T result = switch (type) {
-            case Property.Instance<T> _ -> handleOne(providers, type);
+            case Property.Singleton<T> _ -> handleOne(providers, type);
             case Property.Enumeration<?> _ -> (T) handleMany(Helpers.<SortedSet<PropertyProvider<Collection<Object>>>>castUnsafe(providers), ArrayList::new, List::addAll);
             case Property.Mapping<?, ?> _ -> (T) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, Map::putAll);
         };
@@ -63,7 +63,7 @@ public final class Resolver {
     private <T> T handleOne(SortedSet<PropertyProvider<T>> providers, Property<T> type) {
         return providers.stream()
                 .map(provider -> provider.supplier().apply(this::get))
-                .filter(Objects::nonNull) // intellij doens't understand the null check here
+                .filter(Objects::nonNull) // intellij doesn't understand the null check here -> Objects#requireNonNull
                 .findFirst()
                 .orElseThrow(() -> new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type)));
     }

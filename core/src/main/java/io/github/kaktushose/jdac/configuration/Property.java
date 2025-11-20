@@ -30,7 +30,7 @@ import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour
 import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 
 @SuppressWarnings("unused")
-public sealed interface Property<T> permits Property.Enumeration, Property.Instance, Property.Mapping {
+public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Mapping {
     FallbackBehaviour fallbackBehaviour();
     String name();
     Scope scope();
@@ -56,13 +56,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Insta
             new Enumeration<>("EMOJI_SOURCES", Scope.EXTENSION, EmojiSource.class, OVERRIDE);
 
     Property<Descriptor> DESCRIPTOR =
-            new Instance<>("DESCRIPTOR", Scope.EXTENSION, Descriptor.class);
+            new Singleton<>("DESCRIPTOR", Scope.EXTENSION, Descriptor.class);
 
     Property<Localizer> LOCALIZER =
-            new Instance<>("LOCALIZER", Scope.EXTENSION, Localizer.class);
+            new Singleton<>("LOCALIZER", Scope.EXTENSION, Localizer.class);
 
     Property<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Instance<>("INTERACTION_CONTROLLER_INSTANTIATOR", Scope.EXTENSION, InteractionControllerInstantiator.class);
+            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Scope.EXTENSION, InteractionControllerInstantiator.class);
 
     Property<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
             new Enumeration<>("MIDDLEWARE", Scope.EXTENSION, castUnsafe(Map.Entry.class), ACCUMULATE);
@@ -74,48 +74,48 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Insta
             new Mapping<>("VALIDATOR", Scope.EXTENSION, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
     Property<PermissionsProvider> PERMISSION_PROVIDER =
-            new Instance<>("PERMISSION_PROVIDER", Scope.EXTENSION, PermissionsProvider.class);
+            new Singleton<>("PERMISSION_PROVIDER", Scope.EXTENSION, PermissionsProvider.class);
 
     Property<ErrorMessageFactory> ERROR_MESSAGE_FACTORY =
-            new Instance<>("ERROR_MESSAGE_FACTORY", Scope.EXTENSION, ErrorMessageFactory.class);
+            new Singleton<>("ERROR_MESSAGE_FACTORY", Scope.EXTENSION, ErrorMessageFactory.class);
 
     Property<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
-            new Instance<>("GUILD_SCOPE_PROVIDER", Scope.EXTENSION, GuildScopeProvider.class);
+            new Singleton<>("GUILD_SCOPE_PROVIDER", Scope.EXTENSION, GuildScopeProvider.class);
 
     /// only user settable
      Property<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
-            new Instance<>("GLOBAL_COMMAND_CONFIG", Scope.USER, CommandDefinition.CommandConfig.class);
+            new Singleton<>("GLOBAL_COMMAND_CONFIG", Scope.USER, CommandDefinition.CommandConfig.class);
 
      Property<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
-            new Instance<>("GLOBAL_REPLY_CONFIG", Scope.USER, InteractionDefinition.ReplyConfig.class);
+            new Singleton<>("GLOBAL_REPLY_CONFIG", Scope.USER, InteractionDefinition.ReplyConfig.class);
 
      Property<Collection<String>> PACKAGES =
             new Enumeration<>("PACKAGES", Scope.USER, String.class, ACCUMULATE);
 
      Property<ExpirationStrategy> EXPIRATION_STRATEGY =
-            new Instance<>("EXPIRATION_STRATEGY", Scope.USER, ExpirationStrategy.class);
+            new Singleton<>("EXPIRATION_STRATEGY", Scope.USER, ExpirationStrategy.class);
 
      Property<Boolean> LOCALIZE_COMMANDS =
-            new Instance<>("LOCALIZE_COMMANDS", Scope.USER, Boolean.class);
+            new Singleton<>("LOCALIZE_COMMANDS", Scope.USER, Boolean.class);
 
      Property<Boolean> SHUTDOWN_JDA =
-            new Instance<>("SHUTDOWN_JDA", Scope.USER, Boolean.class);
+            new Singleton<>("SHUTDOWN_JDA", Scope.USER, Boolean.class);
 
      Property<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
             new Mapping<>("EXTENSION_DATA", Scope.USER, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
 
     /// only created
      Property<I18n> I18N =
-            new Instance<>("I18N", Scope.PROVIDED, I18n.class);
+            new Singleton<>("I18N", Scope.PROVIDED, I18n.class);
 
      Property<MessageResolver> MESSAGE_RESOLVER =
-            new Instance<>("MESSAGE_RESOLVER", Scope.PROVIDED, MessageResolver.class);
+            new Singleton<>("MESSAGE_RESOLVER", Scope.PROVIDED, MessageResolver.class);
 
      Property<EmojiResolver> EMOJI_RESOLVER =
-            new Instance<>("EMOJI_RESOLVER", Scope.PROVIDED, EmojiResolver.class);
+            new Singleton<>("EMOJI_RESOLVER", Scope.PROVIDED, EmojiResolver.class);
 
      Property<ClassFinder> MERGED_CLASS_FINDER =
-             new Instance<>("MERGED_CLASS_FINDER", Scope.PROVIDED, ClassFinder.class);
+             new Singleton<>("MERGED_CLASS_FINDER", Scope.PROVIDED, ClassFinder.class);
 
 
      Collection<Property<?>> LOADABLE = List.of(
@@ -135,10 +135,10 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Insta
     record Mapping<K, V>(String name, Scope scope, Class<K> key, Class<V> value,
                                 FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
 
-    record Instance<T>(String name, Scope scope, Class<T> type) implements Property<T> {
+    record Singleton<T>(String name, Scope scope, Class<T> type) implements Property<T> {
         @Override
         public FallbackBehaviour fallbackBehaviour() {
-            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Instance");
+            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Singleton");
         }
     }
 
