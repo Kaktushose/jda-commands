@@ -322,7 +322,7 @@ public sealed class ConfigurableReply permits SendableReply {
     private ActionComponent resolve(ActionComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
             case Button button -> button.withLabel(resolve(button.getLabel(), component));
-            case EntitySelectMenu menu -> (EntitySelectMenu) menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> resolve(p, component)));
+            case EntitySelectMenu menu -> menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> resolve(p, component))).build();
             case StringSelectMenu menu -> {
                 StringSelectMenu.Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
