@@ -2,12 +2,15 @@ package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 public final class Resolver {
     private static final ScopedValue<List<Property<?>>> STACK = ScopedValue.newInstance();
@@ -65,7 +68,7 @@ public final class Resolver {
                 .map(provider -> provider.supplier().apply(this::get))
                 .filter(Objects::nonNull) // intellij doesn't understand the null check here -> Objects#requireNonNull
                 .findFirst()
-                .orElseThrow(() -> new UnsupportedOperationException("Add proper exception: value not set %s".formatted(type)));
+                .orElseThrow(() -> new ConfigurationException("property-not-set", entry("property", type.name())));
     }
 
     @NonNull

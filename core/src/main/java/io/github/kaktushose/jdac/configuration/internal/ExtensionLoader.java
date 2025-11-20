@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.configuration.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,6 @@ class ExtensionLoader {
                 .filter(resolver.get(InternalPropertyProviders.EXTENSION_FILTER))
                 .peek(provider -> log.debug("Using extension {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
-                .map(extension -> (Extension<Extension.Data>) extension)
                 .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                 .forEach(loaded::add);
     }

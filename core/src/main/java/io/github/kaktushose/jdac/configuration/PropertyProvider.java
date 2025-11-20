@@ -17,6 +17,7 @@ public record PropertyProvider<T>(
     }
 
     public interface Context {
+
         <T> T get(Property<T> type);
     }
 }

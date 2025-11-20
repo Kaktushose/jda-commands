@@ -2,8 +2,11 @@ package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 
 import java.util.*;
+
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 public class Properties {
     public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
@@ -17,26 +20,27 @@ public class Properties {
         int priority = provider.priority();
 
         if (!INSIDE_FRAMEWORK.isBound() && (priority <= 100 || priority == Integer.MAX_VALUE)) {
-            throw new UnsupportedOperationException("add exception: priorities 0 - 10 are reserved");
+            throw new ConfigurationException("reserved-priority", entry("priority", priority));
         }
 
         switch (provider.type().scope()) {
             case PROVIDED -> {
                 if (priority != Properties.FALLBACK_PRIORITY) {
-                    throw new UnsupportedOperationException("add exception: property can only be provided by the framework %s".formatted(provider.type()));
+                    throw new ConfigurationException("provided-property", entry("property", provider.type().name()));
                 }
             }
             case USER -> {
                 if (priority != Properties.USER_PRIORITY && priority != Properties.FALLBACK_PRIORITY) {
-                    throw new UnsupportedOperationException("add exception: property can only be provided by user %s".formatted(provider.type()));
+                    throw new ConfigurationException("user-property", entry("property", provider.type().name()));
                 }
             }
         }
     }
 
     public <T> void add(PropertyProvider<T> provider) {
-        if (provider.priority() < 0) {
-            throw new UnsupportedOperationException("add exception: priority can't be negative");
+        int priority = provider.priority();
+        if (priority < 0) {
+            throw new ConfigurationException("negative-priority", entry("priority", priority));
         }
 
         checkScope(provider);

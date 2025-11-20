@@ -13,8 +13,6 @@ import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+
 /// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
 ///
 /// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
@@ -34,7 +34,6 @@ import java.util.stream.Stream;
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private static final Logger log = LoggerFactory.getLogger(GuiceExtension.class);
     private Injector injector;
 
     @Override
@@ -78,15 +77,17 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
             if (shouldSkip(property)) continue;
 
             switch (property) {
-                case Property.Mapping<?, ?> m -> log.error("Cannot provide implementation of {} by annotating class with @Implementation.", m.value());
+                case Property.Mapping<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
                 case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
                 case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
                     List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
                     if (instances.size() == 1) return instances.getFirst();
                     if (instances.isEmpty()) return null;
 
-                    log.error("Multiple instances of %s found, that are registered via @Implementation. Only one can be provided!");
-                    throw new UnsupportedOperationException("Add good exception!");
+                    throw new GuiceException("multiple-instances",
+                            entry("type", i.type().getName()),
+                            entry("found", instances.stream().map(obj -> obj.getClass().getName()).collect(Collectors.joining(", ")))
+                    );
                 }));
             }
         }

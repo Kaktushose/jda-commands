@@ -9,6 +9,7 @@ import java.util.ServiceLoader.Provider;
 import java.util.function.Predicate;
 
 /// A [Predicate] to test whether an [Extension] should be loaded or not.
+@SuppressWarnings("rawtypes") // because of stream in ExtensionLoader must handle raw type Provider<Extension>
 @ApiStatus.Internal
 public record ExtensionFilter(JDACBuilder.FilterStrategy filterStrategy, Collection<String> classes)
         implements Predicate<Provider<Extension>> {
