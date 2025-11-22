@@ -68,6 +68,7 @@ public class JDACBuilder {
 
         addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
         addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandDefinition.CommandConfig());
+        addFallback(GLOBAL_REPLY_CONFIG, _ -> new InteractionDefinition.ReplyConfig());
         addFallback(SHUTDOWN_JDA, _ -> true);
         addFallback(LOCALIZE_COMMANDS, _ -> true);
         addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));

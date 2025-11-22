@@ -66,7 +66,7 @@ public final class Resolver {
     private <T> T handleOne(SortedSet<PropertyProvider<T>> providers, Property<T> type) {
         return providers.stream()
                 .map(provider -> provider.supplier().apply(this::get))
-                .filter(Objects::nonNull) // intellij doesn't understand the null check here -> Objects#requireNonNull
+                .filter(Objects::nonNull) // intellij doesn't understand the null check here
                 .findFirst()
                 .orElseThrow(() -> new ConfigurationException("property-not-set", entry("property", type.name())));
     }
@@ -86,5 +86,7 @@ public final class Resolver {
 
         return collection;
     }
+
+
 
 }
