@@ -34,6 +34,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
+    @Nullable
     private Injector injector;
 
     @Override
@@ -47,7 +48,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     @SuppressWarnings("unchecked")
     private <T> PropertyProvider<T> provider(Property<?> type, Function<PropertyProvider.Context, ?> supplier) {
-        return new PropertyProvider<>((Property<T>) type, 10, (Function<PropertyProvider.Context, T>) supplier);
+        return PropertyProvider.create((Property<T>) type, 10, (Function<PropertyProvider.Context, T>) supplier);
     }
 
     @Override

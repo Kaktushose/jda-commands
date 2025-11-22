@@ -1,7 +1,10 @@
 package io.github.kaktushose.jdac;
 
 import dev.goldmensch.fluava.Fluava;
-import io.github.kaktushose.jdac.configuration.*;
+import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.configuration.internal.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -24,8 +27,6 @@ import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.configuration.Extension;
-import io.github.kaktushose.jdac.configuration.internal.ExtensionFilter;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
@@ -37,6 +38,9 @@ import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.scope.DefaultGuildScopeProvider;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import io.github.kaktushose.proteus.Proteus;
+import io.github.kaktushose.proteus.mapping.Mapper;
+import io.github.kaktushose.proteus.mapping.MappingResult;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -54,14 +58,16 @@ import static io.github.kaktushose.jdac.configuration.Property.*;
 import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
 
 public class JDACBuilder {
+
+    static {
+        Proteus.global().register(Type.of(Class.class), Type.of(String.class), Mapper.uni((klass, _) -> MappingResult.lossless(klass.getName())));
+    }
+
     public static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
 
     private final Properties properties = new Properties();
 
     JDACBuilder(JDAContext jdaContext) {
-        // must be set
-        addFallback(JDA_CONTEXT, _ -> jdaContext);
-
         // defaults
         addFallback(PACKAGES, _ -> List.of());
         addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(FilterStrategy.EXCLUDE, List.of()));
@@ -103,6 +109,9 @@ public class JDACBuilder {
                 .map(classFinder -> classFinder.search(annotationClass))
                 .flatMap(Collection::stream)
                 .toList());
+
+        // must be set
+        addFallback(JDA_CONTEXT, _ -> jdaContext);
     }
 
     private void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
@@ -139,11 +148,11 @@ public class JDACBuilder {
     }
 
     private <T> void addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
-        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.FALLBACK_PRIORITY, supplier)));
+        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
     }
 
     private <T> JDACBuilder addUserProperty(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
-        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(new PropertyProvider<>(type, Properties.USER_PRIORITY, supplier)));
+        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(PropertyProvider.create(type, Properties.USER_PRIORITY, supplier)));
         return this;
     }
 

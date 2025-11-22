@@ -13,33 +13,19 @@ import java.util.function.Supplier;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 public final class Resolver {
-    private static final ScopedValue<List<Property<?>>> STACK = ScopedValue.newInstance();
 
     private final Map<Property<?>, Object> cache = new HashMap<>();
     private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties;
 
+    private final Stack stack;
+
     Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
-    }
-
-    public <T> T get(Property<T> type) {
-        if (STACK.isBound()) {
-            List<Property<?>> stack = STACK.get();
-            if (stack.contains(type)) {
-                throw new UnsupportedOperationException("add good exception: cycling dependency detected %s".formatted(type));
-            }
-
-            stack.add(type);
-            T result = resolve(type);
-            stack.removeLast();
-            return result;
-        } else {
-            return ScopedValue.where(STACK, new ArrayList<>(List.of(type))).call(() -> resolve(type));
-        }
+        this.stack = new Stack(this);
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T resolve(Property<T> type) {
+    public <T> T get(Property<T> type) {
         if (cache.containsKey(type)) return (T) cache.get(type);
 
         // safe by invariant
@@ -65,7 +51,7 @@ public final class Resolver {
     @NonNull
     private <T> T handleOne(SortedSet<PropertyProvider<T>> providers, Property<T> type) {
         return providers.stream()
-                .map(provider -> provider.supplier().apply(this::get))
+                .map(stack::applyProvider)
                 .filter(Objects::nonNull) // intellij doesn't understand the null check here
                 .findFirst()
                 .orElseThrow(() -> new ConfigurationException("property-not-set", entry("property", type.name())));
@@ -79,14 +65,11 @@ public final class Resolver {
                 continue;
             }
 
-            T applied = provider.supplier().apply(this::get);
+            T applied = stack.applyProvider(provider);
             if (applied == null) continue;
             adder.accept(collection, applied);
         }
 
         return collection;
     }
-
-
-
 }
