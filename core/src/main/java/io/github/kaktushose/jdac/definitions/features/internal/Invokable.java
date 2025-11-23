@@ -43,6 +43,9 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
         } catch (IllegalAccessException | InternalException e) {
             throw e;
         } catch (ReflectiveOperationException e) {
+            if (e instanceof InvocationTargetException invocationTargetException) {
+                throw invocationTargetException;
+            }
             throw new InternalException("should-never-be-thrown", e);
         }
     }
