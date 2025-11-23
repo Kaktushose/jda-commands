@@ -40,7 +40,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
         // ScopedValue#call uses a generic for the exception, thus we have to handle the most common type between IllegalAccessException and InvocationTargetException
         try {
             return ScopedValue.where(EventHandler.INVOCATION_PERMITTED, false).call(() -> methodDescription().invoker().invoke(instance, arguments));
-        } catch (IllegalAccessException | InternalException e) {
+        } catch (IllegalAccessException | InternalException | InvocationTargetException e) {
             throw e;
         } catch (ReflectiveOperationException e) {
             throw new InternalException("should-never-be-thrown", e);
