@@ -58,11 +58,9 @@ public final class JDACommands {
     /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param jda      the corresponding [JDA] instance
-    /// @param clazz    a class of the classpath to scan
-    /// @param packages package(s) to exclusively scan
     /// @return a new JDACommands instance
-    public static JDACommands start(JDA jda, Class<?> clazz, String... packages) {
-        return builder(jda, clazz, packages).start();
+    public static JDACommands start(JDA jda) {
+        return builder(jda).start();
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -72,29 +70,25 @@ public final class JDACommands {
     /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
-    /// @param clazz        a class of the classpath to scan
-    /// @param packages     package(s) to exclusively scan
     /// @return a new JDACommands instance
-    public static JDACommands start(ShardManager shardManager, Class<?> clazz, String... packages) {
-        return builder(shardManager, clazz, packages).start();
+    public static JDACommands start(ShardManager shardManager) {
+        return builder(shardManager).start();
     }
 
     /// Create a new builder.
     ///
     /// @param jda      the corresponding [JDA] instance
-    /// @param clazz    a class of the classpath to scan
-    /// @param packages package(s) to exclusively scan
     /// @return a new [JDACBuilder]
-    public static JDACBuilder builder(JDA jda, Class<?> clazz, String... packages) {
-        return new JDACBuilder(new JDAContext(jda)).packages(packages);
+    public static JDACBuilder builder(JDA jda) {
+        return new JDACBuilder(new JDAContext(jda));
     }
 
     /// Create a new builder.
     ///
     /// @param shardManager the corresponding [ShardManager] instance
     /// @return a new [JDACBuilder]
-    public static JDACBuilder builder(ShardManager shardManager, Class<?> clazz, String... packages) {
-        return new JDACBuilder(new JDAContext(shardManager)).packages(packages);
+    public static JDACBuilder builder(ShardManager shardManager) {
+        return new JDACBuilder(new JDAContext(shardManager));
     }
 
     void start(ClassFinder classFinder) {

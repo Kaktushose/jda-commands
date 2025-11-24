@@ -9,9 +9,9 @@ import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
 import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
@@ -42,8 +42,11 @@ import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.mapping.MappingResult;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import net.dv8tion.jda.api.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,13 +60,48 @@ import java.util.stream.Collectors;
 import static io.github.kaktushose.jdac.configuration.Property.*;
 import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
 
+/// This builder is used to build instances of [JDACommands].
+///
+/// Please note that values that can be set have a default implementation.
+/// These following implementations are based on reflections. If you want to avoid reflections, you have to provide your own implementations for:
+///
+/// - [#descriptor(Descriptor)]
+/// - [#classFinders(ClassFinder...)]
+/// - [#instanceProvider(InteractionControllerInstantiator)]
+///
+///
+/// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough Javas [`service
+/// provider interface`][ServiceLoader], which are applied during [JDACommands] creation.
+/// Values manually defined by this builder will always override loaded and default ones, except for:
+///
+/// - [#middleware(Priority, Middleware)]
+/// - [#adapter(Class, Class, TypeAdapter)]
+/// - [#validator(Class, Validator)]
+///
+/// which will add to the default and loaded ones.
+///
+/// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
+/// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
+///
+/// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance is shutdown per default.
+/// This can be configured by settings [JDACBuilder#shutdownJDA(boolean)].
+///
+/// ## Example
+/// ```java
+/// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
+///     .middleware(Priority.NORMAL, new TestMiddleware())
+///     .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
+///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
+///     .start();
+/// ```
+/// @see Extension
 public class JDACBuilder {
 
     static {
         Proteus.global().register(Type.of(Class.class), Type.of(String.class), Mapper.uni((klass, _) -> MappingResult.lossless(klass.getName())));
     }
 
-    public static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
+    private static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
 
     private final Properties properties = new Properties();
 
@@ -73,8 +111,8 @@ public class JDACBuilder {
         addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(FilterStrategy.EXCLUDE, List.of()));
 
         addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
-        addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandDefinition.CommandConfig());
-        addFallback(GLOBAL_REPLY_CONFIG, _ -> new InteractionDefinition.ReplyConfig());
+        addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandConfig());
+        addFallback(GLOBAL_REPLY_CONFIG, _ -> new ReplyConfig());
         addFallback(SHUTDOWN_JDA, _ -> true);
         addFallback(LOCALIZE_COMMANDS, _ -> true);
         addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
@@ -156,18 +194,42 @@ public class JDACBuilder {
         return this;
     }
 
+    /// Some default implementations like [ClassFinder#reflective(String...)] will scan the classpath to find classes
+    /// and resource. This config option allows you to restrict the to be scanned packages.
+    ///
+    /// @param packages the packages to scan recursively
     public JDACBuilder packages(String... packages) {
         return addUserProperty(PACKAGES, _ -> List.of(packages));
     }
 
+    /// @param classFinders the to be used [ClassFinder]s
+    ///
+    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
+    /// [ClassFinder#reflective(String...)] too.
     public JDACBuilder classFinders(ClassFinder... classFinders) {
         return addUserProperty(CLASS_FINDER, _ -> List.of(classFinders));
     }
 
+    /// Application emojis loaded from [EmojiSource]s will be registered upon startup with help of
+    /// [JDA#createApplicationEmoji(String, Icon)].
+    ///
+    /// @param sources the to be used [EmojiSource]s
+    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// If you want to add own [EmojiSource]s while keeping the default reflective implementation, you have to add it explicitly via
+    /// [EmojiSource#reflective(String...)] too.
+    public JDACBuilder emojiSource(EmojiSource... sources) {
+        return addUserProperty(EMOJI_SOURCES, _ -> List.of(sources));
+    }
+
+    /// @param descriptor the [Descriptor] to be used
     public JDACBuilder descriptor(Descriptor descriptor) {
         return addUserProperty(DESCRIPTOR, _ -> descriptor);
     }
 
+    /// Configuration step for the Embed API of JDA-Commands.
+    ///
+    /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
         return addUserProperty(EMBED_CONFIG, ctx -> {
             Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER));
@@ -182,67 +244,105 @@ public class JDACBuilder {
         });
     }
 
+    /// @param localizer The [Localizer] to use
     public JDACBuilder localizer(Localizer localizer) {
         return addUserProperty(LOCALIZER, _ -> localizer);
     }
 
+    /// @param instanceProvider the implementation of [InteractionControllerInstantiator] to use
     public JDACBuilder instanceProvider(InteractionControllerInstantiator instanceProvider) {
         return addUserProperty(INTERACTION_CONTROLLER_INSTANTIATOR, _ -> instanceProvider);
     }
 
+    /// @param strategy The [ExpirationStrategy] to be used
     public JDACBuilder expirationStrategy(ExpirationStrategy strategy) {
         return addUserProperty(EXPIRATION_STRATEGY, _ -> strategy);
     }
 
+    /// @param priority   The [Priority] with what the [Middleware] should be registered
+    /// @param middleware The to be registered [Middleware]
     public JDACBuilder middleware(Priority priority, Middleware middleware) {
         return addUserProperty(MIDDLEWARE, _ -> List.of(Map.entry(priority, middleware)));
     }
 
+    /// @param source  The source type that the given [TypeAdapter] can handle
+    /// @param target  The target type that the given [TypeAdapter] can handle
+    /// @param adapter The [TypeAdapter] to be registered
     public JDACBuilder adapter(Class<?> source, Class<?> target, TypeAdapter<?, ?> adapter) {
         return addUserProperty(TYPE_ADAPTER, _ -> Map.of(Map.entry(Type.of(source), Type.of(target)), adapter));
     }
 
+    /// @param annotation The annotation for which the given [Validator] should be called
+    /// @param validator  The [Validator] to be registered
     public JDACBuilder validator(Class<? extends Annotation> annotation, Validator<?, ?> validator) {
         return addUserProperty(VALIDATOR, _ -> Map.of(annotation, validator));
     }
 
+    /// @param permissionsProvider The [PermissionsProvider] that should be used
     public JDACBuilder permissionsProvider(PermissionsProvider permissionsProvider) {
         return addUserProperty(PERMISSION_PROVIDER, _ -> permissionsProvider);
     }
 
+    /// @param errorMessageFactory The [ErrorMessageFactory] that should be used
     public JDACBuilder errorMessageFactory(ErrorMessageFactory errorMessageFactory) {
         return addUserProperty(ERROR_MESSAGE_FACTORY, _ -> errorMessageFactory);
     }
 
+    /// @param guildScopeProvider The [GuildScopeProvider] that should be used
     public JDACBuilder guildScopeProvider(GuildScopeProvider guildScopeProvider) {
         return addUserProperty(GUILD_SCOPE_PROVIDER, _ -> guildScopeProvider);
     }
 
-    public JDACBuilder globalReplyConfig(InteractionDefinition.ReplyConfig globalReplyConfig) {
+
+    /// @param globalReplyConfig the [ReplyConfig] to be used as a global fallback option
+    public JDACBuilder globalReplyConfig(ReplyConfig globalReplyConfig) {
         return addUserProperty(GLOBAL_REPLY_CONFIG, _ -> globalReplyConfig);
     }
 
-    public JDACBuilder globalCommandConfig(CommandDefinition.CommandConfig config) {
+    /// @param config the [CommandConfig] to be used as a global fallback option
+    public JDACBuilder globalCommandConfig(CommandConfig config) {
         return addUserProperty(GLOBAL_COMMAND_CONFIG, _ -> config);
     }
 
+    /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
+    ///
+    /// @param data the instances of [Extension.Data] to be used
     public JDACBuilder extensionData(Extension.Data... data) {
         return addUserProperty(EXTENSION_DATA, _ -> Arrays.stream(data)
                 .collect(Collectors.toMap(Extension.Data::getClass, Function.identity())));
     }
 
+
+    /// Whether the JDA instance should be shutdown if the configuration/start of JDA-Commands fails or if
+    /// [JDACommands#shutdown()] is called
+    ///
+    /// @param shutdown whether to shut down the JDA instance, default true
     public JDACBuilder shutdownJDA(boolean shutdown) {
         return addUserProperty(SHUTDOWN_JDA, _ -> shutdown);
     }
 
+    /// Whether JDA-Commands should use the [I18n] feature to localize commands.
+    ///
+    /// @param localize whether to localize commands, default true
+    /// @see LocalizationFunction
+    /// @see FluavaLocalizer FluavaLocalizer
     public JDACBuilder localizeCommands(boolean localize) {
         return addUserProperty(LOCALIZE_COMMANDS, _ -> localize);
     }
 
+
+    /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
+    ///
+    /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
+    /// @param classes  the classes to be filtered
+    /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
+    /// so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.
     public JDACBuilder filterExtensions(FilterStrategy strategy, String... classes) {
         return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
     }
 
+    /// This method applies all found implementations of [Extension],
+    /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         Resolver loader = properties.createResolver();
 

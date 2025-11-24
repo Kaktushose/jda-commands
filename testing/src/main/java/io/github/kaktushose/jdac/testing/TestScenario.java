@@ -102,7 +102,7 @@ public class TestScenario {
         public Builder(@NotNull JDA jda, @NotNull Class<?> klass) {
             this.jda = jda;
             this.klass = klass;
-            jdacBuilder = JDACommands.builder(jda, klass)
+            jdacBuilder = JDACommands.builder(jda)
                     .localizer(localizer)
                     .classFinders(ClassFinder.explicit(klass))
                     .instanceProvider(new InteractionControllerInstantiator() {
