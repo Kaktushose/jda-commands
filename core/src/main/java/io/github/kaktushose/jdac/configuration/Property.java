@@ -110,6 +110,19 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
         LOADABLE
     }
 
+    record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
+                         FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
+
+    record Singleton<T>(String name, Category category, Class<T> type) implements Property<T> {
+        @Override
+        public FallbackBehaviour fallbackBehaviour() {
+            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Singleton");
+        }
+    }
+
+    record Enumeration<E>(String name, Category category, Class<E> type,
+                          FallbackBehaviour fallbackBehaviour) implements Property<Collection<E>> {}
+
 
     // -------- settable by user + loadable from extension --------
 
@@ -254,18 +267,4 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              EMOJI_RESOLVER,
              MERGED_CLASS_FINDER
      ));
-
-
-    record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
-                         FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
-
-    record Singleton<T>(String name, Category category, Class<T> type) implements Property<T> {
-        @Override
-        public FallbackBehaviour fallbackBehaviour() {
-            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Singleton");
-        }
-    }
-
-    record Enumeration<E>(String name, Category category, Class<E> type,
-                          FallbackBehaviour fallbackBehaviour) implements Property<Collection<E>> {}
 }
