@@ -34,7 +34,7 @@ and if not found, will use the String directly as the content.
 
 !!! warning
     Localization of <MessageCreateData> is not supported implicitly.
-    To localize such messages you have to manually use <I18n#localize(Locale,String,Entry...)`>.
+    To localize such messages you have to manually use <I18n#localize(Locale,String,Entry...)>.
 
 !!! example
     ```java
@@ -198,7 +198,7 @@ JDACommands.builder(jda, Main.class)
 ```
 
 !!! tip "Fallback Bundle"
-    To change the fallback bundle you have to pass it to the constructor of the `Fluava` class. In the above example the fallback locale
+    To change the fallback bundle you have to pass it to the <fluava -> Fluava#create(Locale)> method. In the above example the fallback locale
     is German. The default fallback bundle is English.
 
 !!! note

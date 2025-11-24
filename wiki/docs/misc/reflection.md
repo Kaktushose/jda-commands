@@ -21,12 +21,12 @@ Use <ClassFinder#explicit(...)>
 if you want to explicitly add a `Class`. 
 
 !!! warning
-    Calling `classFinders(Class...)` on the builder will override existing class finders. If you want to keep the default 
+    Calling <JDACBuilder#classFinders(ClassFinder...)> will override existing class finders. If you want to keep the default 
     reflective class finder, you have to add it again via <ClassFinder#reflective(String...)>. 
 
 ```java
 JDACommands.builder(jda, Main.class)
-    .classFinders(ClassFinder.explicit(ForeignClass.class), ClassFinder.reflective(Main.class, "com.package"))
+    .classFinders(ClassFinder.explicit(ForeignClass.class), ClassFinder.reflective("com.package"))
     .start();
 ```
 
