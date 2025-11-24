@@ -4,7 +4,7 @@ import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.internal.ExtensionFilter;
+import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -116,7 +116,7 @@ public class JDACBuilder {
         addFallback(LOCALIZE_COMMANDS, _ -> true);
         addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
         addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
-        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(EMBED_CONFIG).buildError()));
+        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(EMBED_CONFIG_IMPL).buildError()));
         addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
         addFallback(DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
 
@@ -125,10 +125,22 @@ public class JDACBuilder {
             String[] resources = ctx.get(PACKAGES).toArray(String[]::new);
             return List.of(ClassFinder.reflective(resources));
         });
-        addFallback(EMBED_CONFIG, ctx -> new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER)));
+
+        addFallback(EMBED_CONFIG, _ -> _ -> {});
 
         // non settable/provided services
-        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG).buildDefault());
+        addFallback(EMBED_CONFIG_IMPL, ctx -> {
+            Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER));
+            try {
+                ctx.get(EMBED_CONFIG).accept(embedConfig);
+            } catch (Exception e) {
+                if (ctx.get(SHUTDOWN_JDA)) ctx.get(JDA_CONTEXT).shutdown();
+                throw e;
+            }
+
+            return embedConfig;
+        });
+        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_IMPL).buildDefault());
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
         addFallback(MESSAGE_RESOLVER,
@@ -197,17 +209,7 @@ public class JDACBuilder {
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
-        return addUserProperty(EMBED_CONFIG, ctx -> {
-            Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER));
-            try {
-                consumer.accept(embedConfig);
-            } catch (Exception e) {
-                if (ctx.get(SHUTDOWN_JDA)) ctx.get(JDA_CONTEXT).shutdown();
-                throw e;
-            }
-
-            return embedConfig;
-        });
+        return addUserProperty(EMBED_CONFIG, _ -> consumer);
     }
 
     /// @param localizer The [Localizer] to use

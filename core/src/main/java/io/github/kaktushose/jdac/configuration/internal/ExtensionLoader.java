@@ -22,7 +22,7 @@ class ExtensionLoader {
         ServiceLoader.load(Extension.class)
                 .stream()
                 .peek(provider -> log.debug("Found extension (filter not applied): {}", provider.type()))
-                .filter(resolver.get(InternalPropertyProviders.EXTENSION_FILTER))
+                .filter(resolver.get(Property.EXTENSION_FILTER))
                 .peek(provider -> log.debug("Using extension (filter applied): {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
                 .peek(extension -> extension.init(extensionData.get(extension.dataType())))
