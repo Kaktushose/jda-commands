@@ -16,14 +16,14 @@ public class Properties {
 
     private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
 
-    private void checkScope(PropertyProvider<?> provider) {
+    private void checkCategory(PropertyProvider<?> provider) {
         int priority = provider.priority();
 
         if (!INSIDE_FRAMEWORK.isBound() && (priority <= 100 || priority == Integer.MAX_VALUE)) {
             throw new ConfigurationException("reserved-priority", entry("priority", priority));
         }
 
-        switch (provider.type().scope()) {
+        switch (provider.type().category()) {
             case PROVIDED -> {
                 if (priority != Properties.FALLBACK_PRIORITY) {
                     throw new ConfigurationException("provided-property", entry("property", provider.type().name()));
@@ -43,7 +43,7 @@ public class Properties {
             throw new ConfigurationException("negative-priority", entry("priority", priority));
         }
 
-        checkScope(provider);
+        checkCategory(provider);
 
         properties.computeIfAbsent(provider.type(), _ -> new TreeSet<>()).add(provider);
     }
