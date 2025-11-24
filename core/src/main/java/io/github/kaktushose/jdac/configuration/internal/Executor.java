@@ -12,12 +12,12 @@ import java.util.stream.Stream;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @SuppressWarnings("ClassCanBeRecord")
-public class Stack {
+class Executor {
     private static final ScopedValue<SequencedMap<Property<?>, PropertyProvider<?>>> STACK = ScopedValue.newInstance();
 
     private final Resolver resolver;
 
-    public Stack(Resolver resolver) {
+    Executor(Resolver resolver) {
         this.resolver = resolver;
     }
 
@@ -56,7 +56,7 @@ public class Stack {
         }
 
         List<String> lines = shortStack.reversed().stream()
-                .flatMap(frame -> Stream.of("↓ [requires]", "%s (by provider in %s)".formatted(frame.type().name(), frame.referenceClass())))
+                .flatMap(frame -> Stream.of("↓ [requires]", "%s (provider in %s)".formatted(frame.type().name(), frame.referenceClass())))
                 .skip(1)
                 .collect(Collectors.toList());
 

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 class ExtensionLoader {
-    public static final Logger log = LoggerFactory.getLogger(ExtensionLoader.class);
+    private static final Logger log = LoggerFactory.getLogger(ExtensionLoader.class);
 
     private final Collection<Extension<Extension.Data>> loaded = new ArrayList<>();
 
@@ -21,9 +21,9 @@ class ExtensionLoader {
 
         ServiceLoader.load(Extension.class)
                 .stream()
-                .peek(provider -> log.debug("Found extension: {}", provider.type()))
+                .peek(provider -> log.debug("Found extension (filter not applied): {}", provider.type()))
                 .filter(resolver.get(InternalPropertyProviders.EXTENSION_FILTER))
-                .peek(provider -> log.debug("Using extension {}", provider.type()))
+                .peek(provider -> log.debug("Using extension (filter applied): {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
                 .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                 .forEach(loaded::add);

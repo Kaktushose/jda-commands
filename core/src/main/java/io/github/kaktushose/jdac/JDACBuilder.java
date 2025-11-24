@@ -27,6 +27,7 @@ import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
@@ -45,9 +46,7 @@ import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
-import net.dv8tion.jda.api.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,7 +135,7 @@ public class JDACBuilder {
                 ctx -> new MessageResolver(ctx.get(I18N), ctx.get(EMOJI_RESOLVER)));
 
         addFallback(EMOJI_RESOLVER, ctx -> {
-            registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
+            Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
 
             List<ApplicationEmoji> applicationEmojis = ctx.get(JDA_CONTEXT).applicationEmojis();
             return new EmojiResolver(applicationEmojis);
@@ -150,39 +149,6 @@ public class JDACBuilder {
 
         // must be set
         addFallback(JDA_CONTEXT, _ -> jdaContext);
-    }
-
-    private void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
-        context.performTask(jda -> emojiSources.stream()
-                .map(EmojiSource::get)
-                .map(Map::entrySet)
-                .flatMap(Set::stream)
-                .forEach(entry -> {
-                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
-                            .mapToResult()
-                            .complete();
-
-                    if (result.isSuccess()) {
-                        log.debug("Registered new application emoji with name {}", entry.getKey());
-                        return;
-                    }
-
-                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
-                        List<String> codes = e.getSchemaErrors()
-                                .stream()
-                                .map(ErrorResponseException.SchemaError::getErrors)
-                                .flatMap(List::stream)
-                                .map(ErrorResponseException.ErrorCode::getCode)
-                                .toList();
-
-                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
-                            log.debug("Application emoji with name {} already registered", entry.getKey());
-                            return;
-                        }
-                    }
-
-                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
-                }), true);
     }
 
     private <T> void addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
