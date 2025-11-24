@@ -95,7 +95,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
         /// the value of this property can only be provided by JDA-Commands itself.
         /// Applies to services like [MessageResolver] or [I18n]
         ///
-        /// @see Property#LOADABLE
+        /// @see Property#PROVIDED
         PROVIDED,
 
         /// the value of this property can only be provided by the user using methods in [JDACBuilder]
