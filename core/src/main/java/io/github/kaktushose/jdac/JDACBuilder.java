@@ -309,6 +309,14 @@ public class JDACBuilder {
         return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
     }
 
+    /// Allows the dynamic configuration of JDA-Commands by setting [Property]s directly.
+    ///
+    /// @param property the [Property] to be set
+    /// @param supplier the function providing the custom value for it ([PropertyProvider#supplier()])
+    public <T> JDACBuilder setProperty(Property<T> property, Function<PropertyProvider.Context, T> supplier) {
+        return addUserProperty(property, supplier);
+    }
+
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
