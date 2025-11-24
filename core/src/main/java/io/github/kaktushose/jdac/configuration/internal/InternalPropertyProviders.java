@@ -8,7 +8,7 @@ public interface InternalPropertyProviders {
 
     /// only user settable
     Property<Embeds.Configuration> EMBED_CONFIG =
-            new Property.Singleton<>("EMEBED_CONFIG", Property.Category.USER, Embeds.Configuration.class);
+            new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER, Embeds.Configuration.class);
 
     /// only user settable
     Property<ExtensionFilter> EXTENSION_FILTER =
