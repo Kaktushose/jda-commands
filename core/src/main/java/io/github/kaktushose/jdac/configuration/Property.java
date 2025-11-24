@@ -195,6 +195,25 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              GUILD_SCOPE_PROVIDER
      );
 
+     Collection<Property<?>> SETTABLE = List.of(
+             GLOBAL_COMMAND_CONFIG,
+             GLOBAL_REPLY_CONFIG,
+             PACKAGES,
+             EXPIRATION_STRATEGY,
+             LOCALIZE_COMMANDS,
+             SHUTDOWN_JDA,
+             EXTENSION_DATA,
+             EXTENSION_FILTER,
+             EMBED_CONFIG
+     );
+
+     Collection<Property<?>> PROVIDED = List.of(
+             I18N,
+             MESSAGE_RESOLVER,
+             EMOJI_RESOLVER,
+             MERGED_CLASS_FINDER
+     );
+
     record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
                          FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
 
