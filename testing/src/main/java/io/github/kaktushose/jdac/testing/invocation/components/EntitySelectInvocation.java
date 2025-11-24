@@ -19,11 +19,11 @@ public final class EntitySelectInvocation extends ComponentInvocation<EntitySele
         super(context, customId, lastMessage, EntitySelectInteractionEvent.class);
 
         mentions = mock(Mentions.class);
-        lenient().when(event.getMentions()).thenReturn(mentions);
+        lenient().when(event.getMentions()).then(_ -> mentions);
 
         EntitySelectInteraction interaction = mock(EntitySelectInteraction.class);
         lenient().when(event.getInteraction()).thenReturn(interaction);
-        lenient().when(interaction.getMentions()).thenReturn(mentions);
+        lenient().when(interaction.getMentions()).then(_ -> mentions);
     }
 
     /// This framework doesn't provide functionality for mirroring the entity selection. [Mentions] must be mocked on
