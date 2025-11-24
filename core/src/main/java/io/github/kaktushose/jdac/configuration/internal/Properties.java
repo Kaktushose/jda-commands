@@ -29,7 +29,7 @@ public class Properties {
                     throw new ConfigurationException("provided-property", entry("property", provider.type().name()));
                 }
             }
-            case USER -> {
+            case USER_SETTABLE -> {
                 if (priority != Properties.USER_PRIORITY && priority != Properties.FALLBACK_PRIORITY) {
                     throw new ConfigurationException("user-property", entry("property", provider.type().name()));
                 }

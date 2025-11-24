@@ -44,9 +44,9 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 ///
 /// # Categories
 /// Properties are primarily categorized by 3 groups:
-/// - _user settable_ -> only configurable by using the designated [JDACBuilder] method
-/// - _user settable + loadable by extension_ -> above applies plus values can be provided by [Extension]s
-/// - _provided_ -> service that are provided by JDA-Commands, the user can use but not create/replace them
+/// - [_user settable_][Category#USER_SETTABLE] -> only configurable by using the designated [JDACBuilder] method
+/// - [_user settable + loadable from extension_][Category#LOADABLE] -> above applies plus values can be provided by [Extension]s
+/// - [_provided_][Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not create/replace them
 ///
 /// # Types
 /// Additionally, there are 3 types of properties:
@@ -94,94 +94,129 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
         /// the value of this property can only be provided by JDA-Commands itself.
         /// Applies to services like [MessageResolver] or [I18n]
+        ///
+        /// @see Property#LOADABLE
         PROVIDED,
 
         /// the value of this property can only be provided by the user using methods in [JDACBuilder]
-        USER,
+        ///
+        /// @see Property#USER_SETTABLE
+        USER_SETTABLE,
 
         /// the value of this property can be provided by either the user using [JDACBuilder] or/and
         /// loaded from [Extension]s
-        EXTENSION
+        ///
+        /// @see Property#LOADABLE
+        LOADABLE
     }
 
 
-    /// settable by user + loadable by extension
+    // -------- settable by user + loadable from extension --------
+
+    /// @see JDACBuilder#classFinders(ClassFinder...)
     Property<Collection<ClassFinder>> CLASS_FINDER =
-            new Enumeration<>("CLASS_FINDER", Category.EXTENSION, ClassFinder.class, OVERRIDE);
+            new Enumeration<>("CLASS_FINDER", Category.LOADABLE, ClassFinder.class, OVERRIDE);
 
+    /// @see JDACBuilder#emojiSource(EmojiSource...)
     Property<Collection<EmojiSource>> EMOJI_SOURCES =
-            new Enumeration<>("EMOJI_SOURCES", Category.EXTENSION, EmojiSource.class, OVERRIDE);
+            new Enumeration<>("EMOJI_SOURCES", Category.LOADABLE, EmojiSource.class, OVERRIDE);
 
+    /// @see JDACBuilder#descriptor(Descriptor)
     Property<Descriptor> DESCRIPTOR =
-            new Singleton<>("DESCRIPTOR", Category.EXTENSION, Descriptor.class);
+            new Singleton<>("DESCRIPTOR", Category.LOADABLE, Descriptor.class);
 
+    /// @see JDACBuilder#localizer(Localizer)
     Property<Localizer> LOCALIZER =
-            new Singleton<>("LOCALIZER", Category.EXTENSION, Localizer.class);
+            new Singleton<>("LOCALIZER", Category.LOADABLE, Localizer.class);
 
+    /// @see JDACBuilder#instanceProvider(InteractionControllerInstantiator)
     Property<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.EXTENSION, InteractionControllerInstantiator.class);
+            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE, InteractionControllerInstantiator.class);
 
+    // todo
     Property<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-            new Enumeration<>("MIDDLEWARE", Category.EXTENSION, castUnsafe(Map.Entry.class), ACCUMULATE);
+            new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(Map.Entry.class), ACCUMULATE);
 
+    // todo
     Property<Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Mapping<>("TYPE_ADAPTER", Category.EXTENSION, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+            new Mapping<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
+    // todo
     Property<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-            new Mapping<>("VALIDATOR", Category.EXTENSION, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+            new Mapping<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
+    /// @see JDACBuilder#permissionsProvider(PermissionsProvider)
     Property<PermissionsProvider> PERMISSION_PROVIDER =
-            new Singleton<>("PERMISSION_PROVIDER", Category.EXTENSION, PermissionsProvider.class);
+            new Singleton<>("PERMISSION_PROVIDER", Category.LOADABLE, PermissionsProvider.class);
 
+    /// @see JDACBuilder#errorMessageFactory(ErrorMessageFactory)
     Property<ErrorMessageFactory> ERROR_MESSAGE_FACTORY =
-            new Singleton<>("ERROR_MESSAGE_FACTORY", Category.EXTENSION, ErrorMessageFactory.class);
+            new Singleton<>("ERROR_MESSAGE_FACTORY", Category.LOADABLE, ErrorMessageFactory.class);
 
+    /// @see JDACBuilder#guildScopeProvider(GuildScopeProvider)
     Property<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
-            new Singleton<>("GUILD_SCOPE_PROVIDER", Category.EXTENSION, GuildScopeProvider.class);
+            new Singleton<>("GUILD_SCOPE_PROVIDER", Category.LOADABLE, GuildScopeProvider.class);
 
-    /// only user settable
-     Property<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
-            new Singleton<>("GLOBAL_COMMAND_CONFIG", Category.USER, CommandDefinition.CommandConfig.class);
+    // -------- user settable --------
+    /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
+    Property<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
+            new Singleton<>("GLOBAL_COMMAND_CONFIG", Category.USER_SETTABLE, CommandDefinition.CommandConfig.class);
 
-     Property<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
-            new Singleton<>("GLOBAL_REPLY_CONFIG", Category.USER, InteractionDefinition.ReplyConfig.class);
+    /// @see JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)
+    Property<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
+            new Singleton<>("GLOBAL_REPLY_CONFIG", Category.USER_SETTABLE, InteractionDefinition.ReplyConfig.class);
 
-     Property<Collection<String>> PACKAGES =
-            new Enumeration<>("PACKAGES", Category.USER, String.class, ACCUMULATE);
+    /// @see JDACBuilder#packages(String...)
+    Property<Collection<String>> PACKAGES =
+            new Enumeration<>("PACKAGES", Category.USER_SETTABLE, String.class, ACCUMULATE);
 
-     Property<ExpirationStrategy> EXPIRATION_STRATEGY =
-            new Singleton<>("EXPIRATION_STRATEGY", Category.USER, ExpirationStrategy.class);
+    /// @see JDACBuilder#expirationStrategy(ExpirationStrategy)
+    Property<ExpirationStrategy> EXPIRATION_STRATEGY =
+            new Singleton<>("EXPIRATION_STRATEGY", Category.USER_SETTABLE, ExpirationStrategy.class);
 
-     Property<Boolean> LOCALIZE_COMMANDS =
-            new Singleton<>("LOCALIZE_COMMANDS", Category.USER, Boolean.class);
+    /// @see JDACBuilder#localizeCommands(boolean)
+    Property<Boolean> LOCALIZE_COMMANDS =
+            new Singleton<>("LOCALIZE_COMMANDS", Category.USER_SETTABLE, Boolean.class);
 
-     Property<Boolean> SHUTDOWN_JDA =
-            new Singleton<>("SHUTDOWN_JDA", Category.USER, Boolean.class);
+    /// @see JDACBuilder#shutdownJDA(boolean)
+    Property<Boolean> SHUTDOWN_JDA =
+            new Singleton<>("SHUTDOWN_JDA", Category.USER_SETTABLE, Boolean.class);
 
-     Property<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
-            new Mapping<>("EXTENSION_DATA", Category.USER, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+    /// @see JDACBuilder#extensionData(Extension.Data...)
+    Property<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
+            new Mapping<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
 
+    /// @see JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)
     Property<ExtensionFilter> EXTENSION_FILTER =
-            new Property.Singleton<>("EXTENSION_FILTER", Property.Category.USER, ExtensionFilter.class);
+            new Property.Singleton<>("EXTENSION_FILTER", Property.Category.USER_SETTABLE, ExtensionFilter.class);
 
+    /// @see JDACBuilder#embeds(Consumer)
     Property<Consumer<EmbedConfig>> EMBED_CONFIG =
-            new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER, Helpers.castUnsafe(Consumer.class));
+            new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, Helpers.castUnsafe(Consumer.class));
 
-    /// only created
-     Property<I18n> I18N =
+    // -------- provided ------------
+    // todo
+    Property<I18n> I18N =
             new Singleton<>("I18N", Category.PROVIDED, I18n.class);
 
-     Property<MessageResolver> MESSAGE_RESOLVER =
+    // todo
+    Property<MessageResolver> MESSAGE_RESOLVER =
             new Singleton<>("MESSAGE_RESOLVER", Category.PROVIDED, MessageResolver.class);
 
-     Property<EmojiResolver> EMOJI_RESOLVER =
+    // todo
+    Property<EmojiResolver> EMOJI_RESOLVER =
             new Singleton<>("EMOJI_RESOLVER", Category.PROVIDED, EmojiResolver.class);
 
-     Property<ClassFinder> MERGED_CLASS_FINDER =
+    // todo
+    Property<ClassFinder> MERGED_CLASS_FINDER =
              new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class);
 
 
-     Collection<Property<?>> LOADABLE = List.of(
+    /// A collection consisting of all [Property]s that are
+    /// [settable by the user and loadable through extensions][Category#LOADABLE]
+    ///
+    /// @see Category#LOADABLE
+    Collection<Property<?>> LOADABLE = Helpers.propertyCategoryList(Category.LOADABLE, List.of(
              CLASS_FINDER,
              EMOJI_SOURCES,
              DESCRIPTOR,
@@ -193,9 +228,12 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              PERMISSION_PROVIDER,
              ERROR_MESSAGE_FACTORY,
              GUILD_SCOPE_PROVIDER
-     );
+     ));
 
-     Collection<Property<?>> SETTABLE = List.of(
+    /// A collection consisting of all [Property]s that are [settable by the user][Category#USER_SETTABLE]
+    ///
+    /// @see Category#USER_SETTABLE
+    Collection<Property<?>> USER_SETTABLE = Helpers.propertyCategoryList(Category.USER_SETTABLE, List.of(
              GLOBAL_COMMAND_CONFIG,
              GLOBAL_REPLY_CONFIG,
              PACKAGES,
@@ -205,14 +243,18 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              EXTENSION_DATA,
              EXTENSION_FILTER,
              EMBED_CONFIG
-     );
+     ));
 
-     Collection<Property<?>> PROVIDED = List.of(
+    /// A collection consisting of all [Property]s that are [provided by JDA-Commands][Category#PROVIDED]
+    ///
+    /// @see Category#PROVIDED
+    Collection<Property<?>> PROVIDED = Helpers.propertyCategoryList(Category.PROVIDED, List.of(
              I18N,
              MESSAGE_RESOLVER,
              EMOJI_RESOLVER,
              MERGED_CLASS_FINDER
-     );
+     ));
+
 
     record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
                          FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}

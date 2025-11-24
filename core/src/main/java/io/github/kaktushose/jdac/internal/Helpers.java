@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.CommandConfig;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
@@ -254,5 +255,15 @@ public final class Helpers {
 
                     log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
                 }), true);
+    }
+
+    public static Collection<Property<?>> propertyCategoryList(Property.Category category, Collection<Property<?>> properties) {
+        for (Property<?> property : properties) {
+            if (property.category() != (category)) {
+                throw new IllegalArgumentException("The property %s doesn't belong to category %s!".formatted(property.name(), category));
+            }
+        }
+
+        return properties;
     }
 }
