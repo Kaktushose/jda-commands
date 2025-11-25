@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.dispatching.adapter.internal;
 
+import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext;
 import io.github.kaktushose.jdac.message.i18n.I18n;
@@ -19,7 +20,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Function;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getUserLocale;
@@ -46,7 +46,7 @@ public class TypeAdapters {
 
     /// Constructs a new TypeAdapters.
     @SuppressWarnings("unchecked")
-    public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters, I18n i18n) {
+    public TypeAdapters(Map<AdapterType<?, ?>, TypeAdapter<?, ?>> typeAdapters, I18n i18n) {
         proteus = Proteus.global();
 
         proteus.from(INTEGER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
@@ -71,7 +71,7 @@ public class TypeAdapters {
                 .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel), IGNORE);
 
         typeAdapters.forEach(((entry, adapter) ->
-                proteus.register((Type<Object>) entry.getKey(), (Type<Object>) entry.getValue(), (Mapper.UniMapper<Object, Object>) adapter))
+                proteus.register((Type<Object>) entry.source(), (Type<Object>) entry.target(), (Mapper.UniMapper<Object, Object>) adapter))
         );
     }
 

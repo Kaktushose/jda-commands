@@ -2,9 +2,9 @@ package io.github.kaktushose.jdac;
 
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -13,6 +13,7 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
 import io.github.kaktushose.jdac.dispatching.FrameworkContext;
+import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
@@ -237,7 +238,7 @@ public class JDACBuilder {
     /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     public JDACBuilder adapter(Class<?> source, Class<?> target, TypeAdapter<?, ?> adapter) {
-        return addUserProperty(TYPE_ADAPTER, _ -> Map.of(Map.entry(Type.of(source), Type.of(target)), adapter));
+        return addUserProperty(TYPE_ADAPTER, _ -> Map.of(new AdapterType<>(Type.of(source), Type.of(target)), adapter));
     }
 
     /// @param annotation The annotation for which the given [Validator] should be called
