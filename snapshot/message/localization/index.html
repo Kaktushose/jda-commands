@@ -1881,7 +1881,7 @@ We implement this interface based on our <code>I18n</code> class as described ab
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
 You can provide an own instance of the <a href="https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html">Fluava</a> class by calling
 the appropriate builder method.</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">ENGLISH</span><span class="p">);</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">.</span><span class="na">localizer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FluavaLocalizer</span><span class="p">(</span><span class="n">myFluava</span><span class="p">))</span>
@@ -1890,7 +1890,7 @@ the appropriate builder method.</p>
 <div class="admonition tip">
 <p class="admonition-title">Fallback Bundle</p>
 <p>To change the fallback bundle you have to pass it to the <a href="https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html#create(java.util.Locale)"><code>Fluava#create(Locale)</code></a> method. In the above example the fallback locale
-is German. The default fallback bundle is English.</p>
+is German. The default fallback locale of JDA-Commands is English.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
