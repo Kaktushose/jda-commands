@@ -190,7 +190,7 @@ You can provide an own instance of the [Fluava](https://goldmensch.github.io/flu
 the appropriate builder method.
 
 ```java
-Fluava myFluava = Fluava.create(Locale.ENGLISH);
+Fluava myFluava = Fluava.create(Locale.GERMAN);
 
 JDACommands.builder(jda, Main.class)
     .localizer(new FluavaLocalizer(myFluava))
@@ -199,7 +199,7 @@ JDACommands.builder(jda, Main.class)
 
 !!! tip "Fallback Bundle"
     To change the fallback bundle you have to pass it to the <fluava -> Fluava#create(Locale)> method. In the above example the fallback locale
-    is German. The default fallback bundle is English.
+    is German. The default fallback locale of JDA-Commands is English.
 
 !!! note
     JDA-Commands will set [`FluavaBuilder.FunctionConfig#fallbackToString(boolean)`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))
