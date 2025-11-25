@@ -2,8 +2,10 @@ package io.github.kaktushose.jdac.exceptions.internal;
 
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
-import io.github.kaktushose.jdac.configuration.ExtensionException;
-import io.github.kaktushose.jdac.exceptions.*;
+import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import org.jspecify.annotations.Nullable;
 
@@ -18,6 +20,7 @@ public sealed class JDACException extends RuntimeException
 
     protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
 
+    protected Bundle bundle = errorMessages;
     private final String key;
     private final Map<String, @Nullable Object> placeholder;
 
@@ -85,10 +88,6 @@ public sealed class JDACException extends RuntimeException
     }
 
     private String resolveMessage(String key, Map<String, @Nullable Object> placeholder) {
-        Bundle bundle = switch (this) {
-            case ExtensionException e -> e.bundle();
-            case JDACException _ -> errorMessages;
-        };
         return bundle.apply(Locale.ENGLISH, key, placeholder);
     }
 }

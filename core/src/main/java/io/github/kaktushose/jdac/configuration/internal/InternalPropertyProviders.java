@@ -3,7 +3,9 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public interface InternalPropertyProviders {
 
     Property<Embeds.Configuration> EMBED_CONFIG_IMPL =

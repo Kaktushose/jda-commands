@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
+@ApiStatus.Internal
 @SuppressWarnings("ClassCanBeRecord")
 class Executor {
     private static final ScopedValue<SequencedMap<Property<?>, PropertyProvider<?>>> STACK = ScopedValue.newInstance();

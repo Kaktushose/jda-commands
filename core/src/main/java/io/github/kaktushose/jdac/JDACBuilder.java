@@ -78,7 +78,12 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyP
 /// - [#adapter(Class, Class, TypeAdapter)]
 /// - [#validator(Class, Validator)]
 ///
-/// which will add to the default and loaded ones.
+/// which will _add to the default_ and loaded ones and
+///
+/// - [#classFinders(ClassFinder...)]
+/// - [#emojiSource(EmojiSource...)]
+///
+/// which will _override the default_ but add to the loaded ones.
 ///
 /// These implementations of [Extension] can be additionally configured by adding the according implementation of [Extension.Data]
 /// by calling [#extensionData(Extension.Data...)]. (if supported by the extension)
@@ -88,7 +93,7 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyP
 ///
 /// ## Example
 /// ```java
-/// JDACommands jdaCommands = JDACommands.builder(jda, Main.class)
+/// JDACommands jdaCommands = JDACommands.builder(jda)
 ///     .middleware(Priority.NORMAL, new TestMiddleware())
 ///     .globalReplyConfig(new InteractionDefinition.ReplyConfig(false, false, true))
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
@@ -108,7 +113,7 @@ public class JDACBuilder {
     JDACBuilder(JDAContext jdaContext) {
         // defaults
         addFallback(PACKAGES, _ -> List.of());
-        addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(FilterStrategy.EXCLUDE, List.of()));
+        addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(ExtensionFilter.FilterStrategy.EXCLUDE, List.of()));
 
         addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
         addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandConfig());
@@ -183,7 +188,7 @@ public class JDACBuilder {
 
     /// @param classFinders the to be used [ClassFinder]s
     ///
-    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// @apiNote This method overrides the default/fallback value but adds to the loaded ones.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(String...)] too.
     public JDACBuilder classFinders(ClassFinder... classFinders) {
@@ -194,7 +199,7 @@ public class JDACBuilder {
     /// [JDA#createApplicationEmoji(String, Icon)].
     ///
     /// @param sources the to be used [EmojiSource]s
-    /// @apiNote This method overrides the underlying collection instead of adding to it.
+    /// @apiNote This method overrides the default/fallback value but adds to the loaded ones.
     /// If you want to add own [EmojiSource]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [EmojiSource#reflective(String...)] too.
     public JDACBuilder emojiSource(EmojiSource... sources) {
@@ -302,11 +307,13 @@ public class JDACBuilder {
 
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
-    /// @param strategy the filtering strategy to be used either [FilterStrategy#INCLUDE] or [FilterStrategy#EXCLUDE]
+    /// @param strategy the filtering strategy to be used either [ExtensionFilter.FilterStrategy#INCLUDE] or [ExtensionFilter.FilterStrategy#EXCLUDE]
     /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.
-    public JDACBuilder filterExtensions(FilterStrategy strategy, String... classes) {
+    ///
+    /// @see ExtensionFilter
+    public JDACBuilder filterExtensions(ExtensionFilter.FilterStrategy strategy, String... classes) {
         return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
     }
 
@@ -314,6 +321,12 @@ public class JDACBuilder {
     ///
     /// @param property the [Property] to be set
     /// @param supplier the function providing the custom value for it ([PropertyProvider#supplier()])
+    ///
+    /// @see Property
+    /// @see PropertyProvider#supplier()
+    ///
+    /// @implNote the values will be added as [PropertyProvider]s with priority set to [Integer#MAX_VALUE]
+    /// like they were set by any other method of this class.
     public <T> JDACBuilder setProperty(Property<T> property, Function<PropertyProvider.Context, T> supplier) {
         return addUserProperty(property, supplier);
     }
@@ -362,11 +375,4 @@ public class JDACBuilder {
         }
     }
 
-    /// The two available filter strategies
-    public enum FilterStrategy {
-        /// includes the defined classes
-        INCLUDE,
-        /// excludes the defined classes
-        EXCLUDE
-    }
 }

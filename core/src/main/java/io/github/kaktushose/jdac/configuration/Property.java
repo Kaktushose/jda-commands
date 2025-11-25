@@ -34,22 +34,22 @@ import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour
 import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour.OVERRIDE;
 import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 
-/// # General
-/// Properties represent...
-/// - config options to adjust the behaviour of JDA-Commands (like [JDACBuilder#shutdownJDA(boolean)])
-/// - implementations of exposed services (like [JDACBuilder#localizer(Localizer)])
-/// - or services provided by the framework that are exposed to the user (like [I18n])
+/// # Properties
+/// An [Property] represent either...
+/// - a config option to adjust the behaviour of JDA-Commands (like [JDACBuilder#shutdownJDA(boolean)])
+/// - an implementation of exposed services (like [Localizer])
+/// - or a service provided by the framework that are exposed to the user (like [I18n])
 ///
 /// Although the user can [provide][PropertyProvider] _custom values_ for these properties,
 /// the properties itself are all defined by the JDA-Commands and exposed as public static fields in this interface.
 ///
-/// # Categories
+/// ## Categories
 /// Properties are primarily categorized by 3 groups:
 /// - [_user settable_][Category#USER_SETTABLE] -> only configurable by using the designated [JDACBuilder] method
 /// - [_user settable + loadable from extension_][Category#LOADABLE] -> above applies plus values can be provided by [Extension]s
 /// - [_provided_][Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not create/replace them
 ///
-/// # Types
+/// ## Types
 /// Additionally, there are 3 types of properties:
 /// - [Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
 /// - [Mapping] -> the property represents a Map with a key and value. All [providers][PropertyProvider] will be
@@ -58,7 +58,6 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 ///
 /// The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
 /// providers or overwritten is defined by [Property#fallbackBehaviour()].
-///
 @SuppressWarnings("unused")
 public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Mapping {
 
@@ -221,7 +220,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
             new Mapping<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
 
-    /// @see JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)
+    /// @see JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)
     Property<ExtensionFilter> EXTENSION_FILTER =
             new Property.Singleton<>("EXTENSION_FILTER", Property.Category.USER_SETTABLE, ExtensionFilter.class);
 

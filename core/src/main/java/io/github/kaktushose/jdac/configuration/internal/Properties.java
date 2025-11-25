@@ -3,11 +3,13 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
+@ApiStatus.Internal
 public class Properties {
     public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
 

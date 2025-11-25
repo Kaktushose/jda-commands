@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.configuration.internal;
 
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+@ApiStatus.Internal
 class ExtensionLoader {
     private static final Logger log = LoggerFactory.getLogger(ExtensionLoader.class);
 
