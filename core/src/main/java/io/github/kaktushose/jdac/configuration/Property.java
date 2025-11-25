@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
@@ -110,9 +111,21 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
         LOADABLE
     }
 
+    /// A [Mapping] property basically represents a [Map], where each value belongs target a specific key.
+    ///
+    /// @param category the [Category] of this property
+    /// @param key the key type
+    /// @param value the value type
+    /// @param name the property's name
+    /// @param fallbackBehaviour the property's [FallbackBehaviour]
     record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
                          FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
 
+    /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
+    ///
+    /// @param name the property's name
+    /// @param category the property's category
+    /// @param type the property's type
     record Singleton<T>(String name, Category category, Class<T> type) implements Property<T> {
         @Override
         public FallbackBehaviour fallbackBehaviour() {
@@ -120,6 +133,12 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
         }
     }
 
+    /// A [Enumeration] property basically represents a [Collection] of multiple values.
+    ///
+    /// @param category the property's category
+    /// @param name the property's name
+    /// @param type the property's type
+    /// @param fallbackBehaviour the property's [FallbackBehaviour]
     record Enumeration<E>(String name, Category category, Class<E> type,
                           FallbackBehaviour fallbackBehaviour) implements Property<Collection<E>> {}
 
@@ -146,15 +165,18 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
             new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE, InteractionControllerInstantiator.class);
 
-    // todo
+    /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
+    /// @see JDACBuilder#middleware(Priority, Middleware)
     Property<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
             new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(Map.Entry.class), ACCUMULATE);
 
-    // todo
-    Property<Map<Map.Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
+    /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
+    /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
+    Property<Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
             new Mapping<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
-    // todo
+    /// The VALIDATOR property maps a [Validator] to its identifying annotation.
+    /// @see JDACBuilder#validator(Class, Validator)
     Property<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
             new Mapping<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
@@ -208,19 +230,31 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, Helpers.castUnsafe(Consumer.class));
 
     // -------- provided ------------
-    // todo
+    /// The [I18n] service provided by JDA-Commands.
+    /// Needs the values of [#DESCRIPTOR] and [#LOCALIZER].
+    ///
+    /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     Property<I18n> I18N =
             new Singleton<>("I18N", Category.PROVIDED, I18n.class);
 
-    // todo
+    /// The [MessageResolver] service provided byt JDA-Commands.
+    /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].
+    ///
+    /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     Property<MessageResolver> MESSAGE_RESOLVER =
             new Singleton<>("MESSAGE_RESOLVER", Category.PROVIDED, MessageResolver.class);
 
-    // todo
+    /// The [EmojiResolver] service provided by JDA-Commands.
+    /// Needs the value of [#EMOJI_RESOLVER].
+    ///
+    /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     Property<EmojiResolver> EMOJI_RESOLVER =
             new Singleton<>("EMOJI_RESOLVER", Category.PROVIDED, EmojiResolver.class);
 
-    // todo
+    /// An [ClassFinder] instance that is backed by all [ClassFinder] of [#CLASS_FINDER].
+    /// It will search in all registered [ClassFinder] for the requested class.
+    ///
+    /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     Property<ClassFinder> MERGED_CLASS_FINDER =
              new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class);
 
