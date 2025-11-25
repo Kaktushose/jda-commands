@@ -60,88 +60,6 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// providers or overwritten is defined by [Property#fallbackBehaviour()].
 @SuppressWarnings("unused")
 public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Mapping {
-
-    /// Whether the fallback values provided by JDA-Commands should be accumulated together
-    /// with other user provided [PropertyProvider]s for this property.
-    ///
-    /// @return the fallback behaviour
-    FallbackBehaviour fallbackBehaviour();
-
-    /// The name of the property is a user and machine-readable unique identifier for a property
-    ///
-    /// @return the name of the property
-    String name();
-
-    /// The category of the property defines the way a value for it can be provided.
-    ///
-    /// @return the category of the property
-    Category category();
-
-
-    /// The fallback behaviour defines whether the fallback value provided by JDA-Commands should be
-    /// accumulated together with the user defined ones or overwritten.
-    /// Applies only to [Enumeration] and [Mapping].
-    enum FallbackBehaviour {
-        /// the fallback value should be overridden
-        OVERRIDE,
-
-        /// the fallback value should be accumulated with the user provided ones
-        ACCUMULATE
-    }
-
-    /// The category of a property defines how values for it can be provided.
-    enum Category {
-
-        /// the value of this property can only be provided by JDA-Commands itself.
-        /// Applies to services like [MessageResolver] or [I18n]
-        ///
-        /// @see Property#PROVIDED
-        PROVIDED,
-
-        /// the value of this property can only be provided by the user using methods in [JDACBuilder]
-        ///
-        /// @see Property#USER_SETTABLE
-        USER_SETTABLE,
-
-        /// the value of this property can be provided by either the user using [JDACBuilder] or/and
-        /// loaded from [Extension]s
-        ///
-        /// @see Property#LOADABLE
-        LOADABLE
-    }
-
-    /// A [Mapping] property basically represents a [Map], where each value belongs target a specific key.
-    ///
-    /// @param category the [Category] of this property
-    /// @param key the key type
-    /// @param value the value type
-    /// @param name the property's name
-    /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
-                         FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
-
-    /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
-    ///
-    /// @param name the property's name
-    /// @param category the property's category
-    /// @param type the property's type
-    record Singleton<T>(String name, Category category, Class<T> type) implements Property<T> {
-        @Override
-        public FallbackBehaviour fallbackBehaviour() {
-            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Singleton");
-        }
-    }
-
-    /// A [Enumeration] property basically represents a [Collection] of multiple values.
-    ///
-    /// @param category the property's category
-    /// @param name the property's name
-    /// @param type the property's type
-    /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    record Enumeration<E>(String name, Category category, Class<E> type,
-                          FallbackBehaviour fallbackBehaviour) implements Property<Collection<E>> {}
-
-
     // -------- settable by user + loadable from extension --------
 
     /// @see JDACBuilder#classFinders(ClassFinder...)
@@ -226,7 +144,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// @see JDACBuilder#embeds(Consumer)
     Property<Consumer<EmbedConfig>> EMBED_CONFIG =
-            new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, Helpers.castUnsafe(Consumer.class));
+            new Property.Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, castUnsafe(Consumer.class));
 
     // -------- provided ------------
     /// The [I18n] service provided by JDA-Commands.
@@ -300,4 +218,84 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              EMOJI_RESOLVER,
              MERGED_CLASS_FINDER
      ));
+
+    /// Whether the fallback values provided by JDA-Commands should be accumulated together
+    /// with other user provided [PropertyProvider]s for this property.
+    ///
+    /// @return the fallback behaviour
+    FallbackBehaviour fallbackBehaviour();
+
+    /// The name of the property is a user and machine-readable unique identifier for a property
+    ///
+    /// @return the name of the property
+    String name();
+
+    /// The category of the property defines the way a value for it can be provided.
+    ///
+    /// @return the category of the property
+    Category category();
+
+
+    /// The fallback behaviour defines whether the fallback value provided by JDA-Commands should be
+    /// accumulated together with the user defined ones or overwritten.
+    /// Applies only to [Enumeration] and [Mapping].
+    enum FallbackBehaviour {
+        /// the fallback value should be overridden
+        OVERRIDE,
+
+        /// the fallback value should be accumulated with the user provided ones
+        ACCUMULATE
+    }
+
+    /// The category of a property defines how values for it can be provided.
+    enum Category {
+
+        /// the value of this property can only be provided by JDA-Commands itself.
+        /// Applies to services like [MessageResolver] or [I18n]
+        ///
+        /// @see Property#PROVIDED
+        PROVIDED,
+
+        /// the value of this property can only be provided by the user using methods in [JDACBuilder]
+        ///
+        /// @see Property#USER_SETTABLE
+        USER_SETTABLE,
+
+        /// the value of this property can be provided by either the user using [JDACBuilder] or/and
+        /// loaded from [Extension]s
+        ///
+        /// @see Property#LOADABLE
+        LOADABLE
+    }
+
+    /// A [Mapping] property basically represents a [Map], where each value belongs target a specific key.
+    ///
+    /// @param category the [Category] of this property
+    /// @param key the key type
+    /// @param value the value type
+    /// @param name the property's name
+    /// @param fallbackBehaviour the property's [FallbackBehaviour]
+    record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
+                         FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
+
+    /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
+    ///
+    /// @param name the property's name
+    /// @param category the property's category
+    /// @param type the property's type
+    record Singleton<T>(String name, Category category, Class<T> type) implements Property<T> {
+        @Override
+        public FallbackBehaviour fallbackBehaviour() {
+            throw new UnsupportedOperationException("fallback behaviour not supported on Property.Singleton");
+        }
+    }
+
+    /// A [Enumeration] property basically represents a [Collection] of multiple values.
+    ///
+    /// @param category the property's category
+    /// @param name the property's name
+    /// @param type the property's type
+    /// @param fallbackBehaviour the property's [FallbackBehaviour]
+    record Enumeration<E>(String name, Category category, Class<E> type,
+                          FallbackBehaviour fallbackBehaviour) implements Property<Collection<E>> {}
 }
