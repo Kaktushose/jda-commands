@@ -194,15 +194,15 @@ jobs:
             }
 
             dependencies {
-              implementation("MVN_GROUP:MVN_ARTIFACT:${{ needs.check_if_release.outputs.version }}")
+              implementation("io.github.kaktushose:jda-commands:${{ needs.check_if_release.outputs.version }}")
             }
             ```
 
             ### Maven
             ```xml
             <dependency>
-              <groupId>MVN_GROUP</groupId>
-              <artifactId>MVN_ARTIFACT</artifactId>
+              <groupId>io.github.kaktushose</groupId>
+              <artifactId>jda-commands</artifactId>
               <version>${{ needs.check_if_release.outputs.version }}</version>
             </dependency>
             ```
