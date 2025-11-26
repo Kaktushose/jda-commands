@@ -127,12 +127,12 @@ which will remove all components attached to a message.
             
             @Command(value = "cookie clicker", desc = "Play cookie clicker")
             public void onClicker(CommandEvent event) {
-                event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
+                event.with().components("onCookie").reply("You've got { $count } cookie(s)!", entry("count", counter));
             }
             
             @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
             public void onCookie(ComponentEvent event) {
-                event.reply("You've got %s cookie(s)!", ++counter);
+                event.reply("You've got { $count } cookie(s)!", entry("count", counter++));
             }
         }
         ```

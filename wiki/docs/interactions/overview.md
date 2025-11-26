@@ -45,12 +45,12 @@ public class CookieClicker {
     
     @Command(value = "cookie clicker", desc = "Play cookie clicker")//(1)!
     public void onClicker(CommandEvent event) {
-        event.with().components("onCookie").reply("You've got %s cookie(s)!", counter);
+        event.with().components("onCookie").reply("You've got { $count } cookie(s)!", entry("count", counter));//(2)!
     }
     
     @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)//(2)!
     public void onCookie(ComponentEvent event) {
-        event.reply("You've got %s cookie(s)!", ++counter);
+        event.reply("You've got { $count } cookie(s)!", entry("count", counter++));//(2)!
     }
     
 }
