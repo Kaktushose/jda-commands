@@ -50,7 +50,7 @@ import java.lang.annotation.Target;
 /// ```java
 /// @SlashCommand("favourite food")
 /// public void foodCommand(CommandEvent event, String fruit, String vegetable) {
-///     event.reply("You've chosen: %s and %s", fruit, vegetable);
+///     event.reply(String.format("You've chosen: %s and %s", fruit, vegetable));
 /// }
 ///
 /// @AutoComplete(vale = "foodCommand", options = "fruit")
