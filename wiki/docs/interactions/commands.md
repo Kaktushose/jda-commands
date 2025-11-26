@@ -254,7 +254,7 @@ auto complete enabled. If you want to avoid that, you have to explicitly state t
     ```java
     @Command("favourite food")
     public void foodCommand(CommandEvent event, String fruit, String vegetable) {
-        event.reply("You've chosen: %s and %s", fruit, vegetable);
+        event.reply("You've chosen: %s and %s".formatted(fruit, vegetable));
     }
     
     @AutoComplete(vale = "foodCommand", options = "fruit")

@@ -42,23 +42,22 @@ If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/
 @Interaction
 public class CookieClicker {
 
-    private int count;
+    private int counter;
 
     @Command(value = "cookie clicker", desc = "Play cookie clicker")
     public void onClicker(CommandEvent event) {
-        event.with().components("onCookie", "onReset").reply("You've got %s cookie(s)!", count);
+        event.with().components("onCookie", "onReset").reply("You've got { $count } cookie(s)!", entry("count", counter));
     }
 
     @Button(value = "Collect", emoji = "🍪", style = ButtonStyle.SUCCESS)
     public void onCookie(ComponentEvent event) {
-        count++;
-        event.reply("You've got %s cookie(s)!", count);
+        event.reply("You've got { $count } cookie(s)!", entry("count", counter++));
     }
 
     @Button(value = "Reset", emoji = "🔄", style = ButtonStyle.DANGER)
     public void onReset(ComponentEvent event) {
         count = 0;
-        event.reply("You've got %s cookie(s)!", count);
+        event.reply("You've got { $count } cookie(s)!", entry("count", counter));
     }
 }
 ```
