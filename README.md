@@ -73,7 +73,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 <dependency>
    <groupId>io.github.kaktushose</groupId>
    <artifactId>jda-commands</artifactId>
-   <version>4.0.0</version>
+   <version>4.0.1</version>
 </dependency>
 ```
 
@@ -83,7 +83,7 @@ repositories {
    mavenCentral()
 }
 dependencies {
-   implementation("io.github.kaktushose:jda-commands:4.0.0")
+   implementation("io.github.kaktushose:jda-commands:4.0.1")
 }
 ```
 

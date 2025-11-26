@@ -15,7 +15,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
     <dependency>
        <groupId>io.github.kaktushose</groupId>
        <artifactId>jda-commands</artifactId>
-       <version>4.0.0</version>
+       <version>4.0.1</version>
     </dependency>
     ```
 === "Gradle (Kotlin DSL)"
@@ -24,7 +24,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation("io.github.kaktushose:jda-commands:4.0.0")
+       implementation("io.github.kaktushose:jda-commands:4.0.1")
     }
     ```
 === "Gradle (Groovy DSL)"
@@ -33,7 +33,7 @@ JDA-Commands is distributed through Maven Central. Alternatively you can downloa
        mavenCentral()
     }
     dependencies {
-       implementation 'io.github.kaktushose:jda-commands:4.0.0"'
+       implementation 'io.github.kaktushose:jda-commands:4.0.1"'
     }
     ```
 
@@ -50,7 +50,7 @@ Additionally to normal releases, snapshots of each commit to the main branch are
     <dependency>
         <groupId>io.github.kaktushose</groupId>
         <artifactId>jda-commands</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
     </dependency>
     ```
 === "Gradle (Kotlin DSL)"
@@ -59,7 +59,7 @@ Additionally to normal releases, snapshots of each commit to the main branch are
         maven("https://central.sonatype.com/repository/maven-snapshots/")
     }
     dependencies {
-        implementation("io.github.kaktushose:jda-commands:4.0.0-SNAPSHOT")
+        implementation("io.github.kaktushose:jda-commands:4.1.0-SNAPSHOT")
     }
     ```
 === "Gradle (Groovy DSL)"
@@ -68,7 +68,7 @@ Additionally to normal releases, snapshots of each commit to the main branch are
         maven { url = uri('https://central.sonatype.com/repository/maven-snapshots/') }
     }
     dependencies {
-        implementation 'io.github.kaktushose:jda-commands:4.0.0-SNAPSHOT"'
+        implementation 'io.github.kaktushose:jda-commands:4.1.0-SNAPSHOT"'
     }
     ```
 
