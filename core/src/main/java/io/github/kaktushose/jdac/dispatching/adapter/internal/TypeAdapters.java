@@ -49,6 +49,9 @@ public class TypeAdapters {
     public TypeAdapters(Map<Entry<Type<?>, Type<?>>, TypeAdapter<?, ?>> typeAdapters, I18n i18n) {
         proteus = Proteus.global();
 
+        // this technically doesn't belong here and is a band-aid fix until proteus can handle this properly
+        proteus.from(Type.of(Integer.class)).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
+
         proteus.from(INTEGER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
