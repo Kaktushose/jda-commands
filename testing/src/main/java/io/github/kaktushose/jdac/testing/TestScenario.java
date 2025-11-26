@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.testing;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
@@ -60,15 +61,15 @@ public class TestScenario {
     }
 
     public ButtonInvocation button(String button) {
-        return new ButtonInvocation(context, button, null);
+        return new ButtonInvocation(context, customId(button), null);
     }
 
     public StringSelectInvocation stringSelect(String menu) {
-        return new StringSelectInvocation(context, menu, null);
+        return new StringSelectInvocation(context, customId(menu), null);
     }
 
     public EntitySelectInvocation entitySelect(String menu) {
-        return new EntitySelectInvocation(context, menu, null);
+        return new EntitySelectInvocation(context, customId(menu), null);
     }
 
     public Optional<SlashCommandData> command(String command) {
@@ -89,6 +90,10 @@ public class TestScenario {
 
     public AutoCompleteInvocation autoComplete(String command, String option) {
         return new AutoCompleteInvocation(context, command, option);
+    }
+
+    private String customId(String component) {
+        return new CustomId("independent", String.valueOf((context.klass().getName() + component).hashCode())).merged();
     }
 
     public static final class Builder {

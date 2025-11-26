@@ -23,7 +23,7 @@ class ClassFinderTest {
 
     @Test
     void classFinder_withReflective_shouldReturnAllClasses() {
-        ClassFinder classFinder = ClassFinder.reflective();
+        ClassFinder classFinder = ClassFinder.reflective("definitions.description.environment");
 
         assertEquals(List.of(BaseClass.class, BaseClass.BaserInnerClass.class, NestedClass.class), classFinder.search(Interaction.class));
     }
@@ -37,7 +37,7 @@ class ClassFinderTest {
 
     @Test
     void reflective_withSuperclassSearch_shouldOnlyReturnSubclass() {
-        ClassFinder classFinder = ClassFinder.reflective();
+        ClassFinder classFinder = ClassFinder.reflective("definitions.description.environment");
 
         assertEquals(List.of(SubClass.class), classFinder.search(Implementation.class, BaseClass.class));
     }
