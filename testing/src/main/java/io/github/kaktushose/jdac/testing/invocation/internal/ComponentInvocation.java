@@ -26,6 +26,7 @@ public abstract sealed class ComponentInvocation<T extends GenericComponentInter
         super(context, klass, InteractionType.COMPONENT);
 
         when(event.getComponentId()).thenReturn(customId);
+        when(event.getCustomId()).thenReturn(customId);
         lenient().when(event.deferEdit()).thenReturn(mock(MessageEditCallbackAction.class));
 
         Message message = mock(Message.class);
