@@ -3,9 +3,10 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic.menu;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.selections.SelectOption;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu.Builder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /// An implementation of [Component] specific to [StringSelectMenu]
-public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, StringSelectMenu.Builder, StringSelectMenuDefinition> {
+public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
 
     private final Set<SelectOption> selectOptions = new HashSet<>();
     private final Collection<String> defaultValues = new HashSet<>();

@@ -6,10 +6,8 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

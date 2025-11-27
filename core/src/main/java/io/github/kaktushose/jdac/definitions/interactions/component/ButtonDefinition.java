@@ -7,9 +7,9 @@ import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.components.buttons.Button;
+import net.dv8tion.jda.api.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;

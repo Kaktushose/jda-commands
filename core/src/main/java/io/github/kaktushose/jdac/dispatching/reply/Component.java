@@ -11,7 +11,7 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.SelectMenuCompon
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.components.ActionComponent;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -70,7 +70,7 @@ import java.util.function.Function;
 ///
 /// @param <S> the concrete subtype of [Component]
 /// @param <T> the type of [ActionComponent] the [ComponentDefinition] represents
-/// @param <B> the type of builder the [ActionComponent uses]
+/// @param <B> the type of builder the [ActionComponent] uses
 /// @param <D> the type of [ComponentDefinition] this [Component] represents
 /// @see ButtonComponent
 /// @see StringSelectComponent

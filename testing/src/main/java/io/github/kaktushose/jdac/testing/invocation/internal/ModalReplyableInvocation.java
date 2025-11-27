@@ -6,7 +6,7 @@ import io.github.kaktushose.jdac.testing.reply.ModalEventReply;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.InteractionType;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.modals.Modal;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

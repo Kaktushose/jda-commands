@@ -99,3 +99,6 @@ no-text-input-found =
 
 # Helpers
 detached-entity = { $class } doesn't support detached entities and cannot be used for user installable apps.
+
+# ReplyAction
+illegal-cv2-usage = Components V2 aren't allowed here! Use the appropiate JDA-Commands API and remove them from this direct builder call.

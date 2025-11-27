@@ -20,16 +20,17 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
+import net.dv8tion.jda.api.components.buttons.Button;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.SelectOption;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu.Builder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jspecify.annotations.Nullable;
@@ -264,7 +265,7 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param components the [Component] to add
     /// @return the current instance for fluent interface
     public SendableReply components(Component<?, ?, ?, ?>... components) {
-        List<ItemComponent> items = new ArrayList<>();
+        List<ActionRowChildComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
                     .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
@@ -272,8 +273,7 @@ public sealed class ConfigurableReply permits SendableReply {
 
             if (replyAction.components()
                     .stream()
-                    .flatMap(itemComponents -> itemComponents.getActionComponents().stream())
-                    .map(ActionComponent::getId)
+                    .map(ActionComponent::getCustomId)
                     .filter(Objects::nonNull)
                     .map(CustomId::fromMerged)
                     .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
@@ -284,11 +284,11 @@ public sealed class ConfigurableReply permits SendableReply {
 
             var definition = findDefinition(component, definitionId, className);
 
-            ActionComponent item = switch (definition) {
+            ActionRowChildComponent item = switch (definition) {
                 case ButtonDefinition buttonDefinition -> {
                     var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
                     //only assign ids to non-link buttons
-                    yield button.getUrl() == null ? button.withId(createId(definition, component.independent()).merged()) : button;
+                    yield button.getUrl() == null ? button.withCustomId(createId(definition, component.independent()).merged()) : button;
                 }
 
                 case SelectMenuDefinition<?> menuDefinition -> {
@@ -319,12 +319,12 @@ public sealed class ConfigurableReply permits SendableReply {
         return new SendableReply(this);
     }
 
-    private ActionComponent resolve(ActionComponent item, Component<?, ?, ?, ?> component) {
+    private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
             case Button button -> button.withLabel(resolve(button.getLabel(), component));
             case EntitySelectMenu menu -> menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(),p -> resolve(p, component))).build();
             case StringSelectMenu menu -> {
-                StringSelectMenu.Builder copy = menu.createCopy();
+                Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
                         .stream()
                         .map(option -> option.withDescription(orNull(option.getDescription(), d -> resolve(d, component)))

@@ -10,9 +10,9 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.components.selections.SelectOption;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
