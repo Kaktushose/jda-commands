@@ -3,7 +3,7 @@ name: Create tail branch
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   check_if_release:
