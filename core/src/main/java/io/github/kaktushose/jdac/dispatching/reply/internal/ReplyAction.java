@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
+import io.github.kaktushose.jdac.dispatching.reply.ComponentReplyAction;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.entities.Message;
@@ -60,7 +61,7 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
         return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections);
     }
 
-    public final Message reply() {
+    public Message reply() {
         defer();
 
         if (getJdaEvent() instanceof ComponentInteraction interaction) {

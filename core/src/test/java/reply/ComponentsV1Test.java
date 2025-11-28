@@ -92,6 +92,8 @@ class ComponentsV1Test {
         assertEquals(SelectTarget.USER, entitySelectMenu.getDefaultValues().getFirst().getType());
     }
 
+    // TODO add test case with keepComponents and editReply false
+
     @Interaction
     public static class TestController {
 
