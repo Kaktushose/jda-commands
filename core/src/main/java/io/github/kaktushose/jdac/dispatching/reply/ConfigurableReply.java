@@ -3,8 +3,6 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ComponentReplyAction;
-import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.Component;
@@ -110,7 +108,7 @@ public final class ConfigurableReply extends MessageReply {
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(String message, Entry... placeholder) {
-        return new MessageReplyAction(replyAction.replyConfig()).reply(message, placeholder);
+        return replyAction.reply(message, placeholder);
     }
 
     /// Acknowledgement of this event with V2 Components.
