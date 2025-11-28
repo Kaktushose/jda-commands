@@ -21,6 +21,7 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
@@ -73,6 +74,10 @@ public sealed class ConfigurableReply permits SendableReply {
     /// @param replyAction the underlying [ReplyAction]
     public ConfigurableReply(ReplyAction replyAction) {
         this.replyAction = replyAction;
+    }
+
+    public CV2Reply cv2(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
+        return new CV2Reply(component, components, getReplyConfig());
     }
 
     /// Constructs a new ConfigurableReply.
