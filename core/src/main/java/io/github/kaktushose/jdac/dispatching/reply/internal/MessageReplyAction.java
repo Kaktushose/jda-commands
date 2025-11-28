@@ -32,15 +32,11 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 
-/// Handling of all the business logic of sending messages.
 @ApiStatus.Internal
 public final class MessageReplyAction extends ReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReplyAction.class);
 
-    /// Constructs a new MessageReplyAction.
-    ///
-    /// @param replyConfig the [ReplyConfig] to use
     public MessageReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
         super(replyConfig, new MessageCreateBuilder());

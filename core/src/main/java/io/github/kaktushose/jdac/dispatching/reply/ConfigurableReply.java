@@ -92,6 +92,9 @@ public final class ConfigurableReply extends MessageReply {
 
     /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
     /// [#keepComponents(boolean)] `true`.
+    ///
+    /// @param keepSelections `true` if to keep the selections
+    /// @return the current instance for fluent interface
     public ConfigurableReply keepSelections(boolean keepSelections) {
         replyAction.keepSelections(keepSelections);
         return this;
