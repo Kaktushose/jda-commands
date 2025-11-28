@@ -13,7 +13,7 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
@@ -67,12 +67,12 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public sealed class ConfigurableReply permits SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurableReply.class);
-    protected final ReplyAction replyAction;
+    protected final MessageReplyAction replyAction;
 
     /// Constructs a new ConfigurableReply.
     ///
-    /// @param replyAction the underlying [ReplyAction]
-    public ConfigurableReply(ReplyAction replyAction) {
+    /// @param replyAction the underlying [MessageReplyAction]
+    public ConfigurableReply(MessageReplyAction replyAction) {
         this.replyAction = replyAction;
     }
 
