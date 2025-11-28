@@ -28,4 +28,9 @@ public final class UnspecificComponent extends Component<UnspecificComponent, Ac
     public ComponentDefinition<ActionComponent> build(ComponentDefinition<ActionComponent> definition) {
         return definition;
     }
+
+    @Override
+    public Type getType() {
+        return Type.UNKNOWN;
+    }
 }

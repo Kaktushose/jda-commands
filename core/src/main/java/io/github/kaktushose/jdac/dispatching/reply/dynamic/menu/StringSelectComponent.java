@@ -91,4 +91,9 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     protected StringSelectMenuDefinition build(StringSelectMenuDefinition definition) {
         return definition.with(selectOptions, defaultValues, placeholder, minValues, maxValues);
     }
+
+    @Override
+    public Type getType() {
+        return Type.STRING_SELECT;
+    }
 }
