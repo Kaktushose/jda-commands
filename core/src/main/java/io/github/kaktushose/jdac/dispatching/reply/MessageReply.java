@@ -41,11 +41,15 @@ import java.util.function.Function;
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
+/// Handles all the business logic for sending messages, including embeds or V1 components.
 public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final MessageReplyAction replyAction;
 
+    /// Constructs a new MessageReply.
+    ///
+    ///  @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new MessageReplyAction(replyConfig);
     }
@@ -72,8 +76,11 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
     /// ```
-    public SendableReply builder(Consumer<MessageCreateBuilder> builder) {
-        replyAction.builder(builder);
+    ///
+    /// @param consumer the [Consumer] to access the [MessageCreateBuilder]
+    /// @return this instance for fluent interface
+    public SendableReply builder(Consumer<MessageCreateBuilder> consumer) {
+        replyAction.builder(consumer);
         return new SendableReply(this);
     }
 
@@ -173,7 +180,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///         event.reply("You pressed me!");
     ///     }
     ///  }
-    ///```
+    /// ```
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = new ArrayList<>();
