@@ -20,6 +20,8 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,17 +30,19 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getFramework;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 
 /// Handling of all the business logic of sending messages.
 @ApiStatus.Internal
 public final class MessageReplyAction extends ReplyAction {
 
+    private static final Logger log = LoggerFactory.getLogger(MessageReplyAction.class);
+
     /// Constructs a new MessageReplyAction.
     ///
     /// @param replyConfig the [ReplyConfig] to use
     public MessageReplyAction(ReplyConfig replyConfig) {
+        log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
         super(replyConfig, new MessageCreateBuilder());
     }
 
@@ -84,7 +88,7 @@ public final class MessageReplyAction extends ReplyAction {
     public List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
         MessageComponentTree componentTree = original.getComponentTree();
 
-        if (!replyConfig.keepComponents()) {
+        if (!keepComponents) {
             return original.getComponents();
         }
 
@@ -92,12 +96,12 @@ public final class MessageReplyAction extends ReplyAction {
             for (ActionComponent oldComponent : topLevel.asActionRow().getActionComponents()) {
                 ActionComponent newComponent = switch (oldComponent) {
                     case StringSelectMenu selectMenu
-                            when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent && replyConfig.keepSelections() ->
+                            when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent && keepSelections ->
                             selectMenu.createCopy()
                                     .setDefaultValues(selectEvent.getValues())
                                     .build();
 
-                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent && replyConfig.keepSelections() -> {
+                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent && keepSelections -> {
 
                         Collection<DefaultValue> defaultValues = new HashSet<>();
                         Mentions mentions = selectEvent.getInteraction().getMentions();

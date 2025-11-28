@@ -14,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenu
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
 import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
+import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -37,25 +38,59 @@ import java.util.function.Function;
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class MessageReply {
+public sealed class MessageReply permits ConfigurableReply {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
-    private final MessageReplyAction replyAction;
+    protected final MessageReplyAction replyAction;
 
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new MessageReplyAction(replyConfig);
     }
 
+    /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].
+    ///
+    /// This method exposes the internal [MessageCreateBuilder] used by JDA-Commands. Modifying fields that
+    /// are also manipulated by the Reply API, like content or embeds, may lead to unexpected behaviour.
+    ///
+    /// ## Example:
+    /// ```
+    /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
+    /// ```
     public MessageReply builder(Consumer<MessageCreateBuilder> builder) {
         replyAction.builder(builder);
         return this;
     }
 
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// Resolves the [Embed]s based on the given names. See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the name of the [Embed]s to send
+    /// @return a new [SendableReply]
+    public MessageReply embeds(String... embeds) {
+        return embeds(Arrays.stream(embeds)
+                .map(it -> getFramework().embeds().get(it, getJdaEvent().getUserLocale().toLocale()))
+                .toArray(Embed[]::new));
+    }
+
+    /// Acknowledgement of this event with one or more [Embed]s.
+    ///
+    /// See [EmbedConfig] for more information.
+    ///
+    /// @param embeds the [Embed]s to send
+    /// @return a new [SendableReply]
     public MessageReply embeds(Embed... embeds) {
         replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
         return this;
     }
 
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed    the name of the [Embed] to send
+    /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
+    /// @return a new [SendableReply]
     public MessageReply embeds(String embed, Consumer<Embed> consumer) {
         Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         consumer.accept(resolved);
@@ -63,6 +98,14 @@ public final class MessageReply {
         return this;
     }
 
+    /// Acknowledgement of this event with an [Embed].
+    ///
+    /// Resolves the [Embed] based on the given name. See [EmbedConfig] for more information.
+    ///
+    /// @param embed   the name of the [Embed] to send
+    /// @param entry   the placeholders to use. See [Embed#placeholders(Entry...)]
+    /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
+    /// @return a new [SendableReply]
     public MessageReply embeds(String embed, Entry entry, Entry... entries) {
         Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
@@ -70,10 +113,52 @@ public final class MessageReply {
         return this;
     }
 
+    /// Adds an [ActionRow] to the reply and adds the passed components to it.
+    ///
+    /// The components will always be enabled and runtime-bound. Use [#components(Component...)] if you want to modify these
+    /// settings.
+    ///
+    /// **The components must be defined in the same class where this method gets called!**
+    ///
+    /// ### Example:
+    /// ```
+    ///  @Interaction
+    ///  public class ExampleCommand {
+    ///
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
+    ///         event.with().components("onButton").reply("Hello World");
+    ///     }
+    ///
+    ///     @Button("Press me!")
+    ///     public void onButton(ComponentEvent event){
+    ///         event.reply("You pressed me!");
+    ///     }
+    ///  }
+    /// ```
     public MessageReply components(String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
+    /// Adds an [ActionRow] to the reply and adds the passed [Component] to it.
+    ///
+    /// ### Example:
+    /// ```
+    ///  @Interaction
+    ///  public class ExampleCommand {
+    ///
+    ///     @SlashCommand(value= "example command")
+    ///     public void onCommand(CommandEvent event){
+    ///         event.with().components(Components.disabled("onButton")).reply("Hello World");
+    ///     }
+    ///
+    ///     @Button("Press me!")
+    ///     public void onButton(ComponentEvent event){
+    ///         event.reply("You pressed me!");
+    ///     }
+    ///  }
+    ///```
+    /// @see Component
     public MessageReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
