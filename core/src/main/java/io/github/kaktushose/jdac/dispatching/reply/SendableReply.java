@@ -5,14 +5,14 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
-/// Subtype of [ConfigurableReply] that allows replying without message content ([#reply()]).
-public final class SendableReply extends ConfigurableReply {
+/// Subtype of [MessageReply] that allows replying without message content ([#reply()]).
+public final class SendableReply extends MessageReply {
 
     /// Constructs a new SendableReply.
     ///
-    /// @param reply the underlying [ConfigurableReply]
-    public SendableReply(ConfigurableReply reply) {
-        super(reply);
+    /// @param reply the underlying [MessageReply]
+    public SendableReply(MessageReply reply) {
+        super(reply.replyAction.replyConfig());
     }
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.

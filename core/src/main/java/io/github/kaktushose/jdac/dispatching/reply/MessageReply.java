@@ -17,6 +17,7 @@ import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
@@ -25,7 +26,9 @@ import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -38,7 +41,7 @@ import java.util.function.Function;
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public sealed class MessageReply permits ConfigurableReply {
+public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final MessageReplyAction replyAction;
@@ -56,9 +59,9 @@ public sealed class MessageReply permits ConfigurableReply {
     /// ```
     /// event.with().builder(builder -> builder.setFiles(myFile)).reply("Hello World!");
     /// ```
-    public MessageReply builder(Consumer<MessageCreateBuilder> builder) {
+    public SendableReply builder(Consumer<MessageCreateBuilder> builder) {
         replyAction.builder(builder);
-        return this;
+        return new SendableReply(this);
     }
 
     /// Acknowledgement of this event with one or more [Embed]s.
@@ -66,8 +69,8 @@ public sealed class MessageReply permits ConfigurableReply {
     /// Resolves the [Embed]s based on the given names. See [EmbedConfig] for more information.
     ///
     /// @param embeds the name of the [Embed]s to send
-    /// @return a new [SendableReply]
-    public MessageReply embeds(String... embeds) {
+    /// @return this instance for fluent interface
+    public SendableReply embeds(String... embeds) {
         return embeds(Arrays.stream(embeds)
                 .map(it -> getFramework().embeds().get(it, getJdaEvent().getUserLocale().toLocale()))
                 .toArray(Embed[]::new));
@@ -78,10 +81,10 @@ public sealed class MessageReply permits ConfigurableReply {
     /// See [EmbedConfig] for more information.
     ///
     /// @param embeds the [Embed]s to send
-    /// @return a new [SendableReply]
-    public MessageReply embeds(Embed... embeds) {
+    /// @return this instance for fluent interface
+    public SendableReply embeds(Embed... embeds) {
         replyAction.addEmbeds(Arrays.stream(embeds).map(Embed::build).toArray(MessageEmbed[]::new));
-        return this;
+        return new SendableReply(this);
     }
 
     /// Acknowledgement of this event with an [Embed].
@@ -90,12 +93,12 @@ public sealed class MessageReply permits ConfigurableReply {
     ///
     /// @param embed    the name of the [Embed] to send
     /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
-    /// @return a new [SendableReply]
-    public MessageReply embeds(String embed, Consumer<Embed> consumer) {
+    /// @return this instance for fluent interface
+    public SendableReply embeds(String embed, Consumer<Embed> consumer) {
         Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         consumer.accept(resolved);
         replyAction.addEmbeds(resolved.build());
-        return this;
+        return new SendableReply(this);
     }
 
     /// Acknowledgement of this event with an [Embed].
@@ -105,12 +108,12 @@ public sealed class MessageReply permits ConfigurableReply {
     /// @param embed   the name of the [Embed] to send
     /// @param entry   the placeholders to use. See [Embed#placeholders(Entry...)]
     /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
-    /// @return a new [SendableReply]
-    public MessageReply embeds(String embed, Entry entry, Entry... entries) {
+    /// @return this instance for fluent interface
+    public SendableReply embeds(String embed, Entry entry, Entry... entries) {
         Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
         resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
-        return this;
+        return new SendableReply(this);
     }
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
@@ -136,7 +139,7 @@ public sealed class MessageReply permits ConfigurableReply {
     ///     }
     ///  }
     /// ```
-    public MessageReply components(String... components) {
+    public SendableReply components(String... components) {
         return components(Arrays.stream(components).map(Component::enabled).toArray(Component[]::new));
     }
 
@@ -159,7 +162,7 @@ public sealed class MessageReply permits ConfigurableReply {
     ///  }
     ///```
     /// @see Component
-    public MessageReply components(Component<?, ?, ?, ?>... components) {
+    public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = new ArrayList<>();
         for (Component<?, ?, ?, ?> component : components) {
             var className = component.origin().map(Class::getName)
@@ -211,7 +214,7 @@ public sealed class MessageReply permits ConfigurableReply {
         if (!items.isEmpty()) {
             replyAction.addComponents(ActionRow.of(items));
         }
-        return this;
+        return new SendableReply(this);
     }
 
     private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
