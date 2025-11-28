@@ -11,14 +11,16 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReply;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ComponentReplyAction;
 import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.entities.Message;
@@ -26,11 +28,13 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.requests.ErrorResponse;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
@@ -51,7 +55,7 @@ import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocat
 /// @see ModalEvent
 /// @see CommandEvent
 /// @see ComponentEvent
-public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements MessageReply
+public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T>
         permits ModalEvent, ModalReplyableEvent {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
@@ -188,36 +192,49 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(newReply());
+        return new ConfigurableReply(getReplyConfig());
     }
 
-    /// {@inheritDoc}
+    public Message reply(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
+        return new ComponentReplyAction(getReplyConfig(), component, components).reply();
+    }
+
+    /// Acknowledgement of this event with a text message.
     ///
-    /// @param placeholder {@inheritDoc}
-    /// @param message     {@inheritDoc}
-    /// @return {@inheritDoc}
-    @Override
+    /// @param message     the message to send or the localization key
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(String message, Entry... placeholder) {
         return newReply().reply(message, placeholder);
     }
 
-    /// {@inheritDoc}
+    /// Acknowledgement of this event with a [MessageEmbed].
     ///
-    /// @param first      {@inheritDoc}
-    /// @param additional {@inheritDoc}
-    /// @return {@inheritDoc}
-    @Override
+    /// @param first      the [MessageEmbed] to send
+    /// @param additional additional [MessageEmbed]s to send
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(MessageEmbed first, MessageEmbed... additional) {
         return newReply().reply(first, additional);
     }
 
-    /// {@inheritDoc}
+    /// Acknowledgement of this event with a [MessageCreateData].
     ///
-    /// @param data {@inheritDoc}
-    /// @return {@inheritDoc}
-    @Override
-    public Message reply(MessageCreateData data) {
-        return newReply().reply(data);
+    /// @param message the [MessageCreateData] to send
+    /// @return the [Message] that got created
+    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// returned directly.
+    ///
+    /// This might throw [RuntimeException]s if JDA fails to send the message.
+    public Message reply(MessageCreateData message) {
+        return newReply().reply(message);
     }
 
     private MessageReplyAction newReply() {
