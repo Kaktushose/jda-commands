@@ -71,4 +71,9 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
     protected EntitySelectMenuDefinition build(EntitySelectMenuDefinition definition) {
         return definition.with(entityTypes, defaultValues, channelTypes, placeholder, minValues, maxValues);
     }
+
+    @Override
+    public Type getType() {
+        return Type.MENTIONABLE_SELECT;
+    }
 }

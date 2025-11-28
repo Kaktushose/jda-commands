@@ -53,4 +53,9 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     protected ButtonDefinition build(ButtonDefinition definition) {
         return definition.with(label, emoji, url, buttonStyle);
     }
+
+    @Override
+    public Type getType() {
+        return Type.BUTTON;
+    }
 }
