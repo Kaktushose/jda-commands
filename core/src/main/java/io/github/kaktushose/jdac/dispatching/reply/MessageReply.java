@@ -54,6 +54,13 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         replyAction = new MessageReplyAction(replyConfig);
     }
 
+    /// Constructs a new MessageReply.
+    ///
+    ///  @param reply the [MessageReply] to copy from
+    public MessageReply(MessageReply reply) {
+        replyAction = reply.replyAction;
+    }
+
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
