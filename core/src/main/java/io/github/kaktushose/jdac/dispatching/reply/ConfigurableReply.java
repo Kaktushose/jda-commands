@@ -7,6 +7,7 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ComponentReplyAction
 import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -109,6 +110,23 @@ public final class ConfigurableReply extends MessageReply {
         return new MessageReplyAction(replyAction.replyConfig()).reply(message, placeholder);
     }
 
+    /// Acknowledgement of this event with V2 Components.
+    ///
+    /// Using V2 components removes the top-level component limit,
+    /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
+    ///
+    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// as long as they are [compatible][Component.Type#isMessageCompatible()].
+    ///
+    /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.
+    ///
+    /// This, however, comes with a few drawbacks:
+    ///
+    ///   - You cannot send content, embeds, polls or stickers
+    ///   - It does not support voice messages
+    ///   - It does not support previewing files
+    ///   - URLs don't create embeds
+    ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     public Message reply(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
         return new ComponentReplyAction(replyAction.replyConfig(), component, components).reply();
     }
