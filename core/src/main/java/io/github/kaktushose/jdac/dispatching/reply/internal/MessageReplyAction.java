@@ -20,8 +20,6 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,44 +31,32 @@ import java.util.stream.Stream;
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getFramework;
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
 
-/// Implementation of [MessageReply] handling all the business logic of sending messages.
+/// Handling of all the business logic of sending messages.
 @ApiStatus.Internal
-public final class MessageReplyAction extends ReplyAction implements MessageReply {
-
-    private static final Logger log = LoggerFactory.getLogger(MessageReplyAction.class);
-    private boolean keepComponents;
+public final class MessageReplyAction extends ReplyAction {
 
     /// Constructs a new MessageReplyAction.
     ///
     /// @param replyConfig the [ReplyConfig] to use
     public MessageReplyAction(ReplyConfig replyConfig) {
         super(replyConfig, new MessageCreateBuilder());
-        keepComponents = replyConfig.keepComponents();
     }
 
-    @Override
     public Message reply(String message, Entry... placeholder) {
         builder.setContent(getFramework().messageResolver().resolve(message, RichInvocationContext.getUserLocale(), placeholder));
         return reply();
     }
 
-    @Override
     public Message reply(MessageEmbed first, MessageEmbed... additional) {
         builder.setEmbeds(Stream.concat(Stream.of(first), Arrays.stream(additional)).toList());
         return reply();
     }
 
-    @Override
     public Message reply(MessageCreateData data) {
         builder = MessageCreateBuilder.from(data);
         return reply();
     }
 
-    public void keepComponents(boolean keepComponents) {
-        this.keepComponents = keepComponents;
-    }
-
-    @Override
     public void builder(Consumer<MessageCreateBuilder> builder) {
         builder.accept(this.builder);
         // this API only works for CV1 and underlying parts rely on no CV2 being present
@@ -98,21 +84,20 @@ public final class MessageReplyAction extends ReplyAction implements MessageRepl
     public List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
         MessageComponentTree componentTree = original.getComponentTree();
 
-        log.debug("Keep components: {}", keepComponents);
-        if (!keepSelections || !keepComponents) {
+        if (!replyConfig.keepComponents()) {
             return original.getComponents();
         }
 
         for (MessageTopLevelComponentUnion topLevel : componentTree.getComponents()) {
             for (ActionComponent oldComponent : topLevel.asActionRow().getActionComponents()) {
                 ActionComponent newComponent = switch (oldComponent) {
-                    case StringSelectMenu selectMenu when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent ->
-                            selectMenu
-                                    .createCopy()
+                    case StringSelectMenu selectMenu
+                            when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent && replyConfig.keepSelections() ->
+                            selectMenu.createCopy()
                                     .setDefaultValues(selectEvent.getValues())
                                     .build();
 
-                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
+                    case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent && replyConfig.keepSelections() -> {
 
                         Collection<DefaultValue> defaultValues = new HashSet<>();
                         Mentions mentions = selectEvent.getInteraction().getMentions();
