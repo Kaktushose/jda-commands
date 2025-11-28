@@ -26,14 +26,38 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public abstract sealed class ReplyAction permits MessageReplyAction, ComponentReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    protected final ReplyConfig replyConfig;
     protected MessageCreateBuilder builder;
-    private boolean editReply;
+    protected boolean ephemeral;
+    protected boolean editReply;
+    protected boolean keepComponents;
+    protected boolean keepSelections;
 
     public ReplyAction(ReplyConfig replyConfig, MessageCreateBuilder builder) {
         this.builder = builder;
-        this.replyConfig = replyConfig;
+        ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();
+        keepComponents = replyConfig.keepComponents();
+        keepSelections = replyConfig.keepSelections();
+    }
+
+    public void ephemeral(boolean ephemeral) {
+        this.ephemeral = ephemeral;
+    }
+
+    public void editReply(boolean editReply) {
+        this.editReply = editReply;
+    }
+
+    public void keepComponents(boolean keepComponents) {
+        this.keepComponents = keepComponents;
+    }
+
+    public void keepSelections(boolean keepSelections) {
+        this.keepSelections = keepSelections;
+    }
+
+    public ReplyConfig replyConfig() {
+        return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections);
     }
 
     public final Message reply() {
@@ -45,14 +69,14 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
 
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
-                getInvocationContext().definition().displayName(), builder.build().toData(), replyConfig.ephemeral(), editReply, replyConfig.keepComponents(), replyConfig.keepSelections()
+                getInvocationContext().definition().displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
         );
 
         var hook = ((IDeferrableCallback) getJdaEvent()).getHook();
         if (editReply) {
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
-        return hook.setEphemeral(replyConfig.ephemeral()).sendMessage(builder.build()).complete();
+        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
     protected abstract List<MessageTopLevelComponentUnion> retrieveComponents(Message original);
@@ -74,7 +98,7 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
 
     private void deferReply(IReplyCallback callback) {
         if (!getJdaEvent().isAcknowledged()) {
-            callback.deferReply(replyConfig.ephemeral()).queue();
+            callback.deferReply(ephemeral).queue();
         }
     }
 
