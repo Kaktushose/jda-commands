@@ -14,12 +14,12 @@ import java.util.Locale;
 
 /// Common interface for classes that support simple message replies to [GenericInteractionCreateEvent].
 ///
-/// This interface ensures that [ReplyableEvent] and [ReplyAction], which is internally used by [ReplyableEvent],
+/// This interface ensures that [ReplyableEvent] and [MessageReplyAction], which is internally used by [ReplyableEvent],
 /// always share the same reply methods.
 ///
 /// @see ReplyableEvent
 @ApiStatus.Internal
-public sealed interface Reply permits ReplyableEvent, ReplyAction {
+public sealed interface MessageReply permits ReplyableEvent, MessageReplyAction {
 
     /// Acknowledgement of this event with a text message.
     ///

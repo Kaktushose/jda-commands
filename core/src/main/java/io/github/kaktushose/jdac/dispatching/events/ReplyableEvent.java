@@ -11,8 +11,8 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.Reply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReply;
+import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
@@ -51,7 +51,7 @@ import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocat
 /// @see ModalEvent
 /// @see CommandEvent
 /// @see ComponentEvent
-public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements Reply
+public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T> implements MessageReply
         permits ModalEvent, ModalReplyableEvent {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
@@ -220,8 +220,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return newReply().reply(data);
     }
 
-    private ReplyAction newReply() {
+    private MessageReplyAction newReply() {
         log.debug("Reply Debug: [Runtime={}]", runtimeId());
-        return new ReplyAction(getReplyConfig());
+        return new MessageReplyAction(getReplyConfig());
     }
 }
