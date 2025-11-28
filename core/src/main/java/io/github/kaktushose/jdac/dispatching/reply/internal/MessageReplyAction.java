@@ -85,7 +85,7 @@ public final class MessageReplyAction extends ReplyAction {
         MessageComponentTree componentTree = original.getComponentTree();
 
         if (!keepComponents) {
-            return original.getComponents();
+            return List.of();
         }
 
         for (MessageTopLevelComponentUnion topLevel : componentTree.getComponents()) {
