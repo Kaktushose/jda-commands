@@ -64,7 +64,7 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
         defer();
 
         if (getJdaEvent() instanceof ComponentInteraction interaction) {
-            builder.setComponents(retrieveComponents(interaction.getMessage()));
+            builder.addComponents(retrieveComponents(interaction.getMessage()));
         }
 
         log.debug(

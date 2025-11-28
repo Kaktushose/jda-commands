@@ -27,6 +27,6 @@ public final class ComponentReplyAction extends ReplyAction {
 
     @Override
     protected List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
-        return original.getComponents();
+        return List.of();
     }
 }
