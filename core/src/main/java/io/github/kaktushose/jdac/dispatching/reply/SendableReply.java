@@ -12,7 +12,7 @@ public final class SendableReply extends MessageReply {
     ///
     /// @param reply the underlying [MessageReply]
     public SendableReply(MessageReply reply) {
-        super(reply.replyAction.replyConfig());
+        super(reply);
     }
 
     /// Sends the reply to Discord and blocks the current thread until the message was sent.
