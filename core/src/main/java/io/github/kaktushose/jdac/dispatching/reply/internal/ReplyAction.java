@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -58,6 +59,10 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
 
     public ReplyConfig replyConfig() {
         return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections);
+    }
+
+    public MessageComponentTree componentTree() {
+        return builder.getComponentTree();
     }
 
     public final Message reply() {

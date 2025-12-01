@@ -5,11 +5,13 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.testing.TestScenario;
+import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Mentions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -103,6 +105,13 @@ class ComponentsV1Test {
         assertNull(reply.lastMessage());
     }
 
+    @Test
+    void testDuplicate() {
+        MessageEventReply reply = scenario.slash("duplicate").invoke();
+
+        assertTrue(reply.embeds().get(0).getDescription().contains("The command execution has unexpectedly failed."));
+    }
+
     @Interaction
     public static class TestController {
 
@@ -146,5 +155,11 @@ class ComponentsV1Test {
         public void falseButton(ComponentEvent event) {
             event.with().keepComponents(false).editReply(false).reply("success");
         }
+
+        @Command("duplicate")
+        public void duplicate(CommandEvent event) {
+            event.with().components("button").components("button").reply();
+        }
+
     }
 }

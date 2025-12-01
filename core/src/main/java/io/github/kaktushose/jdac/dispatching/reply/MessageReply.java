@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.components.utils.ComponentIterator;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -190,22 +191,29 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// ```
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
-        List<ActionRowChildComponent> items = Arrays.stream(components).map(it -> replace(it, false)).toList();
+        List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolve).toList();
         if (!items.isEmpty()) {
             replyAction.addComponents(ActionRow.of(items));
         }
         return new SendableReply(this);
     }
 
-    protected ActionRowChildComponent replace(Component<?, ?, ?, ?> component, boolean isV2) {
+    protected ActionRowChildComponent resolve(Component<?, ?, ?, ?> component) {
         var className = component.origin().map(Class::getName)
                 .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
         String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 
-        if (isV2) {
-            checkDuplicateV2();
-        } else {
-            checkDuplicate(definitionId, className, component.name());
+        boolean duplicate = ComponentIterator.createStream(replyAction.componentTree().getComponents())
+                .filter(it -> it instanceof ActionComponent)
+                .map(ActionComponent.class::cast)
+                .map(ActionComponent::getCustomId)
+                .filter(Objects::nonNull)
+                .map(CustomId::fromMerged)
+                .anyMatch(customId -> customId.definitionId().equals(definitionId));
+        if (duplicate) {
+            throw new IllegalArgumentException(
+                    JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component)))
+            );
         }
 
         var definition = findDefinition(component, definitionId, className);
@@ -236,24 +244,6 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         return item;
     }
-
-    private void checkDuplicate(String definitionId, String className, String component) {
-        if (replyAction.components()
-                .stream()
-                .map(ActionComponent::getCustomId)
-                .filter(Objects::nonNull)
-                .map(CustomId::fromMerged)
-                .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
-            throw new IllegalArgumentException(
-                    JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component)))
-            );
-        }
-    }
-
-    private void checkDuplicateV2() {
-
-    }
-
 
     private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {

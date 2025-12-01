@@ -5,8 +5,8 @@ import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationCont
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
-import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
@@ -65,14 +65,7 @@ public final class MessageReplyAction extends ReplyAction {
         }
     }
 
-    public Collection<ActionComponent> components() {
-        return builder.getComponents().stream()
-                .map(ActionRow.class::cast)
-                .flatMap(it -> it.getComponents().stream())
-                .map(ActionComponent.class::cast).toList();
-    }
-
-    public void addComponents(ActionRow... components) {
+    public void addComponents(MessageTopLevelComponent... components) {
         builder.addComponents(components);
     }
 
