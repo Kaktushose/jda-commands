@@ -2,7 +2,10 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
@@ -10,6 +13,7 @@ import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
@@ -19,31 +23,36 @@ import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getInvocationContext;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getUserLocale;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
-public abstract sealed class ReplyAction permits MessageReplyAction, ComponentReplyAction {
+public final class ReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    protected MessageCreateBuilder builder;
-    protected boolean ephemeral;
-    protected boolean editReply;
-    protected boolean keepComponents;
-    protected boolean keepSelections;
+    private MessageCreateBuilder builder;
+    private boolean ephemeral;
+    private boolean editReply;
+    private boolean keepComponents;
+    private boolean keepSelections;
 
-    public ReplyAction(ReplyConfig replyConfig, MessageCreateBuilder builder) {
-        this.builder = builder;
+    public ReplyAction(ReplyConfig replyConfig) {
+        log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
+        builder = new MessageCreateBuilder();
         ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();
         keepComponents = replyConfig.keepComponents();
@@ -74,10 +83,46 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
         return builder.getComponentTree();
     }
 
-    public final Message reply() {
+    public Message reply(String message, Entry... placeholder) {
+        builder.setContent(getFramework().messageResolver().resolve(message, getUserLocale(), placeholder));
+        return reply();
+    }
+
+    public Message reply(MessageEmbed first, MessageEmbed... additional) {
+        builder.setEmbeds(Stream.concat(Stream.of(first), Arrays.stream(additional)).toList());
+        return reply();
+    }
+
+    public Message reply(MessageCreateData data) {
+        builder = MessageCreateBuilder.from(data);
+        return reply();
+    }
+
+    public Message reply(List<MessageTopLevelComponentUnion> components) {
+        builder.closeFiles().clear().useComponentsV2().addComponents(components);
+        return reply();
+    }
+
+    public void builder(Consumer<MessageCreateBuilder> builder) {
+        builder.accept(this.builder);
+        // this API only works for CV1 and underlying parts rely on no CV2 being present
+        if (this.builder.isUsingComponentsV2()) {
+            throw new IllegalArgumentException(JDACException.errorMessage("illegal-cv2-usage"));
+        }
+    }
+
+    public void addComponents(MessageTopLevelComponent... components) {
+        builder.addComponents(components);
+    }
+
+    public void addEmbeds(MessageEmbed... embeds) {
+        builder.addEmbeds(embeds);
+    }
+
+    public Message reply() {
         defer();
 
-        if (getJdaEvent() instanceof ComponentInteraction interaction) {
+        if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
         }
 
@@ -95,10 +140,6 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
 
     private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
         MessageComponentTree componentTree = original.getComponentTree();
-
-        if (!keepComponents) {
-            return List.of();
-        }
 
         componentTree = componentTree.replace(ComponentReplacer.of(
                 ActionComponent.class,

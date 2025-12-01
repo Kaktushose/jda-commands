@@ -3,13 +3,18 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ComponentReplyAction;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.components.tree.ComponentTree;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -114,17 +119,13 @@ public final class ConfigurableReply extends MessageReply {
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     public Message reply(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
-        ComponentReplyAction componentReplyAction = new ComponentReplyAction(replyAction.replyConfig(), component, components);
-
-        MessageComponentTree componentTree = componentReplyAction.componentTree();
+        MessageComponentTree componentTree = ComponentTree.forMessage(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
         componentTree = componentTree.replace(ComponentReplacer.of(
                 io.github.kaktushose.jdac.dispatching.reply.Component.class,
                 _ -> true,
                 this::resolve
         ));
-        componentReplyAction.setComponents(componentTree.getComponents());
-
-        return componentReplyAction.reply();
+        return replyAction.reply(componentTree.getComponents());
     }
 }
 

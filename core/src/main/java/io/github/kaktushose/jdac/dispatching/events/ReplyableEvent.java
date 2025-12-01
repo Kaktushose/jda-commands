@@ -11,7 +11,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
@@ -242,7 +242,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(MessageEmbed first, MessageEmbed... additional) {
-        return new MessageReplyAction(getReplyConfig()).reply(first, additional);
+        return new ReplyAction(getReplyConfig()).reply(first, additional);
     }
 
     /// Acknowledgement of this event with a [MessageCreateData].
@@ -254,6 +254,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(MessageCreateData message) {
-        return new MessageReplyAction(getReplyConfig()).reply(message);
+        return new ReplyAction(getReplyConfig()).reply(message);
     }
 }

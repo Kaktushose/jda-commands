@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.dispatching.context;
 
 import io.github.kaktushose.jdac.definitions.features.internal.Invokable;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.internal.MessageReplyAction;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
@@ -71,7 +71,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
         var errorReplyConfig = new InteractionDefinition.ReplyConfig(data.replyConfig().ephemeral(), false, false, data.replyConfig.editReply());
-        new MessageReplyAction(errorReplyConfig).reply(errorMessage);
+        new ReplyAction(errorReplyConfig).reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 
