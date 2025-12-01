@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -71,7 +72,7 @@ public final class MessageEventReply extends EventReply {
         return findComponent(component, EntitySelectMenu.class);
     }
 
-    private  <T extends ActionComponent> Optional<T> findComponent(String component, Class<T> type) {
+    private <T extends ActionComponent> Optional<T> findComponent(String component, Class<T> type) {
         String definitionId = definitionId(component);
         return components.stream()
                 .filter(type::isInstance)
@@ -103,6 +104,11 @@ public final class MessageEventReply extends EventReply {
         } else {
             throw new IllegalStateException();
         }
+    }
+
+    @Nullable
+    public MessageEditData lastMessage() {
+        return invocation.lastMessage();
     }
 
     private String customId(String component) {

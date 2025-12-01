@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -73,6 +72,7 @@ class ComponentsV1Test {
         reply = reply.button("button").invoke();
 
         assertEquals(3, reply.components().size());
+        assertNotNull(reply.lastMessage());
     }
 
     @Test
@@ -92,7 +92,16 @@ class ComponentsV1Test {
         assertEquals(SelectTarget.USER, entitySelectMenu.getDefaultValues().getFirst().getType());
     }
 
-    // TODO add test case with keepComponents and editReply false
+    @Test
+    void testKeepComponentsFalse() {
+        MessageEventReply reply = scenario.slash("false").invoke();
+
+        assertEquals(3, reply.components().size());
+        reply = reply.button("falseButton").invoke();
+
+        assertEquals(0, reply.components().size());
+        assertNull(reply.lastMessage());
+    }
 
     @Interaction
     public static class TestController {
@@ -126,6 +135,16 @@ class ComponentsV1Test {
         @EntitySelectMenu(value = SelectTarget.USER, placeholder = "Select one")
         public void entitySelect(ComponentEvent event, Mentions mentions) {
             event.reply("success");
+        }
+
+        @Command("false")
+        public void keepAndEditFalse(CommandEvent event) {
+            event.with().components("falseButton").components("stringSelect").components("entitySelect").reply();
+        }
+
+        @Button("My Button")
+        public void falseButton(ComponentEvent event) {
+            event.with().keepComponents(false).editReply(false).reply("success");
         }
     }
 }
