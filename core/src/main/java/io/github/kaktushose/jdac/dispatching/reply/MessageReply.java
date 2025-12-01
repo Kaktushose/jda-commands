@@ -190,59 +190,70 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// ```
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
-        List<ActionRowChildComponent> items = new ArrayList<>();
-        for (Component<?, ?, ?, ?> component : components) {
-            var className = component.origin().map(Class::getName)
-                    .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
-            String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
-
-            if (replyAction.components()
-                    .stream()
-                    .map(ActionComponent::getCustomId)
-                    .filter(Objects::nonNull)
-                    .map(CustomId::fromMerged)
-                    .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
-                throw new IllegalArgumentException(
-                        JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component.name())))
-                );
-            }
-
-            var definition = findDefinition(component, definitionId, className);
-
-            ActionRowChildComponent item = switch (definition) {
-                case ButtonDefinition buttonDefinition -> {
-                    var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
-                    //only assign ids to non-link buttons
-                    yield button.getUrl() == null ? button.withCustomId(createId(definition, component.independent()).merged()) : button;
-                }
-
-                case SelectMenuDefinition<?> menuDefinition -> {
-                    var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
-                    yield menu.withDisabled(!component.enabled());
-                }
-            };
-
-            item = switch (component) {
-                case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
-                case EntitySelectMenuComponent entitySelectMenuComponent ->
-                        entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
-                case StringSelectComponent stringSelectComponent ->
-                        stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
-                case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
-            };
-
-            item = resolve(item, component);
-
-            items.add(item);
-
-            log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
-        }
-
+        List<ActionRowChildComponent> items = Arrays.stream(components).map(it -> replace(it, false)).toList();
         if (!items.isEmpty()) {
             replyAction.addComponents(ActionRow.of(items));
         }
         return new SendableReply(this);
     }
+
+    protected ActionRowChildComponent replace(Component<?, ?, ?, ?> component, boolean isV2) {
+        var className = component.origin().map(Class::getName)
+                .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
+        String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
+
+        if (isV2) {
+            checkDuplicateV2();
+        } else {
+            checkDuplicate(definitionId, className, component.name());
+        }
+
+        var definition = findDefinition(component, definitionId, className);
+
+        ActionRowChildComponent item = switch (definition) {
+            case ButtonDefinition buttonDefinition -> {
+                var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
+                //only assign ids to non-link buttons
+                yield button.getUrl() == null ? button.withCustomId(createId(definition, component.independent()).merged()) : button;
+            }
+
+            case SelectMenuDefinition<?> menuDefinition -> {
+                var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
+                yield menu.withDisabled(!component.enabled());
+            }
+        };
+
+        item = switch (component) {
+            case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
+            case EntitySelectMenuComponent entitySelectMenuComponent ->
+                    entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
+            case StringSelectComponent stringSelectComponent ->
+                    stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
+            case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
+        };
+
+        item = resolve(item, component);
+        log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
+        return item;
+    }
+
+    private void checkDuplicate(String definitionId, String className, String component) {
+        if (replyAction.components()
+                .stream()
+                .map(ActionComponent::getCustomId)
+                .filter(Objects::nonNull)
+                .map(CustomId::fromMerged)
+                .anyMatch(customId -> customId.definitionId().equals(definitionId))) {
+            throw new IllegalArgumentException(
+                    JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component)))
+            );
+        }
+    }
+
+    private void checkDuplicateV2() {
+
+    }
+
 
     private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
