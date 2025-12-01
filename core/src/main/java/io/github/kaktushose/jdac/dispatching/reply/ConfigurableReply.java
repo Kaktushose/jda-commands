@@ -98,19 +98,6 @@ public final class ConfigurableReply extends MessageReply {
         return this;
     }
 
-    /// Acknowledgement of this event with a text message.
-    ///
-    /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...)]
-    /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
-    /// returned directly.
-    ///
-    /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(String message, Entry... placeholder) {
-        return replyAction.reply(message, placeholder);
-    }
-
     /// Acknowledgement of this event with V2 Components.
     ///
     /// Using V2 components removes the top-level component limit,
