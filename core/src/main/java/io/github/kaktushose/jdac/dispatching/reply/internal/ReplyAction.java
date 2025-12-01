@@ -124,6 +124,7 @@ public final class ReplyAction {
 
         if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
+            builder.useComponentsV2(interaction.getMessage().isUsingComponentsV2());
         }
 
         log.debug(
