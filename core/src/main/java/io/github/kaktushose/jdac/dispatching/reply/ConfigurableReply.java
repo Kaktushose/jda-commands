@@ -3,15 +3,13 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ComponentReplyAction;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.requests.RestAction;
-
-import java.util.Locale;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -116,7 +114,17 @@ public final class ConfigurableReply extends MessageReply {
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     public Message reply(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
-        return new ComponentReplyAction(replyAction.replyConfig(), component, components).reply();
+        ComponentReplyAction componentReplyAction = new ComponentReplyAction(replyAction.replyConfig(), component, components);
+
+        MessageComponentTree componentTree = componentReplyAction.componentTree();
+        componentTree = componentTree.replace(ComponentReplacer.of(
+                io.github.kaktushose.jdac.dispatching.reply.Component.class,
+                _ -> true,
+                it -> replace(it, true)
+        ));
+        componentReplyAction.setComponents(componentTree.getComponents());
+
+        return componentReplyAction.reply();
     }
 }
 
