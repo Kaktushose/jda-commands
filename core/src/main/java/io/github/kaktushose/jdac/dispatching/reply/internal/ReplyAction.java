@@ -2,11 +2,18 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
+import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -17,6 +24,8 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getInvocationContext;
@@ -84,7 +93,46 @@ public abstract sealed class ReplyAction permits MessageReplyAction, ComponentRe
         return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
-    protected abstract List<MessageTopLevelComponentUnion> retrieveComponents(Message original);
+    private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
+        MessageComponentTree componentTree = original.getComponentTree();
+
+        if (!keepComponents) {
+            return List.of();
+        }
+
+        componentTree = componentTree.replace(ComponentReplacer.of(
+                ActionComponent.class,
+                _ -> keepSelections,
+                this::retrieveSelections
+        ));
+
+        return componentTree.getComponents();
+    }
+
+    private ActionComponent retrieveSelections(ActionComponent component) {
+        return switch (component) {
+            case StringSelectMenu selectMenu
+                    when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu.createCopy()
+                    .setDefaultValues(selectEvent.getValues())
+                    .build();
+
+            case EntitySelectMenu selectMenu when getJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
+
+                Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
+                Mentions mentions = selectEvent.getInteraction().getMentions();
+
+                defaultValues.addAll(mentions.getMembers().stream().map(EntitySelectMenu.DefaultValue::from).toList());
+                defaultValues.addAll(mentions.getChannels().stream().map(EntitySelectMenu.DefaultValue::from).toList());
+                defaultValues.addAll(mentions.getRoles().stream().map(EntitySelectMenu.DefaultValue::from).toList());
+
+                yield selectMenu
+                        .createCopy()
+                        .setDefaultValues(defaultValues)
+                        .build();
+            }
+            default -> component;
+        };
+    }
 
     private void defer() {
         GenericInteractionCreateEvent jdaEvent = getJdaEvent();
