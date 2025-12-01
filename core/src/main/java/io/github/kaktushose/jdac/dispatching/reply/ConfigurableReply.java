@@ -120,7 +120,7 @@ public final class ConfigurableReply extends MessageReply {
         componentTree = componentTree.replace(ComponentReplacer.of(
                 io.github.kaktushose.jdac.dispatching.reply.Component.class,
                 _ -> true,
-                it -> replace(it, true)
+                this::resolve
         ));
         componentReplyAction.setComponents(componentTree.getComponents());
 
