@@ -11,7 +11,8 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.SelectMenuCompon
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -70,13 +71,15 @@ import java.util.function.Function;
 ///
 /// @param <S> the concrete subtype of [Component]
 /// @param <T> the type of [ActionComponent] the [ComponentDefinition] represents
-/// @param <B> the type of builder the [ActionComponent uses]
+/// @param <B> the type of builder the [ActionComponent] uses
 /// @param <D> the type of [ComponentDefinition] this [Component] represents
 /// @see ButtonComponent
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
-        permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+        implements ActionRowChildComponentUnion permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+
+    protected int uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
@@ -88,6 +91,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         this.method = method;
         this.origin = origin;
         this.placeholder = placeholder;
+        uniqueId = -1;
     }
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
@@ -240,6 +244,32 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
+    }
+
+    @Override
+    public int getUniqueId() {
+        return uniqueId;
+    }
+
+    @Override
+    public Component<S, T, B, D> withUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
+        return this;
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.buttons.Button asButton() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.selections.StringSelectMenu asStringSelectMenu() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.selections.EntitySelectMenu asEntitySelectMenu() {
+        throw new UnsupportedOperationException();
     }
 
     protected boolean enabled() {

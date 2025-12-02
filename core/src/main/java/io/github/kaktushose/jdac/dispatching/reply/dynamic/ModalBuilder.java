@@ -6,10 +6,12 @@ import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition.TextIn
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.LayoutComponent;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.components.ModalTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.label.Label;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.components.textinput.TextInput;
+import net.dv8tion.jda.api.components.textinput.TextInput.Builder;
+import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -17,7 +19,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-import static net.dv8tion.jda.api.interactions.modals.Modal.MAX_COMPONENTS;
+import static net.dv8tion.jda.api.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.
 public class ModalBuilder {
@@ -59,7 +61,7 @@ public class ModalBuilder {
     /// @param callback  the [Function] to modify the text input
     /// @return this instance for fluent interface
     /// @see TextInput.Builder
-    public ModalBuilder textInput(String textInput, Function<TextInput.Builder, TextInput.Builder> callback) {
+    public ModalBuilder textInput(String textInput, Function<Builder, Builder> callback) {
         List<TextInputDefinition> textInputs = (ArrayList<TextInputDefinition>) modalDefinition.textInputs();
         var optionalTextInput = textInputs.stream()
                 .filter(it -> it.parameter().name().equals(textInput))
@@ -105,27 +107,25 @@ public class ModalBuilder {
         Locale locale = event.getUserLocale().toLocale();
 
         builder.setTitle(resolve(builder.getTitle(), locale, entries));
-        for (LayoutComponent layout : builder.getComponents()) {
-            for (ItemComponent component : layout.getComponents()) {
-                if (component instanceof TextInput text) {
-                    layout.updateComponent(component, copyWith(text,
-                            resolve(text.getLabel(), locale, entries),
-                            resolve(text.getPlaceHolder(), locale, entries),
-                            resolve(text.getValue(), locale, entries))
-                    );
-                }
+        for (ModalTopLevelComponentUnion component : builder.getComponents()) {
+            if (component instanceof Label label) {
+                ComponentReplacer.byUniqueId(label, copyWith(label.getChild().asTextInput(),
+                        resolve(label.getLabel(), locale, entries),
+                        resolve(label.getChild().asTextInput().getPlaceHolder(), locale, entries),
+                        resolve(label.getChild().asTextInput().getValue(), locale, entries))).apply(component);
             }
         }
     }
 
-    private TextInput copyWith(TextInput input, String label, @Nullable String placeholder, @Nullable String value) {
-        return TextInput.create(input.getId(), label, input.getStyle())
-                .setPlaceholder(placeholder)
-                .setMaxLength(input.getMaxLength())
-                .setMinLength(input.getMinLength())
-                .setRequired(input.isRequired())
-                .setValue(value)
-                .build();
+    private Label copyWith(TextInput input, String label, @Nullable String placeholder, @Nullable String value) {
+        return Label.of(label,
+                TextInput.create(input.getCustomId(), input.getStyle())
+                        .setPlaceholder(placeholder)
+                        .setMaxLength(input.getMaxLength())
+                        .setMinLength(input.getMinLength())
+                        .setRequired(input.isRequired())
+                        .setValue(value)
+                        .build());
     }
 
     @Nullable

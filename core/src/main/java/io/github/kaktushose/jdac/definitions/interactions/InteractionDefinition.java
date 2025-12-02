@@ -89,7 +89,9 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             /// Constructs a new Builder.
             public Builder() {
+                ephemeral = false;
                 keepComponents = true;
+                keepSelections = true;
                 editReply = true;
             }
 

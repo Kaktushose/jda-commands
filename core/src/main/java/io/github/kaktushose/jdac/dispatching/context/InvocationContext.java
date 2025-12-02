@@ -7,6 +7,7 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 
@@ -71,7 +72,11 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
         var errorReplyConfig = new InteractionDefinition.ReplyConfig(data.replyConfig().ephemeral(), false, false, data.replyConfig.editReply());
-        new ReplyAction(errorReplyConfig).reply(errorMessage);
+        ReplyAction replyAction = new ReplyAction(errorReplyConfig);
+        if (event() instanceof ComponentInteraction interaction && interaction.getMessage().isUsingComponentsV2()) {
+            replyAction.editReply(false);
+        }
+        replyAction.reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 

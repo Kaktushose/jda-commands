@@ -9,8 +9,8 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
@@ -37,7 +37,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withDefaults_ShouldBuild() {
         var definition = build("allDefaults");
 
-        var menu = definition.toJDAEntity();
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity();
 
         assertEquals("Entity Select Menu: test", definition.displayName());
         assertEquals(EnumSet.of(SelectTarget.USER), menu.getEntityTypes());
@@ -52,7 +52,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withExplicitValues_shouldBeSet() {
         var definition = build("explicit");
 
-        var menu = definition.toJDAEntity();
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity();
 
         assertEquals(EnumSet.of(ChannelType.TEXT), menu.getChannelTypes());
         assertEquals(2, menu.getMinValues());
@@ -69,7 +69,7 @@ class EntitySelectMenuDefinitionTest {
         var newDefaults = Set.of(DefaultValue.user(42L));
         var newChannelTypes = Set.of(ChannelType.NEWS);
 
-        var overridden = base.with(newTargets, newDefaults, newChannelTypes, "new placeholder", 2, 3);
+        var overridden = base.with(newTargets, newDefaults, newChannelTypes, "new placeholder", 2, 3, 1);
 
         assertTrue(overridden.selectTargets().contains(SelectTarget.USER));
         assertTrue(overridden.defaultValues().stream().anyMatch(d -> d.getIdLong() == 42L));
@@ -77,6 +77,7 @@ class EntitySelectMenuDefinitionTest {
         assertEquals("new placeholder", overridden.placeholder());
         assertEquals(2, overridden.minValue());
         assertEquals(3, overridden.maxValue());
+        assertEquals(1, overridden.uniqueId());
     }
 
     private EntitySelectMenuDefinition build(String method) {

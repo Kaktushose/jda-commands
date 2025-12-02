@@ -6,9 +6,11 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -26,16 +28,18 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param placeholder       the placeholder text of this menu
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
+/// @param uniqueId          the uniqueId of this menu
 public record EntitySelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
         Collection<String> permissions,
-        Set<EntitySelectMenu.SelectTarget> selectTargets,
-        Set<EntitySelectMenu.DefaultValue> defaultValues,
+        Set<SelectTarget> selectTargets,
+        Set<DefaultValue> defaultValues,
         Set<ChannelType> channelTypes,
         String placeholder,
         int minValue,
-        int maxValue
+        int maxValue,
+        int uniqueId
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
@@ -48,18 +52,18 @@ public record EntitySelectMenuDefinition(
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class));
 
-        Set<EntitySelectMenu.DefaultValue> defaultValueSet = new HashSet<>();
+        Set<DefaultValue> defaultValueSet = new HashSet<>();
         for (long id : selectMenu.defaultChannels()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.channel(id));
+            defaultValueSet.add(DefaultValue.channel(id));
         }
         for (long id : selectMenu.defaultUsers()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.user(id));
+            defaultValueSet.add(DefaultValue.user(id));
         }
         for (long id : selectMenu.defaultRoles()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.role(id));
+            defaultValueSet.add(DefaultValue.role(id));
         }
 
         return new EntitySelectMenuDefinition(
@@ -71,18 +75,20 @@ public record EntitySelectMenuDefinition(
                 new HashSet<>(Set.of(selectMenu.channelTypes())),
                 selectMenu.placeholder(),
                 selectMenu.minValue(),
-                selectMenu.maxValue()
+                selectMenu.maxValue(),
+                selectMenu.uniqueId()
         );
     }
 
     /// Builds a new [EntitySelectMenuDefinition] with the given values.
 
-    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
+    public EntitySelectMenuDefinition with(@Nullable Set<SelectTarget> selectTargets,
+                                           @Nullable Set<DefaultValue> defaultValues,
                                            @Nullable Set<ChannelType> channelTypes,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
-                                           @Nullable Integer maxValue) {
+                                           @Nullable Integer maxValue,
+                                           int uniqueId) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
@@ -92,7 +98,8 @@ public record EntitySelectMenuDefinition(
                 override(HashSet::new, this.channelTypes, channelTypes),
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
-                override(this.maxValue, maxValue)
+                override(this.maxValue, maxValue),
+                uniqueId
         );
     }
 
@@ -122,6 +129,9 @@ public record EntitySelectMenuDefinition(
             channelTypes.remove(ChannelType.UNKNOWN);
             if (!channelTypes.isEmpty()) {
                 menu.setChannelTypes(channelTypes);
+            }
+            if (uniqueId > 0) {
+                menu.setUniqueId(0);
             }
             return menu.build();
         } catch (IllegalArgumentException e) {

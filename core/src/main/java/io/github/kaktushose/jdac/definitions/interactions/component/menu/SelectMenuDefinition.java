@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
+import net.dv8tion.jda.api.components.selections.SelectMenu;
 
 /// Common interface for select menu definitions.
 ///

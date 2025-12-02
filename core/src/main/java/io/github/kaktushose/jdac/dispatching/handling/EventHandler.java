@@ -111,17 +111,18 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
         } catch (Exception exception) {
-            log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            log.error("Interaction execution failed!", throwable);
 
             // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
             // error message.
-            if (exception instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
                 return;
             }
 
             // if the throwing event is a component event we should remove the component to prevent further executions
+            boolean deleted = false;
             if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
                 var message = componentEvent.getMessage();
                 // ugly workaround to check if the message is still valid after removing components or if we have to delete
@@ -131,13 +132,14 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 if (data.isValid()) {
                     message.editMessageComponents().complete();
                 } else {
+                    deleted = true;
                     message.delete().complete();
                 }
             }
 
             invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
 
-            if (invocation.event() instanceof IReplyCallback callback) {
+            if (invocation.event() instanceof IReplyCallback callback && !deleted) {
                 callback.getHook().editOriginalComponents().queue();
             }
         }

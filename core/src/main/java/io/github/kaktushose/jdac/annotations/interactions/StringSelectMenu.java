@@ -58,4 +58,6 @@ public @interface StringSelectMenu {
     /// @return the maximum amount of values a user can select
     int maxValue() default 1;
 
+    /// The uniqueId of the button. Default value is `-1` which will result in Discord assigning an id.
+    int uniqueId() default -1;
 }

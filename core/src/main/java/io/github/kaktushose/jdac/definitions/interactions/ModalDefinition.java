@@ -8,16 +8,15 @@ import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
-import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.Helpers;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
-import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.components.label.Label;
+import net.dv8tion.jda.api.components.textinput.TextInput;
+import net.dv8tion.jda.api.components.textinput.TextInput.Builder;
+import net.dv8tion.jda.api.components.textinput.TextInputStyle;
+import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Representation of a modal.
 ///
@@ -78,7 +77,7 @@ public record ModalDefinition(
         try {
             var modal = Modal.create(customId.merged(), title);
 
-            textInputs.forEach(textInput -> modal.addActionRow(textInput.toJDAEntity()));
+            textInputs.forEach(textInput -> modal.addComponents(textInput.toJDAEntity()));
 
             return modal.build();
         } catch (IllegalArgumentException e) {
@@ -102,7 +101,7 @@ public record ModalDefinition(
             int maxValue,
             TextInputStyle style,
             boolean required
-    ) implements JDAEntity<TextInput>, Definition {
+    ) implements JDAEntity<Label>, Definition {
 
         /// Builds a new [TextInputDefinition] from the given [ParameterDescription]
         ///
@@ -137,10 +136,10 @@ public record ModalDefinition(
         ///
         /// @param textInput the [TextInput] to build the [TextInputDefinition] from
         /// @return the new [TextInputDefinition]
-        public TextInputDefinition with(TextInput.Builder textInput) {
+        public TextInputDefinition with(Builder textInput) {
             return new TextInputDefinition(
                     parameter,
-                    textInput.getLabel(),
+                    label,
                     textInput.getPlaceholder(),
                     textInput.getValue(),
                     textInput.getMinLength(),
@@ -159,15 +158,15 @@ public record ModalDefinition(
         ///
         /// @return the [TextInput]
         @Override
-        public TextInput toJDAEntity() {
-            return toBuilder().build();
+        public Label toJDAEntity() {
+            return Label.of(label, toBuilder().build());
         }
 
         /// Transforms this definition into a [TextInput.Builder].
         ///
         /// @return the [TextInput.Builder]
-        public TextInput.Builder toBuilder() {
-            var textInput = TextInput.create(label, label, style).setRequired(required);
+        public Builder toBuilder() {
+            var textInput = TextInput.create(label, style).setRequired(required);
 
             if (minValue != -1) {
                 textInput.setMinLength(minValue);
