@@ -111,13 +111,13 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
         } catch (Exception exception) {
-            log.error("Interaction execution failed!", exception);
             // this unwraps the underlying error in case of an exception inside the command class
             Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            log.error("Interaction execution failed!", throwable);
 
             // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
             // error message.
-            if (exception instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
                 return;
             }
 
