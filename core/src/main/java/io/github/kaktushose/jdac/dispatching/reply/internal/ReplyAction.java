@@ -109,10 +109,6 @@ public final class ReplyAction {
 
     public void builder(Consumer<MessageCreateBuilder> builder) {
         builder.accept(this.builder);
-        // this API only works for CV1 and underlying parts rely on no CV2 being present
-        if (this.builder.isUsingComponentsV2()) {
-            throw new IllegalArgumentException(JDACException.errorMessage("illegal-cv2-usage"));
-        }
     }
 
     public void addComponents(MessageTopLevelComponent... components) {
