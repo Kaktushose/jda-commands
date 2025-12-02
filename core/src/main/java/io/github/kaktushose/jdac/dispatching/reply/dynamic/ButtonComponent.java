@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
@@ -55,7 +54,7 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
 
     @Override
     protected ButtonDefinition build(ButtonDefinition definition) {
-        return definition.with(label, emoji, url, buttonStyle);
+        return definition.with(label, emoji, url, buttonStyle, uniqueId);
     }
 
     @Override

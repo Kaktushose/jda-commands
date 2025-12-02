@@ -27,6 +27,7 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param emoji             the [Emoji] of this button or `null`
 /// @param link              the link of this button or `null`
 /// @param style             the [ButtonStyle] of this button
+/// @param uniqueId          the uniqueId of this button
 public record ButtonDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -34,7 +35,8 @@ public record ButtonDefinition(
         String label,
         @Nullable Emoji emoji,
         @Nullable String link,
-        ButtonStyle style
+        ButtonStyle style,
+        int uniqueId
 ) implements ComponentDefinition<Button> {
 
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
@@ -62,16 +64,17 @@ public record ButtonDefinition(
                 button.value(),
                 emoji,
                 button.link().isEmpty() ? null : button.link(),
-                button.style()
+                button.style(),
+                button.uniqueId()
         );
     }
 
     /// Builds a new [ButtonDefinition] with the given values
 
     public ButtonDefinition with(
-            @Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style) {
+            @Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style, int uniqueId) {
         return new ButtonDefinition(classDescription, methodDescription, permissions,
-                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style));
+                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style), uniqueId);
     }
 
     /// Transforms this definition to an [Button] with an independent custom id.
@@ -91,11 +94,16 @@ public record ButtonDefinition(
     public Button toJDAEntity(CustomId customId) {
         try {
             String idOrUrl = Optional.ofNullable(link).orElse(customId.merged());
+            Button button;
             if (emoji == null) {
-                return Button.of(style, idOrUrl, label);
+                button = Button.of(style, idOrUrl, label);
             } else {
-                return Button.of(style, idOrUrl, label, emoji);
+                button = Button.of(style, idOrUrl, label, emoji);
             }
+            if (uniqueId > 0) {
+                button = button.withUniqueId(uniqueId);
+            }
+            return button;
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);
         }

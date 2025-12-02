@@ -78,6 +78,8 @@ import java.util.function.Function;
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
         implements ActionRowChildComponentUnion permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+
+    protected int uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
@@ -89,6 +91,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         this.method = method;
         this.origin = origin;
         this.placeholder = placeholder;
+        uniqueId = -1;
     }
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
@@ -245,12 +248,13 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
 
     @Override
     public int getUniqueId() {
-        throw new UnsupportedOperationException();
+        return uniqueId;
     }
 
     @Override
-    public ActionRowChildComponentUnion withUniqueId(int uniqueId) {
-        throw new UnsupportedOperationException();
+    public Component<S, T, B, D> withUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
+        return this;
     }
 
     @Override
