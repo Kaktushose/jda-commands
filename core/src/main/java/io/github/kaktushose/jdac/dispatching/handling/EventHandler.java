@@ -122,6 +122,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             }
 
             // if the throwing event is a component event we should remove the component to prevent further executions
+            boolean deleted = false;
             if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
                 var message = componentEvent.getMessage();
                 // ugly workaround to check if the message is still valid after removing components or if we have to delete
@@ -131,13 +132,14 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 if (data.isValid()) {
                     message.editMessageComponents().complete();
                 } else {
+                    deleted = true;
                     message.delete().complete();
                 }
             }
 
             invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
 
-            if (invocation.event() instanceof IReplyCallback callback) {
+            if (invocation.event() instanceof IReplyCallback callback && !deleted) {
                 callback.getHook().editOriginalComponents().queue();
             }
         }
