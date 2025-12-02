@@ -5,7 +5,6 @@ import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
-import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.tree.ComponentTree;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
@@ -13,7 +12,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
@@ -35,7 +33,7 @@ import java.util.stream.Stream;
 ///     }
 /// }
 /// ```
-public final class ConfigurableReply extends MessageReply {
+public sealed class ConfigurableReply extends MessageReply permits EditableConfigurableReply {
 
     /// Constructs a new ConfigurableReply.
     ///
@@ -58,46 +56,6 @@ public final class ConfigurableReply extends MessageReply {
     /// @return the current instance for fluent interface
     public ConfigurableReply ephemeral(boolean ephemeral) {
         replyAction.ephemeral(ephemeral);
-        return this;
-    }
-
-    /// Whether to keep the original components when editing a message. Default value is `true`.
-    ///
-    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
-    /// its components get added to the reply before it is sent.
-    ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
-    ///
-    /// @param editReply `true` if to keep the original components
-    /// @return the current instance for fluent interface
-    public ConfigurableReply editReply(boolean editReply) {
-        replyAction.editReply(editReply);
-        return this;
-    }
-
-    /// Whether to edit the original message or to send a new one. Default value is `true`.
-    ///
-    /// The original message is always the very first reply that was sent. E.g. for a slash command event, which was
-    /// replied to with a text message and a button, the original message is that very reply.
-    ///
-    /// Subsequent replies to the same slash command event or the button event cannot be edited.
-    ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
-    ///
-    /// @param keepComponents `true` if to edit the original method
-    /// @return the current instance for fluent interface
-    public ConfigurableReply keepComponents(boolean keepComponents) {
-        replyAction.keepComponents(keepComponents);
-        return this;
-    }
-
-    /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
-    /// [#keepComponents(boolean)] `true`.
-    ///
-    /// @param keepSelections `true` if to keep the selections
-    /// @return the current instance for fluent interface
-    public ConfigurableReply keepSelections(boolean keepSelections) {
-        replyAction.keepSelections(keepSelections);
         return this;
     }
 
