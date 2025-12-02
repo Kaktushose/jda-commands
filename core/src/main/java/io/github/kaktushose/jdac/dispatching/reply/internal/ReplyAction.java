@@ -29,10 +29,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -49,6 +46,7 @@ public final class ReplyAction {
     private boolean editReply;
     private boolean keepComponents;
     private boolean keepSelections;
+    private List<ComponentReplacer> componentReplacer;
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
@@ -57,6 +55,7 @@ public final class ReplyAction {
         editReply = replyConfig.editReply();
         keepComponents = replyConfig.keepComponents();
         keepSelections = replyConfig.keepSelections();
+        componentReplacer = new ArrayList<>();
     }
 
     public void ephemeral(boolean ephemeral) {
@@ -103,6 +102,11 @@ public final class ReplyAction {
         return reply();
     }
 
+    public Message reply(ComponentReplacer... replacer) {
+        componentReplacer = List.of(replacer);
+        return reply();
+    }
+
     public void builder(Consumer<MessageCreateBuilder> builder) {
         builder.accept(this.builder);
         // this API only works for CV1 and underlying parts rely on no CV2 being present
@@ -125,6 +129,10 @@ public final class ReplyAction {
         if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
             builder.useComponentsV2(interaction.getMessage().isUsingComponentsV2());
+        }
+
+        if (!componentReplacer.isEmpty()) {
+            builder.setComponents(builder.getComponentTree().replace(ComponentReplacer.all(componentReplacer)));
         }
 
         log.debug(
