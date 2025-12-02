@@ -201,13 +201,13 @@ public final class ReplyAction {
 
     private void deferReply(IReplyCallback callback) {
         if (!getJdaEvent().isAcknowledged()) {
-            callback.deferReply(ephemeral).queue();
+            callback.deferReply(ephemeral).complete();
         }
     }
 
     private void deferEdit(IMessageEditCallback callback) {
         if (!getJdaEvent().isAcknowledged()) {
-            callback.deferEdit().queue();
+            callback.deferEdit().complete();
         }
     }
 }
