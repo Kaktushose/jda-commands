@@ -78,7 +78,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
             if (shouldSkip(property)) continue;
 
             switch (property) {
-                case Property.Mapping<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
+                case Property.Map<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
                 case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
                 case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
                     List<?> instances = instances(ctx, Implementation.class, i.type()).toList();

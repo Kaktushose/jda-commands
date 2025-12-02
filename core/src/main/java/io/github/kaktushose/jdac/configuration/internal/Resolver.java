@@ -41,7 +41,7 @@ public final class Resolver {
         Result<T> result = switch (type) {
             case Property.Singleton<T> _ -> handleOne(providers, type);
             case Property.Enumeration<?> _ -> (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Collection<Object>>>>castUnsafe(providers), ArrayList::new, List::addAll);
-            case Property.Mapping<?, ?> _ -> (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, Map::putAll);
+            case Property.Map<?, ?> _ -> (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, java.util.Map::putAll);
         };
 
         log.debug("Property {} got from provider(s) in {}", type.name(), result.refClasses.stream().map(Class::getName).collect(Collectors.joining(",")));

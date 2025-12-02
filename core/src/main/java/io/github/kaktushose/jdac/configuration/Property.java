@@ -27,7 +27,6 @@ import io.github.kaktushose.proteus.type.Type;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour.ACCUMULATE;
@@ -52,14 +51,14 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// ## Types
 /// Additionally, there are 3 types of properties:
 /// - [Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
-/// - [Mapping] -> the property represents a Map with a key and value. All [providers][PropertyProvider] will be
+/// - [Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider] will be
 ///                accumulated and providers with higher [priorities][PropertyProvider#priority()] take precedence
-/// - [Enumeration] -> the property represents a [Collection]. All [providers][PropertyProvider] will be accumulated
+/// - [Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be accumulated
 ///
 /// The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
 /// providers or overwritten is defined by [Property#fallbackBehaviour()].
 @SuppressWarnings("unused")
-public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Mapping {
+public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Map {
     // -------- settable by user + loadable from extension --------
 
     /// @see JDACBuilder#classFinders(ClassFinder...)
@@ -84,18 +83,18 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
     /// @see JDACBuilder#middleware(Priority, Middleware)
-    Property<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-            new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(Map.Entry.class), ACCUMULATE);
+    Property<Collection<java.util.Map.Entry<Priority, Middleware>>> MIDDLEWARE =
+            new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), ACCUMULATE);
 
     /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
     /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
-    Property<Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Mapping<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+    Property<java.util.Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
+            new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
     /// The VALIDATOR property maps a [Validator] to its identifying annotation.
     /// @see JDACBuilder#validator(Class, Validator)
-    Property<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-            new Mapping<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+    Property<java.util.Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
+            new Map<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
 
     /// @see JDACBuilder#permissionsProvider(PermissionsProvider)
     Property<PermissionsProvider> PERMISSION_PROVIDER =
@@ -135,8 +134,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Singleton<>("SHUTDOWN_JDA", Category.USER_SETTABLE, Boolean.class);
 
     /// @see JDACBuilder#extensionData(Extension.Data...)
-    Property<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
-            new Mapping<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+    Property<java.util.Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
+            new Map<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
 
     /// @see JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)
     Property<ExtensionFilter> EXTENSION_FILTER =
@@ -238,7 +237,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// The fallback behaviour defines whether the fallback value provided by JDA-Commands should be
     /// accumulated together with the user defined ones or overwritten.
-    /// Applies only to [Enumeration] and [Mapping].
+    /// Applies only to [Enumeration] and [Map].
     enum FallbackBehaviour {
         /// the fallback value should be overridden
         OVERRIDE,
@@ -268,15 +267,15 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
         LOADABLE
     }
 
-    /// A [Mapping] property basically represents a [Map], where each value belongs target a specific key.
+    /// A [Map] property basically represents a [java.util.Map], where each value belongs target a specific key.
     ///
     /// @param category the [Category] of this property
     /// @param key the key type
     /// @param value the value type
     /// @param name the property's name
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    record Mapping<K, V>(String name, Category category, Class<K> key, Class<V> value,
-                         FallbackBehaviour fallbackBehaviour) implements Property<Map<K, V>> {}
+    record Map<K, V>(String name, Category category, Class<K> key, Class<V> value,
+                     FallbackBehaviour fallbackBehaviour) implements Property<java.util.Map<K, V>> {}
 
     /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
     ///
