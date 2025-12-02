@@ -127,6 +127,7 @@ nav:
   - Misc:
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
+      - Properties: misc/property.md
       - Extensions:
           - Overview: misc/extension/overview.md
           - Writing Extensions: misc/extension/writing.md
