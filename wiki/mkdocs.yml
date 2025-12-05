@@ -127,9 +127,10 @@ nav:
   - Misc:
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
-      - Properties: misc/property.md
-      - Extensions:
-          - Overview: misc/extension/overview.md
-          - Writing Extensions: misc/extension/writing.md
-          - Configuration: misc/extension/configuring.md
+      - Configuration Process:
+          - Extensions:
+            - Overview: misc/extension/overview.md
+            - Writing Extensions: misc/extension/writing.md
+            - Configuration: misc/extension/configuring.md
+          - Properties: misc/property.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/
