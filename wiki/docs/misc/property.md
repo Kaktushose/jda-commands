@@ -5,7 +5,7 @@ The property system is a core system of JDA-Commands. Its purpose is...
 - to serve as a central collection point for all values that the user can get during runtime
 
 You can think of it like a really primitive Dependency Injection framework that comes without any annotations.
-At its heart, there is basically a big <Map> mapping [properties](#properties) to different [PropertyProviders](#propertyprovider) which then
+At its heart, there is basically a big <java.util.Map> mapping [properties](#properties) to different [PropertyProviders](#propertyprovider) which then
 provide the value of the property.
 
 ## Properties
@@ -24,7 +24,7 @@ and can be accessed by the user. The user can't create own properties!
 To ensure an intuitive configuration experience, properties are primarily categorized in 3 groups:
 
 - [_user settable_][[Category#USER_SETTABLE]] -> only configurable by using the designated <JDACBuilder> method
-- [_user settable + loadable from extension_][[Category#LOADABLE]] -> above applies plus values can be provided by <Extension>s
+- [_user settable + loadable from extension_][[Category#LOADABLE]] -> above applies plus values can be provided by <io.github.kaktushose.jdac.configuration.Extension>s
 - [_provided_][[Category#PROVIDED]] -> service that are provided by JDA-Commands; the user can use but not create/replace them
 
 ### Types
@@ -41,16 +41,16 @@ A <Property.Enumeration> is basically a <Collection>, that will consist of the a
 all <PropertyProvider> for this property.
 
 Each <PropertyProvider> for property `T` of type [`enumeration`][[Property.Enumeration]] returns an `Collection<T>`.
-The returned collections of all <PropertyProviders> are then [`combined`][[Collection#addAll(Collection)]] into one
+The returned collections of all <PropertyProvider>s are then [`combined`][[Collection#addAll(Collection)]] into one
 and used as the final value for this property.
 
 #### Map
-A <Property.Map> is similar to <Property.Enumeration> except it uses a <Map> instead a <Collection>.
+A <Property.Map> is similar to <Property.Enumeration> except it uses a <java.util.Map> instead a <Collection>.
 The values of all <PropertyProvider> are accumulated, while the one with higher priority
 takes precedence.
 
 Each <PropertyProvider> for a property `K, V` of type [`map`][[Property.Map]] returns an `Map<K, V>`.
-The returned maps of all <PropertyProviders> are then [`combined`][[Map#putAll(Map)]] into one
+The returned maps of all <PropertyProvider>s are then [`combined`][[java.util.Map#putAll(Map)]] into one
 and used as the final value for this property. 
 If multiple <PropertyProvider>s are setting a value for the same key, then
 the value of the provider with the highest [priority][[PropertyProvider#priority()]] is chosen.
@@ -60,7 +60,7 @@ the value of the provider with the highest [priority][[PropertyProvider#priority
     overridden instead of accumulated although the property's type is enumeration or map.
 
     Whether the default values will be overridden or accumulated together with other values is
-    defined by <PropertyProvider#fallbackBehaviour()>
+    defined by <Property#fallbackBehaviour()>
 
 ## PropertyProvider
 A <PropertyProvider> provides a value according to the [type](#types) of the <Property>. 
@@ -102,7 +102,7 @@ class Foo {
                 Property.CLASS_FINDER,
                 200, // just some random non reserved priority
                 Foo.class, //(1)
-                ctx -> List.of(new CustomClassFinder(ctx.get(Priority.PACKAGES))) //(2)
+                ctx -> List.of(new CustomClassFinder(ctx.get(Property.PACKAGES))) //(2)
         );
     }
 }
@@ -110,7 +110,7 @@ class Foo {
 
 1. The <PropertyProvider#referenceClass()> value is just used for debugging purpose.
    The name of the class will for example be displayed in the cycling dependencies exception messages. 
-2. The values for <Priority#PACKAGES> will be returned. You can get the value of any property through this method.
+2. The values for <Property#PACKAGES> will be returned. You can get the value of any property through this method.
 
 
 

@@ -3,7 +3,7 @@
 ## Entrypoint
 
 The entrypoint of the Extension API is the so called
-<io.github.kaktushose.jdac.extension.Extension>
+<io.github.kaktushose.jdac.configuration.Extension>
 interface, which your extensions _"entry class"_ must implement:
 
 ```java
@@ -50,8 +50,8 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 Currently, extensions support to provide custom [PropertyProviders](../property.md#propertyprovider) of properties with
 category <Property.Category#LOADABLE>. You can take a look at <Property> to know what properties can be provided by extensions. 
 
-To provide custom <PropertyProviders> your have to implement the <Extension#properties()> method.
-This method returns a collection of all <PropertyProviders> that an extension provides. Take a look [here](../property.md#propertyprovider)
+To provide custom <PropertyProvider>s your have to implement the <Extension#properties()> method.
+This method returns a collection of all <PropertyProvider>s that an extension provides. Take a look [here](../property.md#propertyprovider)
 to know how to use them.
 
 ```java
@@ -87,20 +87,20 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 Custom extensions are found with help of Javas [ServiceLoader API][[ServiceLoader]].
 
 To register the above `MyExtension` we have to create a file in our `resources\META-INF` directory called
-`io.github.kaktushose.jdac.extension.Extension`.
+`io.github.kaktushose.jdac.configuration.Extension`.
 
 ```
 src
 └── main
     └── resources
         └── META-INF
-            └── io.github.kaktushose.jdac.extension.Extension
+            └── io.github.kaktushose.jdac.configuration.Extension
 ```
 
 The full class name of our class `MyExtension` (e.g. `my.package.MyExtension`) must be the content of this file.
 
 !!! example
-    ```text title="io.github.kaktushose.jdac.extension.Extension"
+    ```text title="io.github.kaktushose.jdac.configuration.Extension"
     my.package.MyExtension
     ```
 
