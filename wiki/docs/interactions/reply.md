@@ -190,6 +190,26 @@ calling `#modify`.
     event.with().components(Component.stringMenu("onMenu").modify(jdaBuilder -> ...).reply("Hello World!");
     ```
 
+## Components V2
+!!! note
+    This section assumes that you are already familiar with Components V2. You can find the Discord documentation [here](https://discord.com/developers/docs/change-log/2025-04-22-components-v2). Also please have a look at JDAs component [classes](https://docs.jda.wiki/net/dv8tion/jda/api/components/package-summary.html).
+
+## Replying with Components V2
+You can reply with Components V2 by passing one or more [TopLevelComponents] to the [reply] method. This will automatically enable the V2 flag. Note that this method is only available either directly at the event class or at the [ConfigurableReply] stage.  You canot call it after one of the following methods:
+
+- components
+- embeds
+- builder
+
+because adding content, embeds, files, etc would disqualify the message from Components V2.
+
+!!! example
+    ```java
+    event.reply(TextDisplay.of("Hello World"));
+
+    event.with().ephemeral(true).reply(TextDisplay.of("Hello World"));
+    ```
+
 ## Embeds
 JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../message/embeds.md) of this wiki for
 setup instructions. Once you have your <EmbedDataSource>
