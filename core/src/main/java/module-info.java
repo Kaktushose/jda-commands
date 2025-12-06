@@ -1,3 +1,4 @@
+import io.github.kaktushose.jdac.configuration.Extension;
 import org.jspecify.annotations.NullMarked;
 
 /// The base module of jda-commands.
@@ -64,8 +65,8 @@ module io.github.kaktushose.jdac.core {
     // command scope api
     exports io.github.kaktushose.jdac.scope;
 
-    // extensions
-    exports io.github.kaktushose.jdac.extension;
+    // extensions + configuration
+    exports io.github.kaktushose.jdac.configuration;
 
     // i18n/messages/emojis/placeholder
     exports io.github.kaktushose.jdac.message.i18n;
@@ -73,5 +74,5 @@ module io.github.kaktushose.jdac.core {
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
 
-    uses io.github.kaktushose.jdac.extension.Extension;
+    uses Extension;
 }

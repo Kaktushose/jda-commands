@@ -2,6 +2,8 @@
 Extensions are a way to customize the behaviour of JDA-Commands in a modular style, giving an alternative option to
 utilizing the JDA-Commands builder.
 
+To understand the extension system, you first have to make familiar with JDA-Commands [properties concept](../property.md).
+
 ## Motivation
 The reason for adding this rather complicated feature to JDA-Commands is to allow the user to integrate another
 [Dependency Injection Framework](../../di.md) than Guice. The default Guice integration is in fact also an extension, which could just be excluded.

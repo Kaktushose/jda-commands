@@ -1,19 +1,18 @@
 package io.github.kaktushose.jdac.exceptions.internal;
 
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-/// Base exception for all exceptions thrown by JDA-Commands.
+/// Base exception for all exceptions known to JDA-Commands.
 ///
 /// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_internal_en.ftl" located in the resources folder.
 public sealed class JDACException extends RuntimeException
@@ -21,11 +20,17 @@ public sealed class JDACException extends RuntimeException
 
     protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
 
+    protected Bundle bundle = errorMessages;
+    private final String key;
+    private final Map<String, @Nullable Object> placeholder;
+
     /// Creates a new JDACException and loads the error message from the given key.
     ///
     /// @param key the key of the error message
     public JDACException(String key) {
-        super(errorMessage(key));
+        super();
+        this.key = key;
+        this.placeholder = Map.of();
     }
 
     /// Creates a new JDACException, loads the error message from the given key and inserts the placeholders.
@@ -33,7 +38,9 @@ public sealed class JDACException extends RuntimeException
     /// @param key         the key of the error message
     /// @param placeholder the [placeholders][Entry] to insert
     public JDACException(String key, Entry... placeholder) {
-        super(errorMessage(key, placeholder));
+        super();
+        this.key = key;
+        this.placeholder = Entry.toMap(placeholder);
     }
 
     /// Creates a new JDACException and loads the error message from the given key and cause.
@@ -41,7 +48,9 @@ public sealed class JDACException extends RuntimeException
     /// @param key   the key of the error message
     /// @param cause the cause of the exception
     public JDACException(String key, Throwable cause) {
-        super(errorMessages.apply(Locale.ENGLISH, key, Map.of()), cause);
+        super(cause);
+        this.key = key;
+        this.placeholder = Map.of();
     }
 
     /// Creates a new JDACException with the given cause, loads the error message from the given key and inserts
@@ -51,7 +60,9 @@ public sealed class JDACException extends RuntimeException
     /// @param cause the cause of the exception
     /// @param placeholder the [placeholders][Entry] to insert
     public JDACException(String key, Throwable cause, Entry... placeholder) {
-        super(errorMessage(key, placeholder), cause);
+        super(cause);
+        this.key = key;
+        this.placeholder = Entry.toMap(placeholder);
     }
 
     /// Retrieves an error message from the error bundle.
@@ -68,8 +79,15 @@ public sealed class JDACException extends RuntimeException
     /// @param placeholder the [placeholders][Entry] to insert
     /// @return the error message
     public static String errorMessage(String key, Entry... placeholder) {
-        return errorMessages.apply(Locale.ENGLISH, key,
-                Arrays.stream(placeholder).collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value))
-        );
+        return errorMessages.apply(Locale.ENGLISH, key, Entry.toMap(placeholder));
+    }
+
+    @Override
+    public String getMessage() {
+        return resolveMessage(key, placeholder);
+    }
+
+    private String resolveMessage(String key, Map<String, @Nullable Object> placeholder) {
+        return bundle.apply(Locale.ENGLISH, key, placeholder);
     }
 }

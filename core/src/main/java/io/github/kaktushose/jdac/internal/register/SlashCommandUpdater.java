@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.internal.register;
 
-import io.github.kaktushose.jdac.JDAContext;
+import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;

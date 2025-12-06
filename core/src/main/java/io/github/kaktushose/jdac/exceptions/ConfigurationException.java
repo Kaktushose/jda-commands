@@ -1,10 +1,11 @@
 package io.github.kaktushose.jdac.exceptions;
 
+import io.github.kaktushose.jdac.configuration.ExtensionException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 
 /// Will be thrown if anything goes wrong while configuring jda-commands.
-public final class ConfigurationException extends JDACException {
+public sealed class ConfigurationException extends JDACException permits ExtensionException {
 
     /// @param key the bundle key of the error message
     public ConfigurationException(String key) {

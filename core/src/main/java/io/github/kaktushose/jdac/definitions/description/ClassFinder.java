@@ -1,14 +1,13 @@
 package io.github.kaktushose.jdac.definitions.description;
 
 import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveClassFinder;
-import io.github.kaktushose.jdac.extension.Implementation;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.SequencedCollection;
 
 /// [ClassFinder]s search for classes annotated with a specific annotation
-public non-sealed interface ClassFinder extends Implementation.ExtensionProvidable {
+public interface ClassFinder {
 
     /// This provides a reflections based implementation of [ClassFinder]
     ///
