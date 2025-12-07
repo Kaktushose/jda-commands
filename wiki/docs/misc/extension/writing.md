@@ -47,7 +47,7 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 1. If no instance of `MyExtensionData` is passed by the user, this argument will be set `null`.
 
 ## Providing Implementations
-Currently, extensions support to provide custom [PropertyProviders](../property.md#propertyprovider) of properties with
+Currently, extensions support providing custom [PropertyProviders](../property.md#propertyprovider) of properties with
 category <Property.Category#LOADABLE>. You can take a look at <Property> to know what properties can be provided by extensions. 
 
 To provide custom <PropertyProvider>s your have to implement the <Extension#properties()> method.

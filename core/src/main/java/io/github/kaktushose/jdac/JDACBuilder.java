@@ -335,42 +335,42 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-        Resolver loader = properties.createResolver();
+        Resolver resolver = properties.createResolver();
 
         try {
             log.info("Starting JDA-Commands...");
 
             FrameworkContext frameworkContext = new FrameworkContext(
-                    new Middlewares(loader.get(MIDDLEWARE), loader.get(ERROR_MESSAGE_FACTORY), loader.get(PERMISSION_PROVIDER)),
-                    loader.get(ERROR_MESSAGE_FACTORY),
+                    new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER)),
+                    resolver.get(ERROR_MESSAGE_FACTORY),
                     new InteractionRegistry(
-                            new Validators(loader.get(VALIDATOR)),
-                            loader.get(I18N),
-                            loader.get(LOCALIZE_COMMANDS) ? loader.get(I18N).localizationFunction() : (_) -> Map.of(),
-                            loader.get(DESCRIPTOR)
+                            new Validators(resolver.get(VALIDATOR)),
+                            resolver.get(I18N),
+                            resolver.get(LOCALIZE_COMMANDS) ? resolver.get(I18N).localizationFunction() : (_) -> Map.of(),
+                            resolver.get(DESCRIPTOR)
                     ),
-                    new TypeAdapters(loader.get(TYPE_ADAPTER), loader.get(I18N)),
-                    loader.get(EXPIRATION_STRATEGY),
-                    loader.get(INTERACTION_CONTROLLER_INSTANTIATOR),
-                    loader.get(EMBEDS),
-                    loader.get(I18N),
-                    loader.get(MESSAGE_RESOLVER),
-                    loader.get(GLOBAL_REPLY_CONFIG),
-                    loader.get(GLOBAL_COMMAND_CONFIG)
+                    new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N)),
+                    resolver.get(EXPIRATION_STRATEGY),
+                    resolver.get(INTERACTION_CONTROLLER_INSTANTIATOR),
+                    resolver.get(EMBEDS),
+                    resolver.get(I18N),
+                    resolver.get(MESSAGE_RESOLVER),
+                    resolver.get(GLOBAL_REPLY_CONFIG),
+                    resolver.get(GLOBAL_COMMAND_CONFIG)
             );
 
             JDACommands jdaCommands = new JDACommands(
                     frameworkContext,
-                    loader.get(JDA_CONTEXT),
-                    loader.get(GUILD_SCOPE_PROVIDER),
-                    loader.get(SHUTDOWN_JDA)
+                    resolver.get(JDA_CONTEXT),
+                    resolver.get(GUILD_SCOPE_PROVIDER),
+                    resolver.get(SHUTDOWN_JDA)
             );
 
-            jdaCommands.start(loader.get(MERGED_CLASS_FINDER));
+            jdaCommands.start(resolver.get(MERGED_CLASS_FINDER));
             return jdaCommands;
         } catch (JDACException e) {
-            if (loader.get(SHUTDOWN_JDA)) {
-                loader.get(JDA_CONTEXT).shutdown();
+            if (resolver.get(SHUTDOWN_JDA)) {
+                resolver.get(JDA_CONTEXT).shutdown();
             }
             throw e;
         }

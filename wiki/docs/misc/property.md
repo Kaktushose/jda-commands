@@ -20,12 +20,12 @@ They can be either:
 Because they're all properties of JDA-Commands, they come predefined as `public static final` in the <Property> class
 and can be accessed by the user. The user can't create own properties!
 
-### Categories of properties
+### Categories of Properties
 To ensure an intuitive configuration experience, properties are primarily categorized in 3 groups:
 
 - [_user settable_][[Category#USER_SETTABLE]] -> only configurable by using the designated <JDACBuilder> method
 - [_user settable + loadable from extension_][[Category#LOADABLE]] -> above applies plus values can be provided by <io.github.kaktushose.jdac.configuration.Extension>s
-- [_provided_][[Category#PROVIDED]] -> service that are provided by JDA-Commands; the user can use but not create/replace them
+- [_provided_][[Category#PROVIDED]] -> services that are provided by JDA-Commands; the user can use but not create/replace them
 
 ### Types
 Due to the diverse nature of properties, JDA-Commands defines 3 different types of properties:
@@ -46,7 +46,7 @@ and used as the final value for this property.
 
 #### Map
 A <Property.Map> is similar to <Property.Enumeration> except it uses a <java.util.Map> instead a <Collection>.
-The values of all <PropertyProvider> are accumulated, while the one with higher priority
+The values of all <PropertyProvider>s are accumulated, while the one with higher priority
 takes precedence.
 
 Each <PropertyProvider> for a property `K, V` of type [`map`][[Property.Map]] returns an `Map<K, V>`.
@@ -55,9 +55,9 @@ and used as the final value for this property.
 If multiple <PropertyProvider>s are setting a value for the same key, then
 the value of the provider with the highest [priority][[PropertyProvider#priority()]] is chosen.
 
-!!! note "fallback/default values"
+!!! note "Fallback/ Default Values"
     For some properties (like <Property#CLASS_FINDER>) the default value will be completely
-    overridden instead of accumulated although the property's type is enumeration or map.
+    overridden instead of accumulated although the propertys type is enumeration or map.
 
     Whether the default values will be overridden or accumulated together with other values is
     defined by <Property#fallbackBehaviour()>
@@ -65,7 +65,7 @@ the value of the provider with the highest [priority][[PropertyProvider#priority
 ## PropertyProvider
 A <PropertyProvider> provides a value according to the [type](#types) of the <Property>. 
 
-That can be either just a [simple instance](#singleton) `T`, an [enumeration](#enumeration) `Collection<T>` of
+That can either be just a [simple instance](#singleton) `T`, an [enumeration](#enumeration) `Collection<T>` or
 a [map](#map) `Map<K, V>`.
 
 ### Priority
@@ -79,8 +79,8 @@ in which the values are accumulated. (only important for type [singleton](#singl
     - 0                     -> fallback/default values provided by JDA-Commands
     - <Integer#MAX_VALUE>   -> all values manually set by the user in <JDACBuilder>
 
-### value creation
-An important fact of <PropertyProvider>s is, that the value is computed lazily later in the resolution process
+### Value Creation
+An important fact of <PropertyProvider>s is, that the value is computed lazily later in the resolution process,
 not when the <PropertyProvider> is constructed. If another <PropertyProvider> is chosen instead of yours (due to higher priority),
 that means that sometimes your [`value supplier`][[PropertyProvider#supplier()]] won't be called at all. 
 
@@ -88,23 +88,19 @@ However, this allows you to get the values of other properties as dependencies f
 <PropertyProvider.Context#get(Property)> inside your [`supplier`][[PropertyProvider#supplier()]].
 
 !!! note
-    If a cycling dependency is detected during the resolution of dependencies, an excepting will be thrown
+    If a cycling dependency is detected during the resolution of dependencies, an exception will be thrown
     providing information on how the recursion occurred.
 
 #### Example of <PropertyProvider> for <Property#CLASS_FINDER>.
 
 ```java
-class Foo {
-    ...
-
-    public PropertyProvider<?> provider() {
-        return new PropertyProvider(
-                Property.CLASS_FINDER,
-                200, // just some random non reserved priority
-                Foo.class, //(1)
-                ctx -> List.of(new CustomClassFinder(ctx.get(Property.PACKAGES))) //(2)
-        );
-    }
+public PropertyProvider<?> provider() {
+    return new PropertyProvider(
+            Property.CLASS_FINDER,
+            200, // just some random non reserved priority
+            Foo.class, //(1)
+            ctx -> List.of(new CustomClassFinder(ctx.get(Property.PACKAGES))) //(2)
+    );
 }
 ```
 

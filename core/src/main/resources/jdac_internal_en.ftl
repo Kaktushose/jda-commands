@@ -98,7 +98,7 @@ user-property =
     You can't add custom PropertyProviders for it!
 
 property-not-set =
-    Missing value for the requires property { $property }.
+    Missing value for the required property { $property }.
     Please provide one via JDACBuilder or an Extension!
 
 cycling-calls-itself = PropertyProvider cannot depenend on property { $property } while providing it! (provider in { $class })

@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-/// The implementation of [Extension] for using Google's [Guice] as an [InteractionControllerInstantiator].
+/// The implementation of [Extension] for using Googles [Guice] as an [InteractionControllerInstantiator].
 ///
 /// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
 /// For further information please see the docs on [`@Implementation`][Implementation].

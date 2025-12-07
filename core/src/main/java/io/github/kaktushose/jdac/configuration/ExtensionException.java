@@ -8,7 +8,7 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import java.util.Locale;
 
 /// A sub exception of [ConfigurationException] that can be implemented by users of the library for throwing
-/// own exceptions during the initialization of [Extension] or in [PropertyProvider#supplier()].
+/// own exceptions during the initialization of [Extension]s or in [PropertyProvider#supplier()].
 ///
 /// This class comes particularly handy, because it allows to easily use exception messages defined via
 /// fluent localization files in your resource folder, avoiding long strings in your source code and enabling

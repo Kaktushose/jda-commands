@@ -15,14 +15,14 @@ import java.util.function.Function;
 /// of these properties through the [Context#get(Property)] that is available in the [#supplier()].
 ///
 /// If somehow recursive calls to the same [Property] are created (called cycling dependencies),
-/// then an [ConfigurationException] is thrown providing information on how this recursion occurs.
+/// then a [ConfigurationException] is thrown providing information on how this recursion occurs.
 ///
 /// ## Priorities
 /// To decide which value is taken at the end for a property, each [PropertyProvider] defines a priority between
 /// 0 and [Integer#MAX_VALUE].
 /// The provider with the highest priority will be taken, thus its value is set for the property.
 ///
-/// It's important to note, that the priorities 0 to 100 and [Integer#MAX_VALUE] are reserved by JDA-Commands:
+/// It's important to note that the priorities 0 to 100 and [Integer#MAX_VALUE] are reserved by JDA-Commands:
 /// - priority = 0                      are all fallback/default value provided by JDA-Commands
 /// - priority = [Integer#MAX_VALUE]    are all values set by the user manually in [JDACBuilder]
 ///
