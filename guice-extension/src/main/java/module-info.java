@@ -16,7 +16,6 @@ module io.github.kaktushose.jdac.guice {
     requires io.github.kaktushose.proteus;
 
     exports io.github.kaktushose.jdac.guice;
-    exports io.github.kaktushose.jdac.guice.internal;
 
     provides Extension with GuiceExtension;
 }
