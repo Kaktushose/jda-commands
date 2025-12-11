@@ -21,7 +21,7 @@ public class Properties {
     private void checkCategory(PropertyProvider<?> provider) {
         int priority = provider.priority();
 
-        if (INSIDE_FRAMEWORK.orElse(false) && (priority <= 100 || priority == Integer.MAX_VALUE)) {
+        if (!INSIDE_FRAMEWORK.orElse(false) && (priority <= 100 || priority == Integer.MAX_VALUE)) {
             throw new ConfigurationException("reserved-priority", entry("priority", priority));
         }
 
