@@ -4,7 +4,7 @@ strings used in framework annotations and modals and much more.
 
 To provide the best user experience possible, JDA-Commands comes included with [localization](localization.md),
 support for [placeholders](placeholder.md) and [Unicode and app emojis](emojis.md). In many places in the framework,
-these feature are applied [implicitly](#implicit-resolution).
+these feature are applied [implicitly](localization.md#implicit-localization).
 
 ## Resolution
 The features listed above are all pipelined together with help of the <MessageResolver>.

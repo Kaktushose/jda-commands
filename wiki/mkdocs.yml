@@ -74,9 +74,9 @@ markdown_extensions:
   - pymdownx.superfences
   - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
       urls:
-        - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
-        - 'https://javadoc.io/doc/net.dv8tion/JDA/5.6.1/'
-        - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+        - 'https://docs.oracle.com/en/java/javase/25/docs/api/'
+        - 'https://docs.jda.wiki/'
+        - 'https://kaktushose.github.io/jda-commands/javadocs/4.0/'
         - alias: 'fluava'
           url: 'https://goldmensch.github.io/fluava/javadocs/0/'
           auto_searched: 'false'
@@ -131,4 +131,4 @@ nav:
           - Overview: misc/extension/overview.md
           - Writing Extensions: misc/extension/writing.md
           - Configuration: misc/extension/configuring.md
-  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/
+  - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/4.0/

@@ -28,7 +28,7 @@ original message instead of sending a new one by default.
 The `reply()` method also has some useful overloads, you can find a full list [here](https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/reply/Reply.html#method-detail).
 
 ## Reply Configuration
-You can change this default behaviour by calling <ReplyableEvent#with()>
+You can change the default reply behavior by calling <ReplyableEvent#with()>
 before sending the reply. This will return a <ConfigurableReply>
 object to you, you can use to modify settings:
 
@@ -37,22 +37,23 @@ object to you, you can use to modify settings:
     event.with().ephemeral(true).reply("Hello World!");
     ```
 
-!!! example "Edit Reply"
-    ```java
-    event.with().editReply(false).reply("Hello World!");
-    ```
+When calling <ComponentEvent#with()> you get a <EditableConfigurableReply> which allows for even more settings:
 
-## Components
-### Replying with Components
+- [`editReply(boolean)`][[EditableConfigurableReply#editReply(boolean)]]: This will send a new message instead of editing the original one.
+- [`keepComponents(boolean)`](#keeping-components): This will keep the original components
+- [`keepSelections(boolean)`](#keeping-selections): This will keep the user selections of the original components
+
+## Action Components
+### Replying with Action Components
 The <ConfigurableReply>
-object is also used to attach components. You reference components by the name of the method they are defined with, just
+object is also used to attach components. You reference action components by the name of the method they are defined with, just
 like we did before with [modals](./modals.md#replying-with-modals).
 
 !!! example
     ```java
     @Command("greet")
     public void onCommand(CommandEvent event) {
-        event.with.components("onButton").reply("Hello World!"); //(1)!
+        event.with().components("onButton").reply("Hello World!"); //(1)!
     }
 
     @Button("Greet me!")
@@ -74,7 +75,7 @@ Every call to `components()` will create a new action row. If you want more than
     event.with().components("firstButton").components("secondButton").reply();
     ```
 
-If you want to add multiple components to the same action row, just pass the method names to the same `components()` call.
+If you want to add multiple action components to the same action row, just pass the method names to the same `components()` call.
 
 !!! example
     ```java
@@ -85,11 +86,11 @@ If you want to add multiple components to the same action row, just pass the met
     One action row supports up to 5 buttons but only 1 select menu.
 
 ### Enabling & Disabling
-By default, all components are enabled. If you want to attach a disabled component, you need to wrap it by calling
+By default, all action components are enabled. If you want to attach a disabled action component, you need to wrap it by calling
 <Component#disabled(java.lang.String, Entry...)>
 
 
-If you want to add multiple components to the same action row, with some of them enabled and some disabled, you need to
+If you want to add multiple action components to the same action row, with some of them enabled and some disabled, you need to
 wrap all of them.
 
 !!! example
@@ -101,20 +102,21 @@ wrap all of them.
 When working with components and especially when building menus, e.g. a pagination with buttons, it is often needed to
 keep the components attached, even when editing the original message multiple times. 
 
-Normally, Discord would remove any 
-components when sending a message edit, unless they are explicitly reattached.
+Normally, Discord would remove any components when sending a message edit, unless they are explicitly reattached.
 
-JDA-Commands flips this behaviour and will keep your components attached by default. 
+JDA-Commands flips this behavior and will keep your components attached by default. 
 
-You can disable this by calling
-[`keepComponents(false)`][[ConfigurableReply#keepComponents(boolean)]]:
+You can disable this by calling [`keepComponents(false)`][[EditableConfigurableReply#keepComponents(boolean)]]:
 !!! example
     ```java
     event.with().keepComponents(false).reply("Message edit!");
     ```
 
-Alternatively you can call <ReplyableEvent#removeComponents()>
-which will remove all components attached to a message.
+Alternatively you can call <ComponentEvent#removeComponents()> which will remove all action components attached to a message.
+
+!!! note
+    When using Components V2 calling <ComponentEvent#removeComponents()> will throw an <UnsupportedOperationException> because this would result
+    in an empty message.
 
 ---
 !!! example "Cookie Clicker Example"
@@ -140,8 +142,16 @@ which will remove all components attached to a message.
     === "Execution"
         ![Cookie Clicker](../assets/cookie-clicker.gif)
 
+### Keeping Selections
+By default, JDA-Commands will also retain the selections of select menus when sending a reply with `keepComponents` set
+to `true`. You can disable this by calling [`keepSelections(false)`][[EditableConfigurableReply#keepSelections(boolean)]]:
+    !!! example
+    ```java
+    event.with().keepSelections(false).reply("Message edit!");
+    ```
+
 ### Foreign Components
-You can attach components that were defined in a different class by using the <Component#enabled(java.lang.Class,java.lang.String, Entry...)>
+You can attach action components that were defined in a different class by using the <Component#enabled(java.lang.Class,java.lang.String, Entry...)>
 class again. In addition to the method name, you must also pass the class reference in that case.
 
 !!! example
@@ -151,8 +161,8 @@ class again. In addition to the method name, you must also pass the class refere
         .reply("Are you sure?");
     ```
 
-The foreign component will use the original [Runtime](../start/runtime.md) just like any other component would. If no 
-instance of the class the component is defined in (_`ButtonHelpers` in the example above_) exists yet, 
+The foreign action component will use the original [Runtime](../start/runtime.md) just like any other action component would. If no 
+instance of the class the action component is defined in (_`ButtonHelpers` in the example above_) exists yet, 
 the [Runtime](../start/runtime.md) will create one instance (and store it for potential future method calls). 
 
 ### Lifetime
@@ -160,14 +170,14 @@ As discussed [earlier](../start/runtime.md#lifetime), Runtimes have a limited li
 a Runtime after 15 minutes of no activity have passed. 
 
 !!! danger "Component Lifetime"
-    This means all components belonging to that Runtime will stop working once the Runtime is closed!
+    This means all action components belonging to that Runtime will stop working once the Runtime is closed!
 
 JDA-Commands will handle this case for you. This error message can be [customized](../misc/error-handling.md#error-messages).
 
 ![Expiration Message](../assets/expiration.png)
 
-If you want to avoid this behaviour, you have to reply with components that are `runtime-independent`. They will create a
-new `Runtime` everytime they are executed. These components will even work after a full bot restart! If you want them to not be usable anymore you need to remove
+If you want to avoid this behavior, you have to reply with action components that are `runtime-independent`. They will create a
+new `Runtime` everytime they are executed. These action components will even work after a full bot restart! If you want them to not be usable anymore you need to remove
 them on your own.
 
 !!! info inline end
@@ -192,23 +202,69 @@ calling `#modify`.
 
 ## Components V2
 !!! note
-    This section assumes that you are already familiar with Components V2. You can find the Discord documentation [here](https://discord.com/developers/docs/change-log/2025-04-22-components-v2). Also please have a look at JDAs component [classes](https://docs.jda.wiki/net/dv8tion/jda/api/components/package-summary.html).
+    This section assumes that you are already familiar with Components V2. You can find the Discord documentation [here](https://discord.com/developers/docs/change-log/2025-04-22-components-v2).
+    Also, please have a look at JDAs component [classes](https://docs.jda.wiki/net/dv8tion/jda/api/components/package-summary.html).
 
-## Replying with Components V2
-You can reply with Components V2 by passing one or more [TopLevelComponents] to the [reply] method. This will automatically enable the V2 flag. Note that this method is only available either directly at the event class or at the [ConfigurableReply] stage.  You canot call it after one of the following methods:
+### Replying with Components V2
 
-- components
-- embeds
-- builder
-
-because adding content, embeds, files, etc would disqualify the message from Components V2.
-
+You can reply with Components V2 by passing one or more <MessageTopLevelComponent>s to the 
+[`reply()`][[ReplyableEvent#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent, net.dv8tion.jda.api.components.MessageTopLevelComponent...)]] method. 
+This will automatically enable the V2 flag. Note that this method is only available either directly at the event class or at the <ConfigurableReply>
+stage (accessed by calling [`with()`][[ReplyableEvent#with()]]). 
 !!! example
     ```java
     event.reply(TextDisplay.of("Hello World"));
 
     event.with().ephemeral(true).reply(TextDisplay.of("Hello World"));
     ```
+Note, that you cannot reply with Components V2 after:
+
+- `components(...)`
+- `embeds(...)`
+- `builder(...)`
+
+has been called, because adding content, embeds, files, etc. disqualifies the message from being Components V2.
+
+### Action Components
+Components V2 also can have action components. They can either be added to an <ActionRow> or a <SectionAccessoryComponent> 
+as part of a <net.dv8tion.jda.api.components.section.Section>. You add them by using the 
+<io.github.kaktushose.jdac.dispatching.reply.Component> class.
+
+!!! example
+    ```java
+    event.reply(Section.of(Component.button("onButton"), TextDisplay.of("Useless Button")));
+
+    event.reply(ActionRow.of(Component.stringSelect("onMenu"))));
+    ```
+
+[Enabling and disabling](#enabling-disabling) as well as [modifying](#dynamic-components) works the same 
+as explained before.
+
+### Subsequent Replies
+Once you've sent a Components V2 message it has to remain Components V2. The [Reply Configuration](#reply-configuration) rules
+also apply to Components V2. This means with [keep components](#keeping-components) set to `true` it is theoretically possible
+to just do:
+```java
+public void onComponent(ComponentEvent event) {
+    event.reply();
+}
+```
+and send the same reply again. 
+
+However, a more realistic scenario is that you want to keep the original components, but edit some of them.
+You can do so by calling 
+[`reply(ComponentReplacer... replacer)`][[ComponentEvent#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)]].
+This method will enforce `keepComponents` and throw an <UnsupportedOperationException> if the message isn't Components V2.
+
+!!! example
+    ```java
+    public void onComponent(ComponentEvent event) {
+        event.reply(ComponentReplacer.byUniqueId(1, TextDisplay.of("Updated Component")));
+    }
+    ```
+
+To make working with the <ComponentReplacer> easier, you can assign unique ids to components. For action components, which
+are defined by JDA-Commands, you can either use the component annotation (e.g. `@Button`) or the [dynamic components API](#dynamic-components).
 
 ## Embeds
 JDA-Commands provides a rich Embed API to make working with Embeds easier. See the [Embed Section](../message/embeds.md) of this wiki for
