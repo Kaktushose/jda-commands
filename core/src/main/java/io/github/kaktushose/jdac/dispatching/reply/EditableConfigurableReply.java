@@ -68,10 +68,10 @@ public final class EditableConfigurableReply extends ConfigurableReply {
     /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
     /// @param replacer the [ComponentReplacer] to apply to the original components
-    /// @throws IllegalStateException if the original message didn't use V2 Components
+    /// @throws UnsupportedOperationException if the original message didn't use V2 Components
     public Message reply(ComponentReplacer... replacer) {
         if (!interaction.getMessage().isUsingComponentsV2()) {
-            throw new IllegalStateException("TODO: exception");
+            throw new UnsupportedOperationException("TODO: exception");
         }
 
         replyAction.keepComponents(true);
