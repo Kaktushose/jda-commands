@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.dispatching.events.interactions;
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
@@ -60,7 +61,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     public void removeComponents() {
         log.debug("Reply Debug: Removing components from original message");
         if (jdaEvent().getMessage().isUsingComponentsV2()) {
-            throw new UnsupportedOperationException("TODO: proper message");
+            throw new UnsupportedOperationException(JDACException.errorMessage("remove-components-v2"));
         }
         if (!jdaEvent().isAcknowledged()) {
             jdaEvent().deferReply(getReplyConfig().ephemeral()).queue();

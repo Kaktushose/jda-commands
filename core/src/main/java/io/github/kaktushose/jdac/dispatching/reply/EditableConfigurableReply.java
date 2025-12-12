@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
@@ -71,7 +72,7 @@ public final class EditableConfigurableReply extends ConfigurableReply {
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
     public Message reply(ComponentReplacer... replacer) {
         if (!interaction.getMessage().isUsingComponentsV2()) {
-            throw new UnsupportedOperationException("TODO: exception");
+            throw new UnsupportedOperationException(JDACException.errorMessage("component-replacer-v1"));
         }
 
         replyAction.keepComponents(true);
