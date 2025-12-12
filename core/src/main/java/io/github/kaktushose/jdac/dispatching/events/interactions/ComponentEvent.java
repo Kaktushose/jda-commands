@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionE
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getReplyConfig;
 
@@ -19,6 +21,8 @@ import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocat
 /// @see Event
 /// @see ModalReplyableEvent
 public final class ComponentEvent extends ModalReplyableEvent<GenericComponentInteractionCreateEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(ComponentEvent.class);
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
@@ -48,6 +52,20 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Use [#reply(String, Entry...)] to edit it directly.
     public void deferEdit() {
         jdaEvent().deferEdit().complete();
+    }
+
+    /// Removes all components from the original message.
+    ///
+    /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+    public void removeComponents() {
+        log.debug("Reply Debug: Removing components from original message");
+        if (jdaEvent().getMessage().isUsingComponentsV2()) {
+            throw new UnsupportedOperationException("TODO: proper message");
+        }
+        if (!jdaEvent().isAcknowledged()) {
+            jdaEvent().deferReply(getReplyConfig().ephemeral()).queue();
+        }
+        jdaEvent().getHook().editOriginalComponents().queue();
     }
 
     @Override

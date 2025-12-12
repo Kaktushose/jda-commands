@@ -26,7 +26,6 @@ import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -90,22 +89,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param ephemeral yes
     public abstract void deferReply(boolean ephemeral);
-
-    /// Removes all components from the original message.
-    ///
-    /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
-    public void removeComponents() {
-        log.debug("Reply Debug: Removing components from original message");
-        if (jdaEvent() instanceof ComponentInteraction interaction) {
-            if (interaction.getMessage().isUsingComponentsV2()) {
-                throw new UnsupportedOperationException("TODO: proper message");
-            }
-            if (!jdaEvent().isAcknowledged()) {
-                interaction.deferReply(getReplyConfig().ephemeral()).queue();
-            }
-            interaction.getHook().editOriginalComponents().queue();
-        }
-    }
 
     /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and transforms it into a JDA [Button].
