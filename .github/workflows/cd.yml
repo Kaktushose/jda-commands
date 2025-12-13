@@ -107,7 +107,7 @@ jobs:
 
   wiki:
     runs-on: ubuntu-latest
-    needs: [ check_if_release, javadoc ]
+    needs: [ check_if_release, javadoc, javadoc_target_dir ]
     permissions:
       pages: write
       id-token: write
