@@ -1,5 +1,5 @@
 allprojects {
-    version = "4.0.1"
+    version = "5.0.0-SNAPSHOT"
     val snapshotVersion = "4.1.0-SNAPSHOT"
     if (System.getenv("JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE") == "SNAPSHOT") {
         version = snapshotVersion
