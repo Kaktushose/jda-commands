@@ -1,7 +1,7 @@
 import org.jreleaser.version.SemanticVersion
 
 allprojects {
-    version = "4.0.1"
+    version = "4.1.0"
     if (System.getenv("DEPLOY_ACTIVE") == "SNAPSHOT") {
         if (!version.toString().endsWith("-SNAPSHOT")) {
             val semver = SemanticVersion.of(version.toString())
