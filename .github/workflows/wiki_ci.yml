@@ -29,7 +29,7 @@ jobs:
           # replace all JDAC_JAVADOC_VERSION with actual version
           grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/snapshot/g'
           
-          mkdocs build --verbose 2>&1 | tee out.log # 2>&1 -> redirect err to out
+          mkdocs build --verbose 2>&1 | tee ../out.log # 2>&1 -> redirect err to out
       - name: Check for errors
         run: |
           errs=$(grep -E 'WARNING|ERROR' out.log)
