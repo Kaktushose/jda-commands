@@ -2,7 +2,7 @@ import org.jreleaser.version.SemanticVersion
 
 allprojects {
     version = "4.0.1"
-    if (System.getenv("JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE") == "SNAPSHOT") {
+    if (System.getenv("DEPLOY_ACTIVE") == "SNAPSHOT") {
         if (!version.toString().endsWith("-SNAPSHOT")) {
             val semver = SemanticVersion.of(version.toString())
             val snapshotSemver = SemanticVersion.of(semver.major, semver.minor + 1, "-", "SNAPSHOT", null)
