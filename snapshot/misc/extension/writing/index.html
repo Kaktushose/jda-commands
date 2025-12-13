@@ -1342,7 +1342,7 @@ You're not viewing the latest stable version.
   <span class="md-ellipsis">
     
   
-    Extensions
+    Configuration Process
   
 
     
@@ -1355,6 +1355,60 @@ You're not viewing the latest stable version.
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration Process
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1" id="__nav_7_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_3_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1495,34 +1549,6 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Providing Implementations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#identity-equality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Identity Equality
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-implementation-class" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Implementation class
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1560,6 +1586,42 @@ You're not viewing the latest stable version.
     
   
     Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Properties
   
 
     
@@ -1638,15 +1700,15 @@ You're not viewing the latest stable version.
 <h1 id="writing-an-extension">Writing an Extension<a class="headerlink" href="#writing-an-extension" title="Permanent link">&para;</a></h1>
 <h2 id="entrypoint">Entrypoint<a class="headerlink" href="#entrypoint" title="Permanent link">&para;</a></h2>
 <p>The entrypoint of the Extension API is the so called
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Extension.html"><code>Extension</code></a>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html"><code>Extension</code></a>
 interface, which your extensions <em>"entry class"</em> must implement:</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div>
 <h3 id="extensiondata"><code>Extension.Data</code><a class="headerlink" href="#extensiondata" title="Permanent link">&para;</a></h3>
-<p>Furthermore, each entry class must override the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Extension.html#init(T)"><code>Extension#init(T)</code></a> method,
+<p>Furthermore, each entry class must override the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html#init(T)"><code>Extension#init(T)</code></a> method,
 which will be called when JDA-Commands loads the extension. It can be used to configure extension specific options with help of
 an own implementation of
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Extension.Data.html"><code>Extension.Data</code></a>.</p>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.Data.html"><code>Extension.Data</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nd">@Override</span>
@@ -1676,22 +1738,11 @@ an own implementation of
 <li>If no instance of <code>MyExtensionData</code> is passed by the user, this argument will be set <code>null</code>.</li>
 </ol>
 <h2 id="providing-implementations">Providing Implementations<a class="headerlink" href="#providing-implementations" title="Permanent link">&para;</a></h2>
-<p>Currently, extensions support to provide custom implementations of any class extending
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Implementation.ExtensionProvidable.html"><code>Implementation.ExtensionProvidable</code></a>,
-that is:</p>
-<ul>
-<li><code>Descriptor</code></li>
-<li><code>InteractionControllerInstantiator</code></li>
-<li><code>ErrorMessageFactory</code></li>
-<li><code>Implementation.MiddlewareContainer</code> (wrapper type for <code>Middleware</code>)</li>
-<li><code>Implementation.TypeAdapterContainer</code> (wrapper type for <code>TypeAdapter</code>)</li>
-<li><code>Implementation.ValidatorContainer</code> (wrapper type for <code>Validator</code>)</li>
-<li><code>PermissionsProvider</code></li>
-<li><code>GuildScopeProvider</code></li>
-</ul>
-<p>To provide custom implementations we have to implement the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Extension.html#providedImplementations()"><code>Extension#providedImplementations()</code></a> method.
-This method returns a collection of all implementations that an extension provides, wrapped in an instance of
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Implementation.html"><code>Implementation</code></a></p>
+<p>Currently, extensions support providing custom <a href="../../property/#propertyprovider">PropertyProviders</a> of properties with
+category <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.Category.html#LOADABLE"><code>Property.Category#LOADABLE</code></a>. You can take a look at <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html"><code>Property</code></a> to know what properties can be provided by extensions. </p>
+<p>To provide custom <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html"><code>PropertyProvider</code></a>s your have to implement the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html#properties()"><code>Extension#properties()</code></a> method.
+This method returns a collection of all <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html"><code>PropertyProvider</code></a>s that an extension provides. Take a look <a href="../../property/#propertyprovider">here</a>
+to know how to use them.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nd">@Override</span>
@@ -1703,106 +1754,36 @@ This method returns a collection of all implementations that an extension provid
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nd">@Override</span>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Implementation</span><span class="o">&lt;?&gt;&gt;</span><span class="w"> </span><span class="nf">providedImplementations</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Implementation</span><span class="p">.</span><span class="na">single</span><span class="p">(</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">                </span><span class="n">Descriptor</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">                </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyCustomDescriptor</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="p">);</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="nd">@Override</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">dataType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">MyExtensionData</span><span class="p">.</span><span class="na">class</span><span class="p">;</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">}</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">MyExtensionData</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">someOption</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="p">.</span><span class="na">Data</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PropertyProvider</span><span class="p">(</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">                </span><span class="n">Property</span><span class="p">.</span><span class="na">CLASS_FINDER</span><span class="p">,</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">                </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="c1">// pick an appropriated priority</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">                </span><span class="n">Foo</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">                </span><span class="n">ctx</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomClassFinder</span><span class="p">(</span><span class="n">ctx</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">Priority</span><span class="p">.</span><span class="na">PACKAGES</span><span class="p">)))</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="p">));</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nd">@Override</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">dataType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">MyExtensionData</span><span class="p">.</span><span class="na">class</span><span class="p">;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">}</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">MyExtensionData</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">someOption</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="p">.</span><span class="na">Data</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div>
-<h3 id="identity-equality">Identity Equality<a class="headerlink" href="#identity-equality" title="Permanent link">&para;</a></h3>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><code>providedImplementations()</code> and the supplier of <code>Implementation</code> will be called
-multiple times during JDA-Commands startup!</p>
-</div>
-<p>Thus, <code>providedImplementations()</code> must always return the same enumeration of <code>Implementation</code>s. If the identity 
-equality is important, the supplier of <code>Implementation</code> must also always return the same instances.</p>
-<p>JDA-Commands doesn't rely on identity equality, but you might have fields that store information in that class.
-It should, of course, be the same instance then each time. </p>
-<p><code>MyExtension</code> could look something like this in that case:</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtension</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">MyCustomDescriptor</span><span class="w"> </span><span class="n">descriptor</span><span class="p">;</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nd">@Override</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="n">MyExtensionData</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">            </span><span class="n">doSomeConfig</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="na">someOption</span><span class="p">());</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">            </span><span class="n">descriptor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyCustomDescriptor</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">        </span><span class="p">}</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nd">@Override</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Implementation</span><span class="o">&lt;?&gt;&gt;</span><span class="w"> </span><span class="nf">providedImplementations</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Implementation</span><span class="p">.</span><span class="na">single</span><span class="p">(</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">                </span><span class="n">Descriptor</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">                </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">descriptor</span><span class="p">)</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="p">);</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="nd">@Override</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nd">@NotNull</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">MyExtensionData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">dataType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">MyExtensionData</span><span class="p">.</span><span class="na">class</span><span class="p">;</span>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="p">}</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">MyExtensionData</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">someOption</span><span class="p">)</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Extension</span><span class="p">.</span><span class="na">Data</span><span class="w"> </span><span class="p">{}</span>
-</span></code></pre></div>
-<h3 id="the-implementation-class">The <code>Implementation</code> class<a class="headerlink" href="#the-implementation-class" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Implementation.html"><code>Implementation</code></a>
-class has 2 main purposes: State which class the custom implementation is for and providing instance(s) of those custom implementations.</p>
-<p>To provide a custom implementation you have to create an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Implementation.html"><code>Implementation</code></a> and provide</p>
-<ol>
-<li>the <code>type</code> of this Extension <a href="#providing-implementations">(that is a class/interface extending ExtensionProvidable</a>)</li>
-<li>a <code>supplier</code> in form of <code>java.util.fuction.Function</code> that takes
-  <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/JDACBuilderData.html"><code>JDACBuilderData</code></a>
-  as an argument and returns a list of instances of custom implementations for the specific type</li>
-</ol>
-<div class="language-java highlight"><span class="filename">Example for ClassFinder</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">new</span><span class="w"> </span><span class="n">Implemenation</span><span class="p">(</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">        </span><span class="n">ClassFinder</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="n">builderData</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">CustomClassFinderOne</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomClassFinderSecond</span><span class="p">(</span><span class="n">builderData</span><span class="p">.</span><span class="na">descriptor</span><span class="p">()))</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">)</span>
-</span></code></pre></div>
-<p>It's also important that only the following types support multiple instances:</p>
-<ul>
-<li><code>ClassFinder</code></li>
-<li><code>Implementation.MiddlewareContainer</code> (wrapper type for Middleware)</li>
-<li><code>Implementation.TypeAdapterContainer</code> (wrapper type for TypeAdapter)</li>
-<li><code>Implementation.ValidatorContainer</code> (wrapper type for Validator)</li>
-</ul>
-<p>For all other types
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/extension/Implementation.html#single(java.lang.Class,java.util.function.Function)"><code>Implementation#single(Class, Function)</code></a>
-should be used.</p>
-<p>The provided instance of <code>JDACBuilderData</code> only supports read access to the builder, which can be used to obtain any other
-part of the framework as a dependency. It's important to have in mind, that calls to this object will check all registered
-extensions for the needed implementation, thus cycling dependencies will result in an exception.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If the list returned by <strong>supplier</strong> is empty, this implementation will be treated as non-existent, 
-which is useful for dynamic registration of custom implementation.</p>
-</div>
 <h2 id="registration">Registration<a class="headerlink" href="#registration" title="Permanent link">&para;</a></h2>
 <p>Custom extensions are found with help of Javas <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ServiceLoader.html">ServiceLoader API</a>.</p>
 <p>To register the above <code>MyExtension</code> we have to create a file in our <code>resources\META-INF</code> directory called
-<code>io.github.kaktushose.jdac.extension.Extension</code>.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>src
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>└── main
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    └── resources
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        └── META-INF
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>            └── io.github.kaktushose.jdac.extension.Extension
+<code>io.github.kaktushose.jdac.configuration.Extension</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>src
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>└── main
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    └── resources
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        └── META-INF
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>            └── io.github.kaktushose.jdac.configuration.Extension
 </span></code></pre></div>
 <p>The full class name of our class <code>MyExtension</code> (e.g. <code>my.package.MyExtension</code>) must be the content of this file.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-text highlight"><span class="filename">io.github.kaktushose.jdac.extension.Extension</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>my.package.MyExtension
+<div class="language-text highlight"><span class="filename">io.github.kaktushose.jdac.configuration.Extension</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>my.package.MyExtension
 </span></code></pre></div>
 </div>
 <p>The extension can now be found and loaded by JDA-Commands.</p>

@@ -14,6 +14,8 @@
         <link rel="prev" href="../writing/">
       
       
+        <link rel="next" href="../../property/">
+      
       
         
       
@@ -1340,7 +1342,7 @@ You're not viewing the latest stable version.
   <span class="md-ellipsis">
     
   
-    Extensions
+    Configuration Process
   
 
     
@@ -1353,6 +1355,60 @@ You're not viewing the latest stable version.
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration Process
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1" id="__nav_7_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_3_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1523,6 +1579,42 @@ You're not viewing the latest stable version.
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1591,10 +1683,10 @@ to the JDA-Commands builder. In case of our <code>MyExtension</code> example, th
 <h2 id="filtering-found-extensions">Filtering found Extensions<a class="headerlink" href="#filtering-found-extensions" title="Permanent link">&para;</a></h2>
 <p>Filtering extensions is crucial for resolving cycling dependencies.
 To filter which extensions we want to include in our application, we can utilize the
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#filterExtensions(io.github.kaktushose.jdac.JDACBuilder.FilterStrategy,java.lang.String...)"><code>JDACBuilder#filterExtensions(JDACBuilder.FilterStrategy, String...)</code></a>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#filterExtensions(io.github.kaktushose.jdac.configuration.ExtensionFilter.FilterStrategy,java.lang.String...)"><code>JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)</code></a>
 method. You need to pass the following two parameters:</p>
 <ol>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.FilterStrategy.html"><code>JDACBuilder.FilterStrategy</code></a>,
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/ExtensionFilter.FilterStrategy.html"><code>ExtensionFilter.FilterStrategy</code></a>,
    which will either exclude (<code>FilterStrategy.EXCLUDE</code>) or include (<code>FilterStrategy.INCLUDE</code>) the passed extensions.</li>
 <li><code>String...</code> is an enumeration of the full class names, which should be either included or excluded.
    The strings will be matched to the full class names of the classes extending <code>Extension</code> using <code>String#startWith</code>, thus
@@ -1659,6 +1751,22 @@ method. You need to pass the following two parameters:</p>
             </div>
           </a>
         
+        
+          
+          <a href="../../property/" class="md-footer__link md-footer__link--next" aria-label="Next: Properties">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Properties
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
         
       </nav>
     
