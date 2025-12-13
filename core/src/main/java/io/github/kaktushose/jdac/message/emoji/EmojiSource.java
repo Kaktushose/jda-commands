@@ -1,11 +1,10 @@
 package io.github.kaktushose.jdac.message.emoji;
 
-import io.github.kaktushose.jdac.exceptions.ConfigurationException;
-import io.github.kaktushose.jdac.extension.Implementation;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
 import io.github.classgraph.ResourceList;
 import io.github.classgraph.ScanResult;
+import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import net.dv8tion.jda.api.entities.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// Emojis loaded from an implementation of [EmojiSource] are automatically registered upon startup.
 ///
 /// Per default all emojis contained in the directory "emojis" in the resource folder are registered automatically.
-public non-sealed interface EmojiSource extends Implementation.ExtensionProvidable {
+public interface EmojiSource {
 
     Pattern RESOURCE_PATTERN = Pattern.compile(".*/(.*)[.].*");
 

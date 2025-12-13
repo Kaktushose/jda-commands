@@ -82,6 +82,32 @@ multiple-implementations =
     Found multiple implementations of"{ $type }", please exclude the unwanted extension:
         { $found }
 
+## properties
+reserved-priority =
+    The priority { $priority } can't be used.
+    Priorities ranging from 0 to 100 and 2147483647 (Integer.MAX_VALUE) are reserved.
+
+negative-priority = The priority { $priority } is invalid. Priories must be positive!
+
+provided-property =
+    The property { $property } can only be provided by JDA-Commands.
+    You can't add custom PropertyProviders for it!
+
+user-property =
+    The property { $property } can only be set by the user via JDACBuilder.
+    You can't add custom PropertyProviders for it!
+
+property-not-set =
+    Missing value for the required property { $property }.
+    Please provide one via JDACBuilder or an Extension!
+
+cycling-calls-itself = PropertyProvider cannot depenend on property { $property } while providing it! (provider in { $class })
+
+cycling-tree =
+    Cannot resolve property { $property }! Found cycling dependency:
+
+    { $tree }
+
 # CustomId
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
 invalid-custom-id = Provided custom id is invalid.
