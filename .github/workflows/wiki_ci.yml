@@ -23,7 +23,7 @@ jobs:
           pip install -r requirements.txt
           
           # replace online javadocs with local ones
-          sed -i -e 's#https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/#../jda-commands/build/docs/javadoc/#g'
+          sed -i -e 's#https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/#../jda-commands/build/docs/javadoc/#g' mkdocs.yml
 
           # replace all JDAC_JAVADOC_VERSION with actual version
           grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/snapshot/g'
