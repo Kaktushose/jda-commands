@@ -10,7 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public interface InternalPropertyProviders {
 
-    Property<Embeds.Configuration> EMBED_CONFIG_IMPL = new Singleton<>("EMBED_CONFIG", Category.PROVIDED, Embeds.Configuration.class);
+    Property<Embeds.Configuration> EMBED_CONFIG_INTERNAL = new Singleton<>("EMBED_CONFIG_INTERNAL", Category.PROVIDED, Embeds.Configuration.class);
 
     Property<JDAContext> JDA_CONTEXT = new Singleton<>("JDA_CONTEXT", Category.PROVIDED, JDAContext.class);
 
