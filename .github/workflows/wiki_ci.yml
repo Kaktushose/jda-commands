@@ -39,8 +39,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
       - name: Check for errors
         run: |
-          out=${{ steps.build.outputs.out }}
-          errs=$(echo "$out" | grep -E 'WARNING|ERROR')
+          errs=$(echo "${{ steps.build.outputs.out }}" | grep -E 'WARNING|ERROR')
           
           if [[ -n "$errs" ]]; then
             echo "Found warnings or errors:"
