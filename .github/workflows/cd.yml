@@ -120,10 +120,17 @@ jobs:
           grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/${{ needs.javadoc_target_dir.outputs.target }}/g'
           
           if [ "${{ needs.check_if_release.outputs.release }}" = "true" ]; then 
-            mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki
+            mike deploy -u ${{ needs.check_if_release.outputs.version }} wiki 2>&1 | tee ../out.log # 2>&1 -> redirect err to out
             mike set-default ${{ needs.check_if_release.outputs.version }}
           else 
-            mike deploy snapshot
+            mike deploy snapshot 2>&1 | tee ../out.log # 2>&1 -> redirect err to out
+          fi
+      - name: Check for errors
+        run: |
+          if grep -Eq 'WARNING|ERROR' out.log; then
+            echo "Found warnings or errors:"
+            grep -E 'WARNING|ERROR' out.log
+            exit 1
           fi
       - name: Push Wiki
         run: |
