@@ -11,6 +11,7 @@ To allow the injection of own Objects in these instances, JDA-Commands provides 
     Since JDA-Commands is a fundamental part of your discord bot and dependency injection is deeply connected with it,
     your bot should use a dependency injection framework for all your tasks.
 
+<NotFoundRef>
 
 ## Default Dependency Injection Framework - Guice
 !!! warning
