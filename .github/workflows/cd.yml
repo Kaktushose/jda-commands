@@ -50,7 +50,7 @@ jobs:
             fi
           
             echo "fine"
-          elif [[ $branch != "main" ]]
+          elif [[ $branch != "main" && "${{ steps.check.outputs.release }}" = "true"]]
           then
             echo "should be only executed on main, tail or hotfix branch"
             exit 1
