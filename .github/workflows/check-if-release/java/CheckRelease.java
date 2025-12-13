@@ -34,6 +34,7 @@ void main() throws IOException {
         outputs.put("version", matcher.group(1));
         outputs.put("version_major", matcher.group(2));
         outputs.put("version_minor", orDefault(matcher.group(3), "0"));
+        outputs.put("version_patch", orDefault(matcher.group(4), "0"));
         outputs.put("title", matcher.group(7));
     }
 

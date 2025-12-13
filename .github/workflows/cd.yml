@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "[0-9]+.[0-9]+.x"
+      - "hotfix/[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   check_if_release:
@@ -23,20 +24,34 @@ jobs:
         id: rules_check
         run: |
           branch=${{ github.ref_name }}
-          regex="([0-9]+)\.([0-9]+)\.x"
+          regex="(hotfix\/)?([0-9]+)\.([0-9]+)\.(x|[0-9]+)"
 
           if [[ $branch =~ $regex ]]
           then
-            if [[ ${BASH_REMATCH[1]} == "${{ steps.check.outputs.version_major }}" && ${BASH_REMATCH[2]} == "${{ steps.check.outputs.version_minor }}" ]]
+            if [[ ${BASH_REMATCH[2]} != "${{ steps.check.outputs.version_major }}" || ${BASH_REMATCH[3]} != "${{ steps.check.outputs.version_minor }}" ]]
             then
-                echo fine
-            else
-                echo "cant change major nor minor version in tail branch"
+                echo "cant change major nor minor version in tail or hotfix branch"
                 exit 1
             fi
+          
+            if [[ -n "${BASH_REMATCH[1]}" ]]
+            then
+              if [[ ${BASH_REMATCH[4]} == "x" ]]
+              then
+                echo "hotfix branch needs full version in branch name, 'x' is not supported as patch version!"
+                exit 1
+              fi
+              
+              if [[ ${BASH_REMATCH[4]} != "${{ steps.check.outputs.version_patch }}"
+                echo "patch version of release doesn't match version in branch name"
+                exit 1
+              fi
+            fi
+          
+            echo "fine"
           elif [[ $branch != "main" ]]
           then
-            echo "should be only executed on main or tail branch"
+            echo "should be only executed on main, tail or hotfix branch"
             exit 1
           fi
 
