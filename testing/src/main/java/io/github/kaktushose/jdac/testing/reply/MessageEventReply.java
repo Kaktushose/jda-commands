@@ -7,17 +7,16 @@ import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvoc
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.internal.ReplyableInvocation;
 import io.github.kaktushose.jdac.testing.reply.internal.EventReply;
+import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
-import net.dv8tion.jda.api.interactions.components.LayoutComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,9 +30,9 @@ public final class MessageEventReply extends EventReply {
         super(invocation, context);
         reply = data;
         components = reply.getComponents().stream()
-                .map(LayoutComponent::getActionComponents)
-                .flatMap(Collection::stream)
-                .toList();
+                .map(ActionRow.class::cast)
+                .flatMap(it -> it.getComponents().stream())
+                .map(ActionComponent.class::cast).toList();
     }
 
     public String content() {
@@ -76,8 +75,8 @@ public final class MessageEventReply extends EventReply {
         String definitionId = definitionId(component);
         return components.stream()
                 .filter(type::isInstance)
-                .filter(it -> it.getId() != null)
-                .filter(it -> CustomId.fromMerged(it.getId()).definitionId().equals(definitionId))
+                .filter(it -> it.getCustomId() != null)
+                .filter(it -> CustomId.fromMerged(it.getCustomId()).definitionId().equals(definitionId))
                 .findAny()
                 .map(type::cast);
     }
@@ -113,7 +112,7 @@ public final class MessageEventReply extends EventReply {
     private String runtimeId(String component) {
         String definitionId = definitionId(component);
         return components.stream()
-                .map(ActionComponent::getId)
+                .map(ActionComponent::getCustomId)
                 .filter(Objects::nonNull)
                 .map(CustomId::fromMerged)
                 .filter(it -> it.definitionId().equals(definitionId))

@@ -6,9 +6,12 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.Builder;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -30,8 +33,8 @@ public record EntitySelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
         Collection<String> permissions,
-        Set<EntitySelectMenu.SelectTarget> selectTargets,
-        Set<EntitySelectMenu.DefaultValue> defaultValues,
+        Set<SelectTarget> selectTargets,
+        Set<DefaultValue> defaultValues,
         Set<ChannelType> channelTypes,
         String placeholder,
         int minValue,
@@ -48,18 +51,18 @@ public record EntitySelectMenuDefinition(
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class));
 
-        Set<EntitySelectMenu.DefaultValue> defaultValueSet = new HashSet<>();
+        Set<DefaultValue> defaultValueSet = new HashSet<>();
         for (long id : selectMenu.defaultChannels()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.channel(id));
+            defaultValueSet.add(DefaultValue.channel(id));
         }
         for (long id : selectMenu.defaultUsers()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.user(id));
+            defaultValueSet.add(DefaultValue.user(id));
         }
         for (long id : selectMenu.defaultRoles()) {
             if (id < 0) continue;
-            defaultValueSet.add(EntitySelectMenu.DefaultValue.role(id));
+            defaultValueSet.add(DefaultValue.role(id));
         }
 
         return new EntitySelectMenuDefinition(
@@ -77,8 +80,8 @@ public record EntitySelectMenuDefinition(
 
     /// Builds a new [EntitySelectMenuDefinition] with the given values.
 
-    public EntitySelectMenuDefinition with(@Nullable Set<EntitySelectMenu.SelectTarget> selectTargets,
-                                           @Nullable Set<EntitySelectMenu.DefaultValue> defaultValues,
+    public EntitySelectMenuDefinition with(@Nullable Set<SelectTarget> selectTargets,
+                                           @Nullable Set<DefaultValue> defaultValues,
                                            @Nullable Set<ChannelType> channelTypes,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,

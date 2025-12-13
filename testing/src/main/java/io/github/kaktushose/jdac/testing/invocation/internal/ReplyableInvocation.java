@@ -4,6 +4,9 @@ import io.github.kaktushose.jdac.testing.TestScenario;
 import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.invocation.ModalInvocation;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.InteractionType;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -12,9 +15,12 @@ import net.dv8tion.jda.api.requests.restaction.WebhookMessageEditAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageData;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +49,7 @@ public sealed class ReplyableInvocation<T extends IReplyCallback> extends Invoca
             return mock(WebhookMessageCreateAction.class);
         });
         lenient().when(hook.editOriginal(any(MessageEditData.class))).then(invocation -> {
-            lastMessage = invocation.getArgument(0);
+            lastMessage = indexComponents(invocation.getArgument(0));
             reply.complete(invocation.getArgument(0));
             return mock(WebhookMessageEditAction.class);
         });
@@ -56,6 +62,27 @@ public sealed class ReplyableInvocation<T extends IReplyCallback> extends Invoca
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new InvocationException(e);
         }
+    }
+
+    private MessageEditData indexComponents(MessageEditData data) {
+        MessageEditBuilder builder = MessageEditBuilder.from(data);
+
+        int actionRowUniqueId = 1;
+        List<MessageTopLevelComponent> actionRows = new ArrayList<>();
+        for (MessageTopLevelComponentUnion union : data.getComponents()) {
+            union = union.withUniqueId(actionRowUniqueId++);
+
+            int componentUniqueIds = data.getComponents().size() + 1;
+            List<ActionRowChildComponent> components = new ArrayList<>();
+            for (ActionRowChildComponent component : union.asActionRow().getComponents()) {
+                components.add(component.withUniqueId(componentUniqueIds++));
+            }
+
+            actionRows.add(union.asActionRow().withComponents(components));
+        }
+
+        builder.setComponents(actionRows);
+        return builder.build();
     }
 
     @Nullable

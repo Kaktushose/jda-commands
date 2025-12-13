@@ -3,7 +3,15 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -14,12 +22,8 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
-import net.dv8tion.jda.api.interactions.components.LayoutComponent;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue;
-import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -27,10 +31,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -97,13 +98,20 @@ public final class ReplyAction implements Reply {
 
     public void builder(Consumer<MessageCreateBuilder> builder) {
         builder.accept(this.builder);
+        // this API only works for CV1 and underlying parts rely on no CV2 being present
+        if (this.builder.isUsingComponentsV2()) {
+            throw new IllegalArgumentException(JDACException.errorMessage("illegal-cv2-usage"));
+        }
     }
 
-    public Collection<LayoutComponent> components() {
-        return List.copyOf(builder.getComponents());
+    public Collection<ActionComponent> components() {
+        return builder.getComponents().stream()
+                .map(ActionRow.class::cast)
+                .flatMap(it -> it.getComponents().stream())
+                .map(ActionComponent.class::cast).toList();
     }
 
-    public void addComponents(LayoutComponent... components) {
+    public void addComponents(ActionRow... components) {
         builder.addComponents(components);
     }
 
@@ -140,16 +148,16 @@ public final class ReplyAction implements Reply {
         return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
     }
 
-    private List<LayoutComponent> retrieveComponents(Message original) {
-        List<LayoutComponent> components = original.getComponents();
+    private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
+        MessageComponentTree componentTree = original.getComponentTree();
 
         if (!keepSelections) {
-            return components;
+            return original.getComponents();
         }
 
-        for (LayoutComponent layoutComponent : components) {
-            for (ActionComponent actionComponent : layoutComponent.getActionComponents()) {
-                ActionComponent newComponent = switch (actionComponent) {
+        for (MessageTopLevelComponentUnion topLevel : componentTree.getComponents()) {
+            for (ActionComponent oldComponent : topLevel.asActionRow().getActionComponents()) {
+                ActionComponent newComponent = switch (oldComponent) {
                     case StringSelectMenu selectMenu when getJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu
                             .createCopy()
                             .setDefaultValues(selectEvent.getValues())
@@ -169,14 +177,13 @@ public final class ReplyAction implements Reply {
                                 .setDefaultValues(defaultValues)
                                 .build();
                     }
-
-                    default -> actionComponent;
+                    default -> oldComponent;
                 };
 
-                layoutComponent.updateComponent(actionComponent, newComponent);
+                componentTree = componentTree.replace(ComponentReplacer.byUniqueId(oldComponent, newComponent));
             }
         }
-        return components;
+        return componentTree.getComponents();
     }
 
     private void deferReply(IReplyCallback callback) {

@@ -7,8 +7,8 @@ import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import net.dv8tion.jda.api.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -74,7 +74,7 @@ class ButtonDefinitionTest {
 
         var button = definition.toJDAEntity();
 
-        assertNull(button.getId());
+        assertNull(button.getCustomId());
         assertEquals("https://example.com", button.getUrl());
         assertEquals(ButtonStyle.LINK, button.getStyle());
     }
@@ -85,7 +85,7 @@ class ButtonDefinitionTest {
 
         var button = definition.toJDAEntity();
 
-        assertNotNull(button.getId());
+        assertNotNull(button.getCustomId());
         assertNull(button.getUrl());
     }
 
@@ -96,8 +96,8 @@ class ButtonDefinitionTest {
 
         var button = definition.toJDAEntity(customId);
 
-        assertNotNull(button.getId());
-        assertEquals(customId.merged(), button.getId());
+        assertNotNull(button.getCustomId());
+        assertEquals(customId.merged(), button.getCustomId());
     }
 
     @Test

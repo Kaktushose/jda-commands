@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.CommandConfig;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
@@ -16,11 +17,15 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
+import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.utils.Result;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.Annotation;
@@ -28,6 +33,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
+import static dev.goldmensch.fluava.Bundle.log;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Collection of helper methods that are used inside the framework.
@@ -211,5 +217,53 @@ public final class Helpers {
                 return definition;
             }
         };
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T castUnsafe(Object some) {
+        return (T) some;
+    }
+
+    public static void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
+        context.performTask(jda -> emojiSources.stream()
+                .map(EmojiSource::get)
+                .map(Map::entrySet)
+                .flatMap(Set::stream)
+                .forEach(entry -> {
+                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
+                            .mapToResult()
+                            .complete();
+
+                    if (result.isSuccess()) {
+                        log.debug("Registered new application emoji with name {}", entry.getKey());
+                        return;
+                    }
+
+                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
+                        List<String> codes = e.getSchemaErrors()
+                                .stream()
+                                .map(ErrorResponseException.SchemaError::getErrors)
+                                .flatMap(List::stream)
+                                .map(ErrorResponseException.ErrorCode::getCode)
+                                .toList();
+
+                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
+                            log.debug("Application emoji with name {} already registered", entry.getKey());
+                            return;
+                        }
+                    }
+
+                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
+                }), true);
+    }
+
+    public static Collection<Property<?>> propertyCategoryList(Property.Category category, Collection<Property<?>> properties) {
+        for (Property<?> property : properties) {
+            if (property.category() != (category)) {
+                throw new IllegalArgumentException("The property %s doesn't belong to category %s!".formatted(property.name(), category));
+            }
+        }
+
+        return properties;
     }
 }

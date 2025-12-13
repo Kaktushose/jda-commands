@@ -3,12 +3,13 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic.internal;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.interactions.components.ActionComponent;
+import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 @ApiStatus.Internal
-public final class UnspecificComponent extends Component<UnspecificComponent, ActionComponent, ActionComponent, ComponentDefinition<ActionComponent>> {
+public final class UnspecificComponent extends Component<UnspecificComponent, ActionComponent, ActionRowChildComponent, ComponentDefinition<ActionComponent>> {
 
     public UnspecificComponent(boolean enabled, boolean independent, String component, @Nullable Class<?> origin, Entry[] placeholder) {
         super(component, origin, placeholder);

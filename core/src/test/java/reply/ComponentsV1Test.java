@@ -8,8 +8,8 @@ import io.github.kaktushose.jdac.testing.TestScenario;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Mentions;
-import net.dv8tion.jda.api.interactions.components.Component;
-import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.SelectTarget;
+import net.dv8tion.jda.api.components.Component;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,17 @@ class ComponentsV1Test {
     }
 
     @Test
-    void testComponentsBeingSent() {
+    void testSingleComponentBeingSent() {
+        MessageEventReply reply = scenario.slash("test single").invoke();
+
+        List<Component.Type> components = reply.components().stream().map(Component::getType).toList();
+
+        assertEquals(1, components.size());
+        assertTrue(components.contains(Component.Type.BUTTON));
+    }
+
+    @Test
+    void testMultipleComponentsBeingSent() {
         MessageEventReply reply = scenario.slash("test all").invoke();
 
         List<Component.Type> components = reply.components().stream().map(Component::getType).toList();
@@ -84,6 +94,11 @@ class ComponentsV1Test {
 
     @Interaction
     public static class TestController {
+
+        @Command("test single")
+        public void testSingle(CommandEvent event) {
+            event.with().components("button").reply();
+        }
 
         @Command("test all")
         public void testAll(CommandEvent event) {
