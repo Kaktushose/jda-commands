@@ -3,6 +3,8 @@ io.github.kaktushose.jdac
 io.github.kaktushose.jdac.annotations.constraints
 io.github.kaktushose.jdac.annotations.i18n
 io.github.kaktushose.jdac.annotations.interactions
+io.github.kaktushose.jdac.configuration
+io.github.kaktushose.jdac.configuration.internal
 io.github.kaktushose.jdac.definitions
 io.github.kaktushose.jdac.definitions.description
 io.github.kaktushose.jdac.definitions.description.reflective
@@ -39,8 +41,6 @@ io.github.kaktushose.jdac.embeds.error
 io.github.kaktushose.jdac.embeds.internal
 io.github.kaktushose.jdac.exceptions
 io.github.kaktushose.jdac.exceptions.internal
-io.github.kaktushose.jdac.extension
-io.github.kaktushose.jdac.extension.internal
 io.github.kaktushose.jdac.internal
 io.github.kaktushose.jdac.internal.register
 io.github.kaktushose.jdac.message
