@@ -18,6 +18,7 @@ jobs:
           python-version: 3.x
           cache: pip
       - name: Build Wiki
+        id: build
         run: |
           cd wiki
           pip install -r requirements.txt
@@ -28,4 +29,21 @@ jobs:
           # replace all JDAC_JAVADOC_VERSION with actual version
           grep -rl 'https' ./ | xargs sed -i -e 's/JDAC_JAVADOC_VERSION/snapshot/g'
           
-          mkdocs build --verbose
+          out="$(mkdocs build --verbose 2>&1)"
+          echo "$out"
+          
+          {
+            echo "out<<EOF"
+            echo "$out"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Check for errors
+        run: |
+          out=${{ steps.build.outputs.out }}
+          errs=$(echo "$out" | grep -E 'WARNING|ERROR')
+          
+          if [[ -n "$errs" ]]; then
+            echo "Found warnings or errors:"
+            printf '%s\n' "$errs"
+            exit 1
+          fi

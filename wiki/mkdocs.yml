@@ -77,6 +77,7 @@ markdown_extensions:
         - 'https://docs.oracle.com/en/java/javase/24/docs/api/'
         - 'https://javadoc.io/doc/net.dv8tion/JDA/5.6.1/'
         - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
+#        - '../jda-commands/build/docs/javadoc'
         - alias: 'fluava'
           url: 'https://goldmensch.github.io/fluava/javadocs/0/'
           auto_searched: 'false'
