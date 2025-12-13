@@ -42,7 +42,7 @@ jobs:
                 exit 1
               fi
               
-              if [[ ${BASH_REMATCH[4]} != "${{ steps.check.outputs.version_patch }}"
+              if [[ ${BASH_REMATCH[4]} != "${{ steps.check.outputs.version_patch }}" ]]
                 echo "patch version of release doesn't match version in branch name"
                 exit 1
               fi
