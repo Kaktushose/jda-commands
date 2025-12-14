@@ -111,7 +111,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
                 Property.VALIDATOR,
                 ctx -> instances(ctx, Implementation.Validator.class, Validator.class)
                         .collect(Collectors.toMap(
-                                instance -> instance.getClass().getAnnotation(Implementation.Validator.class).annotationType(),
+                                instance -> instance.getClass().getAnnotation(Implementation.Validator.class).annotation(),
                                 Function.identity())
                         )
         ));
