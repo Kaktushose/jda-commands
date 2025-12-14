@@ -79,7 +79,7 @@ import java.util.function.Function;
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
         implements ActionRowChildComponentUnion permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
-    protected int uniqueId;
+    protected @Nullable Integer uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
@@ -91,7 +91,6 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         this.method = method;
         this.origin = origin;
         this.placeholder = placeholder;
-        uniqueId = -1;
     }
 
     /// Adds an enabled, runtime-bound [Component] to the reply.
@@ -248,7 +247,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
 
     @Override
     public int getUniqueId() {
-        return uniqueId;
+        return uniqueId == null ? -1 : uniqueId;
     }
 
     @Override

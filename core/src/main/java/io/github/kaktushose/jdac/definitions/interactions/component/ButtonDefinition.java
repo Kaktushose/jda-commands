@@ -36,7 +36,7 @@ public record ButtonDefinition(
         @Nullable Emoji emoji,
         @Nullable String link,
         ButtonStyle style,
-        int uniqueId
+        @Nullable Integer uniqueId
 ) implements ComponentDefinition<Button> {
 
     /// Constructs a new [ButtonDefinition] from the given [MethodBuildContext].
@@ -65,16 +65,26 @@ public record ButtonDefinition(
                 emoji,
                 button.link().isEmpty() ? null : button.link(),
                 button.style(),
-                button.uniqueId()
+                button.uniqueId() < 0 ? null : button.uniqueId()
         );
     }
 
     /// Builds a new [ButtonDefinition] with the given values
 
-    public ButtonDefinition with(
-            @Nullable String label, @Nullable Emoji emoji, @Nullable String link, @Nullable ButtonStyle style, int uniqueId) {
-        return new ButtonDefinition(classDescription, methodDescription, permissions,
-                override(this.label, label), override(this.emoji, emoji), override(this.link, link), override(this.style, style), uniqueId);
+    public ButtonDefinition with(@Nullable String label,
+                                 @Nullable Emoji emoji,
+                                 @Nullable String link,
+                                 @Nullable ButtonStyle style,
+                                 @Nullable Integer uniqueId) {
+        return new ButtonDefinition(
+                classDescription,
+                methodDescription,
+                permissions,
+                override(this.label, label),
+                override(this.emoji, emoji),
+                override(this.link, link),
+                override(this.style, style),
+                override(this.uniqueId, uniqueId));
     }
 
     /// Transforms this definition to an [Button] with an independent custom id.

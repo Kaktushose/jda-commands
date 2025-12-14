@@ -52,6 +52,6 @@ public @interface Button {
     /// @return the link of the button
     String link() default "";
 
-    /// The uniqueId of the button. Default value is `0` which will result in Discord assigning an id.
-    int uniqueId() default 0;
+    /// The uniqueId of this component. Must be greater than 0. Default value is `-1` which will result in Discord auto assigning an id.
+    int uniqueId() default -1;
 }

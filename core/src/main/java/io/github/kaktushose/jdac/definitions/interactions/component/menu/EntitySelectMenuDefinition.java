@@ -39,7 +39,7 @@ public record EntitySelectMenuDefinition(
         String placeholder,
         int minValue,
         int maxValue,
-        int uniqueId
+        @Nullable Integer uniqueId
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
@@ -76,7 +76,7 @@ public record EntitySelectMenuDefinition(
                 selectMenu.placeholder(),
                 selectMenu.minValue(),
                 selectMenu.maxValue(),
-                selectMenu.uniqueId()
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
         );
     }
 
@@ -88,7 +88,7 @@ public record EntitySelectMenuDefinition(
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue,
-                                           int uniqueId) {
+                                           @Nullable Integer uniqueId) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
@@ -99,7 +99,7 @@ public record EntitySelectMenuDefinition(
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
                 override(this.maxValue, maxValue),
-                uniqueId
+                override(this.uniqueId, uniqueId)
         );
     }
 

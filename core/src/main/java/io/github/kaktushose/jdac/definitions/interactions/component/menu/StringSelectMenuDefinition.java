@@ -38,7 +38,7 @@ public record StringSelectMenuDefinition(
         String placeholder,
         int minValue,
         int maxValue,
-        int uniqueId
+        @Nullable Integer uniqueId
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
@@ -69,7 +69,7 @@ public record StringSelectMenuDefinition(
                 selectMenu.value(),
                 selectMenu.minValue(),
                 selectMenu.maxValue(),
-                selectMenu.uniqueId()
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
         );
     }
 
@@ -80,7 +80,7 @@ public record StringSelectMenuDefinition(
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue,
-                                           int uniqueId) {
+                                           @Nullable Integer uniqueId) {
         return new StringSelectMenuDefinition(
                 this.classDescription,
                 this.methodDescription,
@@ -89,7 +89,7 @@ public record StringSelectMenuDefinition(
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
                 override(this.maxValue, maxValue),
-                uniqueId
+                override(this.uniqueId, uniqueId)
         );
     }
 
