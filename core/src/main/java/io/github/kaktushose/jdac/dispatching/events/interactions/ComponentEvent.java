@@ -64,9 +64,9 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
             throw new UnsupportedOperationException(JDACException.errorMessage("remove-components-v2"));
         }
         if (!jdaEvent().isAcknowledged()) {
-            jdaEvent().deferReply(getReplyConfig().ephemeral()).queue();
+            jdaEvent().deferReply(getReplyConfig().ephemeral()).complete();
         }
-        jdaEvent().getHook().editOriginalComponents().queue();
+        jdaEvent().getHook().editOriginalComponents().complete();
     }
 
     @Override

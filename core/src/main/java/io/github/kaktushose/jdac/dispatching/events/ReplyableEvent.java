@@ -207,7 +207,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param message     the message to send or the localization key
     /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
     /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
@@ -220,7 +220,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param first      the [MessageEmbed] to send
     /// @param additional additional [MessageEmbed]s to send
     /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
@@ -232,7 +232,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param message the [MessageCreateData] to send
     /// @return the [Message] that got created
-    /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
+    /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.

@@ -225,10 +225,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
                 yield button.getUrl() == null ? button.withCustomId(createId(definition, component.independent()).merged()) : button;
             }
 
-            case SelectMenuDefinition<?> menuDefinition -> {
-                var menu = menuDefinition.toJDAEntity(createId(definition, component.independent()));
-                yield menu.withDisabled(!component.enabled());
-            }
+            case SelectMenuDefinition<?> menuDefinition ->
+                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
         };
 
         item = switch (component) {
@@ -247,19 +245,19 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
         return switch (item) {
-            case Button button -> button.withLabel(resolve(button.getLabel(), component));
+            case Button button -> button.withLabel(resolveMessage(button.getLabel(), component));
             case EntitySelectMenu menu ->
-                    menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(), p -> resolve(p, component))).build();
+                    menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(), p -> resolveMessage(p, component))).build();
             case StringSelectMenu menu -> {
                 StringSelectMenu.Builder copy = menu.createCopy();
                 List<SelectOption> localized = copy.getOptions()
                         .stream()
-                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> resolve(d, component)))
-                                .withLabel(resolve(option.getLabel(), component)))
+                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> resolveMessage(d, component)))
+                                .withLabel(resolveMessage(option.getLabel(), component)))
                         .toList();
                 copy.getOptions().clear();
                 copy.addOptions(localized);
-                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> resolve(p, component)));
+                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> resolveMessage(p, component)));
                 yield copy.build();
             }
             default -> throw new InternalException("default-switch");
@@ -272,7 +270,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         return func.apply(val);
     }
 
-    private String resolve(String key, Component<?, ?, ?, ?> component) {
+    private String resolveMessage(String key, Component<?, ?, ?, ?> component) {
         return getFramework().messageResolver().resolve(key, getJdaEvent().getUserLocale().toLocale(), component.placeholder());
     }
 
@@ -297,8 +295,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         }
     }
 
-    private CustomId createId(InteractionDefinition definition, boolean staticComponent) {
-        return staticComponent
+    private CustomId createId(InteractionDefinition definition, boolean independent) {
+        return independent
                 ? CustomId.independent(definition.definitionId())
                 : new CustomId(getRuntime().id(), definition.definitionId());
     }

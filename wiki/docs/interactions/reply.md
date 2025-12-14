@@ -208,7 +208,7 @@ calling `#modify`.
 ### Replying with Components V2
 
 You can reply with Components V2 by passing one or more <MessageTopLevelComponent>s to the 
-[`reply()`][[ReplyableEvent#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent, net.dv8tion.jda.api.components.MessageTopLevelComponent...)]] method. 
+[`reply()`][[ReplyableEvent#reply(MessageTopLevelComponent, MessageTopLevelComponent...)]] method. 
 This will automatically enable the V2 flag. Note that this method is only available either directly at the event class or at the <ConfigurableReply>
 stage (accessed by calling [`with()`][[ReplyableEvent#with()]]). 
 !!! example
@@ -253,7 +253,7 @@ and send the same reply again.
 
 However, a more realistic scenario is that you want to keep the original components, but edit some of them.
 You can do so by calling 
-[`reply(ComponentReplacer... replacer)`][[ComponentEvent#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)]].
+[`reply(ComponentReplacer... replacer)`][[ComponentEvent#reply(ComponentReplacer...)]].
 This method will enforce `keepComponents` and throw an <UnsupportedOperationException> if the message isn't Components V2.
 
 !!! example

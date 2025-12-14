@@ -131,7 +131,7 @@ public record EntitySelectMenuDefinition(
                 menu.setChannelTypes(channelTypes);
             }
             if (uniqueId > 0) {
-                menu.setUniqueId(0);
+                menu.setUniqueId(uniqueId);
             }
             return menu.build();
         } catch (IllegalArgumentException e) {
