@@ -2,7 +2,6 @@ package io.github.kaktushose.jdac.permissions;
 
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.extension.Implementation;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
@@ -10,7 +9,7 @@ import net.dv8tion.jda.api.entities.User;
 ///
 /// @see DefaultPermissionsProvider
 /// @see Permissions Permission
-public non-sealed interface PermissionsProvider extends Implementation.ExtensionProvidable {
+public interface PermissionsProvider {
 
     /// Checks if a [User] has permissions. Compared to [#hasPermission(Member, InvocationContext)] this method will be
     /// called if the command gets executed in a non-guild context, where no member object is available.

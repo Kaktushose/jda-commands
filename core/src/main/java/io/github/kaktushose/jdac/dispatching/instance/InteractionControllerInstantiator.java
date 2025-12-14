@@ -2,7 +2,6 @@ package io.github.kaktushose.jdac.dispatching.instance;
 
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.extension.Implementation;
 import net.dv8tion.jda.api.JDA;
 
 /// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
@@ -14,7 +13,7 @@ import net.dv8tion.jda.api.JDA;
 /// classes annotated with [Interaction] but there can be only one instance per class of those per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
 /// Instances of interactions should be treated like runtime scoped singletons, so to speak.
 @FunctionalInterface
-public non-sealed interface InteractionControllerInstantiator extends Implementation.ExtensionProvidable {
+public interface InteractionControllerInstantiator {
 
     /// This method will be called each time an instance of a class annotated with [Interaction] is needed.
     ///

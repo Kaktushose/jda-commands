@@ -3,7 +3,7 @@ name: Create tail branch
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   check_if_release:
@@ -25,6 +25,7 @@ jobs:
       new_major: ${{ steps.check.outputs.is }}
       previous_major: ${{ steps.parse.outputs.version_major }}
       previous_minor: ${{ steps.parse.outputs.version_minor }}
+      start_commit: ${{ steps.previous_release.outputs.commit }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,9 +34,12 @@ jobs:
       # info: needs one non-major bump release in git history
       - id: previous_release
         run: |
-          msg=$(git log --pretty=format:"%s" --grep="^Release" --skip 1 -n 1)
-          echo "$msg"
+          txt=$(git log --pretty=format:"%H %s" --grep="^Release" --skip 1 -n 1)
+          msg=$(cut -d ' ' -f 2- <<< "$txt")
+          commit=$(cut -d ' ' -f 1 <<< "$txt")
+          
           echo "msg=$msg" >> "$GITHUB_OUTPUT"
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
       - id: parse
         uses: ./.github/workflows/check-if-release
         with:
@@ -62,9 +66,11 @@ jobs:
       - run: |
           major=${{ needs.new_major.outputs.previous_major }}
           minor=${{ needs.new_major.outputs.previous_minor }}
+          commit=${{ needs.new_major.outputs.start_commit }}
           branch="$major.$minor.x"
           
-          git switch -c $branch
+          
+          git switch -c $branch $commit
           git push -u origin $branch
 
           

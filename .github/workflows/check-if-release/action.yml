@@ -16,6 +16,8 @@ outputs:
     value: ${{ steps.check.outputs.version_major }}
   version_minor:
     value: ${{ steps.check.outputs.version_minor }}
+  version_patch:
+    value: ${{ steps.check.outputs.version_patch }}
   title:
     value: ${{ steps.check.outputs.title }}
 runs:
