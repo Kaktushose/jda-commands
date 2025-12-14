@@ -116,7 +116,7 @@ public void onFruitAutoComplete(AutoCompleteEvent event) {
 avoid that, you have to explicitly state the command options the handler supports:</p>
 <pre><code class="language-java">@SlashCommand(&quot;favourite food&quot;)
 public void foodCommand(CommandEvent event, String fruit, String vegetable) {
-    event.reply(&quot;You've chosen: %s and %s&quot;.formatted(fruit, vegetable));
+    event.reply(&quot;You've chosen: %s and %s&quot;, fruit, vegetable);
 }
 
 @AutoComplete(vale = &quot;foodCommand&quot;, options = &quot;fruit&quot;)
