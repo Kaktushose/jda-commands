@@ -89,7 +89,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
     /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
     Property<java.util.Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+            new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
 
     /// The VALIDATOR property maps a [Validator] to its identifying annotation.
     /// @see JDACBuilder#validator(Class, Validator)

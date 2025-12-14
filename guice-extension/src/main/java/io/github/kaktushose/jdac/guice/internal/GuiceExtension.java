@@ -5,12 +5,14 @@ import com.google.inject.Injector;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -99,7 +101,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
                 ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
                         .map(adapter -> {
                             Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
-                            return Map.entry(Map.entry(ann.source(), ann.target()), adapter);
+                            return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
                         })
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
            )
