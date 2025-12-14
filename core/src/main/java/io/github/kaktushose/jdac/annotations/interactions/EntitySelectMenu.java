@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.annotations.interactions;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
@@ -38,22 +39,22 @@ public @interface EntitySelectMenu {
     /// @return an array of supported [SelectTarget]s
     SelectTarget[] value();
 
-    /// The [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// The [default values][DefaultValue]
     /// for roles that will be shown to the user.
     ///
-    /// @return the [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// @return the [default values][DefaultValue]
     long[] defaultRoles() default -1;
 
-    /// The [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// The [default values][DefaultValue]
     /// for channels that will be shown to the user.
     ///
-    /// @return the [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// @return the [default values][DefaultValue]
     long[] defaultChannels() default -1;
 
-    /// The [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// The [default values][DefaultValue]
     /// for users that will be shown to the user.
     ///
-    /// @return the [default values][net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu.DefaultValue]
+    /// @return the [default values][DefaultValue]
     long[] defaultUsers() default -1;
 
     /// The [ChannelType]s that should be supported by this menu.
@@ -85,4 +86,6 @@ public @interface EntitySelectMenu {
     /// @return the maximum amount of values a user can select
     int maxValue() default 1;
 
+    /// The uniqueId of this component. Must be greater than 0. Default value is `-1` which will result in Discord auto assigning an id.
+    int uniqueId() default -1;
 }

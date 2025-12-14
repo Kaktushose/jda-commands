@@ -7,7 +7,6 @@ import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.components.selections.EntitySelectMenu.Builder;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Mentions;
@@ -29,6 +28,7 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param placeholder       the placeholder text of this menu
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
+/// @param uniqueId          the uniqueId of this menu
 public record EntitySelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -38,7 +38,8 @@ public record EntitySelectMenuDefinition(
         Set<ChannelType> channelTypes,
         String placeholder,
         int minValue,
-        int maxValue
+        int maxValue,
+        @Nullable Integer uniqueId
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
@@ -74,7 +75,8 @@ public record EntitySelectMenuDefinition(
                 new HashSet<>(Set.of(selectMenu.channelTypes())),
                 selectMenu.placeholder(),
                 selectMenu.minValue(),
-                selectMenu.maxValue()
+                selectMenu.maxValue(),
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
         );
     }
 
@@ -85,7 +87,8 @@ public record EntitySelectMenuDefinition(
                                            @Nullable Set<ChannelType> channelTypes,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
-                                           @Nullable Integer maxValue) {
+                                           @Nullable Integer maxValue,
+                                           @Nullable Integer uniqueId) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
@@ -95,7 +98,8 @@ public record EntitySelectMenuDefinition(
                 override(HashSet::new, this.channelTypes, channelTypes),
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
-                override(this.maxValue, maxValue)
+                override(this.maxValue, maxValue),
+                override(this.uniqueId, uniqueId)
         );
     }
 
@@ -125,6 +129,9 @@ public record EntitySelectMenuDefinition(
             channelTypes.remove(ChannelType.UNKNOWN);
             if (!channelTypes.isEmpty()) {
                 menu.setChannelTypes(channelTypes);
+            }
+            if (uniqueId != null) {
+                menu.setUniqueId(uniqueId);
             }
             return menu.build();
         } catch (IllegalArgumentException e) {

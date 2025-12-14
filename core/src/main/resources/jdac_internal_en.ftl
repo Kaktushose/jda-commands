@@ -117,6 +117,13 @@ independent-runtime-id = Provided custom id is runtime-independent.
 modal-as-component = Modals cannot be attached as components! "{ $method }" is a modal method! You have to reply with "ModalReplyableEvent#replyModal".
 duplicate-component = Cannot add component "{ $method } multiple times.
 
+# EditableConfigurableReply
+component-replacer-v1 = Cannot use ComponentReplacers on a message that isn't Components V2. Upgrade this message to Components V2 first or
+    use the V1 API for editing action components.
+
+# ComponentEvent
+remove-components-v2 = Cannot remove components on a message with Components V2. This would result in an empty message.
+
 # ModalBuilder
 no-text-input-found =
     No text input named { $input } found! Please check that the referenced text input parameter exists.
@@ -125,6 +132,3 @@ no-text-input-found =
 
 # Helpers
 detached-entity = { $class } doesn't support detached entities and cannot be used for user installable apps.
-
-# ReplyAction
-illegal-cv2-usage = Components V2 aren't allowed here! Use the appropiate JDA-Commands API and remove them from this direct builder call.

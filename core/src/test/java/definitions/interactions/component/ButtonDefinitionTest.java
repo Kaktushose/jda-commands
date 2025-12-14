@@ -105,15 +105,16 @@ class ButtonDefinitionTest {
         ButtonDefinition base = build("normalButton");
 
         ButtonDefinition override = base.with(
-                "New Label", Emoji.fromFormatted("👎"), "https://new.link", ButtonStyle.DANGER
+                "New Label", Emoji.fromFormatted("👎"), "https://new.link", ButtonStyle.DANGER, 1
         );
 
         assertEquals("New Label", override.label());
         assertEquals(Emoji.fromFormatted("👎"), override.emoji());
         assertEquals("https://new.link", override.link());
         assertEquals(ButtonStyle.DANGER, override.style());
+        assertEquals(1, override.uniqueId());
 
-        ButtonDefinition keep = override.with(null, null, null, null);
+        ButtonDefinition keep = override.with(null, null, null, null, override.uniqueId());
         assertEquals("New Label", keep.label());
         assertEquals(Emoji.fromFormatted("👎"), keep.emoji());
         assertEquals("https://new.link", keep.link());

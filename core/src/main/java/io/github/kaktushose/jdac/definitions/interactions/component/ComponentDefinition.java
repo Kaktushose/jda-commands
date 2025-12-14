@@ -52,4 +52,7 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     /// The [MethodDescription] of the method this definition is bound to
     MethodDescription methodDescription();
 
+    /// The uniqueId of this component. If `null`, Discord will assign an id.
+    @Nullable Integer uniqueId();
+
 }

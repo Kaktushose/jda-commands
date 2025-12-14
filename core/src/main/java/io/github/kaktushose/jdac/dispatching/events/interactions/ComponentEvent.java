@@ -2,18 +2,28 @@ package io.github.kaktushose.jdac.dispatching.events.interactions;
 
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
+import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getReplyConfig;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
 ///
 /// @see Event
 /// @see ModalReplyableEvent
 public final class ComponentEvent extends ModalReplyableEvent<GenericComponentInteractionCreateEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(ComponentEvent.class);
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
@@ -43,5 +53,35 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Use [#reply(String, Entry...)] to edit it directly.
     public void deferEdit() {
         jdaEvent().deferEdit().complete();
+    }
+
+    /// Removes all components from the original message.
+    ///
+    /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+    public void removeComponents() {
+        log.debug("Reply Debug: Removing components from original message");
+        if (jdaEvent().getMessage().isUsingComponentsV2()) {
+            throw new UnsupportedOperationException(JDACException.errorMessage("remove-components-v2"));
+        }
+        if (!jdaEvent().isAcknowledged()) {
+            jdaEvent().deferReply(getReplyConfig().ephemeral()).complete();
+        }
+        jdaEvent().getHook().editOriginalComponents().complete();
+    }
+
+    @Override
+    public EditableConfigurableReply with() {
+        return new EditableConfigurableReply(getReplyConfig(), jdaEvent());
+    }
+
+    /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
+    /// [ComponentReplacer] before sending the reply.
+    ///
+    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
+    ///
+    /// @param replacer the [ComponentReplacer] to apply to the original components
+    /// @throws IllegalStateException if the original message didn't use V2 Components
+    public Message reply(ComponentReplacer... replacer) {
+        return with().reply(replacer);
     }
 }

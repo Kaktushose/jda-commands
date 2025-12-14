@@ -55,7 +55,12 @@ public final class JDAEventListener extends ListenerAdapter {
 
         if (runtime == null) {
             if (jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && !CustomId.isInvalid(componentEvent.getComponentId())) {
-                componentEvent.deferEdit().setComponents().queue();
+                if (componentEvent.getMessage().isUsingComponentsV2()) {
+                    componentEvent.deferReply(true).queue();
+                    componentEvent.getMessage().delete().queue();
+                } else {
+                    componentEvent.deferEdit().setComponents().queue();
+                }
                 componentEvent.getHook()
                         .setEphemeral(true)
                         .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))

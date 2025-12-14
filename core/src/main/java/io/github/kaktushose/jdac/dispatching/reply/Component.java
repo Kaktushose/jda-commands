@@ -12,6 +12,7 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComp
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -76,7 +77,9 @@ import java.util.function.Function;
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
-        permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+        implements ActionRowChildComponentUnion permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+
+    protected @Nullable Integer uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
@@ -240,6 +243,32 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
+    }
+
+    @Override
+    public int getUniqueId() {
+        return uniqueId == null ? -1 : uniqueId;
+    }
+
+    @Override
+    public Component<S, T, B, D> withUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
+        return this;
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.buttons.Button asButton() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.selections.StringSelectMenu asStringSelectMenu() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public net.dv8tion.jda.api.components.selections.EntitySelectMenu asEntitySelectMenu() {
+        throw new UnsupportedOperationException();
     }
 
     protected boolean enabled() {

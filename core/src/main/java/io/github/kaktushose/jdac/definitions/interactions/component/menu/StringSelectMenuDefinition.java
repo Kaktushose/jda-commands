@@ -29,6 +29,7 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param placeholder       the placeholder text of this menu
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
+/// @param uniqueId          the uniqueId of this menu
 public record StringSelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -36,7 +37,8 @@ public record StringSelectMenuDefinition(
         Set<MenuOptionDefinition> selectOptions,
         String placeholder,
         int minValue,
-        int maxValue
+        int maxValue,
+        @Nullable Integer uniqueId
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
@@ -66,7 +68,8 @@ public record StringSelectMenuDefinition(
                 selectOptions,
                 selectMenu.value(),
                 selectMenu.minValue(),
-                selectMenu.maxValue()
+                selectMenu.maxValue(),
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
         );
     }
 
@@ -76,7 +79,8 @@ public record StringSelectMenuDefinition(
                                            Collection<String> defaultValues,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
-                                           @Nullable Integer maxValue) {
+                                           @Nullable Integer maxValue,
+                                           @Nullable Integer uniqueId) {
         return new StringSelectMenuDefinition(
                 this.classDescription,
                 this.methodDescription,
@@ -84,7 +88,8 @@ public record StringSelectMenuDefinition(
                 createOptions(selectOptions, defaultValues),
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
-                override(this.maxValue, maxValue)
+                override(this.maxValue, maxValue),
+                override(this.uniqueId, uniqueId)
         );
     }
 
@@ -117,11 +122,15 @@ public record StringSelectMenuDefinition(
     @Override
     public StringSelectMenu toJDAEntity(CustomId customId) {
         try {
-            return StringSelectMenu.create(customId.merged())
+            StringSelectMenu menu = StringSelectMenu.create(customId.merged())
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue)
                     .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
                     .build();
+            if (uniqueId != null) {
+                menu = menu.withUniqueId(uniqueId);
+            }
+            return menu;
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);
         }

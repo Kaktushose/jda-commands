@@ -4,7 +4,7 @@ strings used in framework annotations and modals and much more.
 
 To provide the best user experience possible, JDA-Commands comes included with [localization](localization.md),
 support for [placeholders](placeholder.md) and [Unicode and app emojis](emojis.md). In many places in the framework,
-these feature are applied [implicitly](#implicit-resolution).
+these feature are applied [implicitly](localization.md#implicit-localization).
 
 ## Resolution
 The features listed above are all pipelined together with help of the <MessageResolver>.
@@ -25,7 +25,7 @@ of messages in many common please. These include:
 - [Component API](../interactions/components.md) including the corresponding annotations like <io.github.kaktushose.jdac.annotations.interactions.Button>,
   <io.github.kaktushose.jdac.annotations.interactions.Modal> etc.
 - [Embed API](embeds.md) 
-- [Reply API](../interactions/reply.md), for example the string content of a message <Reply#reply(String,Entry...)>
+- [Reply API](../interactions/reply.md), for example the string content of a message <ReplyableEvent#reply(String,Entry...)>
 
 If you are using localization, please take a look at [implicit localization](localization.md#implicit-localization).
 
