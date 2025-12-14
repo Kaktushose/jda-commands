@@ -78,7 +78,7 @@ jobs:
           commit=${{ needs.compare.outputs.start_commit }}
           branch="$major.$minor.x"
           
-          if ! git show-ref --quiet --branches "$branch"; then        
+          if ! git ls-remote --exit-code --heads origin "$branch" >/dev/null; then        
             git switch -c $branch $commit
             git push -u origin $branch
           fi
