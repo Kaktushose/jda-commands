@@ -21,7 +21,7 @@ jobs:
         id: extract
         shell: bash
         run: |
-          ver=$( gradle properties -q | awk '/^version:/ {print $2}' )
+          ver=$( ./gradlew properties -q | awk '/^version:/ {print $2}' )
           major="${ver%%.*}"
           echo "major=$major" >> "$GITHUB_OUTPUT"
 
