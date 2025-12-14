@@ -81,7 +81,7 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
         componentTree = componentTree.replace(ComponentReplacer.of(
                 io.github.kaktushose.jdac.dispatching.reply.Component.class,
                 _ -> true,
-                this::resolve
+                it -> resolve(it, true)
         ));
         return replyAction.reply(componentTree.getComponents());
     }
