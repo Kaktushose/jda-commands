@@ -1667,7 +1667,7 @@ You're not viewing the latest stable version.
 strings used in framework annotations and modals and much more.</p>
 <p>To provide the best user experience possible, JDA-Commands comes included with <a href="../localization/">localization</a>,
 support for <a href="../placeholder/">placeholders</a> and <a href="../emojis/">Unicode and app emojis</a>. In many places in the framework,
-these feature are applied <a href="#implicit-resolution">implicitly</a>.</p>
+these feature are applied <a href="../localization/#implicit-localization">implicitly</a>.</p>
 <h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h2>
 <p>The features listed above are all pipelined together with help of the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html"><code>MessageResolver</code></a>.</p>
 <p>They are applied to the string provided by the user in following order:</p>
@@ -1685,12 +1685,12 @@ of messages in many common please. These include:</p>
 <li><a href="../../interactions/components/">Component API</a> including the corresponding annotations like <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html"><code>Button</code></a>,
   <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a> etc.</li>
 <li><a href="../embeds/">Embed API</a> </li>
-<li><a href="../../interactions/reply/">Reply API</a>, for example the string content of a message <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>Reply#reply(String, Entry...)</code></a></li>
+<li><a href="../../interactions/reply/">Reply API</a>, for example the string content of a message <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>ReplyableEvent#reply(String, Entry...)</code></a></li>
 </ul>
 <p>If you are using localization, please take a look at <a href="../localization/#implicit-localization">implicit localization</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Message resolution of content in <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/utils/messages/MessageCreateData.html"><code>MessageCreateData</code></a> is not supported implicitly.
+<p>Message resolution of content in <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html"><code>MessageCreateData</code></a> is not supported implicitly.
 You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html"><code>MessageResolver</code></a>
 to resolve such messages.</p>
 </div>

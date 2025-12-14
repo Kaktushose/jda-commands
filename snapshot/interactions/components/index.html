@@ -1852,7 +1852,7 @@ The label and other metadata of the button is passed to the annotation.
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/components/buttons/ButtonStyle.html#PREMIUM"><code>ButtonStyle#PREMIUM</code></a> is not supported by JDA-Commands.</p>
+<p><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/buttons/ButtonStyle.html#PREMIUM"><code>ButtonStyle#PREMIUM</code></a> is not supported by JDA-Commands.</p>
 </div>
 <h3 id="emoji">emoji<a class="headerlink" href="#emoji" title="Permanent link">&para;</a></h3>
 <p>Sets the emoji of a button.</p>
@@ -1874,7 +1874,7 @@ The label and other metadata of the button is passed to the annotation.
 <h3 id="string-select-menus">String Select Menus<a class="headerlink" href="#string-select-menus" title="Permanent link">&para;</a></h3>
 <p>String Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html"><code>StringSelectMenu</code></a>
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
-The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html"><code>List</code></a>.</p>
+The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html"><code>List</code></a>.</p>
 <p>The placeholder and other metadata of the String Select Menu is passed to the annotation. </p>
 <p>Select Options are defined by annotating the method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/MenuOption.html"><code>MenuOption</code></a>.</p>
 <div class="admonition example">
@@ -1902,7 +1902,7 @@ The second parameter must be a <a href="https://docs.oracle.com/en/java/javase/2
 <h3 id="entity-select-menus">Entity Select Menus<a class="headerlink" href="#entity-select-menus" title="Permanent link">&para;</a></h3>
 <p>Entity Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html"><code>EntitySelectMenu</code></a>.
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
-The second parameter must be of type <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/Mentions.html"><code>Mentions</code></a>.</p>
+The second parameter must be of type <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Mentions.html"><code>Mentions</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@EntitySelectMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Who&#39;s your favourite user?&quot;</span><span class="p">)</span>
@@ -1922,7 +1922,7 @@ The second parameter must be of type <a href="https://javadoc.io/static/net.dv8t
 </span></code></pre></div>
 </div>
 <h4 id="default-values">Default Values<a class="headerlink" href="#default-values" title="Permanent link">&para;</a></h4>
-<p>You can set the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/components/selections/EntitySelectMenu.DefaultValue.html">default values</a>
+<p>You can set the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html">default values</a>
 of the Entity Select Menu by using respectively the <code>defaultChannels</code>, <code>defaultRoles</code> or <code>defaultUsers</code> fields. </p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>

@@ -1747,9 +1747,9 @@ You're not viewing the latest stable version.
 corresponding <code>EventHandlers</code> and manages the used virtual threads.</p>
 <p>A new <code>Runtime</code> is created each time a:</p>
 <ul>
-<li><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a></li>
-<li><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html"><code>GenericContextInteractionEvent</code></a></li>
-<li><a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html"><code>CommandAutoCompleteInteractionEvent</code></a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/GenericContextInteractionEvent.html"><code>GenericContextInteractionEvent</code></a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/CommandAutoCompleteInteractionEvent.html"><code>CommandAutoCompleteInteractionEvent</code></a></li>
 </ul>
 <p>is provided by JDA or if a component is marked as <a href="#independent"><em>independent</em></a>.</p>
 <p>Runtimes are executed in parallel, but events are processed sequentially by each <code>Runtime</code>.
@@ -1761,7 +1761,7 @@ or use an existing one, depending on the type of event <em>(see the flowchart be
 then passed to the corresponding <code>Runtime</code>.</p>
 <p>Each <code>Runtime</code> will run in its own virtual thread, called <code>JDAC Runtime-Thread &lt;UUID&gt;</code>. The <code>Runtime</code> will wait for new
 incoming events and then delegate them to the correct <code>EventHandler</code>. For instance, a
-<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a>
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/command/SlashCommandInteractionEvent.html"><code>SlashCommandInteractionEvent</code></a>
 will be passed to the <code>SlashCommandHandler</code>.</p>
 <p>The <code>EventHandler</code> will <em>again</em> run in its own virtual thread, named <code>JDAC EventHandler-Thread &lt;UUID&gt;</code>, isolated from 
 the runtime one. Other incoming events are only executed when the previous one has finished. </p>
@@ -1773,7 +1773,7 @@ without blocking the <code>JDA MainWS-ReadThread</code>.</p>
 <p><img alt="Runtime Flowchart" src="../../assets/runtime.png" /></p>
 <h2 id="lifetime">Lifetime<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h2>
 <p>By default, JDA-Commands will handle the lifetime of Runtimes for you. Every <code>Runtime</code> will be closed if it has benn inactive for <strong>15 minutes</strong>. This time span is oriented towards the lifespan of the 
-<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/interactions/InteractionHook.html"><code>InteractionHook</code></a>. </p>
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/InteractionHook.html"><code>InteractionHook</code></a>. </p>
 <h3 id="explicit">Explicit<a class="headerlink" href="#explicit" title="Permanent link">&para;</a></h3>
 <p>You can disable the default behaviour by setting the 
 <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/expiration/ExpirationStrategy.html"><code>ExpirationStrategy</code></a> to 

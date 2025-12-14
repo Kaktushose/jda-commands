@@ -1679,7 +1679,7 @@ You're not viewing the latest stable version.
 <ul>
 <li>the leading <code>$</code> is optional</li>
 <li>whitespace, newlines, <code>{</code> and <code>$</code> are forbidden inside the reference name</li>
-<li>trailing and leading whitespace or newline of the reference name is trimmed (see <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html#trim()"><code>String#trim()</code></a>).</li>
+<li>trailing and leading whitespace or newline of the reference name is trimmed (see <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#trim()"><code>String#trim()</code></a>).</li>
 <li>to escape the <code>{</code> character just prefix it with <code>\\</code> (backslashes can be used <em>unescaped</em> in the rest of the string)</li>
 </ul>
 <div class="admonition example">
@@ -1720,7 +1720,7 @@ as a static import) it's possible for you to define placeholders for a given sco
 <ol>
 <li>call <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/Proteus.html#convert(S,io.github.kaktushose.proteus.type.Type,io.github.kaktushose.proteus.type.Type)"><code>Proteus#convert(S, Type, Type)</code></a>
 trying to convert the value to <a href="https://kaktushose.github.io/proteus/javadocs/0/io.github.kaktushose.proteus/io/github/kaktushose/proteus/type/Type.html#of(java.lang.Class)"><code>Type.of(String.class)</code></a></li>
-<li>if not successful, just call <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html#toString()"><code>Object#toString()</code></a></li>
+<li>if not successful, just call <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()"><code>Object#toString()</code></a></li>
 </ol>
 <p>If a variable couldn't be found, <code>null</code> will be inserted.</p>
 

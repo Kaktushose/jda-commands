@@ -1703,8 +1703,8 @@ You're not viewing the latest stable version.
 
 <h1 id="embed-api">Embed API<a class="headerlink" href="#embed-api" title="Permanent link">&para;</a></h1>
 <h2 id="embeddatasource">EmbedDataSource<a class="headerlink" href="#embeddatasource" title="Permanent link">&para;</a></h2>
-<p>In JDA, you define Embeds by using the <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>
-which eventually gets built into a <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>.
+<p>In JDA, you define Embeds by using the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>
+which eventually gets built into a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>.
 <code>MessageEmbeds</code> can be serialized into (and deserialized from) <code>JSON</code>. </p>
 <div class="admonition tip inline end">
 <p class="admonition-title">Tip</p>
@@ -1716,8 +1716,8 @@ interface to load Embeds from a <code>JSON</code> object. It supports the follow
 <ul>
 <li>a raw <code>JSON</code> String</li>
 <li>a <code>*.json</code> file either located externally or inside the <code>resources</code> folder</li>
-<li>an <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/InputStream.html"><code>InputStream</code></a></li>
-<li>JDAs <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/utils/data/DataObject.html"><code>DataObject</code></a></li>
+<li>an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html"><code>InputStream</code></a></li>
+<li>JDAs <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html"><code>DataObject</code></a></li>
 </ul>
 <p>You can also provide your own sources by implementing the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html"><code>EmbedDataSource</code></a>
 interface. </p>
@@ -1751,9 +1751,9 @@ to later load Embeds from at various places.</p>
 <p>You can either use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html"><code>JDACommands</code></a>
 or the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html"><code>ReplyableEvent</code></a>
 class to load embeds into an object.  </p>
-<p>Embeds don't get loaded directly into a JDA <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>
-or <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a> object. Instead, JDA-Commands provides
-a subclass of <a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>, simply called <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html"><code>Embed</code></a>. 
+<p>Embeds don't get loaded directly into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html"><code>MessageEmbed</code></a>
+or <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a> object. Instead, JDA-Commands provides
+a subclass of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html"><code>EmbedBuilder</code></a>, simply called <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html"><code>Embed</code></a>. 
 It provides some additional utility, e.g. when dealing with fields, and is also required for the localization and 
 placeholder feature. </p>
 <div class="admonition example">
@@ -1801,7 +1801,7 @@ which uses Fluava, this could look like this:</p>
 </div>
 <p>Use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#locale(java.util.Locale)"><code>Embed#locale(Locale)</code></a>
 to set the locale the Embed should be localized with. When replying to interactions, this is done automatically by using
-<a href="https://javadoc.io/static/net.dv8tion/JDA/5.6.1/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()"><code>GenericInteractionCreateEvent#getUserLocale()</code></a>
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()"><code>GenericInteractionCreateEvent#getUserLocale()</code></a>
 to retrieve the user locale. The Embed will be localized once <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#build()"><code>Embed#build()</code></a>
 is called. </p>
 <p>See the <a href="../localization/">Localization Section</a> of this wiki for details.</p>
