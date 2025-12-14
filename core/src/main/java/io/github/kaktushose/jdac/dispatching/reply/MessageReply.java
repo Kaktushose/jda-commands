@@ -219,12 +219,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         var definition = findDefinition(component, definitionId, className);
 
         ActionRowChildComponent item = switch (definition) {
-            case ButtonDefinition buttonDefinition -> {
-                var button = buttonDefinition.toJDAEntity().withDisabled(!component.enabled());
-                //only assign ids to non-link buttons
-                yield button.getUrl() == null ? button.withCustomId(createId(definition, component.independent()).merged()) : button;
-            }
-
+            case ButtonDefinition buttonDefinition ->
+                    buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
             case SelectMenuDefinition<?> menuDefinition ->
                     menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
         };
